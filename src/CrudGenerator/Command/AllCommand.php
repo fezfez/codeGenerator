@@ -5,6 +5,7 @@ namespace CrudGenerator\Command;
 use CrudGenerator\MetaData\MetaDataDAOFactory;
 use CrudGenerator\Generators\DoctrineCrudGeneratorFactory;
 use CrudGenerator\DataObject;
+use CrudGenerator\FileManager;
 
 use Symfony\Component\Console\Command\Command,
     Symfony\Component\Console\Input\InputInterface,
@@ -123,6 +124,15 @@ class AllCommand extends Command
         $doI = $dialog->askConfirmation($output, "<question>Do you confirm generation ?</question> ");
 
         if($doI === true) {
+            $fileManager = new FileManager();
+            if(!is_dir('data/crudGeneratorHistory')) {
+                $fileManager->mkdir('data/crudGeneratorHistory');
+            }
+            if(is_file('data/crudGeneratorHistory/' . md5($entity))) {
+                unlink('data/crudGeneratorHistory/' . md5($entity));
+            }
+            $fileManager->filePutsContent('data/crudGeneratorHistory/' . md5($entity), serialize($dataObject));
+
             $crudGenerator = DoctrineCrudGeneratorFactory::getInstance($output, '\CrudGenerator\Generators\DoctrineCrudGenerator');
             $crudGenerator->generate($dataObject);
         } else {

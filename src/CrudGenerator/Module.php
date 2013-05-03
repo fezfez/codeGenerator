@@ -20,6 +20,7 @@ use Zend\Loader\AutoloaderFactory;
 use Zend\Loader\StandardAutoloader;
 use Zend\EventManager\EventInterface;
 use CrudGenerator\Command\AllCommand;
+use CrudGenerator\Command\UpToDateCommand;
 use CrudGenerator\Doctrine\Helper\ServiceManagerHelper;
 
 use Symfony\Component\Console\Helper\DialogHelper;
@@ -32,7 +33,7 @@ class Module implements
     ServiceProviderInterface,
     BootstrapListenerInterface
 {
-    
+
     /**
      * {@inheritDoc}
      */
@@ -59,7 +60,7 @@ class Module implements
             ),
         );
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -76,6 +77,7 @@ class Module implements
 
             $cli->addCommands(array(
                 new AllCommand(),
+                new UpToDateCommand(),
             ));
 
             /* @var $sm ServiceLocatorInterface */

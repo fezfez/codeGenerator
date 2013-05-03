@@ -5,12 +5,12 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
 class DataObject
 {
-    private $module          = null;
-    private $entity          = null;
-    private $metadata        = null;
-    private $writeAction     = null;
-    private $namespace       = null;
-    private $directory       = null;
+    public $module          = null;
+    public $entity          = null;
+    public $metadata        = null;
+    public $writeAction     = null;
+    public $namespace       = null;
+    public $directory       = null;
 
     /*
     private $_actions         = null;
