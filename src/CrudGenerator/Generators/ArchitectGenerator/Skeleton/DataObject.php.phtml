@@ -1,0 +1,25 @@
+<?php echo '<?php' . "\n"; ?>
+namespace <?php echo $this->namespace; ?>\DataObject;
+
+
+class <?php echo $this->entity_class; ?>DataObject
+{
+<?php foreach($this->fields as $field => $metadata): ?>
+    private $_<?php echo $field; ?> = null;
+<?php endforeach; ?>
+
+<?php foreach($this->fields as $field => $metadata): ?>
+    public function set<?php echo $field; ?>($value)
+    {
+        $this->_<?php echo $field; ?> = $value;
+        return $this;
+    }
+<?php endforeach; ?>
+    
+<?php foreach($this->fields as $field => $metadata): ?>
+    public function get<?php echo $field; ?>()
+    {
+        return $this->_<?php echo $field; ?>;
+    }
+<?php endforeach; ?>
+}

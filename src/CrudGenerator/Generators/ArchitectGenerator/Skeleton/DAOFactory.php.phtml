@@ -1,0 +1,26 @@
+<?php echo '<?php' . "\n"; ?>
+
+namespace <?php echo $this->namespace; ?>;
+
+use Corp\Doctrine\getEntitiesManager;
+use <?php echo $this->namespace; ?>\DAO\<?php echo $this->entity_class; ?>DAO;
+use <?php echo $this->namespace; ?>\Hydrator\<?php echo $this->entity_class; ?>Hydrator;
+
+class DAOFactory
+{
+    private function __construct()
+    {
+    
+    }
+
+    /**
+     * @return <?php echo $this->namespace; ?>\DAO\<?php echo $this->entity_class; ?>DAO
+     */
+    public static function getInstance()
+    {
+        $em       = getEntitiesManager::getInstance();
+        $hydrator = new <?php echo $this->entity_class; ?>Hydrator();
+
+        return new <?php echo $this->entity_class; ?>DAO($em, $hydrator);
+    }
+}

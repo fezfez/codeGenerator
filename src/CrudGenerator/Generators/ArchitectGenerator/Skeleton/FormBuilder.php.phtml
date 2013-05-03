@@ -1,0 +1,49 @@
+<?php echo '<?php' . "\n"; ?>
+namespace <?php echo $this->namespace; ?>\Form;
+
+use <?php echo $this->namespace; ?>\DataObject\<?php echo $this->entity_class; ?>DataObject;
+use <?php echo $this->namespace; ?>\Form\<?php echo $this->entity_class; ?>Form;
+use <?php echo $this->namespace; ?>\Hydrator\<?php echo $this->entity_class; ?>Hydrator;
+
+class <?php echo $this->entity_class; ?>FormBuilder
+{
+    private $_router   = null;
+    private $_hydrator = null;
+
+    /**
+     * @param \Zend_Controller_Router_Rewrite $router
+     * @param <?php echo $this->entity_class; ?>Hydrator $hydrator
+     */
+    public function __construct(\Zend_Controller_Router_Rewrite $router, <?php echo $this->entity_class; ?>Hydrator $hydrator)
+    {
+        $this->_router   = $router;
+        $this->_hydrator = $hydrator;
+    }
+
+    /**
+     * @return <?php echo $this->entity_class; ?>Form
+     */
+    public function getBaseForm()
+    {
+        $form = new <?php echo $this->entity_class; ?>Form();
+        $form->setAction($this->_router->assemble(array(), '<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>-new'));
+
+        return $form;
+    }
+
+    /**
+     * @param <?php echo $this->entity_class; ?>DataObject $<?php echo $this->entity_class; ?>
+     * @return <?php echo $this->entity_class; ?>Form
+     */
+    public function modifyBaseForm(<?php echo $this->entity_class; ?>DataObject $<?php echo $this->entity_class; ?>)
+    {
+        $form = new <?php echo $this->entity_class; ?>Form();
+        $form->setAction($this->_router->assemble(array('id' => $<?php echo $this->entity_class; ?>->getId()), '<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>-edit'));
+        $form->getElement('submit')
+             ->setLabel('Modifier');
+
+        $form->populate($this->_hydrator->popoToArray($<?php echo $this->entity_class; ?>, array()));
+
+        return $form;
+    }
+}

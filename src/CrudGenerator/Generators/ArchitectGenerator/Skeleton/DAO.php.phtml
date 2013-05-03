@@ -1,0 +1,116 @@
+<?php echo '<?php' . "\n"; ?>
+namespace <?php echo $this->namespace; ?>\DAO;
+
+use Doctrine\ORM\EntityManager;
+use <?php echo $this->namespace; ?>\Hydrator\<?php echo $this->entity_class; ?>Hydrator;
+use <?php echo $this->namespace; ?>\DataObject\<?php echo $this->entity_class; ?>DataObject;
+use <?php echo $this->namespace; ?>\DataObject\<?php echo $this->entity_class; ?>Collection;
+use <?php echo $this->entity_namespace; ?>\<?php echo $this->entity_class; ?>;
+use <?php echo $this->namespace; ?>\No<?php echo $this->entity_class; ?>Exception;
+
+class <?php echo $this->entity_class; ?>DAO
+{
+    private $_em           = null;
+    private $_hydrator     = null;
+
+    /**
+     * @param EntityManager $em
+     * @param <?php echo $this->entity_class; ?>Hydrator $hydrator
+     */
+    public function __construct(EntityManager $em, <?php echo $this->entity_class; ?>Hydrator $hydrator)
+    {
+        $this->_em           = $em;
+        $this->_hydrator     = $hydrator;
+    }
+
+    /**
+     * @param DataObject $<?php echo $this->entity_class; ?>
+     * @throws No<?php echo $this->entity_class; ?>Exception
+     * @return <?php echo $this->entity_class; ?>DataObject
+     */
+    public function find(<?php echo $this->entity_class; ?>DataObject $<?php echo $this->entity_class; ?>)
+    {
+        $entity = $this->_em->getRepository('<?php echo $this->namespace; ?>\Doctrine\Entity\<?php echo $this->entity_class; ?>')->findOneBy(array('id' => $<?php echo $this->entity_class; ?>->getId()));
+
+        if(empty($entity)) {
+            throw new No<?php echo $this->entity_class; ?>Exception('<?php echo $this->entity_class; ?> not found');
+        }
+
+        return $this->_hydrator->entityToPopo(
+            $entity,
+            new <?php echo $this->entity_class; ?>DataObject()
+        );
+    }
+
+    /**
+     * @return <?php echo $this->entity_class; ?>Collection
+     */
+    public function findAll()
+    {
+        $entities = $this->_em->getRepository('<?php echo $this->namespace; ?>\Doctrine\Entity\<?php echo $this->entity_class; ?>')->findAll();
+
+        return $this->_hydrator->entityCollectionToPopoCollection(
+            $entities,
+            new <?php echo $this->entity_class; ?>Collection(),
+            new <?php echo $this->entity_class; ?>DataObject()
+        );
+    }
+
+    /**
+     * @param <?php echo $this->entity_class; ?>DataObject $<?php echo $this->entity_class; ?>
+     * @return <?php echo $this->entity_class; ?>DataObject
+     */
+    public function persist(<?php echo $this->entity_class; ?>DataObject $<?php echo $this->entity_class; ?>)
+    {
+        $entity = $this->_hydrator->popoToEntity(
+            $<?php echo $this->entity_class; ?>,
+            new <?php echo $this->entity_class; ?>()
+        );
+
+        $this->_em->persist($entity);
+        $this->_em->flush();
+
+        return $this->_hydrator->entityToPopo(
+            $entity,
+            new <?php echo $this->entity_class; ?>DataObject()
+        );
+    }
+
+    /**
+     * @param <?php echo $this->entity_class; ?>DataObject $<?php echo $this->entity_class; ?>
+     * @return <?php echo $this->entity_class; ?>DataObject
+     */
+    public function modify(<?php echo $this->entity_class; ?>DataObject $<?php echo $this->entity_class; ?>)
+    {
+        $entity = $this->_em->getRepository('<?php echo $this->namespace; ?>\Doctrine\Entity\<?php echo $this->entity_class; ?>')->findOneBy(array('id' => $<?php echo $this->entity_class; ?>->getId()));
+
+        if(empty($entity)) {
+            throw new No<?php echo $this->entity_class; ?>Exception('<?php echo $this->entity_class; ?> not found');
+        }
+
+        $entity = $this->_hydrator->popoToEntity(
+            $<?php echo $this->entity_class; ?>,
+            $entity
+        );
+
+        $this->_em->persist($entity);
+        $this->_em->flush();
+
+        return $this->_hydrator->entityToPopo(
+            $entity,
+            new <?php echo $this->entity_class; ?>DataObject()
+        );
+    }
+
+    public function remove(<?php echo $this->entity_class; ?>DataObject $<?php echo $this->entity_class; ?>)
+    {
+        $entity = $this->_em->getRepository('<?php echo $this->namespace; ?>\Doctrine\Entity\<?php echo $this->entity_class; ?>')->findOneBy(array('id' => $<?php echo $this->entity_class; ?>->getId()));
+
+        if(empty($entity)) {
+            throw new No<?php echo $this->entity_class; ?>Exception('<?php echo $this->entity_class; ?> not found');
+        }
+
+        $em->remove($entity);
+        $em->flush();
+    }
+}

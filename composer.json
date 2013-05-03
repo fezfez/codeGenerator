@@ -1,0 +1,31 @@
+{
+    "name": "fezfez/crud-generator",
+    "description": "Zend Framework 2 Module that provides crud functionality",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "crud",
+        "zf2"
+    ],
+    "authors": [
+        {
+            "name": "Stéphane Demonchaux",
+            "email": "demonchaux.stephane@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "2.*",
+        "doctrine/data-fixtures": "dev-master",
+        "doctrine/doctrine-orm-module": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "CrudGenerator": "src/"
+            "Generators": "src/CrudGenerator/Generators"
+        }
+    },
+    "bin": [
+        "bin/crud-generator"
+    ]
+}

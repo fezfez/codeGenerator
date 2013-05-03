@@ -1,0 +1,24 @@
+[production]
+
+; index
+routes.<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>.route = "<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>"
+routes.<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>.defaults.controller = "<?php echo $this->dataObject->getClassName(); ?>"
+routes.<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>.defaults.action = "index"
+
+; new
+
+routes.<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>-new.route = "<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>-new"
+routes.<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>-new.defaults.controller = "<?php echo $this->dataObject->getClassName(); ?>"
+routes.<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>-new.defaults.action = "new"
+
+; edit
+
+routes.<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>-edit.route = "<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>-edit/:id"
+routes.<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>-edit.defaults.controller = "<?php echo $this->dataObject->getClassName(); ?>"
+routes.<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>-edit.defaults.action = "edit"
+
+; delete
+
+routes.<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>-delete.route = "<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>-delete"
+routes.<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>-delete.defaults.controller = "<?php echo $this->dataObject->getClassName(); ?>"
+routes.<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>-delete.defaults.action = "delete"

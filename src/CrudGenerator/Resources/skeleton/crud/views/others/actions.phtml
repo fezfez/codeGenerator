@@ -1,0 +1,25 @@
+            <div class="btn-group action-button">
+                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                  Action
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+
+                <?php foreach($this->actions as $record_actions): ?>
+                <?php if(in_array($record_actions, array('edit', 'delete'))): ?>
+                    <li>
+                        <a class="ajax-modal" href="
+<?php echo '<?php echo $this->url(array("id" => $entity->getId()), "' . $this->dataObject->getModulesName() . '-' . $this->dataObject->getClassName() . '-' . $record_actions . '"); ?> '; ?>
+">
+                        <?php if($record_actions === 'edit'): ?>
+                            <i class="icon-pencil"></i>
+                        <?php elseif($record_actions === 'delete'): ?>
+                            <i class="icon-trash"></i>
+                        <?php endif; ?>
+                            <?php echo $record_actions; ?>
+                        </a>
+                    </li>
+                <?php endif; ?>
+                <?php endforeach; ?>
+                </ul>
+            </div>

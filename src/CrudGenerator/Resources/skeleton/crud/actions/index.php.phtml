@@ -1,0 +1,8 @@
+    public function indexAction()
+    {
+        $dao = DAOFactory::getInstance();
+
+        $entities = $dao->findAll();
+
+        $this->view->entities = $entities;
+    }
