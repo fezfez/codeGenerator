@@ -95,7 +95,7 @@ class AllCommand extends Command
 
         $directoryValidation = function ($directory) use ($moduleName) {
             if (!is_dir($moduleName . '/' . $directory)) {
-                throw new \InvalidArgumentException(sprintf('Directory "%s" does not exist.', $directory));
+                throw new \InvalidArgumentException(sprintf('Directory "%s" does not exist.', $moduleName . $directory));
             }
 
             return $directory;
