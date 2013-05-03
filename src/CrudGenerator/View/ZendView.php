@@ -1,7 +1,9 @@
 <?php
-namespace CrudGenerator\Generators\View;
+namespace CrudGenerator\View;
 
-use Zend\View\Model\ViewModel;
+use Zend\View\Model\ViewModel,
+    Zend\View\Renderer\PhpRenderer,
+    Zend\View\Resolver;
 
 class ZendView
 {
@@ -14,9 +16,18 @@ class ZendView
 
     public function render($path, $templateName, $datas)
     {
-        $this->zendView->addScriptPath($path);
-        $this->zendView->assign($datas);
+        $renderer = new PhpRenderer();
 
-        return $this->zendView->render($templateName);
+        $map = new Resolver\TemplateMapResolver(array(
+              'tester' => $path . $templateName,
+        ));
+
+        $resolver = new Resolver\TemplateMapResolver($map);
+        $renderer->setResolver($resolver);
+
+        $this->zendView->setVariables($datas);
+        $this->zendView->setTemplate('tester');
+
+        return $renderer->render($this->zendView);
     }
 }

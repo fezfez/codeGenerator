@@ -123,7 +123,7 @@ class AllCommand extends Command
         $doI = $dialog->askConfirmation($output, "<question>Do you confirm generation ?</question> ");
 
         if($doI === true) {
-            $crudGenerator = DoctrineCrudGeneratorFactory::getInstance($output, 'DoctrineCrudGenerator');
+            $crudGenerator = DoctrineCrudGeneratorFactory::getInstance($output, '\CrudGenerator\Generators\DoctrineCrudGenerator');
             $crudGenerator->generate($dataObject);
         } else {
             throw new RuntimeException('Command aborted');

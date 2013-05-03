@@ -104,6 +104,10 @@ class DataObject
     {
         return $this->entity;
     }
+    public function getEntityName()
+    {
+        return str_replace('\\', '', strrchr($this->entity, '\\'));
+    }
     public function getMetadata()
     {
         return $this->metadata;
@@ -115,6 +119,10 @@ class DataObject
     public function getNamespace()
     {
         return $this->namespace;
+    }
+    public function getNamespacePath()
+    {
+        return str_replace('\\', '/', $this->namespace);
     }
     public function getDirectory()
     {

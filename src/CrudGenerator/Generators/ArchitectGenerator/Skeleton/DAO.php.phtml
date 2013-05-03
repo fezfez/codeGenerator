@@ -1,113 +1,113 @@
 <?php echo '<?php' . "\n"; ?>
-namespace <?php echo $this->namespace; ?>\DAO;
+namespace <?php echo $this->dataObject->getNamespace(); ?>\DAO;
 
 use Doctrine\ORM\EntityManager;
-use <?php echo $this->namespace; ?>\Hydrator\<?php echo $this->entity_class; ?>Hydrator;
-use <?php echo $this->namespace; ?>\DataObject\<?php echo $this->entity_class; ?>DataObject;
-use <?php echo $this->namespace; ?>\DataObject\<?php echo $this->entity_class; ?>Collection;
-use <?php echo $this->entity_namespace; ?>\<?php echo $this->entity_class; ?>;
-use <?php echo $this->namespace; ?>\No<?php echo $this->entity_class; ?>Exception;
+use <?php echo $this->dataObject->getNamespace(); ?>\Hydrator\<?php echo $this->dataObject->getEntityName(); ?>Hydrator;
+use <?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObject;
+use <?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>Collection;
+use <?php echo $this->dataObject->getEntity(); ?>;
+use <?php echo $this->dataObject->getNamespace(); ?>\No<?php echo $this->dataObject->getEntityName(); ?>Exception;
 
-class <?php echo $this->entity_class; ?>DAO
+class <?php echo $this->dataObject->getEntityName(); ?>DAO
 {
-    private $_em           = null;
-    private $_hydrator     = null;
+    private $em           = null;
+    private $hydrator     = null;
 
     /**
      * @param EntityManager $em
-     * @param <?php echo $this->entity_class; ?>Hydrator $hydrator
+     * @param <?php echo $this->dataObject->getEntityName(); ?>Hydrator $hydrator
      */
-    public function __construct(EntityManager $em, <?php echo $this->entity_class; ?>Hydrator $hydrator)
+    public function __construct(EntityManager $em, <?php echo $this->dataObject->getEntityName(); ?>Hydrator $hydrator)
     {
-        $this->_em           = $em;
-        $this->_hydrator     = $hydrator;
+        $this->em           = $em;
+        $this->hydrator     = $hydrator;
     }
 
     /**
-     * @param DataObject $<?php echo $this->entity_class; ?>
-     * @throws No<?php echo $this->entity_class; ?>Exception
-     * @return <?php echo $this->entity_class; ?>DataObject
+     * @param DataObject $<?php echo $this->dataObject->getEntityName(); ?>
+     * @throws No<?php echo $this->dataObject->getEntityName(); ?>Exception
+     * @return <?php echo $this->dataObject->getEntityName(); ?>DataObject
      */
-    public function find(<?php echo $this->entity_class; ?>DataObject $<?php echo $this->entity_class; ?>)
+    public function find(<?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo $this->dataObject->getEntityName(); ?>)
     {
-        $entity = $this->_em->getRepository('<?php echo $this->namespace; ?>\Doctrine\Entity\<?php echo $this->entity_class; ?>')->findOneBy(array('id' => $<?php echo $this->entity_class; ?>->getId()));
+        $entity = $this->em->getRepository('<?php echo $this->dataObject->getNamespace(); ?>\Doctrine\Entity\<?php echo $this->dataObject->getEntityName(); ?>')->findOneBy(array('id' => $<?php echo $this->dataObject->getEntityName(); ?>->getId()));
 
         if(empty($entity)) {
-            throw new No<?php echo $this->entity_class; ?>Exception('<?php echo $this->entity_class; ?> not found');
+            throw new No<?php echo $this->dataObject->getEntityName(); ?>Exception('<?php echo $this->dataObject->getEntityName(); ?> not found');
         }
 
-        return $this->_hydrator->entityToPopo(
+        return $this->hydrator->entityToPopo(
             $entity,
-            new <?php echo $this->entity_class; ?>DataObject()
+            new <?php echo $this->dataObject->getEntityName(); ?>DataObject()
         );
     }
 
     /**
-     * @return <?php echo $this->entity_class; ?>Collection
+     * @return <?php echo $this->dataObject->getEntityName(); ?>Collection
      */
     public function findAll()
     {
-        $entities = $this->_em->getRepository('<?php echo $this->namespace; ?>\Doctrine\Entity\<?php echo $this->entity_class; ?>')->findAll();
+        $entities = $this->em->getRepository('<?php echo $this->dataObject->getNamespace(); ?>\Doctrine\Entity\<?php echo $this->dataObject->getEntityName(); ?>')->findAll();
 
-        return $this->_hydrator->entityCollectionToPopoCollection(
+        return $this->hydrator->entityCollectionToPopoCollection(
             $entities,
-            new <?php echo $this->entity_class; ?>Collection(),
-            new <?php echo $this->entity_class; ?>DataObject()
+            new <?php echo $this->dataObject->getEntityName(); ?>Collection(),
+            new <?php echo $this->dataObject->getEntityName(); ?>DataObject()
         );
     }
 
     /**
-     * @param <?php echo $this->entity_class; ?>DataObject $<?php echo $this->entity_class; ?>
-     * @return <?php echo $this->entity_class; ?>DataObject
+     * @param <?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo $this->dataObject->getEntityName(); ?>
+     * @return <?php echo $this->dataObject->getEntityName(); ?>DataObject
      */
-    public function persist(<?php echo $this->entity_class; ?>DataObject $<?php echo $this->entity_class; ?>)
+    public function persist(<?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo $this->dataObject->getEntityName(); ?>)
     {
-        $entity = $this->_hydrator->popoToEntity(
-            $<?php echo $this->entity_class; ?>,
-            new <?php echo $this->entity_class; ?>()
+        $entity = $this->hydrator->popoToEntity(
+            $<?php echo $this->dataObject->getEntityName(); ?>,
+            new <?php echo $this->dataObject->getEntityName(); ?>()
         );
 
-        $this->_em->persist($entity);
-        $this->_em->flush();
+        $this->em->persist($entity);
+        $this->em->flush();
 
-        return $this->_hydrator->entityToPopo(
+        return $this->hydrator->entityToPopo(
             $entity,
-            new <?php echo $this->entity_class; ?>DataObject()
+            new <?php echo $this->dataObject->getEntityName(); ?>DataObject()
         );
     }
 
     /**
-     * @param <?php echo $this->entity_class; ?>DataObject $<?php echo $this->entity_class; ?>
-     * @return <?php echo $this->entity_class; ?>DataObject
+     * @param <?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo $this->dataObject->getEntityName(); ?>
+     * @return <?php echo $this->dataObject->getEntityName(); ?>DataObject
      */
-    public function modify(<?php echo $this->entity_class; ?>DataObject $<?php echo $this->entity_class; ?>)
+    public function modify(<?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo $this->dataObject->getEntityName(); ?>)
     {
-        $entity = $this->_em->getRepository('<?php echo $this->namespace; ?>\Doctrine\Entity\<?php echo $this->entity_class; ?>')->findOneBy(array('id' => $<?php echo $this->entity_class; ?>->getId()));
+        $entity = $this->em->getRepository('<?php echo $this->dataObject->getNamespace(); ?>\Doctrine\Entity\<?php echo $this->dataObject->getEntityName(); ?>')->findOneBy(array('id' => $<?php echo $this->dataObject->getEntityName(); ?>->getId()));
 
         if(empty($entity)) {
-            throw new No<?php echo $this->entity_class; ?>Exception('<?php echo $this->entity_class; ?> not found');
+            throw new No<?php echo $this->dataObject->getEntityName(); ?>Exception('<?php echo $this->dataObject->getEntityName(); ?> not found');
         }
 
-        $entity = $this->_hydrator->popoToEntity(
-            $<?php echo $this->entity_class; ?>,
+        $entity = $this->hydrator->popoToEntity(
+            $<?php echo $this->dataObject->getEntityName(); ?>,
             $entity
         );
 
-        $this->_em->persist($entity);
-        $this->_em->flush();
+        $this->em->persist($entity);
+        $this->em->flush();
 
-        return $this->_hydrator->entityToPopo(
+        return $this->hydrator->entityToPopo(
             $entity,
-            new <?php echo $this->entity_class; ?>DataObject()
+            new <?php echo $this->dataObject->getEntityName(); ?>DataObject()
         );
     }
 
-    public function remove(<?php echo $this->entity_class; ?>DataObject $<?php echo $this->entity_class; ?>)
+    public function remove(<?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo $this->dataObject->getEntityName(); ?>)
     {
-        $entity = $this->_em->getRepository('<?php echo $this->namespace; ?>\Doctrine\Entity\<?php echo $this->entity_class; ?>')->findOneBy(array('id' => $<?php echo $this->entity_class; ?>->getId()));
+        $entity = $this->em->getRepository('<?php echo $this->dataObject->getNamespace(); ?>\Doctrine\Entity\<?php echo $this->dataObject->getEntityName(); ?>')->findOneBy(array('id' => $<?php echo $this->dataObject->getEntityName(); ?>->getId()));
 
         if(empty($entity)) {
-            throw new No<?php echo $this->entity_class; ?>Exception('<?php echo $this->entity_class; ?> not found');
+            throw new No<?php echo $this->dataObject->getEntityName(); ?>Exception('<?php echo $this->dataObject->getEntityName(); ?> not found');
         }
 
         $em->remove($entity);

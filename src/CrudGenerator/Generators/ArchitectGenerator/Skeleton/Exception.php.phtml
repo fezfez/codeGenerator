@@ -1,10 +1,10 @@
 <?php echo '<?php' . "\n"; ?>
 
-namespace <?php echo $this->namespace; ?>;
+namespace <?php echo $this->dataObject->getNamespace(); ?>;
 
 use Exception;
 
-class No<?php echo $this->entity_class; ?>Exception extends Exception
+class No<?php echo $this->dataObject->getEntityName(); ?>Exception extends Exception
 {
 
 }

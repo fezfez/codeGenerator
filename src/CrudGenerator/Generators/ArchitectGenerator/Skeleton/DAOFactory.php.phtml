@@ -1,26 +1,26 @@
 <?php echo '<?php' . "\n"; ?>
 
-namespace <?php echo $this->namespace; ?>;
+namespace <?php echo $this->dataObject->getNamespace(); ?>;
 
-use Corp\Doctrine\getEntitiesManager;
-use <?php echo $this->namespace; ?>\DAO\<?php echo $this->entity_class; ?>DAO;
-use <?php echo $this->namespace; ?>\Hydrator\<?php echo $this->entity_class; ?>Hydrator;
+use <?php echo $this->dataObject->getNamespace(); ?>\DAO\<?php echo $this->dataObject->getEntityName(); ?>DAO;
+use <?php echo $this->dataObject->getNamespace(); ?>\Hydrator\<?php echo $this->dataObject->getEntityName(); ?>Hydrator;
+use Zend\ServiceManager\ServiceManager;
 
-class DAOFactory
+class <?php echo $this->dataObject->getEntityName(); ?>DAOFactory
 {
     private function __construct()
     {
-    
+
     }
 
     /**
-     * @return <?php echo $this->namespace; ?>\DAO\<?php echo $this->entity_class; ?>DAO
+     * @return <?php echo $this->dataObject->getNamespace(); ?>\DAO\<?php echo $this->dataObject->getEntityName(); ?>DAO
      */
-    public static function getInstance()
+    public static function getInstance(ServiceManager $sm)
     {
-        $em       = getEntitiesManager::getInstance();
-        $hydrator = new <?php echo $this->entity_class; ?>Hydrator();
+        $em       = $sm->get('doctrine.entitymanager.orm_default');
+        $hydrator = new <?php echo $this->dataObject->getEntityName(); ?>Hydrator();
 
-        return new <?php echo $this->entity_class; ?>DAO($em, $hydrator);
+        return new <?php echo $this->dataObject->getEntityName(); ?>DAO($em, $hydrator);
     }
 }

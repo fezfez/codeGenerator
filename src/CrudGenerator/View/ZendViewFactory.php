@@ -1,14 +1,14 @@
 <?php
-namespace CrudGenerator\Generators\View;
+namespace CrudGenerator\View;
 
-use CrudGenerator\Generators\View\ZendView;
+use CrudGenerator\View\ZendView;
 use Zend\View\Model\ViewModel;
 
 class ZendViewFactory
 {
     private function __construct()
     {
-        
+
     }
 
     public static function getInstance(array $config = array())

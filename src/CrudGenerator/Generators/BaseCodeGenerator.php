@@ -3,9 +3,9 @@
 namespace CrudGenerator\Generators;
 
 use CrudGenerator\DataObject;
-use CrudGenerator\Generators\FileManager;
-use CrudGenerator\Generators\Hydrator;
-use CrudGenerator\Generators\View\ZendView;
+use CrudGenerator\FileManager;
+use CrudGenerator\Hydrator;
+use CrudGenerator\View\ZendView;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -15,7 +15,6 @@ abstract class BaseCodeGenerator
     protected $clientResponse = null;
     protected $hydrator       = null;
     protected $fileManager    = null;
-    protected $skeletonDir    = null;
 
     /**
      * @param ZendView $zendView
@@ -27,14 +26,12 @@ abstract class BaseCodeGenerator
     public function __construct(ZendView $zendView,
                     OutputInterface $output,
                     FileManager $fileManager,
-                    Hydrator $hydrator,
-                    $skeletonDir)
+                    Hydrator $hydrator)
     {
         $this->zendView    = $zendView;
         $this->output      = $output;
         $this->fileManager = $fileManager;
         $this->hydrator    = $hydrator;
-        $this->skeletonDir = $skeletonDir;
     }
 
     /**
@@ -45,9 +42,6 @@ abstract class BaseCodeGenerator
 
     public function generate(DataObject $dataObject)
     {
-        var_dump($dataObject);exit;
-        exit($dataObject->getViewPath());
-
         if (count($dataObject->getMetadata()->identifier) > 1) {
             throw new \RuntimeException('The CRUD generator does not support entity classes with multiple primary keys.');
         }
@@ -65,8 +59,8 @@ abstract class BaseCodeGenerator
      */
     protected function generateFile(DataObject $dataObject, $pathTemplate, $pathTo)
     {
-        $results = $this->zendView->render($this->_skeletonDir, $pathTemplate, array(
-            'dir'        => $this->_skeletonDir,
+        $results = $this->zendView->render($this->skeletonDir, $pathTemplate, array(
+            'dir'        => $this->skeletonDir,
             'dataObject' => $dataObject,
         ));
 

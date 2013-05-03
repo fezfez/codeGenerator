@@ -1,25 +1,25 @@
 <?php echo '<?php' . "\n"; ?>
-namespace <?php echo $this->namespace; ?>\DataObject;
+namespace <?php echo $this->dataObject->getNamespace(); ?>\DataObject;
 
 
-class <?php echo $this->entity_class; ?>DataObject
+class <?php echo $this->dataObject->getEntityName(); ?>DataObject
 {
-<?php foreach($this->fields as $field => $metadata): ?>
-    private $_<?php echo $field; ?> = null;
+<?php foreach($this->dataObject->getMetadata()->fieldMappings as $field => $metadata): ?>
+    private $<?php echo $field; ?> = null;
 <?php endforeach; ?>
 
-<?php foreach($this->fields as $field => $metadata): ?>
-    public function set<?php echo $field; ?>($value)
+<?php foreach($this->dataObject->getMetadata()->fieldMappings as $field => $metadata): ?>
+    public function set<?php echo ucfirst($field); ?>($value)
     {
-        $this->_<?php echo $field; ?> = $value;
+        $this-><?php echo $field; ?> = $value;
         return $this;
     }
 <?php endforeach; ?>
-    
-<?php foreach($this->fields as $field => $metadata): ?>
-    public function get<?php echo $field; ?>()
+
+<?php foreach($this->dataObject->getMetadata()->fieldMappings as $field => $metadata): ?>
+    public function get<?php echo ucfirst($field); ?>()
     {
-        return $this->_<?php echo $field; ?>;
+        return $this-><?php echo $field; ?>;
     }
 <?php endforeach; ?>
 }

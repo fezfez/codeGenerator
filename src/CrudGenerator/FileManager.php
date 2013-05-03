@@ -1,11 +1,15 @@
 <?php
-namespace CrudGenerator\Generators;
+namespace CrudGenerator;
+
+use RuntimeException;
 
 class FileManager
 {
     public function mkdir($pathname)
     {
-        mkdir($pathname, 0777);
+        if(!mkdir($pathname, 0777)) {
+            throw new RuntimeException(sprintf("Could't create %s", $pathname));
+        }
     }
 
     public function filePutsContent($path, $content)

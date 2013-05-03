@@ -1,9 +1,9 @@
 <?php echo '<?php' . "\n"; ?>
-namespace <?php echo $this->namespace; ?>\DataObject;
+namespace <?php echo $this->dataObject->getNamespace(); ?>\DataObject;
 
 use ArrayObject;
 
-class <?php echo $this->entity_class; ?>Collection extends ArrayObject
+class <?php echo $this->dataObject->getEntityName(); ?>Collection extends ArrayObject
 {
 
 }

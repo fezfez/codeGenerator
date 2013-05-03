@@ -1,7 +1,7 @@
 <?php
-namespace CrudGenerator\Generators;
+namespace CrudGenerator;
 
-use CrudGenerator\Generators\DataObject;
+use CrudGenerator\DataObject;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
 class Hydrator
