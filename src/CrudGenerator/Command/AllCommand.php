@@ -4,7 +4,7 @@ namespace CrudGenerator\Command;
 
 use CrudGenerator\MetaData\MetaDataDAOFactory;
 use CrudGenerator\Generators\DoctrineCrudGeneratorFactory;
-use CrudGenerator\Generators\DataObject;
+use CrudGenerator\DataObject;
 
 use Symfony\Component\Console\Command\Command,
     Symfony\Component\Console\Input\InputInterface,
