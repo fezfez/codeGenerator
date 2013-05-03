@@ -3,7 +3,7 @@
 
 namespace CrudGenerator\Generators;
 
-use CrudGenerator\Generators\DataObject;
+use CrudGenerator\DataObject;
 
 interface Generator
 {

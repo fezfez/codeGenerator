@@ -2,7 +2,7 @@
 
 namespace CrudGenerator\Generators;
 
-use CrudGenerator\Generators\DataObject;
+use CrudGenerator\DataObject;
 use CrudGenerator\Generators\FileManager;
 use CrudGenerator\Generators\Hydrator;
 use CrudGenerator\Generators\View\ZendView;

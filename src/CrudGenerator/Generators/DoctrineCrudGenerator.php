@@ -2,7 +2,7 @@
 
 namespace CrudGenerator\Generators;
 
-use CrudGenerator\Generators\DataObject;
+use CrudGenerator\DataObject;
 
 class DoctrineCrudGenerator extends BaseCodeGenerator implements Generator
 {

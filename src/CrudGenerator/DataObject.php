@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Generators;
+namespace CrudGenerator;
 
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
@@ -14,7 +14,7 @@ class DataObject
 
     /*
     private $_actions         = null;
-    
+
     private $_routesPrefixe   = null;
     private $_parts           = null;
     private $_className       = null;
