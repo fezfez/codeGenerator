@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-0": {
-            "CrudGenerator": "src/"
+            "CrudGenerator": "src/",
             "Generators": "src/CrudGenerator/Generators"
         }
     },
