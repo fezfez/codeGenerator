@@ -106,7 +106,11 @@ class DataObject
     }
     public function getEntityName()
     {
-        return str_replace('\\', '', strrchr($this->entity, '\\'));
+        if(!strrchr($this->entity, '\\')) {
+            return $this->entity;
+        } else {
+            return str_replace('\\', '', strrchr($this->entity, '\\'));
+        }
     }
     public function getMetadata()
     {
