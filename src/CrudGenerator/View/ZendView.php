@@ -1,33 +1,33 @@
 <?php
 namespace CrudGenerator\View;
 
-use Zend\View\Model\ViewModel,
-    Zend\View\Renderer\PhpRenderer,
-    Zend\View\Resolver;
+use Zend\View\Model\ViewModel;
+use Zend\View\Renderer\PhpRenderer;
+use Zend\View\Resolver;
 
 class ZendView
 {
     private $zendView = null;
+    private $phprenderer = null;
 
-    public function __construct(ViewModel $zendView)
+    public function __construct(ViewModel $zendView, PhpRenderer $phprenderer)
     {
-        $this->zendView = $zendView;
+        $this->zendView    = $zendView;
+        $this->phprenderer = $phprenderer;
     }
 
     public function render($path, $templateName, $datas)
     {
-        $renderer = new PhpRenderer();
-
         $map = new Resolver\TemplateMapResolver(array(
-              'tester' => $path . $templateName,
+              $templateName => $path . $templateName,
         ));
 
         $resolver = new Resolver\TemplateMapResolver($map);
-        $renderer->setResolver($resolver);
+        $this->phprenderer->setResolver($resolver);
 
         $this->zendView->setVariables($datas);
-        $this->zendView->setTemplate('tester');
+        $this->zendView->setTemplate($templateName);
 
-        return $renderer->render($this->zendView);
+        return $this->phprenderer->render($this->zendView);
     }
 }

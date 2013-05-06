@@ -10,7 +10,7 @@
 /// (Fair License - http://www.opensource.org/licenses/fair.php )
 /// Short license: do whatever you like with this.
 
-namespace CrudGenerator;
+namespace CrudGenerator\Diff;
 
 use Exception;
 
@@ -83,7 +83,7 @@ class DiffPHP {
         $this->fileContents = file_get_contents($this->left);
 
         $this->doDiff();
-        
+
         echo $this->diff;exit;
 
         // subject (probably) IS a PHP file:

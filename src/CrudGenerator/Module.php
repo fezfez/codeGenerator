@@ -19,7 +19,7 @@ use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\Loader\AutoloaderFactory;
 use Zend\Loader\StandardAutoloader;
 use Zend\EventManager\EventInterface;
-use CrudGenerator\Command\AllCommand;
+use CrudGenerator\Command\CreateCommand;
 use CrudGenerator\Command\UpToDateCommand;
 use CrudGenerator\Doctrine\Helper\ServiceManagerHelper;
 
@@ -76,7 +76,7 @@ class Module implements
             $cli = $e->getTarget();
 
             $cli->addCommands(array(
-                new AllCommand(),
+                new CreateCommand(),
                 new UpToDateCommand(),
             ));
 
