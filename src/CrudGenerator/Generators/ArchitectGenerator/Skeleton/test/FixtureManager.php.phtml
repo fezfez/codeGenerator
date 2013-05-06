@@ -1,0 +1,33 @@
+<?php echo '<?php' . "\n"; ?>
+
+namespace <?php echo $this->unitTestNamespace ?>;
+
+use Doctrine\Common\DataFixtures\Loader;
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\FixtureInterface;
+
+class FixtureManager
+{
+    public static function getEm()
+    {
+        return Bootstrap::getServiceManager()->get('doctrine.entitymanager.orm_default');
+    }
+
+    public static function loadFixtures(FixtureInterface $fixture)
+    {
+        $loader = new Loader();
+        $loader->addFixture($fixture);
+
+        $purger     = new ORMPurger();
+        $executor   = new ORMExecutor( self::getEm(), $purger );
+        $executor->execute( $loader->getFixtures(), true);
+    }
+
+    public static function purge()
+    {
+        $purger     = new ORMPurger();
+        $purger->setEntityManager(self::getEm());
+        $purger->purge();
+    }
+}

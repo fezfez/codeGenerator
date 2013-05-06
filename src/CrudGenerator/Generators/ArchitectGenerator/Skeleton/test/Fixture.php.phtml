@@ -1,0 +1,44 @@
+<?php echo '<?php' . "\n"; ?>
+namespace <?php echo $this->unitTestNamespace; ?>;
+
+use DateTime;
+
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use <?php echo $this->dataObject->getEntity(); ?>;
+
+<?php
+    $length = str_repeat(' ', strlen('a' . $this->dataObject->getEntityName()));
+    $loremIpsumGenerator = new \CrudGenerator\Generators\LoremIpsumGenerator();
+?>
+class <?php echo $this->dataObject->getEntityName(); ?>Fixture implements FixtureInterface
+{
+    public function getEntity()
+    {
+        $<?php echo $this->dataObject->getEntityName(); ?> = new <?php echo $this->dataObject->getEntityName(); ?>();
+
+<?php foreach($this->dataObject->getMetadata()->fieldMappings as $field => $metadata): ?>
+<?php if($metadata == reset($this->dataObject->getMetadata()->fieldMappings)): ?>
+        $<?php echo $this->dataObject->getEntityName(); ?>->set<?php echo ucfirst($field); ?>(<?php
+        if($metadata['type'] == 'integer'):
+            echo rand();
+        elseif($metadata['type'] == 'string'):
+            echo '"' . substr($loremIpsumGenerator->getContent($metadata['length'], 'plain'), 0, $metadata['length']) . '"';
+        endif; ?>)<?php echo "\n"; ?>
+<?php else: ?>
+        <?php echo $length; ?>->set<?php echo ucfirst($field); ?>("<?php
+        if($metadata['type'] == 'string'):
+            echo substr($loremIpsumGenerator->getContent($metadata['length'], 'plain'), 0, $metadata['length']);
+        endif; ?>")<?php if($metadata == end($this->dataObject->getMetadata()->fieldMappings)): ?>;<?php endif; ?><?php echo "\n"; ?>
+<?php endif; ?>
+<?php endforeach; ?>
+
+        return $<?php echo $this->dataObject->getEntityName(); ?>;
+    }
+
+    public function load(ObjectManager $manager)
+    {
+        $manager->persist($this->getEntity());
+        $manager->flush();
+    }
+}
