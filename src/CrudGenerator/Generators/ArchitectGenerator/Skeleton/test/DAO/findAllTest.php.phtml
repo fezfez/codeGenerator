@@ -1,0 +1,24 @@
+<?php echo '<?php' . "\n"; ?>
+namespace <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\DAO;
+
+use ApplicationTest\FixtureManager;
+use <?php echo $this->dataObject->getNamespace(); ?>\DAO\<?php echo $this->dataObject->getEntityName(); ?>DAO;
+use <?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObject;
+
+class findAllTest extends \PHPUnit_Framework_TestCase
+{
+    public function testFindAll()
+    {
+        FixtureManager::purge();
+        $em = FixtureManager::getEm();
+        $fixture = new <?php echo $this->dataObject->getEntityName(); ?>Fixture();
+        FixtureManager::loadFixtures($fixture);
+
+        $<?php echo $this->dataObject->getEntityName(); ?>DAO = new <?php echo $this->dataObject->getEntityName(); ?>DAO($em);
+        $<?php echo $this->dataObject->getEntityName(); ?>Data = $<?php echo $this->dataObject->getEntityName(); ?>DAO->findAll($dataObject);
+
+        $this->assertEquals(1, $<?php echo $this->dataObject->getEntityName(); ?>Data->count());
+        $this->assertInstanceOf('<?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObjectCollection', $<?php echo $this->dataObject->getEntityName(); ?>Data);
+    }
+}
+

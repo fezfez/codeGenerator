@@ -58,15 +58,21 @@ class ArchitectGenerator extends BaseCodeGenerator
         $modelDirectory = explode('\\', $this->generiqueQuestion->namespaceQuestion());
         $allDir = '';
         foreach($modelDirectory as $dir) {
-            $allDir .= '/' . $dir;
+            $allDir .= $dir . '/';
             $this->ifDirDoesNotExistCreate($unitTestDirectory . $allDir);
         }
+
+        $this->generateFile(
+            $dataObject, '/test/Fixture.php.phtml',
+            $unitTestDirectory . $allDir . $dataObject->getEntityName() . 'Fixture.php',
+            $suppdatas
+        );
 
         $this->ifDirDoesNotExistCreate($unitTestDirectory . $allDir . '/DAOFactory');
 
         $this->generateFile(
             $dataObject, '/test/DAOFactory/getInstanceTest.php.phtml',
-            $unitTestDirectory . $allDir . '/DAOFactory/getInstanceTest.php',
+            $unitTestDirectory . $allDir . 'DAOFactory/getInstanceTest.php',
             $suppdatas
         );
 
@@ -74,13 +80,13 @@ class ArchitectGenerator extends BaseCodeGenerator
 
         $this->generateFile(
             $dataObject, '/test/DAO/findTest.php.phtml',
-            $unitTestDirectory . $allDir . '/DAO/findTest.php',
+            $unitTestDirectory . $allDir . 'DAO/findTest.php',
             $suppdatas
         );
 
         $this->generateFile(
-            $dataObject, '/test/Fixture.php.phtml',
-            $unitTestDirectory . $allDir . '/' . $dataObject->getEntityName() . 'Fixture.php',
+            $dataObject, '/test/DAO/findAllTest.php.phtml',
+            $unitTestDirectory . $allDir . 'DAO/findAllTest.php',
             $suppdatas
         );
     }

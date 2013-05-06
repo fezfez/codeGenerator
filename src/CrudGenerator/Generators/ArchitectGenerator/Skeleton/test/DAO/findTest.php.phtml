@@ -1,11 +1,11 @@
 <?php echo '<?php' . "\n"; ?>
-namespace <?php echo $this->unitTestNamespace; ?>\DAO;
+namespace <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\DAO;
 
 use ApplicationTest\FixtureManager;
 use <?php echo $this->dataObject->getNamespace(); ?>\DAO\<?php echo $this->dataObject->getEntityName(); ?>DAO;
 use <?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObject;
 
-class findInfosTest extends \PHPUnit_Framework_TestCase
+class findTest extends \PHPUnit_Framework_TestCase
 {
     public function testFind()
     {
@@ -14,7 +14,7 @@ class findInfosTest extends \PHPUnit_Framework_TestCase
         $fixture = new <?php echo $this->dataObject->getEntityName(); ?>Fixture();
         FixtureManager::loadFixtures($fixture);
 
-        $entity = $fixture->getEntity();
+        $entity = $fixture->entity;
 
         $dataObject = new <?php echo $this->dataObject->getEntityName(); ?>DataObject();
         $dataObject->setId($entity->getId());
@@ -23,6 +23,7 @@ class findInfosTest extends \PHPUnit_Framework_TestCase
         $<?php echo $this->dataObject->getEntityName(); ?>Data = $<?php echo $this->dataObject->getEntityName(); ?>DAO->find($dataObject);
 
         $this->assertEquals($entity->getId(), $<?php echo $this->dataObject->getEntityName(); ?>Data->getId());
+        $this->assertInstanceOf('<?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObject', $<?php echo $this->dataObject->getEntityName(); ?>Data);
     }
 
     public function testError()

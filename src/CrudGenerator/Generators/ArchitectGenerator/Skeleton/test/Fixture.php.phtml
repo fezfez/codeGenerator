@@ -1,8 +1,7 @@
 <?php echo '<?php' . "\n"; ?>
-namespace <?php echo $this->unitTestNamespace; ?>;
+namespace <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>;
 
 use DateTime;
-
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use <?php echo $this->dataObject->getEntity(); ?>;
@@ -13,32 +12,41 @@ use <?php echo $this->dataObject->getEntity(); ?>;
 ?>
 class <?php echo $this->dataObject->getEntityName(); ?>Fixture implements FixtureInterface
 {
-    public function getEntity()
-    {
-        $<?php echo $this->dataObject->getEntityName(); ?> = new <?php echo $this->dataObject->getEntityName(); ?>();
-
-<?php foreach($this->dataObject->getMetadata()->fieldMappings as $field => $metadata): ?>
-<?php if($metadata == reset($this->dataObject->getMetadata()->fieldMappings)): ?>
-        $<?php echo $this->dataObject->getEntityName(); ?>->set<?php echo ucfirst($field); ?>(<?php
-        if($metadata['type'] == 'integer'):
-            echo rand();
-        elseif($metadata['type'] == 'string'):
-            echo '"' . substr($loremIpsumGenerator->getContent($metadata['length'], 'plain'), 0, $metadata['length']) . '"';
-        endif; ?>)<?php echo "\n"; ?>
-<?php else: ?>
-        <?php echo $length; ?>->set<?php echo ucfirst($field); ?>("<?php
-        if($metadata['type'] == 'string'):
-            echo substr($loremIpsumGenerator->getContent($metadata['length'], 'plain'), 0, $metadata['length']);
-        endif; ?>")<?php if($metadata == end($this->dataObject->getMetadata()->fieldMappings)): ?>;<?php endif; ?><?php echo "\n"; ?>
-<?php endif; ?>
-<?php endforeach; ?>
-
-        return $<?php echo $this->dataObject->getEntityName(); ?>;
-    }
+    public $entity = null;
 
     public function load(ObjectManager $manager)
     {
-        $manager->persist($this->getEntity());
+            $this->entity = new <?php echo $this->dataObject->getEntityName(); ?>();
+<?php
+
+$fixtureRender = (function($metadata) use($loremIpsumGenerator) {
+    if($metadata['type'] == 'integer') {
+        return rand();
+    } elseif($metadata['type'] == 'string') {
+        return '"' . substr($loremIpsumGenerator->getContent($metadata['length'], 'plain'), 0, $metadata['length']) . '"';
+    } elseif($metadata['type'] == 'date') {
+        echo 'new DateTime()';
+    } elseif($metadata['type'] == 'bool') {
+        echo 'true';
+    }
+});
+
+?>
+        $this->entity
+<?php foreach($this->dataObject->getMetadata()->fieldMappings as $field => $metadata): ?>
+<?php
+if(isset($metadata['id']) && $metadata['id'] == true) {
+    continue;
+}
+?>
+<?php if($metadata == reset($this->dataObject->getMetadata()->fieldMappings)): ?>
+                     ->set<?php echo ucfirst($field); ?>(<?php echo $fixtureRender($metadata); ?>)<?php echo "\n"; ?>
+<?php else: ?>
+                     ->set<?php echo ucfirst($field); ?>(<?php echo $fixtureRender($metadata); ?>)<?php if($metadata == end($this->dataObject->getMetadata()->fieldMappings)): ?>;<?php endif; ?><?php echo "\n"; ?>
+<?php endif; ?>
+<?php endforeach; ?>
+
+        $manager->persist($this->entity);
         $manager->flush();
     }
 }
