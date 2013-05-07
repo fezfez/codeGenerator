@@ -27,9 +27,9 @@ class ArchitectGenerator extends BaseCodeGenerator
         $this->ifDirDoesNotExistCreate($dataObject->getModule() . '/' . $dataObject->getDirectory() . '/Hydrator/');
         $this->ifDirDoesNotExistCreate($dataObject->getModule() . '/' . $dataObject->getDirectory() . '/DataObject/');
 
+        $this->generateFile($dataObject, '/Exception.php.phtml', $dataObject->getModule() . '/' . $dataObject->getDirectory() . '/No' . $dataObject->getEntityName() . 'Exception.php');
         $this->generateFile($dataObject, '/DAOFactory.php.phtml', $dataObject->getModule() . '/' . $dataObject->getDirectory() . '/' . $dataObject->getEntityName() . 'DAOFactory.php');
         $this->generateFile($dataObject, '/DAO.php.phtml', $dataObject->getModule() . '/' . $dataObject->getDirectory() . '/DAO/' . $dataObject->getEntityName() . 'DAO.php');
-        $this->generateFile($dataObject, '/Exception.php.phtml', $dataObject->getModule() . '/' . $dataObject->getDirectory() . '/No' . $dataObject->getEntityName() . 'Exception.php');
         $this->generateFile($dataObject, '/Hydrator.php.phtml', $dataObject->getModule() . '/' . $dataObject->getDirectory() . '/Hydrator/' . $dataObject->getEntityName() . 'Hydrator.php');
         $this->generateFile($dataObject, '/DataObjectCollection.php.phtml', $dataObject->getModule() . '/' . $dataObject->getDirectory() . '/DataObject/' . $dataObject->getEntityName() . 'Collection.php');
         $this->generateFile($dataObject, '/DataObject.php.phtml', $dataObject->getModule() . '/' . $dataObject->getDirectory() . '/DataObject/' . $dataObject->getEntityName() . 'DataObject.php');
@@ -63,7 +63,8 @@ class ArchitectGenerator extends BaseCodeGenerator
         }
 
         $this->generateFile(
-            $dataObject, '/test/Fixture.php.phtml',
+            $dataObject,
+            '/test/Fixture.php.phtml',
             $unitTestDirectory . $allDir . $dataObject->getEntityName() . 'Fixture.php',
             $suppdatas
         );
@@ -79,13 +80,15 @@ class ArchitectGenerator extends BaseCodeGenerator
         $this->ifDirDoesNotExistCreate($unitTestDirectory . $allDir . '/DAO');
 
         $this->generateFile(
-            $dataObject, '/test/DAO/findTest.php.phtml',
+            $dataObject,
+            '/test/DAO/findTest.php.phtml',
             $unitTestDirectory . $allDir . 'DAO/findTest.php',
             $suppdatas
         );
 
         $this->generateFile(
-            $dataObject, '/test/DAO/findAllTest.php.phtml',
+            $dataObject,
+            '/test/DAO/findAllTest.php.phtml',
             $unitTestDirectory . $allDir . 'DAO/findAllTest.php',
             $suppdatas
         );

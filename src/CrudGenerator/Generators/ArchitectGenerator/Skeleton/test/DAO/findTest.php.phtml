@@ -4,6 +4,8 @@ namespace <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->
 use ApplicationTest\FixtureManager;
 use <?php echo $this->dataObject->getNamespace(); ?>\DAO\<?php echo $this->dataObject->getEntityName(); ?>DAO;
 use <?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObject;
+use <?php echo $this->dataObject->getNamespace(); ?>\Hydrator\<?php echo $this->dataObject->getEntityName(); ?>Hydrator;
+use <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getEntityName(); ?>Fixture;
 
 class findTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,7 +21,7 @@ class findTest extends \PHPUnit_Framework_TestCase
         $dataObject = new <?php echo $this->dataObject->getEntityName(); ?>DataObject();
         $dataObject->setId($entity->getId());
 
-        $<?php echo $this->dataObject->getEntityName(); ?>DAO = new <?php echo $this->dataObject->getEntityName(); ?>DAO($em);
+        $<?php echo $this->dataObject->getEntityName(); ?>DAO = new <?php echo $this->dataObject->getEntityName(); ?>DAO($em, new <?php echo $this->dataObject->getEntityName(); ?>Hydrator());
         $<?php echo $this->dataObject->getEntityName(); ?>Data = $<?php echo $this->dataObject->getEntityName(); ?>DAO->find($dataObject);
 
         $this->assertEquals($entity->getId(), $<?php echo $this->dataObject->getEntityName(); ?>Data->getId());
@@ -37,7 +39,7 @@ class findTest extends \PHPUnit_Framework_TestCase
         $dataObject = new <?php echo $this->dataObject->getEntityName(); ?>DataObject();
         $dataObject->setId('10000');
 
-        $<?php echo $this->dataObject->getEntityName(); ?>DAO = new <?php echo $this->dataObject->getEntityName(); ?>DAO($em);
+        $<?php echo $this->dataObject->getEntityName(); ?>DAO = new <?php echo $this->dataObject->getEntityName(); ?>DAO($em, new <?php echo $this->dataObject->getEntityName(); ?>Hydrator());
         $<?php echo $this->dataObject->getEntityName(); ?>DAO->find($dataObject);
     }
 }

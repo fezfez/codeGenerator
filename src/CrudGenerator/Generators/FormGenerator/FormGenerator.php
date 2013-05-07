@@ -1,5 +1,5 @@
 <?php
-namespace Generators\CrudGenerator;
+namespace CrudGenerator\Generators\CrudGenerator;
 
 use CrudGenerator\DataObject;
 use CrudGenerator\Generators\BaseCodeGenerator;
@@ -7,7 +7,7 @@ use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CrudGenerator extends BaseCodeGenerator
+class FormGenerator extends BaseCodeGenerator
 {
     protected $skeletonDir    = null;
     protected $definition     = 'Generate forms';
@@ -16,7 +16,7 @@ class CrudGenerator extends BaseCodeGenerator
      * @param DataObject $dataObject
      * @throws \RuntimeException
      */
-    protected function doGenerate(DataObject $dataObject, DialogHelper $dialog, InputInterface $input, OutputInterface $output)
+    protected function doGenerate(DataObject $dataObject)
     {
         $this->skeletonDir = __DIR__ . '/Skeleton';
 

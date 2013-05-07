@@ -38,17 +38,21 @@ class CreateCommand extends Command
 
         $entity     = $this->entityQuestion($output, $dialog, $metaDataDAO->getAllMetadata());
         $moduleName = $this->moduleQuestion($output, $dialog);
+        $generator  = $this->generatorQuestion($output, $input, $dialog);
 
         $dataObject = new DataObject();
         $dataObject->setEntity($entity)
                    ->setModule($moduleName)
                    ->setMetaData($metaDataDAO->getEntityMetadata($entity));
 
-        $output->writeln("\n\n<info>Resume</info>");
+        $crudGenerator = DoctrineCrudGeneratorFactory::getInstance($output, $input, $dialog, $generator);
+
+        $output->writeln("<info>Resume</info>");
         $output->writeln('<info>Entity : ' . $dataObject->getEntity(), '*</info>');
         $output->writeln('<info>Module : ' . $dataObject->getModule(), '*</info>');
+        $output->writeln("<info>Generator : " . $crudGenerator->getDefinition(), "*</info>");
 
-        $doI = $dialog->askConfirmation($output, "<question>Do you confirm generation ?</question> ");
+        $doI = $dialog->askConfirmation($output, "\n<question>Do you confirm generation (may others question generator ask you) ?</question> ");
 
         if($doI === true) {
             $fileManager = new FileManager();
@@ -60,8 +64,6 @@ class CreateCommand extends Command
             }
             $fileManager->filePutsContent('data/crudGeneratorHistory/' . md5($entity), serialize($dataObject));
 
-            $crudGenerator = DoctrineCrudGeneratorFactory::getInstance($output, $input, $dialog, '\CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator');
-            $output->writeln("\n\n<info>" . $crudGenerator->getDefinition() . "</info>");
             $crudGenerator->generate($dataObject);
         } else {
             throw new RuntimeException('Command aborted');
@@ -86,6 +88,28 @@ class CreateCommand extends Command
         };
 
         return $dialog->askAndValidate($output, "Choose a target module \n> ", $modulesValidation, false, null, $modulesChoices);
+    }
+
+    private function generatorQuestion($output, $input, $dialog)
+    {
+        $crudFinder = new \CrudGenerator\CrudFinder();
+        $generators = $crudFinder->getAllClasses();
+
+        $output->writeln('<question>Chose a generator</question>');
+        foreach($generators as $number => $generatorClassName) {
+            $generator = DoctrineCrudGeneratorFactory::getInstance($output, $input, $dialog, $generatorClassName);
+            $output->writeln('<comment>' . $number . '. ' . $generator->getDefinition() . '</comment>');
+        }
+
+        $generatorsValidation = function ($module) use ($generators) {
+            if (!isset($generators[$module])) {
+                throw new \InvalidArgumentException(sprintf('Generator "%s" is invalid.', $module));
+            }
+
+            return $generators[$module];
+        };
+
+        return $dialog->askAndValidate($output, "Choose a generators \n> ", $generatorsValidation, false);
     }
 
     private function entityQuestion($output, $dialog, $allMetaData)
