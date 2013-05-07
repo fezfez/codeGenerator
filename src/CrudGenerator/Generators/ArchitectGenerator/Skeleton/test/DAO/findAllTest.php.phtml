@@ -16,7 +16,7 @@ class findAllTest extends \PHPUnit_Framework_TestCase
         $fixture = new <?php echo $this->dataObject->getEntityName(); ?>Fixture();
         FixtureManager::loadFixtures($fixture);
 
-        $<?php echo $this->dataObject->getEntityName(); ?>DAO = new <?php echo $this->dataObject->getEntityName(); ?>DAO($em, new <?php echo $this->dataObject->getEntityName(); ?>Hydrator();
+        $<?php echo $this->dataObject->getEntityName(); ?>DAO = new <?php echo $this->dataObject->getEntityName(); ?>DAO($em, new <?php echo $this->dataObject->getEntityName(); ?>Hydrator());
         $<?php echo $this->dataObject->getEntityName(); ?>Data = $<?php echo $this->dataObject->getEntityName(); ?>DAO->findAll();
 
         $this->assertEquals(1, $<?php echo $this->dataObject->getEntityName(); ?>Data->count());
