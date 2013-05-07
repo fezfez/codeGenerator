@@ -21,13 +21,13 @@ class <?php echo $this->dataObject->getEntityName(); ?>Fixture implements Fixtur
 
 $fixtureRender = (function($metadata) use($loremIpsumGenerator) {
     if($metadata['type'] == 'integer') {
-        return rand();
+        return rand(0, 50);
     } elseif($metadata['type'] == 'string') {
         return '"' . substr($loremIpsumGenerator->getContent($metadata['length'], 'plain'), 0, $metadata['length']) . '"';
     } elseif($metadata['type'] == 'date') {
-        echo 'new DateTime()';
+        return 'new DateTime()';
     } elseif($metadata['type'] == 'bool') {
-        echo 'true';
+        return 'true';
     }
 });
 

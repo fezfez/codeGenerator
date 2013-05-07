@@ -5,7 +5,7 @@ use ApplicationTest\FixtureManager;
 use <?php echo $this->dataObject->getNamespace(); ?>\DAO\<?php echo $this->dataObject->getEntityName(); ?>DAO;
 use <?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObject;
 use <?php echo $this->dataObject->getNamespace(); ?>\Hydrator\<?php echo $this->dataObject->getEntityName(); ?>Hydrator;
-use <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getEntityName(); ?>Fixture;
+use <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\<?php echo $this->dataObject->getEntityName(); ?>Fixture;
 
 class findTest extends \PHPUnit_Framework_TestCase
 {
