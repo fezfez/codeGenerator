@@ -10,13 +10,22 @@ class ZendView
     private $zendView = null;
     private $phprenderer = null;
 
+    /**
+     * @param ViewModel $zendView
+     * @param PhpRenderer $phprenderer
+     */
     public function __construct(ViewModel $zendView, PhpRenderer $phprenderer)
     {
         $this->zendView    = $zendView;
         $this->phprenderer = $phprenderer;
     }
 
-    public function render($path, $templateName, $datas)
+    /**
+     * @param string $path
+     * @param string $templateName
+     * @param array $datas
+     */
+    public function render($path, $templateName, array $datas)
     {
         $map = new Resolver\TemplateMapResolver(array(
               $templateName => $path . $templateName,

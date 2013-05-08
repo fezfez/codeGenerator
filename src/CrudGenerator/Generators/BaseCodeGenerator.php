@@ -4,29 +4,46 @@ namespace CrudGenerator\Generators;
 
 use CrudGenerator\DataObject;
 use CrudGenerator\FileManager;
-use CrudGenerator\Hydrator;
 use CrudGenerator\View\ZendView;
 use CrudGenerator\Generators\GeneriqueQuestions;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Input\InputInterface;
 
 abstract class BaseCodeGenerator
 {
+    /**
+     * @var ZendView
+     */
     protected $zendView          = null;
+    /**
+     * @var OutputInterface
+     */
     protected $clientResponse    = null;
+    /**
+     * @var FileManager
+     */
     protected $fileManager       = null;
+    /**
+     * @var DialogHelper
+     */
     protected $dialog            = null;
+    /**
+     * @var InputInterface
+     */
     protected $input             = null;
+    /**
+     * @var GeneriqueQuestions
+     */
     protected $generiqueQuestion = null;
 
     /**
      * @param ZendView $zendView
      * @param OutputInterface $output
      * @param FileManager $fileManager
-     * @param Hydrator $hydrator
-     * @param string $skeletonDir
+     * @param DialogHelper $dialog
+     * @param InputInterface $input
+     * @param GeneriqueQuestions $generiqueQuestion
      */
     public function __construct(ZendView $zendView,
                     OutputInterface $output,
@@ -50,6 +67,10 @@ abstract class BaseCodeGenerator
      */
     abstract protected function doGenerate(DataObject $dataObject);
 
+    /**
+     * @param DataObject $dataObject
+     * @throws \RuntimeException
+     */
     public function generate(DataObject $dataObject)
     {
         if (count($dataObject->getMetadata()->identifier) > 1) {
@@ -63,6 +84,9 @@ abstract class BaseCodeGenerator
         $this->doGenerate($dataObject);
     }
 
+    /**
+     * @return string
+     */
     public function getDefinition()
     {
         return $this->definition;
@@ -72,6 +96,7 @@ abstract class BaseCodeGenerator
      * @param DataObject $dataObject
      * @param string $pathTemplate
      * @param string $pathTo
+     * @param array $suppDatas
      */
     protected function generateFile(DataObject $dataObject, $pathTemplate, $pathTo, array $suppDatas = null)
     {
@@ -84,10 +109,6 @@ abstract class BaseCodeGenerator
         );
 
         $results = $this->zendView->render($this->skeletonDir, $pathTemplate, array_merge($datas, $suppDatas));
-        /*$this->fileManager->filePutsContent($pathTo . '.tmp', $results);
-
-        echo $pathTo;
-        $diff = new \CrudGenerator\Diff\DiffPHP($pathTo, $pathTo . '.tmp');exit;*/
 
         $this->fileManager->filePutsContent($pathTo, $results);
         $this->output->writeln('--> Create ' . $pathTo);

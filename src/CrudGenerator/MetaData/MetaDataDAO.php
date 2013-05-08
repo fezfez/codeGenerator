@@ -2,28 +2,37 @@
 
 namespace CrudGenerator\MetaData;
 
-use Doctrine\Bundle\DoctrineBundle\Mapping\MetadataFactory;
 use Doctrine\ORM\EntityManager;
 
 class MetaDataDAO
 {
-    private $_em = null;
+    /**
+     * @var Doctrine\ORM\EntityManager
+     */
+    private $em = null;
 
     /**
      * @param EntityManager $em
      */
     public function __construct(EntityManager $em)
     {
-        $this->_em = $em;
+        $this->em = $em;
     }
 
+    /**
+     * @return array
+     */
     public function getAllMetadata()
     {
-        return $this->_em->getMetaDataFactory()->getAllMetadata();
+        return $this->em->getMetaDataFactory()->getAllMetadata();
     }
 
+    /**
+     * @param string $entity
+     * @return \Doctrine\ORM\Mapping\ClassMetadataInfo
+     */
     public function getEntityMetadata($entity)
     {
-        return $this->_em->getMetadataFactory()->getMetadataFor($entity);
+        return $this->em->getMetadataFactory()->getMetadataFor($entity);
     }
 }

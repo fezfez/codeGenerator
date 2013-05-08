@@ -5,6 +5,10 @@ use RuntimeException;
 
 class FileManager
 {
+    /**
+     * @param string $pathname
+     * @throws RuntimeException
+     */
     public function mkdir($pathname)
     {
         if(!mkdir($pathname, 0777)) {
@@ -12,6 +16,10 @@ class FileManager
         }
     }
 
+    /**
+     * @param string $path
+     * @param string $content
+     */
     public function filePutsContent($path, $content)
     {
         file_put_contents($path, $content);

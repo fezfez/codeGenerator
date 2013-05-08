@@ -3,9 +3,6 @@ namespace CrudGenerator\Generators\ArchitectGenerator;
 
 use CrudGenerator\DataObject;
 use CrudGenerator\Generators\BaseCodeGenerator;
-use Symfony\Component\Console\Helper\DialogHelper;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class ArchitectGenerator extends BaseCodeGenerator
 {

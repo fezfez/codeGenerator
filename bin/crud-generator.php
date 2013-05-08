@@ -17,9 +17,7 @@
  * <http://www.doctrine-project.org>.
  */
 
-use Zend\ServiceManager\ServiceManager;
 use Zend\Mvc\Application;
-use CrudGenerator\Service\CliFactory;
 
 ini_set('display_errors', true);
 chdir(__DIR__);

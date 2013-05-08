@@ -3,20 +3,11 @@
 namespace CrudGenerator\Command;
 
 use CrudGenerator\MetaData\MetaDataDAOFactory;
-use CrudGenerator\Generators\DoctrineCrudGeneratorFactory;
 use CrudGenerator\DataObject;
-use CrudGenerator\FileManager;
 
-use Symfony\Component\Console\Command\Command,
-    Symfony\Component\Console\Input\InputInterface,
-    Symfony\Component\Console\Output\OutputInterface,
-    Symfony\Component\Console\Input\InputArgument,
-    Symfony\Component\Console\Input\InputOption;
-
-use RuntimeException;
-use InvalidArgumentException;
-use ReflectionClass;
-
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class UpToDateCommand extends Command
 {
@@ -28,6 +19,10 @@ class UpToDateCommand extends Command
              ->setDescription('Detect if code is up to date');
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $sm      = $this->getHelperSet()->get('serviceManager')->getServiceManager();
@@ -84,6 +79,9 @@ class UpToDateCommand extends Command
 
     /**
      * http://www.php.net/manual/fr/function.array-diff-assoc.php#111675
+     * @param array $array1
+     * @param array $array2
+     * @return array  
      */
     private function array_diff_assoc_recursive($array1, $array2)
     {

@@ -8,17 +8,38 @@ use CrudGenerator\DataObject;
 
 class GeneriqueQuestions
 {
+    /**
+     * @var DialogHelper
+     */
     private $dialog            = null;
+    /**
+     * @var OutputInterface
+     */
     private $output            = null;
+    /**
+     * @var string
+     */
     private $directoryResponse = null;
+    /**
+     * @var string
+     */
     private $namespaceResponse = null;
 
+    /**
+     * @param DialogHelper $dialog
+     * @param OutputInterface $output
+     */
     public function __construct(DialogHelper $dialog, OutputInterface $output)
     {
         $this->dialog = $dialog;
         $this->output = $output;
     }
 
+    /**
+     * @param DataObject $dataObject
+     * @throws \InvalidArgumentException
+     * @return string
+     */
     public function directoryQuestion(DataObject $dataObject)
     {
         if(null === $this->directoryResponse) {
@@ -37,6 +58,9 @@ class GeneriqueQuestions
         return $this->directoryResponse;
     }
 
+    /**
+     * @return string
+     */
     public function namespaceQuestion()
     {
         if(null === $this->namespaceResponse) {

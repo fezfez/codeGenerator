@@ -12,6 +12,10 @@ class ZendViewFactory
 
     }
 
+    /**
+     * @param array $config
+     * @return \CrudGenerator\View\ZendView
+     */
     public static function getInstance(array $config = array())
     {
         $zendView = new ViewModel($config);

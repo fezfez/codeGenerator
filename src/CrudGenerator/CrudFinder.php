@@ -4,9 +4,18 @@ namespace CrudGenerator;
 
 class CrudFinder
 {
+    /**
+     * @var array
+     */
     private $paths = array();
+    /**
+     * @var string
+     */
     private $fileExtension = 'php';
 
+    /**
+     * @return array
+     */
     public function getAllClasses()
     {
         $this->paths = array(
@@ -15,7 +24,7 @@ class CrudFinder
 
         foreach ($this->paths as $path) {
             if ( ! is_dir($path)) {
-                throw \Exception('invalid path ' . $path);
+                throw \RuntimeException('invalid path ' . $path);
             }
 
             $iterator = new \RegexIterator(

@@ -1,28 +1,39 @@
 {
-    "name": "fezfez/crud-generator",
-    "description": "Zend Framework 2 Module that provides crud functionality",
-    "type": "library",
-    "license": "MIT",
-    "keywords": [
-        "crud",
-        "zf2"
-    ],
-    "authors": [
-        {
-            "name": "Stéphane Demonchaux",
-            "email": "demonchaux.stephane@gmail.com"
-        }
-    ],
-    "require": {
-        "php": ">=5.3.3"
-    },
-    "autoload": {
-        "psr-0": {
-            "CrudGenerator": "src/",
-            "Generators": "src/CrudGenerator/Generators"
-        }
-    },
-    "bin": [
-        "bin/crud-generator"
-    ]
+	"name" : "fezfez/crud-generator",
+	"description" : "Zend Framework 2 Module that provides crud functionality",
+	"type" : "library",
+	"authors" : [{
+			"name" : "Stéphane Demonchaux",
+			"email" : "demonchaux.stephane@gmail.com"
+		}
+	],
+	"keywords" : [
+		"crud",
+		"zf2",
+		"code generator"
+	],
+	"homepage" : "https://github.com/fezfez/crudGenerator",
+	"license" : [
+		"MIT"
+	],
+	"require" : {
+		"symfony/console" : "~2.2",
+		"doctrine/dbal" : "~2.3",
+		"php" : ">=5.3.3",
+		"doctrine/orm" : "~2.3"
+	},
+	"autoload" : {
+		"psr-0" : {
+			"CrudGenerator" : "src/"
+		}
+	},
+	"support" : {
+		"source" : "https://github.com/fezfez/crudGenerator",
+		"email" : "demonchaux.stephane@gmail.com",
+		"issues" : "https://github.com/fezfez/crudGenerator/issues",
+		"wiki" : "https://github.com/fezfez/crudGenerator/blob/master/README.md"
+	},
+	"bin" : [
+		"bin/crud-generator"
+	]
 }

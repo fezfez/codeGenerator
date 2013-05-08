@@ -7,15 +7,12 @@ use CrudGenerator\Generators\DoctrineCrudGeneratorFactory;
 use CrudGenerator\DataObject;
 use CrudGenerator\FileManager;
 
-use Symfony\Component\Console\Command\Command,
-    Symfony\Component\Console\Input\InputInterface,
-    Symfony\Component\Console\Output\OutputInterface,
-    Symfony\Component\Console\Input\InputArgument,
-    Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 use RuntimeException;
 use InvalidArgumentException;
-use ReflectionClass;
 
 
 class CreateCommand extends Command
@@ -28,6 +25,11 @@ class CreateCommand extends Command
              ->setDescription('Generate code based on Doctrine Entity');
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @throws RuntimeException
+     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $sm      = $this->getHelperSet()->get('serviceManager')->getServiceManager();
@@ -70,6 +72,12 @@ class CreateCommand extends Command
         }
     }
 
+    /**
+     * @param OutputInterface $output
+     * @param DialogHelper $dialog
+     * @throws \InvalidArgumentException
+     * @return string
+     */
     private function moduleQuestion($output, $dialog)
     {
         $output->writeln('<question>Modules list</question>');
@@ -90,6 +98,13 @@ class CreateCommand extends Command
         return $dialog->askAndValidate($output, "Choose a target module \n> ", $modulesValidation, false, null, $modulesChoices);
     }
 
+    /**
+     * @param OutputInterface $output
+     * @param InputInterface $input
+     * @param DialogHelper $dialog
+     * @throws \InvalidArgumentException
+     * @return string
+     */
     private function generatorQuestion($output, $input, $dialog)
     {
         $crudFinder = new \CrudGenerator\CrudFinder();
@@ -112,6 +127,13 @@ class CreateCommand extends Command
         return $dialog->askAndValidate($output, "Choose a generators \n> ", $generatorsValidation, false);
     }
 
+    /**
+     * @param OutputInterface $output
+     * @param DialogHelper $dialog
+     * @param array $allMetaData
+     * @throws InvalidArgumentException
+     * @return string
+     */
     private function entityQuestion($output, $dialog, $allMetaData)
     {
         $output->writeln('<question>Entities list</question>');
