@@ -23,7 +23,7 @@ class CrudFinder
         );
 
         foreach ($this->paths as $path) {
-            if ( ! is_dir($path)) {
+            if (!is_dir($path)) {
                 throw \RuntimeException('invalid path ' . $path);
             }
 
@@ -51,7 +51,9 @@ class CrudFinder
             $rc = new \ReflectionClass($className);
             $sourceFile = $rc->getFileName();
             $parentClass = $rc->getParentClass();
-            if (is_object($parentClass) && in_array($sourceFile, $includedFiles) && $parentClass->name == 'CrudGenerator\Generators\BaseCodeGenerator') {
+            if (is_object($parentClass)
+                && in_array($sourceFile, $includedFiles)
+                && $parentClass->name == 'CrudGenerator\Generators\BaseCodeGenerator') {
                 $classes[] = $className;
             }
         }

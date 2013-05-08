@@ -20,9 +20,16 @@ class CrudGenerator extends BaseCodeGenerator
     {
         $this->skeletonDir = __DIR__ . '/Skeleton';
 
-        $writeAction = $this->dialog->askConfirmation($this->output, '<question>Do you want to generate the "write" actions ?</question> ');
+        $writeAction = $this->dialog->askConfirmation(
+            $this->output,
+            '<question>Do you want to generate the "write" actions ?</question> '
+        );
 
-        $this->generateFile($dataObject, '/crud/controller.php.phtml', $dataObject->getControllerPath() . $dataObject->getClassName() . 'Controller.php');
+        $this->generateFile(
+            $dataObject,
+            '/crud/controller.php.phtml',
+            $dataObject->getControllerPath() . $dataObject->getClassName() . 'Controller.php'
+        );
         $this->generateFile($dataObject, '/crud/views/index.phtml.phtml', $dataObject->getViewPath() . 'index.phtml');
 
         if (in_array('show', $dataObject->getActions())) {
@@ -35,7 +42,11 @@ class CrudGenerator extends BaseCodeGenerator
 
         if (in_array('edit', $dataObject->getActions())) {
             $this->generateFile($dataObject, '/crud/views/edit.phtml.phtml', $dataObject->getViewPath() . 'edit.phtml');
-            $this->generateFile($dataObject, '/crud/views/edit-js.phtml.phtml', $dataObject->getViewPath() . 'edit-js.phtml');
+            $this->generateFile(
+                $dataObject,
+                '/crud/views/edit-js.phtml.phtml',
+                $dataObject->getViewPath() . 'edit-js.phtml'
+            );
         }
     }
 }

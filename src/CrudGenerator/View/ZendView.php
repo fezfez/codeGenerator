@@ -1,4 +1,5 @@
 <?php
+
 namespace CrudGenerator\View;
 
 use Zend\View\Model\ViewModel;
@@ -27,15 +28,17 @@ class ZendView
      */
     public function render($path, $templateName, array $datas)
     {
-        $map = new Resolver\TemplateMapResolver(array(
-              $templateName => $path . $templateName,
-        ));
+        $map = new Resolver\TemplateMapResolver(
+            array(
+                $templateName => $path . $templateName,
+            )
+        );
 
         $resolver = new Resolver\TemplateMapResolver($map);
         $this->phprenderer->setResolver($resolver);
 
         $this->zendView->setVariables($datas);
-        $this->zendView->setTemplate($templateName);
+        $this->zendView->setTemplate($templateName)
 
         return $this->phprenderer->render($this->zendView);
     }

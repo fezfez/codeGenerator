@@ -1,5 +1,4 @@
 <?php
-
 namespace CrudGenerator\Command;
 
 use CrudGenerator\MetaData\MetaDataDAOFactory;
@@ -38,37 +37,45 @@ class UpToDateCommand extends Command
             $classList[$class->getName()] = $class;
         }
 
-        if(!glob('data/crudGeneratorHistory/*')) {
+        if (!glob('data/crudGeneratorHistory/*')) {
             $output->writeln('<question>Empty history</question>');
             return;
         }
-        foreach(glob('data/crudGeneratorHistory/*') as $file) {
+        foreach (glob('data/crudGeneratorHistory/*') as $file) {
             $dataObject = unserialize(file_get_contents($file));
 
-            if(!isset($classList[$dataObject->getMetadata()->getName()])) {
+            if (!isset($classList[$dataObject->getMetadata()->getName()])) {
                 $output->writeln('<error>' . $dataObject->getMetadata()->getName() . ' does not exist</error>');
                 continue;
             } else {
                 $newMapping = $classList[$dataObject->getMetadata()->getName()]->fieldMappings;
                 $oldMapping = $dataObject->getMetadata()->fieldMappings;
 
-                if($newMapping === $oldMapping) {
+                if ($newMapping === $oldMapping) {
                     $output->writeln('<info>' . $dataObject->getMetadata()->getName() . ' is up to date !</info>');
                 } else {
-                    $diffs = $this->array_diff_assoc_recursive($newMapping, $oldMapping);
+                    $diffs = $this->arrayDiffAssocRecursive($newMapping, $oldMapping);
 
                     $output->writeln('<error>' . $dataObject->getMetadata()->getName()  . ' is NOT up to date</error>');
                     $output->writeln('<error>Diff</error>');
 
-                    foreach($diffs as $key => $diff) {
+                    $textKeyDefinition = (function ($when, $var) {
+                        return '<error> -------- ' . $when . ' : ' . $var . '</error>';
+                    });
+
+                    foreach ($diffs as $key => $diff) {
                         $output->writeln('<error> - ' . $key . '</error>');
-                        if(!isset($oldMapping[$key])) {
+                        if (!isset($oldMapping[$key])) {
                             $output->writeln('<error> -- before : this key does not exist</error>');
                         } else {
-                            foreach($diff as $toto => $test) {
+                            foreach ($diff as $toto => $test) {
                                 $output->writeln('<error> -- definition : ' . $toto . '</error>');
-                                $output->writeln('<error> -------- before : ' . var_export($oldMapping[$key][$toto], true) . '</error>');
-                                $output->writeln('<error> -------- after  : ' . var_export($newMapping[$key][$toto], true) . '</error>');
+                                $output->writeln(
+                                    $textKeyDefinition('before', var_export($oldMapping[$key][$toto], true))
+                                );
+                                $output->writeln(
+                                    $textKeyDefinition('after', var_export($newMapping[$key][$toto], true))
+                                );
                             }
                         }
                     }
@@ -81,22 +88,22 @@ class UpToDateCommand extends Command
      * http://www.php.net/manual/fr/function.array-diff-assoc.php#111675
      * @param array $array1
      * @param array $array2
-     * @return array  
+     * @return array
      */
-    private function array_diff_assoc_recursive($array1, $array2)
+    private function arrayDiffAssocRecursive($array1, $array2)
     {
         $difference = array();
-        foreach($array1 as $key => $value) {
+        foreach ($array1 as $key => $value) {
             if (is_array($value)) {
                 if (!isset($array2[$key]) || !is_array($array2[$key])) {
                     $difference[$key] = $value;
                 } else {
-                    $new_diff = $this->array_diff_assoc_recursive($value, $array2[$key]);
+                    $new_diff = $this->arrayDiffAssocRecursive($value, $array2[$key]);
                     if (!empty($new_diff)) {
                         $difference[$key] = $new_diff;
                     }
                 }
-            } elseif(!array_key_exists($key, $array2) || $array2[$key] !== $value) {
+            } elseif (!array_key_exists($key, $array2) || $array2[$key] !== $value) {
                 $difference[$key] = $value;
             }
         }

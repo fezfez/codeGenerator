@@ -6,6 +6,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\HelperSet;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceManager;
 
 class CliFactory implements FactoryInterface
 {
@@ -33,18 +34,20 @@ class CliFactory implements FactoryInterface
         if (null === $this->events) {
             /* @var $events \Zend\EventManager\EventManagerInterface */
             $events = $sm->get('EventManager');
-            $events->addIdentifiers(array(
-                __CLASS__,
-                'crudgenerator'
-            ));
+            $events->addIdentifiers(
+                array(
+                    __CLASS__,
+                   'crudgenerator'
+                )
+            );
 
             $this->events = $events;
         }
-    
+
         return $this->events;
     }
-    
-    /**
+
+     /**
      * {@inheritDoc}
      * @return Application
      */

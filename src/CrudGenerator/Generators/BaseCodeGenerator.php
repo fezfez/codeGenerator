@@ -1,5 +1,4 @@
 <?php
-
 namespace CrudGenerator\Generators;
 
 use CrudGenerator\DataObject;
@@ -45,20 +44,20 @@ abstract class BaseCodeGenerator
      * @param InputInterface $input
      * @param GeneriqueQuestions $generiqueQuestion
      */
-    public function __construct(ZendView $zendView,
-                    OutputInterface $output,
-                    FileManager $fileManager,
-                    DialogHelper $dialog,
-                    InputInterface $input,
-                    GeneriqueQuestions $generiqueQuestion)
-    {
+    public function __construct(
+        ZendView $zendView,
+        OutputInterface $output,
+        FileManager $fileManager,
+        DialogHelper $dialog,
+        InputInterface $input,
+        GeneriqueQuestions $generiqueQuestion
+    ) {
         $this->zendView          = $zendView;
         $this->output            = $output;
         $this->fileManager       = $fileManager;
         $this->dialog            = $dialog;
         $this->input             = $input;
         $this->generiqueQuestion = $generiqueQuestion;
-
     }
 
     /**
@@ -78,7 +77,9 @@ abstract class BaseCodeGenerator
         }
 
         if (!in_array('id', $dataObject->getMetadata()->identifier)) {
-            throw new \RuntimeException('The generator expects the entity object has a primary key field named "id" with a getId() method.');
+            throw new \RuntimeException(
+                'The generator expects the entity object has a primary key field named "id" with a getId() method.'
+            );
         }
 
         $this->doGenerate($dataObject);
@@ -100,7 +101,7 @@ abstract class BaseCodeGenerator
      */
     protected function generateFile(DataObject $dataObject, $pathTemplate, $pathTo, array $suppDatas = null)
     {
-        if(null === $suppDatas) {
+        if (null === $suppDatas) {
             $suppDatas = array();
         }
         $datas = array(
@@ -119,7 +120,7 @@ abstract class BaseCodeGenerator
      */
     protected function ifDirDoesNotExistCreate($dir)
     {
-        if(!is_dir($dir)) {
+        if (!is_dir($dir)) {
             $this->fileManager->mkdir($dir);
             $this->output->writeln('--> Create dir ' . $dir);
         }

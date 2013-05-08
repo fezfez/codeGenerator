@@ -22,7 +22,17 @@ class FormGenerator extends BaseCodeGenerator
 
         $this->ifDirDoesNotExistCreate($dataObject->getModule() . '/' . $dataObject->getDirectory() . '/Form/');
 
-        $this->generateFile($dataObject, '/form/FormType.php.phtml', $dataObject->getModule() . '/' . $dataObject->getNamespacePath() . '/Form/' . $dataObject->getEntityName() . 'Form.php');
-        $this->generateFile($dataObject, '/architect/FormBuilder.php.phtml', $dataObject->getModule() . '/' . $dataObject->getNamespacePath() . '/Form/' . $dataObject->getEntityName() . 'FormBuilder.php');
+        $formPath = $dataObject->getModule() . '/' . $dataObject->getNamespacePath() . '/Form/';
+
+        $this->generateFile(
+            $dataObject,
+            '/form/FormType.php.phtml',
+            $formPath . $dataObject->getEntityName() . 'Form.php'
+        );
+        $this->generateFile(
+            $dataObject,
+            '/architect/FormBuilder.php.phtml',
+            $formPath . $dataObject->getEntityName() . 'FormBuilder.php'
+        );
     }
 }

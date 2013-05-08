@@ -14,7 +14,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use RuntimeException;
 use InvalidArgumentException;
 
-
 class CreateCommand extends Command
 {
     protected function configure()
@@ -54,14 +53,17 @@ class CreateCommand extends Command
         $output->writeln('<info>Module : ' . $dataObject->getModule(), '*</info>');
         $output->writeln("<info>Generator : " . $crudGenerator->getDefinition(), "*</info>");
 
-        $doI = $dialog->askConfirmation($output, "\n<question>Do you confirm generation (may others question generator ask you) ?</question> ");
+        $doI = $dialog->askConfirmation(
+            $output,
+            "\n<question>Do you confirm generation (may others question generator ask you) ?</question> "
+        );
 
-        if($doI === true) {
+        if ($doI === true) {
             $fileManager = new FileManager();
-            if(!is_dir('data/crudGeneratorHistory')) {
+            if (!is_dir('data/crudGeneratorHistory')) {
                 $fileManager->mkdir('data/crudGeneratorHistory');
             }
-            if(is_file('data/crudGeneratorHistory/' . md5($entity))) {
+            if (is_file('data/crudGeneratorHistory/' . md5($entity))) {
                 unlink('data/crudGeneratorHistory/' . md5($entity));
             }
             $fileManager->filePutsContent('data/crudGeneratorHistory/' . md5($entity), serialize($dataObject));
@@ -95,7 +97,14 @@ class CreateCommand extends Command
             return $module;
         };
 
-        return $dialog->askAndValidate($output, "Choose a target module \n> ", $modulesValidation, false, null, $modulesChoices);
+        return $dialog->askAndValidate(
+            $output,
+            "Choose a target module \n> ",
+            $modulesValidation,
+            false,
+            null,
+            $modulesChoices
+        );
     }
 
     /**
@@ -111,7 +120,7 @@ class CreateCommand extends Command
         $generators = $crudFinder->getAllClasses();
 
         $output->writeln('<question>Chose a generator</question>');
-        foreach($generators as $number => $generatorClassName) {
+        foreach ($generators as $number => $generatorClassName) {
             $generator = DoctrineCrudGeneratorFactory::getInstance($output, $input, $dialog, $generatorClassName);
             $output->writeln('<comment>' . $number . '. ' . $generator->getDefinition() . '</comment>');
         }
@@ -151,6 +160,13 @@ class CreateCommand extends Command
             return $entity;
         };
 
-        return $dialog->askAndValidate($output, "Full namespace Entity \n> ", $entityValidation, false, null, $entityChoices);
+        return $dialog->askAndValidate(
+            $output,
+            "Full namespace Entity \n> ",
+            $entityValidation,
+            false,
+            null,
+            $entityChoices
+        );
     }
 }

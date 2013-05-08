@@ -14,8 +14,8 @@ namespace CrudGenerator\Diff;
 
 use Exception;
 
-class DiffPHP {
-
+class DiffPHP
+{
     const DEBUG_SYNTAX = false; // set to true to get syntax error data (== broken diffs)
 
     const DIFF_PATH = '/usr/bin/diff';
@@ -69,11 +69,11 @@ class DiffPHP {
      * Constructor. The magic happens here. Once instantiated, the entire
      * process runs
      */
-    public function __construct($left=null, $right=null)
+    public function __construct($left = null, $right = null)
     {
         if (!is_readable($left)) {
             throw new Exception('left not readable' . $left);
-        } elseif(!is_readable($right)) {
+        } elseif (!is_readable($right)) {
             throw new Exception('right not readable' . $right);
         } else {
             $this->left = $left;
@@ -84,7 +84,8 @@ class DiffPHP {
 
         $this->doDiff();
 
-        echo $this->diff;exit;
+        echo $this->diff;
+        exit;
 
         // subject (probably) IS a PHP file:
         if (!isset($_ENV['NODIFFPHP']) && stripos($this->fileContents, '<?') !== false) {
@@ -103,16 +104,18 @@ class DiffPHP {
      * Determines if it's svn (7 args) or cli (2 args), and stores the parsed
      * arguments.
      */
-    protected function parseArgs() {
+    protected function parseArgs()
+    {
         // if this is being called from svn, we'll get 4 arguments
         //   (8th is argv 0 == this script)
-        var_dump($_SERVER['argc']);exit;
+        var_dump($_SERVER['argc']);
+        exit;
         if (8 == $_SERVER['argc']) {
             $this->niceLeft = $_SERVER['argv'][3];
             $this->niceRight = $_SERVER['argv'][5];
             $this->left = $_SERVER['argv'][6];
             $this->right = $_SERVER['argv'][7];
-        } else if (3 == $_SERVER['argc']) {
+        } elseif (3 == $_SERVER['argc']) {
             // 2 arguments means a regular diff
             $this->niceLeft = $_SERVER['argv'][1];
             $this->niceRight = $_SERVER['argv'][2];
@@ -127,7 +130,8 @@ class DiffPHP {
     /**
      * Calls the external diff program to get the base diff
      */
-    protected function doDiff() {
+    protected function doDiff()
+    {
         if (is_readable($this->left) && is_readable($this->right)) {
             $diffCmd = self::DIFF_PATH . ' ' . self::DIFF_OPTS . " {$this->left} {$this->right}";
             $this->diff = `$diffCmd`;
@@ -140,7 +144,8 @@ class DiffPHP {
      * Takes an identifier line (looks like: @@ -30,23 +30,79 @@) and returns
      * the begin line number
      */
-    protected function parseLineNum($identifier) {
+    protected function parseLineNum($identifier)
+    {
         list(,$from) = explode(" ", $identifier);
         list($from) = explode(',', $from);
         return (int) substr($from, 1);
@@ -149,17 +154,19 @@ class DiffPHP {
     /**
      * Sanitizes CRLF or CR into just LF
      */
-    protected function sanitizeLineEndings($data) {
+    protected function sanitizeLineEndings($data)
+    {
         // first, sanitize line endings:
         $data = str_replace("\r\n", "\n", $data);
-        $data = str_replace("\r",   "\n", $data);
+        $data = str_replace("\r", "\n", $data);
         return $data;
     }
 
     /**
      * Actually splits the diff into chunks and stores chunks + line numbers
      */
-    protected function splitDiff() {
+    protected function splitDiff()
+    {
         // now split:
         $this->diff = explode("\n", $this->sanitizeLineEndings($this->diff));
 
@@ -182,7 +189,9 @@ class DiffPHP {
             $dataChunk['identifier'] = $this->diff[$line++];
             $dataChunk['line'] = $this->parseLineNum($dataChunk['identifier']);
             $dataChunk['data'] = array();
-            while ($line < $maxLine && !(substr($this->diff[$line], 0, 2) == '@@' && substr($this->diff[$line], -2) == '@@')) {
+            while ($line < $maxLine
+                && !(substr($this->diff[$line], 0, 2) == '@@'
+                && substr($this->diff[$line], -2) == '@@')) {
                 $dataChunk['data'][] = $this->diff[$line++];
             }
             $this->chunks[] = $dataChunk;
@@ -193,7 +202,8 @@ class DiffPHP {
      * Reconstructs the diff (with adjusted identifier lines, and outputs the
      * result)
      */
-    protected function reconstructDiff() {
+    protected function reconstructDiff()
+    {
         $out = "--- {$this->niceLeft}\n+++ {$this->niceRight}\n";
         foreach ($this->chunks as $chunk) {
             $out .= $chunk['identifier'] . "\n";
@@ -205,8 +215,8 @@ class DiffPHP {
     /**
      * Matches the chunk map to the line map
      */
-    protected function determineHierarchy() {
-
+    protected function determineHierarchy()
+    {
         for ($chunknum=0; $chunknum < count($this->chunks); $chunknum++) {
             $this->chunks[$chunknum]['identifier'] .= $this->getIdentifier($this->chunks[$chunknum]['line']);
         }
@@ -232,7 +242,7 @@ class DiffPHP {
                 }
                 if (isset($ctable['function_table'])) {
                     foreach ($ctable['function_table'] as $function => $ftable) {
-                        if ($line >= $ftable['line_start'] && $line <= $ftable['line_end']){
+                        if ($line >= $ftable['line_start'] && $line <= $ftable['line_end']) {
                             return " {$class}::{$function}()";
                         }
                     }
@@ -244,7 +254,7 @@ class DiffPHP {
         // now check for a function:
         if (isset($this->parsedLeft['function_table'])) {
             foreach ($this->parsedLeft['function_table'] as $function => $ftable) {
-                if ($line >= $ftable['line_start'] && $line <= $ftable['line_end']){
+                if ($line >= $ftable['line_start'] && $line <= $ftable['line_end']) {
                     return " {$function}()";
                 }
             }

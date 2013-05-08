@@ -42,17 +42,24 @@ class GeneriqueQuestions
      */
     public function directoryQuestion(DataObject $dataObject)
     {
-        if(null === $this->directoryResponse) {
+        if (null === $this->directoryResponse) {
             $moduleName = $dataObject->getModule();
             $directoryValidation = function ($directory) use ($moduleName) {
                 if (!is_dir($moduleName . '/' . $directory)) {
-                    throw new \InvalidArgumentException(sprintf('Directory "%s" does not exist.', $moduleName . $directory));
+                    throw new \InvalidArgumentException(
+                        sprintf('Directory "%s" does not exist.', $moduleName . $directory)
+                    );
                 }
 
                 return $directory;
             };
 
-            $this->directoryResponse = $this->dialog->askAndValidate($this->output, 'Choose a target directory ', $directoryValidation, false, null);
+            $this->directoryResponse = $this->dialog->askAndValidate(
+                $this->output,
+                'Choose a target directory ',
+                $directoryValidation,
+                false
+            );
         }
 
         return $this->directoryResponse;
@@ -63,7 +70,7 @@ class GeneriqueQuestions
      */
     public function namespaceQuestion()
     {
-        if(null === $this->namespaceResponse) {
+        if (null === $this->namespaceResponse) {
             $this->namespaceResponse   = $this->dialog->ask($this->output, 'Choose a target namespace ');
         }
 

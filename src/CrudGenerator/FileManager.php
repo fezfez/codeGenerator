@@ -11,7 +11,7 @@ class FileManager
      */
     public function mkdir($pathname)
     {
-        if(!mkdir($pathname, 0777)) {
+        if (!mkdir($pathname, 0777)) {
             throw new RuntimeException(sprintf("Could't create %s", $pathname));
         }
     }

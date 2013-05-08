@@ -43,7 +43,7 @@ class Module implements
     public function getServiceConfig()
     {
         return array(
-            'factories' => array(
+                'factories' => array(
                 'crudgenerator.cli' => 'CrudGenerator\Service\CliFactory',
             ),
         );
@@ -59,25 +59,31 @@ class Module implements
         $events = $app->getEventManager()->getSharedManager();
 
         // Attach to helper set event and load the entity manager helper.
-        $events->attach('crudgenerator', 'loadCli.post', function(EventInterface $e) {
-            /* @var $cli \Symfony\Component\Console\Application */
-            $cli = $e->getTarget();
+        $events->attach(
+            'crudgenerator',
+            'loadCli.post',
+            function (EventInterface $e) {
+                /* @var $cli \Symfony\Component\Console\Application */
+                $cli = $e->getTarget();
 
-            $cli->addCommands(array(
-                new CreateCommand(),
-                new UpToDateCommand(),
-            ));
+                $cli->addCommands(
+                    array(
+                        new CreateCommand(),
+                        new UpToDateCommand(),
+                    )
+                );
 
-            /* @var $sm ServiceLocatorInterface */
-            $sm = $e->getParam('ServiceManager');
-            /* @var $em \Doctrine\ORM\EntityManager */
-            $em = $sm->get('doctrine.entitymanager.orm_default');
-            $helperSet = $cli->getHelperSet();
-            $helperSet->set(new DialogHelper(), 'dialog');
-            $helperSet->set(new FormatterHelper(), 'formatter');
-            $helperSet->set(new ConnectionHelper($em->getConnection()), 'db');
-            $helperSet->set(new EntityManagerHelper($em), 'em');
-            $helperSet->set(new ServiceManagerHelper($sm), 'sm');
-        });
+                /* @var $sm ServiceLocatorInterface */
+                $sm = $e->getParam('ServiceManager');
+                /* @var $em \Doctrine\ORM\EntityManager */
+                $em = $sm->get('doctrine.entitymanager.orm_default');
+                $helperSet = $cli->getHelperSet();
+                $helperSet->set(new DialogHelper(), 'dialog');
+                $helperSet->set(new FormatterHelper(), 'formatter');
+                $helperSet->set(new ConnectionHelper($em->getConnection()), 'db');
+                $helperSet->set(new EntityManagerHelper($em), 'em');
+                $helperSet->set(new ServiceManagerHelper($sm), 'sm');
+            }
+        );
     }
 }
