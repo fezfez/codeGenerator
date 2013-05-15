@@ -1,0 +1,25 @@
+<?php echo '<?php' . "\n"; ?>
+
+namespace <?php echo $this->namespace; ?>;
+
+use <?php echo $this->namespace; ?>\Form\<?php echo $this->entity_class; ?>FormBuilder;
+use <?php echo $this->namespace; ?>\Hydrator\<?php echo $this->entity_class; ?>Hydrator;
+
+class <?php echo $this->entity_class; ?>FormBuilderFactory
+{
+    private function __construct()
+    {
+    
+    }
+
+    /**
+     * @return <?php echo $this->namespace; ?>\Form\<?php echo $this->entity_class; ?>FormBuilder
+     */
+    public static function getInstance()
+    {
+        $router = \Zend_Controller_Front::getInstance()->getRouter();
+        $hydrator = new <?php echo $this->entity_class; ?>Hydrator();
+
+        return new <?php echo $this->entity_class; ?>FormBuilder($router, $hydrator);
+    }
+}

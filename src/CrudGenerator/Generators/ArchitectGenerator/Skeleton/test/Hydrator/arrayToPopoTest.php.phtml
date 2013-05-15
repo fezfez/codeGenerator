@@ -1,0 +1,55 @@
+<?php echo '<?php' . "\n"; ?>
+namespace <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\Hydrator;
+
+use ApplicationTest\FixtureManager;
+use <?php echo $this->dataObject->getNamespace(); ?>\DAO\<?php echo $this->dataObject->getEntityName(); ?>DAO;
+use <?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObject;
+use <?php echo $this->dataObject->getNamespace(); ?>\Hydrator\<?php echo $this->dataObject->getEntityName(); ?>Hydrator;
+use <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\<?php echo $this->dataObject->getEntityName(); ?>Fixture;
+
+<?php
+    $loremIpsumGenerator = new \CrudGenerator\Generators\LoremIpsumGenerator();
+?>
+class arrayToPopoTest extends \PHPUnit_Framework_TestCase
+{
+    public function testArrayToPopo()
+    {
+    $arrayDto = array();
+<?php
+$fixtureRender = (function($metadata) use($loremIpsumGenerator) {
+    if($metadata['type'] == 'integer' || $metadata['type'] == 'float') {
+        return rand(0, 50);
+    } elseif($metadata['type'] == 'string') {
+        return '"' . substr($loremIpsumGenerator->getContent($metadata['length'], 'plain'), 0, $metadata['length']) . '"';
+    } elseif($metadata['type'] == 'date') {
+        return 'new DateTime()';
+    } elseif($metadata['type'] == 'bool') {
+        return 'true';
+    }
+});
+
+$keyTestable = array();
+foreach($this->dataObject->getMetadata()->fieldMappings as $field => $metadata):
+if(isset($metadata['id']) && $metadata['id'] == true) {
+    continue;
+}
+$keyToTest = null;
+$modifiedValue = $fixtureRender($metadata);
+?>
+       $arrayDto['<?php echo $field; ?>'] = <?php echo $fixtureRender($metadata); ?>;
+<?php endforeach; ?>
+
+       $hydrator = new <?php echo $this->dataObject->getEntityName(); ?>Hydrator();
+       $dto = $hydrator->arrayToPopo($arrayDto, new <?php echo $this->dataObject->getEntityName(); ?>DataObject());
+
+<?php foreach($this->dataObject->getMetadata()->fieldMappings as $field => $metadata): ?>
+<?php
+if(isset($metadata['id']) && $metadata['id'] == true) {
+    continue;
+}
+?>
+        $this->assertEquals($dto->get<?php echo ucfirst($field); ?>(), $arrayDto['<?php echo $field; ?>']);
+<?php endforeach; ?>
+    }
+}
+
