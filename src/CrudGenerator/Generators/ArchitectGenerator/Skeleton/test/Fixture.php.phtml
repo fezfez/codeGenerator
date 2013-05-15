@@ -20,7 +20,7 @@ class <?php echo $this->dataObject->getEntityName(); ?>Fixture implements Fixtur
 <?php
 
 $fixtureRender = (function($metadata) use($loremIpsumGenerator) {
-    if($metadata['type'] == 'integer') {
+    if($metadata['type'] == 'integer' || $metadata['type'] == 'float') {
         return rand(0, 50);
     } elseif($metadata['type'] == 'string') {
         return '"' . substr($loremIpsumGenerator->getContent($metadata['length'], 'plain'), 0, $metadata['length']) . '"';

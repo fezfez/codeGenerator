@@ -38,7 +38,7 @@ class ZendView
         $this->phprenderer->setResolver($resolver);
 
         $this->zendView->setVariables($datas);
-        $this->zendView->setTemplate($templateName)
+        $this->zendView->setTemplate($templateName);
 
         return $this->phprenderer->render($this->zendView);
     }

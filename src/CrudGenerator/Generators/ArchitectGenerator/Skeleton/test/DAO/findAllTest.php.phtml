@@ -20,7 +20,7 @@ class findAllTest extends \PHPUnit_Framework_TestCase
         $<?php echo $this->dataObject->getEntityName(); ?>Data = $<?php echo $this->dataObject->getEntityName(); ?>DAO->findAll();
 
         $this->assertEquals(1, $<?php echo $this->dataObject->getEntityName(); ?>Data->count());
-        $this->assertInstanceOf('<?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObjectCollection', $<?php echo $this->dataObject->getEntityName(); ?>Data);
+        $this->assertInstanceOf('<?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>Collection', $<?php echo $this->dataObject->getEntityName(); ?>Data);
     }
 }
 

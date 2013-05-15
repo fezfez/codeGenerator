@@ -1,64 +1,71 @@
-<?php
-
-namespace ApplicationTest\Model\Corp\Client\ClientDAO;
-
-use DateTime;
+<?php echo '<?php' . "\n"; ?>
+namespace <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\DAO;
 
 use ApplicationTest\FixtureManager;
+use <?php echo $this->dataObject->getNamespace(); ?>\DAO\<?php echo $this->dataObject->getEntityName(); ?>DAO;
+use <?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObject;
+use <?php echo $this->dataObject->getNamespace(); ?>\Hydrator\<?php echo $this->dataObject->getEntityName(); ?>Hydrator;
+use <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\<?php echo $this->dataObject->getEntityName(); ?>Fixture;
 
-use Corp\Client\ClientDAO;
-use Corp\Client\ClientDataObject;
-
+<?php
+    $loremIpsumGenerator = new \CrudGenerator\Generators\LoremIpsumGenerator();
+?>
 class persistTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCorrectResult()
+    public function testPersist()
     {
         FixtureManager::purge();
         $em = FixtureManager::getEm();
 
-        $numAdeli = 'my_numadeli';
-        $logiciel = 'logiciel';
-        $niveau = 'niveau';
-        $clef = 'clef';
-        $nivUtil = 'nivUtil';
-        $nom = 'nom';
-        $prenom = 'prenom';
-        $typeContract = 'typeContract';
-        $version = 'version';
-        $dateFin = new DateTime();
+<?php
+$fixtureRender = (function($metadata) use($loremIpsumGenerator) {
+    if($metadata['type'] == 'integer' || $metadata['type'] == 'float') {
+        return rand(0, 50);
+    } elseif($metadata['type'] == 'string') {
+        return '"' . substr($loremIpsumGenerator->getContent($metadata['length'], 'plain'), 0, $metadata['length']) . '"';
+    } elseif($metadata['type'] == 'date') {
+        return 'new DateTime()';
+    } elseif($metadata['type'] == 'bool') {
+        return 'true';
+    }
+});
 
-        $dataObject = new ClientDataObject();
-        $dataObject->setClef($clef)
-                   ->setLogiciel($logiciel)
-                   ->setNiveau($niveau)
-                   ->setNivUtil($nivUtil)
-                   ->setNoAdeli($numAdeli)
-                   ->setNom($nom)
-                   ->setPrenom($prenom)
-                   ->setTypeContract($typeContract)
-                   ->setVersion($version)
-                   ->setDateFin($dateFin);
+$keyTestable = array();
+foreach($this->dataObject->getMetadata()->fieldMappings as $field => $metadata):
+if(isset($metadata['id']) && $metadata['id'] == true) {
+    continue;
+}
+$keyToTest = null;
+?>
+        $<?php echo $field; ?> = <?php echo $fixtureRender($metadata); ?>;
+<?php endforeach; ?>
 
-        $clientDAO = new ClientDAO($em);
-        $clientDAO->persist($dataObject);
+        $dto = new <?php echo $this->dataObject->getEntityName(); ?>DataObject();
+        $dto<?php foreach($this->dataObject->getMetadata()->fieldMappings as $field => $metadata): ?>
+<?php
+if(isset($metadata['id']) && $metadata['id'] == true) {
+    continue;
+}
+if(null === $keyToTest) {
+    $keyToTest = $field;
+}
+?>
+           ->set<?php echo ucfirst($field); ?>($<?php echo $field; ?>)<?php if($metadata == end($this->dataObject->getMetadata()->fieldMappings)): ?>;<?php endif; ?><?php echo "\n"; ?>
+<?php endforeach; ?>
 
-        $clefXcabEntity = $em->getRepository('\Corp\Client\ClefXcabEntity')->findOneBy(array('noAdeli' => $numAdeli));
-        $clientXcabEntity = $em->getRepository('\Corp\Client\ClientXcabEntity')->findOneBy(array('noAdeli' => $numAdeli));
-        $contratXcab = $em->getRepository('\Corp\Doctrine\Entity\ContratXcab')->findOneBy(array('noAdeli' => $numAdeli));
+        $<?php echo $this->dataObject->getEntityName(); ?>DAO = new <?php echo $this->dataObject->getEntityName(); ?>DAO($em, new <?php echo $this->dataObject->getEntityName(); ?>Hydrator());
+        $<?php echo $this->dataObject->getEntityName(); ?>DAO->persist($dto);
 
-        $this->assertEquals($clef, $clefXcabEntity->getClef());
-        $this->assertEquals($numAdeli, $clefXcabEntity->getNoAdeli());
-        $this->assertEquals($version, $clefXcabEntity->getVersion());
+        $entity = $em->getRepository('<?php echo $this->dataObject->getEntity(); ?>')->findOneBy(array('<?php echo $keyToTest; ?>' => $<?php echo $keyToTest; ?>));
 
-        $this->assertEquals($logiciel, $clientXcabEntity->getLogiciel());
-        $this->assertEquals($niveau, $clientXcabEntity->getNiveau());
-        $this->assertEquals($nivUtil, $clientXcabEntity->getNivUtil());
-        $this->assertEquals($numAdeli, $clientXcabEntity->getNoAdeli());
-        $this->assertEquals($nom, $clientXcabEntity->getNom());
-        $this->assertEquals($prenom, $clientXcabEntity->getPrenom());
-
-        $this->assertEquals($dateFin, $contratXcab->getDateFin());
-        $this->assertEquals($numAdeli, $contratXcab->getNoAdeli());
-        $this->assertEquals($typeContract, $contratXcab->getTypeContrat());
+<?php foreach($this->dataObject->getMetadata()->fieldMappings as $field => $metadata): ?>
+<?php
+if(isset($metadata['id']) && $metadata['id'] == true) {
+    continue;
+}
+?>
+        $this->assertEquals($<?php echo $field; ?>, $entity->get<?php echo ucfirst($field); ?>());
+<?php endforeach; ?>
     }
 }
+

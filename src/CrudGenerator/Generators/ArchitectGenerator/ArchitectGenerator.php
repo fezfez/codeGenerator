@@ -21,7 +21,7 @@ class ArchitectGenerator extends BaseCodeGenerator
         $DTO->setNamespace($this->generiqueQuestion->namespaceQuestion());
 
         $basePath   = $DTO->getModule() . '/' . $DTO->getDirectory();
-        $entityName = $entityName;
+        $entityName = $DTO->getEntityName();
 
         $this->ifDirDoesNotExistCreate($basePath . '/DAO/');
         $this->ifDirDoesNotExistCreate($basePath . '/Hydrator/');
@@ -96,6 +96,43 @@ class ArchitectGenerator extends BaseCodeGenerator
             $DTO,
             '/test/DAO/findAllTest.php.phtml',
             $unitTestDirectory . $allDir . 'DAO/findAllTest.php',
+            $suppdatas
+        );
+
+        $this->generateFile(
+            $DTO,
+            '/test/DAO/persistTest.php.phtml',
+            $unitTestDirectory . $allDir . 'DAO/persitTest.php',
+            $suppdatas
+        );
+
+        $this->generateFile(
+            $DTO,
+            '/test/DAO/modifyTest.php.phtml',
+            $unitTestDirectory . $allDir . 'DAO/modifyTest.php',
+            $suppdatas
+        );
+
+        $this->generateFile(
+            $DTO,
+            '/test/DAO/removeTest.php.phtml',
+            $unitTestDirectory . $allDir . 'DAO/removeTest.php',
+            $suppdatas
+        );
+
+        $this->ifDirDoesNotExistCreate($unitTestDirectory . $allDir . '/Hydrator');
+
+        $this->generateFile(
+            $DTO,
+            '/test/Hydrator/arrayToPopoTest.php.phtml',
+            $unitTestDirectory . $allDir . 'Hydrator/arrayToPopoTest.php',
+            $suppdatas
+        );
+
+        $this->generateFile(
+            $DTO,
+            '/test/Hydrator/popoToArrayTest.php.phtml',
+            $unitTestDirectory . $allDir . 'Hydrator/popoToArrayTest.php',
             $suppdatas
         );
     }

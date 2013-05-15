@@ -30,13 +30,13 @@ class <?php echo $this->dataObject->getEntityName(); ?>DAO
     }
 
     /**
-     * @param DataObject $<?php echo $this->dataObject->getEntityName(); ?>
+     * @param DataObject $<?php echo lcfirst($this->dataObject->getEntityName()) . "\n"; ?>
      * @throws No<?php echo $this->dataObject->getEntityName(); ?>Exception
      * @return <?php echo $this->dataObject->getEntityName(); ?>DataObject
      */
-    public function find(<?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo $this->dataObject->getEntityName(); ?>)
+    public function find(<?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo lcfirst($this->dataObject->getEntityName()); ?>)
     {
-        $entity = $this->em->getRepository('<?php echo $this->dataObject->getEntity(); ?>')->findOneBy(array('id' => $<?php echo $this->dataObject->getEntityName(); ?>->getId()));
+        $entity = $this->em->getRepository('<?php echo $this->dataObject->getEntity(); ?>')->findOneBy(array('id' => $<?php echo lcfirst($this->dataObject->getEntityName()); ?>->getId()));
 
         if(empty($entity)) {
             throw new No<?php echo $this->dataObject->getEntityName(); ?>Exception('<?php echo $this->dataObject->getEntityName(); ?> not found');
@@ -63,13 +63,13 @@ class <?php echo $this->dataObject->getEntityName(); ?>DAO
     }
 
     /**
-     * @param <?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo $this->dataObject->getEntityName(); ?>
+     * @param <?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo lcfirst($this->dataObject->getEntityName()) . "\n"; ?>
      * @return <?php echo $this->dataObject->getEntityName(); ?>DataObject
      */
-    public function persist(<?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo $this->dataObject->getEntityName(); ?>)
+    public function persist(<?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo lcfirst($this->dataObject->getEntityName()); ?>)
     {
         $entity = $this->hydrator->popoToEntity(
-            $<?php echo $this->dataObject->getEntityName(); ?>,
+            $<?php echo lcfirst($this->dataObject->getEntityName()); ?>,
             new <?php echo $this->dataObject->getEntityName(); ?>()
         );
 
@@ -83,19 +83,19 @@ class <?php echo $this->dataObject->getEntityName(); ?>DAO
     }
 
     /**
-     * @param <?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo $this->dataObject->getEntityName(); ?>
+     * @param <?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo lcfirst($this->dataObject->getEntityName()) . "\n"; ?>
      * @return <?php echo $this->dataObject->getEntityName(); ?>DataObject
      */
-    public function modify(<?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo $this->dataObject->getEntityName(); ?>)
+    public function modify(<?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo lcfirst($this->dataObject->getEntityName()); ?>)
     {
-        $entity = $this->em->getRepository('<?php echo $this->dataObject->getEntity(); ?>')->findOneBy(array('id' => $<?php echo $this->dataObject->getEntityName(); ?>->getId()));
+        $entity = $this->em->getRepository('<?php echo $this->dataObject->getEntity(); ?>')->findOneBy(array('id' => $<?php echo lcfirst($this->dataObject->getEntityName()); ?>->getId()));
 
         if(empty($entity)) {
             throw new No<?php echo $this->dataObject->getEntityName(); ?>Exception('<?php echo $this->dataObject->getEntityName(); ?> not found');
         }
 
         $entity = $this->hydrator->popoToEntity(
-            $<?php echo $this->dataObject->getEntityName(); ?>,
+            $<?php echo lcfirst($this->dataObject->getEntityName()); ?>,
             $entity
         );
 
@@ -108,15 +108,19 @@ class <?php echo $this->dataObject->getEntityName(); ?>DAO
         );
     }
 
-    public function remove(<?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo $this->dataObject->getEntityName(); ?>)
+    /**
+     * @param <?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo lcfirst($this->dataObject->getEntityName()) . "\n"; ?>
+     * @throws @throws No<?php echo $this->dataObject->getEntityName(); ?>Exception
+     */
+    public function remove(<?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo lcfirst($this->dataObject->getEntityName()); ?>)
     {
-        $entity = $this->em->getRepository('<?php echo $this->dataObject->getEntity(); ?>')->findOneBy(array('id' => $<?php echo $this->dataObject->getEntityName(); ?>->getId()));
+        $entity = $this->em->getRepository('<?php echo $this->dataObject->getEntity(); ?>')->findOneBy(array('id' => $<?php echo lcfirst($this->dataObject->getEntityName()); ?>->getId()));
 
         if(empty($entity)) {
             throw new No<?php echo $this->dataObject->getEntityName(); ?>Exception('<?php echo $this->dataObject->getEntityName(); ?> not found');
         }
 
-        $em->remove($entity);
-        $em->flush();
+        $this->em->remove($entity);
+        $this->em->flush();
     }
 }
