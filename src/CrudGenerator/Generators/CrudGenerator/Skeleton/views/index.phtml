@@ -4,7 +4,7 @@
     <thead>
         <tr>
         <?php foreach($this->fields as $field => $metadata): ?>
-            <th><?php echo $field; ?></th>
+            <th><?php echo $metadata->getName(); ?></th>
         <?php endforeach; ?>
             <th>Actions</th>
         </tr>
@@ -15,7 +15,7 @@
             <?php foreach($this->fields as $field => $metadata): ?>
                 <?php if($metadata == reset($this->fields) && in_array('show', $this->actions)): ?>
                     <td><a href=""><?php echo '<?php echo $entity->get' . $field . '(); ?>'; ?></a></td>
-                <?php elseif(in_array($metadata['type'], array("date", "datetime"))): ?>
+                <?php elseif(in_array($metadata->getType(), array("date", "datetime"))): ?>
                     <td><?php echo '<?php echo $entity->get' . $field . '()->format(\'Y-m-d H:i:s\'); ?>'; ?></td>
                 <?php else: ?>
                     <td><?php echo '<?php echo $entity->get' . $field . '(); ?>'; ?></td>

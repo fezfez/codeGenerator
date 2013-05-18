@@ -48,8 +48,8 @@ class UpToDateCommand extends Command
                 $output->writeln('<error>' . $dataObject->getMetadata()->getName() . ' does not exist</error>');
                 continue;
             } else {
-                $newMapping = $classList[$dataObject->getMetadata()->getName()]->fieldMappings;
-                $oldMapping = $dataObject->getMetadata()->fieldMappings;
+                $newMapping = $classList[$dataObject->getMetadata()->getName()]->getColumnCollection();
+                $oldMapping = $dataObject->getMetadata()->getColumnCollection();
 
                 if ($newMapping === $oldMapping) {
                     $output->writeln('<info>' . $dataObject->getMetadata()->getName() . ' is up to date !</info>');

@@ -32,8 +32,8 @@ if(isset($field['id']) && $field['id'] == true) {
 }
 $length = str_repeat(' ', strlen('a' . $field['fieldName']));
 ?>
-            $<?php echo $field['fieldName']; ?> = new \Zend_Form_Element_<?php echo $type; ?>('<?php echo $field['fieldName']; ?>');
-            $<?php echo $field['fieldName']; ?>->setLabel('<?php echo $field['fieldName']; ?>')
+            $<?php echo $metadata->getName()['fieldName']; ?> = new \Zend_Form_Element_<?php echo $type; ?>('<?php echo $metadata->getName()['fieldName']; ?>');
+            $<?php echo $metadata->getName()['fieldName']; ?>->setLabel('<?php echo $metadata->getName()['fieldName']; ?>')
 <?php if ($field['nullable'] === false && isset($field['id']) && $field['id'] === false): ?>
             <?php echo $length; ?>->setRequired(true)
 <?php endif; ?>
@@ -60,7 +60,7 @@ $length = str_repeat(' ', strlen('a' . $field['fieldName']));
             <?php echo $length; ?>->addValidator(new \Zend_Validate_Date())
 <?php endif; ?>
             <?php echo $length; ?>->setDecorators($this->_defaultDecorators);
-            $this->addElement($<?php echo $field['fieldName']; ?>);<?php echo "\n\r"; ?>
+            $this->addElement($<?php echo $metadata->getName()['fieldName']; ?>);<?php echo "\n\r"; ?>
 <?php endforeach; ?>
 
         $submit = new \Zend_Form_Element_Submit("submit");
@@ -75,11 +75,11 @@ $length = str_repeat(' ', strlen('a' . $field['fieldName']));
         $dataObject = new <?php echo $this->entity_class; ?>DataObject();
 <?php foreach($this->fields as $field => $metadata): ?>
 <?php if($metadata == reset($this->fields)): ?>
-        $dataObject->set<?php echo $field; ?>($this->getValue('<?php echo $field; ?>'))<?php echo "\n"; ?>
-<?php elseif(in_array($metadata['type'], array("date", "datetime"))): ?>
-                   ->set<?php echo $field; ?>(new \DateTime($this->getValue('<?php echo $field; ?>')))<?php if($metadata == end($this->fields)): ?>;<?php endif; ?><?php echo "\n"; ?>
+        $dataObject->set<?php echo $metadata->getName(); ?>($this->getValue('<?php echo $metadata->getName(); ?>'))<?php echo "\n"; ?>
+<?php elseif(in_array($metadata->getType(), array("date", "datetime"))): ?>
+                   ->set<?php echo $metadata->getName(); ?>(new \DateTime($this->getValue('<?php echo $metadata->getName(); ?>')))<?php if($metadata == end($this->fields)): ?>;<?php endif; ?><?php echo "\n"; ?>
 <?php else: ?>
-                   ->set<?php echo $field; ?>($this->getValue('<?php echo $field; ?>'))<?php if($metadata == end($this->fields)): ?>;<?php endif; ?><?php echo "\n"; ?>
+                   ->set<?php echo $metadata->getName(); ?>($this->getValue('<?php echo $metadata->getName(); ?>'))<?php if($metadata == end($this->fields)): ?>;<?php endif; ?><?php echo "\n"; ?>
 <?php endif; ?>
 <?php endforeach; ?>
 

@@ -20,7 +20,7 @@ if(isset($field['id']) && $field['id'] == true) {
     $type = 'text';
 }
 ?>
-        $this->addElement('<?php echo $type; ?>', '<?php echo $field['fieldName']; ?>',
+        $this->addElement('<?php echo $type; ?>', '<?php echo $metadata->getName()['fieldName']; ?>',
             array(<?php if ($field['type'] == 'datetime'): ?>
                 'class' => 'datepicker',<?php endif; ?>
                 'label' => '<?php echo ucfirst($field['fieldName']); ?>',

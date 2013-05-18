@@ -5,9 +5,9 @@
      <?php foreach($this->fields as $field => $metadata): ?>
 
         <tr>
-            <th><?php echo $field; ?></th>
+            <th><?php echo $metadata->getName(); ?></th>
 
-        <?php if(in_array($metadata['type'], array("date", "datetime"))): ?>
+        <?php if(in_array($metadata->getType(), array("date", "datetime"))): ?>
 
             <?php echo '<?php echo $entity->get' . $field . '()->format(\'Y-m-d H:i:s\');' ?>'; ?>
 

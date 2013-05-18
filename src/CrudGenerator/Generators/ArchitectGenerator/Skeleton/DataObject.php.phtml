@@ -3,32 +3,69 @@ namespace <?php echo $this->dataObject->getNamespace(); ?>\DataObject;
 
 class <?php echo $this->dataObject->getEntityName(); ?>DataObject
 {
-<?php foreach($this->dataObject->getMetadata()->fieldMappings as $field => $metadata): ?>
+<?php
+/* Traitement des champs */
+foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
     /**
-     * @var <?php echo $metadata['type'] . "\n"; ?>
+     * @var <?php echo $metadata->getType() . "\n"; ?>
      */
-    private $<?php echo $field; ?> = null;
+    private $<?php echo $metadata->getName(); ?> = null;
 <?php endforeach; ?>
 
-<?php foreach($this->dataObject->getMetadata()->fieldMappings as $field => $metadata): ?>
+<?php
+/* Traitement des FK */
+foreach($this->dataObject->getMetadata()->getRelationCollection() as $field => $metadata): ?>
     /**
-     * @param <?php echo $metadata['type']; ?> $value
+     * @var \<?php echo $metadata['targetEntity'] . "\n"; ?>
+     */
+    private $<?php echo $metadata->getName(); ?> = null;
+<?php endforeach; ?>
+
+<?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
+    /**
+     * @param <?php echo $metadata->getType(); ?> $value
      * @return \<?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObject
      */
-    public function set<?php echo ucfirst($field); ?>($value)
+    public function set<?php echo ucfirst($metadata->getName()); ?>($value)
     {
-        $this-><?php echo $field; ?> = $value;
+        $this-><?php echo $metadata->getName(); ?> = $value;
         return $this;
     }
 <?php endforeach; ?>
 
-<?php foreach($this->dataObject->getMetadata()->fieldMappings as $field => $metadata): ?>
+<?php
+/* Traitement des FK */
+foreach($this->dataObject->getMetadata()->getRelationCollection() as $field => $metadata): ?>
     /**
-     * @return <?php echo $metadata['type'] . "\n"; ?>
+     * @param \<?php echo $metadata['targetEntity']; ?> $value
+     * @return \<?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObject
      */
-    public function get<?php echo ucfirst($field); ?>()
+    public function set<?php echo ucfirst($metadata->getName()); ?>(<?php echo $metadata['targetEntity']; ?> $value)
     {
-        return $this-><?php echo $field; ?>;
+        $this-><?php echo $metadata->getName(); ?> = $value;
+        return $this;
+    }
+<?php endforeach; ?>
+
+<?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
+    /**
+     * @return <?php echo $metadata->getType() . "\n"; ?>
+     */
+    public function get<?php echo ucfirst($metadata->getName()); ?>()
+    {
+        return $this-><?php echo $metadata->getName(); ?>;
+    }
+<?php endforeach; ?>
+
+<?php
+/* Traitement des FK */
+foreach($this->dataObject->getMetadata()->getRelationCollection() as $field => $metadata): ?>
+    /**
+     * @return \<?php echo $metadata['targetEntity'] . "\n"; ?>
+     */
+    public function get<?php echo ucfirst($metadata->getName()); ?>()
+    {
+        return $this-><?php echo $metadata->getName(); ?>;
     }
 <?php endforeach; ?>
 }

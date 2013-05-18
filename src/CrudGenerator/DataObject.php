@@ -1,7 +1,7 @@
 <?php
 namespace CrudGenerator;
 
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use CrudGenerator\MetaData\DataObject\MetaDataDataObject;
 
 class DataObject
 {
@@ -22,7 +22,7 @@ class DataObject
         $this->entity = $value;
         return $this;
     }
-    public function setMetadata(ClassMetadataInfo $value)
+    public function setMetadata(MetaDataDataObject $value)
     {
         $this->metadata = $value;
         return $this;

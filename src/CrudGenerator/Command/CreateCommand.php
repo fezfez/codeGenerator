@@ -35,16 +35,18 @@ class CreateCommand extends Command
         $dialog  = $this->getHelperSet()->get('dialog');
         $config  = include 'config/application.config.php';
 
-        $metaDataDAO = MetaDataDAOFactory::getInstance($sm);
+        $adapter        = $this->adapterQuestion($output, $dialog);
+        $adapterFactory = $adapter->getFactory();
+        $adapterDAO     = $adapterFactory::getInstance($sm);
 
-        $entity     = $this->entityQuestion($output, $dialog, $metaDataDAO->getAllMetadata());
+        $entity     = $this->entityQuestion($output, $dialog, $adapterDAO->getAllMetadata());
         $moduleName = $this->moduleQuestion($output, $dialog);
         $generator  = $this->generatorQuestion($output, $input, $dialog);
 
         $dataObject = new DataObject();
         $dataObject->setEntity($entity)
                    ->setModule($moduleName)
-                   ->setMetaData($metaDataDAO->getEntityMetadata($entity));
+                   ->setMetaData($adapterDAO->getMetadataFor($entity));
 
         $crudGenerator = DoctrineCrudGeneratorFactory::getInstance($output, $input, $dialog, $generator);
 
@@ -72,6 +74,52 @@ class CreateCommand extends Command
         } else {
             throw new RuntimeException('Command aborted');
         }
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @param DialogHelper $dialog
+     * @throws \InvalidArgumentException
+     * @return string
+     */
+    private function adapterQuestion($output, $dialog)
+    {
+        $adapterFinder   = new \CrudGenerator\Adapter\AdapterFinder();
+        $adaptersCollection = $adapterFinder->getAllClasses();
+        $output->writeln('<question>Adapters list</question>');
+        foreach($adaptersCollection as $adapter) {
+            $falseDependencies = $adapter->getFalseDependencies();
+            $output->writeln('<comment>' . $adapter->getName() . '</comment>');
+            $output->writeln('<comment>' . $adapter->getDefinition() . '</comment>');
+            if(!empty($falseDependencies)) {
+                $output->writeln('<error>Dependencies not complet for use adapter "' . $adapter->getName() . '" caused by</error>');
+                foreach($falseDependencies as $depencies) {
+                    $output->writeln('<error> * ' . $depencies . '</error>');
+                }
+            } else {
+                $adaptersChoices[] = $adapter->getName();
+            }
+        }
+
+        $adapterValidation = function ($adapter) use ($adaptersChoices, $adaptersCollection) {
+            foreach($adaptersCollection as $adapterDataobject) {
+                $adapterName = $adapterDataobject->getName();
+                if($adapterName === $adapter) {
+                    return $adapterDataobject;
+                }
+            }
+
+            throw new \InvalidArgumentException(sprintf('Adapter "%s" is invalid.', $adapter));
+        };
+
+        return $dialog->askAndValidate(
+            $output,
+            "Choose an adapter \n> ",
+            $adapterValidation,
+            false,
+            null,
+            $adaptersChoices
+        );
     }
 
     /**

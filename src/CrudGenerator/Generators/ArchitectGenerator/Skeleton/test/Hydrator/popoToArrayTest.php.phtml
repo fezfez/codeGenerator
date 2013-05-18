@@ -16,51 +16,53 @@ class PopoToArray extends \PHPUnit_Framework_TestCase
     {
 <?php
 $fixtureRender = (function($metadata) use($loremIpsumGenerator) {
-    if($metadata['type'] == 'integer' || $metadata['type'] == 'float') {
+    if($metadata->getType() == 'integer' || $metadata->getType() == 'float') {
         return rand(0, 50);
-    } elseif($metadata['type'] == 'string') {
-        return '"' . substr($loremIpsumGenerator->getContent($metadata['length'], 'plain'), 0, $metadata['length']) . '"';
-    } elseif($metadata['type'] == 'date') {
+    } elseif($metadata->getType() == 'string') {
+        return '"' . substr($loremIpsumGenerator->getContent($metadata->getLength(), 'plain'), 0, $metadata->getLength()) . '"';
+    } elseif($metadata->getType() == 'date') {
         return 'new DateTime()';
-    } elseif($metadata['type'] == 'bool') {
+    } elseif($metadata->getType() == 'bool') {
         return 'true';
     }
 });
 
 $keyTestable = array();
-foreach($this->dataObject->getMetadata()->fieldMappings as $field => $metadata):
-if(isset($metadata['id']) && $metadata['id'] == true) {
+foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata):
+/*if(isset($metadata['id']) && $metadata['id'] == true) {
     continue;
-}
+}*/
 $keyToTest = null;
 $modifiedValue = $fixtureRender($metadata);
 ?>
-        $<?php echo $field; ?> = <?php echo $fixtureRender($metadata); ?>;
+        $<?php echo $metadata->getName(); ?> = <?php echo $fixtureRender($metadata); ?>;
 <?php endforeach; ?>
 
         $dto = new <?php echo $this->dataObject->getEntityName(); ?>DataObject();
-        $dto<?php foreach($this->dataObject->getMetadata()->fieldMappings as $field => $metadata): ?>
+        $dto<?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
 <?php
+/*
 if(isset($metadata['id']) && $metadata['id'] == true) {
     continue;
-}
+}*/
 if(null === $keyToTest) {
-    $keyToTest = $field;
+    $keyToTest = $metadata->getName();
 }
 ?>
-           ->set<?php echo ucfirst($field); ?>($<?php echo $field; ?>)<?php if($metadata == end($this->dataObject->getMetadata()->fieldMappings)): ?>;<?php endif; ?><?php echo "\n"; ?>
+           ->set<?php echo ucfirst($metadata->getName()); ?>($<?php echo $metadata->getName(); ?>)<?php if($metadata == end($this->dataObject->getMetadata()->getColumnCollection())): ?>;<?php endif; ?><?php echo "\n"; ?>
 <?php endforeach; ?>
 
        $hydrator = new <?php echo $this->dataObject->getEntityName(); ?>Hydrator();
        $arrayDto = $hydrator->popoToArray($dto, array());
 
-<?php foreach($this->dataObject->getMetadata()->fieldMappings as $field => $metadata): ?>
+<?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
 <?php
+/*
 if(isset($metadata['id']) && $metadata['id'] == true) {
     continue;
-}
+}*/
 ?>
-        $this->assertEquals($<?php echo $field; ?>, $arrayDto['<?php echo $field; ?>']);
+        $this->assertEquals($<?php echo $metadata->getName(); ?>, $arrayDto['<?php echo $metadata->getName(); ?>']);
 <?php endforeach; ?>
     }
 }

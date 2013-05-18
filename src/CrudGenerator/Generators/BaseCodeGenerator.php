@@ -72,11 +72,12 @@ abstract class BaseCodeGenerator
      */
     public function generate(DataObject $dataObject)
     {
-        if (count($dataObject->getMetadata()->identifier) > 1) {
+        $identifier = $dataObject->getMetadata()->getIdentifier();
+        if (count($identifier) > 1) {
             throw new \RuntimeException('The generator does not support entity classes with multiple primary keys.');
         }
 
-        if (!in_array('id', $dataObject->getMetadata()->identifier)) {
+        if (!in_array('id', $identifier)) {
             throw new \RuntimeException(
                 'The generator expects the entity object has a primary key field named "id" with a getId() method.'
             );
