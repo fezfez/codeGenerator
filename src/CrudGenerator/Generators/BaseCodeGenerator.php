@@ -3,7 +3,7 @@ namespace CrudGenerator\Generators;
 
 use CrudGenerator\DataObject;
 use CrudGenerator\FileManager;
-use CrudGenerator\View\ZendView;
+use CrudGenerator\View\View;
 use CrudGenerator\Generators\GeneriqueQuestions;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
@@ -37,7 +37,7 @@ abstract class BaseCodeGenerator
     protected $generiqueQuestion = null;
 
     /**
-     * @param ZendView $zendView
+     * @param View $view
      * @param OutputInterface $output
      * @param FileManager $fileManager
      * @param DialogHelper $dialog
@@ -45,14 +45,14 @@ abstract class BaseCodeGenerator
      * @param GeneriqueQuestions $generiqueQuestion
      */
     public function __construct(
-        ZendView $zendView,
+        View $view,
         OutputInterface $output,
         FileManager $fileManager,
         DialogHelper $dialog,
         InputInterface $input,
         GeneriqueQuestions $generiqueQuestion
     ) {
-        $this->zendView          = $zendView;
+        $this->view              = $view;
         $this->output            = $output;
         $this->fileManager       = $fileManager;
         $this->dialog            = $dialog;
@@ -110,7 +110,7 @@ abstract class BaseCodeGenerator
             'dataObject' => $dataObject,
         );
 
-        $results = $this->zendView->render($this->skeletonDir, $pathTemplate, array_merge($datas, $suppDatas));
+        $results = $this->view->render($this->skeletonDir, $pathTemplate, array_merge($datas, $suppDatas));
 
         $this->fileManager->filePutsContent($pathTo, $results);
         $this->output->writeln('--> Create ' . $pathTo);

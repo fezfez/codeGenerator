@@ -1,6 +1,8 @@
 <?php
 namespace CrudGenerator\Adapter;
 
+use CrudGenerator\MetaData\AbstractConfig;
+
 class AdapterDataObject
 {
     /**
@@ -8,14 +10,19 @@ class AdapterDataObject
      */
     private $name = null;
     /**
-     * @var array
+     * @var string
      */
-    private $falseDependencies = array();
+    private $falseDependencies = null;
 
     /**
      * @var string
      */
     private $definition = null;
+
+    /**
+     * @var AbstractConfig
+     */
+    private $config = null;
 
     /**
      * @param string $value
@@ -39,9 +46,18 @@ class AdapterDataObject
      * @param string $value
      * @return \CrudGenerator\Adapter\AdapterDataObject
      */
-    public function addFalseDependencie($value)
+    public function setFalseDependencie($value)
     {
-        $this->falseDependencies[] = $value;
+        $this->falseDependencies = $value;
+        return $this;
+    }
+    /**
+     * @param AbstractConfig $value
+     * @return \CrudGenerator\Adapter\AdapterDataObject
+     */
+    public function setConfig(AbstractConfig $value)
+    {
+        $this->config = $value;
         return $this;
     }
 
@@ -70,11 +86,18 @@ class AdapterDataObject
     }
 
     /**
-     * @return array
+     * @return string
      */
     public function getFalseDependencies()
     {
         return $this->falseDependencies;
+    }
+    /**
+     * @return AbstractConfig
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 }
 

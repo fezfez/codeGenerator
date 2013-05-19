@@ -11,6 +11,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObject;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationDataObjectCollection;
 
 /**
+ *
  * Doctrine2 adapter in ZF2 environnement
  */
 class Doctrine2MetaDataDAO implements MetaDataDAOInterface
@@ -56,7 +57,7 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
      */
     private function hydrateDataObject(\Doctrine\ORM\Mapping\ClassMetadataInfo $metadata)
     {
-        $dataObject       = new MetadataDataObjectDoctrine2(
+        $dataObject = new MetadataDataObjectDoctrine2(
             new MetaDataColumnDataObjectCollection(),
             new MetaDataRelationDataObjectCollection()
         );

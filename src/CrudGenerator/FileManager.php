@@ -25,4 +25,12 @@ class FileManager
         file_put_contents($path, $content);
         chmod($path, 0777);
     }
+
+    /**
+     * @param string $path
+     */
+    public function fileGetContent($path)
+    {
+        return file_get_contents($path);
+    }
 }

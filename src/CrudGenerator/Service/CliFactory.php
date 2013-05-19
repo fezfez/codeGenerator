@@ -1,64 +1,35 @@
 <?php
-
 namespace CrudGenerator\Service;
+
+use CrudGenerator\Command\CreateCommand;
+use CrudGenerator\Command\UpToDateCommand;
+use CrudGenerator\Doctrine\Helper\ServiceManagerHelper;
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\HelperSet;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\ServiceManager\ServiceManager;
+use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Helper\FormatterHelper;
 
-class CliFactory implements FactoryInterface
+class CliFactory
 {
     /**
-     * @var \Zend\EventManager\EventManagerInterface
+     * @return \Symfony\Component\Console\Application
      */
-    protected $events;
-
-    /**
-     * @var \Symfony\Component\Console\Helper\HelperSet
-     */
-    protected $helperSet;
-
-    /**
-     * @var array
-     */
-    protected $commands = array();
-
-    /**
-     * @param  ServiceLocatorInterface $sm
-     * @return \Zend\EventManager\EventManagerInterface
-     */
-    public function getEventManager(ServiceLocatorInterface $sm)
-    {
-        if (null === $this->events) {
-            /* @var $events \Zend\EventManager\EventManagerInterface */
-            $events = $sm->get('EventManager');
-            $events->addIdentifiers(
-                array(
-                    __CLASS__,
-                   'crudgenerator'
-                )
-            );
-
-            $this->events = $events;
-        }
-
-        return $this->events;
-    }
-
-     /**
-     * {@inheritDoc}
-     * @return Application
-     */
-    public function createService(ServiceLocatorInterface $sl)
+    public static function getInstance()
     {
         $cli = new Application;
-        $cli->setName('CrudGenerator Command Line Interface');
-        $cli->setHelperSet(new HelperSet);
+        $cli->setName('Code Generator Command Line Interface');;
 
-        // Load commands using event
-        $this->getEventManager($sl)->trigger('loadCli.post', $cli, array('ServiceManager' => $sl));
+        $cli->addCommands(
+            array(
+                new CreateCommand(),
+                new UpToDateCommand(),
+            )
+        );
+
+        $helperSet = $cli->getHelperSet();
+        $helperSet->set(new DialogHelper(), 'dialog');
+        $helperSet->set(new FormatterHelper(), 'formatter');
 
         return $cli;
     }

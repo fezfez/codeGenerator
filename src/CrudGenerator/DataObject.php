@@ -8,7 +8,6 @@ class DataObject
     private $module          = null;
     private $entity          = null;
     private $metadata        = null;
-    private $writeAction     = null;
     private $namespace       = null;
     private $directory       = null;
 
@@ -25,11 +24,6 @@ class DataObject
     public function setMetadata(MetaDataDataObject $value)
     {
         $this->metadata = $value;
-        return $this;
-    }
-    public function setWriteAction($value)
-    {
-        $this->writeAction = $value;
         return $this;
     }
     public function setNamespace($value)
@@ -62,10 +56,6 @@ class DataObject
     public function getMetadata()
     {
         return $this->metadata;
-    }
-    public function getWriteAction()
-    {
-        return $this->writeAction;
     }
     public function getNamespace()
     {

@@ -3,9 +3,10 @@
 namespace CrudGenerator\Command;
 
 use CrudGenerator\MetaData\MetaDataDAOFactory;
-use CrudGenerator\Generators\DoctrineCrudGeneratorFactory;
+use CrudGenerator\Generators\CodeGeneratorFactory;
 use CrudGenerator\DataObject;
 use CrudGenerator\FileManager;
+use CrudGenerator\MetaData\Config\MetaDataConfigReaderFactory;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,8 +21,8 @@ class CreateCommand extends Command
     {
         parent::configure();
 
-        $this->setName('CrudGenerator:create')
-             ->setDescription('Generate code based on Doctrine Entity');
+        $this->setName('CodeGenerator:create')
+             ->setDescription('Generate code based on database connection');
     }
 
     /**
@@ -31,13 +32,23 @@ class CreateCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $sm      = $this->getHelperSet()->get('serviceManager')->getServiceManager();
-        $dialog  = $this->getHelperSet()->get('dialog');
-        $config  = include 'config/application.config.php';
+        $dialog      = $this->getHelperSet()->get('dialog');
+        $fileManager = new FileManager();
 
-        $adapter        = $this->adapterQuestion($output, $dialog);
+        $adapter             = $this->adapterQuestion($output, $dialog);
+        $adapterConfig       = $adapter->getConfig();
+        $adapterConfigurator = MetaDataConfigReaderFactory::getInstance($output, $dialog);
+
+        if(null !== $adapterConfig) {
+            $adapterConfig = $adapterConfigurator->config($adapterConfig);
+        }
+
         $adapterFactory = $adapter->getFactory();
-        $adapterDAO     = $adapterFactory::getInstance($sm);
+        if(null !== $adapterConfig) {
+            $adapterDAO = $adapterFactory::getInstance($adapterConfig);
+        } else {
+            $adapterDAO = $adapterFactory::getInstance();
+        }
 
         $entity     = $this->entityQuestion($output, $dialog, $adapterDAO->getAllMetadata());
         $moduleName = $this->moduleQuestion($output, $dialog);
@@ -48,7 +59,7 @@ class CreateCommand extends Command
                    ->setModule($moduleName)
                    ->setMetaData($adapterDAO->getMetadataFor($entity));
 
-        $crudGenerator = DoctrineCrudGeneratorFactory::getInstance($output, $input, $dialog, $generator);
+        $crudGenerator = CodeGeneratorFactory::getInstance($output, $input, $dialog, $generator);
 
         $output->writeln("<info>Resume</info>");
         $output->writeln('<info>Entity : ' . $dataObject->getEntity(), '*</info>');
@@ -61,7 +72,6 @@ class CreateCommand extends Command
         );
 
         if ($doI === true) {
-            $fileManager = new FileManager();
             if (!is_dir('data/crudGeneratorHistory')) {
                 $fileManager->mkdir('data/crudGeneratorHistory');
             }
@@ -80,23 +90,24 @@ class CreateCommand extends Command
      * @param OutputInterface $output
      * @param DialogHelper $dialog
      * @throws \InvalidArgumentException
-     * @return string
+     * @return AdapterDataObject
      */
     private function adapterQuestion($output, $dialog)
     {
         $adapterFinder   = new \CrudGenerator\Adapter\AdapterFinder();
-        $adaptersCollection = $adapterFinder->getAllClasses();
+        $adaptersCollection = $adapterFinder->getAllAdapters();
         $output->writeln('<question>Adapters list</question>');
         foreach($adaptersCollection as $adapter) {
             $falseDependencies = $adapter->getFalseDependencies();
-            $output->writeln('<comment>' . $adapter->getName() . '</comment>');
-            $output->writeln('<comment>' . $adapter->getDefinition() . '</comment>');
+
             if(!empty($falseDependencies)) {
                 $output->writeln('<error>Dependencies not complet for use adapter "' . $adapter->getName() . '" caused by</error>');
                 foreach($falseDependencies as $depencies) {
                     $output->writeln('<error> * ' . $depencies . '</error>');
                 }
             } else {
+                $output->writeln('<comment>' . $adapter->getName() . '</comment>');
+                $output->writeln('<comment>' . $adapter->getDefinition() . '</comment>');
                 $adaptersChoices[] = $adapter->getName();
             }
         }
@@ -164,12 +175,12 @@ class CreateCommand extends Command
      */
     private function generatorQuestion($output, $input, $dialog)
     {
-        $crudFinder = new \CrudGenerator\CrudFinder();
+        $crudFinder = new \CrudGenerator\Generators\GeneratorFinder();
         $generators = $crudFinder->getAllClasses();
 
         $output->writeln('<question>Chose a generator</question>');
         foreach ($generators as $number => $generatorClassName) {
-            $generator = DoctrineCrudGeneratorFactory::getInstance($output, $input, $dialog, $generatorClassName);
+            $generator = CodeGeneratorFactory::getInstance($output, $input, $dialog, $generatorClassName);
             $output->writeln('<comment>' . $number . '. ' . $generator->getDefinition() . '</comment>');
         }
 

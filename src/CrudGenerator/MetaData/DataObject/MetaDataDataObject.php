@@ -20,6 +20,10 @@ abstract class MetaDataDataObject
      * @var array
      */
     private $identifier = array();
+    /**
+     * @var string
+     */
+    private $name = null;
 
     public function __construct(
         MetaDataColumnDataObjectCollection $columnCollection,
@@ -50,6 +54,14 @@ abstract class MetaDataDataObject
         $this->identifier[] = $value;
         return $this;
     }
+    /**
+     * @param string $value
+     */
+    public function setName($value)
+    {
+        $this->name = $value;
+        return $this;
+    }
 
     /**
      * @return MetaDataColumnDataObjectCollection
@@ -71,5 +83,12 @@ abstract class MetaDataDataObject
     public function getIdentifier()
     {
         return $this->identifier;
+    }
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }

@@ -3,8 +3,11 @@
 namespace CrudGenerator\MetaData\Doctrine2;
 
 use CrudGenerator\MetaData\MetaDataDAO;
-use Zend\ServiceManager\ServiceManager;
+use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
 
+/**
+ * @CodeGenerator\Environnement ZendFramework2Environnement
+ */
 class Doctrine2MetaDataDAOFactory
 {
     private function __construct()
@@ -13,12 +16,13 @@ class Doctrine2MetaDataDAOFactory
     }
 
     /**
-     * @param ServiceManager $sm
      * @return \CrudGenerator\MetaData\MetaDataDAO
      */
-    public static function getInstance(ServiceManager $sm)
+    public static function getInstance()
     {
+        $sm = ZendFramework2Environnement::getDependence();
         $em = $sm->get('doctrine.entitymanager.orm_default');
+
         return new Doctrine2MetaDataDAO($em);
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace CrudGenerator;
+namespace CrudGenerator\Generators;
 
-class CrudFinder
+class GeneratorFinder
 {
     /**
      * @var array
@@ -19,12 +19,12 @@ class CrudFinder
     public function getAllClasses()
     {
         $this->paths = array(
-            __DIR__ . '/Generators/'
+            __DIR__ . '/'
         );
 
         foreach ($this->paths as $path) {
             if (!is_dir($path)) {
-                throw \RuntimeException('invalid path ' . $path);
+                throw new \RuntimeException('invalid path ' . $path);
             }
 
             $iterator = new \RegexIterator(
