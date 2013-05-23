@@ -4,7 +4,7 @@ namespace CrudGenerator\MetaData\PDO;
 
 use PDO;
 use CrudGenerator\MetaData\MetaDataDAOInterface;
-use CrudGenerator\MetaData\Doctrine2\MetadataDataObjectDoctrine2;
+use CrudGenerator\MetaData\PDO\MetadataDataObjectPDO;
 use CrudGenerator\MetaData\DataObject\MetaDataDataObjectCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObjectCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObject;
@@ -66,11 +66,11 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
 
     /**
      * @param \Doctrine\ORM\Mapping\ClassMetadataInfo $metadata
-     * @return MetadataDataObjectDoctrine2
+     * @return MetadataDataObjectPDO
      */
     private function hydrateDataObject($tableName)
     {
-        $dataObject = new MetadataDataObjectDoctrine2(
+        $dataObject = new MetadataDataObjectPDO(
             new MetaDataColumnDataObjectCollection(),
             new MetaDataRelationDataObjectCollection()
         );
@@ -112,7 +112,7 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
 
     /**
      * @param string $entity
-     * @return \Doctrine\ORM\Mapping\ClassMetadataInfo
+     * @return MetadataDataObjectPDO
      */
     public function getMetadataFor($tableName)
     {

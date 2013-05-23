@@ -106,7 +106,6 @@ class CreateCommand extends Command
                     $output->writeln('<error> * ' . $depencies . '</error>');
                 }
             } else {
-                $output->writeln('<comment>' . $adapter->getName() . '</comment>');
                 $output->writeln('<comment>' . $adapter->getDefinition() . '</comment>');
                 $adaptersChoices[] = $adapter->getName();
             }

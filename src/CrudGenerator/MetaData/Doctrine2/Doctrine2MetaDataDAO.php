@@ -39,12 +39,18 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
 
     /**
      * @param array $metadataCollection
-     * @return Ambiguous
+     * @return MetaDataDataObjectCollection
      */
     private function doctrine2MetadataToGeneratorMetadata(array $metadataCollection)
     {
         $metaDataCollection = new MetaDataDataObjectCollection();
+        $dataObject = new MetadataDataObjectDoctrine2(
+            new MetaDataColumnDataObjectCollection(),
+            new MetaDataRelationDataObjectCollection()
+        );
         foreach($metadataCollection as $metadata) {
+            $realDataObject = clone $dataObject;
+            $realDataObject->setName($metadata->getName());
             $metaDataCollection->append($metadata);
         }
 
@@ -80,7 +86,7 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
 
     /**
      * @param string $entity
-     * @return \Doctrine\ORM\Mapping\ClassMetadataInfo
+     * @return MetadataDataObjectDoctrine2
      */
     public function getMetadataFor($entity)
     {

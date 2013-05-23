@@ -96,7 +96,9 @@ class AdapterFinder
         $adapter = clone $adapterDataObject;
 
         $adapter->setName($adapterClassName);
-        //$adapter->setDefinition($documentation);
+        $doc = $this->getDocBlockFromFactory($adapter, '@CodeGenerator\Description');
+        $env = $this->getDocBlockFromFactory($adapter, '@CodeGenerator\Environnement');
+        $adapter->setDefinition((isset($doc[0]) ? $doc[0] : '') . (isset($env[0]) ? ' in ' . $env[0] : ''));
         $configName = str_replace('MetaDataDAO', '', $adapterClassName) . 'Config';
 
         if(class_exists($configName)) {
@@ -104,7 +106,8 @@ class AdapterFinder
         }
 
         try {
-            foreach($this->getFactoryEnvironnement($adapter) as $environementClass) {
+            foreach($this->getDocBlockFromFactory($adapter, '@CodeGenerator\Environnement') as $environnementString) {
+                $environementClass = 'CrudGenerator\EnvironnementResolver\\' . $environnementString;
                 $environementClass::getDependence();
             }
         } catch (EnvironnementResolverException $e) {
@@ -118,7 +121,7 @@ class AdapterFinder
      * @param AdapterDataObject $adapter
      * @return array
      */
-    private function getFactoryEnvironnement(AdapterDataObject $adapter)
+    private function getDocBlockFromFactory(AdapterDataObject $adapter, $string)
     {
         $reflectionClass = new ReflectionClass($adapter->getFactory());
 
@@ -133,10 +136,10 @@ class AdapterFinder
         $sDocComment = preg_replace("/([\\t])+/", "\t", $sDocComment);
         $aDocCommentLines = explode("\n", $sDocComment);
         $factoryEnv = array();
-        $envString = '@CodeGenerator\Environnement';
+
         foreach($aDocCommentLines as $commentLine) {
-            if(substr($commentLine, 0, strlen($envString)) === $envString) {
-                $factoryEnv[] = 'CrudGenerator\EnvironnementResolver\\' . trim(str_replace($envString, '', $commentLine));
+            if(substr($commentLine, 0, strlen($string)) === $string) {
+                $factoryEnv[] = trim(str_replace($string, '', $commentLine));
             }
         }
 

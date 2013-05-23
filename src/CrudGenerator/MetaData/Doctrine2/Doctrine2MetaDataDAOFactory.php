@@ -7,6 +7,7 @@ use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
 
 /**
  * @CodeGenerator\Environnement ZendFramework2Environnement
+ * @CodeGenerator\Description Doctrine2
  */
 class Doctrine2MetaDataDAOFactory
 {

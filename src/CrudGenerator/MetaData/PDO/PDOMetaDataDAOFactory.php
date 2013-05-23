@@ -4,6 +4,9 @@ namespace CrudGenerator\MetaData\PDO;
 
 use CrudGenerator\MetaData\MetaDataDAO;
 
+/**
+ * @CodeGenerator\Description PDO
+ */
 class PDOMetaDataDAOFactory
 {
     private function __construct()
