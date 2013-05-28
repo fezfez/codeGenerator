@@ -35,7 +35,7 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
      */
     public function getAllMetadata()
     {
-        $sth = $this->pdo->prepare("select table_name from information_schema.tables where table_schema = 'public'");
+        $sth = $this->pdo->prepare("select table_name from information_schema.tables where table_schema = 'intranet'");
         $sth->execute();
 
         $allTables = $sth->fetchAll();
