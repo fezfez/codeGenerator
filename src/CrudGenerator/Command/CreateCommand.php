@@ -102,9 +102,7 @@ class CreateCommand extends Command
 
             if(!empty($falseDependencies)) {
                 $output->writeln('<error>Dependencies not complet for use adapter "' . $adapter->getName() . '" caused by</error>');
-                foreach($falseDependencies as $depencies) {
-                    $output->writeln('<error> * ' . $depencies . '</error>');
-                }
+                $output->writeln('<error> * ' . $falseDependencies . '</error>');
             } else {
                 $output->writeln('<comment>' . $adapter->getDefinition() . '</comment>');
                 $adaptersChoices[] = $adapter->getName();

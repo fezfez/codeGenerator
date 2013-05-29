@@ -67,12 +67,6 @@ class MetaDataConfigReader
     private function read(AbstractConfig $adapterConfig)
     {
         $adapterConfig = clone $adapterConfig;
-        try {
-            return $adapterConfig->test($this->output);
-        } catch (ConfigException $e) {
-            $adapterConfig = $this->write($adapterConfig);
-        }
-
         $output = $this->output;
         $dialog = $this->dialog;
 
@@ -93,22 +87,35 @@ class MetaDataConfigReader
 
             return $adapterConfig;
         };
+
         /**
          *  @return AbstractConfig
          */
-        $testAdapterConfig = function() use($adapterConfig, $output, $write) {
+        $testAdapterConfig = function($first = true) use($adapterConfig, $output, $write) {
             $continue = true;
             while($continue) {
                 try {
                     $adapterConfig->test($output);
                     $continue = false;
+                    return $adapterConfig;
                 } catch (ConfigException $e) {
+                    if($first === false) {
+                        $output->writeln("<error>" . $e->getMessage() . "</error>");
+                        $first = false;
+                    }
                 }
 
-                return $write($adapterConfig);
+                $adapterConfig = $write($adapterConfig);
             }
+
+            return $adapterConfig;
         };
 
-        return $testAdapterConfig();
+        try {
+            $adapterConfig->test($this->output);
+            return $adapterConfig;
+        } catch (ConfigException $e) {
+            return $testAdapterConfig();
+        }
     }
 }
