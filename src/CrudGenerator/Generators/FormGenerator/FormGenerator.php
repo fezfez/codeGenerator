@@ -44,6 +44,11 @@ class FormGenerator extends BaseCodeGenerator
         );
         $this->generateFile(
             $dataObject,
+            '/form/FormFilter.phtml',
+            $formPath . $dataObject->getEntityName() . 'FormFilter.php'
+        );
+        $this->generateFile(
+            $dataObject,
             '/form/Print.phtml',
             $formPath . 'FormPrint.phtml'
         );

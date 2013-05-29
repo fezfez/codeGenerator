@@ -1,0 +1,67 @@
+<?php echo '<?php'; ?>
+
+namespace <?php echo $this->dataObject->getNamespace(); ?>\Form;
+
+use Zend\InputFilter\InputFilter;
+
+class <?php echo $this->dataObject->getEntityName(); ?>FormFilter extends InputFilter
+{
+    public function __construct()
+    {
+<?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
+<?php
+$type = $metadata->getType();
+$length = $metadata->getLength();
+$name = $metadata->getName();
+$nullable = $metadata->getNullable();
+if($name == 'id') {
+    continue;
+} elseif($type == 'text') {
+    $type = 'Textarea';
+} else {
+    $type = 'Text';
+}
+
+$strLength = str_repeat(' ', strlen('a' .  $metadata->getName()));
+
+if($nullable !== false && !in_array($type, array('float', 'date', 'string', 'integer', 'bool'))) {
+    continue;
+}
+?>
+        $this->add(array(
+            'name'       => '<?php echo $name; ?>',
+            <?php if ($nullable === false): ?>'required'   => true, <?php echo "\n\r"; ?><?php endif; ?>
+            <?php if ($type == 'integer' && $type == 'bool'): ?>
+            'filters'  => array(
+                <?php if ($type == 'integer' || $type == 'bool'): ?>
+                array('name' => 'Int'),
+                <?php endif; ?>
+            ),
+            <?php endif; ?>
+            <?php if($nullable === false || in_array($type, array('float', 'date', 'string'))): ?>
+            'validators' => array(
+                array(
+                    <?php if ($nullable === false): ?>
+                    'name' => 'NotEmpty'
+                    <?php endif; ?>
+                    <?php if ($type == 'float'): ?>
+                    'name' => 'Float',
+                    <?php endif; ?>
+                    <?php if ($type == 'date'): ?>
+                    'name' => 'Date',
+                    <?php endif; ?>
+                ),
+                <?php if ($type == 'string'): ?>
+                'stringLength' => array (
+                    'name' => 'StringLength',
+                    'options' => array (
+                        'max' => "<?php echo (!empty($length)) ? $length : 255; ?>",
+                    ),
+                ),
+                <?php endif; ?>
+            )
+            <?php endif; ?>
+        ));
+<?php endforeach; ?>
+    }
+}
