@@ -77,7 +77,8 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
             $column = clone $columnDataObject;
             $column->setName($field)
                    ->setType($metadata['type'])
-                   ->setLength(isset($metadata['length']) ? $metadata['length'] : null);
+                   ->setLength(isset($metadata['length']) ? $metadata['length'] : null)
+                   ->setNullable($metadata['nullable']);
             $dataObject->appendColumn($column);
         }
 

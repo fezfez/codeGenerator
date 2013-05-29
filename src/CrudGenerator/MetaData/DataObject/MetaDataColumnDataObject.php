@@ -18,6 +18,10 @@ class MetaDataColumnDataObject
      * @var integer
      */
     private $length = null;
+    /**
+     * @var boolean
+     */
+    private $nullable = true;
 
     /**
      * @param string $value
@@ -46,6 +50,15 @@ class MetaDataColumnDataObject
         $this->length = $value;
         return $this;
     }
+    /**
+     * @param boolean $value
+     * @return \CrudGenerator\MetaData\MetaDataColumnDataObject
+     */
+    public function setNullable($value)
+    {
+        $this->nullable = $value;
+        return $this;
+    }
 
     /**
      * @return string
@@ -67,5 +80,12 @@ class MetaDataColumnDataObject
     public function getLength()
     {
         return $this->length;
+    }
+    /**
+     * @return boolean
+     */
+    public function getNullable()
+    {
+        return $this->nullable;
     }
 }

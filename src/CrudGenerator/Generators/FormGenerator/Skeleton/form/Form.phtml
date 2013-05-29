@@ -1,0 +1,75 @@
+<?php echo '<?php'; ?>
+
+namespace <?php echo $this->dataObject->getNamespace(); ?>\Form;
+
+use Zend\Form\Element;
+use Zend\Form\Form;
+
+class <?php echo $this->dataObject->getEntityName(); ?>Form extends Form
+{
+    public function __construct($name = null)
+    {
+        parent::__construct('');
+
+<?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
+<?php
+$type = $metadata->getType();
+$length = $metadata->getLength();
+$name = $metadata->getName();
+$nullable = $metadata->getNullable();
+if($name == 'id') {
+    continue;
+} elseif($type == 'text') {
+    $type = 'Textarea';
+} else {
+    $type = 'Text';
+}
+
+$strLength = str_repeat(' ', strlen('a' .  $metadata->getName()));
+?>
+            $<?php echo $name; ?> = new Element\<?php echo $type; ?>('<?php echo $name; ?>');
+            $<?php echo $name; ?>->setOptions(array('label' => '<?php echo $name; ?>'));
+
+           $validatorChain = new \Zend\Validator\ValidatorChain();
+           $validatorChain
+
+<?php if ($nullable === false): ?>
+           ->attach(
+              new \Zend\Validator\NotEmpty()
+           )
+<?php endif; ?>
+<?php if ($type == 'integer'): ?>
+            ->attach(new \Zend\Validate\Int())
+<?php endif; ?>
+<?php if ($type == 'string'): ?>
+            ->attach(
+                 new \Zend\Validator\StringLength(array(
+                     'max' => "<?php echo (!empty($length)) ? $length : 255; ?>"
+            )))
+<?php endif; ?>
+<?php if ($type == 'bool'): ?>
+            ->attach(new \Zend\Validate\Int())
+<?php endif; ?>
+<?php if ($type == 'float'): ?>
+            ->attach(new \Zend\Validate\Float())
+<?php endif; ?>
+<?php if ($type == 'date'): ?>
+            ->attach(new \Zend\Validate\Date())
+<?php endif; ?>
+            ;
+            $this->add($<?php echo $name; ?>);<?php echo "\n\r"; ?>
+<?php endforeach; ?>
+
+
+        $this->getInputFilter()->get('<?php echo $name; ?>')->setValidatorChain($validatorChain);
+
+        $submit = new Element\Submit("submit");
+        $submit->setOptions(array('label' => 'Envoyer'));
+        $this->add($submit);
+
+        $this->add(array(
+            'name' => 'csrf',
+            'type' => 'Zend\Form\Element\Csrf',
+        ));
+    }
+}

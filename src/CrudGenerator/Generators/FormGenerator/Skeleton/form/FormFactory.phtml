@@ -1,0 +1,31 @@
+<?php echo '<?php' . "\n"; ?>
+namespace <?php echo $this->dataObject->getNamespace(); ?>;
+
+use <?php echo $this->dataObject->getNamespace(); ?>\Form\Abstract<?php echo $this->dataObject->getEntityName(); ?>Form;
+use <?php echo $this->dataObject->getNamespace(); ?>\Form\<?php echo $this->dataObject->getEntityName(); ?>Form;
+use Zend\Stdlib\Hydrator\ClassMethods;
+use Zend\Form\View\Helper\Form;
+use Zend\ServiceManager\ServiceManager;
+
+class <?php echo $this->dataObject->getEntityName(); ?>FormFactory
+{
+    private function __construct()
+    {
+
+    }
+
+    /**
+     * @return Abstract<?php echo $this->dataObject->getEntityName(); ?>Form
+     */
+    public static function getInstance(ServiceManager $sm)
+    {
+        $router = $sm->get('router');
+
+        return new Abstract<?php echo $this->dataObject->getEntityName(); ?>Form(
+            new <?php echo $this->dataObject->getEntityName(); ?>Form(),
+            new ClassMethods(),
+            new Form(),
+            $router
+        );
+    }
+}

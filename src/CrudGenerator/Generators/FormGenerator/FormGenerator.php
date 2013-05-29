@@ -20,19 +20,32 @@ class FormGenerator extends BaseCodeGenerator
     {
         $this->skeletonDir = __DIR__ . '/Skeleton';
 
-        $this->ifDirDoesNotExistCreate($dataObject->getModule() . '/' . $dataObject->getDirectory() . '/Form/');
+        $dataObject->setDirectory($this->generiqueQuestion->directoryQuestion($dataObject));
+        $dataObject->setNamespace($this->generiqueQuestion->namespaceQuestion());
+        $basePath = $dataObject->getModule() . '/' . $dataObject->getDirectory() . '/';
+        $formPath = $basePath . 'Form/';
 
-        $formPath = $dataObject->getModule() . '/' . $dataObject->getNamespacePath() . '/Form/';
+        $this->ifDirDoesNotExistCreate($formPath);
 
         $this->generateFile(
             $dataObject,
-            '/form/FormType.php.phtml',
+            '/form/FormFactory.phtml',
+            $basePath . $dataObject->getEntityName() . 'FormFactory.php'
+        );
+        $this->generateFile(
+            $dataObject,
+            '/form/AbstractForm.phtml',
+            $formPath . 'Abstract' . $dataObject->getEntityName() . 'Form.php'
+        );
+        $this->generateFile(
+            $dataObject,
+            '/form/Form.phtml',
             $formPath . $dataObject->getEntityName() . 'Form.php'
         );
         $this->generateFile(
             $dataObject,
-            '/architect/FormBuilder.php.phtml',
-            $formPath . $dataObject->getEntityName() . 'FormBuilder.php'
+            '/form/Print.phtml',
+            $formPath . 'FormPrint.phtml'
         );
     }
 }
