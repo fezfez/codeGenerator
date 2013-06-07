@@ -91,13 +91,13 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
                      ->setFieldName($association['fieldName']);
 
             if (\Doctrine\ORM\Mapping\ClassMetadataInfo::ONE_TO_MANY === $association['type']) {
-                $relation->setAssocitationType('ONE_TO_MANY');
+                $relation->setAssocitationType('oneToMany');
             } elseif (\Doctrine\ORM\Mapping\ClassMetadataInfo::ONE_TO_ONE === $association['type']) {
-                $relation->setAssocitationType('ONE_TO_ONE');
+                $relation->setAssocitationType('oneToOne');
             } elseif (\Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_MANY === $association['type']) {
-                $relation->setAssocitationType('MANY_TO_MANY');
+                $relation->setAssocitationType('manyToMany');
             } elseif (\Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_ONE === $association['type']) {
-                $relation->setAssocitationType('MANY_TO_ONE');
+                $relation->setAssocitationType('manyToOne');
             }
 
             $dataObject->appendRelation($relation);
