@@ -87,9 +87,12 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
 
         foreach($metadata->getAssociationMappings() as $association) {
             $relation = clone $relationDataObject;
-            $relation->setFullName($association['targetEntity']);
+            $relation->setFullName($association['targetEntity'])
+                     ->setFieldName($association['fieldName']);
             $dataObject->appendRelation($relation);
         }
+
+        $dataObject->setName($metadata->name);
 
         return $dataObject;
     }
