@@ -2,6 +2,8 @@
 
 namespace CrudGenerator\MetaData\Doctrine2;
 
+use CrudGenerator\MetaData\DataObject\MetaDataRelationColumnDataObject;
+
 use Doctrine\ORM\EntityManager;
 use CrudGenerator\MetaData\MetaDataDAOInterface;
 use CrudGenerator\MetaData\Doctrine2\MetadataDataObjectDoctrine2;
@@ -68,18 +70,25 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
             new MetaDataRelationDataObjectCollection()
         );
         $columnDataObject = new MetaDataColumnDataObject();
+        $relationDataObject = new MetaDataRelationColumnDataObject();
 
         foreach($metadata->identifier as $identifier) {
             $dataObject->addIdentifier($identifier);
         }
 
-        foreach($metadata->fieldMappings as $field => $metadata) {
+        foreach($metadata->fieldMappings as $field => $columnMetadata) {
             $column = clone $columnDataObject;
             $column->setName($field)
-                   ->setType($metadata['type'])
-                   ->setLength(isset($metadata['length']) ? $metadata['length'] : null)
-                   ->setNullable($metadata['nullable']);
+                   ->setType($columnMetadata['type'])
+                   ->setLength(isset($columnMetadata['length']) ? $columnMetadata['length'] : null)
+                   ->setNullable($columnMetadata['nullable']);
             $dataObject->appendColumn($column);
+        }
+
+        foreach($metadata->getAssociationMappings() as $association) {
+            $relation = clone $relationDataObject;
+            $relation->setFullName($association['targetEntity']);
+            $dataObject->appendRelation($relation);
         }
 
         return $dataObject;

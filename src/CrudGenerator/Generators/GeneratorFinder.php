@@ -1,6 +1,8 @@
 <?php
-
 namespace CrudGenerator\Generators;
+
+use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
+use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
 
 class GeneratorFinder
 {
@@ -21,6 +23,16 @@ class GeneratorFinder
         $this->paths = array(
             __DIR__ . '/'
         );
+        try {
+            ZendFramework2Environnement::getDependence();
+            $config = include 'config/autoload/global.php';
+            if(isset($config['crudGenerator'])) {
+                foreach($config['crudGenerator']['path'] as $paths) {
+                    $this->paths[] = $paths;
+                }
+            }
+        } catch (EnvironnementResolverException $e) {
+        }
 
         foreach ($this->paths as $path) {
             if (!is_dir($path)) {

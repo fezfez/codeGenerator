@@ -9,16 +9,24 @@ class MetaDataRelationColumnDataObject
     /**
      * @var string
      */
-    private $name = null;
+    private $fullName = null;
 
     /**
      * @param string $value
      * @return \CrudGenerator\MetaData\MetaDataColumnDataObject
      */
-    public function setName($value)
+    public function setFullName($value)
     {
-        $this->name = $value;
+        $this->fullName = $value;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullName()
+    {
+        return $this->fullName;
     }
 
     /**
@@ -26,6 +34,10 @@ class MetaDataRelationColumnDataObject
      */
     public function getName()
     {
-        return $this->name;
+        if (!strrchr($this->fullName, '\\')) {
+            return $this->fullName;
+        } else {
+            return str_replace('\\', '', strrchr($this->fullName, '\\'));
+        }
     }
 }
