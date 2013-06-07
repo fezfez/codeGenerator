@@ -14,6 +14,10 @@ class MetaDataRelationColumnDataObject
      * @var string
      */
     private $fieldName = null;
+    /**
+     * @var string
+     */
+    private $associtationType = null;
 
     /**
      * @param string $value
@@ -31,6 +35,11 @@ class MetaDataRelationColumnDataObject
     public function setFieldName($value)
     {
         $this->fieldName = $value;
+        return $this;
+    }
+    public function setAssocitationType($value)
+    {
+        $this->associtationType = $value;
         return $this;
     }
 
@@ -58,6 +67,13 @@ class MetaDataRelationColumnDataObject
     public function getFieldName()
     {
         return $this->fieldName;
+    }
+    /**
+     * @return string
+     */
+    public function getAssocitationType()
+    {
+        return $this->associtationType;
     }
 
 }

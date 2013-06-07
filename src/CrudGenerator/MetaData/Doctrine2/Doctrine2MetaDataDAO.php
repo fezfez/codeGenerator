@@ -89,10 +89,23 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
             $relation = clone $relationDataObject;
             $relation->setFullName($association['targetEntity'])
                      ->setFieldName($association['fieldName']);
+
+            if (\Doctrine\ORM\Mapping\ClassMetadataInfo::ONE_TO_MANY === $association['type']) {
+                $relation->setAssocitationType('ONE_TO_MANY');
+            } elseif (\Doctrine\ORM\Mapping\ClassMetadataInfo::ONE_TO_ONE === $association['type']) {
+                $relation->setAssocitationType('ONE_TO_ONE');
+            } elseif (\Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_MANY === $association['type']) {
+                $relation->setAssocitationType('MANY_TO_MANY');
+            } elseif (\Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_ONE === $association['type']) {
+                $relation->setAssocitationType('MANY_TO_ONE');
+            }
+
             $dataObject->appendRelation($relation);
         }
 
         $dataObject->setName($metadata->name);
+
+        var_dump($dataObject);exit;
 
         return $dataObject;
     }
