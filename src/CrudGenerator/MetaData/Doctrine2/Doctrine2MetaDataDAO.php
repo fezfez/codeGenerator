@@ -105,8 +105,6 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
 
         $dataObject->setName($metadata->name);
 
-        var_dump($dataObject);exit;
-
         return $dataObject;
     }
 
