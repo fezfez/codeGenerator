@@ -67,55 +67,53 @@ class MetaDataConfigReader
     private function read(AbstractConfig $adapterConfig)
     {
         $adapterConfig = clone $adapterConfig;
-        $output = $this->output;
-        $dialog = $this->dialog;
-
-        $write = function (AbstractConfig $adapterConfig) use($dialog, $output) {
-            $adapterConfig = clone $adapterConfig;
-            $reflect = new ReflectionClass($adapterConfig);
-            $props   = $reflect->getProperties(ReflectionProperty::IS_PROTECTED);
-
-            foreach ($props as $prop) {
-                $propName = $prop->getName();
-                if($propName === 'definition') {
-                    continue;
-                }
-                $propSetter = 'set' . ucfirst($propName);
-                $value      = $dialog->ask($output, 'Choose a "' . $propName . '" : ');
-                $adapterConfig->$propSetter($value);
-            }
-
-            return $adapterConfig;
-        };
-
-        /**
-         *  @return AbstractConfig
-         */
-        $testAdapterConfig = function($first = true) use($adapterConfig, $output, $write) {
-            $continue = true;
-            while($continue) {
-                try {
-                    $adapterConfig->test($output);
-                    $continue = false;
-                    return $adapterConfig;
-                } catch (ConfigException $e) {
-                    if($first === false) {
-                        $output->writeln("<error>" . $e->getMessage() . "</error>");
-                        $first = false;
-                    }
-                }
-
-                $adapterConfig = $write($adapterConfig);
-            }
-
-            return $adapterConfig;
-        };
 
         try {
             $adapterConfig->test($this->output);
             return $adapterConfig;
         } catch (ConfigException $e) {
-            return $testAdapterConfig();
+            $continue = true;
+            $first    = true;
+
+            while($continue) {
+                try {
+                    $adapterConfig->test($this->output);
+                    $continue = false;
+                    break;
+                } catch (ConfigException $e) {
+                    if($first === true) {
+                        $this->output->writeln("<error>" . $e->getMessage() . "</error>");
+                        $first = false;
+                    }
+                }
+
+                $adapterConfig = $this->write($adapterConfig);
+            }
+
+            return $adapterConfig;
         }
+    }
+
+    /**
+     * @param AbstractConfig $adapterConfig
+     * @return AbstractConfig
+     */
+    private function write(AbstractConfig $adapterConfig)
+    {
+        $adapterConfig = clone $adapterConfig;
+        $reflect = new ReflectionClass($adapterConfig);
+        $props   = $reflect->getProperties(ReflectionProperty::IS_PROTECTED);
+
+        foreach ($props as $prop) {
+            $propName = $prop->getName();
+            if($propName === 'definition') {
+                continue;
+            }
+            $propSetter = 'set' . ucfirst($propName);
+            $value      = $this->dialog->ask($this->output, 'Choose a "' . $propName . '" : ');
+            $adapterConfig->$propSetter($value);
+        }
+
+        return $adapterConfig;
     }
 }

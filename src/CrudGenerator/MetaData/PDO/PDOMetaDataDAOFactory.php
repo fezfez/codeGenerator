@@ -3,6 +3,7 @@
 namespace CrudGenerator\MetaData\PDO;
 
 use CrudGenerator\MetaData\MetaDataDAO;
+use CrudGenerator\MetaData\PDO\SqlManager;
 
 /**
  * @CodeGenerator\Description PDO
@@ -30,7 +31,18 @@ class PDOMetaDataDAOFactory
             $config->getPassword()
         );
 
-        return new PDOMetaDataDAO($pdo);
+        $pdo->exec("CREATE TABLE messages (
+                        id INTEGER PRIMARY KEY,
+                        title VARCHAR(255),
+                        message TEXT,
+                        time TEXT)");
+
+
+        return new PDOMetaDataDAO(
+            $pdo,
+            $config,
+            new SqlManager()
+        );
     }
 
     public static function checkDependencies()

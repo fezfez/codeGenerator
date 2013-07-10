@@ -20,7 +20,7 @@ class getMetadataForTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
             'CrudGenerator\MetaData\PDO\MetadataDataObjectPDO',
-            $suT->getMetadataFor('test')
+            $suT->getMetadataFor('messages')
         );
     }
 }

@@ -25,6 +25,10 @@ abstract class MetaDataDataObject
      */
     private $name = null;
 
+    /**
+     * @param MetaDataColumnDataObjectCollection $columnCollection
+     * @param MetaDataRelationDataObjectCollection $relationCollection
+     */
     public function __construct(
         MetaDataColumnDataObjectCollection $columnCollection,
         MetaDataRelationDataObjectCollection $relationCollection)

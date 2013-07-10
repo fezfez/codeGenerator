@@ -10,7 +10,7 @@ use Symfony\Component\Console\Helper\DialogHelper;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
-    public function testType()
+    public function testFirstConfigOk()
     {
         $stubConsole = $this->getMock('\Symfony\Component\Console\Output\ConsoleOutput');
         $stubConsole->expects($this->any())
@@ -39,12 +39,46 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $stubConfig->expects($this->once())
                    ->method('test')
                    ->with($this->equalTo($stubConsole))
-                   ->will($this->returnValue(false));
+                   ->will($this->returnValue(true));
 
-        $stubConfig->expects($this->once())
+        $suT->config($stubConfig);
+    }
+
+    public function testWithFailConfig()
+    {
+        $stubConsole = $this->getMock('\Symfony\Component\Console\Output\ConsoleOutput');
+        $stubConsole->expects($this->any())
+                    ->method('writeln')
+                    ->will($this->returnValue('foo'));
+
+        $stubDialog = $this->getMock('\Symfony\Component\Console\Helper\DialogHelper');
+        $stubDialog->expects($this->any())
+                   ->method('ask')
+                   ->will($this->returnValue('foo'));
+
+        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager->expects($this->once())
+                        ->method('filePutsContent')
+                        ->will($this->returnValue(true));
+
+
+        $suT = new MetaDataConfigReader(
+            $stubConsole,
+            $stubDialog,
+            $stubFileManager
+        );
+
+        $stubConfig = $this->getMock('\CrudGenerator\MetaData\PDO\PDOConfig');
+
+        $stubConfig->expects($this->at(0))
                    ->method('test')
                    ->with($this->equalTo($stubConsole))
-                   ->will($this->returnValue(true));
+                   ->will($this->throwException(new \CrudGenerator\MetaData\Config\ConfigException));
+
+        $stubConfig->expects($this->at(1))
+                   ->method('test')
+                   ->with($this->equalTo($stubConsole))
+                   ->will($this->throwException(new \CrudGenerator\MetaData\Config\ConfigException));
 
         $suT->config($stubConfig);
     }

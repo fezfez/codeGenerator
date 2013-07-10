@@ -3,6 +3,8 @@
 namespace CrudGenerator\MetaData\PDO;
 
 use PDO;
+use CrudGenerator\MetaData\PDO\PDOConfig;
+use CrudGenerator\MetaData\PDO\SqlManager;
 use CrudGenerator\MetaData\MetaDataDAOInterface;
 use CrudGenerator\MetaData\PDO\MetadataDataObjectPDO;
 use CrudGenerator\MetaData\DataObject\MetaDataDataObjectCollection;
@@ -18,16 +20,24 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
     /**
      * @var PDO Pdo stmt
      */
-    private $pdo = null;
-
-    private $listFieldsQuery = 'SELECT column_name as name, is_nullable, data_type, character_maximum_length FROM information_schema.columns WHERE table_name = ?;';
+    private $pdo       = null;
+    /**
+     * @var PDOConfig
+     */
+    private $pdoConfig = null;
+    /**
+     * @var SqlManager
+     */
+    private $sqlManager = null;
 
     /**
      * @param PDO $pdo
      */
-    public function __construct(PDO $pdo)
+    public function __construct(PDO $pdo, PDOConfig $pdoConfig, SqlManager $sqlManager)
     {
-        $this->pdo = $pdo;
+        $this->pdo        = $pdo;
+        $this->pdoConfig  = $pdoConfig;
+        $this->sqlManager = $sqlManager;
     }
 
     /* (non-PHPdoc)
@@ -35,7 +45,11 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
      */
     public function getAllMetadata()
     {
-        $sth = $this->pdo->prepare("select table_name from information_schema.tables where table_schema = 'intranet'");
+        $sth = $this->pdo->prepare(
+            $this->sqlManager->getAllMetadata(
+                $this->pdoConfig->getType()
+            )
+        );
         $sth->execute();
 
         $allTables = $sth->fetchAll();
@@ -77,14 +91,18 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
         $dataObject->setName($tableName);
         $columnDataObject = new MetaDataColumnDataObject();
 
-        $statement = $this->pdo->prepare($this->listFieldsQuery);
+        $statement = $this->pdo->prepare(
+            $this->sqlManager->listFieldsQuery(
+                $this->pdoConfig->getType()
+            )
+        );
         $statement->execute(array($tableName));
         $allFields = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         foreach($allFields as $field => $metadata) {
             $column = clone $columnDataObject;
             $column->setName($metadata['name'])
-                   ->setType($metadata['data_type'])
+                   ->setType($metadata['type'])
                    ->setLength(isset($metadata['character_maximum_length']) ? $metadata['character_maximum_length'] : null);
             $dataObject->appendColumn($column);
         }
