@@ -4,6 +4,7 @@ namespace CrudGenerator\Generators;
 use CrudGenerator\View\ViewFactory;
 use CrudGenerator\FileManager;
 use CrudGenerator\Generators\GeneriqueQuestions;
+use CrudGenerator\Diff\DiffPHP;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,7 +28,8 @@ class CodeGeneratorFactory
         $view              = ViewFactory::getInstance();
         $fileManager       = new FileManager();
         $generiqueQuestion = new GeneriqueQuestions($dialog, $output);
+        $diffPHP           = new DiffPHP();
 
-        return new $class($view, $output, $fileManager, $dialog, $input, $generiqueQuestion);
+        return new $class($view, $output, $fileManager, $dialog, $input, $generiqueQuestion, $diffPHP);
     }
 }

@@ -16,7 +16,7 @@ foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $me
 /* Traitement des FK */
 foreach($this->dataObject->getMetadata()->getRelationCollection() as $field => $metadata): ?>
     /**
-     * @var \<?php echo $metadata['targetEntity'] . "\n"; ?>
+     * @var \<?php echo $metadata->getFullName() . "\n"; ?>
      */
     private $<?php echo $metadata->getName(); ?> = null;
 <?php endforeach; ?>
@@ -37,10 +37,10 @@ foreach($this->dataObject->getMetadata()->getRelationCollection() as $field => $
 /* Traitement des FK */
 foreach($this->dataObject->getMetadata()->getRelationCollection() as $field => $metadata): ?>
     /**
-     * @param \<?php echo $metadata['targetEntity']; ?> $value
+     * @param \<?php echo $metadata->getFullName(); ?> $value
      * @return \<?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObject
      */
-    public function set<?php echo ucfirst($metadata->getName()); ?>(<?php echo $metadata['targetEntity']; ?> $value)
+    public function set<?php echo ucfirst($metadata->getName()); ?>(\<?php echo $metadata->getFullName(); ?> $value)
     {
         $this-><?php echo $metadata->getName(); ?> = $value;
         return $this;
@@ -61,7 +61,7 @@ foreach($this->dataObject->getMetadata()->getRelationCollection() as $field => $
 /* Traitement des FK */
 foreach($this->dataObject->getMetadata()->getRelationCollection() as $field => $metadata): ?>
     /**
-     * @return \<?php echo $metadata['targetEntity'] . "\n"; ?>
+     * @return \<?php echo $metadata->getFullName() . "\n"; ?>
      */
     public function get<?php echo ucfirst($metadata->getName()); ?>()
     {

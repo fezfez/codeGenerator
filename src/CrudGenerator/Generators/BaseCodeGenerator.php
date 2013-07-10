@@ -5,6 +5,7 @@ use CrudGenerator\DataObject;
 use CrudGenerator\FileManager;
 use CrudGenerator\View\View;
 use CrudGenerator\Generators\GeneriqueQuestions;
+use CrudGenerator\Diff\DiffPHP;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -35,6 +36,10 @@ abstract class BaseCodeGenerator
      * @var GeneriqueQuestions
      */
     protected $generiqueQuestion = null;
+    /**
+     * @var DiffPHP
+     */
+    private $diffPHP             = null;
 
     /**
      * @param View $view
@@ -43,6 +48,7 @@ abstract class BaseCodeGenerator
      * @param DialogHelper $dialog
      * @param InputInterface $input
      * @param GeneriqueQuestions $generiqueQuestion
+     * @param DiffPHP $diffPHP
      */
     public function __construct(
         View $view,
@@ -50,7 +56,8 @@ abstract class BaseCodeGenerator
         FileManager $fileManager,
         DialogHelper $dialog,
         InputInterface $input,
-        GeneriqueQuestions $generiqueQuestion
+        GeneriqueQuestions $generiqueQuestion,
+        DiffPHP $diffPHP
     ) {
         $this->view              = $view;
         $this->output            = $output;
@@ -58,6 +65,7 @@ abstract class BaseCodeGenerator
         $this->dialog            = $dialog;
         $this->input             = $input;
         $this->generiqueQuestion = $generiqueQuestion;
+        $this->diffPHP           = $diffPHP;
     }
 
     /**
@@ -110,10 +118,49 @@ abstract class BaseCodeGenerator
             'dataObject' => $dataObject,
         );
 
-        $results = $this->view->render($this->skeletonDir, $pathTemplate, array_merge($datas, $suppDatas));
+        $results = $this->view->render(
+            $this->skeletonDir,
+            $pathTemplate,
+            array_merge($datas, $suppDatas)
+        );
 
-        $this->fileManager->filePutsContent($pathTo, $results);
-        $this->output->writeln('--> Create ' . $pathTo);
+        if(is_file($pathTo) && file_get_contents($pathTo) !== $results) {
+
+            while(true) {
+                $response = $this->dialog->select(
+                    $this->output,
+                    '<error>File "' . $pathTo . '" already exist, erase it with the new</error>',
+                    array(
+                        'postpone',
+                        'show diff',
+                        'erase',
+                        'cancel'
+                    )
+                );
+                if($response == '0') {
+                    $this->fileManager->filePutsContent($pathTo . '.new', $results);
+                    $diff = $this->diffPHP->diff($pathTo, $pathTo . '.new');
+                    $this->fileManager->filePutsContent($pathTo . '.diff', $diff);
+                    $this->output->writeln('--> Generate diff and new file ' . $pathTo . '.diff');
+                    break;
+                } elseif($response == '1') {
+                    $this->fileManager->filePutsContent($pathTo . '.diff', $results);
+                    $this->output->writeln(
+                        '<info>' . $this->diffPHP->diff($pathTo, $pathTo . '.diff') . '</info>'
+                    );
+                    unlink($pathTo . '.diff');
+                } elseif($response == '2') {
+                    $this->fileManager->filePutsContent($pathTo, $results);
+                    $this->output->writeln('--> Create ' . $pathTo);
+                    break;
+                } elseif($response == '3') {
+                    break;
+                }
+            }
+        } else {
+            $this->fileManager->filePutsContent($pathTo, $results);
+            $this->output->writeln('--> Create ' . $pathTo);
+        }
     }
 
     /**
