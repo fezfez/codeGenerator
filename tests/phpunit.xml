@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="bootstrap.php">
+    <testsuites>
+        <testsuite name="CrudGenerator">
+            <directory>./CrudGenerator</directory>
+        </testsuite>
+    </testsuites>
+<filter>
+<!-- DO NOT SET TO "true" CODE COVERAGE WILL BREAK -->
+  <whitelist addUncoveredFilesFromWhitelist="true">
+    <directory suffix=".php">./../src/CrudGenerator/</directory>
+    <exclude>
+    </exclude>
+  </whitelist>
+</filter>
+</phpunit>
