@@ -17,15 +17,17 @@ use FilesystemIterator;
 class AdapterFinder
 {
     /**
-     * @var array
+     * @var array Paths to find adapter
      */
     private $paths = array();
     /**
-     * @var string
+     * @var string File extension to find
      */
     private $fileExtension = 'php';
 
     /**
+     * Find all adpater in the projects
+     *
      * @return AdapterCollection
      */
     public function getAllAdapters()
@@ -84,6 +86,8 @@ class AdapterFinder
     }
 
     /**
+     * Build a AdapaterDataobject with all his dependencies
+     *
      * @param string $adapterClassName
      * @param ReflectionClass $adapterReflectionClass
      * @param AdapterDataObject $adapterDataObject
@@ -119,7 +123,10 @@ class AdapterFinder
     }
 
     /**
+     * Find a particularie string in docblock and parse it
+     *
      * @param AdapterDataObject $adapter
+     * @param string $string
      * @return array
      */
     private function getDocBlockFromFactory(AdapterDataObject $adapter, $string)

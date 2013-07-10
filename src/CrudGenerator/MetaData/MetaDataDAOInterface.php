@@ -7,13 +7,17 @@ use Doctrine\ORM\EntityManager;
 interface MetaDataDAOInterface
 {
     /**
+     * Get all metadata from the concrete metadata DAO
+     *
      * @return \CrudGenerator\MetaData\MetaDataDataObjectCollection
      */
     public function getAllMetadata();
 
     /**
-     * @param string $entity
+     * Get particularie metadata from the concrete metadata DAO
+     *
+     * @param string $entityName
      * @return \CrudGenerator\MetaData\MetaDataDataObject
      */
-    public function getMetadataFor($entity);
+    public function getMetadataFor($entityName);
 }

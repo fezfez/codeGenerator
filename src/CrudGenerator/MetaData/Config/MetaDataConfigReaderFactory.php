@@ -8,11 +8,6 @@ use Symfony\Component\Console\Helper\DialogHelper;
 
 class MetaDataConfigReaderFactory
 {
-    private function __construct()
-    {
-
-    }
-
     /**
      * @param OutputInterface $output
      * @param DialogHelper $dialog

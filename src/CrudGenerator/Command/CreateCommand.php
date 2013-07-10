@@ -87,6 +87,8 @@ class CreateCommand extends Command
     }
 
     /**
+     * Ask wich adapter you want to use
+     *
      * @param OutputInterface $output
      * @param DialogHelper $dialog
      * @throws \InvalidArgumentException
@@ -131,6 +133,8 @@ class CreateCommand extends Command
     }
 
     /**
+     * Ask in wich module you want to write
+     *
      * @param OutputInterface $output
      * @param DialogHelper $dialog
      * @throws \InvalidArgumentException
@@ -164,6 +168,8 @@ class CreateCommand extends Command
     }
 
     /**
+     * Ask wich generator you want to use
+     *
      * @param OutputInterface $output
      * @param InputInterface $input
      * @param DialogHelper $dialog
@@ -193,6 +199,8 @@ class CreateCommand extends Command
     }
 
     /**
+     * Ask wich entity you want to use
+     *
      * @param OutputInterface $output
      * @param DialogHelper $dialog
      * @param array $allMetaData

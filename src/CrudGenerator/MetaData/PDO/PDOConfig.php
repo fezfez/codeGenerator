@@ -3,14 +3,14 @@ namespace CrudGenerator\MetaData\PDO;
 
 use CrudGenerator\MetaData\AbstractConfig;
 use CrudGenerator\MetaData\Config\ConfigException;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class PDOConfig extends AbstractConfig
 {
     /**
-     * @var string
+     * @var string Config definition
      */
     protected $definition = 'For use the PDO adapter you need to define the database and how to get the PDO instance';
-
     /**
      * @var string
      */
@@ -31,6 +31,10 @@ class PDOConfig extends AbstractConfig
      * @var string
      */
     protected $port = null;
+    /**
+     * @var string
+     */
+    protected $type = null;
 
     /**
      * @param string $value
@@ -77,6 +81,15 @@ class PDOConfig extends AbstractConfig
         $this->port = $value;
         return $this;
     }
+    /**
+     * @param string $value
+     * @return \CrudGenerator\MetaData\PDO\PDOConfig
+     */
+    public function setType($value)
+    {
+        $this->type = $value;
+        return $this;
+    }
 
     /**
      * @return string
@@ -113,11 +126,23 @@ class PDOConfig extends AbstractConfig
     {
         return $this->port;
     }
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
 
-    public function test($output)
+    /**
+     * @param OutputInterface $output
+     * @throws ConfigException
+     * @return \CrudGenerator\MetaData\PDO\PDOConfig
+     */
+    public function test(OutputInterface $output)
     {
         try {
-            $pdo = new \PDO('pgsql:dbname='.$this->databaseName . ';host='.$this->host, $this->user, $this->password);
+            $pdo = new \PDO($this->type . ':dbname='.$this->databaseName . ';host='.$this->host, $this->user, $this->password);
             $output->writeLn('Connection work !');
             return $this;
         } catch (\PDOException $e) {

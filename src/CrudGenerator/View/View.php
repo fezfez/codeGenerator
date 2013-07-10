@@ -4,14 +4,19 @@ namespace CrudGenerator\View;
 use CrudGenerator\FileManager;
 use CrudGenerator\View\ViewRenderer;
 
+/**
+ * Manage template renderer
+ *
+ * @author Stéphane Demonchaux <demonchaux.stephane@gmail.com>
+ */
 class View
 {
     /**
-     * @var FileManager
+     * @var FileManager File manager
      */
     private $fileManager = null;
     /**
-     * @var ViewRenderer
+     * @var ViewRenderer File interpreter
      */
     private $viewRenderer = null;
 
@@ -26,6 +31,8 @@ class View
     }
 
     /**
+     * Render the template
+     *
      * @param string $path
      * @param string $templateName
      * @param array $datas

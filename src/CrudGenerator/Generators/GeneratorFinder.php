@@ -25,6 +25,23 @@ class GeneratorFinder
         );
         try {
             ZendFramework2Environnement::getDependence();
+
+            $previousDir = '.';
+
+            while (!file_exists('config/autoload/global.php')) {
+                $dir = dirname(getcwd());
+
+                if ($previousDir === $dir) {
+                    throw new RuntimeException(
+                        'Unable to locate "config/autoload/global.php": ' .
+                        'is DoctrineModule in a subdir of your application skeleton?'
+                    );
+                }
+
+                $previousDir = $dir;
+                chdir($dir);
+            }
+
             $config = include 'config/autoload/global.php';
             if(isset($config['crudGenerator'])) {
                 foreach($config['crudGenerator']['path'] as $paths) {

@@ -9,18 +9,23 @@ use CrudGenerator\MetaData\MetaDataDAO;
  */
 class PDOMetaDataDAOFactory
 {
-    private function __construct()
-    {
-
-    }
-
     /**
-     * @return PDOMetaDataDAO
+     * @param PDOConfig $config
+     * @return \CrudGenerator\MetaData\PDO\PDOMetaDataDAO
      */
     public static function getInstance(PDOConfig $config)
     {
+        $DSN  = null;
+        $type = $config->getType();
+
+        if($type === 'sqlite2') {
+            $DSN = $config->getDatabaseName();
+        } else {
+            $DSN = $config->getType() . ':dbname=' . $config->getDatabaseName() . ';host=' . $config->getHost();
+        }
+
         $pdo = new \PDO(
-            'pgsql:dbname=' . $config->getDatabaseName() . ';host=' . $config->getHost(),
+            $DSN,
             $config->getUser(),
             $config->getPassword()
         );

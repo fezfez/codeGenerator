@@ -16,7 +16,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationDataObjectCollection;
 class PDOMetaDataDAO implements MetaDataDAOInterface
 {
     /**
-     * @var PDO
+     * @var PDO Pdo stmt
      */
     private $pdo = null;
 
@@ -30,8 +30,8 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
         $this->pdo = $pdo;
     }
 
-    /**
-     * @return array
+    /* (non-PHPdoc)
+     * @see CrudGenerator\MetaData.MetaDataDAOInterface::getAllMetadata()
      */
     public function getAllMetadata()
     {
@@ -45,7 +45,7 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
 
     /**
      * @param array $metadataCollection
-     * @return Ambiguous
+     * @return \CrudGenerator\MetaData\DataObject\MetaDataDataObjectCollection
      */
     private function doctrine2MetadataToGeneratorMetadata(array $metadataCollection)
     {

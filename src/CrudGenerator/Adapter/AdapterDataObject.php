@@ -6,21 +6,19 @@ use CrudGenerator\MetaData\AbstractConfig;
 class AdapterDataObject
 {
     /**
-     * @var string
+     * @var string name of adapater
      */
     private $name = null;
     /**
-     * @var string
+     * @var string true if dependencies of adapater are complete
      */
     private $falseDependencies = null;
-
     /**
-     * @var string
+     * @var string adapter definition
      */
     private $definition = null;
-
     /**
-     * @var AbstractConfig
+     * @var AbstractConfig adapter configuration
      */
     private $config = null;
 
@@ -68,7 +66,6 @@ class AdapterDataObject
     {
         return $this->name;
     }
-
     /**
      * @return string
      */
@@ -76,7 +73,6 @@ class AdapterDataObject
     {
         return $this->definition;
     }
-
     /**
      * @return string
      */
@@ -84,7 +80,6 @@ class AdapterDataObject
     {
         return $this->name . 'Factory';
     }
-
     /**
      * @return string
      */

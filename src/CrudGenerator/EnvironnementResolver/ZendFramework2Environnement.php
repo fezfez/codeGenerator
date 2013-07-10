@@ -4,14 +4,21 @@ namespace CrudGenerator\EnvironnementResolver;
 
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 
+/**
+ * ZendFramework2Environnement check if we are in zf2 env
+ *
+ * @author Stéphane Demonchaux <demonchaux.stephane@gmail.com>
+ */
 class ZendFramework2Environnement
 {
     /**
-     * @var Zend\ServiceManager\ServiceManager
+     * @var Zend\ServiceManager\ServiceManager Service manager
      */
     private static $serviceManager = null;
 
     /**
+     * Check if we are in zf2 env
+     *
      * @throws RuntimeException
      * @throws EnvironnementResolverException
      * @return \Zend\ServiceManager\ServiceManager

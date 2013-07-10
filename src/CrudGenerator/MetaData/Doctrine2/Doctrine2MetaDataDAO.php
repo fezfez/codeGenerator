@@ -3,14 +3,13 @@
 namespace CrudGenerator\MetaData\Doctrine2;
 
 use CrudGenerator\MetaData\DataObject\MetaDataRelationColumnDataObject;
-
-use Doctrine\ORM\EntityManager;
 use CrudGenerator\MetaData\MetaDataDAOInterface;
 use CrudGenerator\MetaData\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\MetaData\DataObject\MetaDataDataObjectCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObjectCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObject;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationDataObjectCollection;
+use Doctrine\ORM\EntityManager;
 
 /**
  *
@@ -32,15 +31,34 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
     }
 
     /**
-     * @return array
+     * Getting all medata from aviable entities
+     *
+     * @return MetaDataDataObjectCollection
      */
     public function getAllMetadata()
     {
-        return $this->doctrine2MetadataToGeneratorMetadata($this->em->getMetaDataFactory()->getAllMetadata());
+        return $this->doctrine2MetadataToGeneratorMetadata(
+            $this->em->getMetaDataFactory()->getAllMetadata()
+        );
     }
 
     /**
-     * @param array $metadataCollection
+     * Getting metadata for a particulary entity
+     *
+     * @param string $entityName name of entity
+     * @return MetadataDataObjectDoctrine2
+     */
+    public function getMetadataFor($entityName)
+    {
+        return $this->hydrateDataObject(
+            $this->em->getMetadataFactory()->getMetadataFor($entityName)
+        );
+    }
+
+    /**
+     * Transform a doctrine2 metadata into generator metadata
+     *
+     * @param array $metadataCollection array of metadata
      * @return MetaDataDataObjectCollection
      */
     private function doctrine2MetadataToGeneratorMetadata(array $metadataCollection)
@@ -50,6 +68,7 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
             new MetaDataColumnDataObjectCollection(),
             new MetaDataRelationDataObjectCollection()
         );
+
         foreach($metadataCollection as $metadata) {
             $realDataObject = clone $dataObject;
             $realDataObject->setName($metadata->getName());
@@ -60,7 +79,9 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
     }
 
     /**
-     * @param \Doctrine\ORM\Mapping\ClassMetadataInfo $metadata
+     * Transform a doctrine2 metadata into generator metadata
+     *
+     * @param \Doctrine\ORM\Mapping\ClassMetadataInfo $metadata Concret metadata
      * @return MetadataDataObjectDoctrine2
      */
     private function hydrateDataObject(\Doctrine\ORM\Mapping\ClassMetadataInfo $metadata)
@@ -106,14 +127,5 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
         $dataObject->setName($metadata->name);
 
         return $dataObject;
-    }
-
-    /**
-     * @param string $entity
-     * @return MetadataDataObjectDoctrine2
-     */
-    public function getMetadataFor($entity)
-    {
-        return $this->hydrateDataObject($this->em->getMetadataFactory()->getMetadataFor($entity));
     }
 }

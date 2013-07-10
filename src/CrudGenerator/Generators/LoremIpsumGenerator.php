@@ -230,11 +230,11 @@ class LoremIpsumGenerator
 
         switch ($format) {
             case 'txt':
-                return $this->getText($count, $loremipsum);
+                return substr($this->getText($count, $loremipsum), 0, $count);
             case 'plain':
-                return $this->getPlain($count, $loremipsum);
+                return substr($this->getPlain($count, $loremipsum), 0, $count);
             default:
-                return $this->getHTML($count, $loremipsum);
+                return substr($this->getHTML($count, $loremipsum), 0, $count);
         }
     }
 

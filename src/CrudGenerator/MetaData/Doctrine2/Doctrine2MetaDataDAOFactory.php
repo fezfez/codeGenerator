@@ -11,11 +11,6 @@ use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
  */
 class Doctrine2MetaDataDAOFactory
 {
-    private function __construct()
-    {
-
-    }
-
     /**
      * @return \CrudGenerator\MetaData\MetaDataDAO
      */

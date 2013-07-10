@@ -1,12 +1,22 @@
 <?php
 namespace CrudGenerator\View;
 
+use CrudGenerator\View\ViewRendererException;
+
+/**
+ * Template renderer
+ *
+ * @author Stéphane Demonchaux <demonchaux.stephane@gmail.com>
+ */
 class ViewRenderer
 {
     /**
+     * Interprete the file
+     *
      * @param string $path
      * @param string $templateName
-     * @param array $datas
+     * @throws Exception
+     * @return string
      */
     public function render($path, $templateName)
     {
@@ -16,7 +26,7 @@ class ViewRenderer
             $content = ob_get_clean();
         } catch (\Exception $ex) {
             ob_end_clean();
-            throw $ex;
+            throw new ViewRendererException($ex->getMessage());
         }
 
         return $content;
