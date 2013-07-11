@@ -4,15 +4,14 @@ php:
   - 5.3
 
 env:
-  - DB=sqlite 
-  - ZF2_VERSION="2.1.*" DOCTRINE2_VERSION="0.*"
+  - TESTSUITE="PDO" DB=sqlite 
+  - TESTSUITE="ZF2" ZF2_VERSION="2.1.*" DOCTRINE2_VERSION="0.*"
+  - TESTSUITE="GENERAL"
 
 before_script:
-  - composer install
-  - composer require zendframework/zendframework:${ZF2_VERSION}
-  - composer require doctrine/doctrine-orm-module:${DOCTRINE2_VERSION}
+  - sh -c "if [ '$ZF2_VERSION' = '2.1.*' ]; then composer install && composer require zendframework/zendframework:${ZF2_VERSION} && composer require doctrine/doctrine-orm-module:${DOCTRINE2_VERSION} fi"
 
-script: phpunit --configuration "tests/phpunit.xml" tests/
+script: phpunit --configuration "tests/phpunit.xml" --filter $TESTSUITE tests/
 
 notifications:
   email:
