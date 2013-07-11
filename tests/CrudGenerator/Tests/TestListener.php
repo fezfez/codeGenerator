@@ -43,7 +43,7 @@ class TestListener implements \PHPUnit_Framework_TestListener
     public function __destruct()
     {
         self::$dbh = NULL;
-        unlink(__DIR__ . '/../../:database:sqlite2');
+        unlink(':database:sqlite2');
         echo "\n\nDelete tmp database\n\n";
     }
 }
