@@ -4,12 +4,12 @@ php:
   - 5.3
 
 env:
-  - TESTSUITE="PDO" DB=sqlite 
-  - TESTSUITE="ZF2" ZF2_VERSION="2.1.*" DOCTRINE2_VERSION="0.*"
-  - TESTSUITE="GENERAL"
+  - TESTSUITE=PDO DB=sqlite 
+  - TESTSUITE=ZF2 ZF2_VERSION="2.1.*" DOCTRINE2_VERSION="0.*"
+  - TESTSUITE=GENERAL
 
 before_script:
-  - sh -c "if [ '$ZF2_VERSION' = '2.1.*' ]; then composer install && composer require zendframework/zendframework:${ZF2_VERSION} && composer require doctrine/doctrine-orm-module:${DOCTRINE2_VERSION} fi"
+  - sh -c "if [ '$ZF2_VERSION' == '2.1.*' ]; then composer install && composer require zendframework/zendframework:${ZF2_VERSION} && composer require doctrine/doctrine-orm-module:${DOCTRINE2_VERSION} fi"
 
 script: phpunit --configuration "tests/phpunit.xml" --filter $TESTSUITE tests/
 
