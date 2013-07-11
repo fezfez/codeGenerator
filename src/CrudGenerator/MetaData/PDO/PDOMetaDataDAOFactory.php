@@ -16,27 +16,18 @@ class PDOMetaDataDAOFactory
      */
     public static function getInstance(PDOConfig $config)
     {
-        $DSN  = null;
         $type = $config->getType();
 
         if($type === 'sqlite2') {
-            $DSN = $config->getDatabaseName();
+            $pdo = new \PDO($config->getDatabaseName());
         } else {
             $DSN = $config->getType() . ':dbname=' . $config->getDatabaseName() . ';host=' . $config->getHost();
+            $pdo = new \PDO(
+                $DSN,
+                $config->getUser(),
+                $config->getPassword()
+            );
         }
-
-        $pdo = new \PDO(
-            $DSN,
-            $config->getUser(),
-            $config->getPassword()
-        );
-
-        $pdo->exec("CREATE TABLE messages (
-                        id INTEGER PRIMARY KEY,
-                        title VARCHAR(255),
-                        message TEXT,
-                        time TEXT)");
-
 
         return new PDOMetaDataDAO(
             $pdo,

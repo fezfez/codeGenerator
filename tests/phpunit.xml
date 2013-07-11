@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit bootstrap="bootstrap.php">
+    <listeners>
+        <listener class="CrudGenerator\Tests\TestListener" file="./CrudGenerator/Tests/TestListener.php"/>
+    </listeners>
     <testsuites>
         <testsuite name="CrudGenerator">
             <directory>./CrudGenerator</directory>

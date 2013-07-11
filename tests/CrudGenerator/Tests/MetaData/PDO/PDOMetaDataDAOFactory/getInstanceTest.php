@@ -9,10 +9,12 @@ class getInstanceTest extends \PHPUnit_Framework_TestCase
     public function testType()
     {
         $pdoConfig = new PDOConfig();
-        $pdoConfig->setDatabaseName('sqlite2::memory:')
+        $pdoConfig->setDatabaseName('sqlite2::database:sqlite2')
                   ->setType('sqlite2')
                   ->setPassword(null)
-                  ->setUser(null);
+                  ->setUser(null)
+                  ->setPort(null)
+                  ->setHost(null);
 
         $this->assertInstanceOf(
             'CrudGenerator\MetaData\PDO\PDOMetaDataDAO',
