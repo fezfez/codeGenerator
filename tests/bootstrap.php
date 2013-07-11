@@ -6,6 +6,15 @@ namespace CrudGenerator\Tests;
 
 error_reporting(E_ALL | E_STRICT);
 
+$vendorDir = __DIR__ . '/../vendor';
+
+if (!@include($vendorDir . '/autoload.php')) {
+    die("You must set up the project dependencies, run the following commands:
+                    wget http://getcomposer.org/composer.phar
+                    php composer.phar install
+                    ");
+}
+
 // register silently failing autoloader
 spl_autoload_register(function($class) {
     if (0 === strpos($class, 'CrudGenerator\Tests\\')) {
@@ -17,5 +26,3 @@ spl_autoload_register(function($class) {
         }
     }
 });
-
-require_once __DIR__ . "/../../../../vendor/autoload.php";

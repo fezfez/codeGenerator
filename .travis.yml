@@ -3,12 +3,13 @@ language: php
 php:
   - 5.3
   - 5.4
+  - 5.5
 
 before_script:
-  - composer install --dev
+  - composer install
 
 script: phpunit --configuration "tests/phpunit.xml" tests/
 
 notifications:
   email:
-    - travis-ci@kitpages.fr
+    - demonchaux.stephane@gmail.com
