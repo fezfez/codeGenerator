@@ -5,8 +5,12 @@ php:
   - 5.4
   - 5.5
 
+env:
+  - ZF2_VERSION="2.1.*" DOCTRINE2_VERSION="0.*"
+  - DB=sqlite 
+  
 before_script:
-  - composer install
+  - composer install && composer require zendframework/zendframework:${ZF2_VERSION} && composer doctrine/doctrine-orm-module:${DOCTRINE2_VERSION}
 
 script: phpunit --configuration "tests/phpunit.xml" tests/
 
