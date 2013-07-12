@@ -33,4 +33,12 @@ class FileManager
     {
         return file_get_contents($path);
     }
+
+    /**
+     * @param string $path
+     */
+    public function isFile($path)
+    {
+        return is_file($path);
+    }
 }

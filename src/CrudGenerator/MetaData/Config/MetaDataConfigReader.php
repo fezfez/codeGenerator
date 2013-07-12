@@ -46,15 +46,15 @@ class MetaDataConfigReader
     {
         $configPath = 'data/crudGeneratorHistory/' . md5(get_class($adapterConfig));
 
-        if(!is_file($configPath)) {
+        if($this->fileManager->isFile($configPath)) {
+            $this->output->writeln('<info>Adapter config found !</info>');
+            $configured = unserialize($this->fileManager->fileGetContent($configPath));
+            $configured = $this->read($configured);
+        } else {
             $this->output->writeln('For use this adapter you to config it before');
             $configured = $this->read($adapterConfig);
             $this->output->writeln('<info>Adapter fully configured !</info>');
             $this->fileManager->filePutsContent($configPath, serialize($configured));
-        } elseif(null !== $adapterConfig) {
-            $this->output->writeln('<info>Adapter config found !</info>');
-            $configured = unserialize($this->fileManager->fileGetContent($configPath));
-            $configured = $this->read($configured);
         }
 
         return $configured;
@@ -72,21 +72,22 @@ class MetaDataConfigReader
             $adapterConfig->test($this->output);
             return $adapterConfig;
         } catch (ConfigException $e) {
+
             $continue = true;
             $first    = true;
 
             while($continue) {
                 try {
-                    $adapterConfig->test($this->output);
+                    $result = $adapterConfig->test($this->output);
                     $continue = false;
                     break;
                 } catch (ConfigException $e) {
-                    if($first === true) {
+                    if($first === false) {
                         $this->output->writeln("<error>" . $e->getMessage() . "</error>");
-                        $first = false;
                     }
                 }
 
+                $first = false;
                 $adapterConfig = $this->write($adapterConfig);
             }
 

@@ -9,7 +9,7 @@ class getMetadataForTest extends \PHPUnit_Framework_TestCase
     {
         $suT = Doctrine2MetaDataDAOFactory::getInstance();
 
-        $metadata = $suT->getMetadataFor('Corp\News\NewsEntity');
+        $metadata = $suT->getMetadataFor('TestZf2\Entities\NewsEntity');
 
         $this->assertInstanceOf(
             'CrudGenerator\MetaData\Doctrine2\MetadataDataObjectDoctrine2',
@@ -32,9 +32,36 @@ class getMetadataForTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'Corp\News\NewsEntity',
+            'TestZf2\Entities\NewsEntity',
             $metadata->getName()
         );
+
+        $relationCollection = $metadata->getRelationCollection();
+
+        $manyToOneRelation = $relationCollection->offsetGet(0);
+        $this->assertEquals(
+            'manyToOne',
+            $manyToOneRelation->getAssociationType()
+        );
+
+        $oneToOneRelation = $relationCollection->offsetGet(1);
+        $this->assertEquals(
+            'oneToOne',
+            $oneToOneRelation->getAssociationType()
+        );
+
+        $oneToManyRelation = $relationCollection->offsetGet(2);
+        $this->assertEquals(
+            'oneToMany',
+            $oneToManyRelation->getAssociationType()
+        );
+
+        $manyToManyRelation = $relationCollection->offsetGet(3);
+        $this->assertEquals(
+            'manyToMany',
+            $manyToManyRelation->getAssociationType()
+        );
+
     }
 }
 

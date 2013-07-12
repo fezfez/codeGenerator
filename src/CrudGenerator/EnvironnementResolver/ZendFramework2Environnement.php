@@ -30,21 +30,28 @@ class ZendFramework2Environnement
         } elseif (class_exists('Zend\Mvc\Application')) {
             $previousDir = '.';
 
-            while (!file_exists('config/application.config.php')) {
-                $dir = dirname(getcwd());
+            if(file_exists('tests/CrudGenerator/Tests/ZF2/config/application.config.php')) {
+                $application = \Zend\Mvc\Application::init(include 'tests/CrudGenerator/Tests/ZF2/config/application.config.php');
+            } else {
+                while (!file_exists('config/application.config.php')) {
+                    $dir = dirname(getcwd());
 
-                if ($previousDir === $dir) {
-                    throw new RuntimeException(
-                        'Unable to locate "config/application.config.php": ' .
-                        'is DoctrineModule in a subdir of your application skeleton?'
-                    );
+                    echo $dir . "\n";
+
+                    if ($previousDir === $dir) {
+                        throw new RuntimeException(
+                            'Unable to locate "config/application.config.php": ' .
+                            'is DoctrineModule in a subdir of your application skeleton?'
+                        );
+                    }
+
+                    $previousDir = $dir;
+                    chdir($dir);
                 }
 
-                $previousDir = $dir;
-                chdir($dir);
+                $application = \Zend\Mvc\Application::init(include 'config/application.config.php');
             }
 
-            $application = \Zend\Mvc\Application::init(include 'config/application.config.php');
             self::$serviceManager = $application->getServiceManager();
 
             return self::$serviceManager;
