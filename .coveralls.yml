@@ -1,1 +1,4 @@
-coverage_clover: build/logs/clover-*.xml
+coverage_clover: 
+  - build/logs/clover-PDO.xml
+  - build/logs/clover-ZF2.xml
+  - build/logs/clover-General.xml
