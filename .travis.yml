@@ -19,7 +19,7 @@ before_script:
 
 script: 
   - mkdir -p build/logs
-  - phpunit --configuration "tests/phpunit.xml" --filter $TESTSUITE tests/
+  - phpunit --configuration "tests/phpunit.xml" --filter $TESTSUITE --coverage-clover build/logs/clover-$TESTSUITE.xml tests/
 
 after_script:
   - php vendor/bin/coveralls
