@@ -2,11 +2,6 @@
 namespace CrudGenerator\Tests\General\MetaData\Config\MetaDataConfigReader;
 
 use CrudGenerator\MetaData\Config\MetaDataConfigReader;
-use CrudGenerator\FileManager;
-use CrudGenerator\MetaData\PDO\PDOConfig;
-
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Helper\DialogHelper;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {

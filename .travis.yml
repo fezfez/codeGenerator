@@ -2,8 +2,6 @@ language: php
 
 php:
   - 5.3
-  - 5.4
-  - 5.5
 
 env:
   - TESTSUITE=PDO DB=sqlite 
@@ -12,13 +10,19 @@ env:
 
 before_script:
   - composer install
+  - composer require satooshi/php-coveralls:dev-master
   - sh -c "if [ '$TESTSUITE' = 'ZF2' ]; then composer require zendframework/zendframework:${ZF2_VERSION} ;fi"
   - sh -c "if [ '$TESTSUITE' = 'ZF2' ]; then composer require doctrine/doctrine-orm-module:${DOCTRINE2_VERSION} ;fi"
   - sh -c "if [ '$TESTSUITE' = 'ZF2' ]; then psql -c 'DROP DATABASE IF EXISTS code_generator_test;' -U postgres ;fi"
   - sh -c "if [ '$TESTSUITE' = 'ZF2' ]; then psql -c 'create database code_generator_test;' -U postgres ;fi"
   - sh -c "if [ '$DB' = 'sqlite' ]; then sudo apt-get install sqlite php5-sqlite -qq ;fi"
 
-script: phpunit --configuration "tests/phpunit.xml" --filter $TESTSUITE tests/
+script: 
+  - mkdir -p build/logs
+  - phpunit --configuration "tests/phpunit.xml" --filter $TESTSUITE tests/
+
+after_script:
+  - php vendor/bin/coveralls
 
 notifications:
   email:

@@ -8,6 +8,9 @@
             </exclude>
         </whitelist>
     </filter>
+    <logging>
+        <log type="coverage-clover" target="./../build/logs/clover.xml"/>
+    </logging>
     <testsuites>
         <testsuite name="PDO">
             <directory>Tests/PDO</directory>

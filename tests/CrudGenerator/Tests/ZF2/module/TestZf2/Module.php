@@ -11,7 +11,6 @@ namespace TestZf2;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
-use Corp\ServiceLocator\ServiceLocator;
 
 class Module
 {

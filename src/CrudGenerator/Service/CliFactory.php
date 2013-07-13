@@ -3,10 +3,8 @@ namespace CrudGenerator\Service;
 
 use CrudGenerator\Command\CreateCommand;
 use CrudGenerator\Command\UpToDateCommand;
-use CrudGenerator\Doctrine\Helper\ServiceManagerHelper;
 
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Helper\FormatterHelper;
 

@@ -2,7 +2,6 @@
 
 namespace CrudGenerator\MetaData\Doctrine2;
 
-use CrudGenerator\MetaData\MetaDataDAO;
 use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
 
 /**
