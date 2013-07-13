@@ -1,4 +1,2 @@
 coverage_clover: 
-  - ./build/logs/clover-PDO.xml
-  - ./build/logs/clover-ZF2.xml
-  - ./build/logs/clover-General.xml
+  - ./build/logs/clover-*.xml
