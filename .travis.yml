@@ -18,6 +18,7 @@ before_script:
   - sh -c "if [ '$DB' = 'sqlite' ]; then sudo apt-get install sqlite php5-sqlite -qq ;fi"
 
 script: 
+  - mkdir -p build
   - mkdir -p build/logs
   - phpunit --configuration "tests/phpunit.xml" --filter $TESTSUITE --coverage-clover build/logs/clover-$TESTSUITE.xml tests/
 
