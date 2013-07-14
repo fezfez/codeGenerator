@@ -1,21 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit bootstrap="bootstrap.php">
+<phpunit bootstrap="bootstrap.php" colors="true">
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./../src/CrudGenerator/</directory>
-            <exclude>
-            </exclude>
         </whitelist>
     </filter>
-    <testsuites>
-        <testsuite name="PDO">
-            <directory>Tests/PDO</directory>
-            <directory>Tests/General</directory>
-        </testsuite>
-        <testsuite name="ZF2">
-            <directory>Tests/ZF2</directory>
-            <directory>Tests/General</directory>
-        </testsuite>
-    </testsuites>
 </phpunit>
