@@ -18,24 +18,6 @@ class getAllAdapatersTest extends \PHPUnit_Framework_TestCase
             'CrudGenerator\Adapter\AdapterCollection',
             $adapterCollection
         );
-
-        $doctrine2 = $adapterCollection->offsetGet(0);
-        $this->assertInternalType(
-            'string',
-            $doctrine2->getName()
-        );
-        $this->assertEquals(
-            null,
-            $doctrine2->getFalseDependencies()
-        );
-        $this->assertInternalType(
-            'string',
-            $doctrine2->getDefinition()
-        );
-        $this->assertEquals(
-            null,
-            $doctrine2->getConfig()
-        );
     }
 
     /**
