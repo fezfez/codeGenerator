@@ -6,7 +6,6 @@ php:
 env:
   - TESTSUITE=PDO DB=sqlite 
   - TESTSUITE=ZF2 ZF2_VERSION="2.1.*" DOCTRINE2_VERSION="0.*"
-  - TESTSUITE=General
 
 before_script:
   - composer install

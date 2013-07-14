@@ -11,18 +11,11 @@
     <testsuites>
         <testsuite name="PDO">
             <directory>Tests/PDO</directory>
-            <listeners>
-                <listener class="CrudGenerator\Tests\PDO\TestListener" file="./CrudGenerator/Tests/PDO/TestListener.php"/>
-            </listeners>
-        </testsuite>
-        <testsuite name="General">
             <directory>Tests/General</directory>
         </testsuite>
         <testsuite name="ZF2">
             <directory>Tests/ZF2</directory>
-            <listeners>
-                <listener class="CrudGenerator\Tests\ZF2\TestListener" file="./CrudGenerator/Tests/ZF2/TestListener.php"/>
-            </listeners>
+            <directory>Tests/General</directory>
         </testsuite>
     </testsuites>
 </phpunit>
