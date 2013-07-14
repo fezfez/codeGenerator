@@ -2,8 +2,6 @@
 
 namespace CrudGenerator\MetaData\DataObject;
 
-use ArrayObject;
-
 class MetaDataRelationColumnDataObject
 {
     /**

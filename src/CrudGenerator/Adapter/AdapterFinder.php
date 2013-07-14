@@ -4,7 +4,6 @@ namespace CrudGenerator\Adapter;
 use CrudGenerator\Adapter\AdapterCollection;
 use CrudGenerator\Adapter\AdapterDataObject;
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
-use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
 
 use ReflectionClass;
 use RuntimeException;

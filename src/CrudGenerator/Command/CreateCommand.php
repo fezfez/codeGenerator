@@ -2,7 +2,6 @@
 
 namespace CrudGenerator\Command;
 
-use CrudGenerator\MetaData\MetaDataDAOFactory;
 use CrudGenerator\Generators\CodeGeneratorFactory;
 use CrudGenerator\DataObject;
 use CrudGenerator\FileManager;

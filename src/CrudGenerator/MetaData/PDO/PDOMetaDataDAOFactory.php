@@ -2,7 +2,6 @@
 
 namespace CrudGenerator\MetaData\PDO;
 
-use CrudGenerator\MetaData\MetaDataDAO;
 use CrudGenerator\MetaData\PDO\SqlManager;
 
 /**

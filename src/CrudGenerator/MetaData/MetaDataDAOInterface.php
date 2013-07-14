@@ -2,8 +2,6 @@
 
 namespace CrudGenerator\MetaData;
 
-use Doctrine\ORM\EntityManager;
-
 interface MetaDataDAOInterface
 {
     /**
