@@ -28,6 +28,7 @@ class PDOMetaDataDAOFactory
                 $config->getPassword()
             );
         }
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         return new PDOMetaDataDAO(
             $pdo,
