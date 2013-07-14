@@ -1,13 +1,27 @@
 <?php
 namespace CrudGenerator\Tests\ZF2\MetaData\Doctrine2\Doctrine2MetaDataDAO;
 
-use CrudGenerator\MetaData\Doctrine2\Doctrine2MetaDataDAOFactory;
+use CrudGenerator\MetaData\Doctrine2\Doctrine2MetaDataDAO;
+use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
+use CrudGenerator\FileManager;
 
 class getMetadataForTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
-        $suT = Doctrine2MetaDataDAOFactory::getInstance();
+        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager->expects($this->any())
+                        ->method('fileExists')
+                        ->will($this->returnValue(true));
+
+        $stubFileManager->expects($this->any())
+                        ->method('includeFile')
+                        ->will($this->returnValue(include __DIR__ . '/../../../config/application.config.php'));
+
+        $sm = ZendFramework2Environnement::getDependence($stubFileManager);
+        $em = $sm->get('doctrine.entitymanager.orm_default');
+
+        $suT = new Doctrine2MetaDataDAO($em);
 
         $metadata = $suT->getMetadataFor('TestZf2\Entities\NewsEntity');
 

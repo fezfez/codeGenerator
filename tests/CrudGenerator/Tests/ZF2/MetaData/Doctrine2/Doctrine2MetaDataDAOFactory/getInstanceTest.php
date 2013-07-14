@@ -7,10 +7,9 @@ class getInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
-        $this->assertInstanceOf(
-            'CrudGenerator\MetaData\Doctrine2\Doctrine2MetaDataDAO',
-             Doctrine2MetaDataDAOFactory::getInstance()
-        );
+         $this->setExpectedException('CrudGenerator\EnvironnementResolver\EnvironnementResolverException');
+
+         Doctrine2MetaDataDAOFactory::getInstance();
     }
 }
 

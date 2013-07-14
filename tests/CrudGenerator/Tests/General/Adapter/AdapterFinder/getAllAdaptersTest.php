@@ -20,8 +20,8 @@ class getAllAdapatersTest extends \PHPUnit_Framework_TestCase
         );
 
         $doctrine2 = $adapterCollection->offsetGet(0);
-        $this->assertEquals(
-            'CrudGenerator\MetaData\Doctrine2\Doctrine2MetaDataDAO',
+        $this->assertInternalType(
+            'string',
             $doctrine2->getName()
         );
         $this->assertEquals(
