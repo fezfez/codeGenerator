@@ -42,7 +42,6 @@ class ZendFramework2Environnement
                     );
                 }
 
-                var_dump($dir);
                 $previousDir = $dir;
                 chdir($dir);
             }
