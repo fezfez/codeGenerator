@@ -41,4 +41,20 @@ class FileManager
     {
         return is_file($path);
     }
+
+    /**
+     * @param string $file
+     */
+    public function fileExists($file)
+    {
+        return file_exists($file);
+    }
+
+    /**
+     * @param string $file
+     */
+    public function includeFile($file)
+    {
+        return include $file;
+    }
 }

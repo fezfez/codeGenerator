@@ -4,6 +4,7 @@ namespace CrudGenerator\Adapter;
 use CrudGenerator\Adapter\AdapterCollection;
 use CrudGenerator\Adapter\AdapterDataObject;
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
+use CrudGenerator\FileManager;
 
 use ReflectionClass;
 use RuntimeException;
@@ -23,6 +24,18 @@ class AdapterFinder
      * @var string File extension to find
      */
     private $fileExtension = 'php';
+    /**
+     * @var FileManager
+     */
+    private $fileManager = null;
+
+    /**
+     * @param FileManager $fileManager
+     */
+    public function __construct(FileManager $fileManager)
+    {
+        $this->fileManager = $fileManager;
+    }
 
     /**
      * Find all adpater in the projects
@@ -36,9 +49,6 @@ class AdapterFinder
         );
 
         foreach ($this->paths as $path) {
-            if (!is_dir($path)) {
-                throw new RuntimeException('invalid path ' . $path);
-            }
 
             $iterator = new RegexIterator(
                 new RecursiveIteratorIterator(
@@ -112,7 +122,7 @@ class AdapterFinder
         try {
             foreach($this->getDocBlockFromFactory($adapter, '@CodeGenerator\Environnement') as $environnementString) {
                 $environementClass = 'CrudGenerator\EnvironnementResolver\\' . $environnementString;
-                $environementClass::getDependence();
+                $environementClass::getDependence($this->fileManager);
             }
         } catch (EnvironnementResolverException $e) {
             $adapter->setFalseDependencie($e->getMessage());

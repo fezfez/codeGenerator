@@ -3,6 +3,7 @@
 namespace CrudGenerator\EnvironnementResolver;
 
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
+use CrudGenerator\FileManager;
 
 /**
  * ZendFramework2Environnement check if we are in zf2 env
@@ -19,44 +20,36 @@ class ZendFramework2Environnement
     /**
      * Check if we are in zf2 env
      *
+     * @param FileManager $fileManager
      * @throws RuntimeException
      * @throws EnvironnementResolverException
      * @return \Zend\ServiceManager\ServiceManager
      */
-    public static function getDependence()
+    public static function getDependence(FileManager $fileManager)
     {
         if(null !== self::$serviceManager) {
             return self::$serviceManager;
-        } elseif (class_exists('Zend\Mvc\Application')) {
+        } else {
             $previousDir = '.';
 
-            if(file_exists('tests/CrudGenerator/Tests/ZF2/config/application.config.php')) {
-                $application = \Zend\Mvc\Application::init(include 'tests/CrudGenerator/Tests/ZF2/config/application.config.php');
-            } else {
-                while (!file_exists('config/application.config.php')) {
-                    $dir = dirname(getcwd());
+            while (!$fileManager->fileExists('config/application.config.php')) {
+                $dir = dirname(getcwd());
 
-                    echo $dir . "\n";
-
-                    if ($previousDir === $dir) {
-                        throw new RuntimeException(
-                            'Unable to locate "config/application.config.php": ' .
-                            'is DoctrineModule in a subdir of your application skeleton?'
-                        );
-                    }
-
-                    $previousDir = $dir;
-                    chdir($dir);
+                if ($previousDir === $dir) {
+                    throw new EnvironnementResolverException(
+                        'Unable to locate "config/application.config.php": ' .
+                        'is CrudGenerator in a subdir of your application skeleton?'
+                    );
                 }
 
-                $application = \Zend\Mvc\Application::init(include 'config/application.config.php');
+                var_dump($dir);
+                $previousDir = $dir;
+                chdir($dir);
             }
+            $application = \Zend\Mvc\Application::init($fileManager->includeFile('config/application.config.php'));
 
             self::$serviceManager = $application->getServiceManager();
-
             return self::$serviceManager;
-        } else {
-            throw new EnvironnementResolverException("Not in zf2 env");
         }
     }
 }

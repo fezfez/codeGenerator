@@ -3,6 +3,7 @@
 namespace CrudGenerator\MetaData\Doctrine2;
 
 use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
+use CrudGenerator\FileManager;
 
 /**
  * @CodeGenerator\Environnement ZendFramework2Environnement
@@ -15,7 +16,8 @@ class Doctrine2MetaDataDAOFactory
      */
     public static function getInstance()
     {
-        $sm = ZendFramework2Environnement::getDependence();
+        $fileManager = new FileManager();
+        $sm = ZendFramework2Environnement::getDependence($fileManager);
         $em = $sm->get('doctrine.entitymanager.orm_default');
 
         return new Doctrine2MetaDataDAO($em);

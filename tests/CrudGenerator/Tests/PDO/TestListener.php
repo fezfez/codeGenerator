@@ -11,7 +11,7 @@ class TestListener implements \PHPUnit_Framework_TestListener
     public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
         if(null === self::$dbh) {
-            self::$dbh = new \PDO('sqlite2::database:sqlite2');
+            self::$dbh = new \PDO('sqlite::database:sqlite3');
             self::$dbh->exec(
                 "CREATE TABLE messages (
                 id INTEGER PRIMARY KEY,

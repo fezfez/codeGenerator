@@ -2,12 +2,15 @@
 namespace CrudGenerator\Tests\General\Generators\GeneratorFinder;
 
 use CrudGenerator\Generators\GeneratorFinder;
+use CrudGenerator\FileManager;
 
 class getAllAdapatersTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
-        $suT = new GeneratorFinder();
+        $fileManager = new FileManager();
+
+        $suT = new GeneratorFinder($fileManager);
 
         $this->assertInternalType(
             'array',

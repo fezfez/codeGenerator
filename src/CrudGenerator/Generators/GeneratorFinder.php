@@ -3,6 +3,7 @@ namespace CrudGenerator\Generators;
 
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
+use CrudGenerator\FileManager;
 
 class GeneratorFinder
 {
@@ -14,7 +15,18 @@ class GeneratorFinder
      * @var string
      */
     private $fileExtension = 'php';
+    /**
+     * @var FileManager
+     */
+    private $fileManager = null;
 
+    /**
+     * @param FileManager $fileManager
+     */
+    public function __construct(FileManager $fileManager)
+    {
+        $this->fileManager = $fileManager;
+    }
     /**
      * @return array
      */
@@ -24,28 +36,24 @@ class GeneratorFinder
             __DIR__ . '/'
         );
         try {
-            ZendFramework2Environnement::getDependence();
+            ZendFramework2Environnement::getDependence($this->fileManager);
 
             $previousDir = '.';
 
-            if(file_exists('tests/CrudGenerator/Tests/ZF2/config/application.config.php')) {
-                $config = include 'tests/CrudGenerator/Tests/ZF2/config/application.config.php';
-            } else {
-                while (!file_exists('config/autoload/global.php')) {
-                    $dir = dirname(getcwd());
+            while (!$this->fileManager->fileExists('config/autoload/global.php')) {
+                $dir = dirname(getcwd());
 
-                    if ($previousDir === $dir) {
-                        throw new \RuntimeException(
-                            'Unable to locate "config/autoload/global.php": ' .
-                            'is DoctrineModule in a subdir of your application skeleton?'
-                        );
-                    }
-
-                    $previousDir = $dir;
-                    chdir($dir);
+                if ($previousDir === $dir) {
+                    throw new \RuntimeException(
+                        'Unable to locate "config/autoload/global.php": ' .
+                        'is DoctrineModule in a subdir of your application skeleton?'
+                    );
                 }
-                $config = include 'config/autoload/global.php';
+
+                $previousDir = $dir;
+                chdir($dir);
             }
+            $config = $this->fileManager->includeFile('config/autoload/global.php');
 
             if(isset($config['crudGenerator'])) {
                 foreach($config['crudGenerator']['path'] as $paths) {
