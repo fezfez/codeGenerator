@@ -28,21 +28,25 @@ class GeneratorFinder
 
             $previousDir = '.';
 
-            while (!file_exists('config/autoload/global.php')) {
-                $dir = dirname(getcwd());
+            if(file_exists('tests/CrudGenerator/Tests/ZF2/config/application.config.php')) {
+                $config = include 'tests/CrudGenerator/Tests/ZF2/config/application.config.php';
+            } else {
+                while (!file_exists('config/autoload/global.php')) {
+                    $dir = dirname(getcwd());
 
-                if ($previousDir === $dir) {
-                    throw new RuntimeException(
-                        'Unable to locate "config/autoload/global.php": ' .
-                        'is DoctrineModule in a subdir of your application skeleton?'
-                    );
+                    if ($previousDir === $dir) {
+                        throw new \RuntimeException(
+                            'Unable to locate "config/autoload/global.php": ' .
+                            'is DoctrineModule in a subdir of your application skeleton?'
+                        );
+                    }
+
+                    $previousDir = $dir;
+                    chdir($dir);
                 }
-
-                $previousDir = $dir;
-                chdir($dir);
+                $config = include 'config/autoload/global.php';
             }
 
-            $config = include 'config/autoload/global.php';
             if(isset($config['crudGenerator'])) {
                 foreach($config['crudGenerator']['path'] as $paths) {
                     $this->paths[] = $paths;
