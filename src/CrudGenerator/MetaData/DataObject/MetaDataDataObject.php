@@ -53,8 +53,8 @@ abstract class MetaDataDataObject
      */
     public function __construct(
         MetaDataColumnDataObjectCollection $columnCollection,
-        MetaDataRelationDataObjectCollection $relationCollection)
-    {
+        MetaDataRelationDataObjectCollection $relationCollection
+    ) {
         $this->columnCollection   = $columnCollection;
         $this->relationCollection = $relationCollection;
     }

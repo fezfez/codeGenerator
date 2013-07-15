@@ -26,5 +26,4 @@ use CrudGenerator\MetaData\DataObject\MetaDataDataObject;
  */
 class MetadataDataObjectDoctrine2 extends MetaDataDataObject
 {
-
 }

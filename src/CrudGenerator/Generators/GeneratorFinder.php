@@ -131,8 +131,8 @@ class GeneratorFinder
             }
             $config = $this->fileManager->includeFile('config/autoload/global.php');
 
-            if(isset($config['crudGenerator'])) {
-                foreach($config['crudGenerator']['path'] as $paths) {
+            if (isset($config['crudGenerator'])) {
+                foreach ($config['crudGenerator']['path'] as $paths) {
                     $paths[] = $paths;
                 }
             }

@@ -70,7 +70,7 @@ class MetaDataConfigReader
     {
         $configPath = 'data/crudGeneratorHistory/' . md5(get_class($adapterConfig));
 
-        if($this->fileManager->isFile($configPath)) {
+        if ($this->fileManager->isFile($configPath)) {
             $this->output->writeln('<info>Adapter config found !</info>');
             $configured = unserialize($this->fileManager->fileGetContent($configPath));
             $configured = $this->read($configured);
@@ -102,13 +102,13 @@ class MetaDataConfigReader
             $continue = true;
             $first    = true;
 
-            while($continue) {
+            while ($continue) {
                 try {
                     $adapterConfig->test($this->output);
                     $continue = false;
                     break;
                 } catch (ConfigException $e) {
-                    if($first === false) {
+                    if ($first === false) {
                         $this->output->writeln("<error>" . $e->getMessage() . "</error>");
                     }
                 }
@@ -135,7 +135,7 @@ class MetaDataConfigReader
 
         foreach ($props as $prop) {
             $propName = $prop->getName();
-            if($propName === 'definition') {
+            if ($propName === 'definition') {
                 continue;
             }
             $propSetter = 'set' . ucfirst($propName);

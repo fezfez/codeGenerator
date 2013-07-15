@@ -85,7 +85,7 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
             new MetaDataRelationDataObjectCollection()
         );
 
-        foreach($metadataCollection as $metadata) {
+        foreach ($metadataCollection as $metadata) {
             $realDataObject = clone $dataObject;
             $realDataObject->setName($metadata->getName());
             $metaDataCollection->append($metadata);
@@ -109,11 +109,11 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
         $columnDataObject = new MetaDataColumnDataObject();
         $relationDataObject = new MetaDataRelationColumnDataObject();
 
-        foreach($metadata->identifier as $identifier) {
+        foreach ($metadata->identifier as $identifier) {
             $dataObject->addIdentifier($identifier);
         }
 
-        foreach($metadata->fieldMappings as $field => $columnMetadata) {
+        foreach ($metadata->fieldMappings as $field => $columnMetadata) {
             $column = clone $columnDataObject;
             $column->setName($field)
                    ->setType($columnMetadata['type'])
@@ -122,7 +122,7 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
             $dataObject->appendColumn($column);
         }
 
-        foreach($metadata->getAssociationMappings() as $association) {
+        foreach ($metadata->getAssociationMappings() as $association) {
             $relation = clone $relationDataObject;
             $relation->setFullName($association['targetEntity'])
                      ->setFieldName($association['fieldName']);

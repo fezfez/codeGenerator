@@ -104,5 +104,4 @@ class MetaDataRelationColumnDataObject
     {
         return $this->associationType;
     }
-
 }

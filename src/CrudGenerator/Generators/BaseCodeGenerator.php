@@ -106,7 +106,7 @@ abstract class BaseCodeGenerator
     public function generate(DataObject $dataObject)
     {
         $metadata = $dataObject->getMetadata();
-        if(empty($metadata)) {
+        if (empty($metadata)) {
             throw new \RuntimeException('Empty metadata');
         }
 
@@ -156,9 +156,9 @@ abstract class BaseCodeGenerator
             array_merge($datas, $suppDatas)
         );
 
-        if(is_file($pathTo) && file_get_contents($pathTo) !== $results) {
+        if (is_file($pathTo) && file_get_contents($pathTo) !== $results) {
 
-            while(true) {
+            while (true) {
                 $response = $this->dialog->select(
                     $this->output,
                     '<error>File "' . $pathTo . '" already exist, erase it with the new</error>',
@@ -169,23 +169,23 @@ abstract class BaseCodeGenerator
                         'cancel'
                     )
                 );
-                if($response == '0') {
+                if ($response == '0') {
                     $this->fileManager->filePutsContent($pathTo . '.new', $results);
                     $diff = $this->diffPHP->diff($pathTo, $pathTo . '.new');
                     $this->fileManager->filePutsContent($pathTo . '.diff', $diff);
                     $this->output->writeln('--> Generate diff and new file ' . $pathTo . '.diff');
                     break;
-                } elseif($response == '1') {
+                } elseif ($response == '1') {
                     $this->fileManager->filePutsContent($pathTo . '.diff', $results);
                     $this->output->writeln(
                         '<info>' . $this->diffPHP->diff($pathTo, $pathTo . '.diff') . '</info>'
                     );
                     unlink($pathTo . '.diff');
-                } elseif($response == '2') {
+                } elseif ($response == '2') {
                     $this->fileManager->filePutsContent($pathTo, $results);
                     $this->output->writeln('--> Create ' . $pathTo);
                     break;
-                } elseif($response == '3') {
+                } elseif ($response == '3') {
                     break;
                 }
             }

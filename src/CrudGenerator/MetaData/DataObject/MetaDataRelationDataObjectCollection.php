@@ -26,5 +26,4 @@ use ArrayObject;
  */
 class MetaDataRelationDataObjectCollection extends ArrayObject
 {
-
 }
