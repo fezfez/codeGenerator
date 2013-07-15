@@ -38,5 +38,4 @@ class AdapterFinderFactory
 
         return new AdapterFinder($fileManager);
     }
-
 }

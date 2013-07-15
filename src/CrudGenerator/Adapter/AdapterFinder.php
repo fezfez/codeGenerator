@@ -122,9 +122,7 @@ class AdapterFinder
      * @param AdapterDataObject $adapterDataObject
      * @return AdapterDataObject
      */
-    private function buildAdapterDataObject(
-        $adapterClassName,
-        AdapterDataObject $adapterDataObject)
+    private function buildAdapterDataObject($adapterClassName, AdapterDataObject $adapterDataObject)
     {
         $adapter = clone $adapterDataObject;
 
@@ -134,12 +132,12 @@ class AdapterFinder
         $adapter->setDefinition((isset($doc[0]) ? $doc[0] : '') . (isset($env[0]) ? ' in ' . $env[0] : ''));
         $configName = str_replace('MetaDataDAO', '', $adapterClassName) . 'Config';
 
-        if(class_exists($configName)) {
+        if (class_exists($configName)) {
             $adapter->setConfig(new $configName());
         }
 
         try {
-            foreach($this->getDocBlockFromFactory($adapter, '@CodeGenerator\Environnement') as $environnementString) {
+            foreach ($this->getDocBlockFromFactory($adapter, '@CodeGenerator\Environnement') as $environnementString) {
                 $environementClass = 'CrudGenerator\EnvironnementResolver\\' . $environnementString;
                 $environementClass::getDependence($this->fileManager);
             }
@@ -162,19 +160,25 @@ class AdapterFinder
         $reflectionClass = new ReflectionClass($adapter->getFactory());
 
         $sDocComment = $reflectionClass->getDocComment();
-        $sDocComment = trim(preg_replace("/(^[\\s]*\\/\\*\\*)
-                        |(^[\\s]\\*\\/)
-                        |(^[\\s]*\\*?\\s)
-                        |(^[\\s]*)
-                        |(^[\\t]*)/ixm", "", $sDocComment));
+        $sDocComment = trim(
+            preg_replace(
+                "/(^[\\s]*\\/\\*\\*)
+                |(^[\\s]\\*\\/)
+                |(^[\\s]*\\*?\\s)
+                |(^[\\s]*)
+                |(^[\\t]*)/ixm",
+                "",
+                $sDocComment
+            )
+        );
 
         $sDocComment = str_replace("\r", "", $sDocComment);
         $sDocComment = preg_replace("/([\\t])+/", "\t", $sDocComment);
         $aDocCommentLines = explode("\n", $sDocComment);
         $factoryEnv = array();
 
-        foreach($aDocCommentLines as $commentLine) {
-            if(substr($commentLine, 0, strlen($string)) === $string) {
+        foreach ($aDocCommentLines as $commentLine) {
+            if (substr($commentLine, 0, strlen($string)) === $string) {
                 $factoryEnv[] = trim(str_replace($string, '', $commentLine));
             }
         }

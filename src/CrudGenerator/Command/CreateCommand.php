@@ -63,12 +63,12 @@ class CreateCommand extends Command
         $adapterConfig       = $adapter->getConfig();
         $adapterConfigurator = MetaDataConfigReaderFactory::getInstance($output, $dialog);
 
-        if(null !== $adapterConfig) {
+        if (null !== $adapterConfig) {
             $adapterConfig = $adapterConfigurator->config($adapterConfig);
         }
 
         $adapterFactory = $adapter->getFactory();
-        if(null !== $adapterConfig) {
+        if (null !== $adapterConfig) {
             $adapterDAO = $adapterFactory::getInstance($adapterConfig);
         } else {
             $adapterDAO = $adapterFactory::getInstance();
@@ -123,11 +123,13 @@ class CreateCommand extends Command
         $adapterFinder   = new \CrudGenerator\Adapter\AdapterFinder();
         $adaptersCollection = $adapterFinder->getAllAdapters();
         $output->writeln('<question>Adapters list</question>');
-        foreach($adaptersCollection as $adapter) {
+        foreach ($adaptersCollection as $adapter) {
             $falseDependencies = $adapter->getFalseDependencies();
 
-            if(!empty($falseDependencies)) {
-                $output->writeln('<error>Dependencies not complet for use adapter "' . $adapter->getName() . '" caused by</error>');
+            if (!empty($falseDependencies)) {
+                $output->writeln(
+                    '<error>Dependencies not complet for use adapter "' . $adapter->getName() . '" caused by</error>'
+                );
                 $output->writeln('<error> * ' . $falseDependencies . '</error>');
             } else {
                 $output->writeln('<comment>' . $adapter->getDefinition() . '</comment>');
@@ -136,9 +138,9 @@ class CreateCommand extends Command
         }
 
         $adapterValidation = function ($adapter) use ($adaptersChoices, $adaptersCollection) {
-            foreach($adaptersCollection as $adapterDataobject) {
+            foreach ($adaptersCollection as $adapterDataobject) {
                 $adapterName = $adapterDataobject->getName();
-                if($adapterName === $adapter) {
+                if ($adapterName === $adapter) {
                     return $adapterDataobject;
                 }
             }

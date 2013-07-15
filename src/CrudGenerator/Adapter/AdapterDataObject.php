@@ -124,4 +124,3 @@ class AdapterDataObject
         return $this->config;
     }
 }
-
