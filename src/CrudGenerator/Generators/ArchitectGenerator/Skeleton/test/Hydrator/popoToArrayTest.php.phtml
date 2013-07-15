@@ -28,7 +28,8 @@ $fixtureRender = (function($metadata) use($loremIpsumGenerator) {
 });
 
 $keyTestable = array();
-foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata):
+$columnCollection = $this->dataObject->getMetadata()->getColumnCollection();
+foreach($columnCollection as $field => $metadata):
 /*if(isset($metadata['id']) && $metadata['id'] == true) {
     continue;
 }*/
@@ -39,7 +40,9 @@ $modifiedValue = $fixtureRender($metadata);
 <?php endforeach; ?>
 
         $dto = new <?php echo $this->dataObject->getEntityName(); ?>DataObject();
-        $dto<?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
+        $dto<?php
+        $columnCollection = $this->dataObject->getMetadata()->getColumnCollection();
+        foreach($columnCollection as $field => $metadata): ?>
 <?php
 /*
 if(isset($metadata['id']) && $metadata['id'] == true) {
@@ -49,13 +52,15 @@ if(null === $keyToTest) {
     $keyToTest = $metadata->getName();
 }
 ?>
-           ->set<?php echo ucfirst($metadata->getName()); ?>($<?php echo $metadata->getName(); ?>)<?php if($metadata == end($this->dataObject->getMetadata()->getColumnCollection())): ?>;<?php endif; ?><?php echo "\n"; ?>
+           ->set<?php echo ucfirst($metadata->getName()); ?>($<?php echo $metadata->getName(); ?>)<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
 <?php endforeach; ?>
 
        $hydrator = new <?php echo $this->dataObject->getEntityName(); ?>Hydrator();
        $arrayDto = $hydrator->popoToArray($dto, array());
 
-<?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
+<?php
+$columnCollection = $this->dataObject->getMetadata()->getColumnCollection();
+foreach($columnCollection as $field => $metadata): ?>
 <?php
 /*
 if(isset($metadata['id']) && $metadata['id'] == true) {

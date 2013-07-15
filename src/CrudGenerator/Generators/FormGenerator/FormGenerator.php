@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Generators\CrudGenerator;
+namespace CrudGenerator\Generators\FormGenerator;
 
 use CrudGenerator\DataObject;
 use CrudGenerator\Generators\BaseCodeGenerator;

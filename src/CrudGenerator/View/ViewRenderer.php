@@ -26,7 +26,7 @@ class ViewRenderer
             $content = ob_get_clean();
         } catch (\Exception $ex) {
             ob_end_clean();
-            throw new ViewRendererException($ex->getMessage());
+            throw new ViewRendererException('In : "' . $path . $templateName . '" ' . $ex->getMessage() . ' Line ' . $ex->getLine());
         }
 
         return $content;

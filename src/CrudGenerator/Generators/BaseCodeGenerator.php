@@ -80,7 +80,12 @@ abstract class BaseCodeGenerator
      */
     public function generate(DataObject $dataObject)
     {
-        $identifier = $dataObject->getMetadata()->getIdentifier();
+        $metadata = $dataObject->getMetadata();
+        if(empty($metadata)) {
+            throw new \RuntimeException('Empty metadata');
+        }
+
+        $identifier = $metadata->getIdentifier();
         if (count($identifier) > 1) {
             throw new \RuntimeException('The generator does not support entity classes with multiple primary keys.');
         }

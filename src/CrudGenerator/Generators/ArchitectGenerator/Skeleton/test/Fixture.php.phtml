@@ -33,16 +33,18 @@ $fixtureRender = (function($metadata) use($loremIpsumGenerator) {
 
 ?>
         $this->entity
-<?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
+<?php
+$columnCollection = $this->dataObject->getMetadata()->getColumnCollection();
+foreach($columnCollection as $field => $metadata): ?>
 <?php
 /*if(isset($metadata['id']) && $metadata['id'] == true) {
     continue;
 }*/
 ?>
-<?php if($metadata == reset($this->dataObject->getMetadata()->getColumnCollection())): ?>
+<?php if($metadata == reset($columnCollection)): ?>
                      ->set<?php echo ucfirst($metadata->getName()); ?>(<?php echo $fixtureRender($metadata); ?>)<?php echo "\n"; ?>
 <?php else: ?>
-                     ->set<?php echo ucfirst($metadata->getName()); ?>(<?php echo $fixtureRender($metadata); ?>)<?php if($metadata == end($this->dataObject->getMetadata()->getColumnCollection())): ?>;<?php endif; ?><?php echo "\n"; ?>
+                     ->set<?php echo ucfirst($metadata->getName()); ?>(<?php echo $fixtureRender($metadata); ?>)<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
 <?php endif; ?>
 <?php endforeach; ?>
 

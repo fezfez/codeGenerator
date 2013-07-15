@@ -31,7 +31,8 @@ $fixtureRender = (function($metadata) use($loremIpsumGenerator) {
 });
 
 $keyTestable = array();
-foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata):
+$columnCollection = $this->dataObject->getMetadata()->getColumnCollection();
+foreach($columnCollection as $field => $metadata):
 /*if(isset($metadata['id']) && $metadata['id'] == true) {
     continue;
 }*/
@@ -41,7 +42,7 @@ $keyToTest = null;
 <?php endforeach; ?>
 
         $dto = new <?php echo $this->dataObject->getEntityName(); ?>DataObject();
-        $dto<?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
+        $dto<?php foreach($columnCollection as $field => $metadata): ?>
 <?php
 /*
 if(isset($metadata['id']) && $metadata['id'] == true) {
@@ -51,7 +52,7 @@ if(null === $keyToTest) {
     $keyToTest = $metadata->getName();
 }
 ?>
-           ->set<?php echo ucfirst($metadata->getName()); ?>($<?php echo $metadata->getName(); ?>)<?php if($metadata == end($this->dataObject->getMetadata()->getColumnCollection())): ?>;<?php endif; ?><?php echo "\n"; ?>
+           ->set<?php echo ucfirst($metadata->getName()); ?>($<?php echo $metadata->getName(); ?>)<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
 <?php endforeach; ?>
 
         $<?php echo $this->dataObject->getEntityName(); ?>DAO = new <?php echo $this->dataObject->getEntityName(); ?>DAO($em, new <?php echo $this->dataObject->getEntityName(); ?>Hydrator());
@@ -59,7 +60,9 @@ if(null === $keyToTest) {
 
         $entity = $em->getRepository('<?php echo $this->dataObject->getEntity(); ?>')->findOneBy(array('<?php echo $keyToTest; ?>' => $<?php echo $keyToTest; ?>));
 
-<?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
+<?php
+$columnCollection = $this->dataObject->getMetadata()->getColumnCollection();
+foreach($columnCollection as $field => $metadata): ?>
 <?php
 /*
 if(isset($metadata['id']) && $metadata['id'] == true) {

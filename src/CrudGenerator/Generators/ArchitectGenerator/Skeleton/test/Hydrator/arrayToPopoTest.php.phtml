@@ -29,7 +29,8 @@ $fixtureRender = (function($metadata) use($loremIpsumGenerator) {
 });
 
 $keyTestable = array();
-foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata):
+$columnCollection = $this->dataObject->getMetadata()->getColumnCollection();
+foreach($columnCollection as $field => $metadata):
 /*if(isset($metadata['id']) && $metadata['id'] == true) {
     continue;
 }*/
@@ -42,7 +43,9 @@ $modifiedValue = $fixtureRender($metadata);
        $hydrator = new <?php echo $this->dataObject->getEntityName(); ?>Hydrator();
        $dto = $hydrator->arrayToPopo($arrayDto, new <?php echo $this->dataObject->getEntityName(); ?>DataObject());
 
-<?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
+<?php
+$columnCollection = $this->dataObject->getMetadata()->getColumnCollection();
+foreach($columnCollection as $field => $metadata): ?>
 <?php
 /*
 if(isset($metadata['id']) && $metadata['id'] == true) {
