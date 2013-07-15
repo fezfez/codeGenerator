@@ -42,7 +42,7 @@ class ZendFramework2Environnement
      */
     public static function getDependence(FileManager $fileManager)
     {
-        if(null !== self::$serviceManager) {
+        if (null !== self::$serviceManager) {
             return self::$serviceManager;
         } else {
             $previousDir = '.';

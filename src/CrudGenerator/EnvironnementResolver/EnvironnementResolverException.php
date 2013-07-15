@@ -26,5 +26,4 @@ use Exception;
  */
 class EnvironnementResolverException extends Exception
 {
-
 }
