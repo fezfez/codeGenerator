@@ -1,6 +1,11 @@
 <?php
 namespace CrudGenerator\MetaData;
 
+/**
+ * Abstract Metadata config
+ *
+ * @author Stéphane Demonchaux
+ */
 abstract class AbstractConfig
 {
     /**

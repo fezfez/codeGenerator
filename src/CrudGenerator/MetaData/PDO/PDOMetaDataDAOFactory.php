@@ -5,11 +5,15 @@ namespace CrudGenerator\MetaData\PDO;
 use CrudGenerator\MetaData\PDO\SqlManager;
 
 /**
+ * Create PDO Metadata DAO instance
+ *
  * @CodeGenerator\Description PDO
  */
 class PDOMetaDataDAOFactory
 {
     /**
+     * Create PDO Metadata DAO instance
+     *
      * @param PDOConfig $config
      * @return \CrudGenerator\MetaData\PDO\PDOMetaDataDAO
      */
@@ -36,6 +40,10 @@ class PDOMetaDataDAOFactory
         );
     }
 
+    /**
+     * Check if dependence are complete
+     * @return boolean
+     */
     public static function checkDependencies()
     {
         return true;

@@ -11,6 +11,11 @@ use Symfony\Component\Console\Helper\DialogHelper;
 use ReflectionClass;
 use ReflectionProperty;
 
+/**
+ * Config a Dataobject for particulary Metadata adpater based on AbstractConfig
+ *
+ * @author Stéphane Demonchaux
+ */
 class MetaDataConfigReader
 {
     /**
@@ -22,7 +27,7 @@ class MetaDataConfigReader
      */
     private $dialog = null;
     /**
-     * @var FileManager
+     * @var FileManager File manager
      */
     private $fileManager = null;
 
@@ -39,6 +44,8 @@ class MetaDataConfigReader
     }
 
     /**
+     * Config a Dataobject for particulary Metadata adpater based on AbstractConfig
+     *
      * @param AbstractConfig $adapterConfig
      * @return \CrudGenerator\MetaData\AbstractConfig
      */
@@ -61,6 +68,8 @@ class MetaDataConfigReader
     }
 
     /**
+     * Test if Dataobject is well configured
+     *
      * @param AbstractConfig $adapterConfig
      * @return AbstractConfig
      */
@@ -96,6 +105,8 @@ class MetaDataConfigReader
     }
 
     /**
+     * Write data into Dataobject
+     *
      * @param AbstractConfig $adapterConfig
      * @return AbstractConfig
      */

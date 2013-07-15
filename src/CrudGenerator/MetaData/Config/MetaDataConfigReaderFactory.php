@@ -6,9 +6,16 @@ use CrudGenerator\FileManager;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 
+/**
+ * Create MetaDataConfigReader instance
+ *
+ * @author Stéphane Demonchaux
+ */
 class MetaDataConfigReaderFactory
 {
     /**
+     * Create MetaDataConfigReader instance
+     *
      * @param OutputInterface $output
      * @param DialogHelper $dialog
      * @return \CrudGenerator\MetaData\Config\MetaDataConfigReader

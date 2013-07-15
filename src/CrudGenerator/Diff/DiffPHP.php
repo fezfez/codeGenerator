@@ -14,6 +14,11 @@ namespace CrudGenerator\Diff;
 
 use Exception;
 
+/**
+ * Generate php diff between two file
+ *
+ * @author Sean Coates
+ */
 class DiffPHP
 {
     const DEBUG_SYNTAX = false; // set to true to get syntax error data (== broken diffs)

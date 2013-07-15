@@ -4,9 +4,20 @@ namespace CrudGenerator\Generators\FormGenerator;
 use CrudGenerator\DataObject;
 use CrudGenerator\Generators\BaseCodeGenerator;
 
+/**
+ * Generate forms
+ *
+ * @author Stéphane Demonchaux
+ */
 class FormGenerator extends BaseCodeGenerator
 {
+    /**
+     * @var string
+     */
     protected $skeletonDir    = null;
+    /**
+     * @var string
+     */
     protected $definition     = 'Generate forms';
 
     /**

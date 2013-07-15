@@ -4,9 +4,20 @@ namespace CrudGenerator\Generators\ArchitectGenerator;
 use CrudGenerator\DataObject;
 use CrudGenerator\Generators\BaseCodeGenerator;
 
+/**
+ * Generate DAO, DTO, Hydrator, Exception, unit test
+ *
+ * @author Stéphane Demonchaux
+ */
 class ArchitectGenerator extends BaseCodeGenerator
 {
+    /**
+     * @var string
+     */
     protected $skeletonDir = null;
+    /**
+     * @var string
+     */
     protected $definition  = 'Generate DAO, DTO, Hydrator, Exception, unit test';
 
     /**

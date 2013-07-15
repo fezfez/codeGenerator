@@ -6,6 +6,11 @@ use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use CrudGenerator\DataObject;
 
+/**
+ * Group of questions frequently asked by Generators
+ *
+ * @author Stéphane Demonchaux
+ */
 class GeneriqueQuestions
 {
     /**
@@ -17,11 +22,11 @@ class GeneriqueQuestions
      */
     private $output            = null;
     /**
-     * @var string
+     * @var string Response to the question
      */
     private $directoryResponse = null;
     /**
-     * @var string
+     * @var string Response to the question
      */
     private $namespaceResponse = null;
 
@@ -36,6 +41,8 @@ class GeneriqueQuestions
     }
 
     /**
+     * Ask generation directory
+     *
      * @param DataObject $dataObject
      * @throws \InvalidArgumentException
      * @return string
@@ -66,6 +73,8 @@ class GeneriqueQuestions
     }
 
     /**
+     * Ask the namespace to use in template
+     *
      * @return string
      */
     public function namespaceQuestion()

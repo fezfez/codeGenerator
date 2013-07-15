@@ -5,18 +5,23 @@ use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
 use CrudGenerator\FileManager;
 
+/**
+ * Find all generator allow in project
+ *
+ * @author Stéphane Demonchaux
+ */
 class GeneratorFinder
 {
     /**
-     * @var array
+     * @var array Paths to search generator
      */
     private $paths = array();
     /**
-     * @var string
+     * @var string File extension to search
      */
     private $fileExtension = 'php';
     /**
-     * @var FileManager
+     * @var FileManager File manager
      */
     private $fileManager = null;
 
@@ -27,7 +32,10 @@ class GeneratorFinder
     {
         $this->fileManager = $fileManager;
     }
+
     /**
+     * Find all adapters allow in project
+     *
      * @return array
      */
     public function getAllClasses()

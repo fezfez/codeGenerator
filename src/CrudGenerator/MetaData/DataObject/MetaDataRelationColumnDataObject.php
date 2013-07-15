@@ -13,7 +13,7 @@ class MetaDataRelationColumnDataObject
      */
     private $fieldName = null;
     /**
-     * @var string
+     * @var string Relation association type (ex manyToMany, oneToOne etc...)
      */
     private $associationType = null;
 

@@ -3,10 +3,16 @@ namespace CrudGenerator;
 
 use RuntimeException;
 
+/**
+ * Manage file and directory
+ *
+ * @author Stéphane Demonchaux
+ */
 class FileManager
 {
     /**
-     * @param string $pathname
+     * Create a directory
+     * @param string $pathname Dir to create
      * @throws RuntimeException
      */
     public function mkdir($pathname)
@@ -17,8 +23,9 @@ class FileManager
     }
 
     /**
-     * @param string $path
-     * @param string $content
+     * Puts content into file
+     * @param string $path File path
+     * @param string $content File Content
      */
     public function filePutsContent($path, $content)
     {
@@ -27,7 +34,8 @@ class FileManager
     }
 
     /**
-     * @param string $path
+     * Get content from file
+     * @param string $path File path
      */
     public function fileGetContent($path)
     {
@@ -35,7 +43,8 @@ class FileManager
     }
 
     /**
-     * @param string $path
+     * Test if is file
+     * @param string $path File path
      */
     public function isFile($path)
     {
@@ -43,7 +52,8 @@ class FileManager
     }
 
     /**
-     * @param string $file
+     * Test if file exist
+     * @param string $file File path
      */
     public function fileExists($file)
     {
@@ -51,7 +61,8 @@ class FileManager
     }
 
     /**
-     * @param string $file
+     * Include file
+     * @param string $file File path
      */
     public function includeFile($file)
     {

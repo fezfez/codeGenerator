@@ -14,8 +14,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 use RuntimeException;
 use InvalidArgumentException;
 
+/**
+ * Generator command
+ *
+ * @author Stéphane Demonchaux
+ */
 class CreateCommand extends Command
 {
+    /* (non-PHPdoc)
+     * @see Symfony\Component\Console\Command.Command::configure()
+     */
     protected function configure()
     {
         parent::configure();

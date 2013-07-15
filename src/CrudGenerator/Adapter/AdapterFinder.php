@@ -14,10 +14,15 @@ use RecursiveRegexIterator;
 use RecursiveIteratorIterator;
 use FilesystemIterator;
 
+/**
+ * Find all adapters allow in project
+ *
+ * @author Stéphane Demonchaux
+ */
 class AdapterFinder
 {
     /**
-     * @var array Paths to find adapter
+     * @var array Paths to search adapter
      */
     private $paths = array();
     /**
@@ -25,7 +30,7 @@ class AdapterFinder
      */
     private $fileExtension = 'php';
     /**
-     * @var FileManager
+     * @var FileManager File manager
      */
     private $fileManager = null;
 

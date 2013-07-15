@@ -21,6 +21,8 @@ class View
     private $viewRenderer = null;
 
     /**
+     * Manage template renderer
+     *
      * @param FileManager $fileManager
      * @param ViewRenderer $viewRenderer
      */

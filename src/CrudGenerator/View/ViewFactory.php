@@ -13,7 +13,7 @@ use CrudGenerator\FileManager;
 class ViewFactory
 {
     /**
-     * Build a View
+     * Build a View manager
      *
      * @param array $config
      * @return \CrudGenerator\View\ZendView

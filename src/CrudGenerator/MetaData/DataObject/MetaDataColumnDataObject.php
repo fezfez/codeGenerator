@@ -5,23 +5,25 @@ namespace CrudGenerator\MetaData\DataObject;
 class MetaDataColumnDataObject
 {
     /**
-     * @var string
+     * @var string Column name
      */
     private $name = null;
     /**
-     * @var string
+     * @var string Column type
      */
     private $type = null;
     /**
-     * @var integer
+     * @var integer Column length
      */
     private $length = null;
     /**
-     * @var boolean
+     * @var boolean Column is nullable
      */
     private $nullable = true;
 
     /**
+     * Set Column name
+     *
      * @param string $value
      * @return \CrudGenerator\MetaData\MetaDataColumnDataObject
      */
@@ -31,6 +33,8 @@ class MetaDataColumnDataObject
         return $this;
     }
     /**
+     * Set Column type
+     *
      * @param string $value
      * @return \CrudGenerator\MetaData\MetaDataColumnDataObject
      */
@@ -40,6 +44,8 @@ class MetaDataColumnDataObject
         return $this;
     }
     /**
+     * Set Column length
+     *
      * @param integer $value
      * @return \CrudGenerator\MetaData\MetaDataColumnDataObject
      */
@@ -49,6 +55,8 @@ class MetaDataColumnDataObject
         return $this;
     }
     /**
+     * Set Column is nullable
+     *
      * @param boolean $value
      * @return \CrudGenerator\MetaData\MetaDataColumnDataObject
      */
@@ -59,6 +67,8 @@ class MetaDataColumnDataObject
     }
 
     /**
+     * Get Column name
+     *
      * @return string
      */
     public function getName()
@@ -66,6 +76,8 @@ class MetaDataColumnDataObject
         return $this->name;
     }
     /**
+     * Get Column type
+     *
      * @return string
      */
     public function getType()
@@ -73,6 +85,8 @@ class MetaDataColumnDataObject
         return $this->type;
     }
     /**
+     * Get Column length
+     *
      * @return integer
      */
     public function getLength()
@@ -80,6 +94,8 @@ class MetaDataColumnDataObject
         return $this->length;
     }
     /**
+     * Get Column is nullable
+     *
      * @return boolean
      */
     public function getNullable()

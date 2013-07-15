@@ -2,6 +2,11 @@
 
 namespace CrudGenerator\MetaData;
 
+/**
+ * Metadata DAO interface
+ *
+ * @author Stéphane Demonchaux
+ */
 interface MetaDataDAOInterface
 {
     /**

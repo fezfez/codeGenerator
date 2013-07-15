@@ -6,6 +6,11 @@ use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObjectCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationColumnDataObject;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationDataObjectCollection;
 
+/**
+ * Base representation metadata for template generation
+ *
+ * @author Stéphane Demonchaux
+ */
 abstract class MetaDataDataObject
 {
     /**
