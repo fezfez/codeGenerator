@@ -11,11 +11,6 @@ use Symfony\Component\Console\Input\InputInterface;
 
 class CodeGeneratorFactory
 {
-    private function __construct()
-    {
-
-    }
-
     /**
      * @param OutputInterface $output
      * @param InputInterface $input
