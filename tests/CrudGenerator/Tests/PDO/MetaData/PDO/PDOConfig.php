@@ -16,4 +16,3 @@ class PDOConfig
         return $pdoConfig;
     }
 }
-

@@ -31,4 +31,3 @@ class MkdirTest extends \PHPUnit_Framework_TestCase
         $sUT->mkdir($filePath);
     }
 }
-

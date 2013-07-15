@@ -124,4 +124,3 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $suT->config($stubConfig);
     }
 }
-

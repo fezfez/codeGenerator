@@ -3,7 +3,7 @@ namespace CrudGenerator\Tests\General\FileManager;
 
 use CrudGenerator\FileManager;
 
-class isFile extends \PHPUnit_Framework_TestCase
+class IsFile extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
@@ -15,4 +15,3 @@ class isFile extends \PHPUnit_Framework_TestCase
         );
     }
 }
-

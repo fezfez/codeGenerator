@@ -10,7 +10,7 @@ class TestListener implements \PHPUnit_Framework_TestListener
      */
     public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
-        if(null === self::$dbh) {
+        if (null === self::$dbh) {
             self::$dbh = new \PDO('sqlite::database:sqlite3');
             self::$dbh->exec(
                 "CREATE TABLE messages (
@@ -26,23 +26,37 @@ class TestListener implements \PHPUnit_Framework_TestListener
     /**
      * @param \PHPUnit_Framework_TestSuite $suite
      */
-    public function endTestSuite(\PHPUnit_Framework_TestSuite $suite) { }
+    public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
+    {
+    }
 
-    public function addError(\PHPUnit_Framework_Test $test, \Exception $e, $time) { }
+    public function addError(\PHPUnit_Framework_Test $test, \Exception $e, $time)
+    {
+    }
 
-    public function addFailure(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_AssertionFailedError $e, $time) { }
+    public function addFailure(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_AssertionFailedError $e, $time)
+    {
+    }
 
-    public function addIncompleteTest(\PHPUnit_Framework_Test $test, \Exception $e, $time) { }
+    public function addIncompleteTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
+    {
+    }
 
-    public function addSkippedTest(\PHPUnit_Framework_Test $test, \Exception $e, $time) { }
+    public function addSkippedTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
+    {
+    }
 
-    public function startTest(\PHPUnit_Framework_Test $test) { }
+    public function startTest(\PHPUnit_Framework_Test $test)
+    {
+    }
 
-    public function endTest(\PHPUnit_Framework_Test $test, $time) { }
+    public function endTest(\PHPUnit_Framework_Test $test, $time)
+    {
+    }
 
     public function __destruct()
     {
-        self::$dbh = NULL;
+        self::$dbh = null;
         unlink(':database:sqlite2');
         echo "\n\nDelete tmp database\n\n";
     }

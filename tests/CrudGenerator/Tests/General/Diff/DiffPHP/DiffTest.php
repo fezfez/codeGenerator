@@ -50,4 +50,3 @@ class DiffTest extends \PHPUnit_Framework_TestCase
         );
     }
 }
-

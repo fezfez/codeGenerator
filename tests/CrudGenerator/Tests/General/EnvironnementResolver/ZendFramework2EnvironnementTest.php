@@ -24,4 +24,3 @@ class ZendFramework2EnvironnementTest extends \PHPUnit_Framework_TestCase
         $sUt = ZendFramework2Environnement::getDependence($stubFileManager);
     }
 }
-

@@ -14,7 +14,7 @@ use Zend\Mvc\MvcEvent;
 
 class Module
 {
-    private static $_serviceManager = null;
+    private static $serviceManager = null;
 
     public function onBootstrap(MvcEvent $e)
     {
@@ -24,7 +24,7 @@ class Module
 
         $sharedEventManager = $eventManager->getSharedManager();
 
-        self::$_serviceManager = $e->getApplication()->getServiceManager();
+        self::$serviceManager = $e->getApplication()->getServiceManager();
     }
 
     public function getConfig()

@@ -1,4 +1,7 @@
 <?php
+
+namespace MyNamespace;
+
 class File
 {
     /**
