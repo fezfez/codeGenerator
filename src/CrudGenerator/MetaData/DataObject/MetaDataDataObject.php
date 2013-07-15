@@ -1,4 +1,20 @@
 <?php
+/**
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license.
+ */
 namespace CrudGenerator\MetaData\DataObject;
 
 use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObject;
@@ -14,23 +30,24 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationDataObjectCollection;
 abstract class MetaDataDataObject
 {
     /**
-     * @var MetaDataColumnDataObjectCollection
+     * @var MetaDataColumnDataObjectCollection Column collection
      */
     private $columnCollection = null;
     /**
-     * @var MetaDataRelationDataObjectCollection
+     * @var MetaDataRelationDataObjectCollection Relation collection
      */
     private $relationCollection = null;
     /**
-     * @var array
+     * @var array Identifiers
      */
     private $identifier = array();
     /**
-     * @var string
+     * @var string Name
      */
     private $name = null;
 
     /**
+     * Base representation metadata for template generation
      * @param MetaDataColumnDataObjectCollection $columnCollection
      * @param MetaDataRelationDataObjectCollection $relationCollection
      */
@@ -42,6 +59,7 @@ abstract class MetaDataDataObject
         $this->relationCollection = $relationCollection;
     }
     /**
+     * Append column dataobject
      * @param MetaDataColumnDataObject $value
      */
     public function appendColumn(MetaDataColumnDataObject $value)
@@ -49,6 +67,7 @@ abstract class MetaDataDataObject
         $this->columnCollection->append($value);
     }
     /**
+     * Append relation dataobject
      * @param MetaDataRelationColumnDataObject $value
      */
     public function appendRelation(MetaDataRelationColumnDataObject $value)
@@ -56,6 +75,7 @@ abstract class MetaDataDataObject
         $this->relationCollection->append($value);
     }
     /**
+     * Add identifier
      * @param MetaDataRelationColumnDataObject $value
      */
     public function addIdentifier($value)
@@ -64,6 +84,7 @@ abstract class MetaDataDataObject
         return $this;
     }
     /**
+     * Set name
      * @param string $value
      */
     public function setName($value)
@@ -73,6 +94,7 @@ abstract class MetaDataDataObject
     }
 
     /**
+     * Get column collection
      * @return MetaDataColumnDataObjectCollection
      */
     public function getColumnCollection()
@@ -80,6 +102,7 @@ abstract class MetaDataDataObject
         return $this->columnCollection;
     }
     /**
+     * Get relation collection
      * @return MetaDataRelationColumnDataObject
      */
     public function getRelationCollection()
@@ -87,6 +110,7 @@ abstract class MetaDataDataObject
         return $this->relationCollection;
     }
     /**
+     * Get identifier
      * @return array
      */
     public function getIdentifier()
@@ -94,6 +118,7 @@ abstract class MetaDataDataObject
         return $this->identifier;
     }
     /**
+     * Get name
      * @return string
      */
     public function getName()

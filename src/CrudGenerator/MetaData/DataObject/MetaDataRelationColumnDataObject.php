@@ -1,15 +1,35 @@
 <?php
-
+/**
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license.
+ */
 namespace CrudGenerator\MetaData\DataObject;
 
+/**
+ * Represent relation between Metadata
+ *
+ * @author Stéphane Demonchaux
+ */
 class MetaDataRelationColumnDataObject
 {
     /**
-     * @var string
+     * @var string Full name (ex: Test\My\Metadata)
      */
     private $fullName = null;
     /**
-     * @var string
+     * @var string Name
      */
     private $fieldName = null;
     /**
@@ -18,6 +38,7 @@ class MetaDataRelationColumnDataObject
     private $associationType = null;
 
     /**
+     * Set full name
      * @param string $value
      * @return \CrudGenerator\MetaData\MetaDataColumnDataObject
      */
@@ -27,6 +48,7 @@ class MetaDataRelationColumnDataObject
         return $this;
     }
     /**
+     * Set name
      * @param string $value
      * @return \CrudGenerator\MetaData\MetaDataColumnDataObject
      */
@@ -36,6 +58,7 @@ class MetaDataRelationColumnDataObject
         return $this;
     }
     /**
+     * Set association type
      * @param string $value
      * @return \CrudGenerator\MetaData\DataObject\MetaDataRelationColumnDataObject
      */
@@ -46,6 +69,7 @@ class MetaDataRelationColumnDataObject
     }
 
     /**
+     * Get full name
      * @return string
      */
     public function getFullName()
@@ -53,6 +77,7 @@ class MetaDataRelationColumnDataObject
         return $this->fullName;
     }
     /**
+     * Get name
      * @return string
      */
     public function getName()
@@ -64,6 +89,7 @@ class MetaDataRelationColumnDataObject
         }
     }
     /**
+     * Get fields name
      * @return string
      */
     public function getFieldName()
@@ -71,6 +97,7 @@ class MetaDataRelationColumnDataObject
         return $this->fieldName;
     }
     /**
+     * Get association type
      * @return string
      */
     public function getAssociationType()

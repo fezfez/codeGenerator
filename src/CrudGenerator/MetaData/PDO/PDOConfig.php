@@ -1,10 +1,31 @@
 <?php
+/**
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license.
+ */
 namespace CrudGenerator\MetaData\PDO;
 
 use CrudGenerator\MetaData\AbstractConfig;
 use CrudGenerator\MetaData\Config\ConfigException;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * PDO configuration for PDO Metadata adapter
+ *
+ * @author Stéphane Demonchaux
+ */
 class PDOConfig extends AbstractConfig
 {
     /**
@@ -12,31 +33,32 @@ class PDOConfig extends AbstractConfig
      */
     protected $definition = 'For use the PDO adapter you need to define the database and how to get the PDO instance';
     /**
-     * @var string
+     * @var string Database Name
      */
     protected $databaseName = null;
     /**
-     * @var string
+     * @var string Host
      */
     protected $host = null;
     /**
-     * @var string
+     * @var string User
      */
     protected $user = null;
     /**
-     * @var string
+     * @var string Password
      */
     protected $password = null;
     /**
-     * @var string
+     * @var string Port
      */
     protected $port = null;
     /**
-     * @var string
+     * @var string Database type (pgsql, mysql, sqlite etc...)
      */
     protected $type = null;
 
     /**
+     * Set database name
      * @param string $value
      * @return \CrudGenerator\MetaData\PDO\PDOConfig
      */
@@ -46,6 +68,7 @@ class PDOConfig extends AbstractConfig
         return $this;
     }
     /**
+     * Set host
      * @param string $value
      * @return \CrudGenerator\MetaData\PDO\PDOConfig
      */
@@ -55,6 +78,7 @@ class PDOConfig extends AbstractConfig
         return $this;
     }
     /**
+     * Set user
      * @param string $value
      * @return \CrudGenerator\MetaData\PDO\PDOConfig
      */
@@ -64,6 +88,7 @@ class PDOConfig extends AbstractConfig
         return $this;
     }
     /**
+     * Set password
      * @param string $value
      * @return \CrudGenerator\MetaData\PDO\PDOConfig
      */
@@ -73,6 +98,7 @@ class PDOConfig extends AbstractConfig
         return $this;
     }
     /**
+     * Set port
      * @param string $value
      * @return \CrudGenerator\MetaData\PDO\PDOConfig
      */
@@ -82,6 +108,7 @@ class PDOConfig extends AbstractConfig
         return $this;
     }
     /**
+     * Set type
      * @param string $value
      * @return \CrudGenerator\MetaData\PDO\PDOConfig
      */
@@ -92,6 +119,7 @@ class PDOConfig extends AbstractConfig
     }
 
     /**
+     * Get database name
      * @return string
      */
     public function getDatabaseName()
@@ -99,6 +127,7 @@ class PDOConfig extends AbstractConfig
         return $this->databaseName;
     }
     /**
+     * Get host
      * @return string
      */
     public function getHost()
@@ -106,6 +135,7 @@ class PDOConfig extends AbstractConfig
         return $this->host;
     }
     /**
+     * Get user
      * @return string
      */
     public function getUser()
@@ -113,6 +143,7 @@ class PDOConfig extends AbstractConfig
         return $this->user;
     }
     /**
+     * Get password
      * @return string
      */
     public function getPassword()
@@ -120,6 +151,7 @@ class PDOConfig extends AbstractConfig
         return $this->password;
     }
     /**
+     * Get port
      * @return string
      */
     public function getPort()
@@ -127,6 +159,7 @@ class PDOConfig extends AbstractConfig
         return $this->port;
     }
     /**
+     * Get type
      * @return string
      */
     public function getType()
@@ -135,6 +168,7 @@ class PDOConfig extends AbstractConfig
     }
 
     /**
+     * Test if its well configured
      * @param OutputInterface $output
      * @throws ConfigException
      * @return \CrudGenerator\MetaData\PDO\PDOConfig

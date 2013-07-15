@@ -1,4 +1,20 @@
 <?php
+/**
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license.
+ */
 namespace CrudGenerator\Generators;
 
 use CrudGenerator\DataObject;
@@ -10,38 +26,45 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Input\InputInterface;
 
+/**
+ * Base code generator, extends it and implement doGenerate method
+ * to make you own Generator
+ *
+ * @author Stéphane Demonchaux
+ */
 abstract class BaseCodeGenerator
 {
     /**
-     * @var ZendView
+     * @var View View manager
      */
-    protected $zendView          = null;
+    protected $view              = null;
     /**
-     * @var OutputInterface
+     * @var OutputInterface Output
      */
     protected $clientResponse    = null;
     /**
-     * @var FileManager
+     * @var FileManager File Manager
      */
     protected $fileManager       = null;
     /**
-     * @var DialogHelper
+     * @var DialogHelper Dialog
      */
     protected $dialog            = null;
     /**
-     * @var InputInterface
+     * @var InputInterface Input
      */
     protected $input             = null;
     /**
-     * @var GeneriqueQuestions
+     * @var GeneriqueQuestions Generique Question
      */
     protected $generiqueQuestion = null;
     /**
-     * @var DiffPHP
+     * @var DiffPHP Diff php
      */
     private $diffPHP             = null;
 
     /**
+     * Base code generator
      * @param View $view
      * @param OutputInterface $output
      * @param FileManager $fileManager
@@ -69,12 +92,14 @@ abstract class BaseCodeGenerator
     }
 
     /**
+     * Generation concrete method
      * @param DataObject $dataObject
      * @throws \RuntimeException
      */
     abstract protected function doGenerate(DataObject $dataObject);
 
     /**
+     * Call the concrete generator
      * @param DataObject $dataObject
      * @throws \RuntimeException
      */
@@ -100,6 +125,7 @@ abstract class BaseCodeGenerator
     }
 
     /**
+     * Get generator definition
      * @return string
      */
     public function getDefinition()
@@ -108,6 +134,7 @@ abstract class BaseCodeGenerator
     }
 
     /**
+     * Generate file based on template
      * @param DataObject $dataObject
      * @param string $pathTemplate
      * @param string $pathTo
@@ -169,6 +196,7 @@ abstract class BaseCodeGenerator
     }
 
     /**
+     * Create dir if not exist
      * @param string $dir
      */
     protected function ifDirDoesNotExistCreate($dir)

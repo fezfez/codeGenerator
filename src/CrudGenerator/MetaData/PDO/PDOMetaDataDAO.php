@@ -1,5 +1,20 @@
 <?php
-
+/**
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license.
+ */
 namespace CrudGenerator\MetaData\PDO;
 
 use PDO;
@@ -22,16 +37,19 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
      */
     private $pdo       = null;
     /**
-     * @var PDOConfig
+     * @var PDOConfig Pdo configuration
      */
     private $pdoConfig = null;
     /**
-     * @var SqlManager
+     * @var SqlManager Sql manager
      */
     private $sqlManager = null;
 
     /**
+     * PDO adapter
      * @param PDO $pdo
+     * @param PDOConfig $pdoConfig
+     * @param SqlManager $sqlManager
      */
     public function __construct(PDO $pdo, PDOConfig $pdoConfig, SqlManager $sqlManager)
     {
@@ -40,8 +58,10 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
         $this->sqlManager = $sqlManager;
     }
 
-    /* (non-PHPdoc)
-     * @see CrudGenerator\MetaData.MetaDataDAOInterface::getAllMetadata()
+    /**
+     * Get all metadata from PDO
+     *
+     * @return \CrudGenerator\MetaData\MetaDataDataObjectCollection
      */
     public function getAllMetadata()
     {
@@ -54,14 +74,15 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
 
         $allTables = $sth->fetchAll();
 
-        return $this->doctrine2MetadataToGeneratorMetadata($allTables);
+        return $this->pdoMetadataToGeneratorMetadata($allTables);
     }
 
     /**
+     * Convert PDOmapping to CrudGenerator mapping
      * @param array $metadataCollection
      * @return \CrudGenerator\MetaData\DataObject\MetaDataDataObjectCollection
      */
-    private function doctrine2MetadataToGeneratorMetadata(array $metadataCollection)
+    private function pdoMetadataToGeneratorMetadata(array $metadataCollection)
     {
         $metaDataCollection = new MetaDataDataObjectCollection();
         $dataObject = new MetadataDataObjectPDO(
@@ -79,7 +100,8 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
     }
 
     /**
-     * @param \Doctrine\ORM\Mapping\ClassMetadataInfo $metadata
+     * Convert PDOmapping to CrudGenerator mapping
+     * @param string $tableName
      * @return MetadataDataObjectPDO
      */
     private function hydrateDataObject($tableName)
@@ -128,8 +150,10 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
     }
 
     /**
-     * @param string $entity
-     * @return MetadataDataObjectPDO
+     * Get particularie metadata from PDO
+     *
+     * @param string $tableName
+     * @return \CrudGenerator\MetaData\PDO\MetadataDataObjectPDO
      */
     public function getMetadataFor($tableName)
     {

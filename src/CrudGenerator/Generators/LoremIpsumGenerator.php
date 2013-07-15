@@ -49,6 +49,7 @@ class LoremIpsumGenerator
     private $wordsPerSentence  = null;
 
     /**
+     * Generate lorem ipsum text
      * @param integer $wordsPer
      */
     public function __construct($wordsPer = 100)
@@ -237,6 +238,7 @@ class LoremIpsumGenerator
     }
 
     /**
+     * Generate lorem ipsum
      * @param integer $count
      * @param string $format
      * @param boolean $loremipsum
@@ -260,6 +262,12 @@ class LoremIpsumGenerator
         }
     }
 
+    /**
+     * Get words
+     * @param array $arr
+     * @param integer $count
+     * @param boolean $loremipsum
+     */
     private function getWords(&$arr, $count, $loremipsum)
     {
         $i = 0;
@@ -282,6 +290,13 @@ class LoremIpsumGenerator
         }
     }
 
+    /**
+     * Generate lorem ipsum plain
+     * @param integer $count
+     * @param boolean $loremipsum
+     * @param boolean $returnStr
+     * @return string|multitype:multitype:Ambigous <>
+     */
     private function getPlain($count, $loremipsum, $returnStr = true)
     {
         $words = array();
@@ -323,6 +338,11 @@ class LoremIpsumGenerator
         }
     }
 
+    /**
+     * Generate lorem ipsum text
+     * @param integer $count
+     * @param boolean $loremipsum
+     */
     private function getText($count, $loremipsum)
     {
         $sentences = $this->getPlain($count, $loremipsum, false);
@@ -337,6 +357,10 @@ class LoremIpsumGenerator
         return implode("\n\n\t", $paragraphStr);
     }
 
+    /**
+     * @param integer $sentences
+     * @return multitype:multitype:unknown
+     */
     private function getParagraphArr($sentences)
     {
         $wordsPer = $this->wordsPerParagraph;
@@ -364,6 +388,11 @@ class LoremIpsumGenerator
         return $paragraphs;
     }
 
+    /**
+     * Generate lorem ipsum HTML
+     * @param integer $count
+     * @param boolean $loremipsum
+     */
     private function getHTML($count, $loremipsum)
     {
         $sentences = $this->getPlain($count, $loremipsum, false);
@@ -379,6 +408,11 @@ class LoremIpsumGenerator
         return implode("\n", $paragraphStr);
     }
 
+    /**
+     * @param array $paragraph
+     * @param boolean $htmlCleanCode
+     * @return string
+     */
     private function paragraphToString($paragraph, $htmlCleanCode = false)
     {
         $paragraphStr = '';
@@ -394,10 +428,12 @@ class LoremIpsumGenerator
         return $paragraphStr;
     }
 
-    /*
-    * Inserts commas and periods in the given
-    * word array.
-    */
+    /**
+     * Inserts commas and periods in the given
+     * word array.
+     * @param array $sentence
+     * @return string
+     */
     private function punctuate(& $sentence)
     {
         $count = count($sentence);
@@ -418,11 +454,13 @@ class LoremIpsumGenerator
         }
     }
 
-    /*
-    * Determines the number of commas for a
-    * sentence of the given length. Average and
-    * standard deviation are determined superficially
-    */
+    /**
+     * Determines the number of commas for a
+     * sentence of the given length. Average and
+     * standard deviation are determined superficially
+     * @param integer $len
+     * @return number
+     */
     private function numberOfCommas($len)
     {
         $avg = (float) log($len, 6);
@@ -431,15 +469,17 @@ class LoremIpsumGenerator
         return (int) round($this->gaussMs($avg, $stdDev));
     }
 
-    /*
-    * Returns a number on a gaussian distribution
-    * based on the average word length of an english
-    * sentence.
-    * Statistics Source:
-    *    http://hearle.nahoo.net/Academic/Maths/Sentence.html
-    *    Average: 24.46
-    *    Standard Deviation: 5.08
-    */
+    /**
+     * Returns a number on a gaussian distribution
+     * based on the average word length of an english
+     * sentence.
+     * Statistics Source:
+     *    http://hearle.nahoo.net/Academic/Maths/Sentence.html
+     *    Average: 24.46
+     *    Standard Deviation: 5.08
+     *
+     * @return number
+     */
     private function gaussianSentence()
     {
         $avg = (float) 24.460;
@@ -448,12 +488,13 @@ class LoremIpsumGenerator
         return (int) round($this->gaussMs($avg, $stdDev));
     }
 
-    /*
-    * The following three functions are used to
-    * compute numbers with a guassian distrobution
-    * Source:
-    *     http://us.php.net/manual/en/function.rand.php#53784
-    */
+    /**
+     * The following three functions are used to
+     * compute numbers with a guassian distrobution
+     * Source: http://us.php.net/manual/en/function.rand.php#5378484
+     *
+     * @return number
+     */
     private function gauss()
     {   // N(0,1)
         // returns random number with normal distribution:
@@ -472,11 +513,19 @@ class LoremIpsumGenerator
         return $u;
     }
 
+    /**
+     * @param integer $m
+     * @param integer $s
+     * @return number
+     */
     private function gaussMs($m = 0.0, $s = 1.0)
     {
         return $this->gauss()*$s+$m;
     }
 
+    /**
+     * @return number
+     */
     private function random01()
     {
         return (float)rand()/(float)getrandmax();

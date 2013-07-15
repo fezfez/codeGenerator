@@ -1,14 +1,16 @@
 <?php
-//BUILT PROGRAMMATICALLY, SEE: https://svn.caedmon.net/svn/public/diff-php
-/// PHP-Aware diff
+/**
+ * BUILT PROGRAMMATICALLY, SEE: https://svn.caedmon.net/svn/public/diff-php
+ * PHP-Aware diff
 
-/// Copyright 2008, Sean Coates
-///   Usage of the works is permitted provided that this instrument is retained
-///   with the works, so that any entity that uses the works is notified of this
-///   instrument.
-///   DISCLAIMER: THE WORKS ARE WITHOUT WARRANTY.
-/// (Fair License - http://www.opensource.org/licenses/fair.php )
-/// Short license: do whatever you like with this.
+ * Copyright 2008, Sean Coates
+ *   Usage of the works is permitted provided that this instrument is retained
+ *   with the works, so that any entity that uses the works is notified of this
+ *   instrument.
+ *   DISCLAIMER: THE WORKS ARE WITHOUT WARRANTY.
+ * (Fair License - http://www.opensource.org/licenses/fair.php )
+ * Short license: do whatever you like with this.
+ */
 
 namespace CrudGenerator\Diff;
 
