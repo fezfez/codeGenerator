@@ -90,7 +90,7 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
             new MetaDataRelationDataObjectCollection()
         );
 
-        foreach($metadataCollection as $metadata) {
+        foreach ($metadataCollection as $metadata) {
             $realDataObject = clone $dataObject;
             $realDataObject->setName($metadata['table_name']);
             $metaDataCollection->append($realDataObject);
@@ -117,16 +117,20 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
         $statement->execute(array($tableName));
         $allFields = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach($allFields as $metadata) {
+        foreach ($allFields as $metadata) {
             $column = clone $columnDataObject;
             $column->setName($metadata['name'])
                    ->setType($metadata['type'])
-                   ->setLength(isset($metadata['character_maximum_length']) ? $metadata['character_maximum_length'] : null);
+                   ->setLength(
+                       isset($metadata['character_maximum_length']) ?
+                       $metadata['character_maximum_length'] :
+                       null
+                   );
             $dataObject->appendColumn($column);
         }
 
         $databaseType = $this->pdoConfig->getType();
-        if($databaseType === 'pgsql') {
+        if ($databaseType === 'pgsql') {
             $contraintQuery =  'SELECT contype as "type", conkey as "columnNumber"
                 FROM pg_class r, pg_constraint c
                 WHERE r.oid = c.conrelid
@@ -136,10 +140,13 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
 
             $constraintList = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-            foreach($constraintList as $number => $containt) {
-                if($containt['type'] === 'p') {
-                    $columnNumbers = explode(',', str_replace(array('{', '}'), array('', ''), $containt['columnNumber']));
-                    foreach($columnNumbers as $number) {
+            foreach ($constraintList as $number => $containt) {
+                if ($containt['type'] === 'p') {
+                    $columnNumbers = explode(
+                        ',',
+                        str_replace(array('{', '}'), array('', ''), $containt['columnNumber'])
+                    );
+                    foreach ($columnNumbers as $number) {
                         $dataObject->addIdentifier($allFields[($number - 1)]['name']);
                     }
                 }

@@ -36,7 +36,7 @@ class PDOMetaDataDAOFactory
     {
         $type = $config->getType();
 
-        if($type === 'sqlite2') {
+        if ($type === 'sqlite2') {
             $pdo = new \PDO($config->getDatabaseName());
         } else {
             $DSN = $config->getType() . ':dbname=' . $config->getDatabaseName() . ';host=' . $config->getHost();

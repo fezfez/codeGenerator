@@ -57,7 +57,7 @@ class SqlManager
      */
     public function getAllMetadata($type)
     {
-        if(!in_array($type, self::$type)) {
+        if (!in_array($type, self::$type)) {
             throw new RuntimeException('Sql type not allowed ' . $type);
         }
 
@@ -73,7 +73,7 @@ class SqlManager
      */
     public function listFieldsQuery($type)
     {
-        if(!in_array($type, self::$type)) {
+        if (!in_array($type, self::$type)) {
             throw new RuntimeException('Sql type not allowed ' . $type);
         }
 

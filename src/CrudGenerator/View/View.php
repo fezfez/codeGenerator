@@ -58,7 +58,7 @@ class View
     public function render($path, $templateName, array $datas)
     {
         $viewRenderer = clone $this->viewRenderer;
-        foreach($datas as $name => $data) {
+        foreach ($datas as $name => $data) {
             $viewRenderer->$name = $data;
         }
 
