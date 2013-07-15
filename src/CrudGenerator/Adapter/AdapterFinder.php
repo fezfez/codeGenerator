@@ -106,7 +106,6 @@ class AdapterFinder
                 $adapterCollection->append(
                     $this->buildAdapterDataObject(
                         $className,
-                        $reflectionClass,
                         $adapterDataObject
                     )
                 );
@@ -120,13 +119,11 @@ class AdapterFinder
      * Build a AdapaterDataobject with all his dependencies
      *
      * @param string $adapterClassName
-     * @param ReflectionClass $adapterReflectionClass
      * @param AdapterDataObject $adapterDataObject
      * @return AdapterDataObject
      */
     private function buildAdapterDataObject(
         $adapterClassName,
-        ReflectionClass $adapterReflectionClass,
         AdapterDataObject $adapterDataObject)
     {
         $adapter = clone $adapterDataObject;

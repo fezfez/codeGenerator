@@ -235,7 +235,7 @@ class CreateCommand extends Command
     {
         $output->writeln('<question>Entities list</question>');
         $entityChoices = array();
-        foreach ($allMetaData as $number => $class) {
+        foreach ($allMetaData as $class) {
             $output->writeln('<comment>  ' . $class->getName() . '</comment>');
             $entityChoices[] = $class->getName();
         }

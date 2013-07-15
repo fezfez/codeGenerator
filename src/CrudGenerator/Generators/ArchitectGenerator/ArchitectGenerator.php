@@ -68,17 +68,25 @@ class ArchitectGenerator extends BaseCodeGenerator
 
         $generateUnitTest = $this->dialog->ask($this->output, 'Would you like to generate unitTest ?');
 
-        if ($generateUnitTest != 'y') {
-            return false;
+        if ($generateUnitTest == 'y') {
+            $this->generateTestUnit($DTO, $entityName);
         }
+    }
 
+    /**
+     * Generate unit for generated files
+     * @param DataObject $DTO
+     * @param string $entityName
+     */
+    private function generateTestUnit(DataObject $DTO, $entityName)
+    {
         $moduleName = str_replace('/', '', strstr($DTO->getModule(), '/'));
         $unitTestDirectory = $DTO->getModule() . '/src/' . $moduleName . '/test/';
         $this->ifDirDoesNotExistCreate($unitTestDirectory);
         $this->ifDirDoesNotExistCreate($unitTestDirectory . $moduleName . 'Test');
         $unitTestDirectory = $unitTestDirectory. $moduleName . 'Test/';
         $suppdatas = array(
-            'unitTestNamespace' => $moduleName . 'Test'
+                        'unitTestNamespace' => $moduleName . 'Test'
         );
 
         $this->generateFile(

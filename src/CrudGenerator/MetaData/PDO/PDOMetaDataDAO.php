@@ -117,7 +117,7 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
         $statement->execute(array($tableName));
         $allFields = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach($allFields as $field => $metadata) {
+        foreach($allFields as $metadata) {
             $column = clone $columnDataObject;
             $column->setName($metadata['name'])
                    ->setType($metadata['type'])

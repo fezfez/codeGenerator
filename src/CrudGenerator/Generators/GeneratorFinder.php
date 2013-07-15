@@ -60,33 +60,8 @@ class GeneratorFinder
         $this->paths = array(
             __DIR__ . '/'
         );
-        try {
-            ZendFramework2Environnement::getDependence($this->fileManager);
 
-            $previousDir = '.';
-
-            while (!$this->fileManager->fileExists('config/autoload/global.php')) {
-                $dir = dirname(getcwd());
-
-                if ($previousDir === $dir) {
-                    throw new \RuntimeException(
-                        'Unable to locate "config/autoload/global.php": ' .
-                        'is DoctrineModule in a subdir of your application skeleton?'
-                    );
-                }
-
-                $previousDir = $dir;
-                chdir($dir);
-            }
-            $config = $this->fileManager->includeFile('config/autoload/global.php');
-
-            if(isset($config['crudGenerator'])) {
-                foreach($config['crudGenerator']['path'] as $paths) {
-                    $this->paths[] = $paths;
-                }
-            }
-        } catch (EnvironnementResolverException $e) {
-        }
+        $this->paths = $this->checkZf2Configuration($this->paths);
 
         foreach ($this->paths as $path) {
             if (!is_dir($path)) {
@@ -125,5 +100,45 @@ class GeneratorFinder
         }
 
         return $classes;
+    }
+
+    /**
+     * Add Zend Framework 2 paths
+     *
+     * @param string $paths
+     * @throws \RuntimeException
+     * @return Ambiguous
+     */
+    private function checkZf2Configuration($paths)
+    {
+        try {
+            ZendFramework2Environnement::getDependence($this->fileManager);
+
+            $previousDir = '.';
+
+            while (!$this->fileManager->fileExists('config/autoload/global.php')) {
+                $dir = dirname(getcwd());
+
+                if ($previousDir === $dir) {
+                    throw new \RuntimeException(
+                        'Unable to locate "config/autoload/global.php": ' .
+                        'is DoctrineModule in a subdir of your application skeleton?'
+                    );
+                }
+
+                $previousDir = $dir;
+                chdir($dir);
+            }
+            $config = $this->fileManager->includeFile('config/autoload/global.php');
+
+            if(isset($config['crudGenerator'])) {
+                foreach($config['crudGenerator']['path'] as $paths) {
+                    $paths[] = $paths;
+                }
+            }
+        } catch (EnvironnementResolverException $e) {
+        }
+
+        return $paths;
     }
 }

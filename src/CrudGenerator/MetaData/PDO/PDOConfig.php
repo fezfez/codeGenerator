@@ -176,7 +176,7 @@ class PDOConfig extends AbstractConfig
     public function test(OutputInterface $output)
     {
         try {
-            $pdo = new \PDO($this->type . ':dbname='.$this->databaseName . ';host='.$this->host, $this->user, $this->password);
+            new \PDO($this->type . ':dbname='.$this->databaseName . ';host='.$this->host, $this->user, $this->password);
             $output->writeLn('Connection work !');
             return $this;
         } catch (\PDOException $e) {

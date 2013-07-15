@@ -38,25 +38,7 @@ class LoremIpsumGenerator
     /**
      * @var array Words list
      */
-    private $words             = null;
-    /**
-     * @var integer words per paragraph
-     */
-    private $wordsPerParagraph = null;
-    /**
-     * @var integer words per sentence
-     */
-    private $wordsPerSentence  = null;
-
-    /**
-     * Generate lorem ipsum text
-     * @param integer $wordsPer
-     */
-    public function __construct($wordsPer = 100)
-    {
-        $this->wordsPerParagraph = $wordsPer;
-        $this->wordsPerSentence = 24.460;
-        $this->words = array(
+    private $words             = array(
         'lorem',
         'ipsum',
         'dolor',
@@ -234,7 +216,24 @@ class LoremIpsumGenerator
         'elementum',
         'tempor',
         'risus',
-        'cras' );
+        'cras'
+    );
+    /**
+     * @var integer words per paragraph
+     */
+    private $wordsPerParagraph = null;
+    /**
+     * @var integer words per sentence
+     */
+    private $wordsPerSentence  = 24.460;
+
+    /**
+     * Generate lorem ipsum text
+     * @param integer $wordsPer
+     */
+    public function __construct($wordsPer = 100)
+    {
+        $this->wordsPerParagraph = $wordsPer;
     }
 
     /**

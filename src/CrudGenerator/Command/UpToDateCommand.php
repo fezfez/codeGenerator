@@ -52,15 +52,13 @@ class UpToDateCommand extends Command
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $sm      = $this->getHelperSet()->get('serviceManager')->getServiceManager();
-        $dialog  = $this->getHelperSet()->get('dialog');
-        $config  = include 'config/application.config.php';
 
         new DataObject();
         $metaDataDAO = MetaDataDAOFactory::getInstance($sm);
         $allMetaData = $metaDataDAO->getAllMetadata();
 
         $classList = array();
-        foreach ($allMetaData as $number => $class) {
+        foreach ($allMetaData as $class) {
             $classList[$class->getName()] = $class;
         }
 

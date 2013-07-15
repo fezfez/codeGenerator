@@ -45,7 +45,7 @@ class CrudGenerator extends BaseCodeGenerator
     {
         $this->skeletonDir = __DIR__ . '/Skeleton';
 
-        $writeAction = $this->dialog->askConfirmation(
+        $this->dialog->askConfirmation(
             $this->output,
             '<question>Do you want to generate the "write" actions ?</question> '
         );

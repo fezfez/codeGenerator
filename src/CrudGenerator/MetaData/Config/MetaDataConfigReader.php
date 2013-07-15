@@ -104,7 +104,7 @@ class MetaDataConfigReader
 
             while($continue) {
                 try {
-                    $result = $adapterConfig->test($this->output);
+                    $adapterConfig->test($this->output);
                     $continue = false;
                     break;
                 } catch (ConfigException $e) {
