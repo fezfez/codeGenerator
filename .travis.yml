@@ -15,7 +15,6 @@ before_script:
   - sh -c "if [ '$TESTSUITE' = 'ZF2' ]; then psql -c 'create database code_generator; ' -U postgres ;fi"
 
 script: 
-  - mkdir -p build
   - mkdir -p build/logs
   - phpunit --configuration "tests/phpunit.xml" --process-isolation --coverage-clover build/logs/clover.xml tests/
 

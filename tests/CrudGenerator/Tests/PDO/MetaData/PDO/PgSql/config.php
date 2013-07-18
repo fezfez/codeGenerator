@@ -4,7 +4,7 @@ namespace CrudGenerator\Tests\PDO\MetaData\PDO\PgSql;
 use CrudGenerator\MetaData\PDO\PDOConfig;
 
 $pdoConfig = new PDOConfig();
-$pdoConfig->setDatabaseName('crud_generator')
+$pdoConfig->setDatabaseName('code_generator')
           ->setType('pgsql')
           ->setPassword('')
           ->setUser('postgres')

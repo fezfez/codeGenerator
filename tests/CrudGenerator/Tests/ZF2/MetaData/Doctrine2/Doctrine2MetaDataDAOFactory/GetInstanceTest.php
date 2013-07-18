@@ -7,7 +7,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
-         //$this->setExpectedException('CrudGenerator\EnvironnementResolver\EnvironnementResolverException');
+         $this->setExpectedException('CrudGenerator\EnvironnementResolver\EnvironnementResolverException');
 
          Doctrine2MetaDataDAOFactory::getInstance();
     }
