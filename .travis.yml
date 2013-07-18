@@ -11,8 +11,12 @@ before_script:
   - composer require satooshi/php-coveralls:dev-master --dev
   - sh -c "if [ '$TESTSUITE' = 'ZF2' ]; then composer require zendframework/zendframework:${ZF2_VERSION} ;fi"
   - sh -c "if [ '$TESTSUITE' = 'ZF2' ]; then composer require doctrine/doctrine-orm-module:${DOCTRINE2_VERSION} ;fi"
-  - sh -c "if [ '$TESTSUITE' = 'ZF2' ]; then psql -c 'DROP DATABASE IF EXISTS code_generator_test;' -U postgres ;fi"
-  - sh -c "if [ '$TESTSUITE' = 'ZF2' ]; then psql -c 'create database code_generator_test;' -U postgres ;fi"
+  - sh -c "if [ '$TESTSUITE' = 'ZF2' ]; then psql -c 'DROP DATABASE IF EXISTS code_generator;' -U postgres ;fi"
+  - sh -c "if [ '$TESTSUITE' = 'ZF2' ]; then psql -c 'create database code_generator; use code_generator; CREATE TABLE messages (
+id INTEGER PRIMARY KEY,
+title VARCHAR(255),
+message TEXT,
+time TEXT)' -U postgres ;fi"
 
 script: 
   - mkdir -p build

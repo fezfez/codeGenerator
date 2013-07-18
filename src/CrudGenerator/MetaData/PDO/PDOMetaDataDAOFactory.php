@@ -36,8 +36,8 @@ class PDOMetaDataDAOFactory
     {
         $type = $config->getType();
 
-        if ($type === 'sqlite2') {
-            $pdo = new \PDO($config->getDatabaseName());
+        if (strpos($type, 'sqlite')) {
+            throw new \InvalidArgumentException('Sqlite not available');
         } else {
             $DSN = $config->getType() . ':dbname=' . $config->getDatabaseName() . ';host=' . $config->getHost();
             $pdo = new \PDO(

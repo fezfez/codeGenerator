@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\PDO\MetaData\PDO\PDOMetaDataDAO;
+namespace CrudGenerator\Tests\PDO\MetaData\PDO\PgSql\PDOMetaDataDAO;
 
 use CrudGenerator\MetaData\PDO\PDOMetaDataDAOFactory;
 use CrudGenerator\MetaData\PDO\PDOConfig;
@@ -8,13 +8,7 @@ class GetMetadataForTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
-        $pdoConfig = new PDOConfig();
-        $pdoConfig->setDatabaseName('sqlite2::database:sqlite2')
-                  ->setType('sqlite2')
-                  ->setPassword(null)
-                  ->setUser(null)
-                  ->setPort(null)
-                  ->setHost(null);
+        $pdoConfig = include __DIR__ . '/../config.php';
 
         $suT = PDOMetaDataDAOFactory::getInstance($pdoConfig);
 

@@ -1,10 +1,10 @@
 <?php
-namespace CrudGenerator\Tests\PDO\MetaData\PDO\PDOMetaDataDAO;
+namespace CrudGenerator\Tests\PDO\MetaData\PDO\Sqlite\PDOMetaDataDAOFactory;
 
 use CrudGenerator\MetaData\PDO\PDOMetaDataDAOFactory;
 use CrudGenerator\MetaData\PDO\PDOConfig;
 
-class GetAllMetadataTest extends \PHPUnit_Framework_TestCase
+class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
@@ -16,11 +16,8 @@ class GetAllMetadataTest extends \PHPUnit_Framework_TestCase
                   ->setPort(null)
                   ->setHost(null);
 
-        $suT = PDOMetaDataDAOFactory::getInstance($pdoConfig);
+        $this->setExpectedException('InvalidArgumentException');
 
-        $this->assertInstanceOf(
-            'CrudGenerator\MetaData\DataObject\MetaDataDataObjectCollection',
-            $suT->getAllMetadata()
-        );
+        PDOMetaDataDAOFactory::getInstance($pdoConfig);
     }
 }

@@ -30,22 +30,19 @@ class SqlManager
      * @var array Database type supported
      */
     private static $type = array(
-        'pgsql',
-        'sqlite2'
+        'pgsql'
     );
     /**
      * @var array Sql query to get all tables in database
      */
     private static $allMetadataSql = array(
-        'pgsql'   => "select table_name from information_schema.tables where table_schema = 'intranet'",
-        'sqlite2' => 'SELECT name as table_name FROM sqlite_master WHERE type = "table"'
+        'pgsql'   => "select table_name from information_schema.tables where table_schema = 'intranet'"
     );
     /**
      * @var array Sql query to get all column in particular table
      */
     private static $listFieldsQuery = array(
-        'pgsql'   => "SELECT column_name as name, is_nullable, data_type as type, character_maximum_length FROM information_schema.columns WHERE table_name = ?;",
-        'sqlite2' => 'PRAGMA table_info(?);'
+        'pgsql'   => "SELECT column_name as name, is_nullable, data_type as type, character_maximum_length FROM information_schema.columns WHERE table_name = ?;"
     );
 
     /**
