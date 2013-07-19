@@ -15,15 +15,49 @@ use Symfony\Component\Console\Helper\DialogHelper;
 use CrudGenerator\MetaData\Doctrine2\Doctrine2MetaDataDAO;
 use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
 
+use CrudGenerator\MetaData\Doctrine2\MetadataDataObjectDoctrine2;
+use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObjectCollection;
+use CrudGenerator\MetaData\DataObject\MetaDataRelationDataObjectCollection;
+
 class GenerateTest extends \PHPUnit_Framework_TestCase
 {
-    public function testFaildazdazdazd()
+    public function testFailOnMetadata()
     {
         $sUT      = $this->getClass();
         $metadata = $this->getMetadata();
 
         $dataObject = new Architect();
         $dataObject->setEntity('TestZf2\Entities\NewsEntity');
+
+        $this->setExpectedException('RuntimeException');
+
+        $sUT->generate($dataObject);
+    }
+
+    public function testFailOnIndentifier()
+    {
+        $sUT      = $this->getClass();
+
+        $dataObject = new Architect();
+        $dataObject->setEntity('TestZf2\Entities\NewsEntity')
+                   ->setMetadata(new MetadataDataObjectDoctrine2(new MetaDataColumnDataObjectCollection(), new MetaDataRelationDataObjectCollection()));
+
+        $this->setExpectedException('RuntimeException');
+
+        $sUT->generate($dataObject);
+    }
+
+    public function testFailOnNameIndentifier()
+    {
+        $sUT      = $this->getClass();
+        $metadata = new MetadataDataObjectDoctrine2(new MetaDataColumnDataObjectCollection(), new MetaDataRelationDataObjectCollection());
+        $metadata->addIdentifier('toto');
+
+        $dataObject = new Architect();
+        $dataObject->setEntity('TestZf2\Entities\NewsEntity')
+                   ->setMetadata($metadata);
+
+        $this->setExpectedException('RuntimeException');
 
         $sUT->generate($dataObject);
     }
@@ -42,7 +76,9 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
                    ->method('ask')
                    ->will($this->returnValue('y'));
 
-        $stubOutput = $this->getMock('\Symfony\Component\Console\Output\ConsoleOutput');
+        $stubOutput =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+                            ->disableOriginalConstructor()
+                            ->getMock();
         $stubOutput->expects($this->any())
                    ->method('writeln')
                    ->will($this->returnValue(''));
@@ -57,7 +93,6 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
                         ->method('filePutsContent')
                         ->will($this->returnValue(true));
 
-        $input             = new ArgvInput();
         $view              = ViewFactory::getInstance();
         $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput);
         $diffPHP           = new DiffPHP();
@@ -67,7 +102,6 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
             $stubOutput,
             $stubFileManager,
             $stubDialog,
-            $input,
             $generiqueQuestion,
             $diffPHP
         );

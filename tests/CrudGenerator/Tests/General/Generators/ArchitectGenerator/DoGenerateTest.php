@@ -29,7 +29,9 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
                    ->method('ask')
                    ->will($this->returnValue('y'));
 
-        $stubOutput = $this->getMock('\Symfony\Component\Console\Output\ConsoleOutput');
+        $stubOutput =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+                            ->disableOriginalConstructor()
+                            ->getMock();
         $stubOutput->expects($this->any())
                    ->method('writeln')
                    ->will($this->returnValue(''));
@@ -44,9 +46,6 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
                         ->method('filePutsContent')
                         ->will($this->returnValue(true));
 
-        $dialog            = new DialogHelper();
-        $output            = new ConsoleOutput();
-        $input             = new ArgvInput();
         $view              = ViewFactory::getInstance();
         $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput);
         $diffPHP           = new DiffPHP();
@@ -60,12 +59,14 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
             $stubOutput,
             $stubFileManager,
             $stubDialog,
-            $input,
             $generiqueQuestion,
             $diffPHP
         );
 
-        $sUT->generate($metadata);
+        $this->assertInstanceOf(
+            'CrudGenerator\Generators\ArchitectGenerator\Architect',
+            $sUT->generate($metadata)
+        );
     }
 
     private function getMetadata()

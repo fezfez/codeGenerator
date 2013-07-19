@@ -51,10 +51,6 @@ abstract class BaseCodeGenerator
      */
     protected $dialog            = null;
     /**
-     * @var InputInterface Input
-     */
-    protected $input             = null;
-    /**
      * @var GeneriqueQuestions Generique Question
      */
     protected $generiqueQuestion = null;
@@ -69,7 +65,6 @@ abstract class BaseCodeGenerator
      * @param OutputInterface $output
      * @param FileManager $fileManager
      * @param DialogHelper $dialog
-     * @param InputInterface $input
      * @param GeneriqueQuestions $generiqueQuestion
      * @param DiffPHP $diffPHP
      */
@@ -78,7 +73,6 @@ abstract class BaseCodeGenerator
         OutputInterface $output,
         FileManager $fileManager,
         DialogHelper $dialog,
-        InputInterface $input,
         GeneriqueQuestions $generiqueQuestion,
         DiffPHP $diffPHP
     ) {
@@ -86,7 +80,6 @@ abstract class BaseCodeGenerator
         $this->output            = $output;
         $this->fileManager       = $fileManager;
         $this->dialog            = $dialog;
-        $this->input             = $input;
         $this->generiqueQuestion = $generiqueQuestion;
         $this->diffPHP           = $diffPHP;
     }

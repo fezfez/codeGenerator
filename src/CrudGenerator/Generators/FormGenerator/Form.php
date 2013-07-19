@@ -21,26 +21,5 @@ use CrudGenerator\DataObject;
 
 class Form extends DataObject
 {
-    /**
-     * @var string
-     */
-    private $generateUnitTest = null;
 
-    /**
-     * @return string
-     */
-    public function getGenerateUnitTest()
-    {
-        return $this->generateUnitTest;
-    }
-
-    /**
-     * @param string $value
-     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
-     */
-    public function setGenerateUnitTest($value)
-    {
-        $this->generateUnitTest = $value;
-        return $this;
-    }
 }

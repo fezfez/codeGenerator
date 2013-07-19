@@ -43,12 +43,12 @@ class GetAllAdapatersTest extends \PHPUnit_Framework_TestCase
         $suT->getAllClasses();
     }
 
-    /*public function testFailOnGetConfig()
+   /* public function testFailOnGetConfig()
     {
         $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
         $stubFileManager->expects($this->any())
                         ->method('fileExists')
-                        ->will($this->returnValue(false));
+                        ->will($this->onConsecutiveCalls(true, false));
 
         $suT = new GeneratorFinder($stubFileManager);
 

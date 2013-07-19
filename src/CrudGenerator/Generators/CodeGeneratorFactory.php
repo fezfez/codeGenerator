@@ -23,7 +23,6 @@ use CrudGenerator\Generators\GeneriqueQuestions;
 use CrudGenerator\Diff\DiffPHP;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
-use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Create CodeGenerator instance
@@ -39,13 +38,13 @@ class CodeGeneratorFactory
      * @param unknown $class
      * @return  CrudGenerator\Generators\BaseCodeGenerator
      */
-    public static function getInstance(OutputInterface $output, InputInterface $input, DialogHelper $dialog, $class)
+    public static function getInstance(OutputInterface $output, DialogHelper $dialog, $class)
     {
         $view              = ViewFactory::getInstance();
         $fileManager       = new FileManager();
         $generiqueQuestion = new GeneriqueQuestions($dialog, $output);
         $diffPHP           = new DiffPHP();
 
-        return new $class($view, $output, $fileManager, $dialog, $input, $generiqueQuestion, $diffPHP);
+        return new $class($view, $output, $fileManager, $dialog, $generiqueQuestion, $diffPHP);
     }
 }

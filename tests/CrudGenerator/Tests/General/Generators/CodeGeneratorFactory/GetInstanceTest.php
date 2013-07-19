@@ -10,11 +10,14 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
+        $stubOutput =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+                            ->disableOriginalConstructor()
+                            ->getMock();
+
         $this->assertInstanceOf(
             'CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator',
             CodeGeneratorFactory::getInstance(
-                new ConsoleOutput(),
-                new ArgvInput(),
+                $stubOutput,
                 new DialogHelper(),
                 'CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator'
             )
