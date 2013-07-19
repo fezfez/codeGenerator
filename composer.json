@@ -18,9 +18,7 @@
 	],
 	"require" : {
 		"symfony/console" : "~2.2",
-		"php" : ">=5.3.3",
-		"zendframework/zendframework": "2.1.*",
-		"doctrine/doctrine-orm-module": "0.*"
+		"php" : ">=5.3.3"
 	},
 	"autoload" : {
 		"psr-0" : {
