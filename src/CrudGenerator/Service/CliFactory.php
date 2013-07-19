@@ -19,6 +19,7 @@ namespace CrudGenerator\Service;
 
 use CrudGenerator\Command\CreateCommand;
 use CrudGenerator\Command\UpToDateCommand;
+use CrudGenerator\Command\RegenerateCommand;
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\DialogHelper;
@@ -45,6 +46,7 @@ class CliFactory
             array(
                 new CreateCommand(),
                 new UpToDateCommand(),
+                new RegenerateCommand()
             )
         );
 

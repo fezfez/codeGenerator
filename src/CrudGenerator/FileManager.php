@@ -68,6 +68,15 @@ class FileManager
     }
 
     /**
+     * Test if is directory
+     * @param string $path Directory path
+     */
+    public function isDir($path)
+    {
+        return is_dir($path);
+    }
+
+    /**
      * Test if file exist
      * @param string $file File path
      */
@@ -83,5 +92,14 @@ class FileManager
     public function includeFile($file)
     {
         return include $file;
+    }
+
+    /**
+     * Delete file
+     * @param string $file File path
+     */
+    public function unlink($file)
+    {
+        return unlink($file);
     }
 }

@@ -6,7 +6,7 @@ use CrudGenerator\FileManager;
 use CrudGenerator\Generators\GeneriqueQuestions;
 use CrudGenerator\Diff\DiffPHP;
 use CrudGenerator\Generators\FormGenerator\FormGenerator;
-use CrudGenerator\DataObject;
+use CrudGenerator\Generators\FormGenerator\Form;
 
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -33,8 +33,6 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
                    ->method('writeln')
                    ->will($this->returnValue(''));
 
-        //$stubOutput = new ConsoleOutput();
-
         $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
         $stubFileManager->expects($this->any())
                         ->method('mkdir')
@@ -51,7 +49,7 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
         $diffPHP           = new DiffPHP();
 
 
-        $metadata = new DataObject();
+        $metadata = new Form();
         $metadata->setEntity('TestZf2\Entities\NewsEntity')
                  ->setMetadata($this->getMetadata());
 

@@ -78,6 +78,7 @@ class MetaDataConfigReader
             $this->output->writeln('For use this adapter you to config it before');
             $configured = $this->read($adapterConfig);
             $this->output->writeln('<info>Adapter fully configured !</info>');
+            $this->fileManager->unlink($configPath);
             $this->fileManager->filePutsContent($configPath, serialize($configured));
         }
 

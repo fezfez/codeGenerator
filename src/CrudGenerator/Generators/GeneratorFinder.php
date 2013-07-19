@@ -112,7 +112,7 @@ class GeneratorFinder
     private function checkZf2Configuration($paths)
     {
         try {
-            ZendFramework2Environnement::getDependence($this->fileManager);
+            $serviceManager = ZendFramework2Environnement::getDependence($this->fileManager);
 
             $previousDir = '.';
 
@@ -131,9 +131,9 @@ class GeneratorFinder
             }
             $config = $this->fileManager->includeFile('config/autoload/global.php');
 
-            if (isset($config['crudGenerator'])) {
-                foreach ($config['crudGenerator']['path'] as $paths) {
-                    $paths[] = $paths;
+            if (isset($config['crudGenerator']) && isset($config['crudGenerator']['path'])) {
+                foreach ($config['crudGenerator']['path'] as $path) {
+                    $paths[] = $path;
                 }
             }
         } catch (EnvironnementResolverException $e) {

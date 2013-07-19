@@ -6,7 +6,7 @@ use CrudGenerator\FileManager;
 use CrudGenerator\Generators\GeneriqueQuestions;
 use CrudGenerator\Diff\DiffPHP;
 use CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator;
-use CrudGenerator\DataObject;
+use CrudGenerator\Generators\ArchitectGenerator\Architect;
 
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -19,6 +19,7 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
+
         $stubDialog = $this->getMock('\Symfony\Component\Console\Helper\DialogHelper');
         $stubDialog->expects($this->any())
                    ->method('askAndValidate')
@@ -50,8 +51,7 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
         $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput);
         $diffPHP           = new DiffPHP();
 
-
-        $metadata = new DataObject();
+        $metadata = new Architect();
         $metadata->setEntity('TestZf2\Entities\NewsEntity')
                  ->setMetadata($this->getMetadata());
 
@@ -64,6 +64,7 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
             $generiqueQuestion,
             $diffPHP
         );
+
         $sUT->generate($metadata);
     }
 

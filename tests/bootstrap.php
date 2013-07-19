@@ -4,7 +4,7 @@
  */
 namespace CrudGenerator\Tests;
 
-error_reporting(E_ALL | E_STRICT);
+error_reporting(-1);
 
 $vendorDir = __DIR__ . '/../vendor';
 

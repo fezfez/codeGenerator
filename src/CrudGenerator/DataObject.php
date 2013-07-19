@@ -24,7 +24,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataDataObject;
  *
  * @author Stéphane Demonchaux
  */
-class DataObject
+abstract class DataObject
 {
     /**
      * @var string Module name
@@ -46,6 +46,10 @@ class DataObject
      * @var string Target directory
      */
     private $directory       = null;
+    /**
+     * @var string
+     */
+    private $generator       = null;
 
     /**
      * Set Module
@@ -95,6 +99,16 @@ class DataObject
     public function setDirectory($value)
     {
         $this->directory = $value;
+        return $this;
+    }
+    /**
+     * Set Generator
+     * @param string $value
+     * @return \CrudGenerator\DataObject
+     */
+    public function setGenerator($value)
+    {
+        $this->generator = $value;
         return $this;
     }
 
@@ -158,5 +172,14 @@ class DataObject
     public function getDirectory()
     {
         return $this->directory;
+    }
+    /**
+     * Get generator
+     *
+     * @return string
+     */
+    public function getGenerator()
+    {
+        return $this->generator;
     }
 }

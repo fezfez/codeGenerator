@@ -7,14 +7,18 @@ use Symfony\Component\Console\Helper\DialogHelper;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
-    public function testType()
+    public function testInstance()
     {
+        $sUT = MetaDataConfigReaderFactory::getInstance(
+            new ConsoleOutput(),
+            new DialogHelper()
+        );
+
         $this->assertInstanceOf(
             'CrudGenerator\MetaData\Config\MetaDataConfigReader',
-            MetaDataConfigReaderFactory::getInstance(
-                new ConsoleOutput(),
-                new DialogHelper()
-            )
+            $sUT
         );
+
+        $this->fail();
     }
 }

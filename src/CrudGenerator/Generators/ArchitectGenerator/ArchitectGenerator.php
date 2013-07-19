@@ -19,6 +19,7 @@ namespace CrudGenerator\Generators\ArchitectGenerator;
 
 use CrudGenerator\DataObject;
 use CrudGenerator\Generators\BaseCodeGenerator;
+use CrudGenerator\Generators\ArchitectGenerator\Artchitect;
 
 /**
  * Generate DAO, DTO, Hydrator, Exception, unit test
@@ -41,12 +42,16 @@ class ArchitectGenerator extends BaseCodeGenerator
      * @param DataObject $DTO
      * @throws \RuntimeException
      */
-    protected function doGenerate(DataObject $DTO)
+    protected function doGenerate($DTO)
     {
         $this->skeletonDir = __DIR__ . '/Skeleton';
 
-        $DTO->setDirectory($this->generiqueQuestion->directoryQuestion($DTO));
-        $DTO->setNamespace($this->generiqueQuestion->namespaceQuestion());
+        if(!$DTO->getDirectory()) {
+            $DTO->setDirectory($this->generiqueQuestion->directoryQuestion($DTO));
+        }
+        if(!$DTO->getNamespace()) {
+            $DTO->setNamespace($this->generiqueQuestion->namespaceQuestion());
+        }
 
         $basePath   = $DTO->getModule() . '/' . $DTO->getDirectory();
         $entityName = $DTO->getEntityName();
@@ -66,11 +71,17 @@ class ArchitectGenerator extends BaseCodeGenerator
             $basePath . '/DataObject/' . $entityName . 'Collection.php'
         );
 
-        $generateUnitTest = $this->dialog->ask($this->output, 'Would you like to generate unitTest ?');
-
+        if(!$DTO->getGenerateUnitTest()) {
+            $generateUnitTest = $this->dialog->ask($this->output, 'Would you like to generate unitTest ?');
+            $DTO->setGenerateUnitTest($generateUnitTest);
+        } else {
+            $generateUnitTest = $DTO->getGenerateUnitTest();
+        }
         if ($generateUnitTest == 'y') {
             $this->generateTestUnit($DTO, $entityName);
         }
+
+        return $DTO;
     }
 
     /**
@@ -96,7 +107,13 @@ class ArchitectGenerator extends BaseCodeGenerator
             $suppdatas
         );
 
-        $modelDirectory = explode('\\', $this->generiqueQuestion->namespaceQuestion());
+        if(!$DTO->getNamespace()) {
+            $namespace = $this->generiqueQuestion->namespaceQuestion();
+        } else {
+            $namespace = $DTO->getNamespace();
+        }
+
+        $modelDirectory = explode('\\', $namespace);
         $allDir = '';
         foreach ($modelDirectory as $dir) {
             $allDir .= $dir . '/';

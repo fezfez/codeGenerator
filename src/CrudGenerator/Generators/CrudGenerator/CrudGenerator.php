@@ -41,7 +41,7 @@ class CrudGenerator extends BaseCodeGenerator
      * @param DataObject $dataObject
      * @throws \RuntimeException
      */
-    protected function doGenerate(DataObject $dataObject)
+    protected function doGenerate($dataObject)
     {
         $this->skeletonDir = __DIR__ . '/Skeleton';
 

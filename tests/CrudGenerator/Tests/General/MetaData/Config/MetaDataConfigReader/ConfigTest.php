@@ -21,6 +21,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $stubFileManager->expects($this->once())
                         ->method('filePutsContent')
                         ->will($this->returnValue(true));
+        $stubFileManager->expects($this->once())
+                        ->method('unlink')
+                        ->will($this->returnValue(true));
 
 
         $suT = new MetaDataConfigReader(

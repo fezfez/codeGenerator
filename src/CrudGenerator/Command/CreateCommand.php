@@ -21,6 +21,9 @@ use CrudGenerator\Generators\CodeGeneratorFactory;
 use CrudGenerator\DataObject;
 use CrudGenerator\FileManager;
 use CrudGenerator\MetaData\Config\MetaDataConfigReaderFactory;
+use CrudGenerator\Adapter\AdapterFinderFactory;
+use CrudGenerator\Generators\GeneratorFinderFactory;
+use CrudGenerator\History\HistoryFactory;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -78,10 +81,11 @@ class CreateCommand extends Command
         $moduleName = $this->moduleQuestion($output, $dialog);
         $generator  = $this->generatorQuestion($output, $input, $dialog);
 
-        $dataObject = new DataObject();
+        $dataObject = new \CrudGenerator\Generators\ArchitectGenerator\Artchitect();
         $dataObject->setEntity($entity)
                    ->setModule($moduleName)
-                   ->setMetaData($adapterDAO->getMetadataFor($entity));
+                   ->setMetaData($adapterDAO->getMetadataFor($entity))
+                   ->setGenerator($generator);
 
         $crudGenerator = CodeGeneratorFactory::getInstance($output, $input, $dialog, $generator);
 
@@ -96,15 +100,11 @@ class CreateCommand extends Command
         );
 
         if ($doI === true) {
-            if (!is_dir('data/crudGeneratorHistory')) {
-                $fileManager->mkdir('data/crudGeneratorHistory');
-            }
-            if (is_file('data/crudGeneratorHistory/' . md5($entity))) {
-                unlink('data/crudGeneratorHistory/' . md5($entity));
-            }
-            $fileManager->filePutsContent('data/crudGeneratorHistory/' . md5($entity), serialize($dataObject));
+            $historyManager = HistoryFactory::getInstance();
 
-            $crudGenerator->generate($dataObject);
+            $dataObject = $crudGenerator->generate($dataObject);
+
+            $historyManager->create($dataObject);
         } else {
             throw new RuntimeException('Command aborted');
         }
@@ -120,7 +120,7 @@ class CreateCommand extends Command
      */
     private function adapterQuestion($output, $dialog)
     {
-        $adapterFinder   = new \CrudGenerator\Adapter\AdapterFinder();
+        $adapterFinder   = AdapterFinderFactory::getInstance();
         $adaptersCollection = $adapterFinder->getAllAdapters();
         $output->writeln('<question>Adapters list</question>');
         foreach ($adaptersCollection as $adapter) {
@@ -204,7 +204,7 @@ class CreateCommand extends Command
      */
     private function generatorQuestion($output, $input, $dialog)
     {
-        $crudFinder = new \CrudGenerator\Generators\GeneratorFinder();
+        $crudFinder = GeneratorFinderFactory::getInstance();
         $generators = $crudFinder->getAllClasses();
 
         $output->writeln('<question>Chose a generator</question>');

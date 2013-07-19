@@ -6,8 +6,8 @@ use CrudGenerator\MetaData\PDO\PDOConfig;
 $pdoConfig = new PDOConfig();
 $pdoConfig->setDatabaseName('code_generator')
           ->setType('pgsql')
-          ->setPassword('')
-          ->setUser('postgres')
+          ->setPassword('bro123')
+          ->setUser('brotte')
           ->setPort('5432')
           ->setHost('localhost');
 

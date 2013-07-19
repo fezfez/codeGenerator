@@ -70,6 +70,7 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
                 $this->pdoConfig->getType()
             )
         );
+
         $sth->execute();
 
         $allTables = $sth->fetchAll();

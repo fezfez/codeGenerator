@@ -96,7 +96,7 @@ abstract class BaseCodeGenerator
      * @param DataObject $dataObject
      * @throws \RuntimeException
      */
-    abstract protected function doGenerate(DataObject $dataObject);
+    abstract protected function doGenerate($dataObject);
 
     /**
      * Call the concrete generator
@@ -121,7 +121,7 @@ abstract class BaseCodeGenerator
             );
         }
 
-        $this->doGenerate($dataObject);
+        return $this->doGenerate($dataObject);
     }
 
     /**

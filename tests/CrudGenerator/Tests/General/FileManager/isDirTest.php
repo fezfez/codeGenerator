@@ -3,7 +3,7 @@ namespace CrudGenerator\Tests\General\FileManager;
 
 use CrudGenerator\FileManager;
 
-class IsFileTest extends \PHPUnit_Framework_TestCase
+class IsDirTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
@@ -11,7 +11,7 @@ class IsFileTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             true,
-            $sUT->isFile(__FILE__)
+            $sUT->isDir(__DIR__)
         );
     }
 }

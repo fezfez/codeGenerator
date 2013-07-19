@@ -36,7 +36,7 @@ class SqlManager
      * @var array Sql query to get all tables in database
      */
     private static $allMetadataSql = array(
-        'pgsql'   => "select table_name from information_schema.tables where table_schema = 'intranet'"
+        'pgsql'   => "select table_name from information_schema.tables where table_schema = 'public'"
     );
     /**
      * @var array Sql query to get all column in particular table
