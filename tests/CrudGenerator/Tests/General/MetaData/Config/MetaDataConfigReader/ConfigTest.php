@@ -7,12 +7,16 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     public function testFirstConfigOk()
     {
-        $stubConsole = $this->getMock('\Symfony\Component\Console\Output\ConsoleOutput');
+        $stubConsole =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+                            ->disableOriginalConstructor()
+                            ->getMock();
         $stubConsole->expects($this->any())
                     ->method('writeln')
                     ->will($this->returnValue('foo'));
 
-        $stubDialog = $this->getMock('\Symfony\Component\Console\Helper\DialogHelper');
+        $stubDialog =  $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
+                            ->disableOriginalConstructor()
+                            ->getMock();
         $stubDialog->expects($this->any())
                    ->method('ask')
                    ->will($this->returnValue('foo'));
@@ -44,12 +48,16 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testWithFailConfig()
     {
-        $stubConsole = $this->getMock('\Symfony\Component\Console\Output\ConsoleOutput');
+        $stubConsole =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+                            ->disableOriginalConstructor()
+                            ->getMock();
         $stubConsole->expects($this->any())
                     ->method('writeln')
                     ->will($this->returnValue('foo'));
 
-        $stubDialog = $this->getMock('\Symfony\Component\Console\Helper\DialogHelper');
+        $stubDialog =  $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
+                            ->disableOriginalConstructor()
+                            ->getMock();
         $stubDialog->expects($this->any())
                    ->method('ask')
                    ->will($this->returnValue('foo'));
@@ -76,26 +84,28 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $stubConfig->expects($this->at(1))
                    ->method('test')
                    ->with($this->equalTo($stubConsole))
-                   ->will($this->throwException(new \CrudGenerator\MetaData\Config\ConfigException));
+                   ->will($this->throwException(new \CrudGenerator\MetaData\Config\ConfigException()));
 
-        /*
-         * Ne peut pas étre testé jusquau bout car les setter alter le mock
          $stubConfig->expects($this->at(2))
-        ->method('test')
-        ->with($this->equalTo($stubConsole))
-        ->will($this->throwException(new \CrudGenerator\MetaData\Config\ConfigException));*/
+                    ->method('test')
+                    ->with($this->equalTo($stubConsole))
+                    ->will($this->throwException(new \CrudGenerator\MetaData\Config\ConfigException()));
 
         $suT->config($stubConfig);
     }
 
-    public function testWithExistingConfig()
+    public function testWithExistingConfigaaa()
     {
-        $stubConsole = $this->getMock('\Symfony\Component\Console\Output\ConsoleOutput');
+        $stubConsole =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+                            ->disableOriginalConstructor()
+                            ->getMock();
         $stubConsole->expects($this->any())
                     ->method('writeln')
                     ->will($this->returnValue('foo'));
 
-        $stubDialog = $this->getMock('\Symfony\Component\Console\Helper\DialogHelper');
+        $stubDialog =  $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
+                            ->disableOriginalConstructor()
+                            ->getMock();
         $stubDialog->expects($this->any())
                    ->method('ask')
                    ->will($this->returnValue('foo'));
@@ -103,7 +113,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $stubConfig = $this->getMock('\CrudGenerator\MetaData\PDO\PDOConfig');
 
         /*Ne peut pas étre testéjusquau bout car la désérialization alter le mock
-         $stubConfig->expects($this->once())
+        $stubConfig->expects($this->once())
                    ->method('test')
                    ->will($this->returnValue(true));*/
 

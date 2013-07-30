@@ -9,16 +9,23 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstance()
     {
+        $stubOutput =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+                            ->disableOriginalConstructor()
+                            ->getMock();
+
+        $stubDialog =  $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
+                            ->disableOriginalConstructor()
+                            ->getMock();
+
+
         $sUT = MetaDataConfigReaderFactory::getInstance(
-            new ConsoleOutput(),
-            new DialogHelper()
+            $stubOutput,
+            $stubDialog
         );
 
         $this->assertInstanceOf(
             'CrudGenerator\MetaData\Config\MetaDataConfigReader',
             $sUT
         );
-
-        $this->fail();
     }
 }

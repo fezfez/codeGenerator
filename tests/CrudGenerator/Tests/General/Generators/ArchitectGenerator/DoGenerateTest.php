@@ -19,24 +19,51 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
+        $metadata = new Architect();
+        $metadata->setEntity('TestZf2\Entities\NewsEntity')
+                 ->setMetadata($this->getMetadata());
 
+        $sUT = $this->getSUT();
+
+        $this->assertInstanceOf(
+            'CrudGenerator\Generators\ArchitectGenerator\Architect',
+            $sUT->generate($metadata)
+        );
+    }
+
+    public function testExist()
+    {
+        $metadata = new Architect();
+        $metadata->setEntity('TestZf2\Entities\NewsEntity')
+                ->setMetadata($this->getMetadata())
+                ->setNamespace('namespace')
+                ->setGenerateUnitTest(true);
+
+        $sUT = $this->getSUT();
+
+        $this->assertInstanceOf(
+            'CrudGenerator\Generators\ArchitectGenerator\Architect',
+            $sUT->generate($metadata)
+        );
+    }
+
+    private function getSUT()
+    {
         $stubDialog = $this->getMock('\Symfony\Component\Console\Helper\DialogHelper');
         $stubDialog->expects($this->any())
-                   ->method('askAndValidate')
-                   ->will($this->returnValue(__DIR__));
+                    ->method('askAndValidate')
+                    ->will($this->returnValue(__DIR__));
 
         $stubDialog->expects($this->any())
-                   ->method('ask')
-                   ->will($this->returnValue('y'));
+                    ->method('ask')
+                    ->will($this->returnValue('y'));
 
         $stubOutput =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
                             ->disableOriginalConstructor()
                             ->getMock();
         $stubOutput->expects($this->any())
-                   ->method('writeln')
-                   ->will($this->returnValue(''));
-
-        //$stubOutput = new ConsoleOutput();
+                    ->method('writeln')
+                    ->will($this->returnValue(''));
 
         $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
         $stubFileManager->expects($this->any())
@@ -50,10 +77,6 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
         $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput);
         $diffPHP           = new DiffPHP();
 
-        $metadata = new Architect();
-        $metadata->setEntity('TestZf2\Entities\NewsEntity')
-                 ->setMetadata($this->getMetadata());
-
         $sUT = new ArchitectGenerator(
             $view,
             $stubOutput,
@@ -63,10 +86,7 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
             $diffPHP
         );
 
-        $this->assertInstanceOf(
-            'CrudGenerator\Generators\ArchitectGenerator\Architect',
-            $sUT->generate($metadata)
-        );
+        return $sUT;
     }
 
     private function getMetadata()

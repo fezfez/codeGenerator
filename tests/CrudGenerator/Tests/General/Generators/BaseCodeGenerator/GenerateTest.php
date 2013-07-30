@@ -40,7 +40,11 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
 
         $dataObject = new Architect();
         $dataObject->setEntity('TestZf2\Entities\NewsEntity')
-                   ->setMetadata(new MetadataDataObjectDoctrine2(new MetaDataColumnDataObjectCollection(), new MetaDataRelationDataObjectCollection()));
+                   ->setMetadata(new MetadataDataObjectDoctrine2(
+                new MetaDataColumnDataObjectCollection(),
+                new MetaDataRelationDataObjectCollection()
+            )
+        );
 
         $this->setExpectedException('RuntimeException');
 

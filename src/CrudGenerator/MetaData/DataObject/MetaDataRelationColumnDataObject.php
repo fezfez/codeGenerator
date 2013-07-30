@@ -40,7 +40,7 @@ class MetaDataRelationColumnDataObject
     /**
      * Set full name
      * @param string $value
-     * @return \CrudGenerator\MetaData\MetaDataColumnDataObject
+     * @return \CrudGenerator\MetaData\DataObject\MetaDataRelationColumnDataObject
      */
     public function setFullName($value)
     {
@@ -50,7 +50,7 @@ class MetaDataRelationColumnDataObject
     /**
      * Set name
      * @param string $value
-     * @return \CrudGenerator\MetaData\MetaDataColumnDataObject
+     * @return \CrudGenerator\MetaData\DataObject\MetaDataRelationColumnDataObject
      */
     public function setFieldName($value)
     {

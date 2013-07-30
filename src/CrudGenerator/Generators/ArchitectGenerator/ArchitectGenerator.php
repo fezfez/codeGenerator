@@ -107,11 +107,7 @@ class ArchitectGenerator extends BaseCodeGenerator
             $suppdatas
         );
 
-        if(!$DTO->getNamespace()) {
-            $namespace = $this->generiqueQuestion->namespaceQuestion();
-        } else {
-            $namespace = $DTO->getNamespace();
-        }
+        $namespace = $DTO->getNamespace();
 
         $modelDirectory = explode('\\', $namespace);
         $allDir = '';

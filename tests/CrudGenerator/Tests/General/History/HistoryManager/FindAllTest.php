@@ -8,7 +8,7 @@ use CrudGenerator\Generators\ArchitectGenerator\Architect;
 
 class FindAllTest extends \PHPUnit_Framework_TestCase
 {
-    public function testInstance()
+    public function testFail()
     {
         // wakeup classes
         $generatorFinder = GeneratorFinderFactory::getInstance();
@@ -18,9 +18,24 @@ class FindAllTest extends \PHPUnit_Framework_TestCase
         $stubFileManager->expects($this->any())
                         ->method('isDir')
                         ->will($this->returnValue(false));
+
+        $this->setExpectedException('CrudGenerator\EnvironnementResolver\EnvironnementResolverException');
+
+        $sUT = new HistoryManager($stubFileManager);
+
+        $sUT->findAll();
+    }
+
+    public function testFind()
+    {
+        // wakeup classes
+        $generatorFinder = GeneratorFinderFactory::getInstance();
+        $generatorFinder->getAllClasses();
+
+        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
         $stubFileManager->expects($this->any())
-                        ->method('isDir')
-                        ->will($this->returnValue(true));
+        ->method('isDir')
+        ->will($this->returnValue(true));
 
         $sUT = new HistoryManager($stubFileManager);
 

@@ -94,32 +94,26 @@ class MetaDataConfigReader
     private function read(AbstractConfig $adapterConfig)
     {
         $adapterConfig = clone $adapterConfig;
+        $continue = true;
+        $first    = true;
 
-        try {
-            $adapterConfig->test($this->output);
-            return $adapterConfig;
-        } catch (ConfigException $e) {
+        while ($continue) {
+            try {
+                $adapterConfig->test($this->output);
 
-            $continue = true;
-            $first    = true;
-
-            while ($continue) {
-                try {
-                    $adapterConfig->test($this->output);
-                    $continue = false;
-                    break;
-                } catch (ConfigException $e) {
-                    if ($first === false) {
-                        $this->output->writeln("<error>" . $e->getMessage() . "</error>");
-                    }
+                $continue = false;
+                break;
+            } catch (ConfigException $e) {
+                if ($first === false) {
+                    $this->output->writeln("<error>" . $e->getMessage() . "</error>");
                 }
-
-                $first = false;
-                $adapterConfig = $this->write($adapterConfig);
             }
 
-            return $adapterConfig;
+            $first = false;
+            $adapterConfig = $this->write($adapterConfig);
         }
+
+        return $adapterConfig;
     }
 
     /**
@@ -141,7 +135,8 @@ class MetaDataConfigReader
             }
             $propSetter = 'set' . ucfirst($propName);
             $value      = $this->dialog->ask($this->output, 'Choose a "' . $propName . '" : ');
-            $adapterConfig->$propSetter($value);
+            $prop->setAccessible(true);
+            $prop->setValue($adapterConfig, $value);
         }
 
         return $adapterConfig;
