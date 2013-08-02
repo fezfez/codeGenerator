@@ -5,5 +5,17 @@
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./../src/CrudGenerator/</directory>
         </whitelist>
+        <blacklist>
+            <file>./../src/CrudGenerator/MetaData/Config/ConfigException.php</file>
+            <file>./../src/CrudGenerator/MetaData/DataObject/MetaDataDataObjectCollection.php</file>
+            <file>./../src/CrudGenerator/View/ViewRendererException.php</file>
+            <file>./../src/CrudGenerator/MetaData/DataObject/MetaDataRelationDataObjectCollection.php</file>
+            <file>./../src/CrudGenerator/MetaData/MetaDataDAOInterface.php</file>
+            <file>./../src/CrudGenerator/MetaData/DataObject/MetaDataColumnDataObjectCollection.php</file>
+            <file>./../src/CrudGenerator/View/ViewRendererException.php</file>
+            <file>./../src/CrudGenerator/MetaData/Config/ConfigException.php</file>
+            <file>./../src/CrudGenerator/History/HistoryCollection.php</file>
+            <file>./../src/CrudGenerator/MetaData/DataObject/MetaDataDataObjectCollection.php</file>
+        </blacklist>
     </filter>
 </phpunit>
