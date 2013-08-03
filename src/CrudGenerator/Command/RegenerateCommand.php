@@ -68,7 +68,7 @@ class RegenerateCommand extends Command
 
         $dataObject = $history->getDataObject();
 
-        $crudGenerator = CodeGeneratorFactory::getInstance($output, $input, $dialog, $dataObject->getGenerator());
+        $crudGenerator = CodeGeneratorFactory::getInstance($output, $dialog, $dataObject->getGenerator());
 
         $output->writeln("<info>Resume</info>");
         $output->writeln('<info>Entity : ' . $dataObject->getEntity(), '*</info>');
