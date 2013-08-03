@@ -18,7 +18,6 @@
 namespace CrudGenerator\Service;
 
 use CrudGenerator\Command\CreateCommand;
-use CrudGenerator\Command\UpToDateCommand;
 use CrudGenerator\Command\RegenerateCommand;
 
 use Symfony\Component\Console\Application;
@@ -45,7 +44,6 @@ class CliFactory
         $cli->addCommands(
             array(
                 new CreateCommand(),
-                new UpToDateCommand(),
                 new RegenerateCommand()
             )
         );
