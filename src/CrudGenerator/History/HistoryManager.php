@@ -91,7 +91,7 @@ class HistoryManager
 
         $historyCollection = new HistoryCollection();
 
-        foreach(glob(self::HISTORY_PATH . '*.history') as $file) {
+        foreach($this->fileManager->glob(self::HISTORY_PATH . '*.history') as $file) {
             $content = $this->fileManager->fileGetContent($file);
 
             $historyCollection->append(unserialize($content));
