@@ -438,10 +438,6 @@ class LoremIpsumGenerator
         $count = count($sentence);
         $sentence[$count - 1] = $sentence[$count - 1] . '.';
 
-        if ($count < 4) {
-            return $sentence;
-        }
-
         $commas = $this->numberOfCommas($count);
 
         for ($i = 1; $i <= $commas; $i++) {

@@ -54,6 +54,11 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
+            'module',
+            $dataObject->getModuleName()
+        );
+
+        $this->assertEquals(
             'my\namespace',
             $dataObject->getNamespace()
         );
