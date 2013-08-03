@@ -24,10 +24,12 @@ use CrudGenerator\MetaData\Config\MetaDataConfigReaderFactory;
 use CrudGenerator\Adapter\AdapterFinderFactory;
 use CrudGenerator\Generators\GeneratorFinderFactory;
 use CrudGenerator\History\HistoryFactory;
+use CrudGenerator\MetaData\DataObject\MetaDataDataObjectCollection;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\DialogHelper;
 
 use RuntimeException;
 use InvalidArgumentException;
@@ -66,28 +68,26 @@ class CreateCommand extends Command
         $adapterConfig       = $adapter->getConfig();
         $adapterConfigurator = MetaDataConfigReaderFactory::getInstance($output, $dialog);
 
+        $adapterFactory = $adapter->getFactory();
+
         if (null !== $adapterConfig) {
             $adapterConfig = $adapterConfigurator->config($adapterConfig);
-        }
-
-        $adapterFactory = $adapter->getFactory();
-        if (null !== $adapterConfig) {
-            $adapterDAO = $adapterFactory::getInstance($adapterConfig);
+            $adapterDAO    = $adapterFactory::getInstance($adapterConfig);
         } else {
             $adapterDAO = $adapterFactory::getInstance();
         }
 
         $entity     = $this->entityQuestion($output, $dialog, $adapterDAO->getAllMetadata());
         $moduleName = $this->moduleQuestion($output, $dialog);
-        $generator  = $this->generatorQuestion($output, $input, $dialog);
+        $generator  = $this->generatorQuestion($output, $dialog);
 
-        $dataObject = new \CrudGenerator\Generators\ArchitectGenerator\Artchitect();
+        $dataObject = new \CrudGenerator\Generators\ArchitectGenerator\Architect();
         $dataObject->setEntity($entity)
                    ->setModule($moduleName)
                    ->setMetaData($adapterDAO->getMetadataFor($entity))
                    ->setGenerator($generator);
 
-        $crudGenerator = CodeGeneratorFactory::getInstance($output, $input, $dialog, $generator);
+        $crudGenerator = CodeGeneratorFactory::getInstance($output, $dialog, $generator);
 
         $output->writeln("<info>Resume</info>");
         $output->writeln('<info>Entity : ' . $dataObject->getEntity(), '*</info>');
@@ -118,7 +118,7 @@ class CreateCommand extends Command
      * @throws \InvalidArgumentException
      * @return AdapterDataObject
      */
-    private function adapterQuestion($output, $dialog)
+    private function adapterQuestion(OutputInterface $output, DialogHelper $dialog)
     {
         $adapterFinder   = AdapterFinderFactory::getInstance();
         $adaptersCollection = $adapterFinder->getAllAdapters();
@@ -166,7 +166,7 @@ class CreateCommand extends Command
      * @throws \InvalidArgumentException
      * @return string
      */
-    private function moduleQuestion($output, $dialog)
+    private function moduleQuestion(OutputInterface $output, DialogHelper $dialog)
     {
         $output->writeln('<question>Modules list</question>');
 
@@ -197,19 +197,18 @@ class CreateCommand extends Command
      * Ask wich generator you want to use
      *
      * @param OutputInterface $output
-     * @param InputInterface $input
      * @param DialogHelper $dialog
      * @throws \InvalidArgumentException
      * @return string
      */
-    private function generatorQuestion($output, $input, $dialog)
+    private function generatorQuestion(OutputInterface $output, DialogHelper $dialog)
     {
         $crudFinder = GeneratorFinderFactory::getInstance();
         $generators = $crudFinder->getAllClasses();
 
         $output->writeln('<question>Chose a generator</question>');
         foreach ($generators as $number => $generatorClassName) {
-            $generator = CodeGeneratorFactory::getInstance($output, $input, $dialog, $generatorClassName);
+            $generator = CodeGeneratorFactory::getInstance($output, $dialog, $generatorClassName);
             $output->writeln('<comment>' . $number . '. ' . $generator->getDefinition() . '</comment>');
         }
 
@@ -229,11 +228,11 @@ class CreateCommand extends Command
      *
      * @param OutputInterface $output
      * @param DialogHelper $dialog
-     * @param array $allMetaData
+     * @param MetaDataDataObjectCollection $allMetaData
      * @throws InvalidArgumentException
      * @return string
      */
-    private function entityQuestion($output, $dialog, $allMetaData)
+    private function entityQuestion(OutputInterface $output, DialogHelper $dialog, MetaDataDataObjectCollection $allMetaData)
     {
         $output->writeln('<question>Entities list</question>');
         $entityChoices = array();

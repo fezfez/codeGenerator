@@ -1,28 +1,14 @@
     public function deleteAction()
     {
-        $id          = $this->getRequest()->getParam('id');
-        $dao         = DAOFactory::getInstance();
-        $formBuilder = <?php echo $this->entity_class; ?>FormBuilderFactory::getInstance();
-        $dataObject  = new <?php echo $this->entity_class; ?>DataObject();
-        $formData    = $this->getRequest()->getParams();
+        $<?php echo $this->dataObject->getEntityName(); ?>DAO  = <?php echo $this->dataObject->getEntityName(); ?>DAOFactory::getInstance($this->getServiceLocator());
+        $id             = $this->params('id');
 
-        $dataObject->setId($id);
-        $dataObject = $dao->findByDataObjectId($dataObject);
-        $form       = $formBuilder->getDeleteForm($dataObject);
+        $<?php echo $this->dataObject->getEntityName(); ?> = new <?php echo $this->dataObject->getEntityName(); ?>DataObject();
+        $<?php echo $this->dataObject->getEntityName(); ?>->setId($id);
 
-        if($this->getRequest()->isPost() && $form->isValid($formData)) {
-            $dataObject = $form->getDataObject();
-            $dataObject->setId($id);
+        $<?php echo $this->dataObject->getEntityName(); ?>DAO->remove($<?php echo $this->dataObject->getEntityName(); ?>);
 
-            $dao->remove($dataObject);
+        $this->flashMessenger()->addMessage('<?php echo $this->dataObject->getEntityName(); ?> supprimé');
 
-            if($this->_request->isXmlHttpRequest()) {
-                $this->_helper->json(array('redirector' => "<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>"));
-            } else {
-                $this->_helper->getHelper('Redirector')->goToRoute("<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>");
-            }
-        }
-
-        $this->view->form       = $form;
-        $this->view->dataobject = $dataobject;
+        return $this->redirect()->toRoute('<?php echo $this->dataObject->getEntityName(); ?>');
     }

@@ -31,12 +31,12 @@ $fixtureRender = (function($metadata) use($loremIpsumGenerator) {
 });
 
 $keyTestable = array();
+$keyToTest = null;
 $columnCollection = $this->dataObject->getMetadata()->getColumnCollection();
 foreach($columnCollection as $field => $metadata):
 /*if(isset($metadata['id']) && $metadata['id'] == true) {
     continue;
 }*/
-$keyToTest = null;
 ?>
         $<?php echo $metadata->getName(); ?> = <?php echo $fixtureRender($metadata); ?>;
 <?php endforeach; ?>

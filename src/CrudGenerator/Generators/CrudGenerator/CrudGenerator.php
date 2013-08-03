@@ -52,26 +52,26 @@ class CrudGenerator extends BaseCodeGenerator
 
         $this->generateFile(
             $dataObject,
-            '/crud/controller.php.phtml',
-            $dataObject->getControllerPath() . $dataObject->getClassName() . 'Controller.php'
+            '/controller.php.phtml',
+            $dataObject->getControllerPath() . $dataObject->getEntityName() . 'Controller.php'
         );
-        $this->generateFile($dataObject, '/crud/views/index.phtml.phtml', $dataObject->getViewPath() . 'index.phtml');
+        $this->generateFile($dataObject, '/views/index.phtml', $dataObject->getViewPath() . 'index.phtml');
 
-        if (in_array('show', $dataObject->getActions())) {
-            $this->generateFile($dataObject, '/crud/views/show.phtml.phtml', $dataObject->getViewPath() . 'show.phtml');
-        }
+        //if (in_array('show', $dataObject->getActions())) {
+            $this->generateFile($dataObject, '/views/show.phtml', $dataObject->getViewPath() . 'show.phtml');
+        //}
 
-        if (in_array('new', $dataObject->getActions())) {
-            $this->generateFile($dataObject, '/crud/views/new.phtml.phtml', $dataObject->getViewPath() . 'new.phtml');
-        }
+        //if (in_array('new', $dataObject->getActions())) {
+            $this->generateFile($dataObject, '/views/new.phtml', $dataObject->getViewPath() . 'new.phtml');
+        //}
 
-        if (in_array('edit', $dataObject->getActions())) {
-            $this->generateFile($dataObject, '/crud/views/edit.phtml.phtml', $dataObject->getViewPath() . 'edit.phtml');
+        //if (in_array('edit', $dataObject->getActions())) {
+            $this->generateFile($dataObject, '/views/edit.phtml', $dataObject->getViewPath() . 'edit.phtml');
             $this->generateFile(
                 $dataObject,
-                '/crud/views/edit-js.phtml.phtml',
+                '/views/edit-js.phtml',
                 $dataObject->getViewPath() . 'edit-js.phtml'
             );
-        }
+        //}
     }
 }

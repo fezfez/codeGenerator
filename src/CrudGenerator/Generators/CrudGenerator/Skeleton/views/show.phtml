@@ -1,8 +1,8 @@
-<h1><?php echo $this->entity; ?></h1>
+<h1><?php echo $this->dataObject->getEntityName(); ?></h1>
 
 <table class="record_properties">
     <tbody>
-     <?php foreach($this->fields as $field => $metadata): ?>
+     <?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
 
         <tr>
             <th><?php echo $metadata->getName(); ?></th>

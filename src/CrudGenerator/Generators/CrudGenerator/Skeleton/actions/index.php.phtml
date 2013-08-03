@@ -1,8 +1,13 @@
     public function indexAction()
     {
-        $dao = DAOFactory::getInstance();
+        $sm = $this->getServiceLocator();
+        $headTitle = $sm->get('viewHelperManager')->get('headTitle');
+        $headTitle->append("Liste des <?php echo $this->dataObject->getEntityName(); ?>s");
 
-        $entities = $dao->findAll();
+        $<?php echo $this->dataObject->getEntityName(); ?>DAO = <?php echo $this->dataObject->getEntityName(); ?>DAOFactory::getInstance($sm);
 
-        $this->view->entities = $entities;
+        return new ViewModel(array(
+            'list<?php echo $this->dataObject->getEntityName(); ?>s' => $<?php echo $this->dataObject->getEntityName(); ?>DAO->retrieveAll(),
+            'flashMessages' => $this->flashMessenger()->getMessages(),
+        ));
     }

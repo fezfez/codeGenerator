@@ -1,18 +1,22 @@
     public function newAction()
     {
-        $formBuilder = <?php echo $this->entity_class; ?>FormBuilderFactory::getInstance();
-        $dao         = DAOFactory::getInstance();
-        $datas       = $this->getRequest()->getParams();
+        $sm = $this->getServiceLocator();
+        $headTitle = $sm->get('viewHelperManager')->get('headTitle');
+        $headTitle->append("Create <?php echo $this->dataObject->getEntityName(); ?>");
 
-        $form = $formBuilder->getBaseForm();
+        $<?php echo $this->dataObject->getEntityName(); ?>Form = <?php echo $this->dataObject->getEntityName(); ?>FormFactory::getInstance($sm);
+        $<?php echo $this->dataObject->getEntityName(); ?>DAO  = <?php echo $this->dataObject->getEntityName(); ?>DAOFactory::getInstance($sm);
+        $datas          = $this->getRequest()->getPost()->toArray();
 
-        if($this->getRequest()->isPost() && $form->isValid($datas)) {
-            $dataObject = $form->getDataObject();
+        if($this->getRequest()->isPost() && $<?php echo $this->dataObject->getEntityName(); ?>Form->isValid($datas)) {
+            $<?php echo $this->dataObject->getEntityName(); ?>DAO->create($<?php echo $this->dataObject->getEntityName(); ?>Form->getDTO());
 
-            $dao->persist($dataObject);
+            $this->flashMessenger()->addMessage('<?php echo $this->dataObject->getEntityName(); ?> created');
 
-            $this->_helper->getHelper('Redirector')->goToRoute("<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>");
+            return $this->redirect()->toRoute('<?php echo $this->dataObject->getEntityName(); ?>');
         }
 
-        $this->view->form = $form;
+        return new ViewModel(array(
+            'form' => $<?php echo $this->dataObject->getEntityName(); ?>Form
+        ));
     }

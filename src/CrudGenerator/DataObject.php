@@ -121,6 +121,18 @@ abstract class DataObject
         return $this->module;
     }
     /**
+     * Get Module name
+     * @return string
+     */
+    public function getModuleName()
+    {
+        if (!strrchr($this->module, '/')) {
+            return $this->module;
+        } else {
+            return str_replace('/', '', strrchr($this->module, '/'));
+        }
+    }
+    /**
      * Get Entity
      * @return string
      */
@@ -181,5 +193,21 @@ abstract class DataObject
     public function getGenerator()
     {
         return $this->generator;
+    }
+    /**
+     * Get controller path
+     * @return string
+     */
+    public function getControllerPath()
+    {
+        return $this->getModule() . '/src/' . $this->getModuleName() . '/Controller/';
+    }
+    /**
+     * Get view path
+     * @return string
+     */
+    public function getViewPath()
+    {
+        return $this->getModule() . '/view/' . $this->getModuleName() . '/' . $this->getEntityName();
     }
 }

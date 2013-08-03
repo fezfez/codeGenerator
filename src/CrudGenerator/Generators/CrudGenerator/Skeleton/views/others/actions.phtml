@@ -5,11 +5,13 @@
                 </button>
                 <ul class="dropdown-menu">
 
-                <?php foreach($this->actions as $record_actions): ?>
+                <?php
+                $actions = array('edit', 'delete');
+                foreach($actions as $record_actions): ?>
                 <?php if(in_array($record_actions, array('edit', 'delete'))): ?>
                     <li>
                         <a class="ajax-modal" href="
-<?php echo '<?php echo $this->url(array("id" => $entity->getId()), "' . $this->dataObject->getModulesName() . '-' . $this->dataObject->getClassName() . '-' . $record_actions . '"); ?> '; ?>
+<?php echo '<?php echo $this->url(array("id" => $entity->getId()), "' . $this->dataObject->getModuleName() . '-' . $this->dataObject->getEntityName() . '-' . $record_actions . '"); ?> '; ?>
 ">
                         <?php if($record_actions === 'edit'): ?>
                             <i class="icon-pencil"></i>

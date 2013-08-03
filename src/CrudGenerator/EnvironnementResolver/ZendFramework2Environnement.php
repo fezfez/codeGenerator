@@ -60,6 +60,7 @@ class ZendFramework2Environnement
                 $previousDir = $dir;
                 chdir($dir);
             }
+
             $application = \Zend\Mvc\Application::init($fileManager->includeFile('config/application.config.php'));
 
             self::$serviceManager = $application->getServiceManager();

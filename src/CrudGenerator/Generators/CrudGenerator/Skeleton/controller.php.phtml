@@ -1,13 +1,15 @@
-<?php echo '<?php' . "\n"; ?>
-use <?php echo $this->entity_namespace; ?>\<?php echo $this->entity_class; ?>;
-<?php if(in_array('new', $this->actions) || in_array('edit', $this->actions)): ?>
-use <?php echo $this->namespace; ?>\Form\<?php echo $this->entity_class; ?>Form;
-<?php endif; ?>
-use <?php echo $this->namespace; ?>\DAOFactory;
-use <?php echo $this->namespace; ?>\<?php echo $this->entity_class; ?>FormBuilderFactory;
-use <?php echo $this->namespace; ?>\DataObject\<?php echo $this->entity_class; ?>DataObject;
+<?php echo '<?php'; ?>
 
-class <?php echo $this->entity_class; ?>Controller extends Zend_Controller_Action
+namespace <?php echo $this->dataObject->getModuleName(); ?>\Controller;
+
+use Zend\View\Model\ViewModel;
+use Zend\Mvc\Controller\AbstractActionController;
+use <?php echo $this->dataObject->getNamespace(); ?>\Form\<?php echo $this->dataObject->getEntityName(); ?>FormFactory;
+use <?php echo $this->dataObject->getNamespace(); ?>\<?php echo $this->dataObject->getEntityName(); ?>DAOFactory;
+use <?php echo $this->dataObject->getNamespace(); ?>\<?php echo $this->dataObject->getEntityName(); ?>FormFactory;
+use <?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObject;
+
+class <?php echo $this->dataObject->getEntityName(); ?>Controller extends AbstractActionController
 {
     public function init()
     {
@@ -15,24 +17,14 @@ class <?php echo $this->entity_class; ?>Controller extends Zend_Controller_Actio
             $this->_helper->layout()->disableLayout();
         }
     }
-<?php if(in_array('index', $this->actions)): ?>
-<?php echo $this->render('/crud/actions/index.php');  ?>
-<?php endif; ?>
+<?php echo $this->render(__DIR__ . '/actions/', 'index.php.phtml');  ?>
 
-<?php if(in_array('show', $this->actions)): ?>
-<?php echo $this->render('/crud/actions/show.php');  ?>
-<?php endif; ?>
+<?php echo $this->render(__DIR__ . '/actions/', 'show.php.phtml');  ?>
 
-<?php if(in_array('new', $this->actions)): ?>
-<?php echo $this->render('/crud/actions/new.php');  ?>
-<?php endif; ?>
+<?php echo $this->render(__DIR__ . '/actions/', 'new.php.phtml');  ?>
 
-<?php if(in_array('edit', $this->actions)): ?>
-<?php echo $this->render('/crud/actions/edit.php');  ?>
-<?php endif; ?>
+<?php echo $this->render(__DIR__ . '/actions/', 'edit.php.phtml');  ?>
 
-<?php if(in_array('delete', $this->actions)): ?>
-<?php echo $this->render('/crud/actions/delete.php');  ?>
-<?php endif; ?>
+<?php echo $this->render(__DIR__ . '/actions/', 'delete.php.phtml');  ?>
 
 }

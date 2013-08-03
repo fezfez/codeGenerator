@@ -1,37 +1,40 @@
     public function editAction()
     {
-        if($this->_request->isXmlHttpRequest()) {
-            $this->_helper->layout()->disableLayout();
-            $this->_helper->viewRenderer->setRender('edit-js'); 
+        $sm = $this->getServiceLocator();
+        $headTitle = $sm->get('viewHelperManager')->get('headTitle');
+        $headTitle->append("update <?php echo $this->dataObject->getEntityName(); ?>");
+
+        $<?php echo $this->dataObject->getEntityName(); ?>Form = <?php echo $this->dataObject->getEntityName(); ?>FormFactory::getInstance($sm);
+        $<?php echo $this->dataObject->getEntityName(); ?>DAO  = <?php echo $this->dataObject->getEntityName(); ?>DAOFactory::getInstance($sm);
+        $datas          = $this->getRequest()->getPost()->toArray();
+        $id             = $this->params('id');
+        $referer        = $this->params('referer');
+
+        $<?php echo $this->dataObject->getEntityName(); ?>DataObject = new <?php echo $this->dataObject->getEntityName(); ?>DataObject();
+        $<?php echo $this->dataObject->getEntityName(); ?>DataObject->setId($id);
+
+        $<?php echo $this->dataObject->getEntityName(); ?>DataObject = $<?php echo $this->dataObject->getEntityName(); ?>DAO->retrieve($<?php echo $this->dataObject->getEntityName(); ?>DataObject);
+
+        if (!$this->getRequest()->isPost()) {
+
+            $<?php echo $this->dataObject->getEntityName(); ?>Form->populate($<?php echo $this->dataObject->getEntityName(); ?>DataObject);
+
+        } elseif($this->getRequest()->isPost() && $<?php echo $this->dataObject->getEntityName(); ?>Form->isValid($datas)) {
+
+            $<?php echo $this->dataObject->getEntityName(); ?> = $<?php echo $this->dataObject->getEntityName(); ?>Form->getDTO();
+
+            $<?php echo $this->dataObject->getEntityName(); ?>->setId($id);
+
+            $<?php echo $this->dataObject->getEntityName(); ?>DAO->update($<?php echo $this->dataObject->getEntityName(); ?>);
+
+            $this->flashMessenger()->addMessage('Validation effectuée');
+
+            return $this->redirect()->toRoute('<?php echo $this->dataObject->getEntityName(); ?>');
         }
- 
-        $formBuilder = <?php echo $this->entity_class; ?>FormBuilderFactory::getInstance();
-        $dao         = DAOFactory::getInstance();
-        $id          = $this->getRequest()->getParam('id');
-        $dataObject  = new <?php echo $this->entity_class; ?>DataObject();
 
-        $dataObject->setId($id);
-
-        $dataObject = $dao->find($dataObject);
-
-        $formData = $this->getRequest()->getParams();
-        $form     = $formBuilder->modifyBaseForm($dataObject);
-
-        if($this->getRequest()->isPost()) {
-            $form->populate($formData);
-        }
-
-        if($this->getRequest()->isPost() && $form->isValid($formData)) {
-            $dataObject = $form->getDataObject();
-            $dataObject->setId($id);
-
-            $dao->modify($dataObject);
-            if($this->_request->isXmlHttpRequest()) {
-                $this->_helper->json(array('redirector' => "<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>"));
-            } else {
-                $this->_helper->getHelper('Redirector')->goToRoute("<?php echo $this->dataObject->getModulesName(); ?>-<?php echo $this->dataObject->getClassName(); ?>");
-            }
-        }
-
-        $this->view->form = $form;
+        return new ViewModel(array(
+            '<?php echo $this->dataObject->getEntityName(); ?>'    => $<?php echo $this->dataObject->getEntityName(); ?>DataObject,
+            'form'          => $<?php echo $this->dataObject->getEntityName(); ?>Form,
+            'flashMessages' => $this->flashMessenger()->getMessages()
+        ));
     }

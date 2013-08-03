@@ -35,6 +35,22 @@ use Symfony\Component\Console\Input\InputInterface;
 abstract class BaseCodeGenerator
 {
     /**
+     * @var integer Post pone choise
+     */
+    const POSTPONE = 0;
+    /**
+     * @var integer Show diff choise
+     */
+    const SHOW_DIFF = 1;
+    /**
+     * @var integer Erase choise
+     */
+    const ERASE = 2;
+    /**
+     * @var integer Cancel choise
+     */
+    const CANCEL = 3;
+    /**
      * @var View View manager
      */
     protected $view              = null;
@@ -149,7 +165,7 @@ abstract class BaseCodeGenerator
             array_merge($datas, $suppDatas)
         );
 
-        if (is_file($pathTo) && file_get_contents($pathTo) !== $results) {
+        if ($this->fileManager->isFile($pathTo) && $this->fileManager->fileGetContent($pathTo) !== $results) {
 
             while (true) {
                 $response = $this->dialog->select(
@@ -162,23 +178,25 @@ abstract class BaseCodeGenerator
                         'cancel'
                     )
                 );
-                if ($response == '0') {
+                $response = intval($response);
+
+                if ($response === self::POSTPONE) {
                     $this->fileManager->filePutsContent($pathTo . '.new', $results);
                     $diff = $this->diffPHP->diff($pathTo, $pathTo . '.new');
                     $this->fileManager->filePutsContent($pathTo . '.diff', $diff);
                     $this->output->writeln('--> Generate diff and new file ' . $pathTo . '.diff');
                     break;
-                } elseif ($response == '1') {
+                } elseif ($response === self::SHOW_DIFF) {
                     $this->fileManager->filePutsContent($pathTo . '.diff', $results);
                     $this->output->writeln(
                         '<info>' . $this->diffPHP->diff($pathTo, $pathTo . '.diff') . '</info>'
                     );
-                    unlink($pathTo . '.diff');
-                } elseif ($response == '2') {
+                    $this->fileManager->unlink($pathTo . '.diff');
+                } elseif ($response === self::ERASE) {
                     $this->fileManager->filePutsContent($pathTo, $results);
                     $this->output->writeln('--> Create ' . $pathTo);
                     break;
-                } elseif ($response == '3') {
+                } elseif ($response === self::CANCEL) {
                     break;
                 }
             }
