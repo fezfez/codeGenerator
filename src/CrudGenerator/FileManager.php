@@ -102,4 +102,13 @@ class FileManager
     {
         return unlink($file);
     }
+
+    /**
+     * Glob dir
+     * @param string $dir Dir path
+     */
+    public function glob($dir)
+    {
+        return glob($dir);
+    }
 }
