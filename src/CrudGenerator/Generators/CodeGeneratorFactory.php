@@ -42,7 +42,7 @@ class CodeGeneratorFactory
     {
         $view              = ViewFactory::getInstance();
         $fileManager       = new FileManager();
-        $generiqueQuestion = new GeneriqueQuestions($dialog, $output);
+        $generiqueQuestion = new GeneriqueQuestions($dialog, $output, $fileManager);
         $diffPHP           = new DiffPHP();
 
         return new $class($view, $output, $fileManager, $dialog, $generiqueQuestion, $diffPHP);

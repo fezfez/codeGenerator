@@ -114,7 +114,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
                     ->will($this->returnValue(''));
 
         $view              = ViewFactory::getInstance();
-        $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput);
+        $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput, new FileManager());
 
         $sUT = new ArchitectGenerator(
             $view,
@@ -181,7 +181,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         ->will($this->returnValue(''));
 
         $view              = ViewFactory::getInstance();
-        $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput);
+        $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput, new FileManager());
 
         $diffPHP =  $this->getMockBuilder('CrudGenerator\Diff\DiffPHP')
         ->disableOriginalConstructor()
@@ -255,7 +255,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         ->will($this->returnValue(''));
 
         $view              = ViewFactory::getInstance();
-        $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput);
+        $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput, new FileManager());
         $diffPHP           = new DiffPHP();
 
         $sUT = new ArchitectGenerator(
@@ -322,7 +322,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
                         ->will($this->returnValue(''));
 
         $view              = ViewFactory::getInstance();
-        $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput);
+        $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput, new FileManager());
         $diffPHP           = new DiffPHP();
 
         $sUT = new ArchitectGenerator(
@@ -380,7 +380,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
                         ->will($this->returnValue(true));
 
         $view              = ViewFactory::getInstance();
-        $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput);
+        $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput, new FileManager());
         $diffPHP           = new DiffPHP();
 
         return new ArchitectGenerator(

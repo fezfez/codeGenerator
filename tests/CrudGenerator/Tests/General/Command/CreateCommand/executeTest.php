@@ -15,17 +15,17 @@ class executeTest extends \PHPUnit_Framework_TestCase
 
         $command = $application->find('CodeGenerator:create');
 
-        $tmpfname = tempnam("/tmp", "FOO");
+        /*$tmpfname = tempnam("/tmp", "FOO");
 
         $handle = fopen($tmpfname, "w");
-        define('STDIN', $handle);
+        define('STDIN', $handle);*/
         chdir(__DIR__ . '/../../../ZF2/MetaData/');
 
         $adapter = new \CrudGenerator\Adapter\AdapterDataObject();
         $adapter->setDefinition('toto')
                 ->setName('CrudGenerator\MetaData\Doctrine2\Doctrine2MetaDataDAO');
 
-        $dialog = $this->getMock('Symfony\Component\Console\Helper\DialogHelper', array('askAndValidate'));
+        $dialog = $this->getMock('Symfony\Component\Console\Helper\DialogHelper', array('askAndValidate', 'askConfirmation'));
         $dialog->expects($this->at(0))
                ->method('askAndValidate')
                ->will($this->returnValue($adapter));

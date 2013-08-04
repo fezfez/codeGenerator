@@ -21,6 +21,7 @@ namespace CrudGenerator\Generators;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use CrudGenerator\DataObject;
+use CrudGenerator\FileManager;
 
 /**
  * Group of questions frequently asked by Generators
@@ -38,6 +39,10 @@ class GeneriqueQuestions
      */
     private $output            = null;
     /**
+     * @var FileManager FileManager
+     */
+    private $fileManager        = null;
+    /**
      * @var string Response to the question
      */
     private $directoryResponse = null;
@@ -50,11 +55,13 @@ class GeneriqueQuestions
      * Group of questions frequently asked by Generators
      * @param DialogHelper $dialog
      * @param OutputInterface $output
+     * @param FileManager $fileManager
      */
-    public function __construct(DialogHelper $dialog, OutputInterface $output)
+    public function __construct(DialogHelper $dialog, OutputInterface $output, FileManager $fileManager)
     {
-        $this->dialog = $dialog;
-        $this->output = $output;
+        $this->dialog      = $dialog;
+        $this->output      = $output;
+        $this->fileManager = $fileManager;
     }
 
     /**
@@ -68,20 +75,20 @@ class GeneriqueQuestions
     {
         if (null === $this->directoryResponse) {
             $moduleName = $dataObject->getModule();
-            $directoryValidation = function ($directory) use ($moduleName) {
-                if (!is_dir($moduleName . '/' . $directory)) {
-                    throw new \InvalidArgumentException(
-                        sprintf('Directory "%s" does not exist.', $moduleName . $directory)
-                    );
-                }
-
-                return $directory;
-            };
+            $fileManager = $this->fileManager;
 
             $this->directoryResponse = $this->dialog->askAndValidate(
                 $this->output,
                 'Choose a target directory ',
-                $directoryValidation,
+                function ($directory) use ($moduleName, $fileManager) {
+                    if (!$fileManager->isDir($moduleName . '/' . $directory)) {
+                        throw new \InvalidArgumentException(
+                            sprintf('Directory "%s" does not exist.', $moduleName . $directory)
+                        );
+                    }
+
+                    return $directory;
+                },
                 false
             );
         }

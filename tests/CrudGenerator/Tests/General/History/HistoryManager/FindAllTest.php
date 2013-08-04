@@ -5,6 +5,7 @@ use CrudGenerator\History\HistoryManager;
 use CrudGenerator\FileManager;
 use CrudGenerator\Generators\GeneratorFinderFactory;
 use CrudGenerator\Generators\ArchitectGenerator\Architect;
+use CrudGenerator\History\History;
 
 class FindAllTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,6 +37,15 @@ class FindAllTest extends \PHPUnit_Framework_TestCase
         $stubFileManager->expects($this->any())
         ->method('isDir')
         ->will($this->returnValue(true));
+
+
+        $glob = array(
+            serialize(new History())
+        );
+
+        $stubFileManager->expects($this->any())
+                        ->method('glob')
+                        ->will($this->returnValue($glob));
 
         $sUT = new HistoryManager($stubFileManager);
 

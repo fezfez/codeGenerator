@@ -74,7 +74,7 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
                         ->will($this->returnValue(true));
 
         $view              = ViewFactory::getInstance();
-        $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput);
+        $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput, new FileManager());
         $diffPHP           = new DiffPHP();
 
         $sUT = new ArchitectGenerator(
