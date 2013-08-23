@@ -24,6 +24,7 @@ use CrudGenerator\MetaData\Config\MetaDataConfigReaderFactory;
 use CrudGenerator\Adapter\AdapterFinderFactory;
 use CrudGenerator\Generators\GeneratorFinderFactory;
 use CrudGenerator\History\HistoryFactory;
+use CrudGenerator\History\HistoryManager;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,6 +40,21 @@ use InvalidArgumentException;
  */
 class RegenerateCommand extends Command
 {
+    /**
+     * @var HistoryManager
+     */
+    private $historyManager = null;
+    /**
+     * @var CodeGeneratorFactory
+     */
+    private $codeGeneratorFactory = null;
+
+    public function __construct($name = null, HistoryManager $historyManager = null, CodeGeneratorFactory $codeGeneratorFactory = null)
+    {
+        $this->historyManager       = (null === $historyManager) ? HistoryFactory::getInstance() : $historyManager;
+        $this->codeGeneratorFactory = (null === $codeGeneratorFactory) ? new CodeGeneratorFactory() : $codeGeneratorFactory;
+        parent::__construct($name);
+    }
     /**
      * (non-PHPdoc)
      * @see Symfony\Component\Console\Command.Command::configure()
@@ -59,15 +75,11 @@ class RegenerateCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog          = $this->getHelperSet()->get('dialog');
-        $historyManager  = HistoryFactory::getInstance();
-
-        $historyCollection = $historyManager->findAll();
-
-        $history    = $this->historyQuestion($output, $dialog, $historyCollection);
+        $dialog     = $this->getHelperSet()->get('dialog');
+        $history    = $this->historyQuestion($output, $dialog);
         $dataObject = $history->getDataObject();
 
-        $crudGenerator = CodeGeneratorFactory::getInstance($output, $dialog, $dataObject->getGenerator());
+        $crudGenerator = $this->codeGeneratorFactory->create($output, $dialog, $dataObject->getGenerator());
 
         $output->writeln("<info>Resume</info>");
         $output->writeln('<info>Entity : ' . $dataObject->getEntity(), '*</info>');
@@ -80,19 +92,24 @@ class RegenerateCommand extends Command
         );
 
         if ($doI === true) {
-            $historyManager = HistoryFactory::getInstance();
-
             $dataObject = $crudGenerator->generate($dataObject);
         } else {
             throw new RuntimeException('Command aborted');
         }
     }
 
-    private function historyQuestion($output, $dialog, $allHistory)
+    /**
+     * @param unknown_type $output
+     * @param unknown_type $dialog
+     * @return \CrudGenerator\History\History
+     */
+    private function historyQuestion($output, $dialog)
     {
+        $historyCollection = $this->historyManager->findAll();
+
         $output->writeln('<question>History list</question>');
         $historyChoices = array();
-        foreach ($allHistory as $history) {
+        foreach ($historyCollection as $history) {
             $output->writeln('<comment>' . $history->getName() . '</comment>');
             $historyChoices[$history->getName()] = $history;
         }

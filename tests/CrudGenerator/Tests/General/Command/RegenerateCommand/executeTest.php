@@ -1,6 +1,10 @@
 <?php
 namespace CrudGenerator\Tests\General\Command\RegenerateCommand;
 
+use CrudGenerator\Generators\ArchitectGenerator\Architect;
+
+use CrudGenerator\History\History;
+
 use CrudGenerator\Command\RegenerateCommand;
 use Symfony\Component\Console\Application as App;
 use Symfony\Component\Console\Tester\ApplicationTester;
@@ -26,9 +30,9 @@ class executeTest extends \PHPUnit_Framework_TestCase
                ->method('select')
                ->will($this->returnValue('messages'));
 
-        $dialog->expects($this->at(0))
+        $dialog->expects($this->once())
                ->method('askConfirmation')
-               ->will($this->returnValue('n'));
+               ->will($this->returnValue(false));
 
         // We override the standard helper with our mock
         $command->getHelperSet()->set($dialog, 'dialog');
@@ -40,31 +44,49 @@ class executeTest extends \PHPUnit_Framework_TestCase
 
     public function testDoiTrue()
     {
+        $history = new History();
+        $history->setName('messages')
+                ->setDataObject(new Architect());
+
+
+        $historyStub = $this->getMockBuilder('\CrudGenerator\History\HistoryManager')
+                            ->disableOriginalConstructor()
+                            ->getMock();
+        $historyStub->expects($this->once())
+                    ->method('findAll')
+                    ->will($this->returnValue(array(0 => $history)));
+
+        $CodeGeneratorFactoryStub = $this->getMockBuilder('\CrudGenerator\Generators\CodeGeneratorFactory')
+                                         ->disableOriginalConstructor()
+                                         ->getMock();
+        $ArchitectGeneratorStub = $this->getMockBuilder('\CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator')
+                                       ->disableOriginalConstructor()
+                                       ->getMock();
+        $CodeGeneratorFactoryStub->expects($this->any())
+                                 ->method('create')
+                                 ->will($this->returnValue($ArchitectGeneratorStub));
+
+        chdir(__DIR__ . '/../../../ZF2/MetaData/');
+
         $application = new App();
-        $application->add(new RegenerateCommand());
+        $application->add(new RegenerateCommand(null, $historyStub, $CodeGeneratorFactoryStub));
 
         $command = $application->find('CodeGenerator:regenerate');
 
-        /*$tmpfname = tempnam("/tmp", "FOO");
+        $dialog = $this->getMock('Symfony\Component\Console\Helper\DialogHelper', array('select', 'askConfirmation'));
+        $dialog->expects($this->once())
+               ->method('select')
+               ->will($this->returnValue('messages'));
 
-        $handle = fopen($tmpfname, "w");
-        define('STDIN', $handle);*/
-        chdir(__DIR__ . '/../../../ZF2/MetaData/');
-
-        $dialog = $this->getMock('Symfony\Component\Console\Helper\DialogHelper', array('askAndValidate', 'askConfirmation'));
-        $dialog->expects($this->at(0))
-        ->method('select')
-        ->will($this->returnValue('messages'));
-
-        $dialog->expects($this->any())
-        ->method('askConfirmation')
-        ->will($this->returnValue(true));
+        $dialog->expects($this->once())
+               ->method('askConfirmation')
+               ->will($this->returnValue(true));
 
         // We override the standard helper with our mock
         $command->getHelperSet()->set($dialog, 'dialog');
 
         $commandTester = new CommandTester($command);
-        $this->setExpectedException('RuntimeException');
+
         $commandTester->execute(array('command' => $command->getName()));
     }
 }

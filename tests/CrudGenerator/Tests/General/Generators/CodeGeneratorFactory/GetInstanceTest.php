@@ -14,9 +14,10 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
                             ->disableOriginalConstructor()
                             ->getMock();
 
+        $codeGenerator = new CodeGeneratorFactory();
         $this->assertInstanceOf(
             'CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator',
-            CodeGeneratorFactory::getInstance(
+            $codeGenerator->create(
                 $stubOutput,
                 new DialogHelper(),
                 'CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator'

@@ -38,7 +38,7 @@ class CodeGeneratorFactory
      * @param unknown $class
      * @return  CrudGenerator\Generators\BaseCodeGenerator
      */
-    public static function getInstance(OutputInterface $output, DialogHelper $dialog, $class)
+    public function create(OutputInterface $output, DialogHelper $dialog, $class)
     {
         $view              = ViewFactory::getInstance();
         $fileManager       = new FileManager();

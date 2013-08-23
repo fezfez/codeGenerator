@@ -24,6 +24,7 @@ use CrudGenerator\MetaData\Config\MetaDataConfigReaderFactory;
 use CrudGenerator\Adapter\AdapterFinderFactory;
 use CrudGenerator\Generators\GeneratorFinderFactory;
 use CrudGenerator\History\HistoryFactory;
+use CrudGenerator\History\HistoryManager;
 use CrudGenerator\MetaData\DataObject\MetaDataDataObjectCollection;
 
 use Symfony\Component\Console\Command\Command;
@@ -42,13 +43,29 @@ use InvalidArgumentException;
 class CreateCommand extends Command
 {
     /**
+     * @var HistoryManager
+     */
+    private $historyManager = null;
+    private $metaDataConfigReader = null;
+    private $adapterFinder = null;
+    private $generatorFinder = null;
+    /**
+     * @var CodeGeneratorFactory
+     */
+    private $codeGeneratorFactory = null;
+
+    public function __construct($name = null, HistoryManager $historyManager = null, CodeGeneratorFactory $codeGeneratorFactory = null)
+    {
+        $this->historyManager = (null === $historyManager) ? HistoryFactory::getInstance() : $historyManager;
+        $this->codeGeneratorFactory = (null === $codeGeneratorFactory) ? new CodeGeneratorFactory() : $codeGeneratorFactory;
+        parent::__construct($name);
+    }
+    /**
      * (non-PHPdoc)
      * @see Symfony\Component\Console\Command.Command::configure()
      */
     protected function configure()
     {
-        parent::configure();
-
         $this->setName('CodeGenerator:create')
              ->setDescription('Generate code based on database connection');
     }
@@ -68,7 +85,7 @@ class CreateCommand extends Command
         $adapterConfig       = $adapter->getConfig();
         $adapterConfigurator = MetaDataConfigReaderFactory::getInstance($output, $dialog);
 
-        $adapterFactory = $adapter->getFactory();
+        $adapterFactory      = $adapter->getFactory();
 
         if (null !== $adapterConfig) {
             $adapterConfig = $adapterConfigurator->config($adapterConfig);
@@ -87,7 +104,7 @@ class CreateCommand extends Command
                    ->setMetaData($adapterDAO->getMetadataFor($entity))
                    ->setGenerator($generator);
 
-        $crudGenerator = CodeGeneratorFactory::getInstance($output, $dialog, $generator);
+        $crudGenerator = $this->codeGeneratorFactory->create($output, $dialog, $generator);
 
         $output->writeln("<info>Resume</info>");
         $output->writeln('<info>Entity : ' . $dataObject->getEntity(), '*</info>');
@@ -100,11 +117,12 @@ class CreateCommand extends Command
         );
 
         if ($doI === true) {
-            $historyManager = HistoryFactory::getInstance();
 
             $dataObject = $crudGenerator->generate($dataObject);
 
-            $historyManager->create($dataObject);
+            $this->historyManager->create($dataObject);
+
+            return true;
         } else {
             throw new RuntimeException('Command aborted');
         }
@@ -188,7 +206,7 @@ class CreateCommand extends Command
 
         $output->writeln('<question>Chose a generator</question>');
         foreach ($generators as $number => $generatorClassName) {
-            $generator = CodeGeneratorFactory::getInstance($output, $dialog, $generatorClassName);
+            $generator = $this->codeGeneratorFactory->create($output, $dialog, $generatorClassName);
             $output->writeln('<comment>' . $number . '. ' . $generator->getDefinition() . '</comment>');
         }
 
