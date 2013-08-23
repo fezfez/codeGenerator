@@ -22,6 +22,7 @@ use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use CrudGenerator\DataObject;
 use CrudGenerator\FileManager;
+use CrudGenerator\Generators\GeneriqueQuestion\DirectoryValidator;
 
 /**
  * Group of questions frequently asked by Generators
@@ -74,21 +75,10 @@ class GeneriqueQuestions
     public function directoryQuestion(DataObject $dataObject)
     {
         if (null === $this->directoryResponse) {
-            $moduleName = $dataObject->getModule();
-            $fileManager = $this->fileManager;
-
             $this->directoryResponse = $this->dialog->askAndValidate(
                 $this->output,
                 'Choose a target directory ',
-                function ($directory) use ($moduleName, $fileManager) {
-                    if (!$fileManager->isDir($moduleName . '/' . $directory)) {
-                        throw new \InvalidArgumentException(
-                            sprintf('Directory "%s" does not exist.', $moduleName . $directory)
-                        );
-                    }
-
-                    return $directory;
-                },
+                new DirectoryValidator($dataObject, $this->fileManager),
                 false
             );
         }
