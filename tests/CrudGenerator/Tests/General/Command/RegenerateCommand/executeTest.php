@@ -21,19 +21,10 @@ class executeTest extends \PHPUnit_Framework_TestCase
         define('STDIN', $handle);*/
         chdir(__DIR__ . '/../../../ZF2/MetaData/');
 
-        $architect = new \CrudGenerator\Generators\ArchitectGenerator\Architect();
-        $architect->setEntity('toto')
-                  ->setModule('tutu')
-                  ->setGenerator('CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator');
-
-        $history = new \CrudGenerator\History\History();
-        $history->setName('message')
-                ->setDataObject($architect);
-
-        $dialog = $this->getMock('Symfony\Component\Console\Helper\DialogHelper', array('askAndValidate', 'askConfirmation'));
+        $dialog = $this->getMock('Symfony\Component\Console\Helper\DialogHelper', array('select', 'askConfirmation'));
         $dialog->expects($this->at(0))
-               ->method('askAndValidate')
-               ->will($this->returnValue($history));
+               ->method('select')
+               ->will($this->returnValue('messages'));
 
         $dialog->expects($this->at(0))
                ->method('askConfirmation')
@@ -60,19 +51,10 @@ class executeTest extends \PHPUnit_Framework_TestCase
         define('STDIN', $handle);*/
         chdir(__DIR__ . '/../../../ZF2/MetaData/');
 
-        $architect = new \CrudGenerator\Generators\ArchitectGenerator\Architect();
-        $architect->setEntity('toto')
-        ->setModule('tutu')
-        ->setGenerator('CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator');
-
-        $history = new \CrudGenerator\History\History();
-        $history->setName('message')
-        ->setDataObject($architect);
-
         $dialog = $this->getMock('Symfony\Component\Console\Helper\DialogHelper', array('askAndValidate', 'askConfirmation'));
         $dialog->expects($this->at(0))
-        ->method('askAndValidate')
-        ->will($this->returnValue($history));
+        ->method('select')
+        ->will($this->returnValue('messages'));
 
         $dialog->expects($this->any())
         ->method('askConfirmation')

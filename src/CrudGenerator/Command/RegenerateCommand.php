@@ -64,8 +64,7 @@ class RegenerateCommand extends Command
 
         $historyCollection = $historyManager->findAll();
 
-        $history = $this->historyQuestion($output, $dialog, $historyCollection);
-
+        $history    = $this->historyQuestion($output, $dialog, $historyCollection);
         $dataObject = $history->getDataObject();
 
         $crudGenerator = CodeGeneratorFactory::getInstance($output, $dialog, $dataObject->getGenerator());
@@ -95,27 +94,16 @@ class RegenerateCommand extends Command
         $historyChoices = array();
         foreach ($allHistory as $history) {
             $output->writeln('<comment>' . $history->getName() . '</comment>');
-            $historyChoices[] = $history->getName();
+            $historyChoices[$history->getName()] = $history;
         }
 
-        $historyValidation = function ($history) use ($historyChoices, $allHistory) {
-            foreach ($allHistory as $historyDataobject) {
-                $historyName = $historyDataobject->getName();
-                if ($historyName === $history) {
-                    return $historyDataobject;
-                }
-            }
-
-            throw new \InvalidArgumentException(sprintf('History "%s" is invalid.', $history));
-        };
-
-        return $dialog->askAndValidate(
+        $choice = $dialog->select(
             $output,
             "History to regenerate \n> ",
-            $historyValidation,
-            false,
-            null,
-            $historyChoices
+            array_keys($historyChoices),
+            0
         );
+
+        return $historyChoices[$choice];
     }
 }
