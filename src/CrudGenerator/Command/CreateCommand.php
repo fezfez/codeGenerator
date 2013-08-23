@@ -120,9 +120,10 @@ class CreateCommand extends Command
      */
     private function adapterQuestion(OutputInterface $output, DialogHelper $dialog)
     {
-        $adapterFinder   = AdapterFinderFactory::getInstance();
+        $adapterFinder      = AdapterFinderFactory::getInstance();
         $adaptersCollection = $adapterFinder->getAllAdapters();
         $output->writeln('<question>Adapters list</question>');
+
         foreach ($adaptersCollection as $adapter) {
             $falseDependencies = $adapter->getFalseDependencies();
 
@@ -133,29 +134,18 @@ class CreateCommand extends Command
                 $output->writeln('<error> * ' . $falseDependencies . '</error>');
             } else {
                 $output->writeln('<comment>' . $adapter->getDefinition() . '</comment>');
-                $adaptersChoices[] = $adapter->getName();
+                $adaptersChoices[$adapter->getName()] = $adapter;
             }
         }
 
-        $adapterValidation = function ($adapter) use ($adaptersChoices, $adaptersCollection) {
-            foreach ($adaptersCollection as $adapterDataobject) {
-                $adapterName = $adapterDataobject->getName();
-                if ($adapterName === $adapter) {
-                    return $adapterDataobject;
-                }
-            }
-
-            throw new \InvalidArgumentException(sprintf('Adapter "%s" is invalid.', $adapter));
-        };
-
-        return $dialog->askAndValidate(
+        $choice = $dialog->select(
             $output,
             "Choose an adapter \n> ",
-            $adapterValidation,
-            false,
-            null,
-            $adaptersChoices
+            array_keys($adaptersChoices),
+            0
         );
+
+        return $adaptersChoices[$choice];
     }
 
     /**
@@ -175,21 +165,11 @@ class CreateCommand extends Command
             $output->writeln('<comment>  ' . $moduleName . '</comment>');
         }
 
-        $modulesValidation = function ($module) use ($modulesChoices) {
-            if (!in_array($module, array_values($modulesChoices))) {
-                throw new \InvalidArgumentException(sprintf('Module "%s" is invalid.', $module));
-            }
-
-            return $module;
-        };
-
-        return $dialog->askAndValidate(
+        return $dialog->select(
             $output,
             "Choose a target module \n> ",
-            $modulesValidation,
-            false,
-            null,
-            $modulesChoices
+            $modulesChoices,
+            0
         );
     }
 
@@ -212,15 +192,7 @@ class CreateCommand extends Command
             $output->writeln('<comment>' . $number . '. ' . $generator->getDefinition() . '</comment>');
         }
 
-        $generatorsValidation = function ($module) use ($generators) {
-            if (!isset($generators[$module])) {
-                throw new \InvalidArgumentException(sprintf('Generator "%s" is invalid.', $module));
-            }
-
-            return $generators[$module];
-        };
-
-        return $dialog->askAndValidate($output, "Choose a generators \n> ", $generatorsValidation, false);
+        return $dialog->select($output, "Choose a generators \n> ", array_keys($generators), 0);
     }
 
     /**
@@ -238,24 +210,16 @@ class CreateCommand extends Command
         $entityChoices = array();
         foreach ($allMetaData as $class) {
             $output->writeln('<comment>  ' . $class->getName() . '</comment>');
-            $entityChoices[] = $class->getName();
+            $entityChoices[$class->getName()] = $class->getName();
         }
 
-        $entityValidation = function ($entity) use ($entityChoices) {
-            if (!in_array($entity, array_values($entityChoices))) {
-                throw new InvalidArgumentException(sprintf('Entity "%s" is invalid.', $entity));
-            }
-
-            return $entity;
-        };
-
-        return $dialog->askAndValidate(
+        $choice = $dialog->select(
             $output,
             "Full namespace Entity \n> ",
-            $entityValidation,
-            false,
-            null,
-            $entityChoices
+            $entityChoices,
+            0
         );
+
+        return $entityChoices[$choice];
     }
 }

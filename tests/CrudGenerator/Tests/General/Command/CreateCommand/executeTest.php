@@ -1,6 +1,8 @@
 <?php
 namespace CrudGenerator\Tests\General\Command\CreateCommand;
 
+use CrudGenerator\Tests\General\Command\CommandTestCase;
+
 use CrudGenerator\Command\CreateCommand;
 use Symfony\Component\Console\Application as App;
 use Symfony\Component\Console\Tester\ApplicationTester;
@@ -8,7 +10,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class executeTest extends \PHPUnit_Framework_TestCase
 {
-    public function testType()
+    public function testTypedzadza()
     {
         $application = new App();
         $application->add(new CreateCommand());
@@ -21,22 +23,18 @@ class executeTest extends \PHPUnit_Framework_TestCase
         define('STDIN', $handle);*/
         chdir(__DIR__ . '/../../../ZF2/MetaData/');
 
-        $adapter = new \CrudGenerator\Adapter\AdapterDataObject();
-        $adapter->setDefinition('toto')
-                ->setName('CrudGenerator\MetaData\Doctrine2\Doctrine2MetaDataDAO');
-
-        $dialog = $this->getMock('Symfony\Component\Console\Helper\DialogHelper', array('askAndValidate', 'askConfirmation'));
+        $dialog = $this->getMock('Symfony\Component\Console\Helper\DialogHelper', array('askAndValidate', 'askConfirmation', 'select'));
         $dialog->expects($this->at(0))
-               ->method('askAndValidate')
-               ->will($this->returnValue($adapter));
+               ->method('select')
+               ->will($this->returnValue('CrudGenerator\MetaData\Doctrine2\Doctrine2MetaDataDAO'));
         $dialog->expects($this->at(1))
-               ->method('askAndValidate')
+               ->method('select')
                ->will($this->returnValue('TestZf2\Entities\NewsEntity'));
         $dialog->expects($this->at(2))
-               ->method('askAndValidate')
+               ->method('select')
                ->will($this->returnValue('CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator'));
         $dialog->expects($this->at(3))
-               ->method('askAndValidate')
+               ->method('select')
                ->will($this->returnValue('CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator'));
         $dialog->expects($this->at(0))
                ->method('askConfirmation')
