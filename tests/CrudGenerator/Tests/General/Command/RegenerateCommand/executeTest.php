@@ -14,15 +14,37 @@ class executeTest extends \PHPUnit_Framework_TestCase
 {
     public function testDoiNo()
     {
+        $history = new History();
+        $history->setName('messages')
+        ->setDataObject(new Architect());
+
+
+        $historyStub = $this->getMockBuilder('\CrudGenerator\History\HistoryManager')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $historyStub->expects($this->once())
+        ->method('findAll')
+        ->will($this->returnValue(array(0 => $history)));
+
+        $CodeGeneratorFactoryStub = $this->getMockBuilder('\CrudGenerator\Generators\CodeGeneratorFactory')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $ArchitectGeneratorStub = $this->getMockBuilder('\CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $CodeGeneratorFactoryStub->expects($this->any())
+        ->method('create')
+        ->will($this->returnValue($ArchitectGeneratorStub));
+
         $application = new App();
-        $application->add(new RegenerateCommand());
+        $application->add(new RegenerateCommand(null, $historyStub, $CodeGeneratorFactoryStub));
 
         $command = $application->find('CodeGenerator:regenerate');
 
         chdir(__DIR__ . '/../../../ZF2/MetaData/');
 
         $dialog = $this->getMock('Symfony\Component\Console\Helper\DialogHelper', array('select', 'askConfirmation'));
-        $dialog->expects($this->at(0))
+        $dialog->expects($this->once())
                ->method('select')
                ->will($this->returnValue('messages'));
 
