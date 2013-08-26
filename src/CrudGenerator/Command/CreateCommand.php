@@ -157,7 +157,7 @@ class CreateCommand extends Command
                 $output->writeln('<error> * ' . $falseDependencies . '</error>');
             } else {
                 $output->writeln('<comment>' . $adapter->getDefinition() . '</comment>');
-                $adaptersChoices[$adapter->getName()] = $adapter;
+                $adaptersChoices[] = $adapter;
             }
         }
 
@@ -236,7 +236,7 @@ class CreateCommand extends Command
         $entityChoices = array();
         foreach ($allMetaData as $class) {
             $output->writeln('<comment>  ' . $class->getName() . '</comment>');
-            $entityChoices[$class->getName()] = $class->getName();
+            $entityChoices[] = $class->getName();
         }
 
         $choice = $dialog->select(
