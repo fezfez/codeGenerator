@@ -63,7 +63,7 @@ class ZendFramework2Environnement
 
             try {
                 $application = \Zend\Mvc\Application::init($fileManager->includeFile('config/application.config.php'));
-            } catch(\Zend\ModuleManager\Exception\RuntimeException $e) {
+            } catch (\Zend\ModuleManager\Exception\RuntimeException $e) {
                 throw new EnvironnementResolverException($e->getMessage());
             }
 

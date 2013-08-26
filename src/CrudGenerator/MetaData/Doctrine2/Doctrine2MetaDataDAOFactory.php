@@ -35,10 +35,10 @@ class Doctrine2MetaDataDAOFactory
      */
     public static function getInstance()
     {
-        $fileManager = new FileManager();
-        $sm = ZendFramework2Environnement::getDependence($fileManager);
-        $em = $sm->get('doctrine.entitymanager.orm_default');
+        $fileManager    = new FileManager();
+        $serviceManager = ZendFramework2Environnement::getDependence($fileManager);
+        $entityManager  = $serviceManager->get('doctrine.entitymanager.orm_default');
 
-        return new Doctrine2MetaDataDAO($em);
+        return new Doctrine2MetaDataDAO($entityManager);
     }
 }

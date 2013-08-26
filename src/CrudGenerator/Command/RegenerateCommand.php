@@ -49,10 +49,19 @@ class RegenerateCommand extends Command
      */
     private $codeGeneratorFactory = null;
 
-    public function __construct($name = null, HistoryManager $historyManager = null, CodeGeneratorFactory $codeGeneratorFactory = null)
-    {
+    /**
+     * @param string $name
+     * @param HistoryManager $historyManager
+     * @param CodeGeneratorFactory $codeGeneratorFactory
+     */
+    public function __construct(
+        $name = null,
+        HistoryManager $historyManager = null,
+        CodeGeneratorFactory $codeGeneratorFactory = null
+    ) {
         $this->historyManager       = (null === $historyManager) ? HistoryFactory::getInstance() : $historyManager;
-        $this->codeGeneratorFactory = (null === $codeGeneratorFactory) ? new CodeGeneratorFactory() : $codeGeneratorFactory;
+        $this->codeGeneratorFactory = (null === $codeGeneratorFactory) ?
+                                        new CodeGeneratorFactory() : $codeGeneratorFactory;
         parent::__construct($name);
     }
     /**

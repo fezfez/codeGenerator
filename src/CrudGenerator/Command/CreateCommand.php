@@ -46,18 +46,24 @@ class CreateCommand extends Command
      * @var HistoryManager
      */
     private $historyManager = null;
-    private $metaDataConfigReader = null;
-    private $adapterFinder = null;
-    private $generatorFinder = null;
     /**
      * @var CodeGeneratorFactory
      */
     private $codeGeneratorFactory = null;
 
-    public function __construct($name = null, HistoryManager $historyManager = null, CodeGeneratorFactory $codeGeneratorFactory = null)
-    {
+    /**
+     * @param string $name
+     * @param HistoryManager $historyManager
+     * @param CodeGeneratorFactory $codeGeneratorFactory
+     */
+    public function __construct(
+        $name = null,
+        HistoryManager $historyManager = null,
+        CodeGeneratorFactory $codeGeneratorFactory = null
+    ) {
         $this->historyManager = (null === $historyManager) ? HistoryFactory::getInstance() : $historyManager;
-        $this->codeGeneratorFactory = (null === $codeGeneratorFactory) ? new CodeGeneratorFactory() : $codeGeneratorFactory;
+        $this->codeGeneratorFactory = (null === $codeGeneratorFactory) ?
+                                        new CodeGeneratorFactory() : $codeGeneratorFactory;
         parent::__construct($name);
     }
     /**
@@ -78,8 +84,7 @@ class CreateCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog      = $this->getHelperSet()->get('dialog');
-        $fileManager = new FileManager();
+        $dialog              = $this->getHelperSet()->get('dialog');
 
         $adapter             = $this->adapterQuestion($output, $dialog);
         $adapterConfig       = $adapter->getConfig();
@@ -222,8 +227,11 @@ class CreateCommand extends Command
      * @throws InvalidArgumentException
      * @return string
      */
-    private function entityQuestion(OutputInterface $output, DialogHelper $dialog, MetaDataDataObjectCollection $allMetaData)
-    {
+    private function entityQuestion(
+        OutputInterface $output,
+        DialogHelper $dialog,
+        MetaDataDataObjectCollection $allMetaData
+    ) {
         $output->writeln('<question>Entities list</question>');
         $entityChoices = array();
         foreach ($allMetaData as $class) {

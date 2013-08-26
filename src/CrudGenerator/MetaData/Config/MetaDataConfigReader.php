@@ -133,7 +133,7 @@ class MetaDataConfigReader
             if ($propName === 'definition') {
                 continue;
             }
-            $propSetter = 'set' . ucfirst($propName);
+
             $value      = $this->dialog->ask($this->output, 'Choose a "' . $propName . '" : ');
             $prop->setAccessible(true);
             $prop->setValue($adapterConfig, $value);

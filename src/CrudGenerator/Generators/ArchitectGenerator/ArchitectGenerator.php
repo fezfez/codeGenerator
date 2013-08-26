@@ -46,10 +46,10 @@ class ArchitectGenerator extends BaseCodeGenerator
     {
         $this->skeletonDir = __DIR__ . '/Skeleton';
 
-        if(!$DTO->getDirectory()) {
+        if (!$DTO->getDirectory()) {
             $DTO->setDirectory($this->generiqueQuestion->directoryQuestion($DTO));
         }
-        if(!$DTO->getNamespace()) {
+        if (!$DTO->getNamespace()) {
             $DTO->setNamespace($this->generiqueQuestion->namespaceQuestion());
         }
 
@@ -71,7 +71,7 @@ class ArchitectGenerator extends BaseCodeGenerator
             $basePath . '/DataObject/' . $entityName . 'Collection.php'
         );
 
-        if(!$DTO->getGenerateUnitTest()) {
+        if (!$DTO->getGenerateUnitTest()) {
             $generateUnitTest = $this->dialog->ask($this->output, 'Would you like to generate unitTest ?');
             $DTO->setGenerateUnitTest($generateUnitTest);
         } else {

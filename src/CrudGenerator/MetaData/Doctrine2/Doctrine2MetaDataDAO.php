@@ -35,15 +35,15 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
     /**
      * @var Doctrine\ORM\EntityManager Entity manager
      */
-    private $em = null;
+    private $entityManager = null;
 
     /**
      * Doctrine2 adapter in ZF2 environnement
      * @param EntityManager $em
      */
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $entityManager)
     {
-        $this->em = $em;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -54,7 +54,7 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
     public function getAllMetadata()
     {
         return $this->doctrine2MetadataToGeneratorMetadata(
-            $this->em->getMetaDataFactory()->getAllMetadata()
+            $this->entityManager->getMetaDataFactory()->getAllMetadata()
         );
     }
 
@@ -67,7 +67,7 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
     public function getMetadataFor($entityName)
     {
         return $this->hydrateDataObject(
-            $this->em->getMetadataFactory()->getMetadataFor($entityName)
+            $this->entityManager->getMetadataFactory()->getMetadataFor($entityName)
         );
     }
 

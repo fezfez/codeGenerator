@@ -21,5 +21,4 @@ use CrudGenerator\DataObject;
 
 class Form extends DataObject
 {
-
 }

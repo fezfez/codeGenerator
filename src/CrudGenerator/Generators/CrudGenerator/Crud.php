@@ -21,5 +21,4 @@ use CrudGenerator\DataObject;
 
 class Crud extends DataObject
 {
-
 }
