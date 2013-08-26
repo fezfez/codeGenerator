@@ -2,3 +2,19 @@
 [![Coverage Status](https://coveralls.io/repos/fezfez/crudGenerator/badge.png?branch=master)](https://coveralls.io/r/fezfez/crudGenerator?branch=master)
 
 This is alpha, certainly contains bugs, please dont use it on production
+
+
+Roadmap
+-------
+
+
+Template
+--------
+* Fk management
+* Unit test improvement
+* Controller template
+
+Generator
+---------
+* Multiple generation
+* Generation by configuration
