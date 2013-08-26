@@ -46,4 +46,40 @@ class PDOConfigTest extends \PHPUnit_Framework_TestCase
             $pdo->getUser()
         );
     }
+
+    public function testFail()
+    {
+        $pdo = new PDOConfig();
+
+        $pdo->setDatabaseName('db')
+        ->setHost('host')
+        ->setPassword('password')
+        ->setPort('port')
+        ->setType('type')
+        ->setUser('user');
+
+        $stubConsole =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+        ->disableOriginalConstructor()
+        ->getMock();
+
+        $this->setExpectedException('CrudGenerator\MetaData\Config\ConfigException');
+        $pdo->test($stubConsole);
+    }
+
+    public function testOk()
+    {
+        $pdo = new PDOConfig();
+
+        $pdo->setDatabaseName('code_generator_test')
+        ->setHost('localhost')
+        ->setPort('5432')
+        ->setType('pgsql')
+        ->setUser('postgres');
+
+        $stubConsole =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+        ->disableOriginalConstructor()
+        ->getMock();
+
+        $pdo->test($stubConsole);
+    }
 }
