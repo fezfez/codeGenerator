@@ -68,18 +68,12 @@ class PDOConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testOk()
     {
-        $pdo = new PDOConfig();
-
-        $pdo->setDatabaseName('code_generator')
-        ->setHost('localhost')
-        ->setPort('5432')
-        ->setType('pgsql')
-        ->setUser('postgres');
+        $pdoConfig = include __DIR__ . '/../PgSql/config.php';
 
         $stubConsole =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $pdo->test($stubConsole);
+        $pdoConfig->test($stubConsole);
     }
 }

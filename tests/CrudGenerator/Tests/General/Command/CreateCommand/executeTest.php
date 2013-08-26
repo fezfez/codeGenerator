@@ -40,16 +40,16 @@ class executeTest extends \PHPUnit_Framework_TestCase
         $dialog = $this->getMock('Symfony\Component\Console\Helper\DialogHelper', array('askConfirmation', 'select'));
         $dialog->expects($this->at(0))
                ->method('select')
-               ->will($this->returnValue('CrudGenerator\MetaData\Doctrine2\Doctrine2MetaDataDAO'));
+               ->will($this->returnValue('0'));
         $dialog->expects($this->at(1))
                ->method('select')
-               ->will($this->returnValue('TestZf2\Entities\NewsEntity'));
+               ->will($this->returnValue('0'));
         $dialog->expects($this->at(2))
                ->method('select')
-               ->will($this->returnValue('CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator'));
+               ->will($this->returnValue('0'));
         $dialog->expects($this->at(3))
                ->method('select')
-               ->will($this->returnValue('CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator'));
+               ->will($this->returnValue('0'));
         $dialog->expects($this->once())
                ->method('askConfirmation')
                ->will($this->returnValue(false));
@@ -92,16 +92,16 @@ class executeTest extends \PHPUnit_Framework_TestCase
         $dialog = $this->getMock('Symfony\Component\Console\Helper\DialogHelper', array('askConfirmation', 'select'));
         $dialog->expects($this->at(0))
         ->method('select')
-        ->will($this->returnValue('CrudGenerator\MetaData\Doctrine2\Doctrine2MetaDataDAO'));
+        ->will($this->returnValue('0'));
         $dialog->expects($this->at(1))
         ->method('select')
-        ->will($this->returnValue('TestZf2\Entities\NewsEntity'));
+        ->will($this->returnValue('0'));
         $dialog->expects($this->at(2))
         ->method('select')
-        ->will($this->returnValue('CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator'));
+        ->will($this->returnValue('0'));
         $dialog->expects($this->at(3))
         ->method('select')
-        ->will($this->returnValue('CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator'));
+        ->will($this->returnValue('0'));
         $dialog->expects($this->once())
         ->method('askConfirmation')
         ->will($this->returnValue(true));

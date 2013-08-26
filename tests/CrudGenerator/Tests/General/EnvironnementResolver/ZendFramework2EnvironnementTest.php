@@ -6,6 +6,9 @@ use CrudGenerator\FileManager;
 
 class ZendFramework2EnvironnementTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @runInSeparateProcess
+     */
     public function testType()
     {
         $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
@@ -21,6 +24,9 @@ class ZendFramework2EnvironnementTest extends \PHPUnit_Framework_TestCase
         $sUt = ZendFramework2Environnement::getDependence($stubFileManager);
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testWrongZf2Config()
     {
 

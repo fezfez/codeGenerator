@@ -7,17 +7,8 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {
-         //$this->setExpectedException('CrudGenerator\EnvironnementResolver\EnvironnementResolverException');
          chdir(__DIR__);
 
          Doctrine2MetaDataDAOFactory::getInstance();
-    }
-
-    public function testFail()
-    {
-        $this->setExpectedException('CrudGenerator\EnvironnementResolver\EnvironnementResolverException');
-        chdir(__DIR__ . '/../../../../');
-
-        Doctrine2MetaDataDAOFactory::getInstance();
     }
 }
