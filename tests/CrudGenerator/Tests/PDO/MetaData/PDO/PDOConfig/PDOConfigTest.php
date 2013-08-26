@@ -70,7 +70,7 @@ class PDOConfigTest extends \PHPUnit_Framework_TestCase
     {
         $pdo = new PDOConfig();
 
-        $pdo->setDatabaseName('code_generator_test')
+        $pdo->setDatabaseName('code_generator')
         ->setHost('localhost')
         ->setPort('5432')
         ->setType('pgsql')

@@ -33,7 +33,7 @@ return array(
                     'port'     => '5432',
                     'user'     => 'postgres',
                     'password' => '',
-                    'dbname'   => 'code_generator_test',
+                    'dbname'   => 'code_generator',
                 ),
                 'doctrine_type_mappings' => array(
                     'enum' => 'string'
