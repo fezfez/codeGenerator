@@ -26,6 +26,8 @@ use CrudGenerator\Generators\GeneratorFinderFactory;
 use CrudGenerator\History\HistoryFactory;
 use CrudGenerator\History\HistoryManager;
 use CrudGenerator\MetaData\DataObject\MetaDataDataObjectCollection;
+use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
+use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -182,16 +184,22 @@ class CreateCommand extends Command
      */
     private function moduleQuestion(OutputInterface $output, DialogHelper $dialog)
     {
-        $output->writeln('<question>Modules list</question>');
+        $output->writeln('<question>Directory list</question>');
 
-        $modulesChoices = glob('module/*');
+        try {
+            ZendFramework2Environnement::getDependence(new FileManager());
+            $modulesChoices = glob('module/*');
+        } catch (EnvironnementResolverException $e) {
+            $modulesChoices = glob('*');
+        }
+
         foreach ($modulesChoices as $moduleName) {
             $output->writeln('<comment>  ' . $moduleName . '</comment>');
         }
 
         return $dialog->select(
             $output,
-            "Choose a target module \n> ",
+            "Choose a target directory \n> ",
             $modulesChoices,
             0
         );
