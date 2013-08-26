@@ -157,18 +157,19 @@ class CreateCommand extends Command
                 $output->writeln('<error> * ' . $falseDependencies . '</error>');
             } else {
                 $output->writeln('<comment>' . $adapter->getDefinition() . '</comment>');
-                $adaptersChoices[] = $adapter;
+                $adaptersChoices[$adapter->getName()] = $adapter;
             }
         }
 
+        $adaptersKeysChoices = array_keys($adaptersChoices);
         $choice = $dialog->select(
             $output,
             "Choose an adapter \n> ",
-            array_keys($adaptersChoices),
+            $adaptersKeysChoices,
             0
         );
 
-        return $adaptersChoices[$choice];
+        return $adaptersChoices[$adaptersKeysChoices[$choice]];
     }
 
     /**

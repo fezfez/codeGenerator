@@ -73,6 +73,9 @@ class HistoryManager
         );
     }
 
+    /**
+     * Retrieve all history
+     */
     public function findAll()
     {
         $previousDir = '.';

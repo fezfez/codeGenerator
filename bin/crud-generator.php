@@ -13,8 +13,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
- * <http://www.doctrine-project.org>.
+ * and is licensed under the MIT license
  */
 
 
@@ -23,6 +22,15 @@ chdir(__DIR__);
 
 if (!(@include_once __DIR__ . '/../vendor/autoload.php') && !(@include_once __DIR__ . '/../../../autoload.php')) {
     throw new RuntimeException('Error: vendor/autoload.php could not be found. Did you run php composer.phar install?');
+}
+
+if(!is_dir('data')) {
+    mkdir('data/');
+    mkdir('data/crudGeneratorHistory');
+}
+
+if(!is_writable('data/crudGeneratorHistory')) {
+    throw new Exception('data/crudGeneratorHistory is not writable');
 }
 
 $cli = CrudGenerator\Service\CliFactory::getInstance();
