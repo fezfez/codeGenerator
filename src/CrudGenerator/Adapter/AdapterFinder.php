@@ -94,6 +94,7 @@ class AdapterFinder
 
         $adapterCollection = new AdapterCollection();
         $adapterDataObject = new AdapterDataObject();
+
         foreach ($declared as $className) {
             $reflectionClass = new ReflectionClass($className);
             $sourceFile = $reflectionClass->getFileName();

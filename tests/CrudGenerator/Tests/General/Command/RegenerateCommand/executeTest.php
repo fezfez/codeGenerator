@@ -19,10 +19,6 @@ class executeTest extends \PHPUnit_Framework_TestCase
 
         $command = $application->find('CodeGenerator:regenerate');
 
-        /*$tmpfname = tempnam("/tmp", "FOO");
-
-        $handle = fopen($tmpfname, "w");
-        define('STDIN', $handle);*/
         chdir(__DIR__ . '/../../../ZF2/MetaData/');
 
         $dialog = $this->getMock('Symfony\Component\Console\Helper\DialogHelper', array('select', 'askConfirmation'));

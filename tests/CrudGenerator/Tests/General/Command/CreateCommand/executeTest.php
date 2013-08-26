@@ -11,7 +11,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 class executeTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testTypedzadza()
+    public function testFail()
     {
         chdir(__DIR__ . '/../../../ZF2/MetaData/');
 
