@@ -68,7 +68,7 @@ class MetaDataConfigReader
      */
     public function config(AbstractConfig $adapterConfig)
     {
-        $configPath = 'data/crudGeneratorHistory/' . md5(get_class($adapterConfig));
+        $configPath = 'data/crudGenerator/Config/' . md5(get_class($adapterConfig));
 
         if ($this->fileManager->isFile($configPath)) {
             $this->output->writeln('<info>Adapter config found !</info>');

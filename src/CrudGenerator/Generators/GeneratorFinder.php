@@ -105,9 +105,9 @@ class GeneratorFinder
     /**
      * Add Zend Framework 2 paths
      *
-     * @param string $paths
+     * @param array $paths
      * @throws \RuntimeException
-     * @return Ambiguous
+     * @return array
      */
     private function checkZf2Configuration($paths)
     {

@@ -33,7 +33,7 @@ class HistoryManager
     /**
      * @var string History directory path
      */
-    const HISTORY_PATH = 'data/crudGeneratorHistory/';
+    const HISTORY_PATH = 'data/crudGenerator/History/';
     /**
      * @var FileManager File manager
      */
@@ -79,7 +79,7 @@ class HistoryManager
     public function findAll()
     {
         $previousDir = '.';
-        while (!$this->fileManager->isDir('vendor/fezfez')) {
+        while (!$this->fileManager->isDir(self::HISTORY_PATH)) {
             $dir = dirname(getcwd());
 
             if ($previousDir === $dir) {

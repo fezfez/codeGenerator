@@ -14,7 +14,7 @@
 return array(
     'crudGenerator' => array(
         'path' => array(
-            __DIR__
+            __DIR__ . '/FAIL'
         )
     ),
     'doctrine' => array(

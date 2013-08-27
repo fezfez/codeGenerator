@@ -21,6 +21,7 @@ use CrudGenerator\Generators\CodeGeneratorFactory;
 use CrudGenerator\DataObject;
 use CrudGenerator\FileManager;
 use CrudGenerator\MetaData\Config\MetaDataConfigReaderFactory;
+use CrudGenerator\MetaData\Config\MetaDataConfigReader;
 use CrudGenerator\Adapter\AdapterFinderFactory;
 use CrudGenerator\Generators\GeneratorFinderFactory;
 use CrudGenerator\History\HistoryFactory;
@@ -52,20 +53,27 @@ class CreateCommand extends Command
      * @var CodeGeneratorFactory
      */
     private $codeGeneratorFactory = null;
+    /**
+     * @var MetadataConfigReader
+     */
+    private $metadataConfigReader = null;
 
     /**
      * @param string $name
      * @param HistoryManager $historyManager
      * @param CodeGeneratorFactory $codeGeneratorFactory
+     * @param MetadataConfigReader $metadataConfigReader
      */
     public function __construct(
         $name = null,
         HistoryManager $historyManager = null,
-        CodeGeneratorFactory $codeGeneratorFactory = null
+        CodeGeneratorFactory $codeGeneratorFactory = null,
+        MetaDataConfigReader $metadataConfigReader = null
     ) {
         $this->historyManager = (null === $historyManager) ? HistoryFactory::getInstance() : $historyManager;
         $this->codeGeneratorFactory = (null === $codeGeneratorFactory) ?
                                         new CodeGeneratorFactory() : $codeGeneratorFactory;
+        $this->metadataConfigReader = $metadataConfigReader;
         parent::__construct($name);
     }
     /**
@@ -90,17 +98,23 @@ class CreateCommand extends Command
 
         $adapter             = $this->adapterQuestion($output, $dialog);
         $adapterConfig       = $adapter->getConfig();
-        $adapterConfigurator = MetaDataConfigReaderFactory::getInstance($output, $dialog);
+
+        if(null === $this->metadataConfigReader) {
+            $this->metadataConfigReader = MetaDataConfigReaderFactory::getInstance($output, $dialog);
+        }
 
         $adapterFactory      = $adapter->getFactory();
 
         if (null !== $adapterConfig) {
-            $adapterConfig = $adapterConfigurator->config($adapterConfig);
+            echo "CONFIG\n";
+            $adapterConfig = $this->metadataConfigReader->config($adapterConfig);
+            echo "DAO\n";
             $adapterDAO    = $adapterFactory::getInstance($adapterConfig);
         } else {
             $adapterDAO = $adapterFactory::getInstance();
         }
 
+        echo "ENTITY\n";
         $entity     = $this->entityQuestion($output, $dialog, $adapterDAO->getAllMetadata());
         $moduleName = $this->moduleQuestion($output, $dialog);
         $generator  = $this->generatorQuestion($output, $dialog);

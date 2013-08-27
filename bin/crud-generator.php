@@ -18,7 +18,7 @@
 
 
 ini_set('display_errors', true);
-chdir(__DIR__);
+chdir(realpath('./'));
 
 if (!(@include_once __DIR__ . '/../vendor/autoload.php') && !(@include_once __DIR__ . '/../../../autoload.php')) {
     throw new RuntimeException('Error: vendor/autoload.php could not be found. Did you run php composer.phar install?');
@@ -26,11 +26,25 @@ if (!(@include_once __DIR__ . '/../vendor/autoload.php') && !(@include_once __DI
 
 if(!is_dir('data')) {
     mkdir('data/');
-    mkdir('data/crudGeneratorHistory');
+}
+if(!is_dir('data/crudGenerator')) {
+    mkdir('data/crudGenerator');
+}
+if(!is_dir('data/crudGenerator/History')) {
+    mkdir('data/crudGenerator/History');
+}
+if(!is_dir('data/crudGenerator/Config')) {
+    mkdir('data/crudGenerator/Config');
 }
 
-if(!is_writable('data/crudGeneratorHistory')) {
-    throw new Exception('data/crudGeneratorHistory is not writable');
+if(!is_writable('data/crudGenerator')) {
+    throw new Exception('data/crudGenerator is not writable');
+}
+if(!is_writable('data/crudGenerator/History')) {
+    throw new Exception('data/crudGenerator/History is not writable');
+}
+if(!is_writable('data/crudGenerator/Config')) {
+    throw new Exception('data/crudGenerator/Config is not writable');
 }
 
 $cli = CrudGenerator\Service\CliFactory::getInstance();

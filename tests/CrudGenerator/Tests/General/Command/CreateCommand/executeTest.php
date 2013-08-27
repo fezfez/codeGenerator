@@ -8,12 +8,13 @@ use Symfony\Component\Console\Application as App;
 use Symfony\Component\Console\Tester\ApplicationTester;
 use Symfony\Component\Console\Tester\CommandTester;
 
+
 class executeTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testFail()
+    public function testFaidzadzal()
     {
-        chdir(__DIR__ . '/../../../ZF2/MetaData/');
+        //chdir(__DIR__ . '/../../../ZF2/MetaData/');
 
         $historyStub = $this->getMockBuilder('CrudGenerator\History\HistoryManager')
         ->disableOriginalConstructor()
@@ -27,11 +28,17 @@ class executeTest extends \PHPUnit_Framework_TestCase
         $CodeGeneratorFactoryStub->expects($this->any())
         ->method('create')
         ->will($this->returnValue($ArchitectGeneratorStub));
+        $configReaderStub = $this->getMockBuilder('\CrudGenerator\MetaData\Config\MetaDataConfigReader')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $configReaderStub->expects($this->once())
+        ->method('config')
+        ->will($this->returnValue(include __DIR__ . '/../../../PDO/MetaData/PDO/PgSql/config.php'));
 
 
-        chdir(__DIR__ . '/../../../ZF2/MetaData/');
+        //chdir();
 
-        $commandTmp = new CreateCommand(null, $historyStub, $CodeGeneratorFactoryStub);
+        $commandTmp = new CreateCommand(null, $historyStub, $CodeGeneratorFactoryStub, $configReaderStub);
         $application = new App();
         $application->add($commandTmp);
 
