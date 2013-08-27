@@ -15,3 +15,10 @@ CREATE TABLE suivi_news (
     url character varying(250) NOT NULL,
     nivutil character varying(25) DEFAULT NULL::character varying
 );
+
+
+ALTER TABLE ONLY messages
+    ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY suivi_news
+    ADD CONSTRAINT suivi_news_pkey PRIMARY KEY (id);
