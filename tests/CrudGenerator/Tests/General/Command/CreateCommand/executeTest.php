@@ -14,8 +14,6 @@ class executeTest extends \PHPUnit_Framework_TestCase
 
     public function testFail()
     {
-        //chdir(__DIR__ . '/../../../ZF2/MetaData/');
-
         $historyStub = $this->getMockBuilder('CrudGenerator\History\HistoryManager')
         ->disableOriginalConstructor()
         ->getMock();
@@ -72,9 +70,9 @@ class executeTest extends \PHPUnit_Framework_TestCase
         $commandTester->execute(array('command' => $sUT->getName()));
     }
 
-    public function testYes()
+    public function testYesdzadz()
     {
-        chdir(__DIR__ . '/../../../ZF2/MetaData/');
+        chdir(__DIR__ . '/../../../ZF2/');
 
         $historyStub = $this->getMockBuilder('CrudGenerator\History\HistoryManager')
         ->disableOriginalConstructor()

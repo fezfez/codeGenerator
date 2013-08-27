@@ -35,7 +35,10 @@ class FormGenerator extends BaseCodeGenerator
      * @var string Generator definition
      */
     protected $definition     = 'Generate forms';
-
+    /**
+     * @var string
+     */
+    protected $dto         = 'CrudGenerator\Generators\FormGenerator\Form';
     /**
      * Generate the files
      * @param DataObject $dataObject
@@ -77,5 +80,7 @@ class FormGenerator extends BaseCodeGenerator
             '/form/Print.phtml',
             $formPath . 'FormPrint.phtml'
         );
+
+        return $dataObject;
     }
 }

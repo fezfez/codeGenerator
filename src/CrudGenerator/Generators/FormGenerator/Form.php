@@ -21,4 +21,5 @@ use CrudGenerator\DataObject;
 
 class Form extends DataObject
 {
+    protected $generator      = 'CrudGenerator\Generators\FormGenerator\FormGenerator';
 }

@@ -190,14 +190,14 @@ abstract class BaseCodeGenerator
 
                 if ($response === self::POSTPONE) {
                     $this->fileManager->filePutsContent($pathTo . '.new', $results);
-                    $diff = $this->diffPHP->diff($pathTo, $pathTo . '.new');
+                    $diff = $this->diffPHP->diff($pathTo . '.new', $pathTo);
                     $this->fileManager->filePutsContent($pathTo . '.diff', $diff);
                     $this->output->writeln('--> Generate diff and new file ' . $pathTo . '.diff');
                     break;
                 } elseif ($response === self::SHOW_DIFF) {
                     $this->fileManager->filePutsContent($pathTo . '.diff', $results);
                     $this->output->writeln(
-                        '<info>' . $this->diffPHP->diff($pathTo, $pathTo . '.diff') . '</info>'
+                        '<info>' . $this->diffPHP->diff($pathTo . '.diff', $pathTo) . '</info>'
                     );
                     $this->fileManager->unlink($pathTo . '.diff');
                 } elseif ($response === self::ERASE) {

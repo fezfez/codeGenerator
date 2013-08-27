@@ -96,7 +96,7 @@ class CreateCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog              = $this->getHelperSet()->get('dialog');
+        $dialog     = $this->getHelperSet()->get('dialog');
 
         $adapter    = $this->adapterQuestion($output, $dialog);
         $metadata   = $this->entityQuestion($output, $dialog, $adapter);
@@ -121,12 +121,8 @@ class CreateCommand extends Command
         );
 
         if ($doI === true) {
-
             $dataObject = $generator->generate($dataObject);
-
             $this->historyManager->create($dataObject);
-
-            return true;
         } else {
             throw new RuntimeException('Command aborted');
         }
@@ -144,7 +140,6 @@ class CreateCommand extends Command
     {
         $adapterFinder      = AdapterFinderFactory::getInstance();
         $adaptersCollection = $adapterFinder->getAllAdapters();
-        $output->writeln('<question>Adapters list</question>');
 
         foreach ($adaptersCollection as $adapter) {
             $falseDependencies = $adapter->getFalseDependencies();
@@ -155,15 +150,14 @@ class CreateCommand extends Command
                 );
                 $output->writeln('<error> * ' . $falseDependencies . '</error>');
             } else {
-                $output->writeln('<comment>' . $adapter->getDefinition() . '</comment>');
-                $adaptersChoices[$adapter->getName()] = $adapter;
+                $adaptersChoices[$adapter->getDefinition()] = $adapter;
             }
         }
 
         $adaptersKeysChoices = array_keys($adaptersChoices);
         $choice = $dialog->select(
             $output,
-            "Choose an adapter \n> ",
+            "<question>Choose an adapter</question> \n> ",
             $adaptersKeysChoices,
             0
         );
@@ -181,8 +175,6 @@ class CreateCommand extends Command
      */
     private function moduleQuestion(OutputInterface $output, DialogHelper $dialog)
     {
-        $output->writeln('<question>Directory list</question>');
-
         try {
             ZendFramework2Environnement::getDependence(new FileManager());
             $modulesChoices = glob('module/*');
@@ -190,16 +182,14 @@ class CreateCommand extends Command
             $modulesChoices = glob('*');
         }
 
-        foreach ($modulesChoices as $moduleName) {
-            $output->writeln('<comment>  ' . $moduleName . '</comment>');
-        }
-
-        return $dialog->select(
+        $choice = $dialog->select(
             $output,
-            "Choose a target directory \n> ",
+            "<question>Choose a target directory</question> \n> ",
             $modulesChoices,
             0
         );
+
+        return $modulesChoices[$choice];
     }
 
     /**
@@ -215,11 +205,9 @@ class CreateCommand extends Command
         $crudFinder = GeneratorFinderFactory::getInstance();
         $generatorCollection = $crudFinder->getAllClasses();
 
-        $output->writeln('<question>Chose a generator</question>');
         foreach ($generatorCollection as $generatorClassName) {
             $generator = $this->codeGeneratorFactory->create($output, $dialog, $generatorClassName);
-            $output->writeln('<comment>' . $generator->getDefinition() . '</comment>');
-            $generatorsChoices[$generatorClassName] = $generator;
+            $generatorsChoices[$generator->getDefinition()] = $generator;
         }
 
         $generatorKeysChoices = array_keys($generatorsChoices);
@@ -259,16 +247,14 @@ class CreateCommand extends Command
             $adapterDAO = $adapterFactory::getInstance();
         }
 
-        $output->writeln('<question>Metadata list</question>');
         $entityChoices = array();
         foreach ($adapterDAO->getAllMetadata() as $class) {
-            $output->writeln('<comment>  ' . $class->getName() . '</comment>');
             $entityChoices[] = $class->getName();
         }
 
         $choice = $dialog->select(
             $output,
-            "Full namespace Metadata \n> ",
+            "<question>Full namespace Metadata</question> \n> ",
             $entityChoices,
             0
         );

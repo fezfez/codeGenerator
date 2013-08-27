@@ -125,4 +125,15 @@ abstract class MetaDataDataObject
     {
         return $this->name;
     }
+
+    public function getCamelCaseName($ucfirst = true)
+    {
+        $result = preg_replace('/(^|_)([a-z])/e', 'strtoupper("\\2")', $this->name);
+
+        if(true === $ucfirst) {
+            return $result;
+        } else {
+            return lcfirst($result);
+        }
+    }
 }

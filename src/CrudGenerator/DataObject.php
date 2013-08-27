@@ -46,10 +46,6 @@ abstract class DataObject
      * @var string Target directory
      */
     private $directory       = null;
-    /**
-     * @var string
-     */
-    private $generator       = null;
 
     /**
      * Set Module

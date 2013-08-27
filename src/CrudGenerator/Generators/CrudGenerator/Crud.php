@@ -21,4 +21,29 @@ use CrudGenerator\DataObject;
 
 class Crud extends DataObject
 {
+    /**
+     * @var unknown_type
+     */
+    protected $generator      = 'CrudGenerator\Generators\CrudGenerator\CrudGenerator';
+    /**
+     * @var boolean
+     */
+    protected $writeAction    = null;
+    /**
+     * @return string
+     */
+    public function isWriteAction()
+    {
+        return $this->writeAction;
+    }
+
+    /**
+     * @param string $value
+     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
+     */
+    public function setWriteAction($value)
+    {
+        $this->writeAction = $value;
+        return $this;
+    }
 }

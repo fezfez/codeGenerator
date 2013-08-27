@@ -21,4 +21,15 @@ class FilePutsContentTest extends \PHPUnit_Framework_TestCase
 
         unlink($filePath);
     }
+
+    public function testFail()
+    {
+        $filePath = __DIR__ . '/toto/test.phtml';
+        $content  = 'toto';
+
+        $sUT = new FileManager();
+
+        $this->setExpectedException('RuntimeException');
+        $sUT->filePutsContent($filePath, $content);
+    }
 }

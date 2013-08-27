@@ -1,13 +1,13 @@
     public function indexAction()
     {
-        $sm = $this->getServiceLocator();
-        $headTitle = $sm->get('viewHelperManager')->get('headTitle');
+        $serviceManager = $this->getServiceLocator();
+        $headTitle = $serviceManager->get('viewHelperManager')->get('headTitle');
         $headTitle->append("Liste des <?php echo $this->dataObject->getEntityName(); ?>s");
 
-        $<?php echo $this->dataObject->getEntityName(); ?>DAO = <?php echo $this->dataObject->getEntityName(); ?>DAOFactory::getInstance($sm);
+        $<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>DAO = <?php echo $this->dataObject->getMetadata()->getCamelCaseName(true); ?>DAOFactory::getInstance($serviceManager);
 
         return new ViewModel(array(
-            'list<?php echo $this->dataObject->getEntityName(); ?>s' => $<?php echo $this->dataObject->getEntityName(); ?>DAO->retrieveAll(),
+            'list<?php echo $this->dataObject->getMetadata()->getCamelCaseName(true); ?>s' => $<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>DAO->retrieveAll(),
             'flashMessages' => $this->flashMessenger()->getMessages(),
         ));
     }

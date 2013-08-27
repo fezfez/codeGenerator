@@ -123,13 +123,14 @@ class RegenerateCommand extends Command
             $historyChoices[$history->getName()] = $history;
         }
 
+        $historyKeysChoices = array_keys($historyChoices);
         $choice = $dialog->select(
             $output,
             "History to regenerate \n> ",
-            array_keys($historyChoices),
+            $historyKeysChoices,
             0
         );
 
-        return $historyChoices[$choice];
+        return $historyChoices[$historyKeysChoices[$choice]];
     }
 }

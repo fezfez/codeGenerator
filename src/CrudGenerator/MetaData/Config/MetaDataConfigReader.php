@@ -78,7 +78,6 @@ class MetaDataConfigReader
             $this->output->writeln('For use this adapter you to config it before');
             $configured = $this->read($adapterConfig);
             $this->output->writeln('<info>Adapter fully configured !</info>');
-            $this->fileManager->unlink($configPath);
             $this->fileManager->filePutsContent($configPath, serialize($configured));
         }
 
@@ -134,7 +133,7 @@ class MetaDataConfigReader
                 continue;
             }
 
-            $value      = $this->dialog->ask($this->output, 'Choose a "' . $propName . '" : ');
+            $value = $this->dialog->ask($this->output, '<question>Choose a "' . $propName . '"</question> : ');
             $prop->setAccessible(true);
             $prop->setValue($adapterConfig, $value);
         }

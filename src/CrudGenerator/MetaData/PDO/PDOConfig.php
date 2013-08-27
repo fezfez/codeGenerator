@@ -177,7 +177,7 @@ class PDOConfig extends AbstractConfig
     {
         try {
             new \PDO($this->type . ':dbname='.$this->databaseName . ';host='.$this->host, $this->user, $this->password);
-            $output->writeLn('Connection work !');
+            $output->writeLn('<info>Connection work !</info>');
             return $this;
         } catch (\PDOException $e) {
             throw new ConfigException('<error>Connection failed with "' . $e->getMessage() . '"</error>');

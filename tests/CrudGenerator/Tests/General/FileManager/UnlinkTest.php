@@ -24,4 +24,19 @@ class UnlinkTest extends \PHPUnit_Framework_TestCase
             !file_exists($filePath)
         );
     }
+
+    public function testFail()
+    {
+        $filePath = __DIR__ . '/foo';
+
+        $this->assertEquals(
+            false,
+            file_exists($filePath)
+        );
+
+        $sUT = new FileManager();
+
+        $this->setExpectedException('RuntimeException');
+        $sUT->unlink($filePath);
+    }
 }

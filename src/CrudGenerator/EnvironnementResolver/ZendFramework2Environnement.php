@@ -47,10 +47,12 @@ class ZendFramework2Environnement
         } else {
             $previousDir = '.';
 
+            $actualDir = getcwd();
             while (!$fileManager->fileExists('config/application.config.php')) {
                 $dir = dirname(getcwd());
 
                 if ($previousDir === $dir) {
+                    chdir($actualDir);
                     throw new EnvironnementResolverException(
                         'Unable to locate "config/application.config.php": ' .
                         'is CrudGenerator in a subdir of your application skeleton?'
@@ -66,6 +68,8 @@ class ZendFramework2Environnement
             } catch (\Zend\ModuleManager\Exception\RuntimeException $e) {
                 throw new EnvironnementResolverException($e->getMessage());
             }
+
+            chdir($actualDir);
 
             self::$serviceManager = $application->getServiceManager();
             return self::$serviceManager;

@@ -45,7 +45,10 @@ class FileManager
      */
     public function filePutsContent($path, $content)
     {
-        file_put_contents($path, $content);
+        if(@file_put_contents($path, $content) === false) {
+            throw new \RuntimeException(sprintf("Could't puts content %s", $path));
+        }
+
         chmod($path, 0777);
     }
 
@@ -100,7 +103,9 @@ class FileManager
      */
     public function unlink($file)
     {
-        return unlink($file);
+        if(@unlink($file) === false) {
+            throw new \RuntimeException(sprintf("Could't delete %s", $file));
+        }
     }
 
     /**

@@ -2,12 +2,12 @@
     {
         $DAO = DAOFactory::getInstance($this->serviceManager());
 
-        $<?php echo $this->dataObject->getEntityName(); ?> = new <?php echo $this->dataObject->getEntityName(); ?>DataObject();
-        $<?php echo $this->dataObject->getEntityName(); ?>->setId($this->getParam('id');
+        $<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?> = new <?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>DataObject();
+        $<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>->setId($this->getParam('id'));
 
-        $<?php echo $this->dataObject->getEntityName(); ?> = $DAO->retrieve($<?php echo $this->dataObject->getEntityName(); ?>);
+        $<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?> = $DAO->retrieve($<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>);
 
         return new ViewModel(array(
-            '<?php echo $this->dataObject->getEntityName(); ?>' => $<?php echo $this->dataObject->getEntityName(); ?>
+            '<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>' => $<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>
         ));
     }

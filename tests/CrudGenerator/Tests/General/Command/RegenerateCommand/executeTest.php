@@ -41,12 +41,12 @@ class executeTest extends \PHPUnit_Framework_TestCase
 
         $command = $application->find('CodeGenerator:regenerate');
 
-        chdir(__DIR__ . '/../../../ZF2/MetaData/');
+        chdir(__DIR__ . '/../../../ZF2/');
 
         $dialog = $this->getMock('Symfony\Component\Console\Helper\DialogHelper', array('select', 'askConfirmation'));
         $dialog->expects($this->once())
                ->method('select')
-               ->will($this->returnValue('messages'));
+               ->will($this->returnValue(0));
 
         $dialog->expects($this->once())
                ->method('askConfirmation')
@@ -84,7 +84,7 @@ class executeTest extends \PHPUnit_Framework_TestCase
                                  ->method('create')
                                  ->will($this->returnValue($ArchitectGeneratorStub));
 
-        chdir(__DIR__ . '/../../../ZF2/MetaData/');
+        chdir(__DIR__ . '/../../../ZF2/');
 
         $application = new App();
         $application->add(new RegenerateCommand(null, $historyStub, $CodeGeneratorFactoryStub));
@@ -94,7 +94,7 @@ class executeTest extends \PHPUnit_Framework_TestCase
         $dialog = $this->getMock('Symfony\Component\Console\Helper\DialogHelper', array('select', 'askConfirmation'));
         $dialog->expects($this->once())
                ->method('select')
-               ->will($this->returnValue('messages'));
+               ->will($this->returnValue(0));
 
         $dialog->expects($this->once())
                ->method('askConfirmation')

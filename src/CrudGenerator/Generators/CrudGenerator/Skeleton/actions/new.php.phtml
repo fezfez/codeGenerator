@@ -4,19 +4,19 @@
         $headTitle = $sm->get('viewHelperManager')->get('headTitle');
         $headTitle->append("Create <?php echo $this->dataObject->getEntityName(); ?>");
 
-        $<?php echo $this->dataObject->getEntityName(); ?>Form = <?php echo $this->dataObject->getEntityName(); ?>FormFactory::getInstance($sm);
-        $<?php echo $this->dataObject->getEntityName(); ?>DAO  = <?php echo $this->dataObject->getEntityName(); ?>DAOFactory::getInstance($sm);
+        $<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>Form = <?php echo $this->dataObject->getMetadata()->getCamelCaseName(true); ?>FormFactory::getInstance($sm);
+        $<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>DAO  = <?php echo $this->dataObject->getMetadata()->getCamelCaseName(true); ?>DAOFactory::getInstance($sm);
         $datas          = $this->getRequest()->getPost()->toArray();
 
-        if($this->getRequest()->isPost() && $<?php echo $this->dataObject->getEntityName(); ?>Form->isValid($datas)) {
-            $<?php echo $this->dataObject->getEntityName(); ?>DAO->create($<?php echo $this->dataObject->getEntityName(); ?>Form->getDTO());
+        if($this->getRequest()->isPost() && $<?php echo $this->dataObject->getMetadata()->getCamelCaseName(true); ?>Form->isValid($datas)) {
+            $<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>DAO->create($<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>Form->getDTO());
 
-            $this->flashMessenger()->addMessage('<?php echo $this->dataObject->getEntityName(); ?> created');
+            $this->flashMessenger()->addMessage('<?php echo $this->dataObject->getMetadata()->getCamelCaseName(true); ?> created');
 
-            return $this->redirect()->toRoute('<?php echo $this->dataObject->getEntityName(); ?>');
+            return $this->redirect()->toRoute('<?php echo $this->dataObject->getMetadata()->getCamelCaseName(true); ?>');
         }
 
         return new ViewModel(array(
-            'form' => $<?php echo $this->dataObject->getEntityName(); ?>Form
+            'form' => $<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>Form
         ));
     }

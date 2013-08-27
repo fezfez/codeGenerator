@@ -35,6 +35,10 @@ class CrudGenerator extends BaseCodeGenerator
      * @var string Generator definition
      */
     protected $definition     = 'Generate CRUD based on ArchitectGenerator utilisation';
+    /**
+     * @var string
+     */
+    protected $dto         = 'CrudGenerator\Generators\CrudGenerator\Crud';
 
     /**
      * Generate the files
@@ -45,10 +49,28 @@ class CrudGenerator extends BaseCodeGenerator
     {
         $this->skeletonDir = __DIR__ . '/Skeleton';
 
-        $this->dialog->askConfirmation(
-            $this->output,
-            '<question>Do you want to generate the "write" actions ?</question> '
-        );
+        if (null === $dataObject->isWriteAction()) {
+            $dataObject->setWriteAction(
+                $this->dialog->askConfirmation(
+                    $this->output,
+                    '<question>Do you want to generate the "write" actions ?</question> '
+                )
+            );
+        }
+
+        $controllerDir = explode('/', $dataObject->getControllerPath());
+        $allDir = '';
+        foreach ($controllerDir as $dir) {
+            $allDir .= $dir . '/';
+            $this->ifDirDoesNotExistCreate($allDir);
+        }
+
+        $viewDir = explode('/', $dataObject->getViewPath());
+        $allDir = '';
+        foreach ($viewDir as $dir) {
+            $allDir .= $dir . '/';
+            $this->ifDirDoesNotExistCreate($allDir);
+        }
 
         $this->generateFile(
             $dataObject,
@@ -73,5 +95,7 @@ class CrudGenerator extends BaseCodeGenerator
                 $dataObject->getViewPath() . 'edit-js.phtml'
             );
         //}
+
+        return $dataObject;
     }
 }
