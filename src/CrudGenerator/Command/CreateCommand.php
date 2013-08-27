@@ -106,15 +106,12 @@ class CreateCommand extends Command
         $adapterFactory      = $adapter->getFactory();
 
         if (null !== $adapterConfig) {
-            echo "CONFIG\n";
             $adapterConfig = $this->metadataConfigReader->config($adapterConfig);
-            echo "DAO\n";
             $adapterDAO    = $adapterFactory::getInstance($adapterConfig);
         } else {
             $adapterDAO = $adapterFactory::getInstance();
         }
 
-        echo "ENTITY\n";
         $entity     = $this->entityQuestion($output, $dialog, $adapterDAO->getAllMetadata());
         $moduleName = $this->moduleQuestion($output, $dialog);
         $generator  = $this->generatorQuestion($output, $dialog);
