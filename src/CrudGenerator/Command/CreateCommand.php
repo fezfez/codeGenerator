@@ -17,6 +17,8 @@
  */
 namespace CrudGenerator\Command;
 
+use CrudGenerator\Adapter\AdapterDataObject;
+
 use CrudGenerator\Generators\CodeGeneratorFactory;
 use CrudGenerator\DataObject;
 use CrudGenerator\FileManager;
@@ -96,38 +98,22 @@ class CreateCommand extends Command
     {
         $dialog              = $this->getHelperSet()->get('dialog');
 
-        $adapter             = $this->adapterQuestion($output, $dialog);
-        $adapterConfig       = $adapter->getConfig();
-
-        if(null === $this->metadataConfigReader) {
-            $this->metadataConfigReader = MetaDataConfigReaderFactory::getInstance($output, $dialog);
-        }
-
-        $adapterFactory      = $adapter->getFactory();
-
-        if (null !== $adapterConfig) {
-            $adapterConfig = $this->metadataConfigReader->config($adapterConfig);
-            $adapterDAO    = $adapterFactory::getInstance($adapterConfig);
-        } else {
-            $adapterDAO = $adapterFactory::getInstance();
-        }
-
-        $entity     = $this->entityQuestion($output, $dialog, $adapterDAO->getAllMetadata());
-        $moduleName = $this->moduleQuestion($output, $dialog);
+        $adapter    = $this->adapterQuestion($output, $dialog);
+        $metadata   = $this->entityQuestion($output, $dialog, $adapter);
+        $directory  = $this->moduleQuestion($output, $dialog);
         $generator  = $this->generatorQuestion($output, $dialog);
 
-        $dataObject = new \CrudGenerator\Generators\ArchitectGenerator\Architect();
-        $dataObject->setEntity($entity)
-                   ->setModule($moduleName)
-                   ->setMetaData($adapterDAO->getMetadataFor($entity))
-                   ->setGenerator($generator);
+        $DTOName    = $generator->getDTO();
 
-        $crudGenerator = $this->codeGeneratorFactory->create($output, $dialog, $generator);
+        $dataObject = new $DTOName();
+        $dataObject->setEntity($metadata->getName())
+                   ->setModule($directory)
+                   ->setMetaData($metadata);
 
         $output->writeln("<info>Resume</info>");
         $output->writeln('<info>Entity : ' . $dataObject->getEntity(), '*</info>');
         $output->writeln('<info>Module : ' . $dataObject->getModule(), '*</info>');
-        $output->writeln("<info>Generator : " . $crudGenerator->getDefinition(), "*</info>");
+        $output->writeln("<info>Generator : " . $generator->getDefinition(), "*</info>");
 
         $doI = $dialog->askConfirmation(
             $output,
@@ -136,7 +122,7 @@ class CreateCommand extends Command
 
         if ($doI === true) {
 
-            $dataObject = $crudGenerator->generate($dataObject);
+            $dataObject = $generator->generate($dataObject);
 
             $this->historyManager->create($dataObject);
 
@@ -222,50 +208,71 @@ class CreateCommand extends Command
      * @param OutputInterface $output
      * @param DialogHelper $dialog
      * @throws \InvalidArgumentException
-     * @return string
+     * @return \CrudGenerator\Generators\BaseCodeGenerator
      */
     private function generatorQuestion(OutputInterface $output, DialogHelper $dialog)
     {
         $crudFinder = GeneratorFinderFactory::getInstance();
-        $generators = $crudFinder->getAllClasses();
+        $generatorCollection = $crudFinder->getAllClasses();
 
         $output->writeln('<question>Chose a generator</question>');
-        foreach ($generators as $number => $generatorClassName) {
+        foreach ($generatorCollection as $generatorClassName) {
             $generator = $this->codeGeneratorFactory->create($output, $dialog, $generatorClassName);
-            $output->writeln('<comment>' . $number . '. ' . $generator->getDefinition() . '</comment>');
+            $output->writeln('<comment>' . $generator->getDefinition() . '</comment>');
+            $generatorsChoices[$generatorClassName] = $generator;
         }
 
-        return $dialog->select($output, "Choose a generators \n> ", array_keys($generators), 0);
+        $generatorKeysChoices = array_keys($generatorsChoices);
+
+        $choice = $dialog->select($output, "Choose a generators \n> ", $generatorKeysChoices, 0);
+
+        return $generatorsChoices[$generatorKeysChoices[$choice]];
     }
 
     /**
-     * Ask wich entity you want to use
+     * Ask wich metadata you want to use
      *
      * @param OutputInterface $output
      * @param DialogHelper $dialog
-     * @param MetaDataDataObjectCollection $allMetaData
+     * @param AdapterDataObject $adapter
      * @throws InvalidArgumentException
      * @return string
      */
     private function entityQuestion(
         OutputInterface $output,
         DialogHelper $dialog,
-        MetaDataDataObjectCollection $allMetaData
+        AdapterDataObject $adapter
     ) {
-        $output->writeln('<question>Entities list</question>');
+
+        $adapterConfig       = $adapter->getConfig();
+
+        if(null === $this->metadataConfigReader) {
+            $this->metadataConfigReader = MetaDataConfigReaderFactory::getInstance($output, $dialog);
+        }
+
+        $adapterFactory    = $adapter->getFactory();
+
+        if (null !== $adapterConfig) {
+            $adapterConfig = $this->metadataConfigReader->config($adapterConfig);
+            $adapterDAO    = $adapterFactory::getInstance($adapterConfig);
+        } else {
+            $adapterDAO = $adapterFactory::getInstance();
+        }
+
+        $output->writeln('<question>Metadata list</question>');
         $entityChoices = array();
-        foreach ($allMetaData as $class) {
+        foreach ($adapterDAO->getAllMetadata() as $class) {
             $output->writeln('<comment>  ' . $class->getName() . '</comment>');
             $entityChoices[] = $class->getName();
         }
 
         $choice = $dialog->select(
             $output,
-            "Full namespace Entity \n> ",
+            "Full namespace Metadata \n> ",
             $entityChoices,
             0
         );
 
-        return $entityChoices[$choice];
+        return $adapterDAO->getMetadataFor($entityChoices[$choice]);
     }
 }

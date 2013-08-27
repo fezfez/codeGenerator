@@ -21,6 +21,7 @@ use CrudGenerator\DataObject;
 
 class Architect extends DataObject
 {
+    protected $generator      = 'CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator';
     /**
      * @var string
      */

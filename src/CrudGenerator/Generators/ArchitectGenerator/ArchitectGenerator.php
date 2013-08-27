@@ -36,6 +36,10 @@ class ArchitectGenerator extends BaseCodeGenerator
      * @var string Generator definition
      */
     protected $definition  = 'Generate DAO, DTO, Hydrator, Exception, unit test';
+    /**
+     * @var string
+     */
+    protected $dto         = 'CrudGenerator\Generators\ArchitectGenerator\Architect';
 
     /**
      * Generate the files

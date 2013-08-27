@@ -33,10 +33,9 @@ class CodeGeneratorFactory
     /**
      * Create CodeGenerator instance
      * @param OutputInterface $output
-     * @param InputInterface $input
      * @param DialogHelper $dialog
-     * @param unknown $class
-     * @return  CrudGenerator\Generators\BaseCodeGenerator
+     * @param string $class
+     * @return CrudGenerator\Generators\BaseCodeGenerator
      */
     public function create(OutputInterface $output, DialogHelper $dialog, $class)
     {

@@ -19,7 +19,7 @@ class GetAllAdapatersTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testFaifezfel()
+    public function testFail()
     {
         chdir(__DIR__);
         $stubFileManager = $this->getMock('\CrudGenerator\FileManager');

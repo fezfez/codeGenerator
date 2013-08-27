@@ -141,6 +141,14 @@ abstract class BaseCodeGenerator
     {
         return $this->definition;
     }
+    /**
+     * Get dto name
+     * @return string
+     */
+    public function getDTO()
+    {
+        return '\\' . $this->dto;
+    }
 
     /**
      * Generate file based on template

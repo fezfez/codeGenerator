@@ -12,7 +12,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 class executeTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testFaidzadzal()
+    public function testFail()
     {
         //chdir(__DIR__ . '/../../../ZF2/MetaData/');
 
@@ -25,6 +25,9 @@ class executeTest extends \PHPUnit_Framework_TestCase
         $ArchitectGeneratorStub = $this->getMockBuilder('\CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator')
         ->disableOriginalConstructor()
         ->getMock();
+        $ArchitectGeneratorStub->expects($this->once())
+        ->method('getDTO')
+        ->will($this->returnValue('\CrudGenerator\Generators\ArchitectGenerator\Architect'));
         $CodeGeneratorFactoryStub->expects($this->any())
         ->method('create')
         ->will($this->returnValue($ArchitectGeneratorStub));
@@ -82,6 +85,9 @@ class executeTest extends \PHPUnit_Framework_TestCase
         $ArchitectGeneratorStub = $this->getMockBuilder('\CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator')
         ->disableOriginalConstructor()
         ->getMock();
+        $ArchitectGeneratorStub->expects($this->once())
+        ->method('getDTO')
+        ->will($this->returnValue('\CrudGenerator\Generators\ArchitectGenerator\Architect'));
         $ArchitectGeneratorStub->expects($this->once())
         ->method('generate')
         ->will($this->returnValue(new \CrudGenerator\Generators\ArchitectGenerator\Architect()));
