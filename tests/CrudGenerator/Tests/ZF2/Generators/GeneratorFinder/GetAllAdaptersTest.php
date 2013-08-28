@@ -7,19 +7,6 @@ use CrudGenerator\Utils\ClassAwake;
 
 class GetAllAdapatersTest extends \PHPUnit_Framework_TestCase
 {
-    public function testType()
-    {
-        chdir(__DIR__);
-        $fileManager = new FileManager();
-
-        $suT = new GeneratorFinder($fileManager, new ClassAwake());
-
-        $this->assertInternalType(
-            'array',
-            $suT->getAllClasses()
-        );
-    }
-
     public function testFail()
     {
         chdir(__DIR__);
@@ -50,5 +37,18 @@ class GetAllAdapatersTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('RuntimeException');
         $suT->getAllClasses();
+    }
+
+    public function testType()
+    {
+        chdir(__DIR__);
+        $fileManager = new FileManager();
+
+        $suT = new GeneratorFinder($fileManager, new ClassAwake());
+
+        $this->assertInternalType(
+            'array',
+            $suT->getAllClasses()
+        );
     }
 }
