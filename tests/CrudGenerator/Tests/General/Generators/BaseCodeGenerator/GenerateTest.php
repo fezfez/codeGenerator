@@ -2,9 +2,9 @@
 namespace CrudGenerator\Tests\General\Generators\BaseCodeGenerator;
 
 use CrudGenerator\View\ViewFactory;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\GeneriqueQuestions;
-use CrudGenerator\Diff\DiffPHP;
+use CrudGenerator\Utils\DiffPHP;
 use CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator;
 use CrudGenerator\Generators\ArchitectGenerator\Architect;
 
@@ -12,10 +12,10 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Helper\DialogHelper;
 
-use CrudGenerator\MetaData\Doctrine2\Doctrine2MetaDataDAO;
+use CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO;
 use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
 
-use CrudGenerator\MetaData\Doctrine2\MetadataDataObjectDoctrine2;
+use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObject;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObjectCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationDataObjectCollection;
@@ -89,7 +89,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         ->method('writeln')
         ->will($this->returnValue(''));
 
-        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())
         ->method('mkdir')
         ->will($this->returnValue(true));
@@ -106,7 +106,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         ->method('fileGetContent')
         ->will($this->returnValue(''));
 
-        $diffPHP =  $this->getMockBuilder('CrudGenerator\Diff\DiffPHP')
+        $diffPHP =  $this->getMockBuilder('CrudGenerator\Utils\DiffPHP')
                         ->disableOriginalConstructor()
                         ->getMock();
         $stubOutput->expects($this->any())
@@ -163,7 +163,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         ->method('writeln')
         ->will($this->returnValue(''));
 
-        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())
         ->method('mkdir')
         ->will($this->returnValue(true));
@@ -183,7 +183,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         $view              = ViewFactory::getInstance();
         $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput, new FileManager());
 
-        $diffPHP =  $this->getMockBuilder('CrudGenerator\Diff\DiffPHP')
+        $diffPHP =  $this->getMockBuilder('CrudGenerator\Utils\DiffPHP')
         ->disableOriginalConstructor()
         ->getMock();
         $stubOutput->expects($this->any())
@@ -237,7 +237,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         ->method('writeln')
         ->will($this->returnValue(''));
 
-        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())
         ->method('mkdir')
         ->will($this->returnValue(true));
@@ -304,7 +304,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
                    ->method('writeln')
                    ->will($this->returnValue(''));
 
-        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())
                         ->method('mkdir')
                         ->will($this->returnValue(true));
@@ -371,7 +371,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
                    ->method('writeln')
                    ->will($this->returnValue(''));
 
-        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())
                         ->method('mkdir')
                         ->will($this->returnValue(true));
@@ -394,11 +394,11 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \CrudGenerator\MetaData\Doctrine2\MetadataDataObjectDoctrine2
+     * @return \CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2
      */
     private function getMetadata()
     {
-        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())
                         ->method('fileExists')
                         ->will($this->returnValue(true));

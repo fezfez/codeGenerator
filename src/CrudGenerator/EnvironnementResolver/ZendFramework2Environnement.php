@@ -18,7 +18,7 @@
 namespace CrudGenerator\EnvironnementResolver;
 
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 
 /**
  * ZendFramework2Environnement check if we are in zf2 env

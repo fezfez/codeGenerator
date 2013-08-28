@@ -1,16 +1,16 @@
 <?php
-namespace CrudGenerator\Tests\General\Adapater\AdapterDataObject;
+namespace CrudGenerator\Tests\General\Adapater\MetaDataSource;
 
-use CrudGenerator\Adapter\AdapterDataObject;
-use CrudGenerator\MetaData\PDO\PDOConfig;
+use CrudGenerator\MetaData\MetaDataSource;
+use CrudGenerator\MetaData\Sources\PDO\PDOConfig;
 
-class AdapterDataObjectTest extends \PHPUnit_Framework_TestCase
+class MetaDataSourceTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
         $pdoConfig = new PDOConfig();
 
-        $adapater = new AdapterDataObject();
+        $adapater = new MetaDataSource();
 
         $adapater->setConfig($pdoConfig)
                  ->setDefinition('definition')
@@ -18,7 +18,7 @@ class AdapterDataObjectTest extends \PHPUnit_Framework_TestCase
                  ->setName('name');
 
         $this->assertInstanceOf(
-            'CrudGenerator\MetaData\PDO\PDOConfig',
+            'CrudGenerator\MetaData\Sources\PDO\PDOConfig',
             $adapater->getConfig()
         );
 

@@ -1,7 +1,7 @@
 <?php
 namespace CrudGenerator\Tests\General\DataObject\DataObject;
 
-use CrudGenerator\MetaData\PDO\MetadataDataObjectPDO;
+use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
 use CrudGenerator\Generators\ArchitectGenerator\Architect;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObjectCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationDataObjectCollection;
@@ -24,7 +24,7 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
                    ->setNamespace('my\namespace');
 
         $this->assertInstanceOf(
-            'CrudGenerator\MetaData\PDO\MetadataDataObjectPDO',
+            'CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO',
             $dataObject->getMetadata()
         );
 

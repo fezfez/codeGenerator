@@ -19,7 +19,7 @@ namespace CrudGenerator\Generators;
 
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 
 /**
  * Find all generator allow in project

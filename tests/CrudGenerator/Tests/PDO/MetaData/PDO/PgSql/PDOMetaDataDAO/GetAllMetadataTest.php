@@ -1,8 +1,8 @@
 <?php
-namespace CrudGenerator\Tests\PDO\MetaData\PDO\PgSql\PDOMetaDataDAO;
+namespace CrudGenerator\Tests\PDO\Sources\MetaData\PDO\PgSql\PDOMetaDataDAO;
 
-use CrudGenerator\MetaData\PDO\PDOMetaDataDAOFactory;
-use CrudGenerator\MetaData\PDO\PDOConfig;
+use CrudGenerator\MetaData\Sources\PDO\PDOMetaDataDAOFactory;
+use CrudGenerator\MetaData\Sources\PDO\PDOConfig;
 
 class GetAllMetadataTest extends \PHPUnit_Framework_TestCase
 {

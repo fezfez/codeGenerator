@@ -19,7 +19,7 @@
 namespace CrudGenerator\Generators\GeneriqueQuestion;
 
 use CrudGenerator\DataObject;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 
 /**
  * @author Stéphane Demonchaux

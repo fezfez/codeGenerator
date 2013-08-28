@@ -1,7 +1,7 @@
 <?php
-namespace CrudGenerator\Tests\PDO\MetaData\PDO\PgSql\PDOConfig;
+namespace CrudGenerator\Tests\PDO\MetaData\Sources\PDO\PgSql\PDOConfig;
 
-use CrudGenerator\MetaData\PDO\PDOConfig;
+use CrudGenerator\MetaData\Sources\PDO\PDOConfig;
 
 class PDOConfigTest extends \PHPUnit_Framework_TestCase
 {

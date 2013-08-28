@@ -1,7 +1,7 @@
 <?php
-namespace CrudGenerator\Tests\PDO\MetaData\PDO\SqlManager;
+namespace CrudGenerator\Tests\PDO\MetaData\Sources\PDO\SqlManager;
 
-use CrudGenerator\MetaData\PDO\SqlManager;
+use CrudGenerator\MetaData\Sources\PDO\SqlManager;
 
 class GetAllMetadataTest extends \PHPUnit_Framework_TestCase
 {

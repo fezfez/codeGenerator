@@ -15,15 +15,27 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\PDO;
+namespace CrudGenerator\MetaData;
 
-use CrudGenerator\MetaData\DataObject\MetaDataDataObject;
+use CrudGenerator\MetaData\MetaDataSourceFinder;
+use CrudGenerator\Utils\FileManager;
 
 /**
- * Base representation metadata for template generation
+ * Create MetaDataSourceFinder instance
  *
  * @author Stéphane Demonchaux
  */
-class MetadataDataObjectPDO extends MetaDataDataObject
+class MetaDataSourceFinderFactory
 {
+    /**
+     * Create MetaDataSourceFinder instance
+     *
+     * @return \CrudGenerator\MetaData\MetaDataSourceFinder
+     */
+    public static function getInstance()
+    {
+        $fileManager = new FileManager();
+
+        return new MetaDataSourceFinder($fileManager);
+    }
 }

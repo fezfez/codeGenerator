@@ -1,8 +1,8 @@
 <?php
 namespace CrudGenerator\Tests\General\Adapater\AdapaterFinder;
 
-use CrudGenerator\Adapter\AdapterFinder;
-use CrudGenerator\FileManager;
+use CrudGenerator\MetaData\MetaDataSourceFinder;
+use CrudGenerator\Utils\FileManager;
 
 class GetAllAdapatersTest extends \PHPUnit_Framework_TestCase
 {
@@ -10,12 +10,12 @@ class GetAllAdapatersTest extends \PHPUnit_Framework_TestCase
     {
         $fileManager = new FileManager();
 
-        $suT = new AdapterFinder($fileManager);
+        $suT = new MetaDataSourceFinder($fileManager);
 
         $adapterCollection = $suT->getAllAdapters();
 
         $this->assertInstanceOf(
-            'CrudGenerator\Adapter\AdapterCollection',
+            'CrudGenerator\MetaData\MetaDataSourceCollection',
             $adapterCollection
         );
     }
@@ -25,15 +25,15 @@ class GetAllAdapatersTest extends \PHPUnit_Framework_TestCase
      */
     public function testFail()
     {
-        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())
                         ->method('fileExists')
                         ->will($this->returnValue(false));
 
-        $suT = new AdapterFinder($stubFileManager);
+        $suT = new MetaDataSourceFinder($stubFileManager);
 
         $this->assertInstanceOf(
-            'CrudGenerator\Adapter\AdapterCollection',
+            'CrudGenerator\MetaData\MetaDataSourceCollection',
             $suT->getAllAdapters()
         );
     }

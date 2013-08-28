@@ -1,7 +1,7 @@
 <?php
 namespace CrudGenerator\Tests\General\MetaData\Config\AbstractConfig;
 
-use CrudGenerator\MetaData\PDO\PDOConfig;
+use CrudGenerator\MetaData\Sources\PDO\PDOConfig;
 
 class GetDefinitionTest extends \PHPUnit_Framework_TestCase
 {

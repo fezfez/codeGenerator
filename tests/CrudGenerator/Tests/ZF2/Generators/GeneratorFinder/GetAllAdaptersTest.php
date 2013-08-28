@@ -2,7 +2,7 @@
 namespace CrudGenerator\Tests\ZF2\Generators\GeneratorFinder;
 
 use CrudGenerator\Generators\GeneratorFinder;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 
 class GetAllAdapatersTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,7 +22,7 @@ class GetAllAdapatersTest extends \PHPUnit_Framework_TestCase
     public function testFail()
     {
         chdir(__DIR__);
-        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->once())
                         ->method('fileExists')
                         ->will($this->returnValue(true));

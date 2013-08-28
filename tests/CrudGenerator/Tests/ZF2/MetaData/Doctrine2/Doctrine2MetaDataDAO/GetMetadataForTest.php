@@ -1,15 +1,15 @@
 <?php
-namespace CrudGenerator\Tests\ZF2\MetaData\Doctrine2\Doctrine2MetaDataDAO;
+namespace CrudGenerator\Tests\ZF2\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO;
 
-use CrudGenerator\MetaData\Doctrine2\Doctrine2MetaDataDAO;
+use CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO;
 use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 
 class GetMetadataForTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
-        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())
                         ->method('fileExists')
                         ->will($this->returnValue(true));
@@ -26,7 +26,7 @@ class GetMetadataForTest extends \PHPUnit_Framework_TestCase
         $metadata = $suT->getMetadataFor('TestZf2\Entities\NewsEntity');
 
         $this->assertInstanceOf(
-            'CrudGenerator\MetaData\Doctrine2\MetadataDataObjectDoctrine2',
+            'CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2',
             $metadata
         );
 

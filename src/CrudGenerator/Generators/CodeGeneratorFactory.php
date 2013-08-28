@@ -18,9 +18,9 @@
 namespace CrudGenerator\Generators;
 
 use CrudGenerator\View\ViewFactory;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\GeneriqueQuestions;
-use CrudGenerator\Diff\DiffPHP;
+use CrudGenerator\Utils\DiffPHP;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 

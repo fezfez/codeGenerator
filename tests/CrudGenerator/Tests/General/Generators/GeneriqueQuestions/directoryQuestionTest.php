@@ -2,7 +2,7 @@
 namespace CrudGenerator\Tests\General\Generators\GeneratorFinder;
 
 use CrudGenerator\Generators\GeneriqueQuestions;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\ArchitectGenerator\Architect;
 
 class directoryQuestionTest extends \PHPUnit_Framework_TestCase
@@ -15,7 +15,7 @@ class directoryQuestionTest extends \PHPUnit_Framework_TestCase
                             ->disableOriginalConstructor()
                             ->getMock();
 
-        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
 
         $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput, $stubFileManager);
 
@@ -24,7 +24,7 @@ class directoryQuestionTest extends \PHPUnit_Framework_TestCase
 
     /*public function testFail()
     {
-        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())
                         ->method('fileExists')
                         ->will($this->returnValue(true));
@@ -48,7 +48,7 @@ class directoryQuestionTest extends \PHPUnit_Framework_TestCase
 
    /* public function testFailOnGetConfig()
     {
-        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())
                         ->method('fileExists')
                         ->will($this->onConsecutiveCalls(true, false));

@@ -1,14 +1,15 @@
 <?php
 namespace CrudGenerator\Tests\PDO\MetaData\PDO\PgSql;
 
-use CrudGenerator\MetaData\PDO\PDOConfig;
+use CrudGenerator\MetaData\Sources\PDO\PDOConfig;
 
 $pdoConfig = new PDOConfig();
 $pdoConfig->setDatabaseName('code_generator')
-          ->setType('pgsql')
-          ->setPassword('')
-          ->setUser('postgres')
-          ->setPort('5432')
-          ->setHost('localhost');
+->setType('pgsql')
+->setPassword('')
+->setUser('postgres')
+->setPort('5432')
+->setHost('localhost');
 
-return $pdoConfig;
+
+return $pdoConfig;;
