@@ -15,12 +15,12 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Adapter;
+namespace CrudGenerator\MetaData;
 
-use CrudGenerator\Adapter\AdapterCollection;
-use CrudGenerator\Adapter\AdapterDataObject;
+use CrudGenerator\MetaData\MetaDataSourceCollection;
+use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 
 use ReflectionClass;
 use RuntimeException;
@@ -31,11 +31,11 @@ use RecursiveIteratorIterator;
 use FilesystemIterator;
 
 /**
- * Find all adapters allow in project
+ * Find all MetaDataSource allow in project
  *
  * @author Stéphane Demonchaux
  */
-class AdapterFinder
+class MetaDataSourceFinder
 {
     /**
      * @var array Paths to search adapter
@@ -67,7 +67,7 @@ class AdapterFinder
     public function getAllAdapters()
     {
         $this->paths = array(
-            __DIR__ . '/../MetaData/'
+            __DIR__ . '/Sources/'
         );
 
         foreach ($this->paths as $path) {
@@ -92,8 +92,8 @@ class AdapterFinder
 
         $declared = get_declared_classes();
 
-        $adapterCollection = new AdapterCollection();
-        $adapterDataObject = new AdapterDataObject();
+        $adapterCollection = new MetaDataSourceCollection();
+        $adapterDataObject = new MetaDataSource();
 
         foreach ($declared as $className) {
             $reflectionClass = new ReflectionClass($className);
@@ -102,10 +102,10 @@ class AdapterFinder
 
             if (is_array($interfaces) && !empty($interfaces)
                 && in_array($sourceFile, $includedFiles)
-                && isset($interfaces['CrudGenerator\MetaData\MetaDataDAOInterface'])) {
+                && isset($interfaces['CrudGenerator\MetaData\Sources\MetaDataDAOInterface'])) {
 
                 $adapterCollection->append(
-                    $this->buildAdapterDataObject(
+                    $this->buildMetaDataSource(
                         $className,
                         $adapterDataObject
                     )
@@ -117,13 +117,13 @@ class AdapterFinder
     }
 
     /**
-     * Build a AdapaterDataobject with all his dependencies
+     * Build a MetaDataSourceDataobject with all his dependencies
      *
      * @param string $adapterClassName
-     * @param AdapterDataObject $adapterDataObject
-     * @return AdapterDataObject
+     * @param MetaDataSource $adapterDataObject
+     * @return MetaDataSource
      */
-    private function buildAdapterDataObject($adapterClassName, AdapterDataObject $adapterDataObject)
+    private function buildMetaDataSource($adapterClassName, MetaDataSource $adapterDataObject)
     {
         $adapter = clone $adapterDataObject;
 
@@ -152,11 +152,11 @@ class AdapterFinder
     /**
      * Find a particularie string in docblock and parse it
      *
-     * @param AdapterDataObject $adapter
+     * @param MetaDataSource $adapter
      * @param string $string
      * @return array
      */
-    private function getDocBlockFromFactory(AdapterDataObject $adapter, $string)
+    private function getDocBlockFromFactory(MetaDataSource $adapter, $string)
     {
         $reflectionClass = new ReflectionClass($adapter->getFactory());
 

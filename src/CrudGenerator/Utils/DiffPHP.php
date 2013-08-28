@@ -12,7 +12,7 @@
  * Short license: do whatever you like with this.
  */
 
-namespace CrudGenerator\Diff;
+namespace CrudGenerator\Utils;
 
 use Exception;
 

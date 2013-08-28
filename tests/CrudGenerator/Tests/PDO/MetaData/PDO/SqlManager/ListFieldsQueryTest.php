@@ -1,7 +1,7 @@
 <?php
-namespace CrudGenerator\Tests\MetaData\PDO\SqlManager;
+namespace CrudGenerator\Tests\MetaData\Sources\PDO\SqlManager;
 
-use CrudGenerator\MetaData\PDO\SqlManager;
+use CrudGenerator\MetaData\Sources\PDO\SqlManager;
 
 class ListFieldsQueryTest extends \PHPUnit_Framework_TestCase
 {

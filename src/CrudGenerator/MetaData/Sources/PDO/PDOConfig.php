@@ -15,9 +15,9 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\PDO;
+namespace CrudGenerator\MetaData\Sources\PDO;
 
-use CrudGenerator\MetaData\AbstractConfig;
+use CrudGenerator\MetaData\Config\AbstractConfig;
 use CrudGenerator\MetaData\Config\ConfigException;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -60,7 +60,7 @@ class PDOConfig extends AbstractConfig
     /**
      * Set database name
      * @param string $value
-     * @return \CrudGenerator\MetaData\PDO\PDOConfig
+     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
      */
     public function setDatabaseName($value)
     {
@@ -70,7 +70,7 @@ class PDOConfig extends AbstractConfig
     /**
      * Set host
      * @param string $value
-     * @return \CrudGenerator\MetaData\PDO\PDOConfig
+     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
      */
     public function setHost($value)
     {
@@ -80,7 +80,7 @@ class PDOConfig extends AbstractConfig
     /**
      * Set user
      * @param string $value
-     * @return \CrudGenerator\MetaData\PDO\PDOConfig
+     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
      */
     public function setUser($value)
     {
@@ -90,7 +90,7 @@ class PDOConfig extends AbstractConfig
     /**
      * Set password
      * @param string $value
-     * @return \CrudGenerator\MetaData\PDO\PDOConfig
+     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
      */
     public function setPassword($value)
     {
@@ -100,7 +100,7 @@ class PDOConfig extends AbstractConfig
     /**
      * Set port
      * @param string $value
-     * @return \CrudGenerator\MetaData\PDO\PDOConfig
+     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
      */
     public function setPort($value)
     {
@@ -110,7 +110,7 @@ class PDOConfig extends AbstractConfig
     /**
      * Set type
      * @param string $value
-     * @return \CrudGenerator\MetaData\PDO\PDOConfig
+     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
      */
     public function setType($value)
     {
@@ -171,7 +171,7 @@ class PDOConfig extends AbstractConfig
      * Test if its well configured
      * @param OutputInterface $output
      * @throws ConfigException
-     * @return \CrudGenerator\MetaData\PDO\PDOConfig
+     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
      */
     public function test(OutputInterface $output)
     {

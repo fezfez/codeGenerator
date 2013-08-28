@@ -8,7 +8,7 @@ use <?php echo $this->dataObject->getEntity(); ?>;
 
 <?php
     $length = str_repeat(' ', strlen('a' . $this->dataObject->getEntityName()));
-    $loremIpsumGenerator = new \CrudGenerator\Generators\LoremIpsumGenerator();
+    $loremIpsumGenerator = new \CrudGenerator\Utils\LoremIpsumGenerator();
 ?>
 class <?php echo $this->dataObject->getEntityName(); ?>Fixture implements FixtureInterface
 {

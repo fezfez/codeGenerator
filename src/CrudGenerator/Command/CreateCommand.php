@@ -17,14 +17,14 @@
  */
 namespace CrudGenerator\Command;
 
-use CrudGenerator\Adapter\AdapterDataObject;
+use CrudGenerator\MetaData\MetaDataSource;
 
 use CrudGenerator\Generators\CodeGeneratorFactory;
 use CrudGenerator\DataObject;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 use CrudGenerator\MetaData\Config\MetaDataConfigReaderFactory;
 use CrudGenerator\MetaData\Config\MetaDataConfigReader;
-use CrudGenerator\Adapter\AdapterFinderFactory;
+use CrudGenerator\MetaData\MetaDataSourceFinderFactory;
 use CrudGenerator\Generators\GeneratorFinderFactory;
 use CrudGenerator\History\HistoryFactory;
 use CrudGenerator\History\HistoryManager;
@@ -134,11 +134,11 @@ class CreateCommand extends Command
      * @param OutputInterface $output
      * @param DialogHelper $dialog
      * @throws \InvalidArgumentException
-     * @return AdapterDataObject
+     * @return MetaDataSource
      */
     private function adapterQuestion(OutputInterface $output, DialogHelper $dialog)
     {
-        $adapterFinder      = AdapterFinderFactory::getInstance();
+        $adapterFinder      = MetaDataSourceFinderFactory::getInstance();
         $adaptersCollection = $adapterFinder->getAllAdapters();
 
         foreach ($adaptersCollection as $adapter) {
@@ -222,14 +222,14 @@ class CreateCommand extends Command
      *
      * @param OutputInterface $output
      * @param DialogHelper $dialog
-     * @param AdapterDataObject $adapter
+     * @param MetaDataSource $adapter
      * @throws InvalidArgumentException
      * @return string
      */
     private function entityQuestion(
         OutputInterface $output,
         DialogHelper $dialog,
-        AdapterDataObject $adapter
+        MetaDataSource $adapter
     ) {
 
         $adapterConfig       = $adapter->getConfig();

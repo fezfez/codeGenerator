@@ -1,7 +1,7 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\LoremIpsumGenerator;
 
-use CrudGenerator\Generators\LoremIpsumGenerator;
+use CrudGenerator\Utils\LoremIpsumGenerator;
 
 class GetContentTest extends \PHPUnit_Framework_TestCase
 {

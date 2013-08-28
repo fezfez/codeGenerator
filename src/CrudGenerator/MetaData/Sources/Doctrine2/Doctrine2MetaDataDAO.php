@@ -15,11 +15,11 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\Doctrine2;
+namespace CrudGenerator\MetaData\Sources\Doctrine2;
 
+use CrudGenerator\MetaData\Sources\MetaDataDAOInterface;
+use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationColumnDataObject;
-use CrudGenerator\MetaData\MetaDataDAOInterface;
-use CrudGenerator\MetaData\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\MetaData\DataObject\MetaDataDataObjectCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObjectCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObject;

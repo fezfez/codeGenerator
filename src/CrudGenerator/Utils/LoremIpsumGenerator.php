@@ -26,7 +26,7 @@
  *    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace CrudGenerator\Generators;
+namespace CrudGenerator\Utils;
 
 /**
  * Generate lorem ipsum text
@@ -279,7 +279,6 @@ class LoremIpsumGenerator
         for ($i; $i < $count; $i++) {
             $index = array_rand($this->words);
             $word = $this->words[$index];
-            //echo $index . '=>' . $word . '<br />';
 
             if ($i > 0 && $arr[$i - 1] == $word) {
                 $i--;
@@ -300,7 +299,6 @@ class LoremIpsumGenerator
     {
         $words = array();
         $this->getWords($words, $count, $loremipsum);
-        //print_r($words);
 
         $delta = $count;
         $curr = 0;
@@ -379,9 +377,7 @@ class LoremIpsumGenerator
                 $currCount = 0;
                 $paragraphs[] = $curr;
                 $curr = array();
-                //print_r($paragraphs);
             }
-            //print_r($paragraphs);
         }
 
         return $paragraphs;
@@ -396,7 +392,6 @@ class LoremIpsumGenerator
     {
         $sentences = $this->getPlain($count, $loremipsum, false);
         $paragraphs = $this->getParagraphArr($sentences);
-        //print_r($paragraphs);
 
         $paragraphStr = array();
         foreach ($paragraphs as $p) {

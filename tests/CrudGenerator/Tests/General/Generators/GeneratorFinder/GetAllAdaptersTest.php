@@ -2,7 +2,7 @@
 namespace CrudGenerator\Tests\General\Generators\GeneratorFinder;
 
 use CrudGenerator\Generators\GeneratorFinder;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 
 class GetAllAdapatersTest extends \PHPUnit_Framework_TestCase
 {

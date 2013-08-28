@@ -1,7 +1,7 @@
 <?php
-namespace CrudGenerator\Tests\General\Diff\DiffPHP;
+namespace CrudGenerator\Tests\General\Utils\DiffPHP;
 
-use CrudGenerator\Diff\DiffPHP;
+use CrudGenerator\Utils\DiffPHP;
 
 class DiffTest extends \PHPUnit_Framework_TestCase
 {

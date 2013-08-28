@@ -2,7 +2,7 @@
 namespace CrudGenerator\Tests\General\Generators\GeneratorFinder;
 
 use CrudGenerator\Generators\GeneriqueQuestion\DirectoryValidator;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 use CrudGenerator\DataObject;
 use CrudGenerator\Generators\ArchitectGenerator\Architect;
 
@@ -16,7 +16,7 @@ class InvokeTest extends \PHPUnit_Framework_TestCase
                             ->disableOriginalConstructor()
                             ->getMock();
 
-        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())
                         ->method('isDir')
                         ->will($this->returnValue(true));
@@ -36,7 +36,7 @@ class InvokeTest extends \PHPUnit_Framework_TestCase
                             ->disableOriginalConstructor()
                             ->getMock();
 
-        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())
                         ->method('isDir')
                         ->will($this->returnValue(false));

@@ -15,30 +15,27 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\Doctrine2;
-
-use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
-use CrudGenerator\FileManager;
+namespace CrudGenerator\MetaData\Sources;
 
 /**
- * Doctrine2 Metadata DAO in Zend Framework 2 Environnement
+ * Metadata DAO interface
  *
- * @CodeGenerator\Environnement ZendFramework2Environnement
- * @CodeGenerator\Description Doctrine2
  * @author Stéphane Demonchaux
  */
-class Doctrine2MetaDataDAOFactory
+interface MetaDataDAOInterface
 {
     /**
-     * Create Doctrine2MetaDataDAO instance
-     * @return \CrudGenerator\MetaData\MetaDataDAO
+     * Get all metadata from the concrete metadata DAO
+     *
+     * @return \CrudGenerator\MetaData\MetaDataDataObjectCollection
      */
-    public static function getInstance()
-    {
-        $fileManager    = new FileManager();
-        $serviceManager = ZendFramework2Environnement::getDependence($fileManager);
-        $entityManager  = $serviceManager->get('doctrine.entitymanager.orm_default');
+    public function getAllMetadata();
 
-        return new Doctrine2MetaDataDAO($entityManager);
-    }
+    /**
+     * Get particularie metadata from the concrete metadata DAO
+     *
+     * @param string $entityName
+     * @return \CrudGenerator\MetaData\MetaDataDataObject
+     */
+    public function getMetadataFor($entityName);
 }

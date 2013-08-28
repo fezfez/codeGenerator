@@ -1,7 +1,7 @@
 <?php
 namespace CrudGenerator\Tests\General\MetaData\DataObject\MetaDataRelationColumnDataObject;
 
-use CrudGenerator\MetaData\PDO\MetadataDataObjectPDO;
+use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObjectCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationDataObjectCollection;
 

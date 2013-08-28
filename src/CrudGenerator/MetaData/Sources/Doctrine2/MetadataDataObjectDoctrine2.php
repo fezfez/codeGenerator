@@ -15,27 +15,15 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Adapter;
+namespace CrudGenerator\MetaData\Sources\Doctrine2;
 
-use CrudGenerator\Adapter\AdapterFinder;
-use CrudGenerator\FileManager;
+use CrudGenerator\MetaData\DataObject\MetaDataDataObject;
 
 /**
- * Create AdapterFinder instance
+ * Base representation metadata for template generation
  *
  * @author Stéphane Demonchaux
  */
-class AdapterFinderFactory
+class MetadataDataObjectDoctrine2 extends MetaDataDataObject
 {
-    /**
-     * Create AdapterFinder instance
-     *
-     * @return \CrudGenerator\Adapter\AdapterFinder
-     */
-    public static function getInstance()
-    {
-        $fileManager = new FileManager();
-
-        return new AdapterFinder($fileManager);
-    }
 }

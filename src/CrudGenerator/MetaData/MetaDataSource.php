@@ -15,15 +15,15 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Adapter;
+namespace CrudGenerator\MetaData;
 
-use CrudGenerator\MetaData\AbstractConfig;
+use CrudGenerator\MetaData\Config\AbstractConfig;
 
 /**
  * Adapter representation
  * @author Stéphane Demonchaux
  */
-class AdapterDataObject
+class MetaDataSource
 {
     /**
      * @var string name of adapater
@@ -45,7 +45,7 @@ class AdapterDataObject
     /**
      * Set name
      * @param string $value
-     * @return \CrudGenerator\Adapter\AdapterDataObject
+     * @return \CrudGenerator\MetaData\MetaDataSource
      */
     public function setName($value)
     {
@@ -55,7 +55,7 @@ class AdapterDataObject
     /**
      * Set definition
      * @param string $value
-     * @return \CrudGenerator\Adapter\AdapterDataObject
+     * @return \CrudGenerator\MetaData\MetaDataSource
      */
     public function setDefinition($value)
     {
@@ -65,7 +65,7 @@ class AdapterDataObject
     /**
      * Set false dependencie
      * @param string $value
-     * @return \CrudGenerator\Adapter\AdapterDataObject
+     * @return \CrudGenerator\MetaData\MetaDataSource
      */
     public function setFalseDependencie($value)
     {
@@ -75,7 +75,7 @@ class AdapterDataObject
     /**
      * Set config
      * @param AbstractConfig $value
-     * @return \CrudGenerator\Adapter\AdapterDataObject
+     * @return \CrudGenerator\MetaData\MetaDataSource
      */
     public function setConfig(AbstractConfig $value)
     {

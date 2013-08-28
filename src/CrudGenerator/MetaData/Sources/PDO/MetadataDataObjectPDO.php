@@ -15,22 +15,15 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData;
+namespace CrudGenerator\MetaData\Sources\PDO;
+
+use CrudGenerator\MetaData\DataObject\MetaDataDataObject;
 
 /**
- * Abstract Metadata config
+ * Base representation metadata for template generation
  *
  * @author Stéphane Demonchaux
  */
-abstract class AbstractConfig
+class MetadataDataObjectPDO extends MetaDataDataObject
 {
-    /**
-     * Get config definition
-     *
-     * @return string
-     */
-    public function getDefinition()
-    {
-        return $this->definition;
-    }
 }

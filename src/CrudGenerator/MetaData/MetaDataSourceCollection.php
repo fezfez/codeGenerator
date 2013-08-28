@@ -15,15 +15,15 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Adapter;
+namespace CrudGenerator\MetaData;
 
 use ArrayObject;
 
 /**
- * AdapaterCollection
+ * MetaDataSourceCollection
  *
  * @author Stéphane Demonchaux <demonchaux.stephane@gmail.com>
  */
-class AdapterCollection extends ArrayObject
+class MetaDataSourceCollection extends ArrayObject
 {
 }

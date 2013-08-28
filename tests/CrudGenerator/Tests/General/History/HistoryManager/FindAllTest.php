@@ -2,7 +2,7 @@
 namespace CrudGenerator\Tests\General\History\HistoryManager;
 
 use CrudGenerator\History\HistoryManager;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\GeneratorFinderFactory;
 use CrudGenerator\Generators\ArchitectGenerator\Architect;
 use CrudGenerator\History\History;
@@ -15,7 +15,7 @@ class FindAllTest extends \PHPUnit_Framework_TestCase
         $generatorFinder = GeneratorFinderFactory::getInstance();
         $generatorFinder->getAllClasses();
 
-        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())
                         ->method('isDir')
                         ->will($this->returnValue(false));
@@ -33,7 +33,7 @@ class FindAllTest extends \PHPUnit_Framework_TestCase
         $generatorFinder = GeneratorFinderFactory::getInstance();
         $generatorFinder->getAllClasses();
 
-        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())
         ->method('isDir')
         ->will($this->returnValue(true));

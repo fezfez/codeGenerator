@@ -19,9 +19,9 @@ namespace CrudGenerator\Command;
 
 use CrudGenerator\Generators\CodeGeneratorFactory;
 use CrudGenerator\DataObject;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 use CrudGenerator\MetaData\Config\MetaDataConfigReaderFactory;
-use CrudGenerator\Adapter\AdapterFinderFactory;
+use CrudGenerator\MetaData\MetaDataSourceFinderFactory;
 use CrudGenerator\Generators\GeneratorFinderFactory;
 use CrudGenerator\History\HistoryFactory;
 use CrudGenerator\History\HistoryManager;

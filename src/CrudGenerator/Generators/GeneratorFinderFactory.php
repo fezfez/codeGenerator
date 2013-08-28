@@ -19,7 +19,7 @@ namespace CrudGenerator\Generators;
 
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 use CrudGenerator\Generators\GeneratorFinder;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 
 /**
  * Create GeneratorFinder instance

@@ -1,7 +1,7 @@
 <?php
 namespace CrudGenerator\Tests\General\FileManager;
 
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 
 class FileGetContentTest extends \PHPUnit_Framework_TestCase
 {

@@ -18,7 +18,7 @@
 namespace CrudGenerator\MetaData\Config;
 
 use CrudGenerator\MetaData\Config\MetaDataConfigReader;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 
