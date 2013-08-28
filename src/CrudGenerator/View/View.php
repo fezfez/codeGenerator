@@ -17,7 +17,7 @@
  */
 namespace CrudGenerator\View;
 
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 use CrudGenerator\View\ViewRenderer;
 
 /**

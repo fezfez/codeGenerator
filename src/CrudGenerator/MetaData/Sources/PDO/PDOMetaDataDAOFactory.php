@@ -15,9 +15,9 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\PDO;
+namespace CrudGenerator\MetaData\Sources\PDO;
 
-use CrudGenerator\MetaData\PDO\SqlManager;
+use CrudGenerator\MetaData\Sources\PDO\SqlManager;
 
 /**
  * Create PDO Metadata DAO instance
@@ -30,7 +30,7 @@ class PDOMetaDataDAOFactory
      * Create PDO Metadata DAO instance
      *
      * @param PDOConfig $config
-     * @return \CrudGenerator\MetaData\PDO\PDOMetaDataDAO
+     * @return \CrudGenerator\MetaData\Sources\PDO\PDOMetaDataDAO
      */
     public static function getInstance(PDOConfig $config)
     {

@@ -19,7 +19,7 @@ namespace CrudGenerator\View;
 
 use CrudGenerator\View\View;
 use CrudGenerator\View\ViewRenderer;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 
 /**
  * View manager factory

@@ -15,27 +15,22 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData;
+namespace CrudGenerator\MetaData\Config;
 
 /**
- * Metadata DAO interface
+ * Abstract Metadata config
  *
  * @author Stéphane Demonchaux
  */
-interface MetaDataDAOInterface
+abstract class AbstractConfig
 {
     /**
-     * Get all metadata from the concrete metadata DAO
+     * Get config definition
      *
-     * @return \CrudGenerator\MetaData\MetaDataDataObjectCollection
+     * @return string
      */
-    public function getAllMetadata();
-
-    /**
-     * Get particularie metadata from the concrete metadata DAO
-     *
-     * @param string $entityName
-     * @return \CrudGenerator\MetaData\MetaDataDataObject
-     */
-    public function getMetadataFor($entityName);
+    public function getDefinition()
+    {
+        return $this->definition;
+    }
 }

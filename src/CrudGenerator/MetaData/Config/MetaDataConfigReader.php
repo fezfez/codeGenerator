@@ -17,9 +17,9 @@
  */
 namespace CrudGenerator\MetaData\Config;
 
-use CrudGenerator\MetaData\AbstractConfig;
+use CrudGenerator\MetaData\Config\AbstractConfig;
 use CrudGenerator\MetaData\Config\ConfigException;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;

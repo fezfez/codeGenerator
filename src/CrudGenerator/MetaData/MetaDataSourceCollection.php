@@ -17,20 +17,13 @@
  */
 namespace CrudGenerator\MetaData;
 
+use ArrayObject;
+
 /**
- * Abstract Metadata config
+ * MetaDataSourceCollection
  *
- * @author Stéphane Demonchaux
+ * @author Stéphane Demonchaux <demonchaux.stephane@gmail.com>
  */
-abstract class AbstractConfig
+class MetaDataSourceCollection extends ArrayObject
 {
-    /**
-     * Get config definition
-     *
-     * @return string
-     */
-    public function getDefinition()
-    {
-        return $this->definition;
-    }
 }

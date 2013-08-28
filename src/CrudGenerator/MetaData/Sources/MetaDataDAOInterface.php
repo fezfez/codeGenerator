@@ -15,28 +15,27 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators;
-
-use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
-use CrudGenerator\Generators\GeneratorFinder;
-use CrudGenerator\Utils\FileManager;
+namespace CrudGenerator\MetaData\Sources;
 
 /**
- * Create GeneratorFinder instance
+ * Metadata DAO interface
  *
  * @author Stéphane Demonchaux
  */
-class GeneratorFinderFactory
+interface MetaDataDAOInterface
 {
     /**
-     * Create GeneratorFinder instance
+     * Get all metadata from the concrete metadata DAO
      *
-     * @return \CrudGenerator\Generators\GeneratorFinder
+     * @return \CrudGenerator\MetaData\MetaDataDataObjectCollection
      */
-    public static function getInstance()
-    {
-        $fileManager = new FileManager();
+    public function getAllMetadata();
 
-        return new GeneratorFinder($fileManager);
-    }
+    /**
+     * Get particularie metadata from the concrete metadata DAO
+     *
+     * @param string $entityName
+     * @return \CrudGenerator\MetaData\MetaDataDataObject
+     */
+    public function getMetadataFor($entityName);
 }

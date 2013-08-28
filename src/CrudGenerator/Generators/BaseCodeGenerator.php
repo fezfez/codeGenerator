@@ -18,10 +18,10 @@
 namespace CrudGenerator\Generators;
 
 use CrudGenerator\DataObject;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 use CrudGenerator\View\View;
 use CrudGenerator\Generators\GeneriqueQuestions;
-use CrudGenerator\Diff\DiffPHP;
+use CrudGenerator\Utils\DiffPHP;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Input\InputInterface;

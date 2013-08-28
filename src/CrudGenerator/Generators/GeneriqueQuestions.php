@@ -21,7 +21,7 @@ namespace CrudGenerator\Generators;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use CrudGenerator\DataObject;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\GeneriqueQuestion\DirectoryValidator;
 
 /**

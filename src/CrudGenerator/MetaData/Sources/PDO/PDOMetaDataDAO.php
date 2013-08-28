@@ -15,13 +15,13 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\PDO;
+namespace CrudGenerator\MetaData\Sources\PDO;
 
 use PDO;
-use CrudGenerator\MetaData\PDO\PDOConfig;
-use CrudGenerator\MetaData\PDO\SqlManager;
-use CrudGenerator\MetaData\MetaDataDAOInterface;
-use CrudGenerator\MetaData\PDO\MetadataDataObjectPDO;
+use CrudGenerator\MetaData\Sources\PDO\PDOConfig;
+use CrudGenerator\MetaData\Sources\PDO\SqlManager;
+use CrudGenerator\MetaData\Sources\MetaDataDAOInterface;
+use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
 use CrudGenerator\MetaData\DataObject\MetaDataDataObjectCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObjectCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObject;
@@ -161,7 +161,7 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
      * Get particularie metadata from PDO
      *
      * @param string $tableName
-     * @return \CrudGenerator\MetaData\PDO\MetadataDataObjectPDO
+     * @return \CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO
      */
     public function getMetadataFor($tableName)
     {

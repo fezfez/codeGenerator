@@ -18,7 +18,7 @@
 namespace CrudGenerator\History;
 
 use CrudGenerator\History\HistoryManager;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\GeneratorFinderFactory;
 
 /**

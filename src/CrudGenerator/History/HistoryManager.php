@@ -18,7 +18,7 @@
 namespace CrudGenerator\History;
 
 use CrudGenerator\DataObject;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 use CrudGenerator\History\HistoryCollection;
 use CrudGenerator\History\History;
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;

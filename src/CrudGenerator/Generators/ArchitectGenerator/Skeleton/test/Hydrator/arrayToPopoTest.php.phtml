@@ -8,7 +8,7 @@ use <?php echo $this->dataObject->getNamespace(); ?>\Hydrator\<?php echo $this->
 use <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\<?php echo $this->dataObject->getEntityName(); ?>Fixture;
 
 <?php
-    $loremIpsumGenerator = new \CrudGenerator\Generators\LoremIpsumGenerator();
+    $loremIpsumGenerator = new \CrudGenerator\Utils\LoremIpsumGenerator();
 ?>
 class arrayToPopoTest extends \PHPUnit_Framework_TestCase
 {
