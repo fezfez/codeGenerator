@@ -21,6 +21,7 @@ use CrudGenerator\MetaData\MetaDataSourceCollection;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 use CrudGenerator\Utils\FileManager;
+use CrudGenerator\Utils\ClassAwake;
 
 use ReflectionClass;
 use RuntimeException;
@@ -38,25 +39,23 @@ use FilesystemIterator;
 class MetaDataSourceFinder
 {
     /**
-     * @var array Paths to search adapter
-     */
-    private $paths = array();
-    /**
-     * @var string File extension to find
-     */
-    private $fileExtension = 'php';
-    /**
      * @var FileManager File manager
      */
     private $fileManager = null;
+    /**
+     * @var ClassAwake Class awake
+     */
+    private $classAwake = null;
 
     /**
      * Find all adapters allow in project
      * @param FileManager $fileManager
+     * @param ClassAwake $classAwake
      */
-    public function __construct(FileManager $fileManager)
+    public function __construct(FileManager $fileManager, ClassAwake $classAwake)
     {
         $this->fileManager = $fileManager;
+        $this->classAwake  = $classAwake;
     }
 
     /**
@@ -66,51 +65,23 @@ class MetaDataSourceFinder
      */
     public function getAllAdapters()
     {
-        $this->paths = array(
-            __DIR__ . '/Sources/'
+        $classCollection = $this->classAwake->wakeByInterfaces(
+            array(
+                __DIR__ . '/Sources/'
+            ),
+            'CrudGenerator\MetaData\Sources\MetaDataDAOInterface'
         );
-
-        foreach ($this->paths as $path) {
-
-            $iterator = new RegexIterator(
-                new RecursiveIteratorIterator(
-                    new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS),
-                    RecursiveIteratorIterator::LEAVES_ONLY
-                ),
-                '/^.+' . preg_quote($this->fileExtension) . '$/i',
-                RecursiveRegexIterator::GET_MATCH
-            );
-
-            foreach ($iterator as $file) {
-                $sourceFile = realpath($file[0]);
-
-                require_once $sourceFile;
-
-                $includedFiles[] = $sourceFile;
-            }
-        }
-
-        $declared = get_declared_classes();
 
         $adapterCollection = new MetaDataSourceCollection();
         $adapterDataObject = new MetaDataSource();
 
-        foreach ($declared as $className) {
-            $reflectionClass = new ReflectionClass($className);
-            $sourceFile = $reflectionClass->getFileName();
-            $interfaces = $reflectionClass->getInterfaces();
-
-            if (is_array($interfaces) && !empty($interfaces)
-                && in_array($sourceFile, $includedFiles)
-                && isset($interfaces['CrudGenerator\MetaData\Sources\MetaDataDAOInterface'])) {
-
-                $adapterCollection->append(
-                    $this->buildMetaDataSource(
-                        $className,
-                        $adapterDataObject
-                    )
-                );
-            }
+        foreach ($classCollection as $className) {
+            $adapterCollection->append(
+                $this->buildMetaDataSource(
+                    $className,
+                    $adapterDataObject
+                )
+            );
         }
 
         return $adapterCollection;
