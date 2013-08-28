@@ -3,7 +3,7 @@ namespace CrudGenerator\Tests\General\View\View;
 
 use CrudGenerator\View\View;
 use CrudGenerator\View\ViewRenderer;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 
 class RenderTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,7 +1,7 @@
 <?php
-namespace CrudGenerator\Tests\PDO\MetaData\PDO\PgSql\PDOMetaDataDAOFactory;
+namespace CrudGenerator\Tests\PDO\MetaData\Sources\PDO\PgSql\PDOMetaDataDAOFactory;
 
-use CrudGenerator\MetaData\PDO\PDOMetaDataDAOFactory;
+use CrudGenerator\MetaData\Sources\PDO\PDOMetaDataDAOFactory;
 
 class CheckDependenciesTest extends \PHPUnit_Framework_TestCase
 {

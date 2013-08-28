@@ -21,7 +21,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                    ->method('ask')
                    ->will($this->returnValue('foo'));
 
-        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->once())
                         ->method('filePutsContent')
                         ->will($this->returnValue(true));
@@ -33,7 +33,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $stubFileManager
         );
 
-        $stubConfig = $this->getMock('\CrudGenerator\MetaData\PDO\PDOConfig');
+        $stubConfig = $this->getMock('\CrudGenerator\MetaData\Sources\PDO\PDOConfig');
 
         $stubConfig->expects($this->once())
                    ->method('test')
@@ -59,7 +59,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                    ->method('ask')
                    ->will($this->returnValue('foo'));
 
-        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->once())
                         ->method('filePutsContent')
                         ->will($this->returnValue(true));
@@ -71,7 +71,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $stubFileManager
         );
 
-        $stubConfig = $this->getMock('\CrudGenerator\MetaData\PDO\PDOConfig');
+        $stubConfig = $this->getMock('\CrudGenerator\MetaData\Sources\PDO\PDOConfig');
 
         $stubConfig->expects($this->at(0))
                    ->method('test')
@@ -107,14 +107,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                    ->method('ask')
                    ->will($this->returnValue('foo'));
 
-        $stubConfig = $this->getMock('\CrudGenerator\MetaData\PDO\PDOConfig');
+        $stubConfig = $this->getMock('\CrudGenerator\MetaData\Sources\PDO\PDOConfig');
 
         /*Ne peut pas étre testéjusquau bout car la désérialization alter le mock
         $stubConfig->expects($this->once())
                    ->method('test')
                    ->will($this->returnValue(true));*/
 
-        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
 
         $stubFileManager->expects($this->once())
                         ->method('isFile')

@@ -1,8 +1,8 @@
 <?php
-namespace CrudGenerator\Tests\PDO\MetaData\PDO\PgSql\PDOMetaDataDAO;
+namespace CrudGenerator\Tests\PDO\MetaData\Sources\PDO\PgSql\PDOMetaDataDAO;
 
-use CrudGenerator\MetaData\PDO\PDOMetaDataDAOFactory;
-use CrudGenerator\MetaData\PDO\PDOConfig;
+use CrudGenerator\MetaData\Sources\PDO\PDOMetaDataDAOFactory;
+use CrudGenerator\MetaData\Sources\PDO\PDOConfig;
 
 class GetMetadataForTest extends \PHPUnit_Framework_TestCase
 {
@@ -13,7 +13,7 @@ class GetMetadataForTest extends \PHPUnit_Framework_TestCase
         $suT = PDOMetaDataDAOFactory::getInstance($pdoConfig);
 
         $this->assertInstanceOf(
-            'CrudGenerator\MetaData\PDO\MetadataDataObjectPDO',
+            'CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO',
             $suT->getMetadataFor('messages')
         );
     }

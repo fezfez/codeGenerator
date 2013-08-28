@@ -2,7 +2,7 @@
 namespace CrudGenerator\Tests\General\EnvironnementResolver;
 
 use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
-use CrudGenerator\FileManager;
+use CrudGenerator\Utils\FileManager;
 
 class ZendFramework2EnvironnementTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,7 +11,7 @@ class ZendFramework2EnvironnementTest extends \PHPUnit_Framework_TestCase
      */
     public function testType()
     {
-        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())
                         ->method('fileExists')
                         ->will($this->returnValue(true));
@@ -30,7 +30,7 @@ class ZendFramework2EnvironnementTest extends \PHPUnit_Framework_TestCase
     public function testWrongZf2Config()
     {
 
-        $stubFileManager = $this->getMock('\CrudGenerator\FileManager');
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())
         ->method('fileExists')
         ->will($this->returnValue(true));
