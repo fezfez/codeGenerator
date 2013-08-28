@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit bootstrap="bootstrap.php" backupGlobals="false">
+<phpunit bootstrap="bootstrap.php"
+         backupGlobals="false"
+         processIsolation="true"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true">
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./../src/CrudGenerator/</directory>
         </whitelist>
-        <blacklist>
-            <file>./../src/CrudGenerator/MetaData/Config/ConfigException.php</file>
-            <file>./../src/CrudGenerator/MetaData/DataObject/MetaDataDataObjectCollection.php</file>
-            <file>./../src/CrudGenerator/View/ViewRendererException.php</file>
-            <file>./../src/CrudGenerator/MetaData/DataObject/MetaDataRelationDataObjectCollection.php</file>
-            <file>./../src/CrudGenerator/MetaData/MetaDataDAOInterface.php</file>
-            <file>./../src/CrudGenerator/MetaData/DataObject/MetaDataColumnDataObjectCollection.php</file>
-            <file>./../src/CrudGenerator/View/ViewRendererException.php</file>
-            <file>./../src/CrudGenerator/MetaData/Config/ConfigException.php</file>
-            <file>./../src/CrudGenerator/History/HistoryCollection.php</file>
-            <file>./../src/CrudGenerator/MetaData/DataObject/MetaDataDataObjectCollection.php</file>
-        </blacklist>
     </filter>
+    <testsuites>
+        <testsuite name="Full test">
+            <directory>./CrudGenerator</directory>
+        </testsuite>
+    </testsuites>
 </phpunit>

@@ -20,6 +20,7 @@ namespace CrudGenerator\Generators;
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
 use CrudGenerator\Utils\FileManager;
+use CrudGenerator\Utils\ClassAwake;
 
 /**
  * Find all generator allow in project
@@ -29,25 +30,23 @@ use CrudGenerator\Utils\FileManager;
 class GeneratorFinder
 {
     /**
-     * @var array Paths to search generator
-     */
-    private $paths = array();
-    /**
-     * @var string File extension to search
-     */
-    private $fileExtension = 'php';
-    /**
      * @var FileManager File manager
      */
     private $fileManager = null;
+    /**
+     * @var ClassAwake Class awake
+     */
+    private $classAwake = null;
 
     /**
      * Find all generator allow in project
      * @param FileManager $fileManager
+     * @param ClassAwake $classAwake
      */
-    public function __construct(FileManager $fileManager)
+    public function __construct(FileManager $fileManager, ClassAwake $classAwake)
     {
         $this->fileManager = $fileManager;
+        $this->classAwake  = $classAwake;
     }
 
     /**
@@ -57,49 +56,16 @@ class GeneratorFinder
      */
     public function getAllClasses()
     {
-        $this->paths = array(
-            __DIR__ . '/'
+        $paths = $this->checkZf2Configuration(
+            array(
+                __DIR__ . '/'
+            )
         );
 
-        $this->paths = $this->checkZf2Configuration($this->paths);
-
-        foreach ($this->paths as $path) {
-            if (!is_dir($path)) {
-                throw new \RuntimeException('invalid path ' . $path);
-            }
-
-            $iterator = new \RegexIterator(
-                new \RecursiveIteratorIterator(
-                    new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS),
-                    \RecursiveIteratorIterator::LEAVES_ONLY
-                ),
-                '/^.+' . preg_quote($this->fileExtension) . '$/i',
-                \RecursiveRegexIterator::GET_MATCH
-            );
-
-            foreach ($iterator as $file) {
-                $sourceFile = realpath($file[0]);
-
-                require_once $sourceFile;
-
-                $includedFiles[] = $sourceFile;
-            }
-        }
-
-        $declared = get_declared_classes();
-
-        foreach ($declared as $className) {
-            $rc = new \ReflectionClass($className);
-            $sourceFile = $rc->getFileName();
-            $parentClass = $rc->getParentClass();
-            if (is_object($parentClass)
-                && in_array($sourceFile, $includedFiles)
-                && $parentClass->name == 'CrudGenerator\Generators\BaseCodeGenerator') {
-                $classes[] = $className;
-            }
-        }
-
-        return $classes;
+        return $this->classAwake->wakeByParent(
+            $paths,
+            'CrudGenerator\Generators\BaseCodeGenerator'
+        );
     }
 
     /**

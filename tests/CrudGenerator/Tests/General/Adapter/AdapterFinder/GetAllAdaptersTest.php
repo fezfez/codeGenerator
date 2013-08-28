@@ -3,14 +3,16 @@ namespace CrudGenerator\Tests\General\Adapater\AdapaterFinder;
 
 use CrudGenerator\MetaData\MetaDataSourceFinder;
 use CrudGenerator\Utils\FileManager;
+use CrudGenerator\Utils\ClassAwake;
 
 class GetAllAdapatersTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
         $fileManager = new FileManager();
+        $classAwake  = new ClassAwake();
 
-        $suT = new MetaDataSourceFinder($fileManager);
+        $suT = new MetaDataSourceFinder($fileManager, $classAwake);
 
         $adapterCollection = $suT->getAllAdapters();
 
@@ -30,7 +32,9 @@ class GetAllAdapatersTest extends \PHPUnit_Framework_TestCase
                         ->method('fileExists')
                         ->will($this->returnValue(false));
 
-        $suT = new MetaDataSourceFinder($stubFileManager);
+        $classAwake  = new ClassAwake();
+
+        $suT = new MetaDataSourceFinder($stubFileManager, $classAwake);
 
         $this->assertInstanceOf(
             'CrudGenerator\MetaData\MetaDataSourceCollection',

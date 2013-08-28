@@ -20,6 +20,7 @@ namespace CrudGenerator\Generators;
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 use CrudGenerator\Generators\GeneratorFinder;
 use CrudGenerator\Utils\FileManager;
+use CrudGenerator\Utils\ClassAwake;
 
 /**
  * Create GeneratorFinder instance
@@ -36,7 +37,8 @@ class GeneratorFinderFactory
     public static function getInstance()
     {
         $fileManager = new FileManager();
+        $classAwake  = new ClassAwake();
 
-        return new GeneratorFinder($fileManager);
+        return new GeneratorFinder($fileManager, $classAwake);
     }
 }

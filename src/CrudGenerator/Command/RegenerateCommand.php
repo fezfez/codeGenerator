@@ -116,6 +116,10 @@ class RegenerateCommand extends Command
     {
         $historyCollection = $this->historyManager->findAll();
 
+        if(empty($historyCollection)) {
+            throw new RuntimeException('Empty history');
+        }
+
         $output->writeln('<question>History list</question>');
         $historyChoices = array();
         foreach ($historyCollection as $history) {

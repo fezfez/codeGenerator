@@ -85,7 +85,7 @@ class CreateCommand extends Command
     protected function configure()
     {
         $this->setName('CodeGenerator:create')
-             ->setDescription('Generate code based on database connection');
+             ->setDescription('Generate code based on metadata');
     }
 
     /**
@@ -98,9 +98,9 @@ class CreateCommand extends Command
     {
         $dialog     = $this->getHelperSet()->get('dialog');
 
-        $adapter    = $this->adapterQuestion($output, $dialog);
-        $metadata   = $this->entityQuestion($output, $dialog, $adapter);
-        $directory  = $this->moduleQuestion($output, $dialog);
+        $adapter    = $this->metaDataSourceQuestion($output, $dialog);
+        $metadata   = $this->metaDataQuestion($output, $dialog, $adapter);
+        $directory  = $this->directoryQuestion($output, $dialog);
         $generator  = $this->generatorQuestion($output, $dialog);
 
         $DTOName    = $generator->getDTO();
@@ -129,17 +129,18 @@ class CreateCommand extends Command
     }
 
     /**
-     * Ask wich adapter you want to use
+     * Ask wich MetaData Source you want to use
      *
      * @param OutputInterface $output
      * @param DialogHelper $dialog
      * @throws \InvalidArgumentException
      * @return MetaDataSource
      */
-    private function adapterQuestion(OutputInterface $output, DialogHelper $dialog)
+    private function metaDataSourceQuestion(OutputInterface $output, DialogHelper $dialog)
     {
         $adapterFinder      = MetaDataSourceFinderFactory::getInstance();
         $adaptersCollection = $adapterFinder->getAllAdapters();
+        $adaptersChoices    = array();
 
         foreach ($adaptersCollection as $adapter) {
             $falseDependencies = $adapter->getFalseDependencies();
@@ -166,14 +167,14 @@ class CreateCommand extends Command
     }
 
     /**
-     * Ask in wich module you want to write
+     * Ask in wich directory you want to write
      *
      * @param OutputInterface $output
      * @param DialogHelper $dialog
      * @throws \InvalidArgumentException
      * @return string
      */
-    private function moduleQuestion(OutputInterface $output, DialogHelper $dialog)
+    private function directoryQuestion(OutputInterface $output, DialogHelper $dialog)
     {
         try {
             ZendFramework2Environnement::getDependence(new FileManager());
@@ -226,7 +227,7 @@ class CreateCommand extends Command
      * @throws InvalidArgumentException
      * @return string
      */
-    private function entityQuestion(
+    private function metaDataQuestion(
         OutputInterface $output,
         DialogHelper $dialog,
         MetaDataSource $adapter

@@ -81,6 +81,7 @@ class ArchitectGenerator extends BaseCodeGenerator
         } else {
             $generateUnitTest = $DTO->getGenerateUnitTest();
         }
+
         if ($generateUnitTest == 'y') {
             $this->generateTestUnit($DTO, $entityName);
         }
