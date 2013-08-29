@@ -9,7 +9,7 @@ class RenderTest extends \PHPUnit_Framework_TestCase
 {
     public function testReturn()
     {
-        $viewRenderer = new ViewRenderer();
+        $viewRenderer = new ViewRenderer(array());
         $fileManager  = new FileManager();
 
         $SUT = new View($fileManager, $viewRenderer);
@@ -26,7 +26,7 @@ class RenderTest extends \PHPUnit_Framework_TestCase
 
     public function testFail()
     {
-        $viewRenderer = new ViewRenderer();
+        $viewRenderer = new ViewRenderer(array());
         $fileManager  = new FileManager();
 
         $SUT = new View($fileManager, $viewRenderer);

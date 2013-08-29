@@ -111,8 +111,8 @@ class CreateCommand extends Command
                    ->setMetaData($metadata);
 
         $output->writeln("<info>Resume</info>");
-        $output->writeln('<info>Entity : ' . $dataObject->getEntity(), '*</info>');
-        $output->writeln('<info>Module : ' . $dataObject->getModule(), '*</info>');
+        $output->writeln('<info>Metadata : ' . $dataObject->getEntity(), '*</info>');
+        $output->writeln('<info>Directory : ' . $dataObject->getModule(), '*</info>');
         $output->writeln("<info>Generator : " . $generator->getDefinition(), "*</info>");
 
         $doI = $dialog->askConfirmation(

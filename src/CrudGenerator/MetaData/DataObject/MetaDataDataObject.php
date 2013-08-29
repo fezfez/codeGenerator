@@ -97,9 +97,22 @@ abstract class MetaDataDataObject
      * Get column collection
      * @return MetaDataColumnDataObjectCollection
      */
-    public function getColumnCollection()
+    public function getColumnCollection($withoutIdentifier = false)
     {
-        return $this->columnCollection;
+        if ($withoutIdentifier === true) {
+            $tmpColumnCollection = array();
+
+            foreach ($this->columnCollection as $column) {
+                $name = $column->getName();
+                if (!in_array($name, $this->identifier)) {
+                    $tmpColumnCollection[] = $column;
+                }
+            }
+
+            return $tmpColumnCollection;
+        } else {
+            return $this->columnCollection;
+        }
     }
     /**
      * Get relation collection

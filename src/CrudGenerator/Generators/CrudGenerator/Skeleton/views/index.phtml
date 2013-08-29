@@ -3,29 +3,29 @@
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
-        <?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
-            <th><?php echo $metadata->getName(); ?></th>
+        <?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $metadata): ?>
+    <th><?php echo $metadata->getName(); ?></th>
         <?php endforeach; ?>
-            <th>Actions</th>
+    <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-    <?php echo '<?php foreach($this->entities as $entity): ?>'; ?>
+    <?php echo '<?php foreach($this->entities as $entity): ?>' . "\n"; ?>
         <tr>
-            <?php
+<?php
             $fieldsCollection = $this->dataObject->getMetadata()->getColumnCollection();
-            foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
-                <?php if($metadata == reset($fieldsCollection)): ?>
-                    <td><a href=""><?php echo '<?php echo $entity->get' . $field . '(); ?>'; ?></a></td>
-                <?php elseif(in_array($metadata->getType(), array("date", "datetime"))): ?>
-                    <td><?php echo '<?php echo $entity->get' . $field . '()->format(\'Y-m-d H:i:s\'); ?>'; ?></td>
-                <?php else: ?>
-                    <td><?php echo '<?php echo $entity->get' . $field . '(); ?>'; ?></td>
-                <?php endif; ?>
-                <?php if($metadata == end($fieldsCollection)): ?>
-                    <td>
-                        <?php echo $this->render(__DIR__ . '/others/', 'actions.phtml');  ?>
-                    </td>
+            foreach($this->dataObject->getMetadata()->getColumnCollection() as $metadata):
+                if($metadata == reset($fieldsCollection)): ?>
+            <td><a href=""><?php echo '<?php echo $entity->get' . $metadata->getName() . '(); ?>'; ?></a></td>
+<?php elseif(in_array($metadata->getType(), array("date", "datetime"))): ?>
+            <td><?php echo '<?php echo $entity->get' . $metadata->getName() . '()->format(\'Y-m-d H:i:s\'); ?>'; ?></td>
+<?php else: ?>
+            <td><?php echo '<?php echo $entity->get' . $metadata->getName() . '(); ?>'; ?></td>
+<?php endif;
+ if($metadata == end($fieldsCollection)): ?>
+            <td>
+<?php echo $this->render(__DIR__ . '/others/', 'actions.phtml'); ?>
+            </td>
                 <?php endif; ?>
            <?php endforeach; ?>
         </tr>

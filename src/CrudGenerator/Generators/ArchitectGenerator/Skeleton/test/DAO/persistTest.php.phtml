@@ -32,22 +32,14 @@ $fixtureRender = (function($metadata) use($loremIpsumGenerator) {
 
 $keyTestable = array();
 $keyToTest = null;
-$columnCollection = $this->dataObject->getMetadata()->getColumnCollection();
+$columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
 foreach($columnCollection as $field => $metadata):
-/*if(isset($metadata['id']) && $metadata['id'] == true) {
-    continue;
-}*/
 ?>
         $<?php echo $metadata->getName(); ?> = <?php echo $fixtureRender($metadata); ?>;
 <?php endforeach; ?>
 
         $dto = new <?php echo $this->dataObject->getEntityName(); ?>DataObject();
-        $dto<?php foreach($columnCollection as $field => $metadata): ?>
-<?php
-/*
-if(isset($metadata['id']) && $metadata['id'] == true) {
-    continue;
-}*/
+        $dto<?php foreach($columnCollection as $field => $metadata):
 if(null === $keyToTest) {
     $keyToTest = $metadata->getName();
 }
@@ -61,14 +53,8 @@ if(null === $keyToTest) {
         $entity = $em->getRepository('<?php echo $this->dataObject->getEntity(); ?>')->findOneBy(array('<?php echo $keyToTest; ?>' => $<?php echo $keyToTest; ?>));
 
 <?php
-$columnCollection = $this->dataObject->getMetadata()->getColumnCollection();
+$columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
 foreach($columnCollection as $field => $metadata): ?>
-<?php
-/*
-if(isset($metadata['id']) && $metadata['id'] == true) {
-    continue;
-}*/
-?>
         $this->assertEquals($<?php echo $metadata->getName(); ?>, $entity->get<?php echo ucfirst($metadata->getName()); ?>());
 <?php endforeach; ?>
     }

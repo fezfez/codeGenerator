@@ -24,15 +24,20 @@ class Abstract<?php echo $this->dataObject->getEntityName(); ?>Form
     /**
      * @var TreeRouteStack
      */
-    private $router = null;
+    private $router     = null;
 
     /**
      * @param <?php echo $this->dataObject->getEntityName(); ?>Form $form
      * @param ClassMethods $hydrator
      * @param Form $formHelper
+     * @param TreeRouteStack $router
      */
-    public function __construct(<?php echo $this->dataObject->getEntityName(); ?>Form $form, ClassMethods $hydrator, Form $formHelper, TreeRouteStack $router)
-    {
+    public function __construct(
+        <?php echo $this->dataObject->getEntityName(); ?>Form $form,
+        ClassMethods $hydrator,
+        Form $formHelper,
+        TreeRouteStack $router
+    ) {
         $this->form       = $form;
         $this->hydrator   = $hydrator;
         $this->formHelper = $formHelper;
@@ -86,6 +91,9 @@ class Abstract<?php echo $this->dataObject->getEntityName(); ?>Form
             $<?php echo $this->dataObject->getEntityName(); ?>DTO = clone $<?php echo $this->dataObject->getEntityName(); ?>DTO;
         }
 
-        return $this->hydrator->hydrate($this->form->getData(), $<?php echo $this->dataObject->getEntityName(); ?>DTO);
+        return $this->hydrator->hydrate(
+            $this->form->getData(),
+            $<?php echo $this->dataObject->getEntityName(); ?>DTO
+        );
     }
 }

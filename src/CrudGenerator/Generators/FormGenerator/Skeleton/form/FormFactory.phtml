@@ -10,17 +10,12 @@ use Zend\ServiceManager\ServiceManager;
 
 class <?php echo $this->dataObject->getEntityName(); ?>FormFactory
 {
-    private function __construct()
-    {
-
-    }
-
     /**
      * @return Abstract<?php echo $this->dataObject->getEntityName(); ?>Form
      */
-    public static function getInstance(ServiceManager $sm)
+    public static function getInstance(ServiceManager $serviceManager)
     {
-        $router = $sm->get('router');
+        $router = $serviceManager->get('router');
 
         $form = new <?php echo $this->dataObject->getEntityName(); ?>Form();
         $form->setInputFilter(new <?php echo $this->dataObject->getEntityName(); ?>FormFilter());
