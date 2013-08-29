@@ -58,7 +58,11 @@ class FileManager
      */
     public function fileGetContent($path)
     {
-        return file_get_contents($path);
+        $return = @file_get_contents($path);
+        if($return === false) {
+            throw new \RuntimeException(sprintf("Could't load content %s", $path));
+        }
+        return $return;
     }
 
     /**
