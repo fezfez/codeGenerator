@@ -40,7 +40,8 @@ class ClassAwake
             $interfaces      = $reflectionClass->getInterfaces();
 
             if (is_array($interfaces) && isset($interfaces[$interfaceNames])) {
-                $classes[] = $className;
+                $class = str_replace('\\', '', strrchr($className, '\\'));
+                $classes[$class] = $className;
             }
         }
 

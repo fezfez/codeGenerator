@@ -19,6 +19,7 @@ namespace CrudGenerator\Service;
 
 use CrudGenerator\Command\CreateCommand;
 use CrudGenerator\Command\RegenerateCommand;
+use CrudGenerator\Command\GeneratorSandBoxCommand;
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\DialogHelper;
@@ -44,7 +45,8 @@ class CliFactory
         $cli->addCommands(
             array(
                 new CreateCommand(),
-                new RegenerateCommand()
+                new RegenerateCommand(),
+                new GeneratorSandBoxCommand()
             )
         );
 

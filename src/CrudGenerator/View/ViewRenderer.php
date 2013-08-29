@@ -27,6 +27,18 @@ use CrudGenerator\View\ViewRendererException;
 class ViewRenderer
 {
     /**
+     * @var unknown_type
+     */
+    private $helpers = null;
+
+    /**
+     * @param unknown_type $helpers
+     */
+    public function __construct(array $helpers)
+    {
+        $this->helpers = $helpers;
+    }
+    /**
      * Interprete the file
      *
      * @param string $path
@@ -48,5 +60,17 @@ class ViewRenderer
         }
 
         return $content;
+    }
+
+    public function getHelper($name)
+    {
+        if (isset($this->helpers[$name])) {
+            $className = $this->helpers[$name];
+            return new $className();
+        } else {
+            throw new ViewRendererException(
+                'Helper ' . $name . ' does not exist'
+            );
+        }
     }
 }

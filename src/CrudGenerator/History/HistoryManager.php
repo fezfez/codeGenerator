@@ -57,7 +57,7 @@ class HistoryManager
             $this->fileManager->mkdir(self::HISTORY_PATH);
         }
 
-        $fileName = md5($dataObject->getEntity());
+        $fileName = md5($dataObject->getEntity() . $dataObject->getGenerator());
 
         if ($this->fileManager->isFile(self::HISTORY_PATH . $fileName)) {
             $this->fileManager->unlink(self::HISTORY_PATH . $fileName);
@@ -78,18 +78,10 @@ class HistoryManager
      */
     public function findAll()
     {
-        $previousDir = '.';
-        while (!$this->fileManager->isDir(self::HISTORY_PATH)) {
-            $dir = dirname(getcwd());
-
-            if ($previousDir === $dir) {
-                throw new EnvironnementResolverException(
-                    'Unable to locate "vendor"'
-                );
-            }
-
-            $previousDir = $dir;
-            chdir($dir);
+        if (!$this->fileManager->isDir(self::HISTORY_PATH)) {
+            throw new EnvironnementResolverException(
+                'Unable to locate "vendor"'
+            );
         }
 
         $historyCollection = new HistoryCollection();

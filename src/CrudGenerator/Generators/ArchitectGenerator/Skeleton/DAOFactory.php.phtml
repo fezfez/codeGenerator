@@ -7,19 +7,14 @@ use Zend\ServiceManager\ServiceManager;
 
 class <?php echo $this->dataObject->getEntityName(); ?>DAOFactory
 {
-    private function __construct()
-    {
-
-    }
-
     /**
      * @return <?php echo $this->dataObject->getNamespace(); ?>\DAO\<?php echo $this->dataObject->getEntityName(); ?>DAO
      */
-    public static function getInstance(ServiceManager $sm)
+    public static function getInstance(ServiceManager $serviceManager)
     {
-        $em       = $sm->get('doctrine.entitymanager.orm_default');
-        $hydrator = new <?php echo $this->dataObject->getEntityName(); ?>Hydrator();
+        $entityManager = $serviceManager->get('doctrine.entitymanager.orm_default');
+        $hydrator      = new <?php echo $this->dataObject->getEntityName(); ?>Hydrator();
 
-        return new <?php echo $this->dataObject->getEntityName(); ?>DAO($em, $hydrator);
+        return new <?php echo $this->dataObject->getEntityName(); ?>DAO($entityManager, $hydrator);
     }
 }
