@@ -173,7 +173,23 @@ abstract class BaseCodeGenerator
             array_merge($datas, $suppDatas)
         );
 
-        if ($this->fileManager->isFile($pathTo) && $this->fileManager->fileGetContent($pathTo) !== $results) {
+        if (get_class($this->fileManager) === 'CrudGenerator\Utils\FileManagerStub') {
+            $passed = true;
+            while($passed) {
+                try {
+                    $this->fileManager->filePutsContent($pathTo, $results);
+                    $passed = false;
+                } catch (\Exception $e) {
+                    $results = $this->view->render(
+                        $this->skeletonDir,
+                        $pathTemplate,
+                        array_merge($datas, $suppDatas)
+                    );
+                }
+            }
+
+            return true;
+        } elseif ($this->fileManager->isFile($pathTo) && $this->fileManager->fileGetContent($pathTo) !== $results) {
 
             while (true) {
                 $response = $this->dialog->select(

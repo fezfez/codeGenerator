@@ -91,8 +91,8 @@ class RegenerateCommand extends Command
         $crudGenerator = $this->codeGeneratorFactory->create($output, $dialog, $dataObject->getGenerator());
 
         $output->writeln("<info>Resume</info>");
-        $output->writeln('<info>Entity : ' . $dataObject->getEntity(), '*</info>');
-        $output->writeln('<info>Module : ' . $dataObject->getModule(), '*</info>');
+        $output->writeln('<info>Metadata : ' . $dataObject->getEntity(), '*</info>');
+        $output->writeln('<info>Directory : ' . $dataObject->getModule(), '*</info>');
         $output->writeln("<info>Generator : " . $crudGenerator->getDefinition(), "*</info>");
 
         $doI = $dialog->askConfirmation(
@@ -120,17 +120,15 @@ class RegenerateCommand extends Command
             throw new RuntimeException('Empty history');
         }
 
-        $output->writeln('<question>History list</question>');
         $historyChoices = array();
         foreach ($historyCollection as $history) {
-            $output->writeln('<comment>' . $history->getName() . '</comment>');
-            $historyChoices[$history->getName()] = $history;
+            $historyChoices[$history->getName() . ' ' . $history->getDataObject()->getGenerator()] = $history;
         }
 
         $historyKeysChoices = array_keys($historyChoices);
         $choice = $dialog->select(
             $output,
-            "History to regenerate \n> ",
+            "<question>History to regenerate</question> \n> ",
             $historyKeysChoices,
             0
         );

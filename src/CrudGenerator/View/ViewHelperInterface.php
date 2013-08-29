@@ -17,37 +17,11 @@
  */
 namespace CrudGenerator\View;
 
-use CrudGenerator\Utils\ClassAwake;
-
-use CrudGenerator\View\View;
-use CrudGenerator\View\ViewRenderer;
-use CrudGenerator\Utils\FileManager;
 
 /**
- * View manager factory
- *
  * @author Stéphane Demonchaux <demonchaux.stephane@gmail.com>
  */
-class ViewFactory
+interface ViewHelperInterface
 {
-    /**
-     * Build a View manager
-     *
-     * @return \CrudGenerator\View\ZendView
-     */
-    public static function getInstance()
-    {
-        $classAwake   = new ClassAwake();
-        $viewHelpers  = $classAwake->wakeByInterfaces(
-            array(
-                __DIR__ . '/../'
-            ),
-            'CrudGenerator\View\ViewHelperInterface'
-        );
 
-        $viewRenderer = new ViewRenderer($viewHelpers);
-        $fileManager  = new FileManager();
-
-        return new View($fileManager, $viewRenderer);
-    }
 }

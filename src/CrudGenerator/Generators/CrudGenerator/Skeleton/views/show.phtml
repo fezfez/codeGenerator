@@ -2,25 +2,16 @@
 
 <table class="record_properties">
     <tbody>
-     <?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
-
+<?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $metadata): ?>
         <tr>
             <th><?php echo $metadata->getName(); ?></th>
-
-        <?php if(in_array($metadata->getType(), array("date", "datetime"))): ?>
-
-            <?php echo '<?php echo $entity->get' . $field . '()->format(\'Y-m-d H:i:s\');' ?>'; ?>
-
-        <?php else: ?>
-
-            <td><?php echo '<?php echo $entity->get' . $field . '(); ?>'; ?></td>
-
-        <?php endif; ?>
-
+<?php if(in_array($metadata->getType(), array("date", "datetime"))): ?>
+            <?php echo '<?php echo $entity->get' . $metadata->getName() . '()->format(\'Y-m-d H:i:s\'); ?>'; ?>
+<?php else: ?>
+            <td><?php echo '<?php echo $entity->get' . $metadata->getName() . '(); ?>'; ?></td>
+<?php endif; ?>
         </tr>
-
-    <?php endforeach; ?>
-
+<?php endforeach; ?>
     </tbody>
 </table>
 <?php
