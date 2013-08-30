@@ -1,0 +1,101 @@
+<?php
+/**
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * This software consists of voluntary contributions made by many individuals
+ * and is licensed under the MIT license.
+ */
+namespace CrudGenerator\Command\Questions;
+
+use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
+use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
+use CrudGenerator\Utils\FileManager;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\DialogHelper;
+
+class DirectoryQuestion
+{
+    const BACK = 0;
+    const CURRENT_DIRECTORY = 1;
+    /**
+     * @var FileManager
+     */
+    private $fileManager = null;
+    /**
+     * @var OutputInterface
+     */
+    private $output = null;
+    /**
+     * @var DialogHelper
+     */
+    private $dialog = null;
+
+    /**
+     * @param FileManager $fileManager
+     * @param OutputInterface $output
+     * @param DialogHelper $dialog
+     */
+    public function __construct(FileManager $fileManager, OutputInterface $output, DialogHelper $dialog)
+    {
+        $this->fileManager = $fileManager;
+        $this->output = $output;
+        $this->dialog = $dialog;
+    }
+
+    /**
+     * Ask in wich directory you want to write
+     * @return string
+     */
+    public function ask()
+    {
+        try {
+            ZendFramework2Environnement::getDependence($this->fileManager);
+            $directory = 'module/';
+        } catch (EnvironnementResolverException $e) {
+            $directory = './';
+        }
+
+        $choice = null;
+        while ($choice != self::CURRENT_DIRECTORY) {
+            $directories = $this->fileManager->glob(
+                $directory . '*',
+                GLOB_ONLYDIR|GLOB_MARK
+            );
+            $modulesChoices = array_unshift(
+                $directories,
+                ' -> Back',
+                ' -> Chose actual directory'
+            );
+
+            $choice = $this->dialog->select(
+                $this->output,
+                "<question>Choose a target directory</question> \n> ",
+                $modulesChoices,
+                0
+            );
+
+            if ($choice == self::BACK) {
+                $directory = substr($directory, 0, -1);
+                $directory = str_replace(
+                    substr(strrchr($directory, "/"), 1),
+                    '',
+                    $directory
+                );
+            } elseif ($choice != self::CURRENT_DIRECTORY) {
+                $directory = $modulesChoices[$choice];
+            }
+        }
+
+        return $directory;
+    }
+}

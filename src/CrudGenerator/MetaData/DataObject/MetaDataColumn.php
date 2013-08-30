@@ -23,7 +23,7 @@ namespace CrudGenerator\MetaData\DataObject;
  *
  * @author Stéphane Demonchaux
  */
-class MetaDataColumnDataObject
+class MetaDataColumn
 {
     /**
      * @var string Column name
@@ -46,7 +46,7 @@ class MetaDataColumnDataObject
      * Set Column name
      *
      * @param string $value
-     * @return \CrudGenerator\MetaData\DataObject\MetaDataColumnDataObject
+     * @return \CrudGenerator\MetaData\DataObject\MetaDataColumn
      */
     public function setName($value)
     {
@@ -57,7 +57,7 @@ class MetaDataColumnDataObject
      * Set Column type
      *
      * @param string $value
-     * @return \CrudGenerator\MetaData\DataObject\MetaDataColumnDataObject
+     * @return \CrudGenerator\MetaData\DataObject\MetaDataColumn
      */
     public function setType($value)
     {
@@ -68,7 +68,7 @@ class MetaDataColumnDataObject
      * Set Column length
      *
      * @param integer $value
-     * @return \CrudGenerator\MetaData\DataObject\MetaDataColumnDataObject
+     * @return \CrudGenerator\MetaData\DataObject\MetaDataColumn
      */
     public function setLength($value)
     {
@@ -79,7 +79,7 @@ class MetaDataColumnDataObject
      * Set Column is nullable
      *
      * @param boolean $value
-     * @return \CrudGenerator\MetaData\DataObject\MetaDataColumnDataObject
+     * @return \CrudGenerator\MetaData\DataObject\MetaDataColumn
      */
     public function setNullable($value)
     {

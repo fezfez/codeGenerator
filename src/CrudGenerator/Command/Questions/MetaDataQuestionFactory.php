@@ -15,15 +15,25 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\DataObject;
+namespace CrudGenerator\Command\Questions;
 
-use ArrayObject;
+use CrudGenerator\MetaData\Config\MetaDataConfigReaderFactory;
+use CrudGenerator\MetaData\MetaDataSourceFactory;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\DialogHelper;
 
-/**
- * Metadata collection
- *
- * @author Stéphane Demonchaux
- */
-class MetaDataDataObjectCollection extends ArrayObject
+class MetaDataQuestionFactory
 {
+    /**
+     * @param OutputInterface $output
+     * @param DialogHelper $dialog
+     * @return \CrudGenerator\Command\Questions\MetaDataQuestion
+     */
+    public static function getInstance(DialogHelper $dialog, OutputInterface $output)
+    {
+        $metaDataConfigReader  = MetaDataConfigReaderFactory::getInstance($output, $dialog);
+        $metadataSourceFactory = new MetaDataSourceFactory();
+
+        return new MetaDataQuestion($metaDataConfigReader, $metadataSourceFactory, $output, $dialog);
+    }
 }

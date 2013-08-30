@@ -17,14 +17,13 @@
  */
 namespace CrudGenerator\Service;
 
-use CrudGenerator\Command\CreateCommand;
-use CrudGenerator\Command\RegenerateCommand;
-use CrudGenerator\Command\GeneratorSandBoxCommand;
+use CrudGenerator\Command\CreateCommandFactory;
+use CrudGenerator\Command\RegenerateCommandFactory;
+use CrudGenerator\Command\GeneratorSandBoxCommandFactory;
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Helper\FormatterHelper;
-
 /**
  * Create CLI instance
  *
@@ -37,23 +36,19 @@ class CliFactory
      *
      * @return \Symfony\Component\Console\Application
      */
-    public static function getInstance()
+    public static function getInstance($input, $output)
     {
-        $cli = new Application;
-        $cli->setName('Code Generator Command Line Interface');
+        $application  = new Application('Code Generator Command Line Interface', 'Alpha');
+        $dialogHelper = new DialogHelper();
 
-        $cli->addCommands(
+        $application->addCommands(
             array(
-                new CreateCommand(),
-                new RegenerateCommand(),
-                new GeneratorSandBoxCommand()
+                CreateCommandFactory::getInstance($dialogHelper, $output),
+                RegenerateCommandFactory::getInstance($dialogHelper, $output),
+                GeneratorSandBoxCommandFactory::getInstance($dialogHelper, $output)
             )
         );
 
-        $helperSet = $cli->getHelperSet();
-        $helperSet->set(new DialogHelper(), 'dialog');
-        $helperSet->set(new FormatterHelper(), 'formatter');
-
-        return $cli;
+        return $application;
     }
 }

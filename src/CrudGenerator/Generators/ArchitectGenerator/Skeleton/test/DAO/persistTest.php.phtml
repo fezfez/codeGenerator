@@ -7,9 +7,6 @@ use <?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this
 use <?php echo $this->dataObject->getNamespace(); ?>\Hydrator\<?php echo $this->dataObject->getEntityName(); ?>Hydrator;
 use <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\<?php echo $this->dataObject->getEntityName(); ?>Fixture;
 
-<?php
-    $loremIpsumGenerator = new \CrudGenerator\Utils\LoremIpsumGenerator();
-?>
 class persistTest extends \PHPUnit_Framework_TestCase
 {
     public function testPersist()
@@ -18,24 +15,13 @@ class persistTest extends \PHPUnit_Framework_TestCase
         $em = FixtureManager::getEm();
 
 <?php
-$fixtureRender = (function($metadata) use($loremIpsumGenerator) {
-    if($metadata->getType() == 'integer' || $metadata->getType() == 'float') {
-        return rand(0, 50);
-    } elseif($metadata->getType() == 'string') {
-        return '"' . substr($loremIpsumGenerator->getContent($metadata->getLength(), 'plain'), 0, $metadata->getLength()) . '"';
-    } elseif($metadata->getType() == 'date') {
-        return 'new DateTime()';
-    } elseif($metadata->getType() == 'bool') {
-        return 'true';
-    }
-});
 
 $keyTestable = array();
 $keyToTest = null;
 $columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
 foreach($columnCollection as $field => $metadata):
 ?>
-        $<?php echo $metadata->getName(); ?> = <?php echo $fixtureRender($metadata); ?>;
+        $<?php echo $metadata->getName(); ?> = <?php echo $this->getHelper('FixtureRenderer')->render($metadata); ?>;
 <?php endforeach; ?>
 
         $dto = new <?php echo $this->dataObject->getEntityName(); ?>DataObject();

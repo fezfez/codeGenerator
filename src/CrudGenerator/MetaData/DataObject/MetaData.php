@@ -17,24 +17,24 @@
  */
 namespace CrudGenerator\MetaData\DataObject;
 
-use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObject;
-use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObjectCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationColumnDataObject;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationDataObjectCollection;
+use CrudGenerator\MetaData\DataObject\MetaDataColumn;
+use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
+use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
+use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 
 /**
  * Base representation metadata for template generation
  *
  * @author Stéphane Demonchaux
  */
-abstract class MetaDataDataObject
+abstract class MetaData
 {
     /**
-     * @var MetaDataColumnDataObjectCollection Column collection
+     * @var MetaDataColumnCollection Column collection
      */
     private $columnCollection = null;
     /**
-     * @var MetaDataRelationDataObjectCollection Relation collection
+     * @var MetaDataRelationCollection Relation collection
      */
     private $relationCollection = null;
     /**
@@ -48,35 +48,35 @@ abstract class MetaDataDataObject
 
     /**
      * Base representation metadata for template generation
-     * @param MetaDataColumnDataObjectCollection $columnCollection
-     * @param MetaDataRelationDataObjectCollection $relationCollection
+     * @param MetaDataColumnCollection $columnCollection
+     * @param MetaDataRelationCollection $relationCollection
      */
     public function __construct(
-        MetaDataColumnDataObjectCollection $columnCollection,
-        MetaDataRelationDataObjectCollection $relationCollection
+        MetaDataColumnCollection $columnCollection,
+        MetaDataRelationCollection $relationCollection
     ) {
         $this->columnCollection   = $columnCollection;
         $this->relationCollection = $relationCollection;
     }
     /**
      * Append column dataobject
-     * @param MetaDataColumnDataObject $value
+     * @param MetaDataColumn $value
      */
-    public function appendColumn(MetaDataColumnDataObject $value)
+    public function appendColumn(MetaDataColumn $value)
     {
         $this->columnCollection->append($value);
     }
     /**
      * Append relation dataobject
-     * @param MetaDataRelationColumnDataObject $value
+     * @param MetaDataRelationColumn $value
      */
-    public function appendRelation(MetaDataRelationColumnDataObject $value)
+    public function appendRelation(MetaDataRelationColumn $value)
     {
         $this->relationCollection->append($value);
     }
     /**
      * Add identifier
-     * @param MetaDataRelationColumnDataObject $value
+     * @param MetaDataRelationColumn $value
      */
     public function addIdentifier($value)
     {
@@ -95,7 +95,7 @@ abstract class MetaDataDataObject
 
     /**
      * Get column collection
-     * @return MetaDataColumnDataObjectCollection
+     * @return MetaDataColumnCollection
      */
     public function getColumnCollection($withoutIdentifier = false)
     {
@@ -116,7 +116,7 @@ abstract class MetaDataDataObject
     }
     /**
      * Get relation collection
-     * @return MetaDataRelationColumnDataObject
+     * @return MetaDataRelationColumn
      */
     public function getRelationCollection()
     {

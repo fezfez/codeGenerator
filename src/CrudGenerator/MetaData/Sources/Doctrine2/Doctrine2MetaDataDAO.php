@@ -19,11 +19,11 @@ namespace CrudGenerator\MetaData\Sources\Doctrine2;
 
 use CrudGenerator\MetaData\Sources\MetaDataDAOInterface;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationColumnDataObject;
-use CrudGenerator\MetaData\DataObject\MetaDataDataObjectCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObjectCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObject;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationDataObjectCollection;
+use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
+use CrudGenerator\MetaData\DataObject\MetaDataCollection;
+use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
+use CrudGenerator\MetaData\DataObject\MetaDataColumn;
+use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -49,7 +49,7 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
     /**
      * Getting all medata from aviable entities
      *
-     * @return MetaDataDataObjectCollection
+     * @return MetaDataCollection
      */
     public function getAllMetadata()
     {
@@ -75,14 +75,14 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
      * Transform a doctrine2 metadata into generator metadata
      *
      * @param array $metadataCollection array of metadata
-     * @return MetaDataDataObjectCollection
+     * @return MetaDataCollection
      */
     private function doctrine2MetadataToGeneratorMetadata(array $metadataCollection)
     {
-        $metaDataCollection = new MetaDataDataObjectCollection();
+        $metaDataCollection = new MetaDataCollection();
         $dataObject = new MetadataDataObjectDoctrine2(
-            new MetaDataColumnDataObjectCollection(),
-            new MetaDataRelationDataObjectCollection()
+            new MetaDataColumnCollection(),
+            new MetaDataRelationCollection()
         );
 
         foreach ($metadataCollection as $metadata) {
@@ -103,11 +103,11 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
     private function hydrateDataObject(\Doctrine\ORM\Mapping\ClassMetadataInfo $metadata)
     {
         $dataObject = new MetadataDataObjectDoctrine2(
-            new MetaDataColumnDataObjectCollection(),
-            new MetaDataRelationDataObjectCollection()
+            new MetaDataColumnCollection(),
+            new MetaDataRelationCollection()
         );
-        $columnDataObject = new MetaDataColumnDataObject();
-        $relationDataObject = new MetaDataRelationColumnDataObject();
+        $columnDataObject = new MetaDataColumn();
+        $relationDataObject = new MetaDataRelationColumn();
 
         foreach ($metadata->identifier as $identifier) {
             $dataObject->addIdentifier($identifier);

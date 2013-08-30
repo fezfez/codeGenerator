@@ -1,17 +1,17 @@
 <?php
-namespace CrudGenerator\Tests\General\MetaData\DataObject\MetaDataRelationColumnDataObject;
+namespace CrudGenerator\Tests\General\MetaData\DataObject\MetaDataRelationColumn;
 
 use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
-use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObjectCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationDataObjectCollection;
+use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
+use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 
 class GetCamelNameTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
         $sUT = new MetadataDataObjectPDO(
-            new MetaDataColumnDataObjectCollection(),
-            new MetaDataRelationDataObjectCollection()
+            new MetaDataColumnCollection(),
+            new MetaDataRelationCollection()
         );
 
         $sUT->setName('many_to_many');

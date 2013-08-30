@@ -13,7 +13,7 @@ class GetAllMetadataTest extends \PHPUnit_Framework_TestCase
         $suT = PDOMetaDataDAOFactory::getInstance($pdoConfig);
 
         $this->assertInstanceOf(
-            'CrudGenerator\MetaData\DataObject\MetaDataDataObjectCollection',
+            'CrudGenerator\MetaData\DataObject\MetaDataCollection',
             $suT->getAllMetadata()
         );
     }

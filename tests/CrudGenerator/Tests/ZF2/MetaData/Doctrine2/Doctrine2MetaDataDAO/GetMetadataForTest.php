@@ -31,11 +31,11 @@ class GetMetadataForTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertInstanceOf(
-            'CrudGenerator\MetaData\DataObject\MetaDataColumnDataObjectCollection',
+            'CrudGenerator\MetaData\DataObject\MetaDataColumnCollection',
             $metadata->getColumnCollection()
         );
         $this->assertInstanceOf(
-            'CrudGenerator\MetaData\DataObject\MetaDataRelationDataObjectCollection',
+            'CrudGenerator\MetaData\DataObject\MetaDataRelationCollection',
             $metadata->getRelationCollection()
         );
 

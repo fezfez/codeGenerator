@@ -22,7 +22,7 @@ namespace CrudGenerator\MetaData\DataObject;
  *
  * @author Stéphane Demonchaux
  */
-class MetaDataRelationColumnDataObject
+class MetaDataRelationColumn
 {
     /**
      * @var string Full name (ex: Test\My\Metadata)
@@ -40,7 +40,7 @@ class MetaDataRelationColumnDataObject
     /**
      * Set full name
      * @param string $value
-     * @return \CrudGenerator\MetaData\DataObject\MetaDataRelationColumnDataObject
+     * @return \CrudGenerator\MetaData\DataObject\MetaDataRelationColumn
      */
     public function setFullName($value)
     {
@@ -50,7 +50,7 @@ class MetaDataRelationColumnDataObject
     /**
      * Set name
      * @param string $value
-     * @return \CrudGenerator\MetaData\DataObject\MetaDataRelationColumnDataObject
+     * @return \CrudGenerator\MetaData\DataObject\MetaDataRelationColumn
      */
     public function setFieldName($value)
     {
@@ -60,7 +60,7 @@ class MetaDataRelationColumnDataObject
     /**
      * Set association type
      * @param string $value
-     * @return \CrudGenerator\MetaData\DataObject\MetaDataRelationColumnDataObject
+     * @return \CrudGenerator\MetaData\DataObject\MetaDataRelationColumn
      */
     public function setAssociationType($value)
     {
