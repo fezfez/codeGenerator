@@ -1,0 +1,27 @@
+#Package
+package:
+  #Package name, should be specified even if folter is set to false
+  Logiciel:
+    #Enable packaging, this generators will be call in a packaged repertory
+    PackageFolder: true
+    #Beginning of the generators datas 
+    module:
+      #Name
+      Tarif:
+        #Options for the generators, somes options may not be available for all generators or backends
+        options: cache
+        properties:
+          id:
+            type: integer
+            options: 
+              pk: true
+              nullable: false
+          logiciel:
+            type: integer
+            options:
+              nullable: false
+              relation: oneToOne
+              targetRelation: logiciel
+          tarif:
+            type: float
+    Generators: CrudGenerator, UTGenerator, ModelGenerator-
