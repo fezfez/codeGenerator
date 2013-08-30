@@ -15,15 +15,33 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\DataObject;
+namespace CrudGenerator\Command;
 
-use ArrayObject;
+use CrudGenerator\Generators\CodeGeneratorFactory;
+use CrudGenerator\Command\Questions\HistoryQuestionFactory;
+use CrudGenerator\Command\RegenerateCommand;
+
+use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Output\OutputInterface;
+
 
 /**
- * Metadata column collection
+ * Regenerate command factory
  *
  * @author Stéphane Demonchaux
  */
-class MetaDataColumnDataObjectCollection extends ArrayObject
+class RegenerateCommandFactory
 {
+    /**
+     * @param DialogHelper $dialog
+     * @param OutputInterface $output
+     * @return \CrudGenerator\Command\RegenerateCommand
+     */
+    public static function getInstance(DialogHelper $dialog, OutputInterface $output)
+    {
+        $historyQuestion      = HistoryQuestionFactory::getInstance($dialog, $output);
+        $codeGeneratorFactory = new CodeGeneratorFactory();
+
+        return new RegenerateCommand($dialog, $historyQuestion, $codeGeneratorFactory);
+    }
 }

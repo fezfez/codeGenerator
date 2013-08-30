@@ -17,13 +17,13 @@
  */
 namespace CrudGenerator\MetaData\Sources\PDO;
 
-use CrudGenerator\MetaData\DataObject\MetaDataDataObject;
+use CrudGenerator\MetaData\DataObject\MetaData;
 
 /**
  * Base representation metadata for template generation
  *
  * @author Stéphane Demonchaux
  */
-class MetadataDataObjectPDO extends MetaDataDataObject
+class MetadataDataObjectPDO extends MetaData
 {
 }

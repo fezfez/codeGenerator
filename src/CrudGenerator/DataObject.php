@@ -17,7 +17,7 @@
  */
 namespace CrudGenerator;
 
-use CrudGenerator\MetaData\DataObject\MetaDataDataObject;
+use CrudGenerator\MetaData\DataObject\MetaData;
 
 /**
  * Base representation for template generation
@@ -35,7 +35,7 @@ abstract class DataObject
      */
     private $entity          = null;
     /**
-     * @var MetaDataDataObject Metadata object
+     * @var MetaData Metadata object
      */
     private $metadata        = null;
     /**
@@ -69,10 +69,10 @@ abstract class DataObject
     }
     /**
      * Set MetaData
-     * @param MetaDataDataObject $value
+     * @param MetaData $value
      * @return \CrudGenerator\DataObject
      */
-    public function setMetadata(MetaDataDataObject $value)
+    public function setMetadata(MetaData $value)
     {
         $this->metadata = $value;
         return $this;
@@ -146,7 +146,7 @@ abstract class DataObject
     }
     /**
      * Get MetaData
-     * @return \CrudGenerator\MetaData\DataObject\MetaDataDataObject
+     * @return \CrudGenerator\MetaData\DataObject\MetaData
      */
     public function getMetadata()
     {

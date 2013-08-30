@@ -27,7 +27,7 @@ interface MetaDataDAOInterface
     /**
      * Get all metadata from the concrete metadata DAO
      *
-     * @return \CrudGenerator\MetaData\MetaDataDataObjectCollection
+     * @return \CrudGenerator\MetaData\DataObject\MetaDataCollection
      */
     public function getAllMetadata();
 
@@ -35,7 +35,7 @@ interface MetaDataDAOInterface
      * Get particularie metadata from the concrete metadata DAO
      *
      * @param string $entityName
-     * @return \CrudGenerator\MetaData\MetaDataDataObject
+     * @return \CrudGenerator\MetaData\DataObject\MetaData
      */
     public function getMetadataFor($entityName);
 }

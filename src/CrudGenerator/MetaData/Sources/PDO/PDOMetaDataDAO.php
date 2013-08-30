@@ -22,10 +22,10 @@ use CrudGenerator\MetaData\Sources\PDO\PDOConfig;
 use CrudGenerator\MetaData\Sources\PDO\SqlManager;
 use CrudGenerator\MetaData\Sources\MetaDataDAOInterface;
 use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
-use CrudGenerator\MetaData\DataObject\MetaDataDataObjectCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObjectCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObject;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationDataObjectCollection;
+use CrudGenerator\MetaData\DataObject\MetaDataCollection;
+use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
+use CrudGenerator\MetaData\DataObject\MetaDataColumn;
+use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 
 /**
  * PDO adapter
@@ -61,7 +61,7 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
     /**
      * Get all metadata from PDO
      *
-     * @return \CrudGenerator\MetaData\MetaDataDataObjectCollection
+     * @return \CrudGenerator\MetaData\MetaDataCollection
      */
     public function getAllMetadata()
     {
@@ -81,14 +81,14 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
     /**
      * Convert PDOmapping to CrudGenerator mapping
      * @param array $metadataCollection
-     * @return \CrudGenerator\MetaData\DataObject\MetaDataDataObjectCollection
+     * @return \CrudGenerator\MetaData\DataObject\MetaDataCollection
      */
     private function pdoMetadataToGeneratorMetadata(array $metadataCollection)
     {
-        $metaDataCollection = new MetaDataDataObjectCollection();
+        $metaDataCollection = new MetaDataCollection();
         $dataObject = new MetadataDataObjectPDO(
-            new MetaDataColumnDataObjectCollection(),
-            new MetaDataRelationDataObjectCollection()
+            new MetaDataColumnCollection(),
+            new MetaDataRelationCollection()
         );
 
         foreach ($metadataCollection as $metadata) {
@@ -108,11 +108,11 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
     private function hydrateDataObject($tableName)
     {
         $dataObject = new MetadataDataObjectPDO(
-            new MetaDataColumnDataObjectCollection(),
-            new MetaDataRelationDataObjectCollection()
+            new MetaDataColumnCollection(),
+            new MetaDataRelationCollection()
         );
         $dataObject->setName($tableName);
-        $columnDataObject = new MetaDataColumnDataObject();
+        $columnDataObject = new MetaDataColumn();
 
         $statement = $this->pdo->prepare($this->sqlManager->listFieldsQuery($this->pdoConfig->getType()));
         $statement->execute(array($tableName));

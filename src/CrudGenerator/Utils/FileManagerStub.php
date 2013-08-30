@@ -135,7 +135,7 @@ class FileManagerStub extends FileManager
      * Glob dir
      * @param string $dir Dir path
      */
-    public function glob($dir)
+    public function glob($dir, $params = null)
     {
         $this->output->writeln("<info>[LOG] glob $dir</info>");
     }

@@ -17,28 +17,16 @@
  */
 namespace CrudGenerator\Command;
 
-use CrudGenerator\MetaData\MetaDataSource;
-
-use CrudGenerator\Generators\CodeGeneratorFactory;
-use CrudGenerator\DataObject;
-use CrudGenerator\Utils\FileManager;
-use CrudGenerator\MetaData\Config\MetaDataConfigReaderFactory;
-use CrudGenerator\MetaData\Config\MetaDataConfigReader;
-use CrudGenerator\MetaData\MetaDataSourceFinderFactory;
-use CrudGenerator\Generators\GeneratorFinderFactory;
-use CrudGenerator\History\HistoryFactory;
 use CrudGenerator\History\HistoryManager;
-use CrudGenerator\MetaData\DataObject\MetaDataDataObjectCollection;
-use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
-use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
+use CrudGenerator\Command\Questions\MetaDataSourcesQuestion;
+use CrudGenerator\Command\Questions\DirectoryQuestion;
+use CrudGenerator\Command\Questions\MetaDataQuestion;
+use CrudGenerator\Command\Questions\GeneratorQuestion;
 
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
-
-use RuntimeException;
-use InvalidArgumentException;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Generator command
@@ -48,35 +36,60 @@ use InvalidArgumentException;
 class CreateCommand extends Command
 {
     /**
+     * @var DialogHelper
+     */
+    private $dialog = null;
+    /**
+     * @var OutputInterface
+     */
+    private $output = null;
+    /**
      * @var HistoryManager
      */
     private $historyManager = null;
     /**
-     * @var CodeGeneratorFactory
+     * @var MetaDataSourcesQuestion
      */
-    private $codeGeneratorFactory = null;
+    private $metaDataSourcesQuestion = null;
     /**
-     * @var MetadataConfigReader
+     * @var DirectoryQuestion
      */
-    private $metadataConfigReader = null;
+    private $directoryQuestion = null;
+    /**
+     * @var MetaDataQuestion
+     */
+    private $metaDataQuestion = null;
+    /**
+     * @var GeneratorQuestion
+     */
+    private $generatorQuestion = null;
 
     /**
-     * @param string $name
+     * @param DialogHelper $dialog
+     * @param OutputInterface $output
      * @param HistoryManager $historyManager
-     * @param CodeGeneratorFactory $codeGeneratorFactory
-     * @param MetadataConfigReader $metadataConfigReader
+     * @param MetaDataSourcesQuestion $metaDataSourcesQuestion
+     * @param DirectoryQuestion $directoryQuestion
+     * @param MetaDataQuestion $metaDataQuestion
+     * @param GeneratorQuestion $generatorQuestion
      */
     public function __construct(
-        $name = null,
-        HistoryManager $historyManager = null,
-        CodeGeneratorFactory $codeGeneratorFactory = null,
-        MetaDataConfigReader $metadataConfigReader = null
+        DialogHelper $dialog,
+        OutputInterface $output,
+        HistoryManager $historyManager,
+        MetaDataSourcesQuestion $metaDataSourcesQuestion,
+        DirectoryQuestion $directoryQuestion,
+        MetaDataQuestion $metaDataQuestion,
+        GeneratorQuestion $generatorQuestion
     ) {
-        $this->historyManager = (null === $historyManager) ? HistoryFactory::getInstance() : $historyManager;
-        $this->codeGeneratorFactory = (null === $codeGeneratorFactory) ?
-                                        new CodeGeneratorFactory() : $codeGeneratorFactory;
-        $this->metadataConfigReader = $metadataConfigReader;
-        parent::__construct($name);
+        parent::__construct('create');
+        $this->dialog = $dialog;
+        $this->output = $output;
+        $this->historyManager = $historyManager;
+        $this->metaDataSourcesQuestion = $metaDataSourcesQuestion;
+        $this->directoryQuestion = $directoryQuestion;
+        $this->metaDataQuestion = $metaDataQuestion;
+        $this->generatorQuestion = $generatorQuestion;
     }
     /**
      * (non-PHPdoc)
@@ -88,20 +101,12 @@ class CreateCommand extends Command
              ->setDescription('Generate code based on metadata');
     }
 
-    /**
-     * (non-PHPdoc)
-     * @see Symfony\Component\Console\Command.Command::execute()
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog     = $this->getHelperSet()->get('dialog');
-
-        $adapter    = $this->metaDataSourceQuestion($output, $dialog);
-        $metadata   = $this->metaDataQuestion($output, $dialog, $adapter);
-        $directory  = $this->directoryQuestion($output, $dialog);
-        $generator  = $this->generatorQuestion($output, $dialog);
+        $directory  = $this->directoryQuestion->ask();
+        $adapter    = $this->metaDataSourcesQuestion->ask();
+        $metadata   = $this->metaDataQuestion->ask($adapter);
+        $generator  = $this->generatorQuestion->ask();
 
         $DTOName    = $generator->getDTO();
 
@@ -110,13 +115,13 @@ class CreateCommand extends Command
                    ->setModule($directory)
                    ->setMetaData($metadata);
 
-        $output->writeln("<info>Resume</info>");
-        $output->writeln('<info>Metadata : ' . $dataObject->getEntity(), '*</info>');
-        $output->writeln('<info>Directory : ' . $dataObject->getModule(), '*</info>');
-        $output->writeln("<info>Generator : " . $generator->getDefinition(), "*</info>");
+        $this->output->writeln("<info>Resume</info>");
+        $this->output->writeln('<info>Metadata : ' . $dataObject->getEntity(), '*</info>');
+        $this->output->writeln('<info>Directory : ' . $dataObject->getModule(), '*</info>');
+        $this->output->writeln("<info>Generator : " . $generator->getDefinition(), "*</info>");
 
-        $doI = $dialog->askConfirmation(
-            $output,
+        $doI = $this->dialog->askConfirmation(
+            $this->output,
             "\n<question>Do you confirm generation (may others question generator ask you) ?</question> "
         );
 
@@ -124,142 +129,7 @@ class CreateCommand extends Command
             $dataObject = $generator->generate($dataObject);
             $this->historyManager->create($dataObject);
         } else {
-            throw new RuntimeException('Command aborted');
+            throw new \RuntimeException('Command aborted');
         }
-    }
-
-    /**
-     * Ask wich MetaData Source you want to use
-     *
-     * @param OutputInterface $output
-     * @param DialogHelper $dialog
-     * @throws \InvalidArgumentException
-     * @return MetaDataSource
-     */
-    private function metaDataSourceQuestion(OutputInterface $output, DialogHelper $dialog)
-    {
-        $adapterFinder      = MetaDataSourceFinderFactory::getInstance();
-        $adaptersCollection = $adapterFinder->getAllAdapters();
-        $adaptersChoices    = array();
-
-        foreach ($adaptersCollection as $adapter) {
-            $falseDependencies = $adapter->getFalseDependencies();
-
-            if (!empty($falseDependencies)) {
-                $output->writeln(
-                    '<error>Dependencies not complet for use adapter "' . $adapter->getName() . '" caused by</error>'
-                );
-                $output->writeln('<error> * ' . $falseDependencies . '</error>');
-            } else {
-                $adaptersChoices[$adapter->getDefinition()] = $adapter;
-            }
-        }
-
-        $adaptersKeysChoices = array_keys($adaptersChoices);
-        $choice = $dialog->select(
-            $output,
-            "<question>Choose an adapter</question> \n> ",
-            $adaptersKeysChoices,
-            0
-        );
-
-        return $adaptersChoices[$adaptersKeysChoices[$choice]];
-    }
-
-    /**
-     * Ask in wich directory you want to write
-     *
-     * @param OutputInterface $output
-     * @param DialogHelper $dialog
-     * @throws \InvalidArgumentException
-     * @return string
-     */
-    private function directoryQuestion(OutputInterface $output, DialogHelper $dialog)
-    {
-        try {
-            ZendFramework2Environnement::getDependence(new FileManager());
-            $modulesChoices = glob('module/*');
-        } catch (EnvironnementResolverException $e) {
-            $modulesChoices = glob('*');
-        }
-
-        $choice = $dialog->select(
-            $output,
-            "<question>Choose a target directory</question> \n> ",
-            $modulesChoices,
-            0
-        );
-
-        return $modulesChoices[$choice];
-    }
-
-    /**
-     * Ask wich generator you want to use
-     *
-     * @param OutputInterface $output
-     * @param DialogHelper $dialog
-     * @throws \InvalidArgumentException
-     * @return \CrudGenerator\Generators\BaseCodeGenerator
-     */
-    private function generatorQuestion(OutputInterface $output, DialogHelper $dialog)
-    {
-        $crudFinder = GeneratorFinderFactory::getInstance();
-        $generatorCollection = $crudFinder->getAllClasses();
-
-        foreach ($generatorCollection as $generatorClassName) {
-            $generator = $this->codeGeneratorFactory->create($output, $dialog, $generatorClassName);
-            $generatorsChoices[$generator->getDefinition()] = $generator;
-        }
-
-        $generatorKeysChoices = array_keys($generatorsChoices);
-
-        $choice = $dialog->select($output, "Choose a generators \n> ", $generatorKeysChoices, 0);
-
-        return $generatorsChoices[$generatorKeysChoices[$choice]];
-    }
-
-    /**
-     * Ask wich metadata you want to use
-     *
-     * @param OutputInterface $output
-     * @param DialogHelper $dialog
-     * @param MetaDataSource $adapter
-     * @throws InvalidArgumentException
-     * @return string
-     */
-    private function metaDataQuestion(
-        OutputInterface $output,
-        DialogHelper $dialog,
-        MetaDataSource $adapter
-    ) {
-
-        $adapterConfig       = $adapter->getConfig();
-
-        if(null === $this->metadataConfigReader) {
-            $this->metadataConfigReader = MetaDataConfigReaderFactory::getInstance($output, $dialog);
-        }
-
-        $adapterFactory    = $adapter->getFactory();
-
-        if (null !== $adapterConfig) {
-            $adapterConfig = $this->metadataConfigReader->config($adapterConfig);
-            $adapterDAO    = $adapterFactory::getInstance($adapterConfig);
-        } else {
-            $adapterDAO = $adapterFactory::getInstance();
-        }
-
-        $entityChoices = array();
-        foreach ($adapterDAO->getAllMetadata() as $class) {
-            $entityChoices[] = $class->getName();
-        }
-
-        $choice = $dialog->select(
-            $output,
-            "<question>Full namespace Metadata</question> \n> ",
-            $entityChoices,
-            0
-        );
-
-        return $adapterDAO->getMetadataFor($entityChoices[$choice]);
     }
 }

@@ -116,8 +116,8 @@ class FileManager
      * Glob dir
      * @param string $dir Dir path
      */
-    public function glob($dir)
+    public function glob($dir, $params = null)
     {
-        return glob($dir);
+        return glob($dir, $params);
     }
 }

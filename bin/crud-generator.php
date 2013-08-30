@@ -47,5 +47,7 @@ if(!is_writable('data/crudGenerator/Config')) {
     throw new Exception('data/crudGenerator/Config is not writable');
 }
 
-$cli = CrudGenerator\Service\CliFactory::getInstance();
-$cli->run();
+$input = new Symfony\Component\Console\Input\ArgvInput();
+$output = new Symfony\Component\Console\Output\ConsoleOutput();
+$cli = CrudGenerator\Service\CliFactory::getInstance($input, $output);
+$cli->run($input, $output);

@@ -15,48 +15,43 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
+
+
+
+
 namespace CrudGenerator\Command;
 
-use CrudGenerator\Generators\CodeGeneratorFactory;
-use CrudGenerator\DataObject;
-use CrudGenerator\Utils\FileManagerStub;
-use CrudGenerator\MetaData\Config\MetaDataConfigReaderFactory;
-use CrudGenerator\MetaData\MetaDataSourceFinderFactory;
-use CrudGenerator\Generators\GeneratorFinderFactory;
-
-use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObject;
+use CrudGenerator\Command\Questions\GeneratorQuestion;
+use CrudGenerator\MetaData\DataObject\MetaDataColumn;
+use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
+use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
-use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObjectCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationColumnDataObject;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationDataObjectCollection;
-
-use CrudGenerator\View\ViewFactory;
-use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Generators\GeneriqueQuestions;
-use CrudGenerator\Utils\DiffPHP;
-use Symfony\Component\Console\Helper\DialogHelper;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\DialogHelper;
 
-use RuntimeException;
-use InvalidArgumentException;
 
 /**
- * Regenerate command
+ * generator-sand-box command
  *
  * @author Stéphane Demonchaux
  */
 class GeneratorSandBoxCommand extends Command
 {
     /**
-     * @param string $name
+     * @var GeneratorQuestion
      */
-    public function __construct(
-        $name = null
-    ) {
-        parent::__construct($name);
+    private $generatorQuestion = null;
+
+    /**
+     * @param GeneratorQuestion $generatorQuestion
+     */
+    public function __construct(GeneratorQuestion $generatorQuestion)
+    {
+        $this->generatorQuestion = $generatorQuestion;
+        parent::__construct('CodeGenerator:generator-sand-box');
     }
     /**
      * (non-PHPdoc)
@@ -78,40 +73,44 @@ class GeneratorSandBoxCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog     = $this->getHelperSet()->get('dialog');
-        $generator  = $this->generatorQuestion($output, $dialog);
+        $generator = $this->generatorQuestion->ask();
+        $metadata  = $this->buildFakeMetaData();
+        $DTOName   = $generator->getDTO();
 
-        $view              = ViewFactory::getInstance();
-        $fileManager       = new FileManagerStub($dialog, $output);
-        $generiqueQuestion = new GeneriqueQuestions($dialog, $output, $fileManager);
-        $diffPHP           = new DiffPHP();
+        $dataObject = new $DTOName();
+        $dataObject->setEntity($metadata->getName())
+                   ->setModule('data')
+                   ->setMetaData($metadata);
 
-        $DTOName        = $generator->getDTO();
-        $generatorClass = get_class($generator);
+        $generator->generate($dataObject);
+    }
 
-        $generator = new $generatorClass($view, $output, $fileManager, $dialog, $generiqueQuestion, $diffPHP);
-
+    /**
+     * @return MetadataDataObjectDoctrine2
+     */
+    private function buildFakeMetaData()
+    {
         $metadata = new MetadataDataObjectDoctrine2(
-            new MetaDataColumnDataObjectCollection(),
-            new MetaDataRelationDataObjectCollection()
+            new MetaDataColumnCollection(),
+            new MetaDataRelationCollection()
         );
 
-        $column = new MetaDataColumnDataObject();
+        $column = new MetaDataColumn();
         $column->setName('id')
-               ->setNullable(true)
-               ->setType('integer')
-               ->setLength('100');
+        ->setNullable(true)
+        ->setType('integer')
+        ->setLength('100');
 
         $metadata->addIdentifier('id');
         $metadata->setName('toto');
 
-        $column = new MetaDataColumnDataObject();
+        $column = new MetaDataColumn();
         $column->setName('tetze')
-               ->setNullable(true)
-               ->setType('integer')
-               ->setLength('100');
+        ->setNullable(true)
+        ->setType('integer')
+        ->setLength('100');
 
-        $column = new MetaDataColumnDataObject();
+        $column = new MetaDataColumn();
         $column->setName('myDate')
         ->setNullable(true)
         ->setType('date')
@@ -119,39 +118,6 @@ class GeneratorSandBoxCommand extends Command
 
         $metadata->appendColumn($column);
 
-
-        $dataObject = new $DTOName();
-        $dataObject->setEntity($metadata->getName())
-                   ->setModule('data')
-                   ->setMetaData($metadata);
-
-        $dataObject = $generator->generate($dataObject);
-    }
-
-    /**
-     * Ask wich generator you want to use
-     *
-     * @param OutputInterface $output
-     * @param DialogHelper $dialog
-     * @throws \InvalidArgumentException
-     * @return \CrudGenerator\Generators\BaseCodeGenerator
-     */
-    private function generatorQuestion(OutputInterface $output, DialogHelper $dialog)
-    {
-        $crudFinder = GeneratorFinderFactory::getInstance();
-        $generatorCollection = $crudFinder->getAllClasses();
-
-        $codeGenerator = new CodeGeneratorFactory();
-
-        foreach ($generatorCollection as $generatorClassName) {
-            $generator = $codeGenerator->create($output, $dialog, $generatorClassName);
-            $generatorsChoices[$generator->getDefinition()] = $generator;
-        }
-
-        $generatorKeysChoices = array_keys($generatorsChoices);
-
-        $choice = $dialog->select($output, "Choose a generators \n> ", $generatorKeysChoices, 0);
-
-        return $generatorsChoices[$generatorKeysChoices[$choice]];
+        return $metadata;
     }
 }

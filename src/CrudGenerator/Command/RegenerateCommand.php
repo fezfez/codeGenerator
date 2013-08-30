@@ -18,20 +18,12 @@
 namespace CrudGenerator\Command;
 
 use CrudGenerator\Generators\CodeGeneratorFactory;
-use CrudGenerator\DataObject;
-use CrudGenerator\Utils\FileManager;
-use CrudGenerator\MetaData\Config\MetaDataConfigReaderFactory;
-use CrudGenerator\MetaData\MetaDataSourceFinderFactory;
-use CrudGenerator\Generators\GeneratorFinderFactory;
-use CrudGenerator\History\HistoryFactory;
-use CrudGenerator\History\HistoryManager;
+use CrudGenerator\Command\Questions\HistoryQuestion;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-
-use RuntimeException;
-use InvalidArgumentException;
+use Symfony\Component\Console\Helper\DialogHelper;
 
 /**
  * Regenerate command
@@ -41,28 +33,32 @@ use InvalidArgumentException;
 class RegenerateCommand extends Command
 {
     /**
-     * @var HistoryManager
+     * @var DialogHelper
      */
-    private $historyManager = null;
+    private $dialog               = null;
+    /**
+     * @var HistoryQuestion
+     */
+    private $historyQuestion      = null;
     /**
      * @var CodeGeneratorFactory
      */
     private $codeGeneratorFactory = null;
 
     /**
-     * @param string $name
-     * @param HistoryManager $historyManager
+     * @param DialogHelper $dialog
+     * @param HistoryQuestion $historyManager
      * @param CodeGeneratorFactory $codeGeneratorFactory
      */
     public function __construct(
-        $name = null,
-        HistoryManager $historyManager = null,
-        CodeGeneratorFactory $codeGeneratorFactory = null
+        DialogHelper $dialog,
+        HistoryQuestion $historyQuestion,
+        CodeGeneratorFactory $codeGeneratorFactory
     ) {
-        $this->historyManager       = (null === $historyManager) ? HistoryFactory::getInstance() : $historyManager;
-        $this->codeGeneratorFactory = (null === $codeGeneratorFactory) ?
-                                        new CodeGeneratorFactory() : $codeGeneratorFactory;
-        parent::__construct($name);
+        $this->dialog               = $dialog;
+        $this->historyQuestion      = $historyQuestion;
+        $this->codeGeneratorFactory = $codeGeneratorFactory;
+        parent::__construct('regenerate');
     }
     /**
      * (non-PHPdoc)
@@ -84,18 +80,17 @@ class RegenerateCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog     = $this->getHelperSet()->get('dialog');
-        $history    = $this->historyQuestion($output, $dialog);
+        $history    = $this->historyQuestion->ask();
         $dataObject = $history->getDataObject();
 
-        $crudGenerator = $this->codeGeneratorFactory->create($output, $dialog, $dataObject->getGenerator());
+        $crudGenerator = $this->codeGeneratorFactory->create($output, $this->dialog, $dataObject->getGenerator());
 
         $output->writeln("<info>Resume</info>");
         $output->writeln('<info>Metadata : ' . $dataObject->getEntity(), '*</info>');
         $output->writeln('<info>Directory : ' . $dataObject->getModule(), '*</info>');
         $output->writeln("<info>Generator : " . $crudGenerator->getDefinition(), "*</info>");
 
-        $doI = $dialog->askConfirmation(
+        $doI = $this->dialog->askConfirmation(
             $output,
             "\n<question>Do you confirm generation (may others question generator ask you) ?</question> "
         );
@@ -103,36 +98,7 @@ class RegenerateCommand extends Command
         if ($doI === true) {
             $dataObject = $crudGenerator->generate($dataObject);
         } else {
-            throw new RuntimeException('Command aborted');
+            throw new \RuntimeException('Command aborted');
         }
-    }
-
-    /**
-     * @param unknown_type $output
-     * @param unknown_type $dialog
-     * @return \CrudGenerator\History\History
-     */
-    private function historyQuestion($output, $dialog)
-    {
-        $historyCollection = $this->historyManager->findAll();
-
-        if(empty($historyCollection)) {
-            throw new RuntimeException('Empty history');
-        }
-
-        $historyChoices = array();
-        foreach ($historyCollection as $history) {
-            $historyChoices[$history->getName() . ' ' . $history->getDataObject()->getGenerator()] = $history;
-        }
-
-        $historyKeysChoices = array_keys($historyChoices);
-        $choice = $dialog->select(
-            $output,
-            "<question>History to regenerate</question> \n> ",
-            $historyKeysChoices,
-            0
-        );
-
-        return $historyChoices[$historyKeysChoices[$choice]];
     }
 }
