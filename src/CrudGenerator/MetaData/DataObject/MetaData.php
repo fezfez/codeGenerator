@@ -150,7 +150,7 @@ abstract class MetaData
             $name
         );
 
-        if(true === $ucfirst) {
+        if (true === $ucfirst) {
             return ucfirst($result);
         } else {
             return $result;

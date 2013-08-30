@@ -45,7 +45,7 @@ class FileManager
      */
     public function filePutsContent($path, $content)
     {
-        if(@file_put_contents($path, $content) === false) {
+        if (@file_put_contents($path, $content) === false) {
             throw new \RuntimeException(sprintf("Could't puts content %s", $path));
         }
 
@@ -59,7 +59,7 @@ class FileManager
     public function fileGetContent($path)
     {
         $return = @file_get_contents($path);
-        if($return === false) {
+        if ($return === false) {
             throw new \RuntimeException(sprintf("Could't load content %s", $path));
         }
         return $return;
@@ -107,7 +107,7 @@ class FileManager
      */
     public function unlink($file)
     {
-        if(@unlink($file) === false) {
+        if (@unlink($file) === false) {
             throw new \RuntimeException(sprintf("Could't delete %s", $file));
         }
     }
@@ -119,5 +119,20 @@ class FileManager
     public function glob($dir, $params = null)
     {
         return glob($dir, $params);
+    }
+
+    /**
+     * Create dir if not exist
+     * @param string $directory
+     * @return boolean
+     */
+    public function ifDirDoesNotExistCreate($directory)
+    {
+        if (!$this->isDir($directory)) {
+            $this->mkdir($directory);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

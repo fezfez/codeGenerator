@@ -21,9 +21,12 @@ use CrudGenerator\Command\CreateCommandFactory;
 use CrudGenerator\Command\RegenerateCommandFactory;
 use CrudGenerator\Command\GeneratorSandBoxCommandFactory;
 
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Helper\FormatterHelper;
+
 /**
  * Create CLI instance
  *
@@ -33,10 +36,11 @@ class CliFactory
 {
     /**
      * Create CLI instance
-     *
+     * @param InputInterface $input
+     * @param OutputInterface $output
      * @return \Symfony\Component\Console\Application
      */
-    public static function getInstance($input, $output)
+    public static function getInstance(InputInterface $input, OutputInterface $output)
     {
         $application  = new Application('Code Generator Command Line Interface', 'Alpha');
         $dialogHelper = new DialogHelper();

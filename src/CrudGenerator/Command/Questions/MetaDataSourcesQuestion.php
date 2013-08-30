@@ -40,8 +40,11 @@ class MetaDataSourcesQuestion
      * @param OutputInterface $output
      * @param DialogHelper $dialog
      */
-    public function __construct(MetaDataSourceFinder $metadataSourceFinder, OutputInterface $output, DialogHelper $dialog)
-    {
+    public function __construct(
+        MetaDataSourceFinder $metadataSourceFinder,
+        OutputInterface $output,
+        DialogHelper $dialog
+    ) {
         $this->metadataSourceFinder = $metadataSourceFinder;
         $this->output = $output;
         $this->dialog = $dialog;

@@ -67,6 +67,79 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         $sUT->generate($dataObject);
     }
 
+    public function testStub()
+    {
+        $stubDialog = $this->getMock('\Symfony\Component\Console\Helper\DialogHelper');
+        $stubDialog->expects($this->any())
+        ->method('askAndValidate')
+        ->will($this->returnValue(__DIR__));
+
+        $stubDialog->expects($this->any())
+        ->method('ask')
+        ->will($this->returnValue('y'));
+
+        $stubDialog->expects($this->any())
+        ->method('select')
+        ->will($this->returnValue('0'));
+
+        $stubOutput =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $stubOutput->expects($this->any())
+        ->method('writeln')
+        ->will($this->returnValue(''));
+
+        $stubFileManager = $this->getMockBuilder('\CrudGenerator\Utils\FileManagerStub')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $stubFileManager->expects($this->any())
+        ->method('mkdir')
+        ->will($this->returnValue(true));
+        $stubFileManager->expects($this->any())
+        ->method('filePutsContent')
+        ->will($this->onConsecutiveCalls($this->throwException(new \Exception())));
+        $stubFileManager->expects($this->any())
+        ->method('isFile')
+        ->will($this->returnValue(true));
+        $stubFileManager->expects($this->any())
+        ->method('unlink')
+        ->will($this->returnValue(true));
+        $stubFileManager->expects($this->any())
+        ->method('fileGetContent')
+        ->will($this->returnValue(''));
+
+        $view              = ViewFactory::getInstance();
+        $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput, new FileManager());
+        $FileConflictManager = $this->getMockBuilder('\CrudGenerator\FileConflict\FileConflictManager')
+        ->disableOriginalConstructor()
+        ->getMock();
+
+        $sUT = new ArchitectGenerator(
+            $view,
+            $stubOutput,
+            $stubFileManager,
+            $stubDialog,
+            $generiqueQuestion,
+            $FileConflictManager
+        );
+
+        $metadata = new MetadataDataObjectDoctrine2(new MetaDataColumnCollection(), new MetaDataRelationCollection());
+        $metadata->addIdentifier('id');
+        $column = new MetaDataColumn();
+        $column->setLength(10)
+        ->setName('toto')
+        ->setNullable(true)
+        ->setType('text');
+
+        $metadata->appendColumn($column);
+
+        $dataObject = new Architect();
+        $dataObject->setEntity('TestZf2\Entities\NewsEntity')
+        ->setMetadata($metadata);
+
+        $sUT->generate($dataObject);
+    }
+
     public function testAlreadyExistAndPOSTPONE()
     {
         $stubDialog = $this->getMock('\Symfony\Component\Console\Helper\DialogHelper');
@@ -105,16 +178,20 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         $stubFileManager->expects($this->any())
         ->method('fileGetContent')
         ->will($this->returnValue(''));
-
-        $diffPHP =  $this->getMockBuilder('CrudGenerator\Utils\DiffPHP')
-                        ->disableOriginalConstructor()
-                        ->getMock();
-        $stubOutput->expects($this->any())
-                    ->method('diff')
-                    ->will($this->returnValue(''));
+        $stubFileManager->expects($this->any())
+        ->method('ifDirDoesNotExistCreate')
+        ->will($this->onConsecutiveCalls(true));
 
         $view              = ViewFactory::getInstance();
         $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput, new FileManager());
+        $FileConflictManager = $this->getMockBuilder('\CrudGenerator\FileConflict\FileConflictManager')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $FileConflictManager->expects($this->any())
+        ->method('test')
+        ->will($this->onConsecutiveCalls(true));
+        $FileConflictManager->expects($this->once())
+        ->method('handle');
 
         $sUT = new ArchitectGenerator(
             $view,
@@ -122,8 +199,9 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
             $stubFileManager,
             $stubDialog,
             $generiqueQuestion,
-            $diffPHP
+            $FileConflictManager
         );
+
         $metadata = new MetadataDataObjectDoctrine2(new MetaDataColumnCollection(), new MetaDataRelationCollection());
         $metadata->addIdentifier('id');
         $column = new MetaDataColumn();
@@ -137,215 +215,6 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         $dataObject = new Architect();
         $dataObject->setEntity('TestZf2\Entities\NewsEntity')
         ->setMetadata($metadata);
-
-        $sUT->generate($dataObject);
-    }
-
-    public function testAlreadyExistAndSHOW_DIFF()
-    {
-        $stubDialog = $this->getMock('\Symfony\Component\Console\Helper\DialogHelper');
-        $stubDialog->expects($this->any())
-        ->method('askAndValidate')
-        ->will($this->returnValue(__DIR__));
-
-        $stubDialog->expects($this->any())
-        ->method('ask')
-        ->will($this->returnValue('y'));
-
-        $stubDialog->expects($this->any())
-        ->method('select')
-        ->will($this->onConsecutiveCalls(1, 3));
-
-        $stubOutput =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $stubOutput->expects($this->any())
-        ->method('writeln')
-        ->will($this->returnValue(''));
-
-        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
-        $stubFileManager->expects($this->any())
-        ->method('mkdir')
-        ->will($this->returnValue(true));
-        $stubFileManager->expects($this->any())
-        ->method('filePutsContent')
-        ->will($this->returnValue(true));
-        $stubFileManager->expects($this->any())
-        ->method('isFile')
-        ->will($this->returnValue(true));
-        $stubFileManager->expects($this->any())
-        ->method('unlink')
-        ->will($this->returnValue(true));
-        $stubFileManager->expects($this->any())
-        ->method('fileGetContent')
-        ->will($this->returnValue(''));
-
-        $view              = ViewFactory::getInstance();
-        $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput, new FileManager());
-
-        $diffPHP =  $this->getMockBuilder('CrudGenerator\Utils\DiffPHP')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $stubOutput->expects($this->any())
-        ->method('diff')
-        ->will($this->returnValue(''));
-
-        $sUT = new ArchitectGenerator(
-                        $view,
-                        $stubOutput,
-                        $stubFileManager,
-                        $stubDialog,
-                        $generiqueQuestion,
-                        $diffPHP
-        );
-        $metadata = new MetadataDataObjectDoctrine2(new MetaDataColumnCollection(), new MetaDataRelationCollection());
-        $metadata->addIdentifier('id');
-        $column = new MetaDataColumn();
-        $column->setLength(10)
-        ->setName('toto')
-        ->setNullable(true)
-        ->setType('text');
-
-        $metadata->appendColumn($column);
-
-        $dataObject = new Architect();
-        $dataObject->setEntity('TestZf2\Entities\NewsEntity')
-        ->setMetadata($metadata);
-
-        $sUT->generate($dataObject);
-    }
-
-    public function testAlreadyExistAndERASE()
-    {
-        $stubDialog = $this->getMock('\Symfony\Component\Console\Helper\DialogHelper');
-        $stubDialog->expects($this->any())
-        ->method('askAndValidate')
-        ->will($this->returnValue(__DIR__));
-
-        $stubDialog->expects($this->any())
-        ->method('ask')
-        ->will($this->returnValue('y'));
-
-        $stubDialog->expects($this->any())
-        ->method('select')
-        ->will($this->returnValue('2'));
-
-        $stubOutput =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $stubOutput->expects($this->any())
-        ->method('writeln')
-        ->will($this->returnValue(''));
-
-        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
-        $stubFileManager->expects($this->any())
-        ->method('mkdir')
-        ->will($this->returnValue(true));
-        $stubFileManager->expects($this->any())
-        ->method('filePutsContent')
-        ->will($this->returnValue(true));
-        $stubFileManager->expects($this->any())
-        ->method('isFile')
-        ->will($this->returnValue(true));
-        $stubFileManager->expects($this->any())
-        ->method('unlink')
-        ->will($this->returnValue(true));
-        $stubFileManager->expects($this->any())
-        ->method('fileGetContent')
-        ->will($this->returnValue(''));
-
-        $view              = ViewFactory::getInstance();
-        $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput, new FileManager());
-        $diffPHP           = new DiffPHP();
-
-        $sUT = new ArchitectGenerator(
-                        $view,
-                        $stubOutput,
-                        $stubFileManager,
-                        $stubDialog,
-                        $generiqueQuestion,
-                        $diffPHP
-        );
-        $metadata = new MetadataDataObjectDoctrine2(new MetaDataColumnCollection(), new MetaDataRelationCollection());
-        $metadata->addIdentifier('id');
-        $column = new MetaDataColumn();
-        $column->setLength(10)
-        ->setName('toto')
-        ->setNullable(true)
-        ->setType('text');
-
-        $metadata->appendColumn($column);
-        $dataObject = new Architect();
-        $dataObject->setEntity('TestZf2\Entities\NewsEntity')
-        ->setMetadata($metadata);
-
-        $sUT->generate($dataObject);
-    }
-
-    public function testAlreadyExistAndCancel()
-    {
-        $stubDialog = $this->getMock('\Symfony\Component\Console\Helper\DialogHelper');
-        $stubDialog->expects($this->any())
-                   ->method('askAndValidate')
-                   ->will($this->returnValue(__DIR__));
-
-        $stubDialog->expects($this->any())
-                   ->method('ask')
-                   ->will($this->returnValue('y'));
-
-        $stubDialog->expects($this->any())
-                    ->method('select')
-                    ->will($this->returnValue('3'));
-
-        $stubOutput =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
-                            ->disableOriginalConstructor()
-                            ->getMock();
-        $stubOutput->expects($this->any())
-                   ->method('writeln')
-                   ->will($this->returnValue(''));
-
-        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
-        $stubFileManager->expects($this->any())
-                        ->method('mkdir')
-                        ->will($this->returnValue(true));
-        $stubFileManager->expects($this->any())
-                        ->method('filePutsContent')
-                        ->will($this->returnValue(true));
-        $stubFileManager->expects($this->any())
-                        ->method('isFile')
-                        ->will($this->returnValue(true));
-        $stubFileManager->expects($this->any())
-                        ->method('unlink')
-                        ->will($this->returnValue(true));
-        $stubFileManager->expects($this->any())
-                        ->method('fileGetContent')
-                        ->will($this->returnValue(''));
-
-        $view              = ViewFactory::getInstance();
-        $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput, new FileManager());
-        $diffPHP           = new DiffPHP();
-
-        $sUT = new ArchitectGenerator(
-            $view,
-            $stubOutput,
-            $stubFileManager,
-            $stubDialog,
-            $generiqueQuestion,
-            $diffPHP
-        );
-        $metadata = new MetadataDataObjectDoctrine2(new MetaDataColumnCollection(), new MetaDataRelationCollection());
-        $metadata->addIdentifier('id');
-        $column = new MetaDataColumn();
-        $column->setLength(10)
-        ->setName('toto')
-        ->setNullable(true)
-        ->setType('text');
-
-        $metadata->appendColumn($column);
-
-        $dataObject = new Architect();
-        $dataObject->setEntity('TestZf2\Entities\NewsEntity')
-                   ->setMetadata($metadata);
 
         $sUT->generate($dataObject);
     }
@@ -381,7 +250,9 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
 
         $view              = ViewFactory::getInstance();
         $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput, new FileManager());
-        $diffPHP           = new DiffPHP();
+        $FileConflictManager = $this->getMockBuilder('\CrudGenerator\FileConflict\FileConflictManager')
+                            ->disableOriginalConstructor()
+                            ->getMock();
 
         return new ArchitectGenerator(
             $view,
@@ -389,7 +260,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
             $stubFileManager,
             $stubDialog,
             $generiqueQuestion,
-            $diffPHP
+            $FileConflictManager
         );
     }
 

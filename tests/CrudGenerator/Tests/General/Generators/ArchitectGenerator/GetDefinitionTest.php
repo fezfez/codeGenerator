@@ -51,7 +51,9 @@ class GetDefinitionTest extends \PHPUnit_Framework_TestCase
 
         $view              = ViewFactory::getInstance();
         $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput, new FileManager());
-        $diffPHP           = new DiffPHP();
+        $FileConflictManager = $this->getMockBuilder('\CrudGenerator\FileConflict\FileConflictManager')
+                            ->disableOriginalConstructor()
+                            ->getMock();
 
         $sUT = new ArchitectGenerator(
             $view,
@@ -59,7 +61,7 @@ class GetDefinitionTest extends \PHPUnit_Framework_TestCase
             $stubFileManager,
             $stubDialog,
             $generiqueQuestion,
-            $diffPHP
+            $FileConflictManager
         );
 
         return $sUT;

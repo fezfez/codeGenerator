@@ -16,9 +16,6 @@
  * and is licensed under the MIT license.
  */
 
-
-
-
 namespace CrudGenerator\Command;
 
 use CrudGenerator\Command\Questions\GeneratorQuestion;
@@ -31,7 +28,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
-
 
 /**
  * generator-sand-box command

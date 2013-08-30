@@ -19,9 +19,11 @@ namespace CrudGenerator\Generators;
 
 use CrudGenerator\DataObject;
 use CrudGenerator\Utils\FileManager;
+use CrudGenerator\Utils\FileManagerStub;
 use CrudGenerator\View\View;
 use CrudGenerator\Generators\GeneriqueQuestions;
-use CrudGenerator\Utils\DiffPHP;
+use CrudGenerator\FileConflict\FileConflictManager;
+
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -35,45 +37,29 @@ use Symfony\Component\Console\Input\InputInterface;
 abstract class BaseCodeGenerator
 {
     /**
-     * @var integer Post pone choise
-     */
-    const POSTPONE = 0;
-    /**
-     * @var integer Show diff choise
-     */
-    const SHOW_DIFF = 1;
-    /**
-     * @var integer Erase choise
-     */
-    const ERASE = 2;
-    /**
-     * @var integer Cancel choise
-     */
-    const CANCEL = 3;
-    /**
      * @var View View manager
      */
-    protected $view              = null;
+    protected $view                = null;
     /**
      * @var OutputInterface Output
      */
-    protected $clientResponse    = null;
+    protected $clientResponse      = null;
     /**
      * @var FileManager File Manager
      */
-    protected $fileManager       = null;
+    protected $fileManager         = null;
     /**
      * @var DialogHelper Dialog
      */
-    protected $dialog            = null;
+    protected $dialog              = null;
     /**
      * @var GeneriqueQuestions Generique Question
      */
-    protected $generiqueQuestion = null;
+    protected $generiqueQuestion   = null;
     /**
-     * @var DiffPHP Diff php
+     * @var FileConflictManager File conflict manager
      */
-    private $diffPHP             = null;
+    protected $fileConflictManager = null;
 
     /**
      * Base code generator
@@ -82,7 +68,7 @@ abstract class BaseCodeGenerator
      * @param FileManager $fileManager
      * @param DialogHelper $dialog
      * @param GeneriqueQuestions $generiqueQuestion
-     * @param DiffPHP $diffPHP
+     * @param FileConflictManager $fileConflictManager
      */
     public function __construct(
         View $view,
@@ -90,14 +76,14 @@ abstract class BaseCodeGenerator
         FileManager $fileManager,
         DialogHelper $dialog,
         GeneriqueQuestions $generiqueQuestion,
-        DiffPHP $diffPHP
+        FileConflictManager $fileConflictManager
     ) {
-        $this->view              = $view;
-        $this->output            = $output;
-        $this->fileManager       = $fileManager;
-        $this->dialog            = $dialog;
-        $this->generiqueQuestion = $generiqueQuestion;
-        $this->diffPHP           = $diffPHP;
+        $this->view                = $view;
+        $this->output              = $output;
+        $this->fileManager         = $fileManager;
+        $this->dialog              = $dialog;
+        $this->generiqueQuestion   = $generiqueQuestion;
+        $this->fileConflictManager = $fileConflictManager;
     }
 
     /**
@@ -157,11 +143,8 @@ abstract class BaseCodeGenerator
      * @param string $pathTo
      * @param array $suppDatas
      */
-    protected function generateFile(DataObject $dataObject, $pathTemplate, $pathTo, array $suppDatas = null)
+    protected function generateFile(DataObject $dataObject, $pathTemplate, $pathTo, array $suppDatas = array())
     {
-        if (null === $suppDatas) {
-            $suppDatas = array();
-        }
         $datas = array(
             'dir'        => $this->skeletonDir,
             'dataObject' => $dataObject,
@@ -173,12 +156,12 @@ abstract class BaseCodeGenerator
             array_merge($datas, $suppDatas)
         );
 
-        if (get_class($this->fileManager) === 'CrudGenerator\Utils\FileManagerStub') {
-            $passed = true;
-            while($passed) {
+        if ($this->fileManager instanceof FileManagerStub) {
+            $continue = true;
+            while ($continue) {
                 try {
                     $this->fileManager->filePutsContent($pathTo, $results);
-                    $passed = false;
+                    $continue = false;
                 } catch (\Exception $e) {
                     $results = $this->view->render(
                         $this->skeletonDir,
@@ -187,43 +170,8 @@ abstract class BaseCodeGenerator
                     );
                 }
             }
-
-            return true;
-        } elseif ($this->fileManager->isFile($pathTo) && $this->fileManager->fileGetContent($pathTo) !== $results) {
-
-            while (true) {
-                $response = $this->dialog->select(
-                    $this->output,
-                    '<error>File "' . $pathTo . '" already exist, erase it with the new</error>',
-                    array(
-                        'postpone',
-                        'show diff',
-                        'erase',
-                        'cancel'
-                    )
-                );
-                $response = intval($response);
-
-                if ($response === self::POSTPONE) {
-                    $this->fileManager->filePutsContent($pathTo . '.new', $results);
-                    $diff = $this->diffPHP->diff($pathTo . '.new', $pathTo);
-                    $this->fileManager->filePutsContent($pathTo . '.diff', $diff);
-                    $this->output->writeln('--> Generate diff and new file ' . $pathTo . '.diff');
-                    break;
-                } elseif ($response === self::SHOW_DIFF) {
-                    $this->fileManager->filePutsContent($pathTo . '.diff', $results);
-                    $this->output->writeln(
-                        '<info>' . $this->diffPHP->diff($pathTo . '.diff', $pathTo) . '</info>'
-                    );
-                    $this->fileManager->unlink($pathTo . '.diff');
-                } elseif ($response === self::ERASE) {
-                    $this->fileManager->filePutsContent($pathTo, $results);
-                    $this->output->writeln('--> Create ' . $pathTo);
-                    break;
-                } elseif ($response === self::CANCEL) {
-                    break;
-                }
-            }
+        } elseif (true === $this->fileConflictManager->test($pathTo, $results)) {
+            $this->fileConflictManager->handle($pathTo, $results);
         } else {
             $this->fileManager->filePutsContent($pathTo, $results);
             $this->output->writeln('--> Create ' . $pathTo);
@@ -236,8 +184,7 @@ abstract class BaseCodeGenerator
      */
     protected function ifDirDoesNotExistCreate($dir)
     {
-        if (!is_dir($dir)) {
-            $this->fileManager->mkdir($dir);
+        if (true === $this->fileManager->ifDirDoesNotExistCreate($dir)) {
             $this->output->writeln('--> Create dir ' . $dir);
         }
     }
