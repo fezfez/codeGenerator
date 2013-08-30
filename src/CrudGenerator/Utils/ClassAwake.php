@@ -61,7 +61,6 @@ class ClassAwake
 
         foreach ($classCollection as $className) {
             $reflectionClass = new ReflectionClass($className);
-            $sourceFile      = $reflectionClass->getFileName();
             $parentClass     = $reflectionClass->getParentClass();
 
             if (is_object($parentClass) && $parentClass->name == $parent) {
@@ -79,8 +78,6 @@ class ClassAwake
      */
     private function awake(array $directories)
     {
-        $includedFiles = array();
-
         foreach ($directories as $directorie) {
             $iterator = new \RegexIterator(
                 new \RecursiveIteratorIterator(
@@ -91,17 +88,14 @@ class ClassAwake
                 \RecursiveRegexIterator::GET_MATCH
             );
 
-            $includedFiles = array();
+
             foreach ($iterator as $file) {
                 $sourceFile = realpath($file[0]);
 
                 require_once $sourceFile;
-
-                $includedFiles[] = $sourceFile;
             }
         }
 
         return get_declared_classes();
     }
-
 }

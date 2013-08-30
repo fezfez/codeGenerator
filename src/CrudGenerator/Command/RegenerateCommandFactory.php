@@ -24,7 +24,6 @@ use CrudGenerator\Command\RegenerateCommand;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
 /**
  * Regenerate command factory
  *
