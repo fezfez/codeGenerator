@@ -175,7 +175,7 @@ abstract class BaseCodeGenerator
 
         if (get_class($this->fileManager) === 'CrudGenerator\Utils\FileManagerStub') {
             $passed = true;
-            while($passed) {
+            while ($passed) {
                 try {
                     $this->fileManager->filePutsContent($pathTo, $results);
                     $passed = false;

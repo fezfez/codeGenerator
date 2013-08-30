@@ -23,5 +23,4 @@ namespace CrudGenerator\View;
  */
 interface ViewHelperInterface
 {
-
 }
