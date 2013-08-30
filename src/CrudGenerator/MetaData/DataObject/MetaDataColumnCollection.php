@@ -20,10 +20,10 @@ namespace CrudGenerator\MetaData\DataObject;
 use ArrayObject;
 
 /**
- * Metadata relation collection
+ * Metadata column collection
  *
  * @author Stéphane Demonchaux
  */
-class MetaDataRelationDataObjectCollection extends ArrayObject
+class MetaDataColumnCollection extends ArrayObject
 {
 }

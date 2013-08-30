@@ -75,12 +75,17 @@ class HistoryManager
 
     /**
      * Retrieve all history
+     * @throws EnvironnementResolverException
+     * @return HistoryCollection
      */
     public function findAll()
     {
         if (!$this->fileManager->isDir(self::HISTORY_PATH)) {
             throw new EnvironnementResolverException(
-                'Unable to locate "vendor"'
+                sprintf(
+                    'Unable to locate "%d"',
+                    self::HISTORY_PATH
+                )
             );
         }
 

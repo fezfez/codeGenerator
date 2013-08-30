@@ -28,7 +28,7 @@ use Symfony\Component\Console\Helper\DialogHelper;
  * Create CodeGenerator instance
  * @author Stéphane Demonchaux
  */
-class CodeGeneratorFactory
+class CodeGeneratorFactory implements CodeGeneratorFactoryInterface
 {
     /**
      * Create CodeGenerator instance

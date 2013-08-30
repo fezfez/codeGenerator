@@ -9,6 +9,7 @@ env:
   - TESTSUITE=ZF2 ZF2_VERSION="2.1.*" DOCTRINE2_VERSION="0.*"
 
 before_script:
+  - composer self-update
   - composer install
   - composer require satooshi/php-coveralls:dev-master --dev
   - sh -c "if [ '$TESTSUITE' = 'ZF2' ]; then composer require zendframework/zendframework:${ZF2_VERSION} ;fi"

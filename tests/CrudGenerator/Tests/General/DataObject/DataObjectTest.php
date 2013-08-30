@@ -3,16 +3,16 @@ namespace CrudGenerator\Tests\General\DataObject\DataObject;
 
 use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
 use CrudGenerator\Generators\ArchitectGenerator\Architect;
-use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObjectCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationDataObjectCollection;
+use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
+use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 
 class DataObjectTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstance()
     {
         $metaData = new MetadataDataObjectPDO(
-            new MetaDataColumnDataObjectCollection(),
-            new MetaDataRelationDataObjectCollection()
+            new MetaDataColumnCollection(),
+            new MetaDataRelationCollection()
         );
 
         $dataObject = new Architect();

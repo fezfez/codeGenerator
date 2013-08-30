@@ -17,36 +17,43 @@
  */
 namespace CrudGenerator\Generators\ArchitectGenerator;
 
-use CrudGenerator\Utils\LoremIpsumGenerator;
-use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObject;
+use CrudGenerator\MetaData\DataObject\MetaDataColumn;
 use CrudGenerator\View\ViewHelperInterface;
+use Faker\Factory;
 
 class FixtureRenderer implements ViewHelperInterface
 {
     /**
-     * @var LoremIpsumGenerator
+     * @var \Faker\Generator
      */
-    private $loremIpsumGenerator = null;
+    private $faker = null;
 
     public function __construct()
     {
-        $this->loremIpsumGenerator = new LoremIpsumGenerator();
+        $this->faker = Factory::create();
     }
 
     /**
-     * @param MetaDataColumnDataObject $metadata
+     * @param MetaDataColumn $metadata
      * @return string
      */
-    public function render(MetaDataColumnDataObject $metadata)
+    public function render(MetaDataColumn $metadata)
     {
-        if($metadata->getType() == 'integer' || $metadata->getType() == 'float') {
-            return rand(0, 50);
-        } elseif($metadata->getType() == 'string') {
-            return '"' . substr($this->loremIpsumGenerator->getContent($metadata->getLength(), 'plain'), 0, $metadata->getLength()) . '"';
-        } elseif($metadata->getType() == 'date') {
-            return 'new DateTime()';
-        } elseif($metadata->getType() == 'bool') {
-            return 'true';
+        $data = '';
+        if ($metadata->getType() == 'integer' || $metadata->getType() == 'float') {
+            $data = $this->faker->randomNumber();
+        } elseif ($metadata->getType() == 'string') {
+            if ($metadata->getLength() <= 5) {
+                $data = '"5555"';
+            } else {
+                $data = '"' . $this->faker->text($metadata->getLength()) . '"';
+            }
+        } elseif ($metadata->getType() == 'date') {
+            $data = 'new DateTime()';
+        } elseif ($metadata->getType() == 'bool') {
+            $data = 'true';
         }
+
+        return $data;
     }
 }

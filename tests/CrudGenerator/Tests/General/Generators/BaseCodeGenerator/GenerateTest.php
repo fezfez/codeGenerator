@@ -16,9 +16,9 @@ use CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO;
 use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
 
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
-use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObject;
-use CrudGenerator\MetaData\DataObject\MetaDataColumnDataObjectCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationDataObjectCollection;
+use CrudGenerator\MetaData\DataObject\MetaDataColumn;
+use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
+use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 
 class GenerateTest extends \PHPUnit_Framework_TestCase
 {
@@ -42,8 +42,8 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         $dataObject = new Architect();
         $dataObject->setEntity('TestZf2\Entities\NewsEntity')
                    ->setMetadata(new MetadataDataObjectDoctrine2(
-                new MetaDataColumnDataObjectCollection(),
-                new MetaDataRelationDataObjectCollection()
+                new MetaDataColumnCollection(),
+                new MetaDataRelationCollection()
             )
         );
 
@@ -55,7 +55,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
    public function testFailOnNameIndentifier()
     {
         $sUT      = $this->getClass();
-        $metadata = new MetadataDataObjectDoctrine2(new MetaDataColumnDataObjectCollection(), new MetaDataRelationDataObjectCollection());
+        $metadata = new MetadataDataObjectDoctrine2(new MetaDataColumnCollection(), new MetaDataRelationCollection());
         $metadata->addIdentifier('toto');
 
         $dataObject = new Architect();
@@ -124,9 +124,9 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
             $generiqueQuestion,
             $diffPHP
         );
-        $metadata = new MetadataDataObjectDoctrine2(new MetaDataColumnDataObjectCollection(), new MetaDataRelationDataObjectCollection());
+        $metadata = new MetadataDataObjectDoctrine2(new MetaDataColumnCollection(), new MetaDataRelationCollection());
         $metadata->addIdentifier('id');
-        $column = new MetaDataColumnDataObject();
+        $column = new MetaDataColumn();
         $column->setLength(10)
                ->setName('toto')
                ->setNullable(true)
@@ -198,9 +198,9 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
                         $generiqueQuestion,
                         $diffPHP
         );
-        $metadata = new MetadataDataObjectDoctrine2(new MetaDataColumnDataObjectCollection(), new MetaDataRelationDataObjectCollection());
+        $metadata = new MetadataDataObjectDoctrine2(new MetaDataColumnCollection(), new MetaDataRelationCollection());
         $metadata->addIdentifier('id');
-        $column = new MetaDataColumnDataObject();
+        $column = new MetaDataColumn();
         $column->setLength(10)
         ->setName('toto')
         ->setNullable(true)
@@ -266,9 +266,9 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
                         $generiqueQuestion,
                         $diffPHP
         );
-        $metadata = new MetadataDataObjectDoctrine2(new MetaDataColumnDataObjectCollection(), new MetaDataRelationDataObjectCollection());
+        $metadata = new MetadataDataObjectDoctrine2(new MetaDataColumnCollection(), new MetaDataRelationCollection());
         $metadata->addIdentifier('id');
-        $column = new MetaDataColumnDataObject();
+        $column = new MetaDataColumn();
         $column->setLength(10)
         ->setName('toto')
         ->setNullable(true)
@@ -333,9 +333,9 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
             $generiqueQuestion,
             $diffPHP
         );
-        $metadata = new MetadataDataObjectDoctrine2(new MetaDataColumnDataObjectCollection(), new MetaDataRelationDataObjectCollection());
+        $metadata = new MetadataDataObjectDoctrine2(new MetaDataColumnCollection(), new MetaDataRelationCollection());
         $metadata->addIdentifier('id');
-        $column = new MetaDataColumnDataObject();
+        $column = new MetaDataColumn();
         $column->setLength(10)
         ->setName('toto')
         ->setNullable(true)

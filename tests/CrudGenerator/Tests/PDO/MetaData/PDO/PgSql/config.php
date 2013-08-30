@@ -12,4 +12,4 @@ $pdoConfig->setDatabaseName('code_generator')
 ->setHost('localhost');
 
 
-return $pdoConfig;;
+return $pdoConfig;

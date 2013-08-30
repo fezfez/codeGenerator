@@ -87,7 +87,7 @@ class ClassAwake
                     new \RecursiveDirectoryIterator($directorie, \FilesystemIterator::SKIP_DOTS),
                     \RecursiveIteratorIterator::LEAVES_ONLY
                 ),
-                '/^.+' . preg_quote('php') . '$/i',
+                '/^.+' . preg_quote('.php') . '$/i',
                 \RecursiveRegexIterator::GET_MATCH
             );
 
