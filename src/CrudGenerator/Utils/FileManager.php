@@ -120,4 +120,19 @@ class FileManager
     {
         return glob($dir, $params);
     }
+
+    /**
+     * Create dir if not exist
+     * @param string $directory
+     * @return boolean
+     */
+    public function ifDirDoesNotExistCreate($directory)
+    {
+        if (!$this->isDir($directory)) {
+            $this->mkdir($directory);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

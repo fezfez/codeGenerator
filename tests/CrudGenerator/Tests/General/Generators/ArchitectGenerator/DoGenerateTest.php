@@ -73,9 +73,12 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
                         ->method('filePutsContent')
                         ->will($this->returnValue(true));
 
+        $FileConflictManager = $this->getMockBuilder('\CrudGenerator\FileConflict\FileConflictManager')
+                            ->disableOriginalConstructor()
+                            ->getMock();
+
         $view              = ViewFactory::getInstance();
         $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput, new FileManager());
-        $diffPHP           = new DiffPHP();
 
         $sUT = new ArchitectGenerator(
             $view,
@@ -83,7 +86,7 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
             $stubFileManager,
             $stubDialog,
             $generiqueQuestion,
-            $diffPHP
+            $FileConflictManager
         );
 
         return $sUT;

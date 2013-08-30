@@ -45,7 +45,9 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
 
         $view              = ViewFactory::getInstance();
         $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput, new FileManager());
-        $diffPHP           = new DiffPHP();
+        $FileConflictManager = $this->getMockBuilder('\CrudGenerator\FileConflict\FileConflictManager')
+        ->disableOriginalConstructor()
+        ->getMock();
 
 
         $metadata = new Crud();
@@ -58,7 +60,7 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
             $stubFileManager,
             $stubDialog,
             $generiqueQuestion,
-            $diffPHP
+            $FileConflictManager
         );
         $sUT->generate($metadata);
     }

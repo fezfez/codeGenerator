@@ -20,7 +20,7 @@ namespace CrudGenerator\Generators;
 use CrudGenerator\View\ViewFactory;
 use CrudGenerator\Utils\FileManagerStub;
 use CrudGenerator\Generators\GeneriqueQuestions;
-use CrudGenerator\Utils\DiffPHP;
+use CrudGenerator\FileConflict\FileConflictManagerFactory;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 
@@ -39,11 +39,11 @@ class CodeGeneratorStubFactory implements CodeGeneratorFactoryInterface
      */
     public function create(OutputInterface $output, DialogHelper $dialog, $class)
     {
-        $view              = ViewFactory::getInstance();
-        $fileManager       = new FileManagerStub($dialog, $output);
-        $generiqueQuestion = new GeneriqueQuestions($dialog, $output, $fileManager);
-        $diffPHP           = new DiffPHP();
+        $view               = ViewFactory::getInstance();
+        $fileManager        = new FileManagerStub($dialog, $output);
+        $generiqueQuestion  = new GeneriqueQuestions($dialog, $output, $fileManager);
+        $fileConflitManager = FileConflictManagerFactory::getInstance($output, $dialog);
 
-        return new $class($view, $output, $fileManager, $dialog, $generiqueQuestion, $diffPHP);
+        return new $class($view, $output, $fileManager, $dialog, $generiqueQuestion, $fileConflitManager);
     }
 }
