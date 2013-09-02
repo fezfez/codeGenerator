@@ -93,9 +93,22 @@ class ClassAwake
                 $sourceFile = realpath($file[0]);
 
                 require_once $sourceFile;
+
+                $includedFiles[] = $sourceFile;
             }
         }
 
-        return get_declared_classes();
+        $declared = get_declared_classes();
+
+        foreach ($declared as $className) {
+            $rc = new \ReflectionClass($className);
+            $sourceFile = $rc->getFileName();
+            if (in_array($sourceFile, $includedFiles)) {
+                $classes[] = $className;
+            }
+        }
+
+
+        return $classes;
     }
 }

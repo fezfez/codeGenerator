@@ -73,9 +73,12 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
 
         $sth->execute();
 
-        $allTables = $sth->fetchAll();
-
-        return $this->pdoMetadataToGeneratorMetadata($allTables);
+        return $this->pdoMetadataToGeneratorMetadata(
+            $sth->fetchAll(
+                PDO::FETCH_COLUMN,
+                0
+            )
+        );
     }
 
     /**
@@ -86,15 +89,11 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
     private function pdoMetadataToGeneratorMetadata(array $metadataCollection)
     {
         $metaDataCollection = new MetaDataCollection();
-        $dataObject = new MetadataDataObjectPDO(
-            new MetaDataColumnCollection(),
-            new MetaDataRelationCollection()
-        );
 
-        foreach ($metadataCollection as $metadata) {
-            $realDataObject = clone $dataObject;
-            $realDataObject->setName($metadata['table_name']);
-            $metaDataCollection->append($realDataObject);
+        foreach ($metadataCollection as $tableName) {
+            $metaDataCollection->append(
+                $this->hydrateDataObject($tableName)
+            );
         }
 
         return $metaDataCollection;
@@ -114,9 +113,14 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
         $dataObject->setName($tableName);
         $columnDataObject = new MetaDataColumn();
 
-        $statement = $this->pdo->prepare($this->sqlManager->listFieldsQuery($this->pdoConfig->getType()));
+        $statement = $this->pdo->prepare(
+            $this->sqlManager->listFieldsQuery(
+                $this->pdoConfig->getType()
+            )
+        );
         $statement->execute(array($tableName));
         $allFields = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $identifiers = $this->getIdentifiers($tableName);
 
         foreach ($allFields as $metadata) {
             $column = clone $columnDataObject;
@@ -127,34 +131,33 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
                        $metadata['character_maximum_length'] :
                        null
                    );
+            if (in_array($metadata['name'], $identifiers)) {
+                $column->setPrimaryKey(true);
+            }
+
             $dataObject->appendColumn($column);
         }
 
-        $databaseType = $this->pdoConfig->getType();
-        if ($databaseType === 'pgsql') {
-            $contraintQuery =  'SELECT contype as "type", conkey as "columnNumber"
-                FROM pg_class r, pg_constraint c
-                WHERE r.oid = c.conrelid
-                AND relname = ?;';
-            $statement = $this->pdo->prepare($contraintQuery);
-            $statement->execute(array($tableName));
+        return $dataObject;
+    }
 
-            $constraintList = $statement->fetchAll(PDO::FETCH_ASSOC);
+    private function getIdentifiers($tableName)
+    {
+        $identifiers = array();
 
-            foreach ($constraintList as $number => $containt) {
-                if ($containt['type'] === 'p') {
-                    $columnNumbers = explode(
-                        ',',
-                        str_replace(array('{', '}'), array('', ''), $containt['columnNumber'])
-                    );
-                    foreach ($columnNumbers as $number) {
-                        $dataObject->addIdentifier($allFields[($number - 1)]['name']);
-                    }
-                }
-            }
+        $statement = $this->pdo->prepare(
+            $this->sqlManager->getAllPrimaryKeys(
+                $this->pdoConfig->getType()
+            )
+        );
+        $statement->execute(array($tableName));
+
+        $constraintList = $statement->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($constraintList as $containt) {
+            $identifiers[] = $containt['column_name'];
         }
 
-        return $dataObject;
+        return $identifiers;
     }
 
     /**

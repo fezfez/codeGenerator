@@ -80,15 +80,11 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
     private function doctrine2MetadataToGeneratorMetadata(array $metadataCollection)
     {
         $metaDataCollection = new MetaDataCollection();
-        $dataObject = new MetadataDataObjectDoctrine2(
-            new MetaDataColumnCollection(),
-            new MetaDataRelationCollection()
-        );
 
         foreach ($metadataCollection as $metadata) {
-            $realDataObject = clone $dataObject;
-            $realDataObject->setName($metadata->getName());
-            $metaDataCollection->append($metadata);
+            $metaDataCollection->append(
+                $this->hydrateDataObject($metadata)
+            );
         }
 
         return $metaDataCollection;
@@ -109,16 +105,17 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
         $columnDataObject = new MetaDataColumn();
         $relationDataObject = new MetaDataRelationColumn();
 
-        foreach ($metadata->identifier as $identifier) {
-            $dataObject->addIdentifier($identifier);
-        }
-
         foreach ($metadata->fieldMappings as $field => $columnMetadata) {
             $column = clone $columnDataObject;
             $column->setName($field)
                    ->setType($columnMetadata['type'])
                    ->setLength(isset($columnMetadata['length']) ? $columnMetadata['length'] : null)
                    ->setNullable($columnMetadata['nullable']);
+
+            if (in_array($field, $metadata->identifier)) {
+                $column->setPrimaryKey(true);
+            }
+
             $dataObject->appendColumn($column);
         }
 

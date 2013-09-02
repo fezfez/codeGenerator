@@ -9,12 +9,6 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
     {
         $sUT = new MetaDataSourceFactory();
 
-        chdir(__DIR__ . '/../../../ZF2');
-        $this->assertInstanceOf(
-            '\CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO',
-            $sUT->create('\CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAOFactory')
-        );
-
         $pdoStub = $this->getMockBuilder('CrudGenerator\MetaData\Sources\PDO\PDOConfig')
         ->disableOriginalConstructor()
         ->getMock();
