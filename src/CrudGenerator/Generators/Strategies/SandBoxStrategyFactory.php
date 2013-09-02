@@ -15,33 +15,32 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Command;
+namespace CrudGenerator\Generators\Strategies;
 
-use CrudGenerator\Generators\CodeGeneratorFactory;
-use CrudGenerator\Command\Questions\HistoryQuestionFactory;
-use CrudGenerator\Command\RegenerateCommand;
-Use CrudGenerator\Generators\Strategies\SandBoxStrategyFactory;
-
-use Symfony\Component\Console\Helper\DialogHelper;
+use CrudGenerator\View\ViewFactory;
+use CrudGenerator\Utils\FileManager;
+use CrudGenerator\Generators\GeneriqueQuestions;
+use CrudGenerator\FileConflict\FileConflictManagerFactory;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\DialogHelper;
 
 /**
- * Regenerate command factory
+ * Base code generator, extends it and implement doGenerate method
+ * to make you own Generator
  *
  * @author Stéphane Demonchaux
  */
-class RegenerateCommandFactory
+class SandBoxStrategyFactory
 {
     /**
-     * @param DialogHelper $dialog
      * @param OutputInterface $output
-     * @return \CrudGenerator\Command\RegenerateCommand
+     * @param DialogHelper $dialog
+     * @return \CrudGenerator\Generators\Strategies\SandBoxStrategy
      */
-    public static function getInstance(DialogHelper $dialog, OutputInterface $output)
+    public static function getInstance(OutputInterface $output, DialogHelper $dialog)
     {
-        $historyQuestion      = HistoryQuestionFactory::getInstance($dialog, $output);
-        $codeGeneratorFactory = new CodeGeneratorFactory(SandBoxStrategyFactory::getInstance($output, $dialog));
+        $view = ViewFactory::getInstance();
 
-        return new RegenerateCommand($dialog, $historyQuestion, $codeGeneratorFactory);
+        return new SandBoxStrategy($view, $output, $dialog);
     }
 }

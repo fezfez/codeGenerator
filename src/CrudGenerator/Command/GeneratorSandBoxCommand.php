@@ -95,9 +95,10 @@ class GeneratorSandBoxCommand extends Command
         $column->setName('id')
         ->setNullable(true)
         ->setType('integer')
-        ->setLength('100');
+        ->setLength('100')
+        ->setPrimaryKey(true);
 
-        $metadata->addIdentifier('id');
+        $metadata->appendColumn($column);
         $metadata->setName('toto');
 
         $column = new MetaDataColumn();

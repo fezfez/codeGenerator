@@ -2,7 +2,7 @@
 
 <phpunit bootstrap="bootstrap.php"
          backupGlobals="false"
-         processIsolation="true"
+         processIsolation="false"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
@@ -13,8 +13,14 @@
         </whitelist>
     </filter>
     <testsuites>
-        <testsuite name="Full test">
-            <directory>./CrudGenerator</directory>
+        <testsuite name="General">
+            <directory>./CrudGenerator/Tests/General/</directory>
+        </testsuite>
+        <testsuite name="PDOs">
+            <directory>./CrudGenerator/Tests/PDO/</directory>
+        </testsuite>
+        <testsuite name="ZF2">
+            <directory>./CrudGenerator/Tests/ZF2/</directory>
         </testsuite>
     </testsuites>
 </phpunit>

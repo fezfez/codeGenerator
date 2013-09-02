@@ -18,7 +18,7 @@
 namespace CrudGenerator\Command\Questions;
 
 use CrudGenerator\Generators\GeneratorFinder;
-use CrudGenerator\Generators\CodeGeneratorFactoryInterface;
+use CrudGenerator\Generators\CodeGeneratorFactory;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 
@@ -49,7 +49,7 @@ class GeneratorQuestion
      */
     public function __construct(
         GeneratorFinder $generatorFinder,
-        CodeGeneratorFactoryInterface $codeGeneratorFactory,
+        CodeGeneratorFactory $codeGeneratorFactory,
         OutputInterface $output,
         DialogHelper $dialog
     ) {

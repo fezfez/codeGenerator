@@ -41,6 +41,10 @@ class MetaDataColumn
      * @var boolean Column is nullable
      */
     private $nullable = true;
+    /**
+     * @var boolean Is column is a primary key
+     */
+    private $primaryKey = false;
 
     /**
      * Set Column name
@@ -86,6 +90,17 @@ class MetaDataColumn
         $this->nullable = $value;
         return $this;
     }
+    /**
+     * Set Column is a primary key
+     *
+     * @param boolean $value
+     * @return \CrudGenerator\MetaData\DataObject\MetaDataColumn
+     */
+    public function setPrimaryKey($value)
+    {
+        $this->primaryKey = $value;
+        return $this;
+    }
 
     /**
      * Get Column name
@@ -122,5 +137,14 @@ class MetaDataColumn
     public function getNullable()
     {
         return $this->nullable;
+    }
+    /**
+     * Get column is a primary key
+     *
+     * @return boolean
+     */
+    public function isPrimaryKey()
+    {
+        return $this->primaryKey;
     }
 }

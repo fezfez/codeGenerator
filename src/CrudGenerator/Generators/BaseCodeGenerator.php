@@ -18,15 +18,11 @@
 namespace CrudGenerator\Generators;
 
 use CrudGenerator\DataObject;
-use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Utils\FileManagerStub;
-use CrudGenerator\View\View;
 use CrudGenerator\Generators\GeneriqueQuestions;
-use CrudGenerator\FileConflict\FileConflictManager;
+use CrudGenerator\Generators\Strategies\StrategyInterface;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
-use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Base code generator, extends it and implement doGenerate method
@@ -37,17 +33,13 @@ use Symfony\Component\Console\Input\InputInterface;
 abstract class BaseCodeGenerator
 {
     /**
-     * @var View View manager
+     * @var StrategyInterface
      */
-    protected $view                = null;
+    private $strategy              = null;
     /**
      * @var OutputInterface Output
      */
-    protected $clientResponse      = null;
-    /**
-     * @var FileManager File Manager
-     */
-    protected $fileManager         = null;
+    protected $output              = null;
     /**
      * @var DialogHelper Dialog
      */
@@ -56,34 +48,24 @@ abstract class BaseCodeGenerator
      * @var GeneriqueQuestions Generique Question
      */
     protected $generiqueQuestion   = null;
-    /**
-     * @var FileConflictManager File conflict manager
-     */
-    protected $fileConflictManager = null;
 
     /**
      * Base code generator
-     * @param View $view
      * @param OutputInterface $output
-     * @param FileManager $fileManager
      * @param DialogHelper $dialog
      * @param GeneriqueQuestions $generiqueQuestion
-     * @param FileConflictManager $fileConflictManager
+     * @param StrategyInterface $strategy
      */
     public function __construct(
-        View $view,
         OutputInterface $output,
-        FileManager $fileManager,
         DialogHelper $dialog,
         GeneriqueQuestions $generiqueQuestion,
-        FileConflictManager $fileConflictManager
+        StrategyInterface $strategy
     ) {
-        $this->view                = $view;
         $this->output              = $output;
-        $this->fileManager         = $fileManager;
         $this->dialog              = $dialog;
         $this->generiqueQuestion   = $generiqueQuestion;
-        $this->fileConflictManager = $fileConflictManager;
+        $this->strategy            = $strategy;
     }
 
     /**
@@ -105,12 +87,17 @@ abstract class BaseCodeGenerator
             throw new \RuntimeException('Empty metadata');
         }
 
-        $identifier = $metadata->getIdentifier();
-        if (count($identifier) === 0) {
+        $identifiers = $metadata->getIdentifier();
+        if (count($identifiers) === 0) {
             throw new \RuntimeException('The generator does not support entity classes with multiple primary keys.');
         }
 
-        if (!in_array('id', $identifier)) {
+        $identifierNames = array();
+        foreach ($identifiers as $identifier) {
+            $identifierNames[] = $identifier->getName();
+        }
+
+        if (!in_array('id', $identifierNames)) {
             throw new \RuntimeException(
                 'The generator expects the entity object has a primary key field named "id" with a getId() method.'
             );
@@ -145,37 +132,7 @@ abstract class BaseCodeGenerator
      */
     protected function generateFile(DataObject $dataObject, $pathTemplate, $pathTo, array $suppDatas = array())
     {
-        $datas = array(
-            'dir'        => $this->skeletonDir,
-            'dataObject' => $dataObject,
-        );
-
-        $results = $this->view->render(
-            $this->skeletonDir,
-            $pathTemplate,
-            array_merge($datas, $suppDatas)
-        );
-
-        if ($this->fileManager instanceof FileManagerStub) {
-            $continue = true;
-            while ($continue) {
-                try {
-                    $this->fileManager->filePutsContent($pathTo, $results);
-                    $continue = false;
-                } catch (\Exception $e) {
-                    $results = $this->view->render(
-                        $this->skeletonDir,
-                        $pathTemplate,
-                        array_merge($datas, $suppDatas)
-                    );
-                }
-            }
-        } elseif (true === $this->fileConflictManager->test($pathTo, $results)) {
-            $this->fileConflictManager->handle($pathTo, $results);
-        } else {
-            $this->fileManager->filePutsContent($pathTo, $results);
-            $this->output->writeln('--> Create ' . $pathTo);
-        }
+        $this->strategy->generateFile($dataObject, $this->skeletonDir, $pathTemplate, $pathTo, $suppDatas);
     }
 
     /**
@@ -184,8 +141,6 @@ abstract class BaseCodeGenerator
      */
     protected function ifDirDoesNotExistCreate($dir)
     {
-        if (true === $this->fileManager->ifDirDoesNotExistCreate($dir)) {
-            $this->output->writeln('--> Create dir ' . $dir);
-        }
+        $this->strategy->ifDirDoesNotExistCreate($dir);
     }
 }

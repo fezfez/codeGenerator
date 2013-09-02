@@ -3,7 +3,7 @@ namespace CrudGenerator\Tests\PDO\MetaData\Sources\PDO\SqlManager;
 
 use CrudGenerator\MetaData\Sources\PDO\SqlManager;
 
-class ListFieldsQueryTest extends \PHPUnit_Framework_TestCase
+class GetAllPrimaryKeysTest extends \PHPUnit_Framework_TestCase
 {
     public function testTrue()
     {
@@ -11,7 +11,7 @@ class ListFieldsQueryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInternalType(
             'string',
-            $sUT->listFieldsQuery('pgsql')
+            $sUT->getAllPrimaryKeys('pgsql')
         );
     }
 
@@ -21,6 +21,6 @@ class ListFieldsQueryTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('RuntimeException');
 
-        $sUT->listFieldsQuery('dazdazd');
+        $sUT->getAllPrimaryKeys('dazdazd');
     }
 }

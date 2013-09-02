@@ -41,27 +41,17 @@ class GetDTOTest extends \PHPUnit_Framework_TestCase
                     ->method('writeln')
                     ->will($this->returnValue(''));
 
-        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
-        $stubFileManager->expects($this->any())
-                        ->method('mkdir')
-                        ->will($this->returnValue(true));
-        $stubFileManager->expects($this->any())
-                        ->method('filePutsContent')
-                        ->will($this->returnValue(true));
 
-        $view              = ViewFactory::getInstance();
         $generiqueQuestion = new GeneriqueQuestions($stubDialog, $stubOutput, new FileManager());
-        $FileConflictManager = $this->getMockBuilder('\CrudGenerator\FileConflict\FileConflictManager')
-                            ->disableOriginalConstructor()
-                            ->getMock();
+        $strategy =  $this->getMockBuilder('CrudGenerator\Generators\Strategies\GeneratorStrategy')
+        ->disableOriginalConstructor()
+        ->getMock();
 
         $sUT = new ArchitectGenerator(
-            $view,
             $stubOutput,
-            $stubFileManager,
             $stubDialog,
             $generiqueQuestion,
-            $FileConflictManager
+            $strategy
         );
 
         return $sUT;

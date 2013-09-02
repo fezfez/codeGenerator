@@ -40,11 +40,11 @@ class CreateCommandFactory
      */
     public static function getInstance(DialogHelper $dialog, OutputInterface $output)
     {
-        $historyManager = HistoryFactory::getInstance();
+        $historyManager          = HistoryFactory::getInstance();
         $metaDataSourcesQuestion = MetaDataSourcesQuestionFactory::getInstance($dialog, $output);
-        $directoryQuestion = DirectoryQuestionFactory::getInstance($dialog, $output);
-        $metaDataQuestion = MetaDataQuestionFactory::getInstance($dialog, $output);
-        $generatorQuestion = GeneratorQuestionFactory::getInstance($dialog, $output);
+        $directoryQuestion       = DirectoryQuestionFactory::getInstance($dialog, $output);
+        $metaDataQuestion        = MetaDataQuestionFactory::getInstance($dialog, $output);
+        $generatorQuestion       = GeneratorQuestionFactory::getInstance($dialog, $output);
 
         return new CreateCommand(
             $dialog,

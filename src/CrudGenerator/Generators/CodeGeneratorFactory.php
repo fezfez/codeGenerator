@@ -17,10 +17,9 @@
  */
 namespace CrudGenerator\Generators;
 
-use CrudGenerator\View\ViewFactory;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\GeneriqueQuestions;
-use CrudGenerator\FileConflict\FileConflictManagerFactory;
+use CrudGenerator\Generators\Strategies\StrategyInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 
@@ -28,22 +27,32 @@ use Symfony\Component\Console\Helper\DialogHelper;
  * Create CodeGenerator instance
  * @author Stéphane Demonchaux
  */
-class CodeGeneratorFactory implements CodeGeneratorFactoryInterface
+class CodeGeneratorFactory
 {
     /**
-     * Create CodeGenerator instance
+     * @var StrategyInterface
+     */
+    private $strategy = null;
+
+    /**
+     * @param StrategyInterface $strategy
+     */
+    public function __construct(StrategyInterface $strategy)
+    {
+        $this->strategy = $strategy;
+    }
+    /**
      * @param OutputInterface $output
      * @param DialogHelper $dialog
+     * @param StrategyInterface $strategy
      * @param string $class
      * @return CrudGenerator\Generators\BaseCodeGenerator
      */
     public function create(OutputInterface $output, DialogHelper $dialog, $class)
     {
-        $view               = ViewFactory::getInstance();
         $fileManager        = new FileManager();
         $generiqueQuestion  = new GeneriqueQuestions($dialog, $output, $fileManager);
-        $fileConflitManager = FileConflictManagerFactory::getInstance($output, $dialog);
 
-        return new $class($view, $output, $fileManager, $dialog, $generiqueQuestion, $fileConflitManager);
+        return new $class($output, $dialog, $generiqueQuestion, $this->strategy);
     }
 }
