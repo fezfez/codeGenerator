@@ -60,7 +60,7 @@ class DirectoryQuestion
     {
         try {
             ZendFramework2Environnement::getDependence($this->fileManager);
-            $directory = 'module/';
+            $directory = './module/';
         } catch (EnvironnementResolverException $e) {
             $directory = './';
         }
@@ -71,7 +71,7 @@ class DirectoryQuestion
                 $directory . '*',
                 GLOB_ONLYDIR|GLOB_MARK
             );
-            $modulesChoices = array_unshift(
+            array_unshift(
                 $directories,
                 ' -> Back',
                 ' -> Chose actual directory'
@@ -80,7 +80,7 @@ class DirectoryQuestion
             $choice = $this->dialog->select(
                 $this->output,
                 "<question>Choose a target directory</question> \n> ",
-                $modulesChoices,
+                $directories,
                 0
             );
 
@@ -92,7 +92,7 @@ class DirectoryQuestion
                     $directory
                 );
             } elseif ($choice != self::CURRENT_DIRECTORY) {
-                $directory = $modulesChoices[$choice];
+                $directory = $directories[$choice];
             }
         }
 

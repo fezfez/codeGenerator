@@ -37,6 +37,10 @@ class RegenerateCommand extends Command
      */
     private $dialog               = null;
     /**
+     * @var OutputInterface
+     */
+    private $output = null;
+    /**
      * @var HistoryQuestion
      */
     private $historyQuestion      = null;
@@ -52,10 +56,12 @@ class RegenerateCommand extends Command
      */
     public function __construct(
         DialogHelper $dialog,
+        OutputInterface $output,
         HistoryQuestion $historyQuestion,
         CodeGeneratorFactory $codeGeneratorFactory
     ) {
         $this->dialog               = $dialog;
+        $this->output               = $output;
         $this->historyQuestion      = $historyQuestion;
         $this->codeGeneratorFactory = $codeGeneratorFactory;
         parent::__construct('regenerate');
@@ -83,15 +89,15 @@ class RegenerateCommand extends Command
         $history    = $this->historyQuestion->ask();
         $dataObject = $history->getDataObject();
 
-        $crudGenerator = $this->codeGeneratorFactory->create($output, $this->dialog, $dataObject->getGenerator());
+        $crudGenerator = $this->codeGeneratorFactory->create($this->output, $this->dialog, $dataObject->getGenerator());
 
-        $output->writeln("<info>Resume</info>");
-        $output->writeln('<info>Metadata : ' . $dataObject->getEntity(), '*</info>');
-        $output->writeln('<info>Directory : ' . $dataObject->getModule(), '*</info>');
-        $output->writeln("<info>Generator : " . $crudGenerator->getDefinition(), "*</info>");
+        $this->output->writeln("<info>Resume</info>");
+        $this->output->writeln('<info>Metadata : ' . $dataObject->getEntity(), '*</info>');
+        $this->output->writeln('<info>Directory : ' . $dataObject->getModule(), '*</info>');
+        $this->output->writeln("<info>Generator : " . $crudGenerator->getDefinition(), "*</info>");
 
         $doI = $this->dialog->askConfirmation(
-            $output,
+            $this->output,
             "\n<question>Do you confirm generation (may others question generator ask you) ?</question> "
         );
 
