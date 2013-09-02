@@ -19,7 +19,8 @@ namespace CrudGenerator\Command\Questions;
 
 use CrudGenerator\Generators\GeneratorFinderFactory;
 use CrudGenerator\Generators\CodeGeneratorFactory;
-use CrudGenerator\Generators\CodeGeneratorStubFactory;
+use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
+use CrudGenerator\Generators\Strategies\SandBoxStrategyFactory;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 
@@ -35,9 +36,9 @@ class GeneratorQuestionFactory
     {
         $generatorFinder = GeneratorFinderFactory::getInstance();
         if ($stub === true) {
-            $codeGeneratorFactory = new CodeGeneratorStubFactory();
+            $codeGeneratorFactory = new CodeGeneratorFactory(SandBoxStrategyFactory::getInstance($output, $dialog));
         } else {
-            $codeGeneratorFactory = new CodeGeneratorFactory();
+            $codeGeneratorFactory = new CodeGeneratorFactory(GeneratorStrategyFactory::getInstance($output, $dialog));
         }
 
         return new GeneratorQuestion($generatorFinder, $codeGeneratorFactory, $output, $dialog);

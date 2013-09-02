@@ -15,35 +15,33 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators;
+namespace CrudGenerator\Generators\Strategies;
 
 use CrudGenerator\View\ViewFactory;
-use CrudGenerator\Utils\FileManagerStub;
-use CrudGenerator\Generators\GeneriqueQuestions;
+use CrudGenerator\Utils\FileManager;
 use CrudGenerator\FileConflict\FileConflictManagerFactory;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 
 /**
- * Create CodeGenerator instance
+ * Base code generator, extends it and implement doGenerate method
+ * to make you own Generator
+ *
  * @author Stéphane Demonchaux
  */
-class CodeGeneratorStubFactory implements CodeGeneratorFactoryInterface
+class GeneratorStrategyFactory
 {
     /**
-     * Create CodeGenerator instance
      * @param OutputInterface $output
      * @param DialogHelper $dialog
-     * @param string $class
-     * @return CrudGenerator\Generators\BaseCodeGenerator
+     * @return \CrudGenerator\Generators\Strategies\GeneratorStrategy
      */
-    public function create(OutputInterface $output, DialogHelper $dialog, $class)
+    public static function getInstance(OutputInterface $output, DialogHelper $dialog)
     {
         $view               = ViewFactory::getInstance();
-        $fileManager        = new FileManagerStub($dialog, $output);
-        $generiqueQuestion  = new GeneriqueQuestions($dialog, $output, $fileManager);
+        $fileManager        = new FileManager();
         $fileConflitManager = FileConflictManagerFactory::getInstance($output, $dialog);
 
-        return new $class($view, $output, $fileManager, $dialog, $generiqueQuestion, $fileConflitManager);
+        return new GeneratorStrategy($view, $output, $fileManager, $fileConflitManager);
     }
 }

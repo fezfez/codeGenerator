@@ -15,27 +15,28 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators;
+namespace CrudGenerator\Generators\Strategies;
 
-use CrudGenerator\View\ViewFactory;
-use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Generators\GeneriqueQuestions;
-use CrudGenerator\Utils\DiffPHP;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
+use CrudGenerator\DataObject;
 
 /**
- * Create CodeGenerator instance
+ * Base code generator, extends it and implement doGenerate method
+ * to make you own Generator
+ *
  * @author Stéphane Demonchaux
  */
-interface CodeGeneratorFactoryInterface
+interface StrategyInterface
 {
     /**
-     * Create CodeGenerator instance
-     * @param OutputInterface $output
-     * @param DialogHelper $dialog
-     * @param string $class
-     * @return CrudGenerator\Generators\BaseCodeGenerator
+     * @param DataObject $dataObject
+     * @param string $pathTemplate
+     * @param string $pathTo
+     * @param array $suppDatas
      */
-    public function create(OutputInterface $output, DialogHelper $dialog, $class);
+    public function generateFile(DataObject $dataObject, $skeletonDir, $pathTemplate, $pathTo, array $suppDatas = array());
+    /**
+     * Create dir if not exist
+     * @param string $dir
+     */
+    public function ifDirDoesNotExistCreate($dir);
 }

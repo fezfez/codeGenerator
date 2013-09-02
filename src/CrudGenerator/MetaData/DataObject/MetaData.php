@@ -38,9 +38,9 @@ abstract class MetaData
      */
     private $relationCollection = null;
     /**
-     * @var array Identifiers
+     * @var MetaDataPrimaryKeyCollection PrimaryKey collection
      */
-    private $identifier = array();
+    private $primaryKeyCollection = null;
     /**
      * @var string Name
      */
@@ -75,15 +75,6 @@ abstract class MetaData
         $this->relationCollection->append($value);
     }
     /**
-     * Add identifier
-     * @param MetaDataRelationColumn $value
-     */
-    public function addIdentifier($value)
-    {
-        $this->identifier[] = $value;
-        return $this;
-    }
-    /**
      * Set name
      * @param string $value
      */
@@ -103,8 +94,8 @@ abstract class MetaData
             $tmpColumnCollection = array();
 
             foreach ($this->columnCollection as $column) {
-                $name = $column->getName();
-                if (!in_array($name, $this->identifier)) {
+                $isPk = $column->isPrimaryKey();
+                if ($isPk === false) {
                     $tmpColumnCollection[] = $column;
                 }
             }
@@ -128,7 +119,16 @@ abstract class MetaData
      */
     public function getIdentifier()
     {
-        return $this->identifier;
+        $tmpColumnCollection = array();
+
+        foreach ($this->columnCollection as $column) {
+            $isPk = $column->isPrimaryKey();
+            if ($isPk === true) {
+                $tmpColumnCollection[] = $column;
+            }
+        }
+
+        return $tmpColumnCollection;
     }
     /**
      * Get name

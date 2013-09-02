@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\General\MetaData\DataObject\MetaDataRelationColumn;
+namespace CrudGenerator\Tests\General\MetaData\DataObject\MetaDataDataObject;
 
 use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;

@@ -5,15 +5,15 @@ use CrudGenerator\MetaData\MetaDataSourceFinder;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\ClassAwake;
 
-class GetAllAdapatersdzazdaTest extends \PHPUnit_Framework_TestCase
+class GetAllAdapatersTest extends \PHPUnit_Framework_TestCase
 {
-    public function testTypeffzazf()
+    public function testType()
     {
+        chdir(__DIR__);
         $fileManager = new FileManager();
         $classAwake  = new ClassAwake();
 
         $suT = new MetaDataSourceFinder($fileManager, $classAwake);
-
 
         $adapterCollection = $suT->getAllAdapters();
 
@@ -23,7 +23,7 @@ class GetAllAdapatersdzazdaTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testFail()
+    /*public function testFail()
     {
         $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())
@@ -38,5 +38,5 @@ class GetAllAdapatersdzazdaTest extends \PHPUnit_Framework_TestCase
             'CrudGenerator\MetaData\MetaDataSourceCollection',
             $suT->getAllAdapters()
         );
-    }
+    }*/
 }
