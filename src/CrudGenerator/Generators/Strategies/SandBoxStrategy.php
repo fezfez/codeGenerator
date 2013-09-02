@@ -77,7 +77,7 @@ class SandBoxStrategy implements StrategyInterface
                 array_merge($datas, $suppDatas)
             );
 
-            $this->output->writeln("<info>[LOG] generateFile $pathTo</info>");
+            $this->output->writeln("<info>[LOG] Generate $pathTo \nfrom $skeletonDir$pathTemplate</info>");
             $this->output->writeln($results);
 
             $continue = $this->dialog->askConfirmation(

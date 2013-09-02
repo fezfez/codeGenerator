@@ -38,10 +38,6 @@ abstract class MetaData
      */
     private $relationCollection = null;
     /**
-     * @var MetaDataPrimaryKeyCollection PrimaryKey collection
-     */
-    private $primaryKeyCollection = null;
-    /**
      * @var string Name
      */
     private $name = null;
