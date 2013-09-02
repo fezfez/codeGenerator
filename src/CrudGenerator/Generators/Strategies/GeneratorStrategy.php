@@ -40,7 +40,7 @@ class GeneratorStrategy implements StrategyInterface
     /**
      * @var OutputInterface Output
      */
-    private $clientResponse      = null;
+    private $output              = null;
     /**
      * @var FileManager File Manager
      */

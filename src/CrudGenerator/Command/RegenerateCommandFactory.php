@@ -42,6 +42,6 @@ class RegenerateCommandFactory
         $historyQuestion      = HistoryQuestionFactory::getInstance($dialog, $output);
         $codeGeneratorFactory = new CodeGeneratorFactory(SandBoxStrategyFactory::getInstance($output, $dialog));
 
-        return new RegenerateCommand($dialog, $historyQuestion, $codeGeneratorFactory);
+        return new RegenerateCommand($dialog, $output, $historyQuestion, $codeGeneratorFactory);
     }
 }

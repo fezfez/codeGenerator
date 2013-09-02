@@ -42,9 +42,13 @@ class executeTest extends \PHPUnit_Framework_TestCase
         ->method('askConfirmation')
         ->will($this->returnValue(false));
 
+        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+        ->disableOriginalConstructor()
+        ->getMock();
+
 
         $application = new App();
-        $application->add(new RegenerateCommand($dialog, $historyStub, $CodeGeneratorFactoryStub));
+        $application->add(new RegenerateCommand($dialog, $ConsoleOutputStub, $historyStub, $CodeGeneratorFactoryStub));
 
         $command = $application->find('CodeGenerator:regenerate');
 
@@ -83,9 +87,13 @@ class executeTest extends \PHPUnit_Framework_TestCase
         ->method('askConfirmation')
         ->will($this->returnValue(true));
 
+        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+        ->disableOriginalConstructor()
+        ->getMock();
+
 
         $application = new App();
-        $application->add(new RegenerateCommand($dialog, $historyStub, $CodeGeneratorFactoryStub));
+        $application->add(new RegenerateCommand($dialog, $ConsoleOutputStub, $historyStub, $CodeGeneratorFactoryStub));
 
         $command = $application->find('CodeGenerator:regenerate');
 
