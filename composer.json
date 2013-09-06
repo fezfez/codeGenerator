@@ -45,7 +45,7 @@
         "branch-alias": {
             "dev-master": "alpa-0.1"
         }
-    }
+    },
 	"bin" : [
 		"bin/crud-generator"
 	]
