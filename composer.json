@@ -43,7 +43,7 @@
 	},
     "extra": {
         "branch-alias": {
-            "alpha-0.1-dev" : "0.1-dev"
+            "dev-master" : "alpha-0.1-dev"
         }
     },
 	"bin" : [
