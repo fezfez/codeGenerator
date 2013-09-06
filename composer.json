@@ -41,6 +41,11 @@
 		"issues" : "https://github.com/fezfez/crudGenerator/issues",
 		"wiki" : "https://github.com/fezfez/crudGenerator/blob/master/README.md"
 	},
+    "extra": {
+        "branch-alias": {
+            "dev-master": "alpa-0.1"
+        }
+    }
 	"bin" : [
 		"bin/crud-generator"
 	]
