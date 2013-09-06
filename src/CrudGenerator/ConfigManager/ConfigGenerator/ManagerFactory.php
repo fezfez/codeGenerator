@@ -32,8 +32,9 @@ class ManagerFactory
 {
     /**
      * Create a ConfigGenerator manager instance
-     *
-     * @return ConfigGenerator
+     * @param string $pathToConf
+     * @throws InvalidConfigPathException
+     * @return \CrudGenerator\ConfigManager\ConfigGenerator\Manager\ConfigGenerator
      */
     public static function getInstance($pathToConf)
     {
@@ -50,5 +51,14 @@ class ManagerFactory
         }
 
         return new ConfigGenerator($yamlDatas);
+    }
+
+    /**
+     * @param string $pathToConf
+     * @return \CrudGenerator\ConfigManager\ConfigGenerator\Manager\ConfigGenerator
+     */
+    public function create($pathToConf)
+    {
+        return self::getInstance($pathToConf);
     }
 }

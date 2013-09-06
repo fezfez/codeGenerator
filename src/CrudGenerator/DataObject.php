@@ -144,6 +144,7 @@ abstract class DataObject
             return str_replace('\\', '', strrchr($this->entity, '\\'));
         }
     }
+
     /**
      * Get MetaData
      * @return \CrudGenerator\MetaData\DataObject\MetaData

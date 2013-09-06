@@ -67,8 +67,7 @@ class HistoryQuestion
         $choice = $this->dialog->select(
             $this->output,
             "<question>History to regenerate</question> \n> ",
-            $historyKeysChoices,
-            0
+            $historyKeysChoices
         );
 
         return $historyChoices[$historyKeysChoices[$choice]];

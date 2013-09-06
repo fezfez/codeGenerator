@@ -2,12 +2,12 @@
 namespace <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\DAO;
 
 use ApplicationTest\FixtureManager;
-use <?php echo $this->dataObject->getNamespace(); ?>\DAO\<?php echo $this->dataObject->getEntityName(); ?>DAO;
-use <?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObject;
-use <?php echo $this->dataObject->getNamespace(); ?>\Hydrator\<?php echo $this->dataObject->getEntityName(); ?>Hydrator;
-use <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\<?php echo $this->dataObject->getEntityName(); ?>Fixture;
+use <?php echo $this->hydratorNamespace; ?>;
+use <?php echo $this->dtoNamespace; ?>;
+use <?php echo $this->daoNamespace; ?>;
+use <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\<?php echo $this->entityName; ?>Fixture;
 
-class modifyTest extends \PHPUnit_Framework_TestCase
+class ModifyTest extends \PHPUnit_Framework_TestCase
 {
     public function testRemove()
     {
@@ -25,17 +25,17 @@ $modifiedValue = $this->getHelper('FixtureRenderer')->render($metadata);
         $<?php echo $metadata->getName(); ?> = <?php echo $this->getHelper('FixtureRenderer')->render($metadata); ?>;
 <?php endforeach; ?>
 
-        $dto = new <?php echo $this->dataObject->getEntityName(); ?>DataObject();
+        $dto = new <?php echo $this->dataObjectName; ?>();
         $dto<?php foreach($columnCollection as $field => $metadata):
 if(null === $keyToTest) {
     $keyToTest = $metadata->getName();
 }
 ?>
-           ->set<?php echo ucfirst($metadata->getName()); ?>($<?php echo $metadata->getName(); ?>)<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
+           ->set<?php echo $metadata->getName(true); ?>($<?php echo $metadata->getName(); ?>)<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
 <?php endforeach; ?>
 
-        $<?php echo $this->dataObject->getEntityName(); ?>DAO = new <?php echo $this->dataObject->getEntityName(); ?>DAO($em, new <?php echo $this->dataObject->getEntityName(); ?>Hydrator());
-        $dtoPersisted = $<?php echo $this->dataObject->getEntityName(); ?>DAO->persist($dto);
+        $sUT = new <?php echo $this->daoName; ?>($em, new <?php echo $this->entityName; ?>Hydrator());
+        $dtoPersisted = $<?php echo $this->entityName; ?>DAO->persist($dto);
 
         $entity = $em->getRepository('<?php echo $this->dataObject->getEntity(); ?>')->findOneBy(array('<?php echo $keyToTest; ?>' => $<?php echo $keyToTest; ?>));
 
@@ -46,9 +46,9 @@ foreach($columnCollection as $field => $metadata): ?>
 <?php endforeach; ?>
 
         $dtoPersisted->set<?php echo ucfirst($keyToTest); ?>(<?php echo $modifiedValue; ?>);
-        $dtoModified = $<?php echo $this->dataObject->getEntityName(); ?>DAO->modify($dtoPersisted);
+        $dtoModified = $sUT->modify($dtoPersisted);
 
-        $dtoTestable =  $<?php echo $this->dataObject->getEntityName(); ?>DAO->find($dtoModified);
+        $dtoTestable =  $sUT->find($dtoModified);
 
         $this->assertEquals(<?php echo $modifiedValue; ?>, $entity->get<?php echo ucfirst($keyToTest); ?>());
     }
@@ -58,12 +58,12 @@ foreach($columnCollection as $field => $metadata): ?>
         FixtureManager::purge();
         $em = FixtureManager::getEm();
 
-        $<?php echo $this->dataObject->getEntityName(); ?>DAO = new <?php echo $this->dataObject->getEntityName(); ?>DAO($em, new <?php echo $this->dataObject->getEntityName(); ?>Hydrator());
+        $sUT = new <?php echo $this->daoName; ?>($em, new <?php echo $this->hydratorName; ?>());
 
-        $dto = new <?php echo $this->dataObject->getEntityName(); ?>DataObject();
+        $dto = new <?php echo $this->dataObjectName; ?>();
 
-        $this->setExpectedException('<?php echo $this->dataObject->getNamespace(); ?>\No<?php echo $this->dataObject->getEntityName(); ?>Exception');
-        $<?php echo $this->dataObject->getEntityName(); ?>DAO->modify($dto);
+        $this->setExpectedException('<?php echo $this->exceptionNamespace; ?>');
+        $sUT->modify($dto);
     }
 }
 

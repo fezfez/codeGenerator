@@ -76,8 +76,7 @@ class MetaDataSourcesQuestion
         $choice = $this->dialog->select(
             $this->output,
             "<question>Choose an adapter</question> \n> ",
-            $adaptersKeysChoices,
-            0
+            $adaptersKeysChoices
         );
 
         return $adaptersChoices[$adaptersKeysChoices[$choice]];

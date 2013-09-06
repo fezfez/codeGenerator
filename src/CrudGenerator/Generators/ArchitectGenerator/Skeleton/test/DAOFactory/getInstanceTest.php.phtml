@@ -2,15 +2,18 @@
 
 namespace <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\DAOFactory;
 
-use <?php echo $this->dataObject->getNamespace(); ?>\<?php echo $this->dataObject->getEntityName(); ?>DAOFactory;
-use <?php echo $this->dataObject->getNamespace(); ?>\DAO\<?php echo $this->dataObject->getEntityName(); ?>DAO;
+use <?php echo $this->dataObject->getNamespace(); ?>\<?php echo $this->daoName; ?>Factory;
+use <?php echo $this->daoNamespace; ?>;
 use <?php echo $this->unitTestNamespace; ?>\Bootstrap;
 
-class getInstanceTest extends \PHPUnit_Framework_TestCase
+class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testReturnType()
     {
-        $this->assertInstanceOf('<?php echo $this->dataObject->getNamespace(); ?>\DAO\<?php echo $this->dataObject->getEntityName(); ?>DAO', <?php echo $this->dataObject->getEntityName(); ?>DAOFactory::getInstance(Bootstrap::getServiceManager()));
+        $this->assertInstanceOf(
+            '<?php echo $this->daoNamespace; ?>',
+            <?php echo $this->daoName; ?>Factory::getInstance(Bootstrap::getServiceManager())
+        );
     }
 }
 

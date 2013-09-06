@@ -1,14 +1,15 @@
 <?php
-namespace CrudGenerator\Tests\General\Generators\ArchitectGenerator\FixtureRenderer;
+namespace CrudGenerator\Tests\General\View\Helpers\FixtureRenderer;
 
-use CrudGenerator\Generators\ArchitectGenerator\FixtureRenderer;
+use CrudGenerator\View\Helpers\FixtureRenderer;
 use CrudGenerator\MetaData\DataObject\MetaDataColumn;
+use Faker\Factory;
 
 class RenderTest extends \PHPUnit_Framework_TestCase
 {
     public function testTypedzdzaz()
     {
-        $sUT = new FixtureRenderer();
+        $sUT = new FixtureRenderer(Factory::create());
         $metadata = new MetaDataColumn();
 
         $this->assertInternalType(

@@ -1,49 +1,54 @@
-<?php echo '<?php' . "\n"; ?>
+<?php
+echo '<?php' . "\n";
+$databaseConnectorClassName     = $this->getHelper('TemplateDatabaseConnector')->getClassName();
+$databaseConnectionVariableName = $this->getHelper('TemplateDatabaseConnector')->getVariableName();
+
+?>
 namespace <?php echo $this->dataObject->getNamespace(); ?>\Hydrator;
 
-use <?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObject;
-use <?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>Collection;
+use <?php echo $this->dtoNamespace; ?>;
+use <?php echo $this->dtoCollectionNamespace; ?>;
 use <?php echo $this->dataObject->getEntity(); ?>;
 
 <?php
-    $length = str_repeat(' ', strlen('a' . $this->dataObject->getEntityName()));
+    $length = str_repeat(' ', strlen('a' . $this->entityName));
 ?>
-class <?php echo $this->dataObject->getEntityName(); ?>Hydrator
+class <?php echo $this->hydratorName . "\n"; ?>
 {
     /**
-     * @param <?php echo $this->dataObject->getEntityName(); ?> $entity
-     * @param <?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo lcfirst($this->dataObject->getEntityName()) . "\n"; ?>
-     * @return <?php echo $this->dataObject->getEntityName(); ?>DataObject
+     * @param <?php echo $this->entityName; ?> $entity
+     * @param <?php echo $this->dataObjectName; ?> $<?php echo $this->entityName . "\n"; ?>
+     * @return <?php echo $this->dataObjectName . "\n"; ?>
      */
-    public function entityToPopo(<?php echo $this->dataObject->getEntityName(); ?> $entity, <?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo lcfirst($this->dataObject->getEntityName()); ?>)
+    public function entityToPopo(<?php echo $this->entityName; ?> $entity, <?php echo $this->entityName; ?>DataObject $<?php echo lcfirst($this->entityName); ?>)
     {
-        $<?php echo lcfirst($this->dataObject->getEntityName()); ?> = clone $<?php echo lcfirst($this->dataObject->getEntityName()); ?>;
+        $<?php echo $this->entityName; ?> = clone $<?php echo $this->entityName; ?>;
 
 <?php
 $columnCollection = $this->dataObject->getMetadata()->getColumnCollection();
 foreach($columnCollection as $field => $metadata): ?>
 <?php if($metadata == reset($columnCollection)): ?>
-        $<?php echo lcfirst($this->dataObject->getEntityName()); ?>->set<?php echo ucfirst($metadata->getName()); ?>($entity->get<?php echo ucfirst($metadata->getName()); ?>())<?php echo "\n"; ?>
+        $<?php echo $this->entityName; ?>->set<?php echo $metadata->getName(true); ?>($entity->get<?php echo $metadata->getName(true); ?>())<?php echo "\n"; ?>
 <?php else: ?>
-        <?php echo $length; ?>->set<?php echo ucfirst($metadata->getName()); ?>($entity->get<?php echo ucfirst($metadata->getName()); ?>())<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
+        <?php echo $length; ?>->set<?php echo $metadata->getName(true); ?>($entity->get<?php echo $metadata->getName(true); ?>())<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
 <?php endif; ?>
 <?php endforeach; ?>
 
-       return $<?php echo lcfirst($this->dataObject->getEntityName()); ?>;
+       return $<?php echo $this->entityName; ?>;
     }
 
     /**
-     * @param <?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo lcfirst($this->dataObject->getEntityName()) . "\n"; ?>
-     * @param <?php echo $this->dataObject->getEntityName(); ?> $entity
-     * @return <?php echo $this->dataObject->getEntityName(); ?>DataObject
+     * @param <?php echo $this->dataObjectName; ?> $<?php echo $this->entityName . "\n"; ?>
+     * @param <?php echo $this->entityName; ?> $entity
+     * @return <?php echo $this->dataObjectName . "\n"; ?>
      */
-    public function popoToEntity(<?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo lcfirst($this->dataObject->getEntityName()); ?>, <?php echo $this->dataObject->getEntityName(); ?> $entity)
+    public function popoToEntity(<?php echo $this->dataObjectName; ?> $<?php echo $this->entityName; ?>, <?php echo $this->entityName; ?> $entity)
     {
 <?php
 $columnCollection = $this->dataObject->getMetadata()->getColumnCollection();
 foreach($columnCollection as $field => $metadata): ?>
 <?php if($metadata == reset($columnCollection)) continue;  ?>
-        $entity->set<?php echo ucfirst($metadata->getName()); ?>($<?php echo lcfirst($this->dataObject->getEntityName()); ?>->get<?php echo ucfirst($metadata->getName()); ?>());<?php echo "\n"; ?>
+        $entity->set<?php echo $metadata->getName(true); ?>($<?php echo $this->entityName; ?>->get<?php echo $metadata->getName(true); ?>());<?php echo "\n"; ?>
 <?php endforeach; ?>
 
        return $entity;
@@ -51,38 +56,38 @@ foreach($columnCollection as $field => $metadata): ?>
 
     /**
      * @param array $entityCollection
-     * @param <?php echo $this->dataObject->getEntityName(); ?>Collection $dataObjectCollection
-     * @param <?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo lcfirst($this->dataObject->getEntityName()) . "\n"; ?>
-     * @return <?php echo $this->dataObject->getEntityName(); ?>Collection
+     * @param <?php echo $this->collectionName; ?> $dataObjectCollection
+     * @param <?php echo $this->dataObjectName; ?> $<?php echo $this->entityName . "\n"; ?>
+     * @return <?php echo $this->collectionName . "\n"; ?>
      */
     public function entityCollectionToPopoCollection(
         array $entityCollection,
-        <?php echo $this->dataObject->getEntityName(); ?>Collection $dataObjectCollection,
-        <?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo lcfirst($this->dataObject->getEntityName()); ?>)
+        <?php echo $this->collectionName; ?> $dataObjectCollection,
+        <?php echo $this->dataObjectName; ?> $<?php echo $this->entityName; ?>)
     {
         $dataObjectCollection = clone $dataObjectCollection;
 
         foreach($entityCollection as $entity) {
-            $dataObjectCollection->append($this->entityToPopo($entity, $<?php echo lcfirst($this->dataObject->getEntityName()); ?>));
+            $dataObjectCollection->append($this->entityToPopo($entity, $<?php echo lcfirst($this->entityName); ?>));
         }
 
         return $dataObjectCollection;
     }
 
     /**
-     * @param <?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo lcfirst($this->dataObject->getEntityName()) . "\n"; ?>
+     * @param <?php echo $this->dataObjectName; ?> $<?php echo $this->entityName . "\n"; ?>
      * @param array $datas
      * @return array
      */
-    public function popoToArray(<?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo lcfirst($this->dataObject->getEntityName()); ?>, $datas = array())
+    public function popoToArray(<?php echo $this->dataObjectName; ?> $<?php echo $this->entityName; ?>, $datas = array())
     {
 <?php
 $columnCollection = $this->dataObject->getMetadata()->getColumnCollection();
 foreach($columnCollection as $field => $metadata): ?>
 <?php if(in_array($metadata->getType(), array("date", "datetime"))): ?>
-        $datas['<?php echo $metadata->getName(); ?>'] = $<?php echo lcfirst($this->dataObject->getEntityName()); ?>->get<?php echo ucfirst($metadata->getName()); ?>()->format('Y-m-d');<?php echo "\n"; ?>
+        $datas['<?php echo $metadata->getName(); ?>'] = $<?php echo $this->entityName; ?>->get<?php echo $metadata->getName(true); ?>()->format('Y-m-d');<?php echo "\n"; ?>
 <?php else: ?>
-        $datas['<?php echo $metadata->getName(); ?>'] = $<?php echo lcfirst($this->dataObject->getEntityName()); ?>->get<?php echo ucfirst($metadata->getName()); ?>();<?php echo "\n"; ?>
+        $datas['<?php echo $metadata->getName(); ?>'] = $<?php echo $this->entityName; ?>->get<?php echo $metadata->getName(true); ?>();<?php echo "\n"; ?>
 <?php endif; ?>
 <?php endforeach; ?>
 
@@ -91,9 +96,9 @@ foreach($columnCollection as $field => $metadata): ?>
 
     /**
      * @param array $datas
-     * @param <?php echo $this->dataObject->getEntityName(); ?>DataObject $dataObject
+     * @param <?php echo $this->dataObjectName; ?> $dataObject
      */
-    public function arrayToPopo(array $datas, <?php echo $this->dataObject->getEntityName(); ?>DataObject $dataObject)
+    public function arrayToPopo(array $datas, <?php echo $this->dataObjectName; ?> $dataObject)
     {
         $dataObject = clone $dataObject;
 <?php

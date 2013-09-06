@@ -17,7 +17,9 @@
  */
 namespace CrudGenerator\View;
 
+use CrudGenerator\DataObject;
 use CrudGenerator\View\ViewRendererException;
+use CrudGenerator\View\Helpers\TemplateDependenciesResolverInterface;
 
 /**
  * Template renderer
@@ -27,7 +29,7 @@ use CrudGenerator\View\ViewRendererException;
 class ViewRenderer
 {
     /**
-     * @var unknown_type
+     * @var array
      */
     private $helpers = null;
 
@@ -62,11 +64,18 @@ class ViewRenderer
         return $content;
     }
 
+    /**
+     * @param string $name
+     * @param DataObject $dataObject
+     * @throws ViewRendererException
+     * @return unknown
+     */
     public function getHelper($name)
     {
+        $name = $name . 'Factory';
         if (isset($this->helpers[$name])) {
             $className = $this->helpers[$name];
-            return new $className();
+            return $className::getInstance($this->dataObject);
         } else {
             throw new ViewRendererException(
                 'Helper ' . $name . ' does not exist'

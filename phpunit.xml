@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit bootstrap="bootstrap.php"
+<phpunit bootstrap="./tests/bootstrap.php"
          backupGlobals="false"
          processIsolation="false"
          colors="true"
@@ -9,18 +9,18 @@
          convertWarningsToExceptions="true">
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./../src/CrudGenerator/</directory>
+            <directory suffix=".php">./src/CrudGenerator/</directory>
         </whitelist>
     </filter>
     <testsuites>
         <testsuite name="General">
-            <directory>./CrudGenerator/Tests/General/</directory>
+            <directory>./tests/CrudGenerator/Tests/General/</directory>
         </testsuite>
         <testsuite name="PDOs">
-            <directory>./CrudGenerator/Tests/PDO/</directory>
+            <directory>./tests/CrudGenerator/Tests/PDO/</directory>
         </testsuite>
         <testsuite name="ZF2">
-            <directory>./CrudGenerator/Tests/ZF2/</directory>
+            <directory>./tests/CrudGenerator/Tests/ZF2/</directory>
         </testsuite>
     </testsuites>
 </phpunit>

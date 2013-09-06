@@ -4,6 +4,7 @@ namespace CrudGenerator\Tests\General\View\View;
 use CrudGenerator\View\View;
 use CrudGenerator\View\ViewRenderer;
 use CrudGenerator\Utils\FileManager;
+use CrudGenerator\DataObject;
 
 class GetHelperTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,10 +16,22 @@ class GetHelperTest extends \PHPUnit_Framework_TestCase
         $viewRenderer->getHelper('toto');
     }
 
+    /**
+     * @expectedException PHPUnit_Framework_Error_Notice
+     */
+    public function testFailOnGetDataObject()
+    {
+        $viewRenderer = new ViewRenderer(array('FixtureRendererFactory' => '\CrudGenerator\View\Helpers\FixtureRendererFactory'));
+
+        $this->assertInstanceOf('\CrudGenerator\View\Helpers\FixtureRenderer', $viewRenderer->getHelper('FixtureRenderer'));
+    }
+
     public function testOk()
     {
-        $viewRenderer = new ViewRenderer(array('FixtureRenderer' => '\CrudGenerator\Generators\ArchitectGenerator\FixtureRenderer'));
+        $viewRenderer = new ViewRenderer(array('FixtureRendererFactory' => '\CrudGenerator\View\Helpers\FixtureRendererFactory'));
 
-        $this->assertInstanceOf('\CrudGenerator\Generators\ArchitectGenerator\FixtureRenderer', $viewRenderer->getHelper('FixtureRenderer'));
+        $viewRenderer->dataObject = $this->getMockForAbstractClass('CrudGenerator\DataObject');
+
+        $this->assertInstanceOf('\CrudGenerator\View\Helpers\FixtureRenderer', $viewRenderer->getHelper('FixtureRenderer'));
     }
 }

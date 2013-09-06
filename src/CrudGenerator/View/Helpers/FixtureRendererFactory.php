@@ -15,13 +15,23 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\ConfigManager\ConfigMetadata\DataObject;
+namespace CrudGenerator\View\Helpers;
 
-/**
- * Yaml datas for conversion into generic metadatas
- *
- * @author Anthony Rochet
- */
-class PropertiesCollection extends \ArrayObject
+use CrudGenerator\DataObject;
+use CrudGenerator\MetaData\DataObject\MetaDataColumn;
+use CrudGenerator\View\ViewHelperFactoryInterface;
+use Faker\Factory;
+
+class FixtureRendererFactory implements ViewHelperFactoryInterface
 {
+    /**
+     * @param DataObject $dataObject
+     * @return \CrudGenerator\View\Helpers\FixtureRenderer
+     */
+    public static function getInstance(DataObject $dataObject)
+    {
+        $faker = Factory::create();
+
+        return new FixtureRenderer($faker);
+    }
 }

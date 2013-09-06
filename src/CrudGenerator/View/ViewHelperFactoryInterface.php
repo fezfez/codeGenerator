@@ -17,10 +17,12 @@
  */
 namespace CrudGenerator\View;
 
+use CrudGenerator\DataObject;
 
 /**
  * @author Stéphane Demonchaux <demonchaux.stephane@gmail.com>
  */
-interface ViewHelperInterface
+interface ViewHelperFactoryInterface
 {
+    public static function getInstance(DataObject $dataObject);
 }
