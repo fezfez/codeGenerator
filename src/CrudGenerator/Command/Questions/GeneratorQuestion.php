@@ -29,7 +29,7 @@ class GeneratorQuestion
      */
     private $generatorFinder = null;
     /**
-     * @var CodeGeneratorFactoryInterface
+     * @var CodeGeneratorFactory
      */
     private $codeGeneratorFactory = null;
     /**
@@ -43,7 +43,7 @@ class GeneratorQuestion
 
     /**
      * @param GeneratorFinder $generatorFinder
-     * @param CodeGeneratorFactoryInterface $codeGeneratorFactory
+     * @param CodeGeneratorFactory $codeGeneratorFactory
      * @param OutputInterface $output
      * @param DialogHelper $dialog
      */
@@ -61,21 +61,38 @@ class GeneratorQuestion
 
     /**
      * Ask wich generator you want to use
+     * @param string $defaultGenerator
+     * @throws \Exception
      * @return \CrudGenerator\Generators\BaseCodeGenerator
      */
-    public function ask()
+    public function ask($defaultGenerator = null)
     {
         $generatorCollection = $this->generatorFinder->getAllClasses();
 
         foreach ($generatorCollection as $generatorClassName) {
-            $generator = $this->codeGeneratorFactory->create($this->output, $this->dialog, $generatorClassName);
-            $generatorsChoices[$generator->getDefinition()] = $generator;
+            if (null !== $defaultGenerator) {
+                if ($defaultGenerator === $generatorClassName) {
+                    return $this->codeGeneratorFactory->create($this->output, $this->dialog, $generatorClassName);
+                }
+            } else {
+                $generator = $this->codeGeneratorFactory->create($this->output, $this->dialog, $generatorClassName);
+                $generatorsChoices[$generator->getDefinition()] = $generator;
+            }
         }
 
-        $generatorKeysChoices = array_keys($generatorsChoices);
+        if (null !== $defaultGenerator) {
+            throw new \Exception(
+                sprintf(
+                    'Generator "%s" does not exist',
+                    $defaultGenerator
+                )
+            );
+        } else {
+            $generatorKeysChoices = array_keys($generatorsChoices);
 
-        $choice = $this->dialog->select($this->output, "Choose a generators \n> ", $generatorKeysChoices, 0);
+            $choice = $this->dialog->select($this->output, "Choose a generators \n> ", $generatorKeysChoices);
 
-        return $generatorsChoices[$generatorKeysChoices[$choice]];
+            return $generatorsChoices[$generatorKeysChoices[$choice]];
+        }
     }
 }

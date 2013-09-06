@@ -5,23 +5,18 @@ php:
   - 5.4
   - 5.5
 
-env:
-  - TESTSUITE=ZF2 ZF2_VERSION="2.1.*" DOCTRINE2_VERSION="0.*"
-
 before_script:
   - composer self-update
-  - composer install
+  - composer install --dev
   - composer require satooshi/php-coveralls:dev-master --dev
-  - sh -c "if [ '$TESTSUITE' = 'ZF2' ]; then composer require zendframework/zendframework:${ZF2_VERSION} ;fi"
-  - sh -c "if [ '$TESTSUITE' = 'ZF2' ]; then composer require doctrine/doctrine-orm-module:${DOCTRINE2_VERSION} ;fi"
-  - sh -c "if [ '$TESTSUITE' = 'ZF2' ]; then psql -c 'DROP DATABASE IF EXISTS code_generator;' -U postgres ;fi"
-  - sh -c "if [ '$TESTSUITE' = 'ZF2' ]; then psql -c 'create database code_generator; ' -U postgres ;fi"
-  - sh -c "if [ '$TESTSUITE' = 'ZF2' ]; then psql -U postgres -d code_generator -a -f ./tests/pg-table.sql ;fi"
+  - psql -c 'DROP DATABASE IF EXISTS code_generator;' -U postgres
+  - psql -c 'create database code_generator; ' -U postgres
+  - psql -U postgres -d code_generator -a -f ./tests/pg-table.sql
 
 script: 
   - mkdir -p build
   - mkdir -p build/logs
-  - phpunit --configuration "tests/phpunit.xml" --coverage-clover build/logs/clover.xml
+  - phpunit --coverage-clover build/logs/clover.xml
 
 after_script:
   - php vendor/bin/coveralls

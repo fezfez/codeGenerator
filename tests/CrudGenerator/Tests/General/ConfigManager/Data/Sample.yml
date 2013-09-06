@@ -24,4 +24,9 @@ package:
               targetRelation: logiciel
           tarif:
             type: float
-    Generators: CrudGenerator, UTGenerator, ModelGenerator-
+    Generators: 
+        CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator :
+            options:
+                directory : Corp
+                namespace : Corp
+                generateUnitTest : false

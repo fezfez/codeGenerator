@@ -2,25 +2,28 @@
 namespace <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\DAO;
 
 use ApplicationTest\FixtureManager;
-use <?php echo $this->dataObject->getNamespace(); ?>\DAO\<?php echo $this->dataObject->getEntityName(); ?>DAO;
-use <?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObject;
-use <?php echo $this->dataObject->getNamespace(); ?>\Hydrator\<?php echo $this->dataObject->getEntityName(); ?>Hydrator;
-use <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\<?php echo $this->dataObject->getEntityName(); ?>Fixture;
+use <?php echo $this->hydratorNamespace; ?>;
+use <?php echo $this->dtoNamespace; ?>;
+use <?php echo $this->daoNamespace; ?>;
+use <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\<?php echo $this->entityName; ?>Fixture;
 
-class findAllTest extends \PHPUnit_Framework_TestCase
+class FindAllTest extends \PHPUnit_Framework_TestCase
 {
     public function testFindAll()
     {
         FixtureManager::purge();
         $em = FixtureManager::getEm();
-        $fixture = new <?php echo $this->dataObject->getEntityName(); ?>Fixture();
+        $fixture = new <?php echo $this->entityName; ?>Fixture();
         FixtureManager::loadFixtures($fixture);
 
-        $<?php echo $this->dataObject->getEntityName(); ?>DAO = new <?php echo $this->dataObject->getEntityName(); ?>DAO($em, new <?php echo $this->dataObject->getEntityName(); ?>Hydrator());
-        $<?php echo $this->dataObject->getEntityName(); ?>Data = $<?php echo $this->dataObject->getEntityName(); ?>DAO->findAll();
+        $sUT = new <?php echo $this->entityName; ?>DAO($em, new <?php echo $this->hydratorName; ?>());
+        $<?php echo $this->entityName; ?>Data = $sUT->findAll();
 
-        $this->assertEquals(1, $<?php echo $this->dataObject->getEntityName(); ?>Data->count());
-        $this->assertInstanceOf('<?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>Collection', $<?php echo $this->dataObject->getEntityName(); ?>Data);
+        $this->assertEquals(1, $<?php echo $this->entityName; ?>Data->count());
+        $this->assertInstanceOf(
+            '<?php echo $this->dtoCollectionNamespace; ?>',
+            $<?php echo $this->entityName; ?>Data
+        );
     }
 }
 

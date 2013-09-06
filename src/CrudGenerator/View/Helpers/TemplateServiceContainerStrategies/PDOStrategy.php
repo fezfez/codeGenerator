@@ -15,72 +15,63 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\ConfigManager\ConfigMetadata\DataObject;
+namespace CrudGenerator\View\Helpers\TemplateServiceContainerStrategies;
+
+use CrudGenerator\View\ViewHelperInterface;
+use CrudGenerator\DataObject;
 
 /**
- * Yaml datas for conversion into generic metadatas
+ * @author stephane.demonchaux
  *
- * @author Anthony Rochet
  */
-class Property
+class PDOStrategy implements StrategyInterface
 {
     /**
-     * @var string name
+     * @return string
      */
-    private $name        = null;
+    public function getFullClass()
+    {
+        return '';
+    }
 
     /**
-     * @var string type
+     * @return string
      */
-    private $type        = null;
+    public function getFullClassForUnitTest()
+    {
+        return '';
+    }
 
     /**
-     * @var array options
+     * @return string
      */
-    private $options        = null;
+    public function getCreateInstanceForUnitTest()
+    {
+        return '';
+    }
 
-    /*
-     * SETTERS
+    /**
+     * @return string
      */
-
-    public function setName($value)
+    public function getClassName()
     {
-        $this->name = $value;
-        return $this;
+        return '';
     }
 
-    public function setType($value)
-    {
-        $this->type = $value;
-        return $this;
-    }
-
-    public function setOptions($value)
-    {
-        $this->options = $value;
-        return $this;
-    }
-
-    public function addOptions($value)
-    {
-        $this->options[] = $value;
-        return $this;
-    }
-    /*
-     * GETTERS
+    /**
+     * @return string
      */
-    public function getName()
+    public function getVariableName()
     {
-        return $this->name;
+        return '';
     }
 
-    public function getType()
+    /**
+     * @return string
+     */
+    public function getInjectionInDependencie()
     {
-        return $this->type;
+        return '';
     }
 
-    public function getOptions()
-    {
-        return $this->options;
-    }
 }

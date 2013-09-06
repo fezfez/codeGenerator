@@ -1,7 +1,12 @@
-<?php echo '<?php' . "\n"; ?>
-namespace <?php echo $this->dataObject->getNamespace(); ?>\DataObject;
+<?php
+echo '<?php' . "\n";
+$lcfirstEntityName              = $this->dataObject->getMetadata()->getName(true);
+$dataObjectName                 = $lcfirstEntityName . 'DataObject';
 
-class <?php echo $this->dataObject->getEntityName(); ?>DataObject
+?>
+use <?php echo $this->dtoNamespace; ?>;
+
+class <?php echo $dataObjectName . "\n"; ?>
 {
 <?php
 /* Traitement des champs */
@@ -26,7 +31,7 @@ foreach($this->dataObject->getMetadata()->getRelationCollection() as $field => $
      * @param <?php echo $metadata->getType(); ?> $value
      * @return \<?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObject
      */
-    public function set<?php echo ucfirst($metadata->getName()); ?>($value)
+    public function set<?php echo $metadata->getName(true); ?>($value)
     {
         $this-><?php echo $metadata->getName(); ?> = $value;
         return $this;
@@ -40,7 +45,7 @@ foreach($this->dataObject->getMetadata()->getRelationCollection() as $field => $
      * @param \<?php echo $metadata->getFullName(); ?> $value
      * @return \<?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObject
      */
-    public function set<?php echo ucfirst($metadata->getName()); ?>(\<?php echo $metadata->getFullName(); ?> $value)
+    public function set<?php echo $metadata->getName(true); ?>(\<?php echo $metadata->getFullName(); ?> $value)
     {
         $this-><?php echo $metadata->getName(); ?> = $value;
         return $this;
@@ -51,7 +56,7 @@ foreach($this->dataObject->getMetadata()->getRelationCollection() as $field => $
     /**
      * @return <?php echo $metadata->getType() . "\n"; ?>
      */
-    public function get<?php echo ucfirst($metadata->getName()); ?>()
+    public function get<?php echo $metadata->getName(true); ?>()
     {
         return $this-><?php echo $metadata->getName(); ?>;
     }
@@ -63,7 +68,7 @@ foreach($this->dataObject->getMetadata()->getRelationCollection() as $field => $
     /**
      * @return \<?php echo $metadata->getFullName() . "\n"; ?>
      */
-    public function get<?php echo ucfirst($metadata->getName()); ?>()
+    public function get<?php echo $metadata->getName(true); ?>()
     {
         return $this-><?php echo $metadata->getName(); ?>;
     }

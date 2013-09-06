@@ -31,11 +31,17 @@ class ConfigGenerator
      */
     private $yamlDatas  = array();
 
+    /**
+     * @param string $yamlDatas
+     */
     public function __construct($yamlDatas)
     {
         $this->yamlDatas = $yamlDatas;
     }
 
+    /**
+     * @return \CrudGenerator\ConfigManager\ConfigGenerator\DataObject\ConfigDataObject
+     */
     public function getConfig()
     {
         return new ConfigDataObject(

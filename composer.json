@@ -19,8 +19,17 @@
 	"require" : {
 		"symfony/console" : "~2.2",
 		"php" : ">=5.3.3",
-		"fzaninotto/Faker": "dev-master"
+		"fzaninotto/Faker": "dev-master",
+		"symfony/yaml": "dev-master"
 	},
+	"require-dev": {
+        "phpunit/phpunit": "3.7.*",
+        "phpunit/php-code-coverage": ">=1.2.10,<1.3.0",
+        "phploc/phploc": "dev-master",
+        "zendframework/zendframework": "dev-master",
+        "sebastian/phpcpd": "dev-master",
+        "doctrine/doctrine-orm-module" : "0.*"
+    },
 	"autoload" : {
 		"psr-0" : {
 			"CrudGenerator" : "src/"
@@ -32,6 +41,11 @@
 		"issues" : "https://github.com/fezfez/crudGenerator/issues",
 		"wiki" : "https://github.com/fezfez/crudGenerator/blob/master/README.md"
 	},
+    "extra": {
+        "branch-alias": {
+            "dev-master": "alpa-0.1"
+        }
+    },
 	"bin" : [
 		"bin/crud-generator"
 	]

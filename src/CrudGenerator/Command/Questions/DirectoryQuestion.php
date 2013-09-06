@@ -56,7 +56,7 @@ class DirectoryQuestion
      * Ask in wich directory you want to write
      * @return string
      */
-    public function ask()
+    public function ask($withFile = false)
     {
         try {
             ZendFramework2Environnement::getDependence($this->fileManager);
@@ -69,7 +69,7 @@ class DirectoryQuestion
         while ($choice != self::CURRENT_DIRECTORY) {
             $directories = $this->fileManager->glob(
                 $directory . '*',
-                GLOB_ONLYDIR|GLOB_MARK
+                ($withFile === false) ? GLOB_ONLYDIR|GLOB_MARK : GLOB_MARK
             );
             array_unshift(
                 $directories,
@@ -80,8 +80,7 @@ class DirectoryQuestion
             $choice = $this->dialog->select(
                 $this->output,
                 "<question>Choose a target directory</question> \n> ",
-                $directories,
-                0
+                $directories
             );
 
             if ($choice == self::BACK) {
@@ -91,6 +90,9 @@ class DirectoryQuestion
                     '',
                     $directory
                 );
+            } elseif ($this->fileManager->isFile($directories[$choice])) {
+                $directory = $directories[$choice];
+                break;
             } elseif ($choice != self::CURRENT_DIRECTORY) {
                 $directory = $directories[$choice];
             }

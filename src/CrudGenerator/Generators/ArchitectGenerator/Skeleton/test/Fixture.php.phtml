@@ -1,32 +1,29 @@
-<?php echo '<?php' . "\n"; ?>
+<?php
+echo '<?php' . "\n";
+?>
 namespace <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>;
 
 use DateTime;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\DataFixtures\FixtureInterface;
-use <?php echo $this->dataObject->getEntity(); ?>;
+use <?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObjectName; ?>;
 
 <?php
     $length = str_repeat(' ', strlen('a' . $this->dataObject->getEntityName()));
 ?>
-class <?php echo $this->dataObject->getEntityName(); ?>Fixture implements FixtureInterface
+class <?php echo $this->dataObject->getEntityName(); ?>Fixture
 {
-    public $entity = null;
-
-    public function load(ObjectManager $manager)
+    public static function getFixture()
     {
-        $this->entity = new <?php echo $this->dataObject->getEntityName(); ?>();
-        $this->entity<?php
+        $dataObject = new <?php echo $this->dataObjectName; ?>();
+        $dataObject<?php
 $columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
 foreach($columnCollection as $field => $metadata):
 if($metadata == reset($columnCollection)): ?>
-->set<?php echo ucfirst($metadata->getName()); ?>(<?php echo $this->getHelper('FixtureRenderer')->render($metadata); ?>)<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
+->set<?php echo $metadata->getName(true); ?>(<?php echo $this->getHelper('FixtureRenderer')->render($metadata); ?>)<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
 <?php else: ?>
-                     ->set<?php echo ucfirst($metadata->getName()); ?>(<?php echo $this->getHelper('FixtureRenderer')->render($metadata); ?>)<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
+                     ->set<?php echo $metadata->getName(true); ?>(<?php echo $this->getHelper('FixtureRenderer')->render($metadata); ?>)<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
 <?php endif; ?>
 <?php endforeach; ?>
 
-        $manager->persist($this->entity);
-        $manager->flush();
+        return $dataObject;
     }
 }

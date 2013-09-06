@@ -89,6 +89,10 @@ abstract class BaseCodeGenerator
 
         $identifiers = $metadata->getIdentifier();
         if (count($identifiers) === 0) {
+            throw new \RuntimeException('The generator does not support entity without primary keys.');
+        }
+
+        if (count($identifiers) !== 1) {
             throw new \RuntimeException('The generator does not support entity classes with multiple primary keys.');
         }
 

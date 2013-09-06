@@ -15,45 +15,64 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\ArchitectGenerator;
+namespace CrudGenerator\View\Helpers\TemplateServiceContainerStrategies;
 
-use CrudGenerator\MetaData\DataObject\MetaDataColumn;
 use CrudGenerator\View\ViewHelperInterface;
-use Faker\Factory;
+use CrudGenerator\DataObject;
 
-class FixtureRenderer implements ViewHelperInterface
+/**
+ * @author stephane.demonchaux
+ *
+ */
+class ZendFramework2Strategy implements StrategyInterface
 {
     /**
-     * @var \Faker\Generator
+     * @return string
      */
-    private $faker = null;
-
-    public function __construct()
+    public function getFullClass()
     {
-        $this->faker = Factory::create();
+        return 'use Zend\ServiceManager\ServiceManager;' . "\n";
     }
 
     /**
-     * @param MetaDataColumn $metadata
      * @return string
      */
-    public function render(MetaDataColumn $metadata)
+    public function getFullClassForUnitTest()
     {
-        $data = '';
-        if ($metadata->getType() == 'integer' || $metadata->getType() == 'float') {
-            $data = $this->faker->randomNumber();
-        } elseif ($metadata->getType() == 'string') {
-            if ($metadata->getLength() <= 5) {
-                $data = '"5555"';
-            } else {
-                $data = '"' . $this->faker->text($metadata->getLength()) . '"';
-            }
-        } elseif ($metadata->getType() == 'date') {
-            $data = 'new DateTime()';
-        } elseif ($metadata->getType() == 'bool') {
-            $data = 'true';
-        }
-
-        return $data;
+        return 'use Bootstrap;' . "\n";
     }
+
+    /**
+     * @return string
+     */
+    public function getCreateInstanceForUnitTest()
+    {
+        return '$' . $this->getVariableName() . ' = Bootstrap::getServiceManager();' . "\n";
+    }
+
+    /**
+     * @return string
+     */
+    public function getClassName()
+    {
+        return 'ServiceManager';
+    }
+
+    /**
+     * @return string
+     */
+    public function getVariableName()
+    {
+        return 'serviceManager';
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getInjectionInDependencie()
+    {
+        return $this->getClassName() . ' $' . $this->getVariableName();
+    }
+
 }

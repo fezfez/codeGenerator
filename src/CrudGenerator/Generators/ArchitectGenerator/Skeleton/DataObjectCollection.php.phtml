@@ -1,9 +1,19 @@
-<?php echo '<?php' . "\n"; ?>
+<?php
+echo '<?php' . "\n";
+$lcfirstEntityName              = $this->dataObject->getMetadata()->getName(true);
+$dataObjectName                 = $lcfirstEntityName . 'DataObject';
+
+?>
 namespace <?php echo $this->dataObject->getNamespace(); ?>\DataObject;
+
+use <?php echo $this->dtoNamespace; ?>;
 
 use ArrayObject;
 
 class <?php echo $this->dataObject->getEntityName(); ?>Collection extends ArrayObject
 {
-
+    public function append(<?php echo $dataObjectName; ?> $dataObject)
+    {
+        $this->append($dataObject);
+    }
 }

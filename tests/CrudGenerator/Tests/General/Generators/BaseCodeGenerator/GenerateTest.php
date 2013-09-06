@@ -54,7 +54,29 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         $sUT->generate($dataObject);
     }
 
-   public function testFailOnNameIndentifier()
+    public function testFailOnNameIndentifierMultipe()
+    {
+        $sUT      = $this->getClass();
+        $metadata = new MetadataDataObjectDoctrine2(new MetaDataColumnCollection(), new MetaDataRelationCollection());
+        $column = new MetaDataColumn();
+        $column->setName('toto')
+        ->setPrimaryKey(true);
+        $metadata->appendColumn($column);
+        $column = new MetaDataColumn();
+        $column->setName('titi')
+        ->setPrimaryKey(true);
+        $metadata->appendColumn($column);
+
+        $dataObject = new Architect();
+        $dataObject->setEntity('TestZf2\Entities\NewsEntity')
+        ->setMetadata($metadata);
+
+        $this->setExpectedException('RuntimeException');
+
+        $sUT->generate($dataObject);
+    }
+
+    public function testFailOnNameIndentifier()
     {
         $sUT      = $this->getClass();
         $metadata = new MetadataDataObjectDoctrine2(new MetaDataColumnCollection(), new MetaDataRelationCollection());
