@@ -42,7 +42,7 @@ class ViewFactory
             array(
                 __DIR__ . '/../'
             ),
-            'CrudGenerator\View\ViewHelperInterface'
+            'CrudGenerator\View\ViewHelperFactoryInterface'
         );
 
         $viewRenderer = new ViewRenderer($viewHelpers);

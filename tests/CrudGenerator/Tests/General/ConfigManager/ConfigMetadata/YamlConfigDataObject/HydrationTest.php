@@ -1,31 +1,25 @@
 <?php
 namespace CrudGenerator\Tests\General\ConfigManager\ManagerFactory;
 
-use CrudGenerator\ConfigManager\ConfigMetadata\DataObject\Property;
-
-use CrudGenerator\ConfigManager\ConfigMetadata\DataObject\PropertiesCollection;
-
 use CrudGenerator\ConfigManager\ConfigMetadata\DataObject\YamlConfigDataObject;
 
 class hydrationTest extends \PHPUnit_Framework_TestCase
 {
     public function testHydrationMainDTO()
     {
-        $propertiesCollection = new PropertiesCollection();
-        $property = new Property();
 
         $sUT = new YamlConfigDataObject();
-        $sUT->setGenerators('lorem')
+        $sUT->setGenerators(array('lorem'))
             ->setName('ipsum')
             ->setOptions(array('dolor'))
             ->setPackageEnabled('si')
             ->setPackageName('amet')
-            ->setPropertiesCollection($propertiesCollection)
             ->addOptions('et')
-            ->addPropertiesCollection($property);
+            ->addGeneratorsOptions('MyGenerator', 'MyQuestion', 'MyValue');
+
         $this->assertEquals(
             $sUT->getGenerators(),
-            'lorem'
+            array('lorem')
         );
         $this->assertEquals(
             $sUT->getName(),
@@ -43,31 +37,14 @@ class hydrationTest extends \PHPUnit_Framework_TestCase
             $sUT->getPackageName(),
             'amet'
         );
-        $this->assertInstanceOf(
-            'CrudGenerator\ConfigManager\ConfigMetadata\DataObject\PropertiesCollection',
-            $sUT->getPropertiesCollection()
-        );
-    }
-
-    public function testHydrationPropertyDTO()
-    {
-        $sUT = new Property();
-        $sUT->setName('name')
-            ->setOptions(array('option1'))
-            ->addOptions('option2')
-            ->setType('type');
 
         $this->assertEquals(
-                $sUT->getOptions(),
-                array('option1', 'option2')
-        );
-        $this->assertEquals(
-                $sUT->getname(),
-                'name'
-        );
-        $this->assertEquals(
-                $sUT->getType(),
-                'type'
+            $sUT->getGeneratorsOptions(),
+            array(
+                'MyGenerator' => array(
+                    'MyQuestion' => 'MyValue'
+                )
+            )
         );
     }
 }

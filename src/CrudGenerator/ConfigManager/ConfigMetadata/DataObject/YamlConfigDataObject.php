@@ -18,6 +18,7 @@
 namespace CrudGenerator\ConfigManager\ConfigMetadata\DataObject;
 
 use CrudGenerator\ConfigManager\ConfigMetadata\DataObject\PropertiesCollection;
+use CrudGenerator\ConfigManager\ConfigMetadata\DataObject\MetadataDataObjectConfig;
 
 /**
  * Yaml datas for conversion into generic metadatas
@@ -30,82 +31,106 @@ class YamlConfigDataObject
      * @var string packageName
      */
     private $packageName          = null;
-
     /**
      * @var boolean packageEnabled
      */
     private $packageEnabled       = null;
-
     /**
      * @var string name
      */
     private $name                 = null;
-
     /**
      * @var array options
      */
     private $options              = null;
-
-    /**
-     * @var PropertiesCollection propertiesCollection
-     */
-    private $propertiesCollection = null;
-
     /**
      * @var array generators
      */
     private $generators           = null;
-
+    /**
+     * @var array generators options
+     */
+    private $generatorsOptions    = null;
+    /**
+     * @var MetadataDataObjectConfig
+     */
+    private $metadata             = null;
     /*
      * SETTERS
      */
 
+    /**
+     * @param string $value
+     * @return \CrudGenerator\ConfigManager\ConfigMetadata\DataObject\YamlConfigDataObject
+     */
     public function setPackageName($value)
     {
         $this->packageName = $value;
         return $this;
     }
-
+    /**
+     * @param boolean $value
+     * @return \CrudGenerator\ConfigManager\ConfigMetadata\DataObject\YamlConfigDataObject
+     */
     public function setPackageEnabled($value)
     {
         $this->packageEnabled = $value;
         return $this;
     }
-
+    /**
+     * @param string $value
+     * @return \CrudGenerator\ConfigManager\ConfigMetadata\DataObject\YamlConfigDataObject
+     */
     public function setName($value)
     {
         $this->name = $value;
         return $this;
     }
-
+    /**
+     * @param array $value
+     * @return \CrudGenerator\ConfigManager\ConfigMetadata\DataObject\YamlConfigDataObject
+     */
     public function setOptions($value)
     {
         $this->options = $value;
         return $this;
     }
-
-
+    /**
+     * @param array $value
+     * @return \CrudGenerator\ConfigManager\ConfigMetadata\DataObject\YamlConfigDataObject
+     */
+    public function setGenerators(array $value)
+    {
+        $this->generators = $value;
+        return $this;
+    }
+    /**
+     * @param string $generator
+     * @param string $question
+     * @param string $value
+     * @return \CrudGenerator\ConfigManager\ConfigMetadata\DataObject\YamlConfigDataObject
+     */
+    public function addGeneratorsOptions($generator, $question, $value)
+    {
+        $this->generatorsOptions[$generator][$question] = $value;
+        return $this;
+    }
+    /**
+     * @param MetadataDataObjectConfig $value
+     * @return \CrudGenerator\ConfigManager\ConfigMetadata\DataObject\YamlConfigDataObject
+     */
+    public function setMetadata(MetadataDataObjectConfig $value)
+    {
+        $this->metadata = $value;
+        return $this;
+    }
+    /**
+     * @param string $value
+     * @return \CrudGenerator\ConfigManager\ConfigMetadata\DataObject\YamlConfigDataObject
+     */
     public function addOptions($value)
     {
         $this->options[] = $value;
-        return $this;
-    }
-
-    public function setPropertiesCollection($value)
-    {
-        $this->propertiesCollection = $value;
-        return $this;
-    }
-
-    public function addPropertiesCollection($value)
-    {
-        $this->propertiesCollection->append($value);
-        return $this;
-    }
-
-    public function setGenerators($value)
-    {
-        $this->generators = $value;
         return $this;
     }
 
@@ -113,33 +138,53 @@ class YamlConfigDataObject
      * GETTERS
      */
 
+    /**
+     * @return string
+     */
     public function getPackageName()
     {
         return $this->packageName;
     }
-
+    /**
+     * @return boolean
+     */
     public function getPackageEnabled()
     {
         return $this->packageEnabled;
     }
-
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
-
+    /**
+     * @return array
+     */
     public function getOptions()
     {
         return $this->options;
     }
-
-    public function getPropertiesCollection()
-    {
-        return $this->propertiesCollection;
-    }
-
+    /**
+     * @return array
+     */
     public function getGenerators()
     {
         return $this->generators;
+    }
+    /**
+     * @return \CrudGenerator\ConfigManager\ConfigMetadata\DataObject\MetadataDataObjectConfig
+     */
+    public function getMetaData()
+    {
+        return $this->metadata;
+    }
+    /**
+     * @return array
+     */
+    public function getGeneratorsOptions()
+    {
+        return $this->generatorsOptions;
     }
 }

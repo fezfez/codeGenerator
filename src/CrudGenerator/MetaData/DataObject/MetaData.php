@@ -130,9 +130,13 @@ abstract class MetaData
      * Get name
      * @return string
      */
-    public function getName()
+    public function getName($ucfirst = false)
     {
-        return $this->name;
+        if (true === $ucfirst) {
+            return ucfirst($this->name);
+        } else {
+            return $this->name;
+        }
     }
 
     public function getCamelCaseName($ucfirst = true)

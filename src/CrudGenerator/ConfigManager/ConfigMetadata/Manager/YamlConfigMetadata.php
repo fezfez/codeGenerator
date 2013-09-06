@@ -23,8 +23,12 @@ namespace CrudGenerator\ConfigManager\ConfigMetadata\Manager;
  * @author Anthony Rochet
  */
 use CrudGenerator\ConfigManager\ConfigMetadata\DataObject\YamlConfigDataObject;
-use CrudGenerator\ConfigManager\ConfigMetadata\DataObject\Property;
-use CrudGenerator\ConfigManager\ConfigMetadata\DataObject\PropertiesCollection;
+use CrudGenerator\ConfigManager\ConfigMetadata\DataObject\MetadataDataObjectConfig;
+use CrudGenerator\MetaData\DataObject\MetaDataColumn;
+use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
+use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
+use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
+use CrudGenerator\DataObject;
 
 class YamlConfigMetadata
 {
@@ -33,16 +37,26 @@ class YamlConfigMetadata
      */
     private $yamlDatas  = array();
 
+    /**
+     * @param array $yamlDatas
+     */
     public function __construct($yamlDatas)
     {
         $this->yamlDatas = $yamlDatas;
     }
 
+    /**
+     * @return \CrudGenerator\ConfigManager\ConfigMetadata\DataObject\YamlConfigDataObject
+     */
     public function getMetadatas()
     {
         $yamlConfigMetadataDTO = new YamlConfigDataObject();
-        $propertiesCollection = new PropertiesCollection();
-        $property = new Property();
+        $metaData              = new MetadataDataObjectConfig(
+            new MetaDataColumnCollection(),
+            new MetaDataRelationCollection()
+        );
+
+        $metaDataColumn        = new MetaDataColumn();
 
         foreach ($this->yamlDatas['package'] as $packageName => $packageDatas) {
             $yamlConfigMetadataDTO->setPackageName($packageName);
@@ -51,29 +65,65 @@ class YamlConfigMetadata
             }
 
             foreach ($packageDatas['module'] as $moduleName => $moduleDatas) {
-                $yamlConfigMetadataDTO->setName($moduleName);
+                $metaData->setName($moduleName);
                 if (isset($moduleDatas['options'])) {
-                    $yamlConfigMetadataDTO->setOptions($moduleDatas['options']);
+                    //$metaData->setOptions($moduleDatas['options']);
                 }
 
                 foreach ($moduleDatas['properties'] as $propertyName => $propertyDatas) {
-                    $propertyDTO = clone $property;
+                    $column = clone $metaDataColumn;
 
-                    $propertyDTO->setName($propertyName);
+                    $column->setName($propertyName);
 
                     if (isset($propertyDatas['type'])) {
-                        $propertyDTO->setType($propertyDatas['type']);
+                        $column->setType($propertyDatas['type']);
                     }
+
                     if (isset($propertyDatas['options'])) {
-                        $propertyDTO->setOptions($propertyDatas['options']);
+                        $options = $propertyDatas['options'];
+                        if (isset($options['pk']) && $options['pk'] === true) {
+                            $column->setPrimaryKey(true);
+                        }
                     }
-                    $propertiesCollection->append($propertyDTO);
+                    $metaData->appendColumn($column);
                 }
             }
         }
-        $yamlConfigMetadataDTO->setPropertiesCollection($propertiesCollection);
-        $yamlConfigMetadataDTO->setGenerators($packageDatas['Generators']);
+
+        $yamlConfigMetadataDTO->setMetadata($metaData);
+        $yamlConfigMetadataDTO->setGenerators(array_keys($packageDatas['Generators']));
+
+        foreach ($packageDatas['Generators'] as $generatorName => $options) {
+            if (isset($options['options']) && is_array($options['options'])) {
+                foreach ($options['options'] as $optionName => $optionValue) {
+                    $yamlConfigMetadataDTO->addGeneratorsOptions($generatorName, $optionName, $optionValue);
+                }
+            }
+        }
 
         return $yamlConfigMetadataDTO;
+    }
+
+    /**
+     * @param string $generatorName
+     * @param DataObject $dataObject
+     * @return DataObject
+     */
+    public function writeAbstractOptions($generatorName, DataObject $dataObject)
+    {
+        $dataObject = clone $dataObject;
+
+        foreach ($this->yamlDatas['package'] as $packageName => $packageDatas) {
+            if (isset($packageDatas['Generators'][$generatorName]['options'])) {
+                foreach ($packageDatas['Generators'][$generatorName]['options'] as $optionName => $optionValue) {
+                    $methodName = 'set' . ucfirst($optionName);
+                    if (method_exists($dataObject, $methodName)) {
+                        $dataObject->$methodName($optionValue);
+                    }
+                }
+            }
+        }
+
+        return $dataObject;
     }
 }

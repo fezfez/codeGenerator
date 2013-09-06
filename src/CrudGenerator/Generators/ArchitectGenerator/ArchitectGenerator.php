@@ -57,25 +57,50 @@ class ArchitectGenerator extends BaseCodeGenerator
             $DTO->setNamespace($this->generiqueQuestion->namespaceQuestion());
         }
 
-        $basePath   = $DTO->getModule() . '/' . $DTO->getDirectory();
-        $entityName = $DTO->getEntityName();
+        $basePath          = $DTO->getModule() . '/' . $DTO->getDirectory();
+        $entityName        = $DTO->getEntityName();
+        $ucFirstEntityName = $DTO->getMetadata()->getName(true);
+
+        $suppDatas = array(
+            'entityName'        => $DTO->getMetadata()->getName(),
+            'ucfirstEntityName' => $ucFirstEntityName,
+            'hydratorName'      => $ucFirstEntityName . 'Hydrator',
+            'dataObjectName'    => $ucFirstEntityName . 'DataObject',
+            'collectionName'    => $ucFirstEntityName . 'Collection',
+            'daoName'           => $ucFirstEntityName . 'DAO',
+            'exceptionName'     => 'No' . $ucFirstEntityName . 'Exception',
+            'daoNamespace'            => $DTO->getNamespace() . '\DAO\\' . $ucFirstEntityName . 'DAO',
+            'dtoNamespace'            => $DTO->getNamespace() . '\DataObject\\' . $ucFirstEntityName . 'DataObject',
+            'hydratorNamespace'       => $DTO->getNamespace() . '\Hydrator\\' . $ucFirstEntityName . 'Hydrator',
+            'dtoCollectionNamespace'  => $DTO->getNamespace() . '\DataObject\\' . $ucFirstEntityName . 'Collection',
+            'exceptionNamespace'      => $DTO->getNamespace() . '\No' . $ucFirstEntityName . 'Exception',
+        );
+
+        $filesList = array(
+            '/Exception.php.phtml'  => '/No' . $entityName . 'Exception.php',
+            '/DAOFactory.php.phtml' => '/' . $entityName . 'DAOFactory.php',
+            '/DAO.php.phtml' => '/DAO/' . $entityName . 'DAO.php',
+            '/Hydrator.php.phtml' => '/Hydrator/' . $entityName . 'Hydrator.php',
+            '/DataObject.php.phtml' => '/DataObject/' . $entityName . 'DataObject.php',
+            '/DataObjectCollection.php.phtml' => '/DataObject/' . $entityName . 'Collection.php',
+        );
 
         $this->ifDirDoesNotExistCreate($basePath . '/DAO/');
         $this->ifDirDoesNotExistCreate($basePath . '/Hydrator/');
         $this->ifDirDoesNotExistCreate($basePath . '/DataObject/');
 
-        $this->generateFile($DTO, '/Exception.php.phtml', $basePath . '/No' . $entityName . 'Exception.php');
-        $this->generateFile($DTO, '/DAOFactory.php.phtml', $basePath . '/' . $entityName . 'DAOFactory.php');
-        $this->generateFile($DTO, '/DAO.php.phtml', $basePath . '/DAO/' . $entityName . 'DAO.php');
-        $this->generateFile($DTO, '/Hydrator.php.phtml', $basePath . '/Hydrator/' . $entityName . 'Hydrator.php');
-        $this->generateFile($DTO, '/DataObject.php.phtml', $basePath . '/DataObject/' . $entityName . 'DataObject.php');
-        $this->generateFile(
-            $DTO,
-            '/DataObjectCollection.php.phtml',
-            $basePath . '/DataObject/' . $entityName . 'Collection.php'
-        );
+        foreach ($filesList as $template => $destination) {
+            $this->generateFile(
+                $DTO,
+                $template,
+                $basePath . $destination,
+                $suppDatas
+            );
+        }
 
-        if (!$DTO->getGenerateUnitTest()) {
+        $generateUnitTestDTO = $DTO->getGenerateUnitTest();
+
+        if (null === $generateUnitTestDTO) {
             $generateUnitTest = $this->dialog->ask($this->output, 'Would you like to generate unitTest ?');
             $DTO->setGenerateUnitTest($generateUnitTest);
         } else {
@@ -83,7 +108,7 @@ class ArchitectGenerator extends BaseCodeGenerator
         }
 
         if ($generateUnitTest == 'y') {
-            $this->generateTestUnit($DTO, $entityName);
+            $this->generateTestUnit($DTO, $ucFirstEntityName, $suppDatas);
         }
 
         return $DTO;
@@ -93,101 +118,50 @@ class ArchitectGenerator extends BaseCodeGenerator
      * Generate unit for generated files
      * @param DataObject $DTO
      * @param string $entityName
+     * @param array $suppDatas
      */
-    private function generateTestUnit(DataObject $DTO, $entityName)
+    private function generateTestUnit(DataObject $DTO, $entityName, array $suppDatas)
     {
-        $moduleName = str_replace('/', '', strstr($DTO->getModule(), '/'));
-        $unitTestDirectory = $DTO->getModule() . '/src/' . $moduleName . '/test/';
-        $this->ifDirDoesNotExistCreate($unitTestDirectory);
-        $this->ifDirDoesNotExistCreate($unitTestDirectory . $moduleName . 'Test');
-        $unitTestDirectory = $unitTestDirectory. $moduleName . 'Test/';
-        $suppdatas = array(
-                        'unitTestNamespace' => $moduleName . 'Test'
-        );
+        $unitTestDirectory = $DTO->getModule() . '/src/Tests/' . str_replace('\\', '/', $DTO->getNamespace()) . '/' . $entityName;
 
-        $this->generateFile(
-            $DTO,
-            '/test/FixtureManager.php.phtml',
-            $unitTestDirectory . 'FixtureManager.php',
-            $suppdatas
-        );
-
-        $namespace = $DTO->getNamespace();
-
-        $modelDirectory = explode('\\', $namespace);
+        $unitTestDirectories = explode('/', $unitTestDirectory);
         $allDir = '';
-        foreach ($modelDirectory as $dir) {
+        foreach ($unitTestDirectories as $dir) {
             $allDir .= $dir . '/';
-            $this->ifDirDoesNotExistCreate($unitTestDirectory . $allDir);
+            $this->ifDirDoesNotExistCreate($allDir);
         }
 
-        $this->generateFile(
-            $DTO,
-            '/test/Fixture.php.phtml',
-            $unitTestDirectory . $allDir . $entityName . 'Fixture.php',
-            $suppdatas
+        $this->ifDirDoesNotExistCreate($allDir . 'DAOFactory');
+        $this->ifDirDoesNotExistCreate($allDir . 'DAO');
+        $this->ifDirDoesNotExistCreate($allDir . 'Hydrator');
+
+        $suppDatas = array_merge(
+            $suppDatas,
+            array(
+                'unitTestNamespace' => $entityName . 'Test'
+            )
         );
 
-        $this->ifDirDoesNotExistCreate($unitTestDirectory . $allDir . '/DAOFactory');
-
-        $this->generateFile(
-            $DTO,
-            '/test/DAOFactory/getInstanceTest.php.phtml',
-            $unitTestDirectory . $allDir . 'DAOFactory/getInstanceTest.php',
-            $suppdatas
+        $filesList = array(
+            '/test/FixtureManager.php.phtml' => $unitTestDirectory . 'FixtureManager.php',
+            '/test/Fixture.php.phtml' => $allDir . $entityName . 'Fixture.php',
+            '/test/DAOFactory/getInstanceTest.php.phtml' => $allDir . 'DAOFactory/GetInstanceTest.php',
+            '/test/DAO/findTest.php.phtml' => $allDir . 'DAO/FindTest.php',
+            '/test/DAO/findAllTest.php.phtml' => $allDir . 'DAO/FindAllTest.php',
+            '/test/DAO/persistTest.php.phtml' => $allDir . 'DAO/PersitTest.php',
+            '/test/DAO/modifyTest.php.phtml' => $allDir . 'DAO/ModifyTest.php',
+            '/test/DAO/removeTest.php.phtml' => $allDir . 'DAO/RemoveTest.php',
+            '/test/Hydrator/arrayToPopoTest.php.phtml' =>  $allDir . 'Hydrator/ArrayToPopoTest.php',
+            '/test/Hydrator/popoToArrayTest.php.phtml' => $allDir . 'Hydrator/PopoToArrayTest.php'
         );
 
-        $this->ifDirDoesNotExistCreate($unitTestDirectory . $allDir . '/DAO');
-
-        $this->generateFile(
-            $DTO,
-            '/test/DAO/findTest.php.phtml',
-            $unitTestDirectory . $allDir . 'DAO/findTest.php',
-            $suppdatas
-        );
-
-        $this->generateFile(
-            $DTO,
-            '/test/DAO/findAllTest.php.phtml',
-            $unitTestDirectory . $allDir . 'DAO/findAllTest.php',
-            $suppdatas
-        );
-
-        $this->generateFile(
-            $DTO,
-            '/test/DAO/persistTest.php.phtml',
-            $unitTestDirectory . $allDir . 'DAO/persitTest.php',
-            $suppdatas
-        );
-
-        $this->generateFile(
-            $DTO,
-            '/test/DAO/modifyTest.php.phtml',
-            $unitTestDirectory . $allDir . 'DAO/modifyTest.php',
-            $suppdatas
-        );
-
-        $this->generateFile(
-            $DTO,
-            '/test/DAO/removeTest.php.phtml',
-            $unitTestDirectory . $allDir . 'DAO/removeTest.php',
-            $suppdatas
-        );
-
-        $this->ifDirDoesNotExistCreate($unitTestDirectory . $allDir . '/Hydrator');
-
-        $this->generateFile(
-            $DTO,
-            '/test/Hydrator/arrayToPopoTest.php.phtml',
-            $unitTestDirectory . $allDir . 'Hydrator/arrayToPopoTest.php',
-            $suppdatas
-        );
-
-        $this->generateFile(
-            $DTO,
-            '/test/Hydrator/popoToArrayTest.php.phtml',
-            $unitTestDirectory . $allDir . 'Hydrator/popoToArrayTest.php',
-            $suppdatas
-        );
+        foreach ($filesList as $template => $destination) {
+            $this->generateFile(
+                $DTO,
+                $template,
+                $destination,
+                $suppDatas
+            );
+        }
     }
 }

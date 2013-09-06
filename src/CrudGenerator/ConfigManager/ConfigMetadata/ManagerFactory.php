@@ -32,8 +32,9 @@ class ManagerFactory
 {
     /**
      * Create a ConfigMetadata manager instance
-     *
-     * @return ConfigMetadata
+     * @param string $filePath
+     * @throws InvalidYamlConfigPathException
+     * @return \CrudGenerator\ConfigManager\ConfigMetadata\Manager\YamlConfigMetadata
      */
     public static function getInstance($filePath)
     {
@@ -49,5 +50,14 @@ class ManagerFactory
         }
 
         return new YamlConfigMetadata($yamlDatas);
+    }
+
+    /**
+     * @param string $pathToConf
+     * @return \CrudGenerator\ConfigManager\ConfigMetadata\Manager\YamlConfigMetadata
+     */
+    public function create($pathToConf)
+    {
+        return self::getInstance($pathToConf);
     }
 }

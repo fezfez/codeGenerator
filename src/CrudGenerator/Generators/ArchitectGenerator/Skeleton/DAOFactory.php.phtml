@@ -1,20 +1,27 @@
-<?php echo '<?php' . "\n"; ?>
+<?php echo '<?php' . "\n";
+$databaseConnectorVariableName = $this->getHelper('TemplateDatabaseConnector')->getVariableName();
+?>
+
 namespace <?php echo $this->dataObject->getNamespace(); ?>;
 
-use <?php echo $this->dataObject->getNamespace(); ?>\DAO\<?php echo $this->dataObject->getEntityName(); ?>DAO;
-use <?php echo $this->dataObject->getNamespace(); ?>\Hydrator\<?php echo $this->dataObject->getEntityName(); ?>Hydrator;
-use Zend\ServiceManager\ServiceManager;
+use <?php echo $this->getHelper('TemplateDatabaseConnector')->getFullClass(); ?>;
+<?php echo $this->getHelper('TemplateServiceContainer')->getFullClass(); ?>
+use <?php echo $this->hydratorNamespace; ?>;
+use <?php echo $this->daoNamespace; ?>;
 
-class <?php echo $this->dataObject->getEntityName(); ?>DAOFactory
+class <?php echo $this->daoName; ?>Factory
 {
     /**
-     * @return <?php echo $this->dataObject->getNamespace(); ?>\DAO\<?php echo $this->dataObject->getEntityName(); ?>DAO
+     * @return <?php echo $this->dataObject->getNamespace(); ?>\DAO\<?php echo $this->ucfirstEntityName; ?>DAO
      */
-    public static function getInstance(ServiceManager $serviceManager)
+    public static function getInstance(<?php echo $this->getHelper('TemplateServiceContainer')->getInjectionInDependencie(); ?>)
     {
-        $entityManager = $serviceManager->get('doctrine.entitymanager.orm_default');
-        $hydrator      = new <?php echo $this->dataObject->getEntityName(); ?>Hydrator();
+        $<?php echo $databaseConnectorVariableName; ?> = <?php echo $this->getHelper('TemplateDatabaseConnector')->getCreateInstance() . "\n"; ?>
+        $hydrator      = new <?php echo $this->hydratorName; ?>();
 
-        return new <?php echo $this->dataObject->getEntityName(); ?>DAO($entityManager, $hydrator);
+        return new <?php echo $this->daoName; ?>(
+            $<?php echo $databaseConnectorVariableName; ?>,
+            $hydrator
+        );
     }
 }

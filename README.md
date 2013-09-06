@@ -3,10 +3,13 @@
 
 This is alpha, certainly contains bugs, please dont use it on production
 
+Running tests
+-------------
+    composer install --dev
+    ./vendor/bin/phpunit
 
 Roadmap
--------
-
+=======
 
 Template
 --------
@@ -17,4 +20,3 @@ Template
 Generator
 ---------
 * Multiple generation
-* Generation by configuration

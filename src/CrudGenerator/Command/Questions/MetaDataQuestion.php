@@ -82,8 +82,7 @@ class MetaDataQuestion
         $metaDataName = $this->dialog->select(
             $this->output,
             "<question>Full namespace Metadata</question> \n> ",
-            $metaDataChoices,
-            0
+            $metaDataChoices
         );
 
         return $metaDataDAO->getMetadataFor(

@@ -18,6 +18,7 @@
 namespace CrudGenerator\Service;
 
 use CrudGenerator\Command\CreateCommandFactory;
+use CrudGenerator\Command\CreateByConfigCommandFactory;
 use CrudGenerator\Command\RegenerateCommandFactory;
 use CrudGenerator\Command\GeneratorSandBoxCommandFactory;
 
@@ -42,12 +43,15 @@ class CliFactory
      */
     public static function getInstance(InputInterface $input, OutputInterface $output)
     {
-        $application  = new Application('Code Generator Command Line Interface', 'Alpha');
-        $dialogHelper = new DialogHelper();
+        $dialogHelper   = new DialogHelper();
+        $application    = new Application('Code Generator Command Line Interface', 'Alpha');
+        $application->getHelperSet()->set(new FormatterHelper(), 'formatter');
+        $application->getHelperSet()->set($dialogHelper, 'dialog');
 
         $application->addCommands(
             array(
                 CreateCommandFactory::getInstance($dialogHelper, $output),
+                CreateByConfigCommandFactory::getInstance($dialogHelper, $output),
                 RegenerateCommandFactory::getInstance($dialogHelper, $output),
                 GeneratorSandBoxCommandFactory::getInstance($dialogHelper, $output)
             )
