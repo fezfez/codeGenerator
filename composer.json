@@ -43,7 +43,8 @@
 	},
     "extra": {
         "branch-alias": {
-            "dev-master": "alpa-0.1"
+            "dev-master": "dev-master",
+            "alpa-0.1" : "alpa-0.1-dev"
         }
     },
 	"bin" : [
