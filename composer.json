@@ -44,7 +44,7 @@
     "extra": {
         "branch-alias": {
             "dev-master": "dev-master",
-            "alpa-0.1" : "alpa-0.1-dev"
+            "alpa-0.1" : "0.1-dev"
         }
     },
 	"bin" : [
