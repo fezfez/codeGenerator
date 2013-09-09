@@ -122,10 +122,10 @@ class ArchitectGenerator extends BaseCodeGenerator
      */
     private function generateTestUnit(DataObject $DTO, $entityName, array $suppDatas)
     {
-        $unitTestDirectory = $DTO->getModule() . '/src/Tests/' . str_replace('\\', '/', $DTO->getNamespace()) . '/' . $entityName;
-
+        $unitTestDirectory   = $DTO->getModule() . '/../tests/' . str_replace('\\', '/', $DTO->getNamespace()) . '/' . $entityName;
         $unitTestDirectories = explode('/', $unitTestDirectory);
-        $allDir = '';
+        $allDir              = '';
+
         foreach ($unitTestDirectories as $dir) {
             $allDir .= $dir . '/';
             $this->ifDirDoesNotExistCreate($allDir);
