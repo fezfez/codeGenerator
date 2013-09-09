@@ -20,7 +20,7 @@ namespace CrudGenerator\Command;
 use CrudGenerator\Generators\CodeGeneratorFactory;
 use CrudGenerator\Command\Questions\HistoryQuestionFactory;
 use CrudGenerator\Command\RegenerateCommand;
-Use CrudGenerator\Generators\Strategies\SandBoxStrategyFactory;
+Use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -40,7 +40,7 @@ class RegenerateCommandFactory
     public static function getInstance(DialogHelper $dialog, OutputInterface $output)
     {
         $historyQuestion      = HistoryQuestionFactory::getInstance($dialog, $output);
-        $codeGeneratorFactory = new CodeGeneratorFactory(SandBoxStrategyFactory::getInstance($output, $dialog));
+        $codeGeneratorFactory = new CodeGeneratorFactory(GeneratorStrategyFactory::getInstance($output, $dialog));
 
         return new RegenerateCommand($dialog, $output, $historyQuestion, $codeGeneratorFactory);
     }
