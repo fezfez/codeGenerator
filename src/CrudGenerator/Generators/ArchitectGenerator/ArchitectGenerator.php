@@ -77,12 +77,12 @@ class ArchitectGenerator extends BaseCodeGenerator
         );
 
         $filesList = array(
-            '/Exception.php.phtml'  => '/No' . $entityName . 'Exception.php',
-            '/DAOFactory.php.phtml' => '/' . $entityName . 'DAOFactory.php',
-            '/DAO.php.phtml' => '/DAO/' . $entityName . 'DAO.php',
-            '/Hydrator.php.phtml' => '/Hydrator/' . $entityName . 'Hydrator.php',
-            '/DataObject.php.phtml' => '/DataObject/' . $entityName . 'DataObject.php',
-            '/DataObjectCollection.php.phtml' => '/DataObject/' . $entityName . 'Collection.php',
+            '/Exception.php.phtml'  => '/No' . $ucFirstEntityName . 'Exception.php',
+            '/DAOFactory.php.phtml' => '/' . $ucFirstEntityName . 'DAOFactory.php',
+            '/DAO.php.phtml' => '/DAO/' . $ucFirstEntityName . 'DAO.php',
+            '/Hydrator.php.phtml' => '/Hydrator/' . $ucFirstEntityName . 'Hydrator.php',
+            '/DataObject.php.phtml' => '/DataObject/' . $ucFirstEntityName . 'DataObject.php',
+            '/DataObjectCollection.php.phtml' => '/DataObject/' . $ucFirstEntityName . 'Collection.php',
         );
 
         $this->ifDirDoesNotExistCreate($basePath . '/DAO/');
@@ -138,7 +138,7 @@ class ArchitectGenerator extends BaseCodeGenerator
         $suppDatas = array_merge(
             $suppDatas,
             array(
-                'unitTestNamespace' => 'Tests'
+                'unitTestNamespace' => 'Tests\\' . $DTO->getNamespace()
             )
         );
 
