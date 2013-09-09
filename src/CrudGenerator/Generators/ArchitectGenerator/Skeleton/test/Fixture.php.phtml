@@ -1,17 +1,32 @@
 <?php
 echo '<?php' . "\n";
+$databaseConnectorClassName     = $this->getHelper('TemplateDatabaseConnector')->getClassName();
+$databaseConnectionVariableName = $this->getHelper('TemplateDatabaseConnector')->getVariableName();
+
 ?>
-namespace <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>;
+namespace <?php echo $this->unitTestNamespace; ?>;
 
 use DateTime;
-use <?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObjectName; ?>;
+use <?php echo $this->dtoNamespace; ?>;
+use <?php echo $this->hydratorNamespace; ?>;
 
 <?php
     $length = str_repeat(' ', strlen('a' . $this->dataObject->getEntityName()));
 ?>
 class <?php echo $this->dataObject->getEntityName(); ?>Fixture
 {
-    public static function getFixture()
+    /**
+     * @var <?php echo $databaseConnectorClassName . "\n"; ?>
+     */
+    private $<?php echo $databaseConnectionVariableName; ?> = null;
+
+    public function __construct()
+    {
+        $this-><?php echo $this->getHelper('TemplateDatabaseConnector')->getVariableName(); ?> = ;
+        $this->hydrator = new <?php echo $this->hydratorName; ?>();
+    }
+
+    public function getFixture()
     {
         $dataObject = new <?php echo $this->dataObjectName; ?>();
         $dataObject<?php
@@ -25,5 +40,31 @@ if($metadata == reset($columnCollection)): ?>
 <?php endforeach; ?>
 
         return $dataObject;
+    }
+
+    public function loadFixture()
+    {
+        $result = $this->getFixture();
+
+        <?php echo $this->getHelper('TemplateDatabaseConnector')->getPersistQuery($this->dataObject) . "\n"; ?>
+
+        return $this->hydrator->entityToPopo(
+            $result,
+            new <?php echo $this->dataObjectName . "\n"; ?>
+        );
+    }
+
+    public function purge()
+    {
+
+    }
+
+    /**
+     * @return <?php echo $this->getHelper('TemplateDatabaseConnector')->getFullClass() . "\n"; ?>
+     */
+    private function get<?php echo $this->getHelper('TemplateDatabaseConnector')->getClassName(); ?>()
+    {
+        <?php echo $this->getHelper('TemplateServiceContainer')->getCreateInstanceForUnitTest() . "\n" ?>
+        return <?php echo $this->getHelper('TemplateDatabaseConnector')->getCreateInstance() . "\n"; ?>
     }
 }
