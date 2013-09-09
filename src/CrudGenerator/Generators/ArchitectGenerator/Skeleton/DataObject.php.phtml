@@ -1,12 +1,11 @@
 <?php
 echo '<?php' . "\n";
 $lcfirstEntityName              = $this->dataObject->getMetadata()->getName(true);
-$dataObjectName                 = $lcfirstEntityName . 'DataObject';
 
 ?>
 use <?php echo $this->dtoNamespace; ?>;
 
-class <?php echo $dataObjectName . "\n"; ?>
+class <?php echo $this->dataObjectName . "\n"; ?>
 {
 <?php
 /* Traitement des champs */
