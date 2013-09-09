@@ -1,42 +1,41 @@
 <?php echo '<?php' . "\n"; ?>
 namespace <?php echo $this->unitTestNamespace; ?>\DAO;
 
-use ApplicationTest\FixtureManager;
+use <?php echo $this->fixtureNamespace; ?>;
 use <?php echo $this->hydratorNamespace; ?>;
 use <?php echo $this->dtoNamespace; ?>;
 use <?php echo $this->daoNamespace; ?>;
-use <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\<?php echo $this->entityName; ?>Fixture;
 
 class RemoveTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var <?php echo $this->fixtureName . "\n"; ?>
+     */
+    private $fixtureManager = null;
+
+    protected function setUpBeforeClass()
+    {
+        $this->fixtureManager = new <?php echo $this->fixtureName; ?>();
+    }
+
+    protected function tearDownAfterClass()
+    {
+        $this->fixtureManager->purge();
+    }
+
+    protected function setUp()
+    {
+        $this->fixtureManager->purge();
+    }
+
     public function testRemove()
     {
-        FixtureManager::purge();
-        $em = FixtureManager::getEm();
+        $dtoPersisted = $this->fixtureManager->loadFixture();
 
-<?php
-$keyTestable = array();
-$columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
-foreach($columnCollection as $field => $metadata):
-$keyToTest = null;
-$modifiedValue = $this->getHelper('FixtureRenderer')->render($metadata);
-?>
-        $<?php echo $metadata->getName(); ?> = <?php echo $this->getHelper('FixtureRenderer')->render($metadata); ?>;
-<?php endforeach; ?>
-
-        $dto = new <?php echo $this->dataObjectName; ?>();
-        $dto<?php
-        $columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
-        foreach($columnCollection as $field => $metadata):
-if(null === $keyToTest) {
-    $keyToTest = $metadata->getName();
-}
-?>
-           ->set<?php echo $metadata->getName(true); ?>($<?php echo $metadata->getName(); ?>)<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
-<?php endforeach; ?>
-
-        $sUT = new <?php echo $this->entityName; ?>DAO($em, new <?php echo $this->entityName; ?>Hydrator());
-        $dtoPersisted = $sUT->persist($dto);
+        $sUT = new <?php echo $this->daoName; ?>(
+            $this->fixtureManager->getDatabaseConnection(),
+            new <?php echo $this->hydratorName; ?>()
+        );
 
         $sUT->remove($dtoPersisted);
 
@@ -46,11 +45,7 @@ if(null === $keyToTest) {
 
     public function testRemoveFailed()
     {
-        FixtureManager::purge();
-        $em = FixtureManager::getEm();
-
-        $sUT = new <?php echo $this->daoName; ?>($em, new <?php echo $this->hydratorName; ?>());
-
+        $sUT = new <?php echo $this->daoName; ?>($this->fixtureManager->getDatabaseConnection(), new <?php echo $this->hydratorName; ?>());
         $dto = new <?php echo $this->dataObjectName; ?>();
 
         $this->setExpectedException('<?php echo $this->exceptionNamespace; ?>');

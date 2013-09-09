@@ -1,7 +1,6 @@
 <?php echo '<?php' . "\n"; ?>
 namespace <?php echo $this->unitTestNamespace; ?>\Hydrator;
 
-use ApplicationTest\FixtureManager;
 use <?php echo $this->hydratorNamespace; ?>;
 use <?php echo $this->dtoNamespace; ?>;
 use <?php echo $this->daoNamespace; ?>;
@@ -17,7 +16,6 @@ class ArrayToPopoTest extends \PHPUnit_Framework_TestCase
 $keyTestable = array();
 $columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
 foreach($columnCollection as $field => $metadata):
-$keyToTest = null;
 $modifiedValue = $this->getHelper('FixtureRenderer')->render($metadata);
 ?>
         $arrayDto['<?php echo $metadata->getName(); ?>'] = <?php echo $this->getHelper('FixtureRenderer')->render($metadata); ?>;

@@ -135,15 +135,18 @@ class ArchitectGenerator extends BaseCodeGenerator
         $this->ifDirDoesNotExistCreate($allDir . 'DAO');
         $this->ifDirDoesNotExistCreate($allDir . 'Hydrator');
 
+        $fixtureName = $entityName . 'Fixture';
+
         $suppDatas = array_merge(
             $suppDatas,
             array(
-                'unitTestNamespace' => 'Tests\\' . $DTO->getNamespace()
+                'unitTestNamespace' => 'Tests\\' . $DTO->getNamespace() . '\\' . $entityName,
+                'fixtureName'       => $fixtureName,
+                'fixtureNamespace'  => 'Tests\\' . $DTO->getNamespace() . '\\' . $entityName . '\\' . $fixtureName
             )
         );
 
         $filesList = array(
-            '/test/FixtureManager.php.phtml' => $unitTestDirectory . 'FixtureManager.php',
             '/test/Fixture.php.phtml' => $allDir . $entityName . 'Fixture.php',
             '/test/DAOFactory/getInstanceTest.php.phtml' => $allDir . 'DAOFactory/GetInstanceTest.php',
             '/test/DAO/findTest.php.phtml' => $allDir . 'DAO/FindTest.php',

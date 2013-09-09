@@ -3,50 +3,44 @@ echo '<?php' . "\n";
 ?>
 namespace <?php echo $this->unitTestNamespace; ?>\DAO;
 
-use ApplicationTest\FixtureManager;
+use <?php echo $this->fixtureNamespace; ?>;
 use <?php echo $this->hydratorNamespace; ?>;
 use <?php echo $this->dtoNamespace; ?>;
 use <?php echo $this->daoNamespace; ?>;
-use <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\<?php echo $this->entityName; ?>Fixture;
 
 class PersistTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var <?php echo $this->fixtureName . "\n"; ?>
+     */
+    private $fixtureManager = null;
+
+    protected function setUpBeforeClass()
+    {
+        $this->fixtureManager = new <?php echo $this->fixtureName; ?>();
+    }
+
+    protected function tearDownAfterClass()
+    {
+        $this->fixtureManager->purge();
+    }
+
     public function testPersist()
     {
-        FixtureManager::purge();
-        $em = FixtureManager::getEm();
-
-<?php
-
-$keyTestable = array();
-$keyToTest = null;
-$columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
-foreach($columnCollection as $field => $metadata):
-?>
-        $<?php echo $metadata->getName(); ?> = <?php echo $this->getHelper('FixtureRenderer')->render($metadata); ?>;
-<?php endforeach; ?>
-
-        $dto = new <?php echo $this->dataObjectName; ?>();
-        $dto<?php foreach($columnCollection as $field => $metadata):
-if(null === $keyToTest) {
-    $keyToTest = $metadata->getName();
-}
-?>
-           ->set<?php echo ucfirst($metadata->getName()); ?>($<?php echo $metadata->getName(); ?>)<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
-<?php endforeach; ?>
+        $dto = $this->fixtureManager->getFixture();
 
         $<?php echo $this->entityName; ?>DAO = new <?php echo $this->daoName; ?>(
-            $em,
+            $this->fixtureManager->getDatabaseConnection(),
             new <?php echo $this->hydratorName; ?>()
         );
         $<?php echo $this->entityName; ?>DAO->persist($dto);
 
-        $entity = $em->getRepository('<?php echo $this->dataObject->getEntity(); ?>')->findOneBy(array('<?php echo $keyToTest; ?>' => $<?php echo $keyToTest; ?>));
+        $dtoRetrive = $suiviNewsDAO->find($dtoPersisted);
 
 <?php
 $columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
 foreach($columnCollection as $field => $metadata): ?>
-        $this->assertEquals($<?php echo $metadata->getName(); ?>, $entity->get<?php echo ucfirst($metadata->getName()); ?>());
+        $this->assertEquals($dto->get<?php echo $metadata->getName(true); ?>(), $dtoRetrive->get<?php echo $metadata->getName(true); ?>());
 <?php endforeach; ?>
     }
 }
