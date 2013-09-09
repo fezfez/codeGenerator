@@ -25,8 +25,18 @@ use Symfony\Component\Console\Helper\DialogHelper;
 
 class DirectoryQuestion
 {
+    /**
+     * @var integer
+     */
     const BACK = 0;
+    /**
+     * @var integer
+     */
     const CURRENT_DIRECTORY = 1;
+    /**
+     * @var integer
+     */
+    const CREATE_DIRECTORY = 2;
     /**
      * @var FileManager
      */
@@ -71,19 +81,24 @@ class DirectoryQuestion
                 $directory . '*',
                 ($withFile === false) ? GLOB_ONLYDIR|GLOB_MARK : GLOB_MARK
             );
+
             array_unshift(
                 $directories,
                 ' -> Back',
-                ' -> Chose actual directory'
+                ' -> Chose actual directory',
+                ' -> Create directory'
             );
 
+            $this->output->writeLn($directory);
             $choice = $this->dialog->select(
                 $this->output,
                 "<question>Choose a target directory</question> \n> ",
                 $directories
             );
 
-            if ($choice == self::BACK) {
+            if ($choice == self::CREATE_DIRECTORY) {
+                $directory .= $this->createDirectory($directory);
+            } elseif ($choice == self::BACK) {
                 $directory = substr($directory, 0, -1);
                 $directory = str_replace(
                     substr(strrchr($directory, "/"), 1),
@@ -99,5 +114,27 @@ class DirectoryQuestion
         }
 
         return $directory;
+    }
+
+    private function createDirectory($baseDirectory)
+    {
+        while (true) {
+            try {
+                $directory = $this->dialog->ask(
+                    $this->output,
+                    'Directory name '
+                );
+
+                if (false === $this->fileManager->ifDirDoesNotExistCreate($directory)) {
+                    throw new \Exception('Directory already exist');
+                } else {
+                    break;
+                }
+            } catch (\Exception $e) {
+                $this->output->writeLn('<error>' . $e->getMessage() . '</error>');
+            }
+        }
+
+        return $directory . '/';
     }
 }

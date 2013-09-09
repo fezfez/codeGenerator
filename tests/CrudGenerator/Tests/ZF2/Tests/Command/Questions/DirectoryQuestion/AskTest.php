@@ -30,7 +30,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
             $this->isType('string'),
             $this->isType('array')
         )
-        ->will($this->returnValue(2));
+        ->will($this->returnValue(3));
         // then choice back
         $dialog->expects($this->at(1))
         ->method('select')
