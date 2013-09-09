@@ -58,7 +58,7 @@ class ArchitectGenerator extends BaseCodeGenerator
         }
 
         $basePath          = $DTO->getModule() . '/' . $DTO->getDirectory();
-        $entityName        = $DTO->getEntityName();
+        $entityName        = $DTO->getMetadata()->getName(false);
         $ucFirstEntityName = $DTO->getMetadata()->getName(true);
 
         $suppDatas = array(
@@ -77,12 +77,12 @@ class ArchitectGenerator extends BaseCodeGenerator
         );
 
         $filesList = array(
-            '/Exception.php.phtml'  => '/No' . $entityName . 'Exception.php',
-            '/DAOFactory.php.phtml' => '/' . $entityName . 'DAOFactory.php',
-            '/DAO.php.phtml' => '/DAO/' . $entityName . 'DAO.php',
-            '/Hydrator.php.phtml' => '/Hydrator/' . $entityName . 'Hydrator.php',
-            '/DataObject.php.phtml' => '/DataObject/' . $entityName . 'DataObject.php',
-            '/DataObjectCollection.php.phtml' => '/DataObject/' . $entityName . 'Collection.php',
+            '/Exception.php.phtml'  => '/No' . $ucFirstEntityName . 'Exception.php',
+            '/DAOFactory.php.phtml' => '/' . $ucFirstEntityName . 'DAOFactory.php',
+            '/DAO.php.phtml' => '/DAO/' . $ucFirstEntityName . 'DAO.php',
+            '/Hydrator.php.phtml' => '/Hydrator/' . $ucFirstEntityName . 'Hydrator.php',
+            '/DataObject.php.phtml' => '/DataObject/' . $ucFirstEntityName . 'DataObject.php',
+            '/DataObjectCollection.php.phtml' => '/DataObject/' . $ucFirstEntityName . 'Collection.php',
         );
 
         $this->ifDirDoesNotExistCreate($basePath . '/DAO/');
@@ -122,7 +122,7 @@ class ArchitectGenerator extends BaseCodeGenerator
      */
     private function generateTestUnit(DataObject $DTO, $entityName, array $suppDatas)
     {
-        $unitTestDirectory   = $DTO->getModule() . '/../tests/' . str_replace('\\', '/', $DTO->getNamespace()) . '/' . $entityName;
+        $unitTestDirectory   = 'tests/' . str_replace('\\', '/', $DTO->getNamespace()) . '/' . $entityName;
         $unitTestDirectories = explode('/', $unitTestDirectory);
         $allDir              = '';
 
@@ -135,15 +135,18 @@ class ArchitectGenerator extends BaseCodeGenerator
         $this->ifDirDoesNotExistCreate($allDir . 'DAO');
         $this->ifDirDoesNotExistCreate($allDir . 'Hydrator');
 
+        $fixtureName = $entityName . 'Fixture';
+
         $suppDatas = array_merge(
             $suppDatas,
             array(
-                'unitTestNamespace' => $entityName . 'Test'
+                'unitTestNamespace' => 'Tests\\' . $DTO->getNamespace() . '\\' . $entityName,
+                'fixtureName'       => $fixtureName,
+                'fixtureNamespace'  => 'Tests\\' . $DTO->getNamespace() . '\\' . $entityName . '\\' . $fixtureName
             )
         );
 
         $filesList = array(
-            '/test/FixtureManager.php.phtml' => $unitTestDirectory . 'FixtureManager.php',
             '/test/Fixture.php.phtml' => $allDir . $entityName . 'Fixture.php',
             '/test/DAOFactory/getInstanceTest.php.phtml' => $allDir . 'DAOFactory/GetInstanceTest.php',
             '/test/DAO/findTest.php.phtml' => $allDir . 'DAO/FindTest.php',

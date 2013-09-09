@@ -1,65 +1,64 @@
 <?php echo '<?php' . "\n"; ?>
-namespace <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\DAO;
+namespace <?php echo $this->unitTestNamespace; ?>\DAO;
 
-use ApplicationTest\FixtureManager;
+use <?php echo $this->fixtureNamespace; ?>;
 use <?php echo $this->hydratorNamespace; ?>;
 use <?php echo $this->dtoNamespace; ?>;
 use <?php echo $this->daoNamespace; ?>;
-use <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\<?php echo $this->entityName; ?>Fixture;
 
 class ModifyTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var <?php echo $this->fixtureName . "\n"; ?>
+     */
+    private $fixtureManager = null;
+
+    protected function setUpBeforeClass()
+    {
+        $this->fixtureManager = new <?php echo $this->fixtureName; ?>();
+    }
+
+    protected function setUp()
+    {
+        $this->fixtureManager->purge();
+    }
+
+    protected function tearDownAfterClass()
+    {
+        $this->fixtureManager->purge();
+    }
+
     public function testRemove()
     {
-        FixtureManager::purge();
-        $em = FixtureManager::getEm();
-
-<?php
-
-$keyTestable = array();
+        $this->fixtureManager->loadFixture();
+        <?php
 $columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
-foreach($columnCollection as $field => $metadata):
-$keyToTest = null;
-$modifiedValue = $this->getHelper('FixtureRenderer')->render($metadata);
-?>
-        $<?php echo $metadata->getName(); ?> = <?php echo $this->getHelper('FixtureRenderer')->render($metadata); ?>;
-<?php endforeach; ?>
-
-        $dto = new <?php echo $this->dataObjectName; ?>();
-        $dto<?php foreach($columnCollection as $field => $metadata):
-if(null === $keyToTest) {
-    $keyToTest = $metadata->getName();
+foreach($columnCollection as $field => $metadata) {
+    $metadataToTest = $metadata;
+    break;
 }
+$modifiedValue = $this->getHelper('FixtureRenderer')->render($metadataToTest);
 ?>
-           ->set<?php echo $metadata->getName(true); ?>($<?php echo $metadata->getName(); ?>)<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
-<?php endforeach; ?>
 
-        $sUT = new <?php echo $this->daoName; ?>($em, new <?php echo $this->entityName; ?>Hydrator());
-        $dtoPersisted = $<?php echo $this->entityName; ?>DAO->persist($dto);
+        $dtoPersisted->set<?php echo $metadataToTest->getName(true); ?>(<?php echo $modifiedValue; ?>);
+        $sUT = new <?php echo $this->daoName; ?>(
+            $this->fixtureManager->getDatabaseConnection(),
+            new <?php echo $this->hydratorName; ?>()
+        );
 
-        $entity = $em->getRepository('<?php echo $this->dataObject->getEntity(); ?>')->findOneBy(array('<?php echo $keyToTest; ?>' => $<?php echo $keyToTest; ?>));
-
-<?php
-$columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
-foreach($columnCollection as $field => $metadata): ?>
-        $this->assertEquals($<?php echo $metadata->getName(); ?>, $entity->get<?php echo ucfirst($metadata->getName()); ?>());
-<?php endforeach; ?>
-
-        $dtoPersisted->set<?php echo ucfirst($keyToTest); ?>(<?php echo $modifiedValue; ?>);
         $dtoModified = $sUT->modify($dtoPersisted);
 
         $dtoTestable =  $sUT->find($dtoModified);
 
-        $this->assertEquals(<?php echo $modifiedValue; ?>, $entity->get<?php echo ucfirst($keyToTest); ?>());
+        $this->assertEquals(<?php echo $modifiedValue; ?>, $entity->get<?php echo $metadataToTest->getName(true); ?>());
     }
 
     public function testModifyFailed()
     {
-        FixtureManager::purge();
-        $em = FixtureManager::getEm();
-
-        $sUT = new <?php echo $this->daoName; ?>($em, new <?php echo $this->hydratorName; ?>());
-
+        $sUT = new <?php echo $this->daoName; ?>(
+            $this->fixtureManager->getDatabaseConnection(),
+            new <?php echo $this->hydratorName; ?>()
+        );
         $dto = new <?php echo $this->dataObjectName; ?>();
 
         $this->setExpectedException('<?php echo $this->exceptionNamespace; ?>');

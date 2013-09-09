@@ -1,24 +1,32 @@
 <?php
 echo '<?php' . "\n";
 ?>
-namespace <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\DAO;
+namespace <?php echo $this->unitTestNamespace; ?>\DAO;
 
 <?php echo $this->getHelper('TemplateServiceContainer')->getFullClassForUnitTest(); ?>
+use <?php echo $this->fixtureNamespace; ?>;
 use <?php echo $this->hydratorNamespace; ?>;
 use <?php echo $this->dtoNamespace; ?>;
 use <?php echo $this->daoNamespace; ?>;
 
-use <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\<?php echo $this->entityName; ?>Fixture;
-
 class FindTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var <?php echo $this->fixtureName . "\n"; ?>
+     */
+    private $fixtureManager = null;
+
+    protected function setUpBeforeClass()
+    {
+        $this->fixtureManager = new <?php echo $this->fixtureName; ?>();
+    }
+
     public function testFind()
     {
-        $dataObject = new <?php echo $this->dataObjectName; ?>();
-        $dataObject->setId($entity->getId());
+        $dataObject = $this->fixtureManager->loadFixture();
 
         $sUT = new <?php echo $this->daoName; ?>(
-            $this->get<?php echo $this->getHelper('TemplateDatabaseConnector')->getClassName(); ?>(),
+            $this->fixtureManager->getDatabaseConnection(),
             new <?php echo $this->hydratorName; ?>()
         );
 
@@ -38,22 +46,13 @@ class FindTest extends \PHPUnit_Framework_TestCase
         $dataObject->setId('10000');
 
         $sUT = new <?php echo $this->daoName; ?>(
-            $this->get<?php echo $this->getHelper('TemplateDatabaseConnector')->getClassName(); ?>(),
+            $this->fixtureManager->getDatabaseConnection(),
             new <?php echo $this->hydratorName; ?>()
         );
 
         $this->setExpectedException('<?php echo $this->exceptionNamespace; ?>');
 
         $sUT->find($dataObject);
-    }
-
-    /**
-     * @return <?php echo $this->getHelper('TemplateDatabaseConnector')->getFullClass() . "\n"; ?>
-     */
-    private function get<?php echo $this->getHelper('TemplateDatabaseConnector')->getClassName(); ?>()
-    {
-        <?php echo $this->getHelper('TemplateServiceContainer')->getCreateInstanceForUnitTest() . "\n" ?>
-        return <?php echo $this->getHelper('TemplateDatabaseConnector')->getCreateInstance() . "\n"; ?>
     }
 }
 

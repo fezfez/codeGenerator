@@ -101,7 +101,7 @@ class GeneratorSandBoxCommand extends Command
         ->setPrimaryKey(true);
 
         $metadata->appendColumn($column);
-        $metadata->setName('toto');
+        $metadata->setName('my_name');
 
         $column = new MetaDataColumn();
         $column->setName('tetze')

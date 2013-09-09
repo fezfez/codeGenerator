@@ -109,11 +109,25 @@ class MetaDataColumn
      */
     public function getName($ucfirst = false)
     {
+        $value = $this->camelCase($this->name);
         if (true === $ucfirst) {
-            return ucfirst($this->name);
+            return ucfirst($value);
         } else {
-            return $this->name;
+            return $value;
         }
+    }
+    /**
+     * @param string $value
+     */
+    private function camelCase($value)
+    {
+        return preg_replace_callback(
+            '/_(\w)/',
+            function (array $matches) {
+                return ucfirst($matches[1]);
+            },
+            $value
+        );
     }
     /**
      * Get Column type

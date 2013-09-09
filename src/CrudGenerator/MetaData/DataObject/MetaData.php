@@ -132,24 +132,31 @@ abstract class MetaData
      */
     public function getName($ucfirst = false)
     {
+        $name = $this->camelCase($this->name);
         if (true === $ucfirst) {
-            return ucfirst($this->name);
+            return ucfirst($name);
         } else {
-            return $this->name;
+            return $name;
         }
+    }
+
+    /**
+     * @param string $value
+     */
+    private function camelCase($value)
+    {
+        return preg_replace_callback(
+            '/_(\w)/',
+            function (array $matches) {
+                return ucfirst($matches[1]);
+            },
+            $value
+        );
     }
 
     public function getCamelCaseName($ucfirst = true)
     {
-        $name = $this->name;
-        $result = preg_replace_callback(
-            '/_(\w)/',
-            function (array $matches) {
-               return ucfirst($matches[1]);
-            },
-            $name
-        );
-
+        $result = $this->camelCase($this->name);
         if (true === $ucfirst) {
             return ucfirst($result);
         } else {

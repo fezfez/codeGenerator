@@ -1,22 +1,36 @@
 <?php echo '<?php' . "\n"; ?>
-namespace <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\DAO;
+namespace <?php echo $this->unitTestNamespace; ?>\DAO;
 
-use ApplicationTest\FixtureManager;
+use <?php echo $this->fixtureNamespace; ?>;
 use <?php echo $this->hydratorNamespace; ?>;
 use <?php echo $this->dtoNamespace; ?>;
 use <?php echo $this->daoNamespace; ?>;
-use <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\<?php echo $this->entityName; ?>Fixture;
 
 class FindAllTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var <?php echo $this->fixtureName . "\n"; ?>
+     */
+    private $fixtureManager = null;
+
+    protected function setUpBeforeClass()
+    {
+        $this->fixtureManager = new <?php echo $this->fixtureName; ?>();
+    }
+
+    protected function tearDownAfterClass()
+    {
+        $this->fixtureManager->purge();
+    }
+
     public function testFindAll()
     {
-        FixtureManager::purge();
-        $em = FixtureManager::getEm();
-        $fixture = new <?php echo $this->entityName; ?>Fixture();
-        FixtureManager::loadFixtures($fixture);
+        $this->fixtureManager->loadFixture();
 
-        $sUT = new <?php echo $this->entityName; ?>DAO($em, new <?php echo $this->hydratorName; ?>());
+        $sUT = new <?php echo $this->daoName; ?>(
+            $this->fixtureManager->getDatabaseConnection(),
+            new <?php echo $this->hydratorName; ?>()
+        );
         $<?php echo $this->entityName; ?>Data = $sUT->findAll();
 
         $this->assertEquals(1, $<?php echo $this->entityName; ?>Data->count());
