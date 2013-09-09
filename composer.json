@@ -41,9 +41,11 @@
 		"issues" : "https://github.com/fezfez/crudGenerator/issues",
 		"wiki" : "https://github.com/fezfez/crudGenerator/blob/master/README.md"
 	},
+	"minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "dev-master" : "0.1.x-dev"
+            "master" : "master-dev",
+            "alpha-1" : "0.1.x-dev"
         }
     },
 	"bin" : [
