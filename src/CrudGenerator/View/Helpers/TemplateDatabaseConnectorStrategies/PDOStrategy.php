@@ -115,7 +115,7 @@ class PDOStrategy implements StrategyInterface
         }
 
         $result .= implode(', ' . "\n", $columnInArray) . "\n";
-        $result .= "        ));\n";
+        $result .= "        ));\n\n";
 
         $result .= '        $query = $this->' . $this->getVariableName() . '->prepare("SELECT * FROM ' . $dataObject->getMetaData()->getOriginalName() . ' WHERE id = " . $this->pdo->lastInsertId());' . "\n";
         $result .= '        $query->execute();' . "\n";
@@ -138,8 +138,8 @@ class PDOStrategy implements StrategyInterface
         }
 
         $result .= '(' . implode(', ', $columnName) . ') VALUES ';
-        $result .= '(' . implode(', ', explode(' ', str_repeat(" ", count($columnName)))) . ')';
-        $result .= '");' . "\n";
+        $result .= '(' . implode(', ', explode('?', str_repeat("?", count($columnCollection)))) . ')';
+        $result .= '");' . "\n\n";
 
         $result .= $this->getExecuteParamsWithSelectOne($dataObject);
 

@@ -13,7 +13,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
      */
     private static $fixtureManager = null;
 
-    protected function setUpBeforeClass()
+    protected static function setUpBeforeClass()
     {
         $this->fixtureManager = new <?php echo $this->fixtureName; ?>();
     }
@@ -62,5 +62,3 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
         $sUT->remove($dto);
     }
 }
-}
-

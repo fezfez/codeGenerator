@@ -15,7 +15,7 @@ class PersistTest extends \PHPUnit_Framework_TestCase
      */
     private static $fixtureManager = null;
 
-    protected function setUpBeforeClass()
+    protected static function setUpBeforeClass()
     {
         self::$fixtureManager = new <?php echo $this->fixtureName; ?>();
     }
