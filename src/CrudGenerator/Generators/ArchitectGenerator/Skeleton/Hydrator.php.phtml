@@ -57,7 +57,7 @@ foreach($columnCollection as $field => $metadata): ?>
      * @param <?php echo $this->entityName; ?> $entity
      * @return <?php echo $this->dataObjectName . "\n"; ?>
      */
-    public function popoToEntity(<?php echo $this->dataObjectName; ?> $<?php echo $this->entityName; ?>, <?php echo $this->entityName; ?> $entity)
+    public function popoToEntity(<?php echo $this->dataObjectName; ?> $<?php echo $this->entityName; ?>, <?php echo $this->getHelper('TemplateDatabaseConnector')->getConcreteTypeReturnedByDatabase($this->dataObject); ?> $entity)
     {
 <?php
 $columnCollection = $this->dataObject->getMetadata()->getColumnCollection();
@@ -66,7 +66,7 @@ foreach($columnCollection as $field => $metadata): ?>
 <?php if ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase() == 'entity'): ?>
         $entity->set<?php echo $metadata->getName(true); ?>($<?php echo $this->entityName; ?>->get<?php echo $metadata->getName(true); ?>());<?php echo "\n"; ?>
 <?php else: ?>
-        $entity['<?php echo $metadata->getName(); ?>'] = $<?php echo $this->entityName; ?>->get<?php echo $metadata->getName(true); ?>());<?php echo "\n"; ?>
+        $entity['<?php echo $metadata->getName(); ?>'] = $<?php echo $this->entityName; ?>->get<?php echo $metadata->getName(true); ?>();<?php echo "\n"; ?>
 <?php endif; ?>
 <?php endforeach; ?>
 

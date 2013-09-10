@@ -54,7 +54,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInternalType(
             'string',
-            $sUT->getModifyQuery()
+            $sUT->getModifyQuery($crudDataObject)
         );
 
         $this->assertInternalType(

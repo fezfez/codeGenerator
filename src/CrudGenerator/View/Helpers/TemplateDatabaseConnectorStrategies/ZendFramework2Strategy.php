@@ -79,7 +79,7 @@ class ZendFramework2Strategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getModifyQuery()
+    public function getModifyQuery(DataObject $dataObject)
     {
         return '$this->' . $this->getVariableName() . '->persist($entity);
         $this->' . $this->getVariableName() . '->flush();';

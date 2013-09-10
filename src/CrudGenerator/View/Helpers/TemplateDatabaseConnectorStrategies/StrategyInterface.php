@@ -54,7 +54,7 @@ interface StrategyInterface
     /**
      * @return string
      */
-    public function getModifyQuery();
+    public function getModifyQuery(DataObject $dataObject);
     /**
      * @return string
      */

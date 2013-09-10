@@ -93,9 +93,9 @@ class TemplateDatabaseConnector implements StrategyInterface
     /**
      * @return string
      */
-    public function getModifyQuery()
+    public function getModifyQuery(DataObject $dataObject)
     {
-        return $this->strategy->getModifyQuery();
+        return $this->strategy->getModifyQuery($dataObject);
     }
 
     /**

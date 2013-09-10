@@ -103,7 +103,7 @@ class <?php echo $this->daoName . "\n"; ?>
             $result
         );
 
-        <?php echo $this->getHelper('TemplateDatabaseConnector')->getModifyQuery() . "\n"; ?>
+        <?php echo $this->getHelper('TemplateDatabaseConnector')->getModifyQuery($this->dataObject) . "\n"; ?>
 
         return $this->hydrator->entityToPopo(
             $result,
