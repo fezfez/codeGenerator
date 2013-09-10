@@ -33,7 +33,7 @@ $modifiedValue = $this->getHelper('FixtureRenderer')->render($metadata);
 $columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
 foreach($columnCollection as $field => $metadata):
 ?>
-        $this->assertEquals($<?php echo $metadata->getName(); ?>, $arrayDto['<?php echo $metadata->getOriginalName(); ?>']);
+        $this->assertEquals($<?php echo $metadata->getName(); ?>, $arrayDto['<?php echo $metadata->getOrininalName(); ?>']);
 <?php endforeach; ?>
     }
 }
