@@ -89,8 +89,8 @@ class PDOStrategy implements StrategyInterface
      */
     public function getModifyQuery(DataObject $dataObject)
     {
-        return '
-                $query = $this->pdo->prepare("UPDATE ' . $dataObject->getMetaData()->getOriginalName() . ' SET ';
+        $result = '
+        $query = $this->pdo->prepare("UPDATE ' . $dataObject->getMetaData()->getOriginalName() . ' SET ';
 
         $columnInArray = array();
         $columnCollection = $dataObject->getMetadata()->getColumnCollection(true);
@@ -98,7 +98,7 @@ class PDOStrategy implements StrategyInterface
             $columnInArray[] = '' . $metadata->getName(true) . ' = ?';
         }
 
-        $result .= implode(', ', $columnInArray) . ' WHERE id = ?");\n';
+        $result .= implode(', ', $columnInArray) . ' WHERE id = ?");' . "\n";
         $result .= $this->getExecuteParamsWithSelectOne($dataObject, false);
 
         return $result;
@@ -138,7 +138,7 @@ class PDOStrategy implements StrategyInterface
         }
 
         $result .= '(' . implode(', ', $columnName) . ') VALUES ';
-        $result .= '(' . implode(', ', explode('?', str_repeat("?", count($columnCollection)))) . ')';
+        $result .= '(' . implode(', ', array_fill(0, count($columnCollection), '?')) . ')';
         $result .= '");' . "\n\n";
 
         $result .= $this->getExecuteParamsWithSelectOne($dataObject);

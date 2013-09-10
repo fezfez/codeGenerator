@@ -88,7 +88,7 @@ class GeneratorSandBoxCommand extends Command
      */
     private function buildFakeMetaData()
     {
-        $metadata = new MetadataDataObjectDoctrine2(
+        $metadata = new MetadataDataObjectPDO(
             new MetaDataColumnCollection(),
             new MetaDataRelationCollection()
         );
@@ -108,6 +108,8 @@ class GeneratorSandBoxCommand extends Command
         ->setNullable(true)
         ->setType('integer')
         ->setLength('100');
+
+        $metadata->appendColumn($column);
 
         $column = new MetaDataColumn();
         $column->setName('myDate')
