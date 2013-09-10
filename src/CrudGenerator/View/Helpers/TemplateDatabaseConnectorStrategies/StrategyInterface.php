@@ -62,5 +62,17 @@ interface StrategyInterface
     /**
      * @return string
      */
-    public function getRemoveQuery();
+    public function getRemoveQuery(DataObject $dataObject);
+    /**
+     * @return string
+     */
+    public function getPurgeQueryForUnitTest(DataObject $dataObject);
+    /**
+     * @return string
+     */
+    public function getTypeReturnedByDatabase();
+    /**
+     * @return string
+     */
+    public function getConcreteTypeReturnedByDatabase(DataObject $dataObject);
 }

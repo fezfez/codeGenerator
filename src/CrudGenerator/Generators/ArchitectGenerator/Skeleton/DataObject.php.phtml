@@ -3,7 +3,7 @@ echo '<?php' . "\n";
 $lcfirstEntityName              = $this->dataObject->getMetadata()->getName(true);
 
 ?>
-use <?php echo $this->dtoNamespace; ?>;
+namespace <?php echo $this->dataObject->getNamespace(); ?>\DataObject;
 
 class <?php echo $this->dataObjectName . "\n"; ?>
 {

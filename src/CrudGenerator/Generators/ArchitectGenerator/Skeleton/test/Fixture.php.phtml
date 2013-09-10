@@ -13,16 +13,19 @@ use <?php echo $this->hydratorNamespace; ?>;
 <?php
     $length = str_repeat(' ', strlen('a' . $this->dataObject->getEntityName()));
 ?>
-class <?php echo $this->dataObject->getEntityName(); ?>Fixture
+class <?php echo $this->ucfirstEntityName; ?>Fixture
 {
     /**
      * @var <?php echo $databaseConnectorClassName . "\n"; ?>
      */
     private $<?php echo $databaseConnectionVariableName; ?> = null;
+    /**
+     * @var <?php echo $this->hydratorName; ?>
+     * /
+    privat $hydrator = null;
 
     public function __construct()
     {
-        $this-><?php echo $this->getHelper('TemplateDatabaseConnector')->getVariableName(); ?> = ;
         $this->hydrator = new <?php echo $this->hydratorName; ?>();
     }
 
@@ -56,15 +59,19 @@ if($metadata == reset($columnCollection)): ?>
 
     public function purge()
     {
-
+        <?php echo $this->getHelper('TemplateDatabaseConnector')->getPurgeQueryForUnitTest($this->dataObject) . "\n"; ?>
     }
 
     /**
      * @return <?php echo $this->getHelper('TemplateDatabaseConnector')->getFullClass() . "\n"; ?>
      */
-    private function get<?php echo $this->getHelper('TemplateDatabaseConnector')->getClassName(); ?>()
+    public function getDatabaseConnection()
     {
-        <?php echo $this->getHelper('TemplateServiceContainer')->getCreateInstanceForUnitTest() . "\n" ?>
-        return <?php echo $this->getHelper('TemplateDatabaseConnector')->getCreateInstance() . "\n"; ?>
+        if (null === $this-><?php echo $databaseConnectionVariableName; ?>) {
+            <?php echo $this->getHelper('TemplateServiceContainer')->getCreateInstanceForUnitTest() . "\n" ?>
+            $this-><?php echo $databaseConnectionVariableName; ?> = <?php echo $this->getHelper('TemplateDatabaseConnector')->getCreateInstance() . "\n"; ?>
+        }
+
+        return $this-><?php echo $databaseConnectionVariableName; ?>;
     }
 }

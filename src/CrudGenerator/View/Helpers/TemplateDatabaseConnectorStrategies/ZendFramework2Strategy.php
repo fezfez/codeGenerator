@@ -97,9 +97,32 @@ class ZendFramework2Strategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getRemoveQuery()
+    public function getRemoveQuery(DataObject $dataObject)
     {
         return '$this->' . $this->getVariableName() . '->remove($entity);
         $this->' . $this->getVariableName() . '->flush();';
+    }
+
+    /**
+     * @return string
+     */
+    public function getPurgeQueryForUnitTest(DataObject $dataObject)
+    {
+        return '
+        $query = $this->' . $this->getVariableName() . '->createQuery(\'DELETE ' . $dataObject->getEntity() . ' e\');
+        $query->execute();';
+    }
+
+    /* (non-PHPdoc)
+     * @see CrudGenerator\View\Helpers\TemplateDatabaseConnectorStrategies.StrategyInterface::getTypeReturnedByDatabase()
+     */
+    public function getTypeReturnedByDatabase()
+    {
+        return 'entity';
+    }
+
+    public function getConcreteTypeReturnedByDatabase(DataObject $dataObject)
+    {
+        return $dataObject->getEntity();
     }
 }

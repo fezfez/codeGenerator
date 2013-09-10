@@ -20,6 +20,9 @@ namespace CrudGenerator\Generators\ArchitectGenerator;
 use CrudGenerator\DataObject;
 use CrudGenerator\Generators\BaseCodeGenerator;
 use CrudGenerator\Generators\ArchitectGenerator\Artchitect;
+use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
+use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
+use CrudGenerator\Utils\FileManager;
 
 /**
  * Generate DAO, DTO, Hydrator, Exception, unit test
@@ -122,7 +125,14 @@ class ArchitectGenerator extends BaseCodeGenerator
      */
     private function generateTestUnit(DataObject $DTO, $entityName, array $suppDatas)
     {
-        $unitTestDirectory   = 'tests/' . str_replace('\\', '/', $DTO->getNamespace()) . '/' . $entityName;
+        try {
+            ZendFramework2Environnement::getDependence(new FileManager());
+            $unitTestDirectory .= 'module/' . $DTO->getModule() . '/';
+        } catch (EnvironnementResolverException $e) {
+            $unitTestDirectory = '';
+        }
+
+        $unitTestDirectory   .= 'tests/' . str_replace('\\', '/', $DTO->getNamespace()) . '/' . $entityName;
         $unitTestDirectories = explode('/', $unitTestDirectory);
         $allDir              = '';
 

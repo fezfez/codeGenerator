@@ -11,21 +11,21 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
     /**
      * @var <?php echo $this->fixtureName . "\n"; ?>
      */
-    private $fixtureManager = null;
+    private static $fixtureManager = null;
 
     protected function setUpBeforeClass()
     {
         $this->fixtureManager = new <?php echo $this->fixtureName; ?>();
     }
 
-    protected function tearDownAfterClass()
+    protected static function tearDownAfterClass()
     {
-        $this->fixtureManager->purge();
+        self::$fixtureManager->purge();
     }
 
     protected function setUp()
     {
-        $this->fixtureManager->purge();
+        self::$fixtureManager->purge();
     }
 
     public function testRemove()
@@ -33,7 +33,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
         $dtoPersisted = $this->fixtureManager->loadFixture();
 
         $sUT = new <?php echo $this->daoName; ?>(
-            $this->fixtureManager->getDatabaseConnection(),
+            self::$fixtureManager->getDatabaseConnection(),
             new <?php echo $this->hydratorName; ?>()
         );
 
@@ -45,11 +45,22 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveFailed()
     {
-        $sUT = new <?php echo $this->daoName; ?>($this->fixtureManager->getDatabaseConnection(), new <?php echo $this->hydratorName; ?>());
+        $sUT = new <?php echo $this->daoName; ?>(self::$fixtureManager->getDatabaseConnection(), new SuiviNewsHydrator());
         $dto = new <?php echo $this->dataObjectName; ?>();
 
         $this->setExpectedException('<?php echo $this->exceptionNamespace; ?>');
         $sUT->remove($dto);
     }
+
+    public function testRemoveFailedWithId()
+    {
+        $sUT = new <?php echo $this->daoName; ?>(self::$fixtureManager->getDatabaseConnection(), new SuiviNewsHydrator());
+        $dto = new <?php echo $this->dataObjectName; ?>();
+        $dto->setId('42');
+
+        $this->setExpectedException('<?php echo $this->exceptionNamespace; ?>');
+        $sUT->remove($dto);
+    }
+}
 }
 

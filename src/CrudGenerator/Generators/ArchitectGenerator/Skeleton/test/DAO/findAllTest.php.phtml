@@ -11,16 +11,17 @@ class FindAllTest extends \PHPUnit_Framework_TestCase
     /**
      * @var <?php echo $this->fixtureName . "\n"; ?>
      */
-    private $fixtureManager = null;
+    private static $fixtureManager = null;
 
-    protected function setUpBeforeClass()
+    protected static function setUpBeforeClass()
     {
-        $this->fixtureManager = new <?php echo $this->fixtureName; ?>();
+        self::$fixtureManager = new <?php echo $this->fixtureName; ?>();
+        self::$fixtureManager->purge();
     }
 
-    protected function tearDownAfterClass()
+    protected static function tearDownAfterClass()
     {
-        $this->fixtureManager->purge();
+        self::$fixtureManager->purge();
     }
 
     public function testFindAll()
@@ -28,7 +29,7 @@ class FindAllTest extends \PHPUnit_Framework_TestCase
         $this->fixtureManager->loadFixture();
 
         $sUT = new <?php echo $this->daoName; ?>(
-            $this->fixtureManager->getDatabaseConnection(),
+            self::$fixtureManager->getDatabaseConnection(),
             new <?php echo $this->hydratorName; ?>()
         );
         $<?php echo $this->entityName; ?>Data = $sUT->findAll();

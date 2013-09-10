@@ -123,6 +123,6 @@ class <?php echo $this->daoName . "\n"; ?>
             throw new <?php echo $this->exceptionName; ?>('<?php echo $this->entityName; ?> not found');
         }
 
-        <?php echo $this->getHelper('TemplateDatabaseConnector')->getRemoveQuery() . "\n"; ?>
+        <?php echo $this->getHelper('TemplateDatabaseConnector')->getRemoveQuery($this->dataObject) . "\n"; ?>
     }
 }
