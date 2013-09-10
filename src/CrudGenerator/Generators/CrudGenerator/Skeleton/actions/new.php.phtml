@@ -4,19 +4,19 @@
         $headTitle = $sm->get('viewHelperManager')->get('headTitle');
         $headTitle->append("Create <?php echo $this->dataObject->getEntityName(); ?>");
 
-        $<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>Form = <?php echo $this->dataObject->getMetadata()->getCamelCaseName(true); ?>FormFactory::getInstance($sm);
-        $<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>DAO  = <?php echo $this->dataObject->getMetadata()->getCamelCaseName(true); ?>DAOFactory::getInstance($sm);
+        $<?php echo $this->dataObject->getMetadata()->getName(); ?>Form = <?php echo $this->dataObject->getMetadata()->getName(true); ?>FormFactory::getInstance($sm);
+        $<?php echo $this->dataObject->getMetadata()->getName(); ?>DAO  = <?php echo $this->dataObject->getMetadata()->getName(true); ?>DAOFactory::getInstance($sm);
         $datas          = $this->getRequest()->getPost()->toArray();
 
-        if($this->getRequest()->isPost() && $<?php echo $this->dataObject->getMetadata()->getCamelCaseName(true); ?>Form->isValid($datas)) {
-            $<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>DAO->create($<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>Form->getDTO());
+        if($this->getRequest()->isPost() && $<?php echo $this->dataObject->getMetadata()->getName(true); ?>Form->isValid($datas)) {
+            $<?php echo $this->dataObject->getMetadata()->getName(); ?>DAO->create($<?php echo $this->dataObject->getMetadata()->getName(); ?>Form->getDTO());
 
-            $this->flashMessenger()->addMessage('<?php echo $this->dataObject->getMetadata()->getCamelCaseName(true); ?> created');
+            $this->flashMessenger()->addMessage('<?php echo $this->dataObject->getMetadata()->getName(true); ?> created');
 
-            return $this->redirect()->toRoute('<?php echo $this->dataObject->getMetadata()->getCamelCaseName(true); ?>');
+            return $this->redirect()->toRoute('<?php echo $this->dataObject->getMetadata()->getName(true); ?>');
         }
 
         return new ViewModel(array(
-            'form' => $<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>Form
+            'form' => $<?php echo $this->dataObject->getMetadata()->getName(); ?>Form
         ));
     }

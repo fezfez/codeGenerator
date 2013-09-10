@@ -4,10 +4,10 @@
         $headTitle = $serviceManager->get('viewHelperManager')->get('headTitle');
         $headTitle->append("Liste des <?php echo $this->dataObject->getEntityName(); ?>s");
 
-        $<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>DAO = <?php echo $this->dataObject->getMetadata()->getCamelCaseName(true); ?>DAOFactory::getInstance($serviceManager);
+        $<?php echo $this->dataObject->getMetadata()->getName(); ?>DAO = <?php echo $this->dataObject->getMetadata()->getName(true); ?>DAOFactory::getInstance($serviceManager);
 
         return new ViewModel(array(
-            'list<?php echo $this->dataObject->getMetadata()->getCamelCaseName(true); ?>s' => $<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>DAO->retrieveAll(),
+            'list<?php echo $this->dataObject->getMetadata()->getName(true); ?>s' => $<?php echo $this->dataObject->getMetadata()->getName(); ?>DAO->retrieveAll(),
             'flashMessages' => $this->flashMessenger()->getMessages(),
         ));
     }

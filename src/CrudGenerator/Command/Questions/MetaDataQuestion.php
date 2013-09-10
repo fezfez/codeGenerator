@@ -76,7 +76,7 @@ class MetaDataQuestion
 
         $metaDataChoices = array();
         foreach ($metaDataDAO->getAllMetadata() as $metaData) {
-            $metaDataChoices[] = $metaData->getName();
+            $metaDataChoices[] = $metaData->getOriginalName();
         }
 
         $metaDataName = $this->dialog->select(

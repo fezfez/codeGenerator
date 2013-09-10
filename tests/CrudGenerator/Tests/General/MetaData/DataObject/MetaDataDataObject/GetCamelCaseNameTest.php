@@ -18,12 +18,17 @@ class GetCamelNameTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             'ManyToMany',
-            $sUT->getCamelCaseName(true)
+            $sUT->getName(true)
         );
 
         $this->assertEquals(
             'manyToMany',
-            $sUT->getCamelCaseName(false)
+            $sUT->getName(false)
+        );
+
+        $this->assertEquals(
+            'many_to_many',
+            $sUT->getOriginalName()
         );
     }
 }

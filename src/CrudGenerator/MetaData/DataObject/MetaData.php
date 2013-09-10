@@ -154,13 +154,8 @@ abstract class MetaData
         );
     }
 
-    public function getCamelCaseName($ucfirst = true)
+    public function getOriginalName()
     {
-        $result = $this->camelCase($this->name);
-        if (true === $ucfirst) {
-            return ucfirst($result);
-        } else {
-            return $result;
-        }
+        return $this->name;
     }
 }
