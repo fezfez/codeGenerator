@@ -132,7 +132,7 @@ class ArchitectGenerator extends BaseCodeGenerator
             $unitTestDirectory = '';
         }
 
-        $unitTestDirectory   .= 'tests/' . str_replace('\\', '/', $DTO->getNamespace()) . '/' . $entityName;
+        $unitTestDirectory   .= 'Tests/' . str_replace('\\', '/', $DTO->getNamespace()) . '/' . $entityName;
         $unitTestDirectories = explode('/', $unitTestDirectory);
         $allDir              = '';
 

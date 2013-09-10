@@ -119,6 +119,14 @@ class GeneratorSandBoxCommand extends Command
 
         $metadata->appendColumn($column);
 
+        $column = new MetaDataColumn();
+        $column->setName('my_data')
+        ->setNullable(true)
+        ->setType('text')
+        ->setLength('100');
+
+        $metadata->appendColumn($column);
+
         return $metadata;
     }
 }
