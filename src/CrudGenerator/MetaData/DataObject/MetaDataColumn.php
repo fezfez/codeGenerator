@@ -129,6 +129,14 @@ class MetaDataColumn
             $value
         );
     }
+
+    /**
+     * @return string
+     */
+    public function getOrininalName()
+    {
+        return $this->name;
+    }
     /**
      * Get Column type
      *

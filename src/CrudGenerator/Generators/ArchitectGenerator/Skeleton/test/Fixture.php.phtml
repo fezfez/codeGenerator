@@ -7,6 +7,7 @@ $databaseConnectionVariableName = $this->getHelper('TemplateDatabaseConnector')-
 namespace <?php echo $this->unitTestNamespace; ?>;
 
 use DateTime;
+use <?php echo $this->getHelper('TemplateDatabaseConnector')->getFullClass(); ?>;
 use <?php echo $this->dtoNamespace; ?>;
 use <?php echo $this->hydratorNamespace; ?>;
 

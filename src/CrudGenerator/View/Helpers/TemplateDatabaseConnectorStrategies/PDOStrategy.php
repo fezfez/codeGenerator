@@ -95,7 +95,7 @@ class PDOStrategy implements StrategyInterface
         $columnInArray = array();
         $columnCollection = $dataObject->getMetadata()->getColumnCollection(true);
         foreach($columnCollection as $metadata) {
-            $columnInArray[] = '' . $metadata->getName(true) . ' = ?';
+            $columnInArray[] = '' . $metadata->getOrininalName() . ' = ?';
         }
 
         $result .= implode(', ', $columnInArray) . ' WHERE id = ?");' . "\n";
@@ -109,9 +109,15 @@ class PDOStrategy implements StrategyInterface
         $result = '        $query->execute(array(' . "\n";
 
         $columnInArray = array();
-        $columnCollection = $dataObject->getMetadata()->getColumnCollection($withoutId);
+        $columnCollection = $dataObject->getMetadata()->getColumnCollection(true);
         foreach($columnCollection as $metadata) {
-            $columnInArray[] = '            $result->get' . $metadata->getName(true) . '()';
+            $columnInArray[] = '            $result[\'' . $metadata->getOrininalName() . '\']';
+        }
+        $identifiers = $dataObject->getMetadata()->getIdentifier();
+        if ($withoutId == false) {
+            foreach($identifiers as $identifier) {
+                $columnInArray[] = '            $result[\'' . $identifier->getOrininalName() . '\']';
+            }
         }
 
         $result .= implode(', ' . "\n", $columnInArray) . "\n";
@@ -134,7 +140,7 @@ class PDOStrategy implements StrategyInterface
         $columnName = array();
         $columnCollection = $dataObject->getMetadata()->getColumnCollection(true);
         foreach ($columnCollection as $column) {
-            $columnName[] = $column->getName();
+            $columnName[] = $column->getOrininalName();
         }
 
         $result .= '(' . implode(', ', $columnName) . ') VALUES ';
