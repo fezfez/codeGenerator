@@ -50,7 +50,14 @@ if($metadata == reset($columnCollection)): ?>
     public function loadFixture()
     {
         $fixture = $this->getFixture();
-        $result  = $sUT->popoToArray($fixture, array());
+        $result  = $this->hydrator->popoToEntity(
+            $fixture,
+            <?php if ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase() == 'entity'): ?>
+            new <?php echo $this->entityName; ?>()
+            <?php elseif ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase() == 'array'): ?>
+            array()
+            <?php endif; ?>
+        );
 
         <?php echo $this->getHelper('TemplateDatabaseConnector')->getPersistQuery($this->dataObject) . "\n"; ?>
 
