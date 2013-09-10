@@ -29,12 +29,12 @@ class PersistTest extends \PHPUnit_Framework_TestCase
     {
         $dto = self::$fixtureManager->getFixture();
 
-        $<?php echo $this->entityName; ?>DAO = new <?php echo $this->daoName; ?>(
+        $sUT = new <?php echo $this->daoName; ?>(
             self::$fixtureManager->getDatabaseConnection(),
             new <?php echo $this->hydratorName; ?>()
         );
-        $dtoPersisted = $<?php echo $this->entityName; ?>DAO->persist($dto);
-        $dtoRetrive   = $suiviNewsDAO->find($dtoPersisted);
+        $dtoPersisted = $sUT->persist($dto);
+        $dtoRetrive   = $sUT->find($dtoPersisted);
 
 <?php
 $columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);

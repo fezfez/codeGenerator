@@ -64,7 +64,7 @@ class ZendFramework2Strategy implements StrategyInterface
     public function getQueryFindOneBy(DataObject $dataObject)
     {
         return '$result = $this->' . $this->getVariableName() . '->getRepository(\'' . $dataObject->getEntity() .
-                '\')->findOneBy(array("id" => $' . lcfirst($dataObject->getEntityName()) . '->getId()));';
+                '\')->findOneBy(array("id" => $' . $dataObject->getEntityName() . '->getId()));';
     }
 
     /**
@@ -73,7 +73,7 @@ class ZendFramework2Strategy implements StrategyInterface
      */
     public function getQueryFindAll(DataObject $dataObject)
     {
-        return '$this->' . $this->getVariableName() . '->getRepository(\'' . $dataObject->getEntity() . '\')->findAll();';
+        return '$results = $this->' . $this->getVariableName() . '->getRepository(\'' . $dataObject->getEntity() . '\')->findAll();';
     }
 
     /**
@@ -81,7 +81,7 @@ class ZendFramework2Strategy implements StrategyInterface
      */
     public function getModifyQuery(DataObject $dataObject)
     {
-        return '$this->' . $this->getVariableName() . '->persist($entity);
+        return '$this->' . $this->getVariableName() . '->persist($result);
         $this->' . $this->getVariableName() . '->flush();';
     }
 
@@ -90,7 +90,7 @@ class ZendFramework2Strategy implements StrategyInterface
      */
     public function getPersistQuery(DataObject $dataObject)
     {
-        return '$this->' . $this->getVariableName() . '->persist($entity);
+        return '$this->' . $this->getVariableName() . '->persist($result);
         $this->' . $this->getVariableName() . '->flush();';
     }
 
@@ -99,7 +99,7 @@ class ZendFramework2Strategy implements StrategyInterface
      */
     public function getRemoveQuery(DataObject $dataObject)
     {
-        return '$this->' . $this->getVariableName() . '->remove($entity);
+        return '$this->' . $this->getVariableName() . '->remove($result);
         $this->' . $this->getVariableName() . '->flush();';
     }
 

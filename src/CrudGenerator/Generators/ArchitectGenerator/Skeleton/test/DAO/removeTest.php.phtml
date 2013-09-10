@@ -45,7 +45,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveFailed()
     {
-        $sUT = new <?php echo $this->daoName; ?>(self::$fixtureManager->getDatabaseConnection(), new SuiviNewsHydrator());
+        $sUT = new <?php echo $this->daoName; ?>(self::$fixtureManager->getDatabaseConnection(), new <?php echo $this->hydratorName; ?>());
         $dto = new <?php echo $this->dataObjectName; ?>();
 
         $this->setExpectedException('<?php echo $this->exceptionNamespace; ?>');
@@ -54,7 +54,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveFailedWithId()
     {
-        $sUT = new <?php echo $this->daoName; ?>(self::$fixtureManager->getDatabaseConnection(), new SuiviNewsHydrator());
+        $sUT = new <?php echo $this->daoName; ?>(self::$fixtureManager->getDatabaseConnection(), new <?php echo $this->hydratorName; ?>());
         $dto = new <?php echo $this->dataObjectName; ?>();
         $dto->setId('42');
 
