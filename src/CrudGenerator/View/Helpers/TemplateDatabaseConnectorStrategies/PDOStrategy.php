@@ -54,9 +54,7 @@ class PDOStrategy implements StrategyInterface
      */
     public function getCreateInstance()
     {
-        return '
-        throw new \Exception("You must define manualy the database connection");
-        new PDO();';
+        return 'new PDO();';
     }
 
     /**

@@ -127,7 +127,7 @@ class ArchitectGenerator extends BaseCodeGenerator
     {
         try {
             ZendFramework2Environnement::getDependence(new FileManager());
-            $unitTestDirectory .= 'module/' . $DTO->getModule() . '/';
+            $unitTestDirectory = $DTO->getModule() . '/';
         } catch (EnvironnementResolverException $e) {
             $unitTestDirectory = '';
         }
