@@ -13,12 +13,12 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
      */
     private static $fixtureManager = null;
 
-    protected static function setUpBeforeClass()
+    public static function setUpBeforeClass()
     {
-        $this->fixtureManager = new <?php echo $this->fixtureName; ?>();
+        self::$fixtureManager = new <?php echo $this->fixtureName; ?>();
     }
 
-    protected static function tearDownAfterClass()
+    public static function tearDownAfterClass()
     {
         self::$fixtureManager->purge();
     }
@@ -30,7 +30,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
 
     public function testRemove()
     {
-        $dtoPersisted = $this->fixtureManager->loadFixture();
+        $dtoPersisted = self::$fixtureManager->loadFixture();
 
         $sUT = new <?php echo $this->daoName; ?>(
             self::$fixtureManager->getDatabaseConnection(),

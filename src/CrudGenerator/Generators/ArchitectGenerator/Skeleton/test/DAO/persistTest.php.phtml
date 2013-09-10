@@ -15,12 +15,12 @@ class PersistTest extends \PHPUnit_Framework_TestCase
      */
     private static $fixtureManager = null;
 
-    protected static function setUpBeforeClass()
+    public static function setUpBeforeClass()
     {
         self::$fixtureManager = new <?php echo $this->fixtureName; ?>();
     }
 
-    protected static function tearDownAfterClass()
+    public static function tearDownAfterClass()
     {
         self::$fixtureManager->purge();
     }
@@ -33,9 +33,8 @@ class PersistTest extends \PHPUnit_Framework_TestCase
             self::$fixtureManager->getDatabaseConnection(),
             new <?php echo $this->hydratorName; ?>()
         );
-        $<?php echo $this->entityName; ?>DAO->persist($dto);
-
-        $dtoRetrive = $suiviNewsDAO->find($dtoPersisted);
+        $dtoPersisted = $<?php echo $this->entityName; ?>DAO->persist($dto);
+        $dtoRetrive   = $suiviNewsDAO->find($dtoPersisted);
 
 <?php
 $columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);

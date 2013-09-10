@@ -68,7 +68,7 @@ class PDOStrategy implements StrategyInterface
             throw new No' . $dataObject->getMetadata()->getName(true) . 'Exception(\'' . $dataObject->getMetadata()->getName() .' with not found\');
         }
 
-        $query = $this->' . $this->getVariableName() . '->prepare("SELECT * FROM ' . $dataObject->getMetaData()->getOriginalName() .' id = " . $' . $dataObject->getMetadata()->getName() . '->getId());
+        $query = $this->' . $this->getVariableName() . '->prepare("SELECT * FROM ' . $dataObject->getMetaData()->getOriginalName() .' WHERE id = " . $' . $dataObject->getMetadata()->getName() . '->getId());
         $query->execute();
         $result = $query->fetch();';
     }
@@ -151,7 +151,7 @@ class PDOStrategy implements StrategyInterface
      */
     public function getRemoveQuery(DataObject $dataObject)
     {
-        return '$this->' . $this->getVariableName() . '->exec("DELETE FROM ' . $dataObject->getMetaData()->getOriginalName() . ' WHERE id = " . $' . $dataObject->getMetadata()->getName(true) . '->getId());';
+        return '$this->' . $this->getVariableName() . '->exec("DELETE FROM ' . $dataObject->getMetaData()->getOriginalName() . ' WHERE id = " . $' . $dataObject->getMetadata()->getName() . '->getId());';
     }
 
     /**

@@ -13,20 +13,20 @@ class FindAllTest extends \PHPUnit_Framework_TestCase
      */
     private static $fixtureManager = null;
 
-    protected static function setUpBeforeClass()
+    public static function setUpBeforeClass()
     {
         self::$fixtureManager = new <?php echo $this->fixtureName; ?>();
         self::$fixtureManager->purge();
     }
 
-    protected static function tearDownAfterClass()
+    public static function tearDownAfterClass()
     {
         self::$fixtureManager->purge();
     }
 
     public function testFindAll()
     {
-        $this->fixtureManager->loadFixture();
+        self::$fixtureManager->loadFixture();
 
         $sUT = new <?php echo $this->daoName; ?>(
             self::$fixtureManager->getDatabaseConnection(),

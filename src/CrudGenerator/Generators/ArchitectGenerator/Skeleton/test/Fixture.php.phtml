@@ -27,6 +27,7 @@ class <?php echo $this->ucfirstEntityName; ?>Fixture
     public function __construct()
     {
         $this->hydrator = new <?php echo $this->hydratorName; ?>();
+        $this->getDatabaseConnection();
     }
 
     public function getFixture()

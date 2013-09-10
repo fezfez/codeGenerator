@@ -13,7 +13,7 @@ class ModifyTest extends \PHPUnit_Framework_TestCase
      */
     private static $fixtureManager = null;
 
-    protected static function setUpBeforeClass()
+    public static function setUpBeforeClass()
     {
         self::$fixtureManager = new <?php echo $this->fixtureName; ?>();
     }
@@ -23,14 +23,14 @@ class ModifyTest extends \PHPUnit_Framework_TestCase
         self::$fixtureManager->purge();
     }
 
-    protected static function tearDownAfterClass()
+    public static function tearDownAfterClass()
     {
         self::$fixtureManager->purge();
     }
 
     public function testRemove()
     {
-        $this->fixtureManager->loadFixture();
+        $dtoPersisted = self::$fixtureManager->loadFixture();
         <?php
 $columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
 foreach($columnCollection as $field => $metadata) {

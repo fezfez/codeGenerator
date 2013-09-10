@@ -16,7 +16,7 @@ class FindTest extends \PHPUnit_Framework_TestCase
      */
     private static $fixtureManager = null;
 
-    protected static function setUpBeforeClass()
+    public static function setUpBeforeClass()
     {
         self::$fixtureManager = new <?php echo $this->fixtureName; ?>();
     }
@@ -36,7 +36,7 @@ class FindTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
             '<?php echo $this->dtoNamespace; ?>',
-            $<?php echo $this->entityName; ?>Data
+            $results
         );
     }
 
