@@ -183,7 +183,7 @@ class Crud extends DataObject
      * Get controller path
      * @return string
      */
-    public function getControllerPath()
+    public function findControllerPath()
     {
         return $this->getModule() . '/src/' . $this->getControllerNamespace() . '/Controller/';
     }
@@ -191,8 +191,8 @@ class Crud extends DataObject
      * Get view path
      * @return string
      */
-    public function getViewPath()
+    public function findViewPath()
     {
-        return $this->getModule() . '/view/' .  strtolower($this->getControllerNamespace()) . '/' .  strtolower($this->getControllerName()) . '/' . strtolower(preg_replace("[A-Z]", "-\$1", $this->getEntityName())) . '/';
+        return $this->getModule() . '/view/' .  strtolower($this->getControllerNamespace()) . '/' . strtolower(preg_replace("[A-Z]", "-\$1", $this->getEntityName())) . '/';
     }
 }

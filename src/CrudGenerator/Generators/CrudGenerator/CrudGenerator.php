@@ -71,8 +71,8 @@ class CrudGenerator extends BaseCodeGenerator
             }
         }
 
-        $this->createFullPathDirIfNotExist($dataObject->getControllerPath());
-        $this->createFullPathDirIfNotExist($dataObject->getViewPath());
+        $this->createFullPathDirIfNotExist($dataObject->findControllerPath());
+        $this->createFullPathDirIfNotExist($dataObject->findViewPath());
 
         $homeRoute   = $dataObject->getPrefixRouteName();
         $newRoute    = $homeRoute . '-new';
@@ -101,12 +101,12 @@ class CrudGenerator extends BaseCodeGenerator
         );
 
         $filesList = array(
-            '/controller.php.phtml' => $dataObject->getControllerPath() . $dataObject->getControllerName() . 'Controller.php',
-            '/views/index.phtml'    => $dataObject->getViewPath() . 'index.phtml',
-            '/views/show.phtml'     => $dataObject->getViewPath() . 'show.phtml',
-            '/views/new.phtml'      => $dataObject->getViewPath() . 'new.phtml',
-            '/views/edit.phtml'     => $dataObject->getViewPath() . 'edit.phtml',
-            '/views/edit-js.phtml'  => $dataObject->getViewPath() . 'edit-js.phtml'
+            '/controller.php.phtml' => $dataObject->findControllerPath() . $dataObject->getControllerName() . 'Controller.php',
+            '/views/index.phtml'    => $dataObject->findViewPath() . 'index.phtml',
+            '/views/show.phtml'     => $dataObject->findViewPath() . 'show.phtml',
+            '/views/new.phtml'      => $dataObject->findViewPath() . 'new.phtml',
+            '/views/edit.phtml'     => $dataObject->findViewPath() . 'edit.phtml',
+            '/views/edit-js.phtml'  => $dataObject->findViewPath() . 'edit-js.phtml'
         );
 
         foreach ($filesList as $template => $destination) {
