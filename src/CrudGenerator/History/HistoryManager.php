@@ -71,6 +71,7 @@ class HistoryManager
             'package' => array(
                 $dataObject->getEntity() => array(
                     'module' => $dataObject->getModule(),
+                    'metaDataSource' => get_class($dataObject->getMetadata()),
                     'Generators' =>  $this->dumpToArray($dataObject)
                 )
             )
