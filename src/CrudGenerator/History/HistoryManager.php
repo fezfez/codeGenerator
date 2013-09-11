@@ -70,9 +70,10 @@ class HistoryManager
         $dumpArray = array(
             'package' => array(
                 $dataObject->getEntity() => array(
-                    'module' => $dataObject->getModule(),
+                    'module'         => $dataObject->getModule(),
                     'metaDataSource' => get_class($dataObject->getMetadata()),
-                    'Generators' =>  $this->dumpToArray($dataObject)
+                    'metaData'       => $dataObject->getMetadata()->getOriginalName(),
+                    'Generators'     =>  $this->dumpToArray($dataObject)
                 )
             )
         );
