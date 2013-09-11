@@ -46,4 +46,9 @@ class Crud extends DataObject
         $this->writeAction = $value;
         return $this;
     }
+
+    public function getControllerNamespace()
+    {
+        return str_replace('\\', '', strrchr($this->getNamespace(), '\\'));
+    }
 }

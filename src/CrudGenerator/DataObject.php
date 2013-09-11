@@ -193,7 +193,7 @@ abstract class DataObject
      */
     public function getControllerPath()
     {
-        return $this->getModule() . '/src/' . $this->getModuleName() . '/Controller/';
+        return $this->getModule() . '/src/Controller/';
     }
     /**
      * Get view path
@@ -201,6 +201,6 @@ abstract class DataObject
      */
     public function getViewPath()
     {
-        return $this->getModule() . '/view/' . $this->getModuleName() . '/' . $this->getEntityName();
+        return $this->getModule() . '/view/' . $this->getEntityName();
     }
 }
