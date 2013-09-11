@@ -52,7 +52,7 @@ class Crud extends DataObject
      */
     public function getControllerNamespace()
     {
-        return substr(strrchr(substr($this->getNamespace(), 0, -1), "/"), 1);
+        return substr(strrchr(substr($this->getDirectory(), 0, -1), "/"), 1);
     }
 
     /**
