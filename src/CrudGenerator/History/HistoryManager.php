@@ -83,9 +83,10 @@ class HistoryManager
 
         $yamlRepresentation = \Symfony\Component\Yaml\Yaml::Dump($dumpArray);
 
+        $dumper = new \Symfony\Component\Yaml\Dumper();
         $this->fileManager->filePutsContent(
             self::HISTORY_PATH . $fileName . '.history.yaml',
-            $yamlRepresentation
+            $dumper->dump($dumpArray, 2)
         );
 
         $this->fileManager->filePutsContent(
