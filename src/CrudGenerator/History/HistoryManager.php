@@ -57,7 +57,7 @@ class HistoryManager
             $this->fileManager->mkdir(self::HISTORY_PATH);
         }
 
-        $fileName = urlencode($dataObject->getEntity()) . '-' . urlencode($dataObject->getGenerator());
+        $fileName = $dataObject->getEntityName();
 
         if ($this->fileManager->isFile(self::HISTORY_PATH . $fileName)) {
             $this->fileManager->unlink(self::HISTORY_PATH . $fileName);
@@ -67,14 +67,10 @@ class HistoryManager
         $history->setName($dataObject->getEntity())
                 ->setDataObject($dataObject);
 
-
-
         $dumpArray = array(
             'package' => array(
                 $dataObject->getEntity() => array(
-                    'directory' => $dataObject->getDirectory(),
                     'module' => $dataObject->getModule(),
-                    'namespace' => $dataObject->getNamespace(),
                     'Generators' =>  $this->dumpToArray($dataObject)
                 )
             )

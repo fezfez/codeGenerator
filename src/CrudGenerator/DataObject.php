@@ -38,14 +38,6 @@ abstract class DataObject
      * @var MetaData Metadata object
      */
     private $metadata        = null;
-    /**
-     * @var string Target namespace
-     */
-    private $namespace       = null;
-    /**
-     * @var string Target directory
-     */
-    private $directory       = null;
 
     /**
      * Set Module
@@ -77,26 +69,7 @@ abstract class DataObject
         $this->metadata = $value;
         return $this;
     }
-    /**
-     * Set Namespace
-     * @param string $value
-     * @return \CrudGenerator\DataObject
-     */
-    public function setNamespace($value)
-    {
-        $this->namespace = $value;
-        return $this;
-    }
-    /**
-     * Set Directory
-     * @param string $value
-     * @return \CrudGenerator\DataObject
-     */
-    public function setDirectory($value)
-    {
-        $this->directory = $value;
-        return $this;
-    }
+
     /**
      * Set Generator
      * @param string $value
@@ -156,31 +129,6 @@ abstract class DataObject
     public function getMetadata()
     {
         return $this->metadata;
-    }
-    /**
-     * Set Namespace
-     * @return string
-     */
-    public function getNamespace()
-    {
-        return $this->namespace;
-    }
-    /**
-     * Get namespace path
-     * @return string
-     */
-    public function getNamespacePath()
-    {
-        return str_replace('\\', '/', $this->namespace);
-    }
-    /**
-     * Get directory
-     *
-     * @return string
-     */
-    public function getDirectory()
-    {
-        return $this->directory;
     }
     /**
      * Get generator

@@ -4,9 +4,9 @@ namespace <?php echo $this->dataObject->getControllerNamespace(); ?>\Controller;
 
 use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
-use <?php echo $this->dataObject->getNamespace(); ?>\Form\<?php echo $this->dataObject->getEntityName(); ?>FormFactory;
+use <?php echo $this->dataObject->getModelNamespace(); ?>\Form\<?php echo $this->dataObject->getEntityName(); ?>FormFactory;
 use <?php echo $this->daoFactoryNamespace; ?>;
-use <?php echo $this->dataObject->getNamespace(); ?>\<?php echo $this->dataObject->getEntityName(); ?>FormFactory;
+use <?php echo $this->dataObject->getModelNamespace(); ?>\<?php echo $this->dataObject->getEntityName(); ?>FormFactory;
 use <?php echo $this->dtoNamespace; ?>;
 
 class <?php echo $this->dataObject->getControllerName(); ?>Controller extends AbstractActionController
