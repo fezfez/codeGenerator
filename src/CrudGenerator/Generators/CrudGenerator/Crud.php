@@ -68,9 +68,13 @@ class Crud extends DataObject
      * @param string $attribute
      * @return string|null
      */
-    public function getAttributeName($attribute)
+    public function getAttributeName($attribute = null)
     {
-        return (isset($this->attributesDisplayName[$attribute])) ? $this->attributesDisplayName[$attribute] : null;
+        if ($attribute === null) {
+            return $this->attributesDisplayName;
+        } else {
+            return (isset($this->attributesDisplayName[$attribute])) ? $this->attributesDisplayName[$attribute] : null;
+        }
     }
     /**
      * @return string
