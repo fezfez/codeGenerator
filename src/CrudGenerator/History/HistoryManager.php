@@ -67,15 +67,14 @@ class HistoryManager
         $history->setName($dataObject->getEntity())
                 ->setDataObject($dataObject);
 
+
+
         $dumpArray = array(
             'package' => array(
-                'Logiciel' => array(
-                    'PackageFolder' => true,
-                    'module' => array(
-                        'Tarif' => array(
-
-                        )
-                    ),
+                $dataObject->getEntity() => array(
+                    'directory' => $dataObject->getDirectory(),
+                    'module' => $dataObject->getModule(),
+                    'namespace' => $dataObject->getNamespace(),
                     'Generators' =>  $this->dumpToArray($dataObject)
                 )
             )
@@ -84,9 +83,10 @@ class HistoryManager
         $yamlRepresentation = \Symfony\Component\Yaml\Yaml::Dump($dumpArray);
 
         $dumper = new \Symfony\Component\Yaml\Dumper();
+
         $this->fileManager->filePutsContent(
             self::HISTORY_PATH . $fileName . '.history.yaml',
-            $dumper->dump($dumpArray, 2)
+            $dumper->dump($dumpArray, 50)
         );
 
         $this->fileManager->filePutsContent(
