@@ -122,7 +122,11 @@ abstract class DataObject
      */
     public function getModuleName()
     {
-        return $this->module;
+        if (!strrchr($this->module, '/')) {
+            return $this->module;
+        } else {
+            return substr(strrchr(substr($this->module, 0, -1), "/"), 1);
+        }
     }
     /**
      * Get Entity
