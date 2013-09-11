@@ -2,12 +2,12 @@
     {
         $DAO = DAOFactory::getInstance($this->serviceManager());
 
-        $<?php echo $this->dataObject->getMetadata()->getName(); ?> = new <?php echo $this->dataObject->getMetadata()->getName(); ?>DataObject();
-        $<?php echo $this->dataObject->getMetadata()->getName(); ?>->setId($this->getParam('id'));
+        $<?php echo $this->entityName; ?> = new <?php echo $this->entityName; ?>DataObject();
+        $<?php echo $this->entityName; ?>->setId($this->getParam('id'));
 
-        $<?php echo $this->dataObject->getMetadata()->getName(); ?> = $DAO->retrieve($<?php echo $this->dataObject->getMetadata()->getName(); ?>);
+        $<?php echo $this->entityName; ?> = $DAO->retrieve($<?php echo $this->entityName; ?>);
 
         return new ViewModel(array(
-            '<?php echo $this->dataObject->getMetadata()->getName(); ?>' => $<?php echo $this->dataObject->getMetadata()->getName(); ?>
+            '<?php echo $this->entityName; ?>' => $<?php echo $this->entityName; ?>
         ));
     }

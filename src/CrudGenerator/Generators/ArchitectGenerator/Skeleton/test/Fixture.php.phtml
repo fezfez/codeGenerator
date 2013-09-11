@@ -10,6 +10,7 @@ use DateTime;
 use <?php echo $this->getHelper('TemplateDatabaseConnector')->getFullClass(); ?>;
 use <?php echo $this->dtoNamespace; ?>;
 use <?php echo $this->hydratorNamespace; ?>;
+<?php echo $this->getHelper('TemplateServiceContainer')->getFullClassForUnitTest(); ?>
 
 <?php
     $length = str_repeat(' ', strlen('a' . $this->dataObject->getEntityName()));

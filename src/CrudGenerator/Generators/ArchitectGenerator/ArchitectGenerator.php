@@ -125,8 +125,9 @@ class ArchitectGenerator extends BaseCodeGenerator
      */
     private function generateTestUnit(DataObject $DTO, $entityName, array $suppDatas)
     {
+        $fileManager = new FileManager();
         try {
-            ZendFramework2Environnement::getDependence(new FileManager());
+            ZendFramework2Environnement::getDependence($fileManager);
             $unitTestDirectory = $DTO->getModule() . '/';
         } catch (EnvironnementResolverException $e) {
             $unitTestDirectory = '';
@@ -139,6 +140,30 @@ class ArchitectGenerator extends BaseCodeGenerator
         foreach ($unitTestDirectories as $dir) {
             $allDir .= $dir . '/';
             $this->ifDirDoesNotExistCreate($allDir);
+        }
+
+        try {
+            ZendFramework2Environnement::getDependence($fileManager);
+
+            $bootstrapPath = $DTO->getModule() . '/Tests/Bootstrap.php';
+            $configPath    = $DTO->getModule() . '/Tests/TestConfig.php.dist';
+            if (!$fileManager->isFile($bootstrapPath)) {
+                $this->generateFile(
+                    $DTO,
+                     '/test/Bootstrap.php.zf2.phtml',
+                    $bootstrapPath,
+                    $suppDatas
+                );
+            }
+            if (!$fileManager->isFile($bootstrapPath)) {
+                $this->generateFile(
+                    $DTO,
+                    '/test/TestConfig.php.dist.zf2.phtml',
+                    $configPath,
+                    $suppDatas
+                );
+            }
+        } catch (EnvironnementResolverException $e) {
         }
 
         $this->ifDirDoesNotExistCreate($allDir . 'DAOFactory');

@@ -2,21 +2,21 @@
     {
         $sm = $this->getServiceLocator();
         $headTitle = $sm->get('viewHelperManager')->get('headTitle');
-        $headTitle->append("Create <?php echo $this->dataObject->getEntityName(); ?>");
+        $headTitle->append("Create <?php echo $this->entityName; ?>");
 
-        $<?php echo $this->dataObject->getMetadata()->getName(); ?>Form = <?php echo $this->dataObject->getMetadata()->getName(true); ?>FormFactory::getInstance($sm);
-        $<?php echo $this->dataObject->getMetadata()->getName(); ?>DAO  = <?php echo $this->dataObject->getMetadata()->getName(true); ?>DAOFactory::getInstance($sm);
+        $<?php echo $this->entityName; ?>Form = <?php echo $this->ucfirstEntityName; ?>FormFactory::getInstance($sm);
+        $<?php echo $this->entityName; ?>DAO  = <?php echo $this->daoFactoryName; ?>::getInstance($sm);
         $datas          = $this->getRequest()->getPost()->toArray();
 
-        if($this->getRequest()->isPost() && $<?php echo $this->dataObject->getMetadata()->getName(true); ?>Form->isValid($datas)) {
-            $<?php echo $this->dataObject->getMetadata()->getName(); ?>DAO->create($<?php echo $this->dataObject->getMetadata()->getName(); ?>Form->getDTO());
+        if($this->getRequest()->isPost() && $<?php echo $this->entityName; ?>Form->isValid($datas)) {
+            $<?php echo $this->entityName; ?>DAO->create($<?php echo $this->entityName; ?>Form->getDTO());
 
-            $this->flashMessenger()->addMessage('<?php echo $this->dataObject->getMetadata()->getName(true); ?> created');
+            $this->flashMessenger()->addMessage('<?php echo $this->ucfirstEntityName; ?> created');
 
-            return $this->redirect()->toRoute('<?php echo $this->dataObject->getMetadata()->getName(true); ?>');
+            return $this->redirect()->toRoute('<?php echo $this->ucfirstEntityName; ?>');
         }
 
         return new ViewModel(array(
-            'form' => $<?php echo $this->dataObject->getMetadata()->getName(); ?>Form
+            'form' => $<?php echo $this->entityName; ?>Form
         ));
     }

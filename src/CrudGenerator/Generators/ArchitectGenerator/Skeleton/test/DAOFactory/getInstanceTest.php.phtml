@@ -4,7 +4,7 @@ namespace <?php echo $this->unitTestNamespace; ?>\DAOFactory;
 
 use <?php echo $this->dataObject->getNamespace(); ?>\<?php echo $this->daoName; ?>Factory;
 use <?php echo $this->daoNamespace; ?>;
-use <?php echo $this->unitTestNamespace; ?>\Bootstrap;
+<?php echo $this->getHelper('TemplateServiceContainer')->getFullClassForUnitTest(); ?>
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {

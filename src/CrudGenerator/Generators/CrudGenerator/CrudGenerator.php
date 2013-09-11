@@ -72,29 +72,42 @@ class CrudGenerator extends BaseCodeGenerator
             $this->ifDirDoesNotExistCreate($allDir);
         }
 
-        $this->generateFile(
-            $dataObject,
-            '/controller.php.phtml',
-            $dataObject->getControllerPath() . $dataObject->getEntityName() . 'Controller.php'
+        $entityName        = $dataObject->getMetadata()->getName(false);
+        $ucFirstEntityName = $dataObject->getMetadata()->getName(true);
+
+        $suppDatas = array(
+            'entityName'        => $dataObject->getMetadata()->getName(),
+            'ucfirstEntityName' => $ucFirstEntityName,
+            'hydratorName'      => $ucFirstEntityName . 'Hydrator',
+            'dataObjectName'    => $ucFirstEntityName . 'DataObject',
+            'collectionName'    => $ucFirstEntityName . 'Collection',
+            'daoFactoryName'    => $ucFirstEntityName . 'DAOFactory',
+            'exceptionName'     => 'No' . $ucFirstEntityName . 'Exception',
+            'daoFactoryNamespace'            => $dataObject->getNamespace() . '\DAO\\' . $ucFirstEntityName . 'DAOFactory',
+            'dtoNamespace'            => $dataObject->getNamespace() . '\DataObject\\' . $ucFirstEntityName . 'DataObject',
+            'hydratorNamespace'       => $dataObject->getNamespace() . '\Hydrator\\' . $ucFirstEntityName . 'Hydrator',
+            'dtoCollectionNamespace'  => $dataObject->getNamespace() . '\DataObject\\' . $ucFirstEntityName . 'Collection',
+            'exceptionNamespace'      => $dataObject->getNamespace() . '\No' . $ucFirstEntityName . 'Exception',
         );
-        $this->generateFile($dataObject, '/views/index.phtml', $dataObject->getViewPath() . 'index.phtml');
 
-        //if (in_array('show', $dataObject->getActions())) {
-            $this->generateFile($dataObject, '/views/show.phtml', $dataObject->getViewPath() . 'show.phtml');
-        //}
+        $filesList = array(
+            '/controller.php.phtml'  => $dataObject->getControllerPath() . $dataObject->getEntityName() . 'Controller.php',
+            '/views/index.phtml' => $dataObject->getViewPath() . 'index.phtml',
+            '/views/show.phtml' => $dataObject->getViewPath() . 'show.phtml',
+            '/views/new.phtml' => $dataObject->getViewPath() . 'new.phtml',
+            '/views/edit.phtml' =>$dataObject->getViewPath() . 'edit.phtml',
+            '/views/edit-js.phtml' => $dataObject->getViewPath() . 'edit-js.phtml'
+        );
 
-        //if (in_array('new', $dataObject->getActions())) {
-            $this->generateFile($dataObject, '/views/new.phtml', $dataObject->getViewPath() . 'new.phtml');
-        //}
-
-        //if (in_array('edit', $dataObject->getActions())) {
-            $this->generateFile($dataObject, '/views/edit.phtml', $dataObject->getViewPath() . 'edit.phtml');
+        foreach ($filesList as $template => $destination) {
             $this->generateFile(
                 $dataObject,
-                '/views/edit-js.phtml',
-                $dataObject->getViewPath() . 'edit-js.phtml'
+                $template,
+                $destination,
+                $suppDatas
             );
-        //}
+        }
+
 
         return $dataObject;
     }

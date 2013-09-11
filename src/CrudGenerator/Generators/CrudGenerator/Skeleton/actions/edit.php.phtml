@@ -4,37 +4,37 @@
         $headTitle = $sm->get('viewHelperManager')->get('headTitle');
         $headTitle->append("update <?php echo $this->dataObject->getEntityName(); ?>");
 
-        $<?php echo $this->dataObject->getEntityName(); ?>Form = <?php echo $this->dataObject->getEntityName(); ?>FormFactory::getInstance($sm);
-        $<?php echo $this->dataObject->getEntityName(); ?>DAO  = <?php echo $this->dataObject->getEntityName(); ?>DAOFactory::getInstance($sm);
+        $<?php echo $this->entityName; ?>Form = <?php echo $this->entityName; ?>FormFactory::getInstance($sm);
+        $<?php echo $this->entityName; ?>DAO  = <?php echo $this->daoFactoryName; ?>::getInstance($sm);
         $datas          = $this->getRequest()->getPost()->toArray();
         $id             = $this->params('id');
         $referer        = $this->params('referer');
 
-        $<?php echo $this->dataObject->getEntityName(); ?>DataObject = new <?php echo $this->dataObject->getEntityName(); ?>DataObject();
-        $<?php echo $this->dataObject->getEntityName(); ?>DataObject->setId($id);
+        $<?php echo $this->entityName; ?>DataObject = new <?php echo $this->dataObjectName; ?>();
+        $<?php echo $this->entityName; ?>DataObject->setId($id);
 
-        $<?php echo $this->dataObject->getEntityName(); ?>DataObject = $<?php echo $this->dataObject->getEntityName(); ?>DAO->retrieve($<?php echo $this->dataObject->getEntityName(); ?>DataObject);
+        $<?php echo $this->entityName; ?>DataObject = $<?php echo $this->entityName; ?>DAO->retrieve($<?php echo $this->entityName; ?>DataObject);
 
         if (!$this->getRequest()->isPost()) {
 
-            $<?php echo $this->dataObject->getEntityName(); ?>Form->populate($<?php echo $this->dataObject->getEntityName(); ?>DataObject);
+            $<?php echo $this->entityName; ?>Form->populate($<?php echo $this->entityName; ?>DataObject);
 
-        } elseif($this->getRequest()->isPost() && $<?php echo $this->dataObject->getEntityName(); ?>Form->isValid($datas)) {
+        } elseif($this->getRequest()->isPost() && $<?php echo $this->entityName; ?>Form->isValid($datas)) {
 
-            $<?php echo $this->dataObject->getEntityName(); ?> = $<?php echo $this->dataObject->getEntityName(); ?>Form->getDTO();
+            $<?php echo $this->entityName; ?> = $<?php echo $this->entityName; ?>Form->getDTO();
 
-            $<?php echo $this->dataObject->getEntityName(); ?>->setId($id);
+            $<?php echo $this->entityName; ?>->setId($id);
 
-            $<?php echo $this->dataObject->getEntityName(); ?>DAO->update($<?php echo $this->dataObject->getEntityName(); ?>);
+            $<?php echo $this->entityName; ?>DAO->update($<?php echo $this->entityName; ?>);
 
             $this->flashMessenger()->addMessage('Validation effectuée');
 
-            return $this->redirect()->toRoute('<?php echo $this->dataObject->getEntityName(); ?>');
+            return $this->redirect()->toRoute('<?php echo $this->entityName; ?>');
         }
 
         return new ViewModel(array(
-            '<?php echo $this->dataObject->getEntityName(); ?>'    => $<?php echo $this->dataObject->getEntityName(); ?>DataObject,
-            'form'          => $<?php echo $this->dataObject->getEntityName(); ?>Form,
+            '<?php echo $this->entityName; ?>'    => $<?php echo $this->entityName; ?>DataObject,
+            'form'          => $<?php echo $this->entityName; ?>Form,
             'flashMessages' => $this->flashMessenger()->getMessages()
         ));
     }

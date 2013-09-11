@@ -1,14 +1,14 @@
     public function deleteAction()
     {
-        $<?php echo $this->dataObject->getEntityName(); ?>DAO  = <?php echo $this->dataObject->getEntityName(); ?>DAOFactory::getInstance($this->getServiceLocator());
+        $<?php echo $this->entityName; ?>DAO  = <?php echo $this->daoFactoryName; ?>::getInstance($this->getServiceLocator());
         $id             = $this->params('id');
 
-        $<?php echo $this->dataObject->getEntityName(); ?> = new <?php echo $this->dataObject->getEntityName(); ?>DataObject();
-        $<?php echo $this->dataObject->getEntityName(); ?>->setId($id);
+        $<?php echo $this->entityName; ?> = new <?php echo $this->dataObjectName; ?>();
+        $<?php echo $this->entityName; ?>->setId($id);
 
-        $<?php echo $this->dataObject->getEntityName(); ?>DAO->remove($<?php echo $this->dataObject->getEntityName(); ?>);
+        $<?php echo $this->entityName; ?>DAO->remove($<?php echo $this->entityName; ?>);
 
-        $this->flashMessenger()->addMessage('<?php echo $this->dataObject->getEntityName(); ?> supprimé');
+        $this->flashMessenger()->addMessage('<?php echo $this->entityName; ?> supprimé');
 
-        return $this->redirect()->toRoute('<?php echo $this->dataObject->getEntityName(); ?>');
+        return $this->redirect()->toRoute('<?php echo $this->entityName; ?>');
     }
