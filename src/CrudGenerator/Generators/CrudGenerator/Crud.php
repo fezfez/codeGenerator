@@ -47,8 +47,28 @@ class Crud extends DataObject
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getControllerNamespace()
     {
-        return str_replace('\\', '', strrchr($this->getNamespace(), '\\'));
+        return substr(strrchr(substr($this->getNamespace(), 0, -1), "/"), 1);
+    }
+
+    /**
+     * Get controller path
+     * @return string
+     */
+    public function getControllerPath()
+    {
+        return $this->getModule() . '/src/' . $this->getControllerNamespace() . '/Controller/';
+    }
+    /**
+     * Get view path
+     * @return string
+     */
+    public function getViewPath()
+    {
+        return $this->getModule() . '/view/' . $this->getEntityName();
     }
 }

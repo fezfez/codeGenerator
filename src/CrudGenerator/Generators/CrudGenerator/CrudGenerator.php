@@ -76,18 +76,18 @@ class CrudGenerator extends BaseCodeGenerator
         $ucFirstEntityName = $dataObject->getMetadata()->getName(true);
 
         $suppDatas = array(
-            'entityName'        => $dataObject->getMetadata()->getName(),
-            'ucfirstEntityName' => $ucFirstEntityName,
-            'hydratorName'      => $ucFirstEntityName . 'Hydrator',
-            'dataObjectName'    => $ucFirstEntityName . 'DataObject',
-            'collectionName'    => $ucFirstEntityName . 'Collection',
-            'daoFactoryName'    => $ucFirstEntityName . 'DAOFactory',
-            'exceptionName'     => 'No' . $ucFirstEntityName . 'Exception',
-            'daoFactoryNamespace'            => $dataObject->getNamespace() . '\DAO\\' . $ucFirstEntityName . 'DAOFactory',
-            'dtoNamespace'            => $dataObject->getNamespace() . '\DataObject\\' . $ucFirstEntityName . 'DataObject',
-            'hydratorNamespace'       => $dataObject->getNamespace() . '\Hydrator\\' . $ucFirstEntityName . 'Hydrator',
-            'dtoCollectionNamespace'  => $dataObject->getNamespace() . '\DataObject\\' . $ucFirstEntityName . 'Collection',
-            'exceptionNamespace'      => $dataObject->getNamespace() . '\No' . $ucFirstEntityName . 'Exception',
+            'entityName'             => $dataObject->getMetadata()->getName(),
+            'ucfirstEntityName'      => $ucFirstEntityName,
+            'hydratorName'           => $ucFirstEntityName . 'Hydrator',
+            'dataObjectName'         => $ucFirstEntityName . 'DataObject',
+            'collectionName'         => $ucFirstEntityName . 'Collection',
+            'daoFactoryName'         => $ucFirstEntityName . 'DAOFactory',
+            'exceptionName'          => 'No' . $ucFirstEntityName . 'Exception',
+            'daoFactoryNamespace'    => $dataObject->getNamespace() . '\\' . $ucFirstEntityName . 'DAOFactory',
+            'dtoNamespace'           => $dataObject->getNamespace() . '\DataObject\\' . $ucFirstEntityName . 'DataObject',
+            'hydratorNamespace'      => $dataObject->getNamespace() . '\Hydrator\\' . $ucFirstEntityName . 'Hydrator',
+            'dtoCollectionNamespace' => $dataObject->getNamespace() . '\DataObject\\' . $ucFirstEntityName . 'Collection',
+            'exceptionNamespace'     => $dataObject->getNamespace() . '\No' . $ucFirstEntityName . 'Exception',
         );
 
         $filesList = array(

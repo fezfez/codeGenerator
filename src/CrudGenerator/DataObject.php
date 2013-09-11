@@ -187,20 +187,4 @@ abstract class DataObject
     {
         return $this->generator;
     }
-    /**
-     * Get controller path
-     * @return string
-     */
-    public function getControllerPath()
-    {
-        return $this->getModule() . '/src/Controller/';
-    }
-    /**
-     * Get view path
-     * @return string
-     */
-    public function getViewPath()
-    {
-        return $this->getModule() . '/view/' . $this->getEntityName();
-    }
 }
