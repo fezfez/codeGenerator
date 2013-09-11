@@ -1,13 +1,13 @@
     public function showAction()
     {
-        $DAO = DAOFactory::getInstance($this->serviceManager());
+        $DAO = <?php echo $this->daoFactoryName; ?>::getInstance($this->serviceManager());
 
-        $<?php echo $this->entityName; ?> = new <?php echo $this->entityName; ?>DataObject();
+        $<?php echo $this->entityName; ?> = new <?php echo $this->dataObjectName; ?>();
         $<?php echo $this->entityName; ?>->setId($this->getParam('id'));
 
-        $<?php echo $this->entityName; ?> = $DAO->retrieve($<?php echo $this->entityName; ?>);
+        $<?php echo $this->entityName; ?> = $DAO->find($<?php echo $this->entityName; ?>);
 
         return new ViewModel(array(
-            '<?php echo $this->entityName; ?>' => $<?php echo $this->entityName; ?>
+            '<?php echo $this->entityName; ?>' => $<?php echo $this->entityName . "\n"; ?>
         ));
     }

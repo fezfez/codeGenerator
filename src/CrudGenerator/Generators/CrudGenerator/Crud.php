@@ -22,7 +22,7 @@ use CrudGenerator\DataObject;
 class Crud extends DataObject
 {
     /**
-     * @var unknown_type
+     * @var string
      */
     protected $generator      = 'CrudGenerator\Generators\CrudGenerator\CrudGenerator';
     /**
@@ -30,13 +30,46 @@ class Crud extends DataObject
      */
     protected $writeAction    = null;
     /**
+     * @var string
+     */
+    protected $prefixRouteName = null;
+    /**
+     * @var string
+     */
+    protected $controllerName = null;
+    /**
+     * @var string
+     */
+    protected $displayName = null;
+    /**
+     * @var array
+     */
+    protected $displayNames = null;
+    /**
+     * @var array
+     */
+    protected $modelNamespace = null;
+    /**
+     * @var array
+     */
+    protected $attributesDisplayName = array();
+
+    public function setAttributeName($attribute, $name)
+    {
+        $this->attributesDisplayName[$attribute] = $name;
+        return $this;
+    }
+    public function getAttributeName($attribute)
+    {
+        return (isset($this->attributesDisplayName[$attribute])) ? $this->attributesDisplayName[$attribute] : null;
+    }
+    /**
      * @return string
      */
-    public function isWriteAction()
+    public function getWriteAction()
     {
         return $this->writeAction;
     }
-
     /**
      * @param string $value
      * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
@@ -46,7 +79,86 @@ class Crud extends DataObject
         $this->writeAction = $value;
         return $this;
     }
-
+    /**
+     * @return string
+     */
+    public function getPrefixRouteName()
+    {
+        return $this->prefixRouteName;
+    }
+    /**
+     * @param string $value
+     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
+     */
+    public function setPrefixRouteName($value)
+    {
+        $this->prefixRouteName = $value;
+        return $this;
+    }
+    /**
+     * @return string
+     */
+    public function getDisplayName()
+    {
+        return $this->displayName;
+    }
+    /**
+     * @param string $value
+     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
+     */
+    public function setDisplayName($value)
+    {
+        $this->displayName = $value;
+        return $this;
+    }
+    /**
+     * @return string
+     */
+    public function getDisplayNames()
+    {
+        return $this->displayNames;
+    }
+    /**
+     * @param string $value
+     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
+     */
+    public function setModelNamespace($value)
+    {
+        $this->modelNamespace = $value;
+        return $this;
+    }
+    /**
+     * @return string
+     */
+    public function getModelNamespace()
+    {
+        return $this->modelNamespace;
+    }
+    /**
+     * @param string $value
+     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
+     */
+    public function setDisplayNames($value)
+    {
+        $this->displayNames = $value;
+        return $this;
+    }
+    /**
+     * @return string
+     */
+    public function getControllerName()
+    {
+        return $this->controllerName;
+    }
+    /**
+     * @param string $value
+     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
+     */
+    public function setControllerName($value)
+    {
+        $this->controllerName = $value;
+        return $this;
+    }
     /**
      * @return string
      */
@@ -54,7 +166,6 @@ class Crud extends DataObject
     {
         return $this->getModuleName();
     }
-
     /**
      * Get controller path
      * @return string
@@ -69,6 +180,6 @@ class Crud extends DataObject
      */
     public function getViewPath()
     {
-        return $this->getModule() . '/view/' . $this->getEntityName();
+        return $this->getModule() . '/view/' .  strtolower($this->getControllerName()) . '/' . strtolower(preg_replace("[A-Z]", "-\$1", $this->getEntityName())) . '/';
     }
 }

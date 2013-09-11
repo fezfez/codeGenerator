@@ -2,7 +2,7 @@
     {
         $sm = $this->getServiceLocator();
         $headTitle = $sm->get('viewHelperManager')->get('headTitle');
-        $headTitle->append("update <?php echo $this->dataObject->getEntityName(); ?>");
+        $headTitle->append("update <?php echo $this->dataObject->getDisplayName(); ?>");
 
         $<?php echo $this->entityName; ?>Form = <?php echo $this->entityName; ?>FormFactory::getInstance($sm);
         $<?php echo $this->entityName; ?>DAO  = <?php echo $this->daoFactoryName; ?>::getInstance($sm);
@@ -13,7 +13,7 @@
         $<?php echo $this->entityName; ?>DataObject = new <?php echo $this->dataObjectName; ?>();
         $<?php echo $this->entityName; ?>DataObject->setId($id);
 
-        $<?php echo $this->entityName; ?>DataObject = $<?php echo $this->entityName; ?>DAO->retrieve($<?php echo $this->entityName; ?>DataObject);
+        $<?php echo $this->entityName; ?>DataObject = $<?php echo $this->entityName; ?>DAO->find($<?php echo $this->entityName; ?>DataObject);
 
         if (!$this->getRequest()->isPost()) {
 
@@ -29,7 +29,7 @@
 
             $this->flashMessenger()->addMessage('Validation effectuée');
 
-            return $this->redirect()->toRoute('<?php echo $this->entityName; ?>');
+            return $this->redirect()->toRoute('<?php echo $this->homeRoute; ?>');
         }
 
         return new ViewModel(array(

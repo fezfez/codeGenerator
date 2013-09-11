@@ -48,55 +48,65 @@ class CrudGenerator extends BaseCodeGenerator
     protected function doGenerate($dataObject)
     {
         $this->skeletonDir = __DIR__ . '/Skeleton';
-
-        if (null === $dataObject->isWriteAction()) {
-            $dataObject->setWriteAction(
-                $this->dialog->askConfirmation(
-                    $this->output,
-                    '<question>Do you want to generate the "write" actions ?</question> '
-                )
-            );
-        }
-
-        $controllerDir = explode('/', $dataObject->getControllerPath());
-        $allDir = '';
-        foreach ($controllerDir as $dir) {
-            $allDir .= $dir . '/';
-            $this->ifDirDoesNotExistCreate($allDir);
-        }
-
-        $viewDir = explode('/', $dataObject->getViewPath());
-        $allDir = '';
-        foreach ($viewDir as $dir) {
-            $allDir .= $dir . '/';
-            $this->ifDirDoesNotExistCreate($allDir);
-        }
-
         $entityName        = $dataObject->getMetadata()->getName(false);
         $ucFirstEntityName = $dataObject->getMetadata()->getName(true);
 
+        $dataObject = $this->manageOption($dataObject, 'WriteAction', 'Do you want to generate the "write" actions ?', $entityName);
+        $dataObject = $this->manageOption($dataObject, 'DisplayName', 'Display name (in view, title etc..) : ', $entityName);
+        $dataObject = $this->manageOption($dataObject, 'DisplayNames', 'Display name au plurielle (in view, title etc..) : ', $entityName . 's');
+        $dataObject = $this->manageOption($dataObject, 'ControllerName', 'Controller name (ucFirst and without "Controller"): ', $ucFirstEntityName);
+        $dataObject = $this->manageOption($dataObject, 'PrefixRouteName', 'Prefix route name (lower case): ', $this->unCamelCase($entityName));
+        $dataObject = $this->manageOption($dataObject, 'ModelNamespace', 'Model namespace : ');
+
+        foreach ($dataObject->getMetadata()->getColumnCollection() as $column) {
+            if (null === $dataObject->getAttributeName($column->getName())) {
+                $dataObject->setAttributeName(
+                    $column->getName(),
+                    $this->dialog->ask(
+                        $this->output,
+                        '<question>Display name for "' . $column->getName() . '" attribute</question> ',
+                        $column->getName()
+                    )
+                );
+            }
+        }
+
+        $this->createFullPathDirIfNotExist($dataObject->getControllerPath());
+        $this->createFullPathDirIfNotExist($dataObject->getViewPath());
+
+        $homeRoute   = $dataObject->getPrefixRouteName();
+        $newRoute    = $homeRoute . '-new';
+        $showRoute   = $homeRoute . '-show';
+        $editRoute   = $homeRoute . '-edit';
+        $deleteRoute = $homeRoute . '-delete';
+
         $suppDatas = array(
-            'entityName'             => $dataObject->getMetadata()->getName(),
+            'homeRoute'              => $homeRoute,
+            'newRoute'               => $newRoute,
+            'showRoute'              => $showRoute,
+            'editRoute'              => $editRoute,
+            'deleteRoute'            => $deleteRoute,
+            'entityName'             => $entityName,
             'ucfirstEntityName'      => $ucFirstEntityName,
             'hydratorName'           => $ucFirstEntityName . 'Hydrator',
             'dataObjectName'         => $ucFirstEntityName . 'DataObject',
             'collectionName'         => $ucFirstEntityName . 'Collection',
             'daoFactoryName'         => $ucFirstEntityName . 'DAOFactory',
             'exceptionName'          => 'No' . $ucFirstEntityName . 'Exception',
-            'daoFactoryNamespace'    => $dataObject->getNamespace() . '\\' . $ucFirstEntityName . 'DAOFactory',
-            'dtoNamespace'           => $dataObject->getNamespace() . '\DataObject\\' . $ucFirstEntityName . 'DataObject',
-            'hydratorNamespace'      => $dataObject->getNamespace() . '\Hydrator\\' . $ucFirstEntityName . 'Hydrator',
-            'dtoCollectionNamespace' => $dataObject->getNamespace() . '\DataObject\\' . $ucFirstEntityName . 'Collection',
-            'exceptionNamespace'     => $dataObject->getNamespace() . '\No' . $ucFirstEntityName . 'Exception',
+            'daoFactoryNamespace'    => $dataObject->getModelNamespace() . '\\' . $ucFirstEntityName . 'DAOFactory',
+            'dtoNamespace'           => $dataObject->getModelNamespace() . '\DataObject\\' . $ucFirstEntityName . 'DataObject',
+            'hydratorNamespace'      => $dataObject->getModelNamespace() . '\Hydrator\\' . $ucFirstEntityName . 'Hydrator',
+            'dtoCollectionNamespace' => $dataObject->getModelNamespace() . '\DataObject\\' . $ucFirstEntityName . 'Collection',
+            'exceptionNamespace'     => $dataObject->getModelNamespace() . '\No' . $ucFirstEntityName . 'Exception',
         );
 
         $filesList = array(
-            '/controller.php.phtml'  => $dataObject->getControllerPath() . $dataObject->getEntityName() . 'Controller.php',
-            '/views/index.phtml' => $dataObject->getViewPath() . 'index.phtml',
-            '/views/show.phtml' => $dataObject->getViewPath() . 'show.phtml',
-            '/views/new.phtml' => $dataObject->getViewPath() . 'new.phtml',
-            '/views/edit.phtml' =>$dataObject->getViewPath() . 'edit.phtml',
-            '/views/edit-js.phtml' => $dataObject->getViewPath() . 'edit-js.phtml'
+            '/controller.php.phtml' => $dataObject->getControllerPath() . $dataObject->getControllerName() . 'Controller.php',
+            '/views/index.phtml'    => $dataObject->getViewPath() . 'index.phtml',
+            '/views/show.phtml'     => $dataObject->getViewPath() . 'show.phtml',
+            '/views/new.phtml'      => $dataObject->getViewPath() . 'new.phtml',
+            '/views/edit.phtml'     => $dataObject->getViewPath() . 'edit.phtml',
+            '/views/edit-js.phtml'  => $dataObject->getViewPath() . 'edit-js.phtml'
         );
 
         foreach ($filesList as $template => $destination) {
@@ -107,6 +117,19 @@ class CrudGenerator extends BaseCodeGenerator
                 $suppDatas
             );
         }
+
+        $this->output->writeln("Route to add
+'" . $homeRoute . "' => array(
+    'type' => 'Zend\Mvc\Router\Http\Literal',
+    'options' => array(
+        'route'    => '/" . $homeRoute . "',
+        'defaults' => array(
+            'controller' => 'Application\Controller\\" . $dataObject->getControllerName() ."',
+            'action'     => 'index',
+        ),
+    ),
+),
+                        ");
 
 
         return $dataObject;

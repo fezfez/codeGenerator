@@ -8,7 +8,7 @@
 
         $<?php echo $this->entityName; ?>DAO->remove($<?php echo $this->entityName; ?>);
 
-        $this->flashMessenger()->addMessage('<?php echo $this->entityName; ?> supprimé');
+        $this->flashMessenger()->addMessage('<?php echo $this->dataObject->getDisplayName(); ?> supprimé');
 
-        return $this->redirect()->toRoute('<?php echo $this->entityName; ?>');
+        return $this->redirect()->toRoute('<?php echo $this->homeRoute; ?>');
     }

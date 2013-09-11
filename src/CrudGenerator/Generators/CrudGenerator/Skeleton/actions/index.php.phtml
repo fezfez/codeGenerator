@@ -2,12 +2,12 @@
     {
         $serviceManager = $this->getServiceLocator();
         $headTitle = $serviceManager->get('viewHelperManager')->get('headTitle');
-        $headTitle->append("Liste des <?php echo $this->entityName; ?>s");
+        $headTitle->append("Liste des <?php echo $this->dataObject->getDisplayNames(); ?>");
 
-        $<?php echo $this->entityName; ?>DAO = <?php echo $this->ucfirstEntityName; ?>DAOFactory::getInstance($serviceManager);
+        $<?php echo $this->entityName; ?>DAO = <?php echo $this->daoFactoryName; ?>::getInstance($serviceManager);
 
         return new ViewModel(array(
-            'list<?php echo $this->ucfirstEntityName; ?>s' => $<?php echo $this->entityName; ?>DAO->retrieveAll(),
+            'list<?php echo $this->ucfirstEntityName; ?>s' => $<?php echo $this->entityName; ?>DAO->findAll(),
             'flashMessages' => $this->flashMessenger()->getMessages(),
         ));
     }

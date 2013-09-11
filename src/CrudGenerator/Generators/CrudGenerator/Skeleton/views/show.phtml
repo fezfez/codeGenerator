@@ -1,10 +1,10 @@
-<h1><?php echo $this->entityName; ?></h1>
+<h1><?php echo $this->dataObject->getDisplayName(); ?></h1>
 
 <table class="record_properties">
     <tbody>
 <?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $metadata): ?>
         <tr>
-            <th><?php echo $metadata->getName(); ?></th>
+            <th><?php echo $this->dataObject->getAttributeName($metadata->getName()); ?></th>
 <?php if(in_array($metadata->getType(), array("date", "datetime"))): ?>
             <?php echo '<?php echo $' . $this->entityName . '->get' . $metadata->getName(true) . '()->format(\'Y-m-d H:i:s\'); ?>'; ?>
 <?php else: ?>

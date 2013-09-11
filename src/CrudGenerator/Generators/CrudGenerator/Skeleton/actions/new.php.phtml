@@ -2,18 +2,18 @@
     {
         $sm = $this->getServiceLocator();
         $headTitle = $sm->get('viewHelperManager')->get('headTitle');
-        $headTitle->append("Create <?php echo $this->entityName; ?>");
+        $headTitle->append("Create <?php echo $this->dataObject->getDisplayName(); ?>");
 
         $<?php echo $this->entityName; ?>Form = <?php echo $this->ucfirstEntityName; ?>FormFactory::getInstance($sm);
         $<?php echo $this->entityName; ?>DAO  = <?php echo $this->daoFactoryName; ?>::getInstance($sm);
         $datas          = $this->getRequest()->getPost()->toArray();
 
         if($this->getRequest()->isPost() && $<?php echo $this->entityName; ?>Form->isValid($datas)) {
-            $<?php echo $this->entityName; ?>DAO->create($<?php echo $this->entityName; ?>Form->getDTO());
+            $<?php echo $this->entityName; ?>DAO->persist($<?php echo $this->entityName; ?>Form->getDTO());
 
-            $this->flashMessenger()->addMessage('<?php echo $this->ucfirstEntityName; ?> created');
+            $this->flashMessenger()->addMessage('<?php echo $this->dataObject->getDisplayName(); ?> created');
 
-            return $this->redirect()->toRoute('<?php echo $this->ucfirstEntityName; ?>');
+            return $this->redirect()->toRoute('<?php echo $this->homeRoute; ?>');
         }
 
         return new ViewModel(array(

@@ -25,7 +25,7 @@ class <?php echo $this->hydratorName . "\n"; ?>
     public function entityToPopo(<?php echo $this->getHelper('TemplateDatabaseConnector')->getConcreteTypeReturnedByDatabase($this->dataObject); ?> $entity, <?php echo $this->entityName; ?>DataObject $<?php echo $this->entityName; ?>)
     {
         <?php if ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase() == 'entity'): ?>
-        $entity = clone $entity;
+        $<?php echo $this->entityName; ?> = clone $<?php echo $this->entityName; ?>;
 
 <?php
 $columnCollection = $this->dataObject->getMetadata()->getColumnCollection();
