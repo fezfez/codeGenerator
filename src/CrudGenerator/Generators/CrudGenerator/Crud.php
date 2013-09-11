@@ -54,11 +54,20 @@ class Crud extends DataObject
      */
     protected $attributesDisplayName = array();
 
+    /**
+     * @param string $attribute
+     * @param string $name
+     * @return \CrudGenerator\Generators\CrudGenerator\Crud
+     */
     public function setAttributeName($attribute, $name)
     {
         $this->attributesDisplayName[$attribute] = $name;
         return $this;
     }
+    /**
+     * @param string $attribute
+     * @return string|null
+     */
     public function getAttributeName($attribute)
     {
         return (isset($this->attributesDisplayName[$attribute])) ? $this->attributesDisplayName[$attribute] : null;
