@@ -180,6 +180,6 @@ class Crud extends DataObject
      */
     public function getViewPath()
     {
-        return $this->getModule() . '/view/' .  strtolower($this->getControllerName()) . '/' . strtolower(preg_replace("[A-Z]", "-\$1", $this->getEntityName())) . '/';
+        return $this->getModule() . '/view/' .  strtolower($this->getControllerNamespace()) . '/' .  strtolower($this->getControllerName()) . '/' . strtolower(preg_replace("[A-Z]", "-\$1", $this->getEntityName())) . '/';
     }
 }

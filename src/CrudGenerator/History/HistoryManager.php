@@ -57,7 +57,7 @@ class HistoryManager
             $this->fileManager->mkdir(self::HISTORY_PATH);
         }
 
-        $fileName = md5($dataObject->getEntity() . $dataObject->getGenerator());
+        $fileName = urlencode($dataObject->getEntity()) . '-' . urlencode($dataObject->getGenerator());
 
         if ($this->fileManager->isFile(self::HISTORY_PATH . $fileName)) {
             $this->fileManager->unlink(self::HISTORY_PATH . $fileName);
@@ -67,10 +67,54 @@ class HistoryManager
         $history->setName($dataObject->getEntity())
                 ->setDataObject($dataObject);
 
+        $dumpArray = array(
+            'package' => array(
+                'Logiciel' => array(
+                    'PackageFolder' => true,
+                    'module' => array(
+                        'Tarif' => array(
+
+                        )
+                    ),
+                    'Generators' =>  $this->dumpToArray($dataObject)
+                )
+            )
+        );
+
+        $yamlRepresentation = \Symfony\Component\Yaml\Yaml::Dump($dumpArray);
+
+        $this->fileManager->filePutsContent(
+            self::HISTORY_PATH . $fileName . '.history.yaml',
+            $yamlRepresentation
+        );
+
         $this->fileManager->filePutsContent(
             self::HISTORY_PATH . $fileName . '.history',
             serialize($history)
         );
+    }
+
+    /**
+     * @param DataObject $dataObject
+     * @param array $array
+     * @return array
+     */
+    private function dumpToArray($dataObject, array $array = array())
+    {
+        $class = new \ReflectionClass($dataObject);
+        $methods = $class->getMethods();
+
+        foreach ($methods as $method) {
+            if ($method->getDeclaringClass()->getName() === get_class($dataObject)) {
+                $methodName = $method->getName();
+                if (substr($methodName, 0, 3) === 'get') {
+                    $result = $dataObject->$methodName();
+                    $array[get_class($dataObject)]['options'][substr($methodName, 3)] = $result;
+                }
+            }
+        }
+
+        return $array;
     }
 
     /**
