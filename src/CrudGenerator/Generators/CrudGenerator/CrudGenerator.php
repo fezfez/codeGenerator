@@ -51,7 +51,6 @@ class CrudGenerator extends BaseCodeGenerator
         $entityName        = $dataObject->getMetadata()->getName(false);
         $ucFirstEntityName = $dataObject->getMetadata()->getName(true);
 
-        $dataObject = $this->manageOption($dataObject, 'WriteAction', 'Do you want to generate the "write" actions ?', $entityName);
         $dataObject = $this->manageOption($dataObject, 'DisplayName', 'Display name (in view, title etc..) : ', $entityName);
         $dataObject = $this->manageOption($dataObject, 'DisplayNames', 'Display name au plurielle (in view, title etc..) : ', $entityName . 's');
         $dataObject = $this->manageOption($dataObject, 'ControllerName', 'Controller name (ucFirst and without "Controller"): ', $ucFirstEntityName);
@@ -118,7 +117,7 @@ class CrudGenerator extends BaseCodeGenerator
             );
         }
 
-        $this->output->writeln("Route to add
+        $this->output->writeln("Route to add to module.config.php
 '" . $homeRoute . "' => array(
     'type' => 'Zend\Mvc\Router\Http\Literal',
     'options' => array(
@@ -129,7 +128,54 @@ class CrudGenerator extends BaseCodeGenerator
         ),
     ),
 ),
-                        ");
+'" . $newRoute . "' => array(
+    'type' => 'Zend\Mvc\Router\Http\Literal',
+    'options' => array(
+        'route'    => '/" . $newRoute . "',
+        'defaults' => array(
+            'controller' => 'Application\Controller\\" . $dataObject->getControllerName() ."',
+            'action'     => 'index',
+        ),
+    ),
+),
+'" . $showRoute . "' => array(
+    'type' => 'Zend\Mvc\Router\Http\Segment',
+    'options' => array(
+        'route'    => '/" . $showRoute . "/[:id]',
+        'defaults' => array(
+            'controller' => 'Application\Controller\\" . $dataObject->getControllerName() ."',
+            'action'     => 'index',
+        ),
+    ),
+),
+'" . $editRoute . "' => array(
+    'type' => 'Zend\Mvc\Router\Http\Segment',
+    'options' => array(
+        'route'    => '/" . $editRoute . "'/[:id],
+        'defaults' => array(
+            'controller' => 'Application\Controller\\" . $dataObject->getControllerName() ."',
+            'action'     => 'index',
+        ),
+    ),
+),
+'" . $deleteRoute . "' => array(
+    'type' => 'Zend\Mvc\Router\Http\Segment',
+    'options' => array(
+        'route'    => '/" . $deleteRoute . "/[:id]',
+        'defaults' => array(
+            'controller' => 'Application\Controller\\" . $dataObject->getControllerName() ."',
+            'action'     => 'index',
+        ),
+    ),
+),
+And add controller as invokable
+
+'controllers' => array(
+    'invokables' => array(
+        'Application\Controller\Index' => 'Application\Controller\\" . $dataObject->getControllerName() ."'
+    )
+)
+");
 
 
         return $dataObject;
