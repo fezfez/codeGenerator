@@ -18,8 +18,12 @@
 namespace CrudGenerator\History;
 
 use CrudGenerator\History\HistoryManager;
+use CrudGenerator\History\HistoryHydratorFactory;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\GeneratorFinderFactory;
+
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\DialogHelper;
 
 /**
  * Create HistoryManager instance
@@ -33,7 +37,7 @@ class HistoryFactory
      *
      * @return \CrudGenerator\History\HistoryManager
      */
-    public static function getInstance()
+    public static function getInstance(DialogHelper $dialog, OutputInterface $output)
     {
         // wakeup classes
         $generatorFinder = GeneratorFinderFactory::getInstance();
@@ -41,6 +45,8 @@ class HistoryFactory
 
         $fileManager = new FileManager();
 
-        return new HistoryManager($fileManager);
+        $historyHydrator = HistoryHydratorFactory::getInstance($dialog, $output);
+
+        return new HistoryManager($fileManager, $historyHydrator);
     }
 }

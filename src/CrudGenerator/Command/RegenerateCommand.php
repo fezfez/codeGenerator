@@ -86,25 +86,27 @@ class RegenerateCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $history    = $this->historyQuestion->ask();
-        $dataObject = $history->getDataObject();
+        $histories    = $this->historyQuestion->ask();
 
-        $crudGenerator = $this->codeGeneratorFactory->create($this->output, $this->dialog, $dataObject->getGenerator());
+        foreach ($histories as $dataObject) {
 
-        $this->output->writeln("<info>Resume</info>");
-        $this->output->writeln('<info>Metadata : ' . $dataObject->getEntity(), '*</info>');
-        $this->output->writeln('<info>Directory : ' . $dataObject->getModule(), '*</info>');
-        $this->output->writeln("<info>Generator : " . $crudGenerator->getDefinition(), "*</info>");
+            $crudGenerator = $this->codeGeneratorFactory->create($this->output, $this->dialog, $dataObject->getGenerator());
 
-        $doI = $this->dialog->askConfirmation(
-            $this->output,
-            "\n<question>Do you confirm generation (may others question generator ask you) ?</question> "
-        );
+            $this->output->writeln("<info>Resume</info>");
+            $this->output->writeln('<info>Metadata : ' . $dataObject->getEntity(), '*</info>');
+            $this->output->writeln('<info>Directory : ' . $dataObject->getModule(), '*</info>');
+            $this->output->writeln("<info>Generator : " . $crudGenerator->getDefinition(), "*</info>");
 
-        if ($doI === true) {
-            $dataObject = $crudGenerator->generate($dataObject);
-        } else {
-            throw new \RuntimeException('Command aborted');
+            $doI = $this->dialog->askConfirmation(
+                $this->output,
+                "\n<question>Do you confirm generation (may others question generator ask you) ?</question> "
+            );
+
+            if ($doI === true) {
+                $dataObject = $crudGenerator->generate($dataObject);
+            } else {
+                throw new \RuntimeException('Command aborted');
+            }
         }
     }
 }

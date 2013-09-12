@@ -42,7 +42,7 @@ class CreateByConfigCommandFactory
      */
     public static function getInstance(DialogHelper $dialog, OutputInterface $output)
     {
-        $historyManager          = HistoryFactory::getInstance();
+        $historyManager          = HistoryFactory::getInstance($dialog, $output);
         $directoryQuestion       = DirectoryQuestionFactory::getInstance($dialog, $output);
         $generatorQuestion       = GeneratorQuestionFactory::getInstance($dialog, $output);
 

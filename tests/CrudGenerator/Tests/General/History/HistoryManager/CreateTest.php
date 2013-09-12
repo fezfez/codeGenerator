@@ -15,6 +15,10 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $generatorFinder->getAllClasses();
 
         $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
+        $stubHistoryHydrator = $this->getMockBuilder('\CrudGenerator\History\HistoryHydrator')
+        ->disableOriginalConstructor()
+        ->getMock();
+
         $stubFileManager->expects($this->once())
                         ->method('isDir')
                         ->will($this->returnValue(false));
@@ -27,11 +31,11 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $stubFileManager->expects($this->once())
                         ->method('unlink')
                         ->will($this->returnValue(true));
-        $stubFileManager->expects($this->exactly(2))
+        $stubFileManager->expects($this->once())
                         ->method('filePutsContent')
                         ->will($this->returnValue(true));
 
-        $sUT = new HistoryManager($stubFileManager);
+        $sUT = new HistoryManager($stubFileManager, $stubHistoryHydrator);
 
         $dataObject = new Architect();
         $dataObject->setEntity('toto');

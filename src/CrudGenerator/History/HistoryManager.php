@@ -21,6 +21,7 @@ use CrudGenerator\DataObject;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\History\HistoryCollection;
 use CrudGenerator\History\History;
+use CrudGenerator\History\HistoryHydrator;
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 
 /**
@@ -38,13 +39,18 @@ class HistoryManager
      * @var FileManager File manager
      */
     private $fileManager = null;
+    /**
+     * @var HistoryHydrator
+     */
+    private $historyHydrator = null;
 
     /**
      * @param FileManager $fileManager
      */
-    public function __construct(FileManager $fileManager)
+    public function __construct(FileManager $fileManager, HistoryHydrator $historyHydrator)
     {
         $this->fileManager = $fileManager;
+        $this->historyHydrator = $historyHydrator;
     }
 
     /**
@@ -67,53 +73,11 @@ class HistoryManager
         $history->setName($dataObject->getEntity())
                 ->setDataObject($dataObject);
 
-        $dumpArray = array(
-            'package' => array(
-                $dataObject->getEntity() => array(
-                    'module'         => $dataObject->getModule(),
-                    'metaDataSource' => get_class($dataObject->getMetadata()),
-                    'metaData'       => $dataObject->getMetadata()->getOriginalName(),
-                    'Generators'     =>  $this->dumpToArray($dataObject)
-                )
-            )
-        );
-
-        $yamlRepresentation = \Symfony\Component\Yaml\Yaml::Dump($dumpArray);
-
-        $dumper = new \Symfony\Component\Yaml\Dumper();
 
         $this->fileManager->filePutsContent(
             self::HISTORY_PATH . $fileName . '.history.yaml',
-            $dumper->dump($dumpArray, 50)
+            $this->historyHydrator->dtoToYaml($dataObject)
         );
-
-        $this->fileManager->filePutsContent(
-            self::HISTORY_PATH . $fileName . '.history',
-            serialize($history)
-        );
-    }
-
-    /**
-     * @param DataObject $dataObject
-     * @param array $array
-     * @return array
-     */
-    private function dumpToArray($dataObject, array $array = array())
-    {
-        $class = new \ReflectionClass($dataObject);
-        $methods = $class->getMethods();
-
-        foreach ($methods as $method) {
-            if ($method->getDeclaringClass()->getName() === get_class($dataObject)) {
-                $methodName = $method->getName();
-                if (substr($methodName, 0, 3) === 'get') {
-                    $result = $dataObject->$methodName();
-                    $array[get_class($dataObject)]['options'][substr($methodName, 3)] = $result;
-                }
-            }
-        }
-
-        return $array;
     }
 
     /**
@@ -134,10 +98,10 @@ class HistoryManager
 
         $historyCollection = new HistoryCollection();
 
-        foreach ($this->fileManager->glob(self::HISTORY_PATH . '*.history') as $file) {
+        foreach ($this->fileManager->glob(self::HISTORY_PATH . '*.history.yaml') as $file) {
             $content = $this->fileManager->fileGetContent($file);
 
-            $historyCollection->append(unserialize($content));
+            $historyCollection->append($this->historyHydrator->yamlToDTO($content));
         }
 
         return $historyCollection;
