@@ -2,7 +2,7 @@
     {
         $serviceManager = $this->getServiceLocator();
 
-        $serviceManager->get('viewHelperManager')->get('headTitle')->append("<?php echo ucfirst($this->dataObject->getDisplayNames()); ?> list")
+        $serviceManager->get('viewHelperManager')->get('headTitle')->append("<?php echo ucfirst($this->dataObject->getDisplayNames()); ?> list");
 
         $<?php echo $this->entityName; ?>DAO = <?php echo $this->daoFactoryName; ?>::getInstance($serviceManager);
 
