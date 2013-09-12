@@ -1,12 +1,11 @@
 <?php echo '<?php' . "\n"; ?>
-$form = $this->form;
-$form->prepare();
+$this->form->prepare();
 
-echo $form->openTag() . PHP_EOL;
+echo $this->form->openTag() . PHP_EOL;
 
 <?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
-echo $this->formInput($form->get('<?php echo $metadata->getName(); ?>')) . PHP_EOL;
+echo $this->formRow($this->form->get('<?php echo $metadata->getName(); ?>')) . PHP_EOL;
 <?php endforeach; ?>
-echo $this->formInput($form->get('submit')) . PHP_EOL;
+echo $this->formInput($this->form->get('submit')) . PHP_EOL;
 echo $this->formInput($form->get('csrf')) . PHP_EOL;
-echo $form->closeTag() . PHP_EOL;
+echo $this->form->closeTag() . PHP_EOL;

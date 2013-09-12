@@ -1,9 +1,9 @@
     public function showAction()
     {
-        $DAO = <?php echo $this->daoFactoryName; ?>::getInstance($this->serviceManager());
+        $DAO = <?php echo $this->daoFactoryName; ?>::getInstance($this->getServiceLocator());
 
         $<?php echo $this->entityName; ?> = new <?php echo $this->dataObjectName; ?>();
-        $<?php echo $this->entityName; ?>->setId($this->getParam('id'));
+        $<?php echo $this->entityName; ?>->setId($this->params('id'));
 
         $<?php echo $this->entityName; ?> = $DAO->find($<?php echo $this->entityName; ?>);
 

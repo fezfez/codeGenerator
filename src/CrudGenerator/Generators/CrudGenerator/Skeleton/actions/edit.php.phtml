@@ -1,8 +1,7 @@
     public function editAction()
     {
         $sm = $this->getServiceLocator();
-        $headTitle = $sm->get('viewHelperManager')->get('headTitle');
-        $headTitle->append("update <?php echo $this->dataObject->getDisplayName(); ?>");
+        $sm->get('viewHelperManager')->get('headTitle')->append("Update <?php echo $this->dataObject->getDisplayName(); ?>");
 
         $<?php echo $this->entityName; ?>Form = <?php echo $this->entityName; ?>FormFactory::getInstance($sm);
         $<?php echo $this->entityName; ?>DAO  = <?php echo $this->daoFactoryName; ?>::getInstance($sm);
@@ -15,26 +14,23 @@
 
         $<?php echo $this->entityName; ?>DataObject = $<?php echo $this->entityName; ?>DAO->find($<?php echo $this->entityName; ?>DataObject);
 
-        if (!$this->getRequest()->isPost()) {
+        if ($this->getRequest()->isGet()) {
 
             $<?php echo $this->entityName; ?>Form->populate($<?php echo $this->entityName; ?>DataObject);
 
         } elseif($this->getRequest()->isPost() && $<?php echo $this->entityName; ?>Form->isValid($datas)) {
 
-            $<?php echo $this->entityName; ?> = $<?php echo $this->entityName; ?>Form->getDTO();
-
-            $<?php echo $this->entityName; ?>->setId($id);
+            $<?php echo $this->entityName; ?> = $<?php echo $this->entityName; ?>Form->getDTO()->setId($id)
 
             $<?php echo $this->entityName; ?>DAO->update($<?php echo $this->entityName; ?>);
 
-            $this->flashMessenger()->addMessage('Validation effectuée');
+            $this->flashMessenger()->addSuccessMessage('Update "<?php echo $this->dataObject->getDisplayName(); ?>" with id "' . $<?php echo $this->entityName; ?>->getId() . '" successfully done');
 
             return $this->redirect()->toRoute('<?php echo $this->homeRoute; ?>');
         }
 
         return new ViewModel(array(
             '<?php echo $this->entityName; ?>'    => $<?php echo $this->entityName; ?>DataObject,
-            'form'          => $<?php echo $this->entityName; ?>Form,
-            'flashMessages' => $this->flashMessenger()->getMessages()
+            'form'          => $<?php echo $this->entityName; ?>Form
         ));
     }

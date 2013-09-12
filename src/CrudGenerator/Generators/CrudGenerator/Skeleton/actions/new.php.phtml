@@ -11,7 +11,7 @@
         if($this->getRequest()->isPost() && $<?php echo $this->entityName; ?>Form->isValid($datas)) {
             $<?php echo $this->entityName; ?>DAO->persist($<?php echo $this->entityName; ?>Form->getDTO());
 
-            $this->flashMessenger()->addMessage('<?php echo $this->dataObject->getDisplayName(); ?> created');
+            $this->flashMessenger()->addSuccessMessage('"<?php echo ucfirst($this->dataObject->getDisplayName()); ?>" successfully created');
 
             return $this->redirect()->toRoute('<?php echo $this->homeRoute; ?>');
         }
