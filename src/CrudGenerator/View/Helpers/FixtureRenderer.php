@@ -44,16 +44,20 @@ class FixtureRenderer
         $data = '';
         if ($metadata->getType() == 'integer' || $metadata->getType() == 'float') {
             $data = $this->faker->randomNumber();
-        } elseif ($metadata->getType() == 'string') {
-            if ($metadata->getLength() <= 5) {
+        } elseif ($metadata->getType() == 'string' || $metadata->getType() == 'text') {
+            if (!$metadata->getLength()) {
+                $data = '"' . $this->faker->text(50) . '"';
+            } elseif ($metadata->getLength() <= 5) {
                 $data = '"5555"';
             } else {
                 $data = '"' . $this->faker->text($metadata->getLength()) . '"';
             }
         } elseif ($metadata->getType() == 'date') {
             $data = 'new DateTime()';
-        } elseif ($metadata->getType() == 'bool') {
+        } elseif ($metadata->getType() == 'bool' || $metadata->getType() == 'boolean') {
             $data = 'true';
+        } else {
+
         }
 
         return $data;

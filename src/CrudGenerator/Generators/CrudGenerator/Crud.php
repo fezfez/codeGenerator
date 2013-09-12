@@ -22,7 +22,7 @@ use CrudGenerator\DataObject;
 class Crud extends DataObject
 {
     /**
-     * @var unknown_type
+     * @var string
      */
     protected $generator      = 'CrudGenerator\Generators\CrudGenerator\CrudGenerator';
     /**
@@ -30,13 +30,59 @@ class Crud extends DataObject
      */
     protected $writeAction    = null;
     /**
+     * @var string
+     */
+    protected $prefixRouteName = null;
+    /**
+     * @var string
+     */
+    protected $controllerName = null;
+    /**
+     * @var string
+     */
+    protected $displayName = null;
+    /**
+     * @var array
+     */
+    protected $displayNames = null;
+    /**
+     * @var array
+     */
+    protected $modelNamespace = null;
+    /**
+     * @var array
+     */
+    protected $attributesDisplayName = array();
+
+    /**
+     * @param string $attribute
+     * @param string $name
+     * @return \CrudGenerator\Generators\CrudGenerator\Crud
+     */
+    public function setAttributeName($attribute, $name)
+    {
+        $this->attributesDisplayName[$attribute] = $name;
+        return $this;
+    }
+    /**
+     * @param string $attribute
+     * @return string|null
+     */
+    public function getAttributeName($attribute = null)
+    {
+        if ($attribute === null) {
+            return $this->attributesDisplayName;
+        } else {
+            return (isset($this->attributesDisplayName[$attribute])) ? $this->attributesDisplayName[$attribute] : null;
+        }
+    }
+    /**
      * @return string
      */
-    public function isWriteAction()
+    public function getWriteAction()
     {
         return $this->writeAction;
     }
-
     /**
      * @param string $value
      * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
@@ -45,5 +91,108 @@ class Crud extends DataObject
     {
         $this->writeAction = $value;
         return $this;
+    }
+    /**
+     * @return string
+     */
+    public function getPrefixRouteName()
+    {
+        return $this->prefixRouteName;
+    }
+    /**
+     * @param string $value
+     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
+     */
+    public function setPrefixRouteName($value)
+    {
+        $this->prefixRouteName = $value;
+        return $this;
+    }
+    /**
+     * @return string
+     */
+    public function getDisplayName()
+    {
+        return $this->displayName;
+    }
+    /**
+     * @param string $value
+     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
+     */
+    public function setDisplayName($value)
+    {
+        $this->displayName = $value;
+        return $this;
+    }
+    /**
+     * @return string
+     */
+    public function getDisplayNames()
+    {
+        return $this->displayNames;
+    }
+    /**
+     * @param string $value
+     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
+     */
+    public function setModelNamespace($value)
+    {
+        $this->modelNamespace = $value;
+        return $this;
+    }
+    /**
+     * @return string
+     */
+    public function getModelNamespace()
+    {
+        return $this->modelNamespace;
+    }
+    /**
+     * @param string $value
+     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
+     */
+    public function setDisplayNames($value)
+    {
+        $this->displayNames = $value;
+        return $this;
+    }
+    /**
+     * @return string
+     */
+    public function getControllerName()
+    {
+        return $this->controllerName;
+    }
+    /**
+     * @param string $value
+     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
+     */
+    public function setControllerName($value)
+    {
+        $this->controllerName = $value;
+        return $this;
+    }
+    /**
+     * @return string
+     */
+    public function getControllerNamespace()
+    {
+        return $this->getModuleName();
+    }
+    /**
+     * Get controller path
+     * @return string
+     */
+    public function findControllerPath()
+    {
+        return $this->getModule() . '/src/' . $this->getControllerNamespace() . '/Controller/';
+    }
+    /**
+     * Get view path
+     * @return string
+     */
+    public function findViewPath()
+    {
+        return $this->getModule() . '/view/' .  strtolower($this->getControllerNamespace()) . '/' . strtolower(preg_replace("[A-Z]", "-\$1", $this->getControllerName())) . '/';
     }
 }

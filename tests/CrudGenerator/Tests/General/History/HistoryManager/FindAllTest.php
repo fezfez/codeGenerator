@@ -15,6 +15,9 @@ class FindAllTest extends \PHPUnit_Framework_TestCase
         $generatorFinder = GeneratorFinderFactory::getInstance();
         $generatorFinder->getAllClasses();
 
+        $stubHistoryHydrator = $this->getMockBuilder('\CrudGenerator\History\HistoryHydrator')
+        ->disableOriginalConstructor()
+        ->getMock();
         $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())
                         ->method('isDir')
@@ -22,7 +25,7 @@ class FindAllTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('CrudGenerator\EnvironnementResolver\EnvironnementResolverException');
 
-        $sUT = new HistoryManager($stubFileManager);
+        $sUT = new HistoryManager($stubFileManager, $stubHistoryHydrator);
 
         $sUT->findAll();
     }
@@ -33,6 +36,9 @@ class FindAllTest extends \PHPUnit_Framework_TestCase
         $generatorFinder = GeneratorFinderFactory::getInstance();
         $generatorFinder->getAllClasses();
 
+        $stubHistoryHydrator = $this->getMockBuilder('\CrudGenerator\History\HistoryHydrator')
+        ->disableOriginalConstructor()
+        ->getMock();
         $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())
         ->method('isDir')
@@ -47,7 +53,7 @@ class FindAllTest extends \PHPUnit_Framework_TestCase
                         ->method('glob')
                         ->will($this->returnValue($glob));
 
-        $sUT = new HistoryManager($stubFileManager);
+        $sUT = new HistoryManager($stubFileManager, $stubHistoryHydrator);
 
         $sUT->findAll();
     }

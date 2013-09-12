@@ -63,9 +63,14 @@ class PDOStrategy implements StrategyInterface
      */
     public function getQueryFindOneBy(DataObject $dataObject)
     {
-        return '$query = $this->' . $this->getVariableName() . '->prepare("SELECT * FROM ' . $dataObject->getEntity() .'");
+        return '
+        if(!$' . $dataObject->getMetadata()->getName() . '->getId()) {
+            throw new No' . $dataObject->getMetadata()->getName(true) . 'Exception(\'' . $dataObject->getMetadata()->getName() .' with not found\');
+        }
+
+        $query = $this->' . $this->getVariableName() . '->prepare("SELECT * FROM ' . $dataObject->getMetaData()->getOriginalName() .' WHERE id = " . $' . $dataObject->getMetadata()->getName() . '->getId());
         $query->execute();
-        $result = $query->fetchAll(PDO::FETCH_COLUMN, 0);';
+        $result = $query->fetch();';
     }
 
     /**
@@ -74,7 +79,7 @@ class PDOStrategy implements StrategyInterface
      */
     public function getQueryFindAll(DataObject $dataObject)
     {
-        return '$query = $this->' . $this->getVariableName() . '->prepare("SELECT * FROM ' . $dataObject->getEntity() .'");
+        return '$query = $this->' . $this->getVariableName() . '->prepare("SELECT * FROM ' . $dataObject->getMetaData()->getOriginalName() .'");
         $query->execute();
         $results = $query->fetchAll();';
     }
@@ -82,37 +87,45 @@ class PDOStrategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getModifyQuery()
+    public function getModifyQuery(DataObject $dataObject)
     {
-        return '$this->' . $this->getVariableName() . '->persist($entity);
-        $this->' . $this->getVariableName() . '->flush();';
-    }
-
-    /**
-     * @return string
-     */
-    public function getPersistQuery(DataObject $dataObject)
-    {
-        $result = '$query = $this->' . $this->getVariableName() . '->prepare("INSERT INTO ' . $dataObject->getEntity();
-
-        $columnName = array();
-        foreach ($dataObject->getMetadata()->getColumnCollection(true) as $column) {
-            $columnName[] = $column->getName();
-        }
-
-        $result .= '(' . implode(', ', $columnName) . ') VALUES ';
-        $result .= '(' . implode(', ', explode(' ', str_repeat("? ", count($columnName)))) . ')';
-        $result .= '");' . "\n";
-
-        $result .= '        $query->execute(array(' . "\n";
+        $result = '
+        $query = $this->pdo->prepare("UPDATE ' . $dataObject->getMetaData()->getOriginalName() . ' SET ';
 
         $columnInArray = array();
-        foreach($dataObject->getMetadata()->getColumnCollection(true) as $metadata) {
-            $columnInArray[] = '            $result->get' . $column->getName(true) . '()';
+        $columnCollection = $dataObject->getMetadata()->getColumnCollection(true);
+        foreach($columnCollection as $metadata) {
+            $columnInArray[] = '' . $metadata->getOrininalName() . ' = ?';
+        }
+
+        $result .= implode(', ', $columnInArray) . ' WHERE id = ?");' . "\n";
+        $result .= $this->getExecuteParamsWithSelectOne($dataObject, false);
+
+        return $result;
+    }
+
+    private function getExecuteParamsWithSelectOne(DataObject $dataObject, $withoutId = true)
+    {
+        $result = '        $query->execute(array(' . "\n";
+
+        $columnInArray = array();
+        $columnCollection = $dataObject->getMetadata()->getColumnCollection(true);
+        foreach($columnCollection as $metadata) {
+            $columnInArray[] = '            $result[\'' . $metadata->getOrininalName() . '\']';
+        }
+        $identifiers = $dataObject->getMetadata()->getIdentifier();
+        if ($withoutId == false) {
+            foreach($identifiers as $identifier) {
+                $columnInArray[] = '            $result[\'' . $identifier->getOrininalName() . '\']';
+            }
         }
 
         $result .= implode(', ' . "\n", $columnInArray) . "\n";
-        $result .= "        ));";
+        $result .= "        ));\n\n";
+
+        $result .= '        $query = $this->' . $this->getVariableName() . '->prepare("SELECT * FROM ' . $dataObject->getMetaData()->getOriginalName() . ' WHERE id = " . $this->pdo->lastInsertId());' . "\n";
+        $result .= '        $query->execute();' . "\n";
+        $result .= '        $result = $query->fetch();' . "\n";
 
         return $result;
     }
@@ -120,9 +133,51 @@ class PDOStrategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getRemoveQuery()
+    public function getPersistQuery(DataObject $dataObject)
     {
-        return '$this->' . $this->getVariableName() . '->remove($entity);
-        $this->' . $this->getVariableName() . '->flush();';
+        $result = '$query = $this->' . $this->getVariableName() . '->prepare("INSERT INTO ' . $dataObject->getMetaData()->getOriginalName();
+
+        $columnName = array();
+        $columnCollection = $dataObject->getMetadata()->getColumnCollection(true);
+        foreach ($columnCollection as $column) {
+            $columnName[] = $column->getOrininalName();
+        }
+
+        $result .= '(' . implode(', ', $columnName) . ') VALUES ';
+        $result .= '(' . implode(', ', array_fill(0, count($columnCollection), '?')) . ')';
+        $result .= '");' . "\n\n";
+
+        $result .= $this->getExecuteParamsWithSelectOne($dataObject);
+
+        return $result;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRemoveQuery(DataObject $dataObject)
+    {
+        return '$this->' . $this->getVariableName() . '->exec("DELETE FROM ' . $dataObject->getMetaData()->getOriginalName() . ' WHERE id = " . $' . $dataObject->getMetadata()->getName() . '->getId());';
+    }
+
+    /**
+     * @return string
+     */
+    public function getPurgeQueryForUnitTest(DataObject $dataObject)
+    {
+        return '$this->getDatabaseConnection()->exec("DELETE FROM ' . $dataObject->getMetaData()->getOriginalName() . '");';
+    }
+
+    /* (non-PHPdoc)
+     * @see CrudGenerator\View\Helpers\TemplateDatabaseConnectorStrategies.StrategyInterface::getTypeReturnedByDatabase()
+     */
+    public function getTypeReturnedByDatabase()
+    {
+        return 'array';
+    }
+
+    public function getConcreteTypeReturnedByDatabase(DataObject $dataObject)
+    {
+        return 'array';
     }
 }

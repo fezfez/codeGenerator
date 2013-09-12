@@ -93,9 +93,9 @@ class TemplateDatabaseConnector implements StrategyInterface
     /**
      * @return string
      */
-    public function getModifyQuery()
+    public function getModifyQuery(DataObject $dataObject)
     {
-        return $this->strategy->getModifyQuery();
+        return $this->strategy->getModifyQuery($dataObject);
     }
 
     /**
@@ -109,8 +109,32 @@ class TemplateDatabaseConnector implements StrategyInterface
     /**
      * @return string
      */
-    public function getRemoveQuery()
+    public function getPurgeQueryForUnitTest(DataObject $dataObject)
     {
-        return $this->strategy->getRemoveQuery();
+        return $this->strategy->getPurgeQueryForUnitTest($dataObject);
+    }
+
+    /**
+     * @return string
+     */
+    public function getRemoveQuery(DataObject $dataObject)
+    {
+        return $this->strategy->getRemoveQuery($dataObject);
+    }
+
+    /* (non-PHPdoc)
+     * @see CrudGenerator\View\Helpers\TemplateDatabaseConnectorStrategies.StrategyInterface::getTypeReturnedByDatabase()
+     */
+    public function getTypeReturnedByDatabase()
+    {
+        return $this->strategy->getTypeReturnedByDatabase();
+    }
+
+    /* (non-PHPdoc)
+     * @see CrudGenerator\View\Helpers\TemplateDatabaseConnectorStrategies.StrategyInterface::getConcreteTypeReturnedByDatabase()
+     */
+    public function getConcreteTypeReturnedByDatabase(DataObject $dataObject)
+    {
+        return $this->strategy->getConcreteTypeReturnedByDatabase($dataObject);
     }
 }

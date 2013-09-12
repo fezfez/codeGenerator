@@ -19,7 +19,7 @@ namespace CrudGenerator\Service;
 
 use CrudGenerator\Command\CreateCommandFactory;
 use CrudGenerator\Command\CreateByConfigCommandFactory;
-use CrudGenerator\Command\RegenerateCommandFactory;
+use CrudGenerator\Command\CreateByYamlCommandFactory;
 use CrudGenerator\Command\GeneratorSandBoxCommandFactory;
 
 use Symfony\Component\Console\Input\InputInterface;
@@ -52,7 +52,7 @@ class CliFactory
             array(
                 CreateCommandFactory::getInstance($dialogHelper, $output),
                 CreateByConfigCommandFactory::getInstance($dialogHelper, $output),
-                RegenerateCommandFactory::getInstance($dialogHelper, $output),
+                CreateByYamlCommandFactory::getInstance($dialogHelper, $output),
                 GeneratorSandBoxCommandFactory::getInstance($dialogHelper, $output)
             )
         );

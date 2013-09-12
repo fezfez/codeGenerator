@@ -1,10 +1,3 @@
-<h1 class="modal-title"><?php echo $this->dataObject->getEntityName(); ?> edit</h1>
+<h1 class="modal-title"><?php echo $this->dataObject->getDisplayName(); ?> edit</h1>
 
 <?php echo '<?php echo $this->form; ?>'; ?>
-
-<?php
-/*
-{% set hide_edit, hide_delete = true, false %}
-{% include 'views/others/record_actions.html.twig' %}
-*/
-?>

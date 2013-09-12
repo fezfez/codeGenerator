@@ -14,19 +14,19 @@ class FindTest extends \PHPUnit_Framework_TestCase
     /**
      * @var <?php echo $this->fixtureName . "\n"; ?>
      */
-    private $fixtureManager = null;
+    private static $fixtureManager = null;
 
-    protected function setUpBeforeClass()
+    public static function setUpBeforeClass()
     {
-        $this->fixtureManager = new <?php echo $this->fixtureName; ?>();
+        self::$fixtureManager = new <?php echo $this->fixtureName; ?>();
     }
 
     public function testFind()
     {
-        $dataObject = $this->fixtureManager->loadFixture();
+        $dataObject = self::$fixtureManager->loadFixture();
 
         $sUT = new <?php echo $this->daoName; ?>(
-            $this->fixtureManager->getDatabaseConnection(),
+            self::$fixtureManager->getDatabaseConnection(),
             new <?php echo $this->hydratorName; ?>()
         );
 
@@ -36,7 +36,7 @@ class FindTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
             '<?php echo $this->dtoNamespace; ?>',
-            $<?php echo $this->entityName; ?>Data
+            $results
         );
     }
 
@@ -46,7 +46,7 @@ class FindTest extends \PHPUnit_Framework_TestCase
         $dataObject->setId('10000');
 
         $sUT = new <?php echo $this->daoName; ?>(
-            $this->fixtureManager->getDatabaseConnection(),
+            self::$fixtureManager->getDatabaseConnection(),
             new <?php echo $this->hydratorName; ?>()
         );
 
@@ -55,4 +55,3 @@ class FindTest extends \PHPUnit_Framework_TestCase
         $sUT->find($dataObject);
     }
 }
-

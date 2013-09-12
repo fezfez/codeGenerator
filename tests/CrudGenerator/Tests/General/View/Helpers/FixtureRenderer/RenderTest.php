@@ -17,6 +17,11 @@ class RenderTest extends \PHPUnit_Framework_TestCase
             $sUT->render($metadata->setType('integer'))
         );
 
+        $this->assertInternalType(
+            'string',
+            $sUT->render($metadata->setType('string'))
+        );
+
         $metadata->setLength(2);
         $this->assertInternalType(
             'string',

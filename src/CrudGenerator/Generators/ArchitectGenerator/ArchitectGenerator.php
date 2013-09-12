@@ -20,6 +20,9 @@ namespace CrudGenerator\Generators\ArchitectGenerator;
 use CrudGenerator\DataObject;
 use CrudGenerator\Generators\BaseCodeGenerator;
 use CrudGenerator\Generators\ArchitectGenerator\Artchitect;
+use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
+use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
+use CrudGenerator\Utils\FileManager;
 
 /**
  * Generate DAO, DTO, Hydrator, Exception, unit test
@@ -122,18 +125,44 @@ class ArchitectGenerator extends BaseCodeGenerator
      */
     private function generateTestUnit(DataObject $DTO, $entityName, array $suppDatas)
     {
-        $unitTestDirectory   = 'tests/' . str_replace('\\', '/', $DTO->getNamespace()) . '/' . $entityName;
-        $unitTestDirectories = explode('/', $unitTestDirectory);
-        $allDir              = '';
-
-        foreach ($unitTestDirectories as $dir) {
-            $allDir .= $dir . '/';
-            $this->ifDirDoesNotExistCreate($allDir);
+        $fileManager = new FileManager();
+        try {
+            ZendFramework2Environnement::getDependence($fileManager);
+            $unitTestDirectory = $DTO->getModule() . '/';
+        } catch (EnvironnementResolverException $e) {
+            $unitTestDirectory = '';
         }
 
-        $this->ifDirDoesNotExistCreate($allDir . 'DAOFactory');
-        $this->ifDirDoesNotExistCreate($allDir . 'DAO');
-        $this->ifDirDoesNotExistCreate($allDir . 'Hydrator');
+        $unitTestDirectory   .= 'Tests/' . str_replace('\\', '/', $DTO->getNamespace()) . '/' . $entityName;
+        $this->createFullPathDirIfNotExist($unitTestDirectory);
+
+        try {
+            ZendFramework2Environnement::getDependence($fileManager);
+
+            $bootstrapPath = $DTO->getModule() . '/Tests/Bootstrap.php';
+            $configPath    = $DTO->getModule() . '/Tests/TestConfig.php.dist';
+            if (!$fileManager->isFile($bootstrapPath)) {
+                $this->generateFile(
+                    $DTO,
+                     '/test/Bootstrap.php.zf2.phtml',
+                    $bootstrapPath,
+                    $suppDatas
+                );
+            }
+            if (!$fileManager->isFile($bootstrapPath)) {
+                $this->generateFile(
+                    $DTO,
+                    '/test/TestConfig.php.dist.zf2.phtml',
+                    $configPath,
+                    $suppDatas
+                );
+            }
+        } catch (EnvironnementResolverException $e) {
+        }
+
+        $this->ifDirDoesNotExistCreate($unitTestDirectory . 'DAOFactory');
+        $this->ifDirDoesNotExistCreate($unitTestDirectory . 'DAO');
+        $this->ifDirDoesNotExistCreate($unitTestDirectory . 'Hydrator');
 
         $fixtureName = $entityName . 'Fixture';
 
@@ -147,15 +176,15 @@ class ArchitectGenerator extends BaseCodeGenerator
         );
 
         $filesList = array(
-            '/test/Fixture.php.phtml' => $allDir . $entityName . 'Fixture.php',
-            '/test/DAOFactory/getInstanceTest.php.phtml' => $allDir . 'DAOFactory/GetInstanceTest.php',
-            '/test/DAO/findTest.php.phtml' => $allDir . 'DAO/FindTest.php',
-            '/test/DAO/findAllTest.php.phtml' => $allDir . 'DAO/FindAllTest.php',
-            '/test/DAO/persistTest.php.phtml' => $allDir . 'DAO/PersitTest.php',
-            '/test/DAO/modifyTest.php.phtml' => $allDir . 'DAO/ModifyTest.php',
-            '/test/DAO/removeTest.php.phtml' => $allDir . 'DAO/RemoveTest.php',
-            '/test/Hydrator/arrayToPopoTest.php.phtml' =>  $allDir . 'Hydrator/ArrayToPopoTest.php',
-            '/test/Hydrator/popoToArrayTest.php.phtml' => $allDir . 'Hydrator/PopoToArrayTest.php'
+            '/test/Fixture.php.phtml' => $unitTestDirectory . $entityName . 'Fixture.php',
+            '/test/DAOFactory/getInstanceTest.php.phtml' => $unitTestDirectory . 'DAOFactory/GetInstanceTest.php',
+            '/test/DAO/findTest.php.phtml' => $unitTestDirectory . 'DAO/FindTest.php',
+            '/test/DAO/findAllTest.php.phtml' => $unitTestDirectory . 'DAO/FindAllTest.php',
+            '/test/DAO/persistTest.php.phtml' => $unitTestDirectory . 'DAO/PersitTest.php',
+            '/test/DAO/modifyTest.php.phtml' => $unitTestDirectory . 'DAO/ModifyTest.php',
+            '/test/DAO/removeTest.php.phtml' => $unitTestDirectory . 'DAO/RemoveTest.php',
+            '/test/Hydrator/arrayToPopoTest.php.phtml' =>  $unitTestDirectory . 'Hydrator/ArrayToPopoTest.php',
+            '/test/Hydrator/popoToArrayTest.php.phtml' => $unitTestDirectory . 'Hydrator/PopoToArrayTest.php'
         );
 
         foreach ($filesList as $template => $destination) {

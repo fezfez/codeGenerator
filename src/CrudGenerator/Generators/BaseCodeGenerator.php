@@ -147,4 +147,50 @@ abstract class BaseCodeGenerator
     {
         $this->strategy->ifDirDoesNotExistCreate($dir);
     }
+
+    /**
+     * @param string $directory
+     */
+    protected function createFullPathDirIfNotExist($directory)
+    {
+        $explodeDirectory = explode('/', $directory);
+        $allDir = '';
+        foreach ($explodeDirectory as $dir) {
+            $allDir .= $dir . '/';
+            $this->ifDirDoesNotExistCreate($allDir);
+        }
+    }
+
+    /**
+     * @param string $string
+     */
+    protected function unCamelCase($string)
+    {
+        return strtolower(preg_replace('/(?<=\\w)(?=[A-Z])/', "-\$1", $string));
+    }
+
+    /**
+     * @param DataObject $dataObject
+     * @param string $attributeName
+     * @param string $question
+     * @param string $defaultResponse
+     * @return DataObject
+     */
+    protected function manageOption(DataObject $dataObject, $attributeName, $question, $defaultResponse = null)
+    {
+        $getter = 'get' . $attributeName;
+        $setter = 'set' . $attributeName;
+
+        if (null === $dataObject->$getter()) {
+            $dataObject->$setter(
+                $this->dialog->ask(
+                    $this->output,
+                    '<question>' . $question . '</question> ',
+                    $defaultResponse
+                )
+            );
+        }
+
+        return $dataObject;
+    }
 }

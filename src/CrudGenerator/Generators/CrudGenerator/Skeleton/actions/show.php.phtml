@@ -1,13 +1,16 @@
     public function showAction()
     {
-        $DAO = DAOFactory::getInstance($this->serviceManager());
+        $sm = $this->getServiceLocator();
+        $sm->get('viewHelperManager')->get('headTitle')->append('Show "<?php echo $this->dataObject->getDisplayName(); ?>" with id "' . $this->params('id') . '"');
 
-        $<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?> = new <?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>DataObject();
-        $<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>->setId($this->getParam('id'));
+        $DAO = <?php echo $this->daoFactoryName; ?>::getInstance($sm);
 
-        $<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?> = $DAO->retrieve($<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>);
+        $<?php echo $this->entityName; ?> = new <?php echo $this->dataObjectName; ?>();
+        $<?php echo $this->entityName; ?>->setId($this->params('id'));
+
+        $<?php echo $this->entityName; ?> = $DAO->find($<?php echo $this->entityName; ?>);
 
         return new ViewModel(array(
-            '<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>' => $<?php echo $this->dataObject->getMetadata()->getCamelCaseName(); ?>
+            '<?php echo $this->entityName; ?>' => $<?php echo $this->entityName . "\n"; ?>
         ));
     }

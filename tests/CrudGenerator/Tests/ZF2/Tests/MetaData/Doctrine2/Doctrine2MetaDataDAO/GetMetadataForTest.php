@@ -49,8 +49,13 @@ class GetMetadataForTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertEquals(
-            'TestZf2\Entities\NewsEntity',
+            'NewsEntity',
             $metadata->getName()
+        );
+
+        $this->assertEquals(
+            'TestZf2\Entities\NewsEntity',
+            $metadata->getOriginalName()
         );
 
         $relationCollection = $metadata->getRelationCollection();

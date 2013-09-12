@@ -30,7 +30,7 @@ class HistoryQuestionFactory
      */
     public static function getInstance(DialogHelper $dialog, OutputInterface $output)
     {
-        $historyManager = HistoryFactory::getInstance();
+        $historyManager = HistoryFactory::getInstance($dialog, $output);
 
         return new HistoryQuestion($historyManager, $output, $dialog);
     }

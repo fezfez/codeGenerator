@@ -39,7 +39,7 @@ class ZendFramework2Strategy implements StrategyInterface
      */
     public function getFullClassForUnitTest()
     {
-        return 'use Bootstrap;' . "\n";
+        return 'use Tests\Bootstrap;' . "\n";
     }
 
     /**

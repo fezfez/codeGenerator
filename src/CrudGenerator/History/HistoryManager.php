@@ -21,6 +21,7 @@ use CrudGenerator\DataObject;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\History\HistoryCollection;
 use CrudGenerator\History\History;
+use CrudGenerator\History\HistoryHydrator;
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 
 /**
@@ -38,13 +39,18 @@ class HistoryManager
      * @var FileManager File manager
      */
     private $fileManager = null;
+    /**
+     * @var HistoryHydrator
+     */
+    private $historyHydrator = null;
 
     /**
      * @param FileManager $fileManager
      */
-    public function __construct(FileManager $fileManager)
+    public function __construct(FileManager $fileManager, HistoryHydrator $historyHydrator)
     {
         $this->fileManager = $fileManager;
+        $this->historyHydrator = $historyHydrator;
     }
 
     /**
@@ -57,19 +63,15 @@ class HistoryManager
             $this->fileManager->mkdir(self::HISTORY_PATH);
         }
 
-        $fileName = md5($dataObject->getEntity() . $dataObject->getGenerator());
+        $fileName = $dataObject->getEntityName();
 
         if ($this->fileManager->isFile(self::HISTORY_PATH . $fileName)) {
             $this->fileManager->unlink(self::HISTORY_PATH . $fileName);
         }
 
-        $history = new History();
-        $history->setName($dataObject->getEntity())
-                ->setDataObject($dataObject);
-
         $this->fileManager->filePutsContent(
-            self::HISTORY_PATH . $fileName . '.history',
-            serialize($history)
+            self::HISTORY_PATH . $fileName . '.history.yaml',
+            $this->historyHydrator->dtoToYaml($dataObject)
         );
     }
 
@@ -91,10 +93,10 @@ class HistoryManager
 
         $historyCollection = new HistoryCollection();
 
-        foreach ($this->fileManager->glob(self::HISTORY_PATH . '*.history') as $file) {
+        foreach ($this->fileManager->glob(self::HISTORY_PATH . '*.history.yaml') as $file) {
             $content = $this->fileManager->fileGetContent($file);
 
-            $historyCollection->append(unserialize($content));
+            $historyCollection->append($this->historyHydrator->yamlToDTO($content));
         }
 
         return $historyCollection;

@@ -80,6 +80,17 @@ class Abstract<?php echo $this->dataObject->getEntityName(); ?>Form
     }
 
     /**
+     * @param <?php echo $this->dataObject->getEntityName(); ?>DataObject $value
+     * @return void
+     */
+    public function populate(<?php echo $this->dataObject->getEntityName(); ?>DataObject $value)
+    {
+        $tmp = $this->hydrator->extract($value);
+
+        return $this->form->setData($tmp);
+    }
+
+    /**
      * @param array $datas
      * @param <?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo $this->dataObject->getEntityName(); ?>DTO
      */

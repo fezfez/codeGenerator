@@ -1,9 +1,6 @@
 <?php
 namespace CrudGenerator\Tests\General\Command\Questions\HistoryQuestion;
 
-
-
-
 use CrudGenerator\Command\Questions\HistoryQuestion;
 use CrudGenerator\History\HistoryCollection;
 use CrudGenerator\History\History;
@@ -28,10 +25,11 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->method('select')
         ->will($this->returnValue(0));
 
+        $dto = new Architect();
         $HistoryCollection = new HistoryCollection();
         $history = new History();
-        $history->setName('My history')
-                ->setDataObject(new Architect());
+        $history->setName('MyEntity')
+                ->addDataObject($dto);
 
         $HistoryCollection->append($history);
 
@@ -43,7 +41,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->will($this->returnValue($HistoryCollection));
 
         $sUT = new HistoryQuestion($HistoryStub, $ConsoleOutputStub, $dialog);
-        $this->assertEquals($history, $sUT->ask());
+        $this->assertEquals($dto, $sUT->ask());
     }
 
     public function testEmptyHistory()

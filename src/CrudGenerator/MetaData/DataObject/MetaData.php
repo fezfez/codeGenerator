@@ -132,7 +132,11 @@ abstract class MetaData
      */
     public function getName($ucfirst = false)
     {
-        $name = $this->camelCase($this->name);
+        $name = $this->name;
+        if (strrchr($name, '\\')) {
+            $name = str_replace('\\', '', strrchr($name, '\\'));
+        }
+        $name = $this->camelCase($name);
         if (true === $ucfirst) {
             return ucfirst($name);
         } else {
@@ -154,13 +158,8 @@ abstract class MetaData
         );
     }
 
-    public function getCamelCaseName($ucfirst = true)
+    public function getOriginalName()
     {
-        $result = $this->camelCase($this->name);
-        if (true === $ucfirst) {
-            return ucfirst($result);
-        } else {
-            return $result;
-        }
+        return $this->name;
     }
 }

@@ -14,9 +14,7 @@ Roadmap
 Template
 --------
 * Fk management
-* Unit test improvement
-* Controller template
 
 Generator
 ---------
-* Multiple generation
+* Yaml backend

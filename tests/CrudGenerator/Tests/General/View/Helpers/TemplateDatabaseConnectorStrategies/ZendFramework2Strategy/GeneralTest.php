@@ -11,6 +11,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
         $class = new ReflectionClass('CrudGenerator\View\Helpers\TemplateDatabaseConnectorStrategies\ZendFramework2Strategy');
         $methods = $class->getMethods();
         $dataObject = $this->getMockForAbstractClass('CrudGenerator\DataObject');
+        $dataObject->setEntity('MyEntity');
 
         $sUT = new ZendFramework2Strategy;
         foreach ($methods as $method) {

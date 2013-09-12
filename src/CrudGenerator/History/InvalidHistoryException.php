@@ -17,36 +17,6 @@
  */
 namespace CrudGenerator\History;
 
-use CrudGenerator\History\HistoryManager;
-use CrudGenerator\History\HistoryHydratorFactory;
-use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Generators\GeneratorFinderFactory;
-
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
-
-/**
- * Create HistoryManager instance
- *
- * @author Stéphane Demonchaux
- */
-class HistoryFactory
+class InvalidHistoryException extends \Exception
 {
-    /**
-     * Create HistoryManager instance
-     *
-     * @return \CrudGenerator\History\HistoryManager
-     */
-    public static function getInstance(DialogHelper $dialog, OutputInterface $output)
-    {
-        // wakeup classes
-        $generatorFinder = GeneratorFinderFactory::getInstance();
-        $generatorFinder->getAllClasses();
-
-        $fileManager = new FileManager();
-
-        $historyHydrator = HistoryHydratorFactory::getInstance($dialog, $output);
-
-        return new HistoryManager($fileManager, $historyHydrator);
-    }
 }

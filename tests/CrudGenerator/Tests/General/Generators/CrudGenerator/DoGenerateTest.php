@@ -45,7 +45,8 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
 
         $metadata = new Crud();
         $metadata->setEntity('TestZf2\Entities\NewsEntity')
-                 ->setMetadata($this->getMetadata());
+                 ->setMetadata($this->getMetadata())
+                 ->setModule('module/MyModule/');
 
         $sUT = new CrudGenerator(
             $stubOutput,
@@ -54,6 +55,11 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
             $strategy
         );
         $sUT->generate($metadata);
+
+        $this->assertEquals(
+            'MyModule',
+            $metadata->getControllerNamespace()
+        );
     }
 
     private function getMetadata()

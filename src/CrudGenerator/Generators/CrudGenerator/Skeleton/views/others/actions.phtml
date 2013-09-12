@@ -5,22 +5,17 @@
                     </button>
                     <ul class="dropdown-menu">
 <?php
-                    $actions = array('edit', 'delete');
+                    $actions = array($this->editRoute, $this->deleteRoute);
                     foreach($actions as $record_actions):
-                        if(in_array($record_actions, array('edit', 'delete'))): ?>
+                        if(in_array($record_actions, array($this->editRoute, $this->deleteRoute))): ?>
                         <li>
                             <a class="ajax-modal" href="<?php
-echo '<?php echo $this->url(array("id" => $entity->getId()), "' .
-                $this->dataObject->getModuleName() . '-' .
-                $this->dataObject->getEntityName() . '-' .
-                $record_actions . '"); ?>'; ?>">
-<?php if($record_actions === 'edit'): ?>
-                                <i class="icon-pencil"></i>
-<?php elseif($record_actions === 'delete'): ?>
-                                <i class="icon-trash"></i>
+echo '<?php echo $this->url("' . $record_actions . '", array("id" => $' . $this->entityName . '->getId())); ?>'; ?>">
+<?php if($record_actions === $this->editRoute): ?>
+                                <i class="icon-pencil"></i>Edit
+<?php elseif($record_actions === $this->deleteRoute): ?>
+                                <i class="icon-trash"></i>Delete
 <?php endif; ?>
-                                <?php echo $record_actions; ?>
-
                             </a>
                         </li>
 <?php

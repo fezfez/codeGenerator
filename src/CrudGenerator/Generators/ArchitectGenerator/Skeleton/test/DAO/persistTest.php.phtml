@@ -13,29 +13,28 @@ class PersistTest extends \PHPUnit_Framework_TestCase
     /**
      * @var <?php echo $this->fixtureName . "\n"; ?>
      */
-    private $fixtureManager = null;
+    private static $fixtureManager = null;
 
-    protected function setUpBeforeClass()
+    public static function setUpBeforeClass()
     {
-        $this->fixtureManager = new <?php echo $this->fixtureName; ?>();
+        self::$fixtureManager = new <?php echo $this->fixtureName; ?>();
     }
 
-    protected function tearDownAfterClass()
+    public static function tearDownAfterClass()
     {
-        $this->fixtureManager->purge();
+        self::$fixtureManager->purge();
     }
 
     public function testPersist()
     {
-        $dto = $this->fixtureManager->getFixture();
+        $dto = self::$fixtureManager->getFixture();
 
-        $<?php echo $this->entityName; ?>DAO = new <?php echo $this->daoName; ?>(
-            $this->fixtureManager->getDatabaseConnection(),
+        $sUT = new <?php echo $this->daoName; ?>(
+            self::$fixtureManager->getDatabaseConnection(),
             new <?php echo $this->hydratorName; ?>()
         );
-        $<?php echo $this->entityName; ?>DAO->persist($dto);
-
-        $dtoRetrive = $suiviNewsDAO->find($dtoPersisted);
+        $dtoPersisted = $sUT->persist($dto);
+        $dtoRetrive   = $sUT->find($dtoPersisted);
 
 <?php
 $columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
@@ -44,4 +43,3 @@ foreach($columnCollection as $field => $metadata): ?>
 <?php endforeach; ?>
     }
 }
-
