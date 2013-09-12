@@ -77,8 +77,7 @@ class GeneratorSandBoxCommand extends Command
         $dataObject = new $DTOName();
         $dataObject->setEntity($metadata->getName())
                    ->setModule('data')
-                   ->setMetaData($metadata)
-                   ->setDirectory('fezfezfze');
+                   ->setMetaData($metadata);
 
         $generator->generate($dataObject);
     }

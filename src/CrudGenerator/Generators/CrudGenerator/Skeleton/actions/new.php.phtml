@@ -1,8 +1,7 @@
     public function newAction()
     {
         $sm = $this->getServiceLocator();
-        $headTitle = $sm->get('viewHelperManager')->get('headTitle');
-        $headTitle->append("Create <?php echo $this->dataObject->getDisplayName(); ?>");
+        $sm->get('viewHelperManager')->get('headTitle')->append("Create <?php echo $this->dataObject->getDisplayName(); ?>");
 
         $<?php echo $this->entityName; ?>Form = <?php echo $this->ucfirstEntityName; ?>FormFactory::getInstance($sm);
         $<?php echo $this->entityName; ?>DAO  = <?php echo $this->daoFactoryName; ?>::getInstance($sm);

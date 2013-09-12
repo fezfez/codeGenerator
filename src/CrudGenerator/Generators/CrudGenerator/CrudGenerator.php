@@ -142,6 +142,9 @@ class CrudGenerator extends BaseCodeGenerator
     'type' => 'Zend\Mvc\Router\Http\Segment',
     'options' => array(
         'route'    => '/" . $showRoute . "/[:id]',
+        'constraints' => array(
+            'id' => '[0-9]+'
+        ),
         'defaults' => array(
             'controller' => 'Application\Controller\\" . $dataObject->getControllerName() ."',
             'action'     => 'show',
@@ -152,6 +155,9 @@ class CrudGenerator extends BaseCodeGenerator
     'type' => 'Zend\Mvc\Router\Http\Segment',
     'options' => array(
         'route'    => '/" . $editRoute . "/[:id]',
+        'constraints' => array(
+            'id' => '[0-9]+'
+        ),
         'defaults' => array(
             'controller' => 'Application\Controller\\" . $dataObject->getControllerName() ."',
             'action'     => 'edit',
@@ -162,6 +168,9 @@ class CrudGenerator extends BaseCodeGenerator
     'type' => 'Zend\Mvc\Router\Http\Segment',
     'options' => array(
         'route'    => '/" . $deleteRoute . "/[:id]',
+        'constraints' => array(
+            'id' => '[0-9]+'
+        ),
         'defaults' => array(
             'controller' => 'Application\Controller\\" . $dataObject->getControllerName() ."',
             'action'     => 'delete',

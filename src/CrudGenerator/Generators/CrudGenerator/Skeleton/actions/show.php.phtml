@@ -1,6 +1,9 @@
     public function showAction()
     {
-        $DAO = <?php echo $this->daoFactoryName; ?>::getInstance($this->getServiceLocator());
+        $sm = $this->getServiceLocator();
+        $sm->get('viewHelperManager')->get('headTitle')->append('Show "<?php echo $this->dataObject->getDisplayName(); ?>" with id "' . $this->params('id') . '"');
+
+        $DAO = <?php echo $this->daoFactoryName; ?>::getInstance($sm);
 
         $<?php echo $this->entityName; ?> = new <?php echo $this->dataObjectName; ?>();
         $<?php echo $this->entityName; ?>->setId($this->params('id'));

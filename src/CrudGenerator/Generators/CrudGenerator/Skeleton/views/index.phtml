@@ -1,4 +1,4 @@
-<h1><?php echo $this->dataObject->getDisplayNames(); ?> list</h1>
+<h1><?php echo ucfirst($this->dataObject->getDisplayNames()); ?> list</h1>
 <?php echo '<?php if (!empty($this->successMessages)): ?>'; ?>
     <?php echo '<?php foreach ($this->successMessages as $successMessages): ?>'; ?>
         <div class="alert alert-success">
@@ -22,7 +22,11 @@
             $fieldsCollection = $this->dataObject->getMetadata()->getColumnCollection();
             foreach($this->dataObject->getMetadata()->getColumnCollection() as $metadata):
                 if($metadata == reset($fieldsCollection)): ?>
-            <td><a href=""><?php echo '<?php echo $' . $this->entityName . '->get' . $metadata->getName(true) . '(); ?>'; ?></a></td>
+            <td>
+                <a href="<?php echo '<?php echo $this->url("' . $this->showRoute . '", array("id" => $' . $this->entityName . '->getId())); ?>'; ?>">
+                    <?php echo '<?php echo $' . $this->entityName . '->get' . $metadata->getName(true) . '(); ?>' . "\n"; ?>
+                </a>
+            </td>
 <?php elseif(in_array($metadata->getType(), array("date", "datetime"))): ?>
             <td><?php echo '<?php echo $' . $this->entityName . '->get' . $metadata->getName(true) . '()->format(\'Y-m-d H:i:s\'); ?>'; ?></td>
 <?php else: ?>
