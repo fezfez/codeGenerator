@@ -134,7 +134,7 @@ class CrudGenerator extends BaseCodeGenerator
         'route'    => '/" . $newRoute . "',
         'defaults' => array(
             'controller' => 'Application\Controller\\" . $dataObject->getControllerName() ."',
-            'action'     => 'index',
+            'action'     => 'new',
         ),
     ),
 ),
@@ -144,17 +144,17 @@ class CrudGenerator extends BaseCodeGenerator
         'route'    => '/" . $showRoute . "/[:id]',
         'defaults' => array(
             'controller' => 'Application\Controller\\" . $dataObject->getControllerName() ."',
-            'action'     => 'index',
+            'action'     => 'show',
         ),
     ),
 ),
 '" . $editRoute . "' => array(
     'type' => 'Zend\Mvc\Router\Http\Segment',
     'options' => array(
-        'route'    => '/" . $editRoute . "'/[:id],
+        'route'    => '/" . $editRoute . "/[:id]',
         'defaults' => array(
             'controller' => 'Application\Controller\\" . $dataObject->getControllerName() ."',
-            'action'     => 'index',
+            'action'     => 'edit',
         ),
     ),
 ),
@@ -164,7 +164,7 @@ class CrudGenerator extends BaseCodeGenerator
         'route'    => '/" . $deleteRoute . "/[:id]',
         'defaults' => array(
             'controller' => 'Application\Controller\\" . $dataObject->getControllerName() ."',
-            'action'     => 'index',
+            'action'     => 'delete',
         ),
     ),
 ),
@@ -172,7 +172,7 @@ And add controller as invokable
 
 'controllers' => array(
     'invokables' => array(
-        'Application\Controller\Index' => 'Application\Controller\\" . $dataObject->getControllerName() ."'
+        'Application\Controller\\" . $dataObject->getControllerName . "' => 'Application\Controller\\" . $dataObject->getControllerName() ."Controller'
     )
 )
 ");
