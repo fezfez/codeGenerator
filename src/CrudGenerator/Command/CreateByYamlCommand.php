@@ -30,7 +30,7 @@ use Symfony\Component\Console\Helper\DialogHelper;
  *
  * @author Stéphane Demonchaux
  */
-class RegenerateCommand extends Command
+class CreateByYamlCommand extends Command
 {
     /**
      * @var DialogHelper
@@ -74,8 +74,8 @@ class RegenerateCommand extends Command
     {
         parent::configure();
 
-        $this->setName('CodeGenerator:regenerate')
-             ->setDescription('Regenerate code');
+        $this->setName('CodeGenerator:create-by-yaml')
+             ->setDescription('Create by yaml');
     }
 
     /**

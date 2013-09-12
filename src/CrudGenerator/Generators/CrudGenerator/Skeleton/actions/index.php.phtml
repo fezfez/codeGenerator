@@ -8,6 +8,6 @@
 
         return new ViewModel(array(
             'list<?php echo $this->ucfirstEntityName; ?>s' => $<?php echo $this->entityName; ?>DAO->findAll(),
-            'flashMessages' => $this->flashMessenger()->getCurrentSuccessMessages(),
+            'successMessages' => $this->flashMessenger()->getCurrentSuccessMessages(),
         ));
     }
