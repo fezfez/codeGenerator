@@ -39,13 +39,9 @@ abstract class DataObject
      */
     private $metadata        = null;
     /**
-     * @var string Target namespace
+     * @var string
      */
-    private $namespace       = null;
-    /**
-     * @var string Target directory
-     */
-    private $directory       = null;
+    private $adapter         = null;
 
     /**
      * Set Module
@@ -77,26 +73,7 @@ abstract class DataObject
         $this->metadata = $value;
         return $this;
     }
-    /**
-     * Set Namespace
-     * @param string $value
-     * @return \CrudGenerator\DataObject
-     */
-    public function setNamespace($value)
-    {
-        $this->namespace = $value;
-        return $this;
-    }
-    /**
-     * Set Directory
-     * @param string $value
-     * @return \CrudGenerator\DataObject
-     */
-    public function setDirectory($value)
-    {
-        $this->directory = $value;
-        return $this;
-    }
+
     /**
      * Set Generator
      * @param string $value
@@ -105,6 +82,17 @@ abstract class DataObject
     public function setGenerator($value)
     {
         $this->generator = $value;
+        return $this;
+    }
+
+    /**
+     * Set Generator
+     * @param string $value
+     * @return \CrudGenerator\DataObject
+     */
+    public function setAdapter($value)
+    {
+        $this->adapter = $value;
         return $this;
     }
 
@@ -122,7 +110,11 @@ abstract class DataObject
      */
     public function getModuleName()
     {
-        return $this->module;
+        if (!strrchr($this->module, '/')) {
+            return $this->module;
+        } else {
+            return substr(strrchr(substr($this->module, 0, -1), "/"), 1);
+        }
     }
     /**
      * Get Entity
@@ -154,31 +146,6 @@ abstract class DataObject
         return $this->metadata;
     }
     /**
-     * Set Namespace
-     * @return string
-     */
-    public function getNamespace()
-    {
-        return $this->namespace;
-    }
-    /**
-     * Get namespace path
-     * @return string
-     */
-    public function getNamespacePath()
-    {
-        return str_replace('\\', '/', $this->namespace);
-    }
-    /**
-     * Get directory
-     *
-     * @return string
-     */
-    public function getDirectory()
-    {
-        return $this->directory;
-    }
-    /**
      * Get generator
      *
      * @return string
@@ -188,19 +155,12 @@ abstract class DataObject
         return $this->generator;
     }
     /**
-     * Get controller path
+     * Get Adapter
+     *
      * @return string
      */
-    public function getControllerPath()
+    public function getAdapter()
     {
-        return $this->getModule() . '/src/' . $this->getModuleName() . '/Controller/';
-    }
-    /**
-     * Get view path
-     * @return string
-     */
-    public function getViewPath()
-    {
-        return $this->getModule() . '/view/' . $this->getModuleName() . '/' . $this->getEntityName();
+        return $this->adapter;
     }
 }

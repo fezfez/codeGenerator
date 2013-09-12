@@ -11,12 +11,12 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
         $dataObject = new Architect();
         $history = new History();
 
-        $history->setDataObject($dataObject)
+        $history->addDataObject($dataObject)
                 ->setName('name');
 
-        $this->assertInstanceOf(
-            'CrudGenerator\Generators\ArchitectGenerator\Architect',
-            $history->getDataObject()
+        $this->assertEquals(
+            array($dataObject),
+            $history->getDataObjects()
         );
 
         $this->assertEquals(

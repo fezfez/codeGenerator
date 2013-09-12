@@ -54,7 +54,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInternalType(
             'string',
-            $sUT->getModifyQuery()
+            $sUT->getModifyQuery($crudDataObject)
         );
 
         $this->assertInternalType(
@@ -74,12 +74,27 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInternalType(
             'string',
-            $sUT->getRemoveQuery()
+            $sUT->getRemoveQuery($crudDataObject)
         );
 
         $this->assertInternalType(
             'string',
             $sUT->getVariableName()
+        );
+
+        $this->assertInternalType(
+            'string',
+            $sUT->getPurgeQueryForUnitTest($crudDataObject)
+        );
+
+        $this->assertInternalType(
+            'string',
+            $sUT->getTypeReturnedByDatabase()
+        );
+
+        $this->assertInternalType(
+            'string',
+            $sUT->getConcreteTypeReturnedByDatabase($crudDataObject)
         );
     }
 }

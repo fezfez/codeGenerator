@@ -19,7 +19,7 @@ namespace CrudGenerator\Command;
 
 use CrudGenerator\Generators\CodeGeneratorFactory;
 use CrudGenerator\Command\Questions\HistoryQuestionFactory;
-use CrudGenerator\Command\RegenerateCommand;
+use CrudGenerator\Command\CreateByYamlCommand;
 Use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 
 use Symfony\Component\Console\Helper\DialogHelper;
@@ -30,7 +30,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Stéphane Demonchaux
  */
-class RegenerateCommandFactory
+class CreateByYamlCommandFactory
 {
     /**
      * @param DialogHelper $dialog
@@ -42,6 +42,6 @@ class RegenerateCommandFactory
         $historyQuestion      = HistoryQuestionFactory::getInstance($dialog, $output);
         $codeGeneratorFactory = new CodeGeneratorFactory(GeneratorStrategyFactory::getInstance($output, $dialog));
 
-        return new RegenerateCommand($dialog, $output, $historyQuestion, $codeGeneratorFactory);
+        return new CreateByYamlCommand($dialog, $output, $historyQuestion, $codeGeneratorFactory);
     }
 }

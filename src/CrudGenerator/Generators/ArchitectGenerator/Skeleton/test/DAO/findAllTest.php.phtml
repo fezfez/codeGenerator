@@ -11,24 +11,25 @@ class FindAllTest extends \PHPUnit_Framework_TestCase
     /**
      * @var <?php echo $this->fixtureName . "\n"; ?>
      */
-    private $fixtureManager = null;
+    private static $fixtureManager = null;
 
-    protected function setUpBeforeClass()
+    public static function setUpBeforeClass()
     {
-        $this->fixtureManager = new <?php echo $this->fixtureName; ?>();
+        self::$fixtureManager = new <?php echo $this->fixtureName; ?>();
+        self::$fixtureManager->purge();
     }
 
-    protected function tearDownAfterClass()
+    public static function tearDownAfterClass()
     {
-        $this->fixtureManager->purge();
+        self::$fixtureManager->purge();
     }
 
     public function testFindAll()
     {
-        $this->fixtureManager->loadFixture();
+        self::$fixtureManager->loadFixture();
 
         $sUT = new <?php echo $this->daoName; ?>(
-            $this->fixtureManager->getDatabaseConnection(),
+            self::$fixtureManager->getDatabaseConnection(),
             new <?php echo $this->hydratorName; ?>()
         );
         $<?php echo $this->entityName; ?>Data = $sUT->findAll();
@@ -40,4 +41,3 @@ class FindAllTest extends \PHPUnit_Framework_TestCase
         );
     }
 }
-

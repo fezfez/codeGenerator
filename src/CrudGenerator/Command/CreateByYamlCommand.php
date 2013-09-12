@@ -30,7 +30,7 @@ use Symfony\Component\Console\Helper\DialogHelper;
  *
  * @author Stéphane Demonchaux
  */
-class RegenerateCommand extends Command
+class CreateByYamlCommand extends Command
 {
     /**
      * @var DialogHelper
@@ -74,8 +74,8 @@ class RegenerateCommand extends Command
     {
         parent::configure();
 
-        $this->setName('CodeGenerator:regenerate')
-             ->setDescription('Regenerate code');
+        $this->setName('CodeGenerator:create-by-yaml')
+             ->setDescription('Create by yaml');
     }
 
     /**
@@ -86,8 +86,7 @@ class RegenerateCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $history    = $this->historyQuestion->ask();
-        $dataObject = $history->getDataObject();
+        $dataObject    = $this->historyQuestion->ask();
 
         $crudGenerator = $this->codeGeneratorFactory->create($this->output, $this->dialog, $dataObject->getGenerator());
 

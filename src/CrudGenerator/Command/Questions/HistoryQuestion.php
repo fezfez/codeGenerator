@@ -60,7 +60,9 @@ class HistoryQuestion
 
         $historyChoices = array();
         foreach ($historyCollection as $history) {
-            $historyChoices[$history->getName() . ' ' . $history->getDataObject()->getGenerator()] = $history;
+            foreach ($history->getDataObjects() as $dto) {
+                $historyChoices[$dto->getEntity() . ' ' . $dto->getGenerator()] = $dto;
+            }
         }
 
         $historyKeysChoices = array_keys($historyChoices);

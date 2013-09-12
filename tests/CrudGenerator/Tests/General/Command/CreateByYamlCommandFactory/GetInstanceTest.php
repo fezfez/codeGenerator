@@ -1,7 +1,7 @@
 <?php
 namespace CrudGenerator\Tests\General\Command\RegenerateCommandFactory;
 
-use CrudGenerator\Command\RegenerateCommandFactory;
+use CrudGenerator\Command\CreateByYamlCommandFactory;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,8 +16,8 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
         ->getMock();
 
         $this->assertInstanceOf(
-            'CrudGenerator\Command\RegenerateCommand',
-            RegenerateCommandFactory::getInstance($dialog, $ConsoleOutputStub)
+            'CrudGenerator\Command\CreateByYamlCommand',
+            CreateByYamlCommandFactory::getInstance($dialog, $ConsoleOutputStub)
         );
     }
 }

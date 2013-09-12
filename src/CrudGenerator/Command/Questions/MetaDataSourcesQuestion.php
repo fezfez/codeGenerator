@@ -52,9 +52,10 @@ class MetaDataSourcesQuestion
 
     /**
      * Ask wich MetaData Source you want to use
+     * @param string $default
      * @return MetaDataSource
      */
-    public function ask()
+    public function ask($choice = null)
     {
         $adaptersCollection = $this->metadataSourceFinder->getAllAdapters();
         $adaptersChoices    = array();
@@ -68,7 +69,11 @@ class MetaDataSourcesQuestion
                 );
                 $this->output->writeln('<error> * ' . $falseDependencies . '</error>');
             } else {
-                $adaptersChoices[$adapter->getDefinition()] = $adapter;
+                if ($choice === $adapter->getName()) {
+                    return $adapter;
+                } else {
+                    $adaptersChoices[$adapter->getDefinition()] = $adapter;
+                }
             }
         }
 

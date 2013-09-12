@@ -32,6 +32,9 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
  */
 class PDOMetaDataDAO implements MetaDataDAOInterface
 {
+    private $typeConversion = array(
+        'character varying' => 'text'
+    );
     /**
      * @var PDO Pdo stmt
      */
@@ -124,8 +127,15 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
 
         foreach ($allFields as $metadata) {
             $column = clone $columnDataObject;
+
+            $type = $metadata['type'];
+
+            if (isset($this->typeConversion[$type])) {
+                $type = $this->typeConversion[$type];
+            }
+
             $column->setName($metadata['name'])
-                   ->setType($metadata['type'])
+                   ->setType($type)
                    ->setLength(
                        isset($metadata['character_maximum_length']) ?
                        $metadata['character_maximum_length'] :

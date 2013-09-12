@@ -15,45 +15,31 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Command;
-
-use CrudGenerator\History\HistoryFactory;
-use CrudGenerator\Command\Questions\MetaDataSourcesQuestionFactory;
-use CrudGenerator\Command\Questions\DirectoryQuestionFactory;
-use CrudGenerator\Command\Questions\MetaDataQuestionFactory;
-use CrudGenerator\Command\Questions\GeneratorQuestionFactory;
+namespace CrudGenerator\History;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Yaml\Dumper;
+use Symfony\Component\Yaml\Parser;
+
+use CrudGenerator\Command\Questions\MetaDataSourcesQuestionFactory;
+use CrudGenerator\Command\Questions\MetaDataQuestionFactory;
 
 /**
- * Generator command
+ * HistoryManager instance
  *
  * @author Stéphane Demonchaux
  */
-class CreateCommandFactory
+class HistoryHydratorFactory
 {
-    /**
-     * @param DialogHelper $dialog
-     * @param OutputInterface $output
-     * @return \CrudGenerator\Command\CreateCommand
-     */
     public static function getInstance(DialogHelper $dialog, OutputInterface $output)
     {
-        $historyManager          = HistoryFactory::getInstance($dialog, $output);
-        $metaDataSourcesQuestion = MetaDataSourcesQuestionFactory::getInstance($dialog, $output);
-        $directoryQuestion       = DirectoryQuestionFactory::getInstance($dialog, $output);
-        $metaDataQuestion        = MetaDataQuestionFactory::getInstance($dialog, $output);
-        $generatorQuestion       = GeneratorQuestionFactory::getInstance($dialog, $output);
+        $metaDataSourceQuestion = MetaDataSourcesQuestionFactory::getInstance($dialog, $output);
+        $metaDataQuestion       = MetaDataQuestionFactory::getInstance($dialog, $output);
 
-        return new CreateCommand(
-            $dialog,
-            $output,
-            $historyManager,
-            $metaDataSourcesQuestion,
-            $directoryQuestion,
-            $metaDataQuestion,
-            $generatorQuestion
-        );
+        $yampDump   = new Dumper();
+        $yampParser = new Parser();
+
+        return new HistoryHydrator($yampDump, $yampParser, $metaDataSourceQuestion, $metaDataQuestion);
     }
 }

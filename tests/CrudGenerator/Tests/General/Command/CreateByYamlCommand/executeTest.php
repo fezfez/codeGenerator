@@ -1,11 +1,11 @@
 <?php
-namespace CrudGenerator\Tests\General\Command\RegenerateCommand;
+namespace CrudGenerator\Tests\General\Command\CreateByYamlCommand;
 
 use CrudGenerator\Generators\ArchitectGenerator\Architect;
 
 use CrudGenerator\History\History;
 
-use CrudGenerator\Command\RegenerateCommand;
+use CrudGenerator\Command\CreateByYamlCommand;
 use Symfony\Component\Console\Application as App;
 use Symfony\Component\Console\Tester\ApplicationTester;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -14,9 +14,7 @@ class executeTest extends \PHPUnit_Framework_TestCase
 {
    public function testDoiNo()
     {
-        $history = new History();
-        $history->setName('messages')
-        ->setDataObject(new Architect());
+        $history = new Architect();
 
 
         $historyStub = $this->getMockBuilder('CrudGenerator\Command\Questions\HistoryQuestion')
@@ -48,9 +46,9 @@ class executeTest extends \PHPUnit_Framework_TestCase
 
 
         $application = new App();
-        $application->add(new RegenerateCommand($dialog, $ConsoleOutputStub, $historyStub, $CodeGeneratorFactoryStub));
+        $application->add(new CreateByYamlCommand($dialog, $ConsoleOutputStub, $historyStub, $CodeGeneratorFactoryStub));
 
-        $command = $application->find('CodeGenerator:regenerate');
+        $command = $application->find('CodeGenerator:create-by-yaml');
 
 
         $commandTester = new CommandTester($command);
@@ -60,9 +58,7 @@ class executeTest extends \PHPUnit_Framework_TestCase
 
     public function testDoiTrue()
     {
-        $history = new History();
-        $history->setName('messages')
-        ->setDataObject(new Architect());
+        $history = new Architect();
 
 
         $historyStub = $this->getMockBuilder('CrudGenerator\Command\Questions\HistoryQuestion')
@@ -93,9 +89,9 @@ class executeTest extends \PHPUnit_Framework_TestCase
 
 
         $application = new App();
-        $application->add(new RegenerateCommand($dialog, $ConsoleOutputStub, $historyStub, $CodeGeneratorFactoryStub));
+        $application->add(new CreateByYamlCommand($dialog, $ConsoleOutputStub, $historyStub, $CodeGeneratorFactoryStub));
 
-        $command = $application->find('CodeGenerator:regenerate');
+        $command = $application->find('CodeGenerator:create-by-yaml');
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(array('command' => $command->getName()));

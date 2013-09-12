@@ -1,10 +1,9 @@
 <?php echo '<?php' . "\n"; ?>
 namespace <?php echo $this->unitTestNamespace; ?>\Hydrator;
-;
+
 use <?php echo $this->hydratorNamespace; ?>;
 use <?php echo $this->dtoNamespace; ?>;
 use <?php echo $this->daoNamespace; ?>;
-use <?php echo $this->unitTestNamespace; ?>\<?php echo $this->dataObject->getNamespace(); ?>\<?php echo $this->dataObject->getEntityName(); ?>Fixture;
 
 class PopoToArrayTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,8 +33,7 @@ $modifiedValue = $this->getHelper('FixtureRenderer')->render($metadata);
 $columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
 foreach($columnCollection as $field => $metadata):
 ?>
-        $this->assertEquals($<?php echo $metadata->getName(); ?>, $arrayDto['<?php echo $metadata->getName(); ?>']);
+        $this->assertEquals($<?php echo $metadata->getName(); ?>, $arrayDto['<?php echo $metadata->getOrininalName(); ?>']);
 <?php endforeach; ?>
     }
 }
-

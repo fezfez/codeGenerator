@@ -77,8 +77,7 @@ class GeneratorSandBoxCommand extends Command
         $dataObject = new $DTOName();
         $dataObject->setEntity($metadata->getName())
                    ->setModule('data')
-                   ->setMetaData($metadata)
-                   ->setDirectory('fezfezfze');
+                   ->setMetaData($metadata);
 
         $generator->generate($dataObject);
     }
@@ -88,7 +87,7 @@ class GeneratorSandBoxCommand extends Command
      */
     private function buildFakeMetaData()
     {
-        $metadata = new MetadataDataObjectDoctrine2(
+        $metadata = new MetadataDataObjectPDO(
             new MetaDataColumnCollection(),
             new MetaDataRelationCollection()
         );
@@ -109,10 +108,20 @@ class GeneratorSandBoxCommand extends Command
         ->setType('integer')
         ->setLength('100');
 
+        $metadata->appendColumn($column);
+
         $column = new MetaDataColumn();
         $column->setName('myDate')
         ->setNullable(true)
         ->setType('date')
+        ->setLength('100');
+
+        $metadata->appendColumn($column);
+
+        $column = new MetaDataColumn();
+        $column->setName('my_data')
+        ->setNullable(true)
+        ->setType('text')
         ->setLength('100');
 
         $metadata->appendColumn($column);

@@ -124,11 +124,10 @@ class CreateByConfigCommand extends Command
             $DTOName    = $generator->getDTO();
 
             // @TODO add metadatasource
-            // @todo add base path
 
             $dataObject = new $DTOName();
             $dataObject->setEntity($generationInformation->getMetaData()->getName())
-                       ->setModule('data')
+                       ->setModule($generalInformation->getPathToModels())
                        ->setMetaData($generationInformation->getMetaData());
 
             $dataObject = $generations->writeAbstractOptions($generatorName, $dataObject);

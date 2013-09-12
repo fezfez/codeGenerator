@@ -48,53 +48,144 @@ class CrudGenerator extends BaseCodeGenerator
     protected function doGenerate($dataObject)
     {
         $this->skeletonDir = __DIR__ . '/Skeleton';
+        $entityName        = $dataObject->getMetadata()->getName(false);
+        $ucFirstEntityName = $dataObject->getMetadata()->getName(true);
 
-        if (null === $dataObject->isWriteAction()) {
-            $dataObject->setWriteAction(
-                $this->dialog->askConfirmation(
-                    $this->output,
-                    '<question>Do you want to generate the "write" actions ?</question> '
-                )
-            );
+        $dataObject = $this->manageOption($dataObject, 'DisplayName', 'Display name (in view, title etc..) : ', $entityName);
+        $dataObject = $this->manageOption($dataObject, 'DisplayNames', 'Display name au plurielle (in view, title etc..) : ', $entityName . 's');
+        $dataObject = $this->manageOption($dataObject, 'ControllerName', 'Controller name (ucFirst and without "Controller"): ', $ucFirstEntityName);
+        $dataObject = $this->manageOption($dataObject, 'PrefixRouteName', 'Prefix route name (lower case): ', $this->unCamelCase($entityName));
+        $dataObject = $this->manageOption($dataObject, 'ModelNamespace', 'Model namespace : ');
+
+        foreach ($dataObject->getMetadata()->getColumnCollection() as $column) {
+            if (null === $dataObject->getAttributeName($column->getName())) {
+                $dataObject->setAttributeName(
+                    $column->getName(),
+                    $this->dialog->ask(
+                        $this->output,
+                        '<question>Display name for "' . $column->getName() . '" attribute</question> ',
+                        $column->getName()
+                    )
+                );
+            }
         }
 
-        $controllerDir = explode('/', $dataObject->getControllerPath());
-        $allDir = '';
-        foreach ($controllerDir as $dir) {
-            $allDir .= $dir . '/';
-            $this->ifDirDoesNotExistCreate($allDir);
-        }
+        $this->createFullPathDirIfNotExist($dataObject->findControllerPath());
+        $this->createFullPathDirIfNotExist($dataObject->findViewPath());
 
-        $viewDir = explode('/', $dataObject->getViewPath());
-        $allDir = '';
-        foreach ($viewDir as $dir) {
-            $allDir .= $dir . '/';
-            $this->ifDirDoesNotExistCreate($allDir);
-        }
+        $homeRoute   = $dataObject->getPrefixRouteName();
+        $newRoute    = $homeRoute . '-new';
+        $showRoute   = $homeRoute . '-show';
+        $editRoute   = $homeRoute . '-edit';
+        $deleteRoute = $homeRoute . '-delete';
 
-        $this->generateFile(
-            $dataObject,
-            '/controller.php.phtml',
-            $dataObject->getControllerPath() . $dataObject->getEntityName() . 'Controller.php'
+        $suppDatas = array(
+            'homeRoute'              => $homeRoute,
+            'newRoute'               => $newRoute,
+            'showRoute'              => $showRoute,
+            'editRoute'              => $editRoute,
+            'deleteRoute'            => $deleteRoute,
+            'entityName'             => $entityName,
+            'ucfirstEntityName'      => $ucFirstEntityName,
+            'hydratorName'           => $ucFirstEntityName . 'Hydrator',
+            'dataObjectName'         => $ucFirstEntityName . 'DataObject',
+            'collectionName'         => $ucFirstEntityName . 'Collection',
+            'daoFactoryName'         => $ucFirstEntityName . 'DAOFactory',
+            'exceptionName'          => 'No' . $ucFirstEntityName . 'Exception',
+            'daoFactoryNamespace'    => $dataObject->getModelNamespace() . '\\' . $ucFirstEntityName . 'DAOFactory',
+            'dtoNamespace'           => $dataObject->getModelNamespace() . '\DataObject\\' . $ucFirstEntityName . 'DataObject',
+            'hydratorNamespace'      => $dataObject->getModelNamespace() . '\Hydrator\\' . $ucFirstEntityName . 'Hydrator',
+            'dtoCollectionNamespace' => $dataObject->getModelNamespace() . '\DataObject\\' . $ucFirstEntityName . 'Collection',
+            'exceptionNamespace'     => $dataObject->getModelNamespace() . '\No' . $ucFirstEntityName . 'Exception',
         );
-        $this->generateFile($dataObject, '/views/index.phtml', $dataObject->getViewPath() . 'index.phtml');
 
-        //if (in_array('show', $dataObject->getActions())) {
-            $this->generateFile($dataObject, '/views/show.phtml', $dataObject->getViewPath() . 'show.phtml');
-        //}
+        $filesList = array(
+            '/controller.php.phtml' => $dataObject->findControllerPath() . $dataObject->getControllerName() . 'Controller.php',
+            '/views/index.phtml'    => $dataObject->findViewPath() . 'index.phtml',
+            '/views/show.phtml'     => $dataObject->findViewPath() . 'show.phtml',
+            '/views/new.phtml'      => $dataObject->findViewPath() . 'new.phtml',
+            '/views/edit.phtml'     => $dataObject->findViewPath() . 'edit.phtml',
+            '/views/edit-js.phtml'  => $dataObject->findViewPath() . 'edit-js.phtml'
+        );
 
-        //if (in_array('new', $dataObject->getActions())) {
-            $this->generateFile($dataObject, '/views/new.phtml', $dataObject->getViewPath() . 'new.phtml');
-        //}
-
-        //if (in_array('edit', $dataObject->getActions())) {
-            $this->generateFile($dataObject, '/views/edit.phtml', $dataObject->getViewPath() . 'edit.phtml');
+        foreach ($filesList as $template => $destination) {
             $this->generateFile(
                 $dataObject,
-                '/views/edit-js.phtml',
-                $dataObject->getViewPath() . 'edit-js.phtml'
+                $template,
+                $destination,
+                $suppDatas
             );
-        //}
+        }
+
+        $this->output->writeln("Route to add to module.config.php
+'" . $homeRoute . "' => array(
+    'type' => 'Zend\Mvc\Router\Http\Literal',
+    'options' => array(
+        'route'    => '/" . $homeRoute . "',
+        'defaults' => array(
+            'controller' => 'Application\Controller\\" . $dataObject->getControllerName() ."',
+            'action'     => 'index',
+        ),
+    ),
+),
+'" . $newRoute . "' => array(
+    'type' => 'Zend\Mvc\Router\Http\Literal',
+    'options' => array(
+        'route'    => '/" . $newRoute . "',
+        'defaults' => array(
+            'controller' => 'Application\Controller\\" . $dataObject->getControllerName() ."',
+            'action'     => 'new',
+        ),
+    ),
+),
+'" . $showRoute . "' => array(
+    'type' => 'Zend\Mvc\Router\Http\Segment',
+    'options' => array(
+        'route'    => '/" . $showRoute . "/[:id]',
+        'constraints' => array(
+            'id' => '[0-9]+'
+        ),
+        'defaults' => array(
+            'controller' => 'Application\Controller\\" . $dataObject->getControllerName() ."',
+            'action'     => 'show',
+        ),
+    ),
+),
+'" . $editRoute . "' => array(
+    'type' => 'Zend\Mvc\Router\Http\Segment',
+    'options' => array(
+        'route'    => '/" . $editRoute . "/[:id]',
+        'constraints' => array(
+            'id' => '[0-9]+'
+        ),
+        'defaults' => array(
+            'controller' => 'Application\Controller\\" . $dataObject->getControllerName() ."',
+            'action'     => 'edit',
+        ),
+    ),
+),
+'" . $deleteRoute . "' => array(
+    'type' => 'Zend\Mvc\Router\Http\Segment',
+    'options' => array(
+        'route'    => '/" . $deleteRoute . "/[:id]',
+        'constraints' => array(
+            'id' => '[0-9]+'
+        ),
+        'defaults' => array(
+            'controller' => 'Application\Controller\\" . $dataObject->getControllerName() ."',
+            'action'     => 'delete',
+        ),
+    ),
+),
+And add controller as invokable
+
+'controllers' => array(
+    'invokables' => array(
+        'Application\Controller\\" . $dataObject->getControllerName() . "' => 'Application\Controller\\" . $dataObject->getControllerName() ."Controller'
+    )
+)
+");
+
 
         return $dataObject;
     }

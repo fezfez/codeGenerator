@@ -44,7 +44,7 @@ class <?php echo $this->daoName . "\n"; ?>
         <?php echo $this->getHelper('TemplateDatabaseConnector')->getQueryFindOneBy($this->dataObject) . "\n"; ?>
 
         if(empty($result)) {
-            throw new $<?php echo $this->exceptionName; ?>('<?php echo $this->entityName; ?> not found');
+            throw new <?php echo $this->exceptionName; ?>('<?php echo $this->entityName; ?> not found');
         }
 
         return $this->hydrator->entityToPopo(
@@ -74,8 +74,12 @@ class <?php echo $this->daoName . "\n"; ?>
     public function persist(<?php echo $this->dataObjectName; ?> $<?php echo $this->entityName; ?>)
     {
         $result = $this->hydrator->popoToEntity(
-            $<?php echo $this->ucfirstEntityName; ?>,
+            $<?php echo $this->entityName; ?>,
+            <?php if ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase() == 'entity'): ?>
             new <?php echo $this->entityName; ?>()
+            <?php elseif ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase() == 'array'): ?>
+            array()
+            <?php endif; ?>
         );
 
         <?php echo $this->getHelper('TemplateDatabaseConnector')->getPersistQuery($this->dataObject) . "\n"; ?>
@@ -99,11 +103,11 @@ class <?php echo $this->daoName . "\n"; ?>
         }
 
         $result = $this->hydrator->popoToEntity(
-            $<?php echo $this->ucfirstEntityName; ?>,
+            $<?php echo $this->entityName; ?>,
             $result
         );
 
-        <?php echo $this->getHelper('TemplateDatabaseConnector')->getModifyQuery() . "\n"; ?>
+        <?php echo $this->getHelper('TemplateDatabaseConnector')->getModifyQuery($this->dataObject) . "\n"; ?>
 
         return $this->hydrator->entityToPopo(
             $result,
@@ -123,6 +127,6 @@ class <?php echo $this->daoName . "\n"; ?>
             throw new <?php echo $this->exceptionName; ?>('<?php echo $this->entityName; ?> not found');
         }
 
-        <?php echo $this->getHelper('TemplateDatabaseConnector')->getRemoveQuery() . "\n"; ?>
+        <?php echo $this->getHelper('TemplateDatabaseConnector')->getRemoveQuery($this->dataObject) . "\n"; ?>
     }
 }

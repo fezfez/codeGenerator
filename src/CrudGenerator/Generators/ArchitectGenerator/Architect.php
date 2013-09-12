@@ -26,6 +26,14 @@ class Architect extends DataObject
      * @var string
      */
     private $generateUnitTest = null;
+    /**
+     * @var string Target directory
+     */
+    private $directory       = null;
+    /**
+     * @var string Target namespace
+     */
+    private $namespace       = null;
 
     /**
      * @return string
@@ -43,5 +51,51 @@ class Architect extends DataObject
     {
         $this->generateUnitTest = $value;
         return $this;
+    }
+
+    /**
+     * Set Directory
+     * @param string $value
+     * @return \CrudGenerator\DataObject
+     */
+    public function setDirectory($value)
+    {
+        $this->directory = $value;
+        return $this;
+    }
+    /**
+     * Get directory
+     *
+     * @return string
+     */
+    public function getDirectory()
+    {
+        return $this->directory;
+    }
+    /**
+     * Set Namespace
+     * @param string $value
+     * @return \CrudGenerator\DataObject
+     */
+    public function setNamespace($value)
+    {
+        $this->namespace = $value;
+        return $this;
+    }
+    /**
+     * Set Namespace
+     * @return string
+     */
+    public function getNamespace()
+    {
+        return $this->namespace;
+    }
+    /**
+     * Get namespace path
+     * @return string
+     */
+    public function getNamespacePath()
+    {
+        return str_replace('\\', '/', $this->namespace);
     }
 }

@@ -8,7 +8,9 @@ namespace <?php echo $this->dataObject->getNamespace(); ?>\Hydrator;
 
 use <?php echo $this->dtoNamespace; ?>;
 use <?php echo $this->dtoCollectionNamespace; ?>;
+<?php if ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase() == 'entity'): ?>
 use <?php echo $this->dataObject->getEntity(); ?>;
+<?php endif; ?>
 
 <?php
     $length = str_repeat(' ', strlen('a' . $this->entityName));
@@ -16,12 +18,13 @@ use <?php echo $this->dataObject->getEntity(); ?>;
 class <?php echo $this->hydratorName . "\n"; ?>
 {
     /**
-     * @param <?php echo $this->entityName; ?> $entity
+     * @param <?php echo $this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase(); ?> $entity
      * @param <?php echo $this->dataObjectName; ?> $<?php echo $this->entityName . "\n"; ?>
      * @return <?php echo $this->dataObjectName . "\n"; ?>
      */
-    public function entityToPopo(<?php echo $this->entityName; ?> $entity, <?php echo $this->entityName; ?>DataObject $<?php echo lcfirst($this->entityName); ?>)
+    public function entityToPopo(<?php echo $this->getHelper('TemplateDatabaseConnector')->getConcreteTypeReturnedByDatabase($this->dataObject); ?> $entity, <?php echo $this->entityName; ?>DataObject $<?php echo $this->entityName; ?>)
     {
+        <?php if ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase() == 'entity'): ?>
         $<?php echo $this->entityName; ?> = clone $<?php echo $this->entityName; ?>;
 
 <?php
@@ -33,6 +36,18 @@ foreach($columnCollection as $field => $metadata): ?>
         <?php echo $length; ?>->set<?php echo $metadata->getName(true); ?>($entity->get<?php echo $metadata->getName(true); ?>())<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
 <?php endif; ?>
 <?php endforeach; ?>
+<?php else:?>
+
+<?php
+$columnCollection = $this->dataObject->getMetadata()->getColumnCollection();
+foreach($columnCollection as $field => $metadata): ?>
+<?php if($metadata == reset($columnCollection)): ?>
+        $<?php echo $this->entityName; ?>->set<?php echo $metadata->getName(true); ?>($entity['<?php echo $metadata->getName(); ?>'])<?php echo "\n"; ?>
+<?php else: ?>
+        <?php echo $length; ?>->set<?php echo $metadata->getName(true); ?>($entity['<?php echo $metadata->getOrininalName(); ?>'])<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
+<?php endif; ?>
+<?php endforeach; ?>
+<?php endif; ?>
 
        return $<?php echo $this->entityName; ?>;
     }
@@ -42,13 +57,17 @@ foreach($columnCollection as $field => $metadata): ?>
      * @param <?php echo $this->entityName; ?> $entity
      * @return <?php echo $this->dataObjectName . "\n"; ?>
      */
-    public function popoToEntity(<?php echo $this->dataObjectName; ?> $<?php echo $this->entityName; ?>, <?php echo $this->entityName; ?> $entity)
+    public function popoToEntity(<?php echo $this->dataObjectName; ?> $<?php echo $this->entityName; ?>, <?php echo $this->getHelper('TemplateDatabaseConnector')->getConcreteTypeReturnedByDatabase($this->dataObject); ?> $entity)
     {
 <?php
 $columnCollection = $this->dataObject->getMetadata()->getColumnCollection();
 foreach($columnCollection as $field => $metadata): ?>
-<?php if($metadata == reset($columnCollection)) continue;  ?>
+<?php if($metadata == reset($columnCollection)) continue; ?>
+<?php if ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase() == 'entity'): ?>
         $entity->set<?php echo $metadata->getName(true); ?>($<?php echo $this->entityName; ?>->get<?php echo $metadata->getName(true); ?>());<?php echo "\n"; ?>
+<?php else: ?>
+        $entity['<?php echo $metadata->getOrininalName(); ?>'] = $<?php echo $this->entityName; ?>->get<?php echo $metadata->getName(true); ?>();<?php echo "\n"; ?>
+<?php endif; ?>
 <?php endforeach; ?>
 
        return $entity;
@@ -68,7 +87,7 @@ foreach($columnCollection as $field => $metadata): ?>
         $dataObjectCollection = clone $dataObjectCollection;
 
         foreach($entityCollection as $entity) {
-            $dataObjectCollection->append($this->entityToPopo($entity, $<?php echo lcfirst($this->entityName); ?>));
+            $dataObjectCollection->append($this->entityToPopo($entity, $<?php echo $this->entityName; ?>));
         }
 
         return $dataObjectCollection;
@@ -85,9 +104,9 @@ foreach($columnCollection as $field => $metadata): ?>
 $columnCollection = $this->dataObject->getMetadata()->getColumnCollection();
 foreach($columnCollection as $field => $metadata): ?>
 <?php if(in_array($metadata->getType(), array("date", "datetime"))): ?>
-        $datas['<?php echo $metadata->getName(); ?>'] = $<?php echo $this->entityName; ?>->get<?php echo $metadata->getName(true); ?>()->format('Y-m-d');<?php echo "\n"; ?>
+        $datas['<?php echo $metadata->getOrininalName(); ?>'] = $<?php echo $this->entityName; ?>->get<?php echo $metadata->getName(true); ?>()->format('Y-m-d');<?php echo "\n"; ?>
 <?php else: ?>
-        $datas['<?php echo $metadata->getName(); ?>'] = $<?php echo $this->entityName; ?>->get<?php echo $metadata->getName(true); ?>();<?php echo "\n"; ?>
+        $datas['<?php echo $metadata->getOrininalName(); ?>'] = $<?php echo $this->entityName; ?>->get<?php echo $metadata->getName(true); ?>();<?php echo "\n"; ?>
 <?php endif; ?>
 <?php endforeach; ?>
 
@@ -105,11 +124,11 @@ foreach($columnCollection as $field => $metadata): ?>
 $columnCollection = $this->dataObject->getMetadata()->getColumnCollection();
 foreach($columnCollection as $field => $metadata): ?>
 <?php if($metadata == reset($columnCollection)): ?>
-        $dataObject->set<?php echo ucfirst($metadata->getName()); ?>(isset($datas['<?php echo $metadata->getName(); ?>']) ? $datas['<?php echo $metadata->getName(); ?>'] : null)<?php echo "\n"; ?>
+        $dataObject->set<?php echo $metadata->getName(true); ?>(isset($datas['<?php echo $metadata->getName(); ?>']) ? $datas['<?php echo $metadata->getOrininalName(); ?>'] : null)<?php echo "\n"; ?>
 <?php elseif(in_array($metadata->getType(), array("date", "datetime"))): ?>
-                   ->set<?php echo ucfirst($metadata->getName()); ?>(new \DateTime($datas['<?php echo $metadata->getName(); ?>']))<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
+                   ->set<?php echo $metadata->getName(true); ?>(new \DateTime($datas['<?php echo $metadata->getName(); ?>']))<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
 <?php else: ?>
-                   ->set<?php echo ucfirst($metadata->getName()); ?>(isset($datas['<?php echo $metadata->getName(); ?>']) ? $datas['<?php echo $metadata->getName(); ?>'] : null)<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
+                   ->set<?php echo $metadata->getName(true); ?>(isset($datas['<?php echo $metadata->getName(); ?>']) ? $datas['<?php echo $metadata->getOrininalName(); ?>'] : null)<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
 <?php endif; ?>
 <?php endforeach; ?>
 
