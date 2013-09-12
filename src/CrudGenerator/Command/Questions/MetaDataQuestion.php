@@ -64,7 +64,7 @@ class MetaDataQuestion
      * @param MetaDataSource $adapter
      * @param string $default
      */
-    public function ask(MetaDataSource $metadataSource, $metaDataName = null)
+    public function ask(MetaDataSource $metadataSource, $metaDataNamePreselected = null)
     {
         $metadataSourceFactoryName = $metadataSource->getFactory();
         $metadataSourceConfig      = $metadataSource->getConfig();
@@ -80,12 +80,14 @@ class MetaDataQuestion
             $metaDataChoices[] = $metaData->getOriginalName();
         }
 
-        if ($metaDataName === null || !in_array($metaDataName, $metaDataChoices)) {
+        if ($metaDataNamePreselected === null || !in_array($metaDataNamePreselected, $metaDataChoices)) {
             $metaDataName = $this->dialog->select(
                 $this->output,
                 "<question>Full namespace Metadata</question> \n> ",
                 $metaDataChoices
             );
+        } else {
+            $metaDataName = array_search($metaDataNamePreselected, $metaDataChoices);
         }
 
         return $metaDataDAO->getMetadataFor(
