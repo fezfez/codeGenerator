@@ -38,6 +38,10 @@ abstract class DataObject
      * @var MetaData Metadata object
      */
     private $metadata        = null;
+    /**
+     * @var string
+     */
+    private $adapter         = null;
 
     /**
      * Set Module
@@ -78,6 +82,17 @@ abstract class DataObject
     public function setGenerator($value)
     {
         $this->generator = $value;
+        return $this;
+    }
+
+    /**
+     * Set Generator
+     * @param string $value
+     * @return \CrudGenerator\DataObject
+     */
+    public function setAdapter($value)
+    {
+        $this->adapter = $value;
         return $this;
     }
 
@@ -138,5 +153,14 @@ abstract class DataObject
     public function getGenerator()
     {
         return $this->generator;
+    }
+    /**
+     * Get Adapter
+     *
+     * @return string
+     */
+    public function getAdapter()
+    {
+        return $this->adapter;
     }
 }

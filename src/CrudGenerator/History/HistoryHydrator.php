@@ -75,9 +75,9 @@ class HistoryHydrator
     {
         $dumpArray = array(
             'module'         => $dataObject->getModule(),
-            'metaDataSource' => get_class($dataObject->getMetadata()),
+            'metaDataSource' => $dataObject->getAdapter(),
             'metaData'       => $dataObject->getMetadata()->getOriginalName(),
-            'Generators'     =>  $this->dumpToArray($dataObject)
+            'Generators'     => $this->dumpToArray($dataObject)
         );
 
         return $this->yamlDumper->dump($dumpArray, 50);
@@ -94,7 +94,7 @@ class HistoryHydrator
         foreach ($arrayRepresentation['Generators'] as $dtoName => $generatorInformation) {
 
             $metaDataSource = $this->metaDataSourceQuestion->ask($arrayRepresentation['metaDataSource']);
-            $metaData       = $this->metaDataQuestion->ask($metadataSource, $arrayRepresentation['metaDataSource']);
+            $metaData       = $this->metaDataQuestion->ask($metadataSource, $arrayRepresentation['metaData']);
 
             $dto = new $dtoName();
             $dto->setModule($arrayRepresentation['module'])

@@ -113,7 +113,8 @@ class CreateCommand extends Command
         $dataObject = new $DTOName();
         $dataObject->setEntity($metadata->getName())
                    ->setModule($directory)
-                   ->setMetaData($metadata);
+                   ->setMetaData($metadata)
+                   ->setAdapter(get_class($adapter));
 
         $this->output->writeln("<info>Resume</info>");
         $this->output->writeln('<info>Metadata : ' . $dataObject->getEntity(), '*</info>');
