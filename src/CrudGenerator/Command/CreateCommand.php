@@ -114,7 +114,7 @@ class CreateCommand extends Command
         $dataObject->setEntity($metadata->getName())
                    ->setModule($directory)
                    ->setMetaData($metadata)
-                   ->setAdapter(get_class($adapter));
+                   ->setAdapter($adapter->getName());
 
         $this->output->writeln("<info>Resume</info>");
         $this->output->writeln('<info>Metadata : ' . $dataObject->getEntity(), '*</info>');
