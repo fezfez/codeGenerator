@@ -80,7 +80,7 @@ class MetaDataQuestion
             $metaDataChoices[] = $metaData->getOriginalName();
         }
 
-        if ($metaDataName === null || !isset($metaDataChoices[$metaDataName])) {
+        if ($metaDataName === null || !in_array($metaDataName, $metaDataChoices)) {
             $metaDataName = $this->dialog->select(
                 $this->output,
                 "<question>Full namespace Metadata</question> \n> ",

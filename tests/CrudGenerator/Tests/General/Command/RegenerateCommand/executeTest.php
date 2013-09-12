@@ -14,9 +14,7 @@ class executeTest extends \PHPUnit_Framework_TestCase
 {
    public function testDoiNo()
     {
-        $history = new History();
-        $history->setName('messages')
-        ->setDataObject(new Architect());
+        $history = new Architect();
 
 
         $historyStub = $this->getMockBuilder('CrudGenerator\Command\Questions\HistoryQuestion')
@@ -60,9 +58,7 @@ class executeTest extends \PHPUnit_Framework_TestCase
 
     public function testDoiTrue()
     {
-        $history = new History();
-        $history->setName('messages')
-        ->setDataObject(new Architect());
+        $history = new Architect();
 
 
         $historyStub = $this->getMockBuilder('CrudGenerator\Command\Questions\HistoryQuestion')

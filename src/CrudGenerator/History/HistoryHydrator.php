@@ -73,10 +73,18 @@ class HistoryHydrator
      */
     public function dtoToYaml(DataObject $dataObject)
     {
+        $metadata = $dataObject->getMetadata();
+
+        if (empty($metadata)) {
+            throw new InvalidHistoryException(
+                "DataObject doesn't have metadata"
+            );
+        }
+
         $dumpArray = array(
             'module'         => $dataObject->getModule(),
             'metaDataSource' => $dataObject->getAdapter(),
-            'metaData'       => $dataObject->getMetadata()->getOriginalName(),
+            'metaData'       => $metadata->getOriginalName(),
             'Generators'     => $this->dumpToArray($dataObject)
         );
 
@@ -89,11 +97,12 @@ class HistoryHydrator
     public function yamlToDto($content)
     {
         $arrayRepresentation = $this->yamlParser->parse($content);
-        $historyCollection   = new HistoryCollection();
+        $history = new History();
+        $history->setName($arrayRepresentation['metaData']);
 
         foreach ($arrayRepresentation['Generators'] as $dtoName => $generatorInformation) {
 
-            $metaDataSource = $this->metaDataSourceQuestion->ask($arrayRepresentation['metaDataSource']);
+            $metadataSource = $this->metaDataSourceQuestion->ask($arrayRepresentation['metaDataSource']);
             $metaData       = $this->metaDataQuestion->ask($metadataSource, $arrayRepresentation['metaData']);
 
             $dto = new $dtoName();
@@ -101,12 +110,12 @@ class HistoryHydrator
                 ->setMetadata($metaData)
                 ->setEntity($metaData->getName());
 
-            $dto = $this->writeAbstractOptions($dtoName, $dto);
+            $dto = $this->writeAbstractOptions($arrayRepresentation['Generators'][$dtoName], $dto);
 
-            $historyCollection->append($dto);
+            $history->addDataObject($dto);
         }
 
-        return $historyCollection;
+        return $history;
     }
 
     /**
@@ -118,11 +127,17 @@ class HistoryHydrator
     {
         $dataObject = clone $dataObject;
 
-        if (isset($packageDatas['Generators'][$generatorName]['options'])) {
-            foreach ($packageDatas['Generators'][$generatorName]['options'] as $optionName => $optionValue) {
+        if (isset($generatorName['options'])) {
+            foreach ($generatorName['options'] as $optionName => $optionValue) {
                 $methodName = 'set' . ucfirst($optionName);
                 if (method_exists($dataObject, $methodName)) {
-                    $dataObject->$methodName($optionValue);
+                    if (is_array($optionValue)) {
+                        foreach ($optionValue as $optionAttributeName => $optionAttributeValue) {
+                            $dataObject->$methodName($optionAttributeName, $optionAttributeValue);
+                        }
+                    } else {
+                        $dataObject->$methodName($optionValue);
+                    }
                 }
             }
         }

@@ -81,5 +81,20 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
             'string',
             $sUT->getVariableName()
         );
+
+        $this->assertInternalType(
+            'string',
+            $sUT->getPurgeQueryForUnitTest($crudDataObject)
+        );
+
+        $this->assertInternalType(
+            'string',
+            $sUT->getTypeReturnedByDatabase()
+        );
+
+        $this->assertInternalType(
+            'string',
+            $sUT->getConcreteTypeReturnedByDatabase($crudDataObject)
+        );
     }
 }

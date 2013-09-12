@@ -31,9 +31,9 @@ class History
      */
     private $name       = null;
     /**
-     * @var DataObject DataObject
+     * @var array
      */
-    private $dataObject = null;
+    private $dataObjects = null;
 
     /**
      * Set Column name
@@ -52,9 +52,9 @@ class History
      * @param DataObject $value
      * @return \CrudGenerator\History\History
      */
-    public function setDataObject(DataObject $value)
+    public function addDataObject(DataObject $value)
     {
-        $this->dataObject = $value;
+        $this->dataObjects[] = $value;
         return $this;
     }
 
@@ -72,8 +72,8 @@ class History
      *
      * @return DataObject
      */
-    public function getDataObject()
+    public function getDataObjects()
     {
-        return $this->dataObject;
+        return $this->dataObjects;
     }
 }

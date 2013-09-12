@@ -69,11 +69,6 @@ class HistoryManager
             $this->fileManager->unlink(self::HISTORY_PATH . $fileName);
         }
 
-        $history = new History();
-        $history->setName($dataObject->getEntity())
-                ->setDataObject($dataObject);
-
-
         $this->fileManager->filePutsContent(
             self::HISTORY_PATH . $fileName . '.history.yaml',
             $this->historyHydrator->dtoToYaml($dataObject)
