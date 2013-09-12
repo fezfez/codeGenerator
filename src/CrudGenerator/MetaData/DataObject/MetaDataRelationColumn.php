@@ -37,6 +37,8 @@ class MetaDataRelationColumn
      */
     private $associationType = null;
 
+    private $metadata = null;
+
     /**
      * Set full name
      * @param string $value
@@ -65,6 +67,16 @@ class MetaDataRelationColumn
     public function setAssociationType($value)
     {
         $this->associationType = $value;
+        return $this;
+    }
+    /**
+     * Set association type
+     * @param string $value
+     * @return \CrudGenerator\MetaData\DataObject\MetaDataRelationColumn
+     */
+    public function setMetadata($value)
+    {
+        $this->metadata = $value;
         return $this;
     }
 
@@ -103,5 +115,13 @@ class MetaDataRelationColumn
     public function getAssociationType()
     {
         return $this->associationType;
+    }
+    /**
+     * Get fields name
+     * @return string
+     */
+    public function getMetadata()
+    {
+        return $this->metadata;
     }
 }

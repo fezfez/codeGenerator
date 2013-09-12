@@ -24,6 +24,7 @@ class GetAllMetadataTest extends \PHPUnit_Framework_TestCase
         $sUT = new Doctrine2MetaDataDAO($em);
 
         $allMetaData = $sUT->getAllMetadata();
+
         $this->assertInstanceOf(
             'CrudGenerator\MetaData\DataObject\MetaDataCollection',
             $allMetaData

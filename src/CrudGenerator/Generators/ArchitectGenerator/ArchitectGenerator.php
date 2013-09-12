@@ -60,6 +60,23 @@ class ArchitectGenerator extends BaseCodeGenerator
             $DTO->setNamespace($this->generiqueQuestion->namespaceQuestion());
         }
 
+        foreach ($DTO->getMetadata()->getColumnCollection() as $column) {
+            if (null === $DTO->getAttributeName($column->getName())) {
+                $DTO->setAttributeName(
+                    $column->getName(),
+                    $this->dialog->ask(
+                        $this->output,
+                        '<question>Attribute name for "' . $column->getName() . '"</question> ',
+                        $column->getName()
+                    )
+                );
+            }
+        }
+
+        foreach ($DTO->getMetadata()->getRelationCollection() as $column) {
+            var_dump($column);exit;
+        }
+
         $basePath          = $DTO->getModule() . '/' . $DTO->getDirectory();
         $entityName        = $DTO->getMetadata()->getName(false);
         $ucFirstEntityName = $DTO->getMetadata()->getName(true);

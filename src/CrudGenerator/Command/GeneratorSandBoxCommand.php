@@ -18,6 +18,8 @@
 
 namespace CrudGenerator\Command;
 
+use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
+
 use CrudGenerator\Command\Questions\GeneratorQuestion;
 use CrudGenerator\MetaData\DataObject\MetaDataColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
@@ -125,6 +127,13 @@ class GeneratorSandBoxCommand extends Command
         ->setLength('100');
 
         $metadata->appendColumn($column);
+
+        $relation = new MetaDataRelationColumn();
+        $relation->setAssociationType('ontomany')
+                 ->setFieldName('myName')
+                 ->setFullName('myFullName');
+
+        $metadata->appendRelation($relation);
 
         return $metadata;
     }

@@ -37,5 +37,5 @@ interface MetaDataDAOInterface
      * @param string $entityName
      * @return \CrudGenerator\MetaData\DataObject\MetaData
      */
-    public function getMetadataFor($entityName);
+    public function getMetadataFor($entityName, $parentName = null);
 }

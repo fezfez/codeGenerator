@@ -34,7 +34,33 @@ class Architect extends DataObject
      * @var string Target namespace
      */
     private $namespace       = null;
+    /**
+     * @var array
+     */
+    protected $attributesDisplayName = array();
 
+    /**
+     * @param string $attribute
+     * @param string $name
+     * @return \CrudGenerator\Generators\CrudGenerator\Crud
+     */
+    public function setAttributeName($attribute, $name)
+    {
+        $this->attributesDisplayName[$attribute] = $name;
+        return $this;
+    }
+    /**
+     * @param string $attribute
+     * @return string|null
+     */
+    public function getAttributeName($attribute = null)
+    {
+        if ($attribute === null) {
+            return $this->attributesDisplayName;
+        } else {
+            return (isset($this->attributesDisplayName[$attribute])) ? $this->attributesDisplayName[$attribute] : null;
+        }
+    }
     /**
      * @return string
      */

@@ -64,10 +64,11 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
      * @param string $entityName name of entity
      * @return MetadataDataObjectDoctrine2
      */
-    public function getMetadataFor($entityName)
+    public function getMetadataFor($entityName, $parentName = null)
     {
         return $this->hydrateDataObject(
-            $this->entityManager->getMetadataFactory()->getMetadataFor($entityName)
+            $this->entityManager->getMetadataFactory()->getMetadataFor($entityName),
+            $parentName
         );
     }
 
@@ -83,7 +84,7 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
 
         foreach ($metadataCollection as $metadata) {
             $metaDataCollection->append(
-                $this->hydrateDataObject($metadata)
+                $this->hydrateDataObject($metadata, null)
             );
         }
 
@@ -96,7 +97,7 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
      * @param \Doctrine\ORM\Mapping\ClassMetadataInfo $metadata Concret metadata
      * @return MetadataDataObjectDoctrine2
      */
-    private function hydrateDataObject(\Doctrine\ORM\Mapping\ClassMetadataInfo $metadata)
+    private function hydrateDataObject(\Doctrine\ORM\Mapping\ClassMetadataInfo $metadata, $parentName)
     {
         $dataObject = new MetadataDataObjectDoctrine2(
             new MetaDataColumnCollection(),
@@ -120,9 +121,14 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
         }
 
         foreach ($metadata->getAssociationMappings() as $association) {
+            if ($association['targetEntity'] === $parentName) {
+                continue;
+            }
+
             $relation = clone $relationDataObject;
             $relation->setFullName($association['targetEntity'])
-                     ->setFieldName($association['fieldName']);
+                     ->setFieldName($association['fieldName'])
+                     ->setMetadata($this->getMetadataFor($association['targetEntity'], $metadata->name));
 
             if (\Doctrine\ORM\Mapping\ClassMetadataInfo::ONE_TO_MANY === $association['type']) {
                 $relation->setAssociationType('oneToMany');
