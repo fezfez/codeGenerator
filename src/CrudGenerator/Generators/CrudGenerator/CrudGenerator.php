@@ -172,7 +172,7 @@ And add controller as invokable
 
 'controllers' => array(
     'invokables' => array(
-        'Application\Controller\\" . $dataObject->getControllerName . "' => 'Application\Controller\\" . $dataObject->getControllerName() ."Controller'
+        'Application\Controller\\" . $dataObject->getControllerName() . "' => 'Application\Controller\\" . $dataObject->getControllerName() ."Controller'
     )
 )
 ");
