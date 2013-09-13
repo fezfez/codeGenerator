@@ -40,6 +40,10 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
         $fileConflictManager =  $this->getMockBuilder('CrudGenerator\FileConflict\FileConflictManager')
         ->disableOriginalConstructor()
         ->getMock();
+        $stubGeneratorDependencies =  $this->getMockBuilder('CrudGenerator\Generators\GeneratorDependencies')
+        ->disableOriginalConstructor()
+        ->getMock();
+
 
         $strategy = new GeneratorStrategy(ViewFactory::getInstance(), $stubOutput, $fileManager, $fileConflictManager);
 
@@ -51,7 +55,8 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
             $stubOutput,
             $stubDialog,
             $generiqueQuestion,
-            $strategy
+            $strategy,
+            $stubGeneratorDependencies
         );
         $sUT->generate($metadata);
     }

@@ -70,11 +70,16 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
 
         $strategy = new GeneratorStrategy(ViewFactory::getInstance(), $stubOutput, $fileManager, $fileConflictManager);
 
+        $stubGeneratorDependencies =  $this->getMockBuilder('CrudGenerator\Generators\GeneratorDependencies')
+        ->disableOriginalConstructor()
+        ->getMock();
+
         $sUT = new ArchitectGenerator(
             $stubOutput,
             $stubDialog,
             $generiqueQuestion,
-            $strategy
+            $strategy,
+            $stubGeneratorDependencies
         );
 
         return $sUT;

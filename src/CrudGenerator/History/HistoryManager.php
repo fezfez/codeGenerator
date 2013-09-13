@@ -101,4 +101,27 @@ class HistoryManager
 
         return $historyCollection;
     }
+
+    /**
+     * @param string $historyName
+     * @throws HistoryNotFound
+     * @return \CrudGenerator\History\History
+     */
+    public function find($historyName)
+    {
+        $filePath = self::HISTORY_PATH . $historyName . '.history.yaml';
+
+        if (!$this->fileManager->isFile($filePath)) {
+            throw new HistoryNotFoundException(
+                sprintf(
+                    'History with name "%d" not found',
+                    $historyName
+                )
+            );
+        }
+
+        return $this->historyHydrator->yamlToDTO(
+            $this->fileManager->fileGetContent($filePath)
+        );
+    }
 }

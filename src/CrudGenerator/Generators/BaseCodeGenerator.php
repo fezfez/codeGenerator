@@ -20,6 +20,8 @@ namespace CrudGenerator\Generators;
 use CrudGenerator\DataObject;
 use CrudGenerator\Generators\GeneriqueQuestions;
 use CrudGenerator\Generators\Strategies\StrategyInterface;
+use CrudGenerator\Generators\GeneratorDependencies;
+use CrudGenerator\History\HistoryNotFoundException;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
@@ -48,6 +50,10 @@ abstract class BaseCodeGenerator
      * @var GeneriqueQuestions Generique Question
      */
     protected $generiqueQuestion   = null;
+    /**
+     * @var GeneratorDependencies Generator dependencies
+     */
+    protected $generatorDepencies   = null;
 
     /**
      * Base code generator
@@ -60,12 +66,14 @@ abstract class BaseCodeGenerator
         OutputInterface $output,
         DialogHelper $dialog,
         GeneriqueQuestions $generiqueQuestion,
-        StrategyInterface $strategy
+        StrategyInterface $strategy,
+        GeneratorDependencies $generatorDepencies
     ) {
         $this->output              = $output;
         $this->dialog              = $dialog;
         $this->generiqueQuestion   = $generiqueQuestion;
         $this->strategy            = $strategy;
+        $this->generatorDepencies  = $generatorDepencies;
     }
 
     /**
@@ -192,5 +200,30 @@ abstract class BaseCodeGenerator
         }
 
         return $dataObject;
+    }
+
+    /**
+     * @param string $codeGeneratorName
+     * @return \CrudGenerator\DataObject
+     */
+    protected function findDependencie($dto, $codeGeneratorName)
+    {
+        $this->output->writeln(
+            sprintf(
+                '<info>Generator have dependencies with "%s" generator</info>',
+                $codeGeneratorName
+            )
+        );
+        try {
+            $dto = $this->generatorDepencies->findDependencie($codeGeneratorName);
+            $this->output->writeln('<info>Information found</info>');
+            return $dto;
+        } catch (GeneratorDependenciesNotFound $e) {
+            $this->output->writeln('<info>base information found, automatically run generation</info>');
+            return $this->generatorDepencies->create($dto, $codeGeneratorName);
+        } catch (HistoryNotFoundException $e) {
+            $this->output->writeln('<info>automatically run generation</info>');
+            return $this->generatorDepencies->create($dto, $codeGeneratorName);
+        }
     }
 }

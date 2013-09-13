@@ -74,7 +74,7 @@ class ArchitectGenerator extends BaseCodeGenerator
         }
 
         foreach ($DTO->getMetadata()->getRelationCollection() as $column) {
-            var_dump($column);exit;
+            //var_dump($column);exit;
         }
 
         $basePath          = $DTO->getModule() . '/' . $DTO->getDirectory();

@@ -7,6 +7,7 @@ use CrudGenerator\Generators\GeneriqueQuestions;
 use CrudGenerator\Utils\DiffPHP;
 use CrudGenerator\Generators\CrudGenerator\CrudGenerator;
 use CrudGenerator\Generators\CrudGenerator\Crud;
+use CrudGenerator\Generators\ArchitectGenerator\Architect;
 use CrudGenerator\Generators\Strategies\GeneratorStrategy;
 
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -48,11 +49,26 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
                  ->setMetadata($this->getMetadata())
                  ->setModule('module/MyModule/');
 
+        $stubGeneratorDependencies =  $this->getMockBuilder('CrudGenerator\Generators\GeneratorDependencies')
+        ->disableOriginalConstructor()
+        ->getMock();
+
+        $architect = new Architect();
+        $architect->setEntity('TestZf2\Entities\NewsEntity')
+                  ->setMetadata($this->getMetadata())
+                  ->setModule('module/MyModule/');
+
+        $stubGeneratorDependencies->expects($this->once())
+        ->method('findDependencie')
+        ->with('CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator')
+        ->will($this->returnValue($architect));
+
         $sUT = new CrudGenerator(
             $stubOutput,
             $stubDialog,
             $generiqueQuestion,
-            $strategy
+            $strategy,
+            $stubGeneratorDependencies
         );
         $sUT->generate($metadata);
 

@@ -18,6 +18,7 @@
 namespace CrudGenerator\Generators;
 
 use CrudGenerator\Utils\FileManager;
+use CrudGenerator\Generators\GeneratorDependenciesFactory;
 use CrudGenerator\Generators\GeneriqueQuestions;
 use CrudGenerator\Generators\Strategies\StrategyInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -50,9 +51,10 @@ class CodeGeneratorFactory
      */
     public function create(OutputInterface $output, DialogHelper $dialog, $class)
     {
-        $fileManager        = new FileManager();
-        $generiqueQuestion  = new GeneriqueQuestions($dialog, $output, $fileManager);
+        $fileManager           = new FileManager();
+        $generiqueQuestion     = new GeneriqueQuestions($dialog, $output, $fileManager);
+        $feneratorDependencies = GeneratorDependenciesFactory::getInstance($dialog, $output);
 
-        return new $class($output, $dialog, $generiqueQuestion, $this->strategy);
+        return new $class($output, $dialog, $generiqueQuestion, $this->strategy, $feneratorDependencies);
     }
 }

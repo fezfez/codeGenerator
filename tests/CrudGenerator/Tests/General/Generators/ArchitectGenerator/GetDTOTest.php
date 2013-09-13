@@ -46,12 +46,16 @@ class GetDTOTest extends \PHPUnit_Framework_TestCase
         $strategy =  $this->getMockBuilder('CrudGenerator\Generators\Strategies\GeneratorStrategy')
         ->disableOriginalConstructor()
         ->getMock();
+        $stubGeneratorDependencies =  $this->getMockBuilder('CrudGenerator\Generators\GeneratorDependencies')
+        ->disableOriginalConstructor()
+        ->getMock();
 
         $sUT = new ArchitectGenerator(
             $stubOutput,
             $stubDialog,
             $generiqueQuestion,
-            $strategy
+            $strategy,
+            $stubGeneratorDependencies
         );
 
         return $sUT;

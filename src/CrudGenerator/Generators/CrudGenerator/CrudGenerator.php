@@ -51,11 +51,12 @@ class CrudGenerator extends BaseCodeGenerator
         $entityName        = $dataObject->getMetadata()->getName(false);
         $ucFirstEntityName = $dataObject->getMetadata()->getName(true);
 
+        $architectGeneratorDTO = $this->findDependencie($dataObject, 'CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator');
+
         $dataObject = $this->manageOption($dataObject, 'DisplayName', 'Display name (in view, title etc..) : ', $entityName);
         $dataObject = $this->manageOption($dataObject, 'DisplayNames', 'Display name au plurielle (in view, title etc..) : ', $entityName . 's');
         $dataObject = $this->manageOption($dataObject, 'ControllerName', 'Controller name (ucFirst and without "Controller"): ', $ucFirstEntityName);
         $dataObject = $this->manageOption($dataObject, 'PrefixRouteName', 'Prefix route name (lower case): ', $this->unCamelCase($entityName));
-        $dataObject = $this->manageOption($dataObject, 'ModelNamespace', 'Model namespace : ');
 
         foreach ($dataObject->getMetadata()->getColumnCollection() as $column) {
             if (null === $dataObject->getAttributeName($column->getName())) {
@@ -80,6 +81,7 @@ class CrudGenerator extends BaseCodeGenerator
         $deleteRoute = $homeRoute . '-delete';
 
         $suppDatas = array(
+            'architectGeneratorDTO'  => $architectGeneratorDTO,
             'homeRoute'              => $homeRoute,
             'newRoute'               => $newRoute,
             'showRoute'              => $showRoute,
@@ -92,11 +94,11 @@ class CrudGenerator extends BaseCodeGenerator
             'collectionName'         => $ucFirstEntityName . 'Collection',
             'daoFactoryName'         => $ucFirstEntityName . 'DAOFactory',
             'exceptionName'          => 'No' . $ucFirstEntityName . 'Exception',
-            'daoFactoryNamespace'    => $dataObject->getModelNamespace() . '\\' . $ucFirstEntityName . 'DAOFactory',
-            'dtoNamespace'           => $dataObject->getModelNamespace() . '\DataObject\\' . $ucFirstEntityName . 'DataObject',
-            'hydratorNamespace'      => $dataObject->getModelNamespace() . '\Hydrator\\' . $ucFirstEntityName . 'Hydrator',
-            'dtoCollectionNamespace' => $dataObject->getModelNamespace() . '\DataObject\\' . $ucFirstEntityName . 'Collection',
-            'exceptionNamespace'     => $dataObject->getModelNamespace() . '\No' . $ucFirstEntityName . 'Exception',
+            'daoFactoryNamespace'    => $architectGeneratorDTO->getNamespace() . '\\' . $ucFirstEntityName . 'DAOFactory',
+            'dtoNamespace'           => $architectGeneratorDTO->getNamespace() . '\DataObject\\' . $ucFirstEntityName . 'DataObject',
+            'hydratorNamespace'      => $architectGeneratorDTO->getNamespace() . '\Hydrator\\' . $ucFirstEntityName . 'Hydrator',
+            'dtoCollectionNamespace' => $architectGeneratorDTO->getNamespace() . '\DataObject\\' . $ucFirstEntityName . 'Collection',
+            'exceptionNamespace'     => $architectGeneratorDTO->getNamespace() . '\No' . $ucFirstEntityName . 'Exception',
         );
 
         $filesList = array(

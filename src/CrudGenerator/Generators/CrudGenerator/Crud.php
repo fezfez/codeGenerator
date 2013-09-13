@@ -135,22 +135,6 @@ class Crud extends DataObject
      * @param string $value
      * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
      */
-    public function setModelNamespace($value)
-    {
-        $this->modelNamespace = $value;
-        return $this;
-    }
-    /**
-     * @return string
-     */
-    public function getModelNamespace()
-    {
-        return $this->modelNamespace;
-    }
-    /**
-     * @param string $value
-     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
-     */
     public function setDisplayNames($value)
     {
         $this->displayNames = $value;

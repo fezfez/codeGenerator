@@ -22,6 +22,7 @@ use CrudGenerator\Command\Questions\MetaDataSourcesQuestion;
 use CrudGenerator\Command\Questions\DirectoryQuestion;
 use CrudGenerator\Command\Questions\MetaDataQuestion;
 use CrudGenerator\Command\Questions\GeneratorQuestion;
+use CrudGenerator\DataObject;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -103,10 +104,28 @@ class CreateCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $directory  = $this->directoryQuestion->ask();
-        $adapter    = $this->metaDataSourcesQuestion->ask();
-        $metadata   = $this->metaDataQuestion->ask($adapter);
-        $generator  = $this->generatorQuestion->ask();
+        $this->create();
+    }
+
+    /**
+     * @param DataObject $dto
+     * @param string $generatorName
+     * @throws \RuntimeException
+     * @return DataObject
+     */
+    public function create(DataObject $dto = null, $generatorName = null)
+    {
+        if (null !== $dto) {
+            $directory  = $this->directoryQuestion->ask();
+            $adapter    = $this->metaDataSourcesQuestion->ask($dto->getAdapter());
+            $metadata   = $this->metaDataQuestion->ask($adapter, $dto->getMetadata());
+            $generator  = $this->generatorQuestion->ask($generatorName);
+        } else {
+            $directory  = $this->directoryQuestion->ask();
+            $adapter    = $this->metaDataSourcesQuestion->ask();
+            $metadata   = $this->metaDataQuestion->ask($adapter);
+            $generator  = $this->generatorQuestion->ask();
+        }
 
         $DTOName    = $generator->getDTO();
 
@@ -129,6 +148,8 @@ class CreateCommand extends Command
         if ($doI === true) {
             $dataObject = $generator->generate($dataObject);
             $this->historyManager->create($dataObject);
+
+            return $dataObject;
         } else {
             throw new \RuntimeException('Command aborted');
         }
