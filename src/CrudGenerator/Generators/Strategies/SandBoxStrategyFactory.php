@@ -37,10 +37,16 @@ class SandBoxStrategyFactory
      * @param DialogHelper $dialog
      * @return \CrudGenerator\Generators\Strategies\SandBoxStrategy
      */
-    public static function getInstance(OutputInterface $output, DialogHelper $dialog)
+    public static function getInstance(OutputInterface $output, DialogHelper $dialog, $input = null)
     {
-        $view = ViewFactory::getInstance();
+        $view   = ViewFactory::getInstance();
 
-        return new SandBoxStrategy($view, $output, $dialog);
+        if ($input !== null) {
+            $filter = $input->getArgument('filter');
+        } else {
+            $filter = null;
+        }
+
+        return new SandBoxStrategy($view, $output, $dialog, $filter);
     }
 }

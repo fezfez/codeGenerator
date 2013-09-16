@@ -32,11 +32,11 @@ class GeneratorQuestionFactory
      * @param boolean $stub
      * @return \CrudGenerator\Command\Questions\GeneratorQuestion
      */
-    public static function getInstance(DialogHelper $dialog, OutputInterface $output, $stub = false)
+    public static function getInstance(DialogHelper $dialog, OutputInterface $output, $input = null, $stub = false)
     {
         $generatorFinder = GeneratorFinderFactory::getInstance();
         if ($stub === true) {
-            $codeGeneratorFactory = new CodeGeneratorFactory(SandBoxStrategyFactory::getInstance($output, $dialog));
+            $codeGeneratorFactory = new CodeGeneratorFactory(SandBoxStrategyFactory::getInstance($output, $dialog, $input));
         } else {
             $codeGeneratorFactory = new CodeGeneratorFactory(GeneratorStrategyFactory::getInstance($output, $dialog));
         }

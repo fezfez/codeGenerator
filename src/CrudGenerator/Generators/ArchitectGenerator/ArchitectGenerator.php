@@ -73,8 +73,23 @@ class ArchitectGenerator extends BaseCodeGenerator
             }
         }
 
-        foreach ($DTO->getMetadata()->getRelationCollection() as $column) {
-            //var_dump($column);exit;
+        foreach ($DTO->getMetadata()->getRelationCollection() as $relation) {
+            $addRelation = $this->dialog->askConfirmation(
+                $this->output,
+                '<question>Do you want to add relation "' . $relation->getName() . '" in DataObject</question> ',
+                $relation->getName()
+            );
+
+            if ($addRelation === true) {
+                $DTO->setAttributeName(
+                    $relation->getName(),
+                    $this->dialog->ask(
+                        $this->output,
+                        '<question>Attribute name for "' . $relation->getName() . '"</question> ',
+                        $relation->getName()
+                    )
+                );
+            }
         }
 
         $basePath          = $DTO->getModule() . '/' . $DTO->getDirectory();

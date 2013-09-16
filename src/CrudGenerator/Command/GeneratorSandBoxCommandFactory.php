@@ -22,6 +22,10 @@ use CrudGenerator\Command\Questions\GeneratorQuestionFactory;
 
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Input\InputArgument;
+
 
 /**
  * Regenerate command
@@ -37,8 +41,11 @@ class GeneratorSandBoxCommandFactory
      */
     public static function getInstance(DialogHelper $dialog, OutputInterface $output)
     {
-        $generatorQuestion = GeneratorQuestionFactory::getInstance($dialog, $output, true);
+        /*$inputDefinition = new InputDefinition();
+        $inputDefinition->addArgument(new InputArgument('filter', InputArgument::OPTIONAL, 'template name'));
+        $input->bind($inputDefinition);*/
 
+        $generatorQuestion = GeneratorQuestionFactory::getInstance($dialog, $output, null, true);
         return new GeneratorSandBoxCommand($generatorQuestion);
     }
 }

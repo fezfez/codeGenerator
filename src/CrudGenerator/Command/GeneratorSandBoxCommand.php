@@ -60,6 +60,7 @@ class GeneratorSandBoxCommand extends Command
     {
         parent::configure();
 
+        // @todo -- filter
         $this->setName('CodeGenerator:generator-sand-box')
              ->setDescription('Allow you to test generator with fake metadata');
     }

@@ -38,13 +38,13 @@ class CreateCommandFactory
      * @param OutputInterface $output
      * @return \CrudGenerator\Command\CreateCommand
      */
-    public static function getInstance(DialogHelper $dialog, OutputInterface $output)
+    public static function getInstance(DialogHelper $dialog, OutputInterface $output, $strategy = false)
     {
         $historyManager          = HistoryFactory::getInstance($dialog, $output);
         $metaDataSourcesQuestion = MetaDataSourcesQuestionFactory::getInstance($dialog, $output);
         $directoryQuestion       = DirectoryQuestionFactory::getInstance($dialog, $output);
         $metaDataQuestion        = MetaDataQuestionFactory::getInstance($dialog, $output);
-        $generatorQuestion       = GeneratorQuestionFactory::getInstance($dialog, $output);
+        $generatorQuestion       = GeneratorQuestionFactory::getInstance($dialog, $output, null, $strategy);
 
         return new CreateCommand(
             $dialog,

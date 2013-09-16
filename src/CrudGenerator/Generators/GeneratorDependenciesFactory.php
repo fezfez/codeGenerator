@@ -15,11 +15,11 @@ class GeneratorDependenciesFactory
      * @param OutputInterface $output
      * @return \CrudGenerator\Generators\GeneratorDependencies
      */
-    public static function getInstance(DialogHelper $dialog, OutputInterface $output)
+    public static function getInstance(DialogHelper $dialog, OutputInterface $output, $strategy = false)
     {
         return new GeneratorDependencies(
             HistoryFactory::getInstance($dialog, $output),
-            CreateCommandFactory::getInstance($dialog, $output)
+            CreateCommandFactory::getInstance($dialog, $output, $strategy)
         );
     }
 }

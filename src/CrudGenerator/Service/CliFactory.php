@@ -53,7 +53,7 @@ class CliFactory
                 CreateCommandFactory::getInstance($dialogHelper, $output),
                 CreateByConfigCommandFactory::getInstance($dialogHelper, $output),
                 CreateByYamlCommandFactory::getInstance($dialogHelper, $output),
-                GeneratorSandBoxCommandFactory::getInstance($dialogHelper, $output)
+                GeneratorSandBoxCommandFactory::getInstance($dialogHelper, $output, $input)
             )
         );
 

@@ -53,8 +53,12 @@ class CodeGeneratorFactory
     {
         $fileManager           = new FileManager();
         $generiqueQuestion     = new GeneriqueQuestions($dialog, $output, $fileManager);
-        $feneratorDependencies = GeneratorDependenciesFactory::getInstance($dialog, $output);
+        $stub = false;
+        if ($this->strategy instanceof \CrudGenerator\Generators\Strategies\SandBoxStrategy) {
+            $stub = true;
+        }
+        $generatorDependencies = GeneratorDependenciesFactory::getInstance($dialog, $output, $stub);
 
-        return new $class($output, $dialog, $generiqueQuestion, $this->strategy, $feneratorDependencies);
+        return new $class($output, $dialog, $generiqueQuestion, $this->strategy, $generatorDependencies);
     }
 }
