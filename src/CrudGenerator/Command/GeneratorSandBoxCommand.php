@@ -26,6 +26,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
+use CrudGenerator\DataObject;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -73,14 +74,19 @@ class GeneratorSandBoxCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $generator = $this->generatorQuestion->ask();
+        $this->create();
+    }
+
+    public function create(DataObject $dto = null, $generatorName = null)
+    {
+        $generator = $this->generatorQuestion->ask($generatorName);
         $metadata  = $this->buildFakeMetaData();
         $DTOName   = $generator->getDTO();
 
         $dataObject = new $DTOName();
         $dataObject->setEntity($metadata->getName())
-                   ->setModule('data')
-                   ->setMetaData($metadata);
+        ->setModule('data')
+        ->setMetaData($metadata);
 
         $generator->generate($dataObject);
     }

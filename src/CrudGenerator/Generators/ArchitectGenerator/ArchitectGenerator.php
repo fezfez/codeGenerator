@@ -51,6 +51,7 @@ class ArchitectGenerator extends BaseCodeGenerator
      */
     protected function doGenerate($DTO)
     {
+        $this->output->writeln("<info>ArchitectGenerator</info>");
         $this->skeletonDir = __DIR__ . '/Skeleton';
 
         if (!$DTO->getDirectory()) {

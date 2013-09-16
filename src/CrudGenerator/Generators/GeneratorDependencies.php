@@ -23,7 +23,7 @@ class GeneratorDependencies
      */
     public function __construct(
         HistoryManager $historyManager,
-        CreateCommand $createCommand
+        $createCommand
     ) {
         $this->historyManager = $historyManager;
         $this->createCommand  = $createCommand;

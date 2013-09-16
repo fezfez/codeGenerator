@@ -47,6 +47,8 @@ class CrudGenerator extends BaseCodeGenerator
      */
     protected function doGenerate($dataObject)
     {
+        $this->output->writeln("<info>CrudGenerator</info>");
+
         $this->skeletonDir = __DIR__ . '/Skeleton';
         $entityName        = $dataObject->getMetadata()->getName(false);
         $ucFirstEntityName = $dataObject->getMetadata()->getName(true);
