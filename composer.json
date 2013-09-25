@@ -19,7 +19,7 @@
 	"require" : {
 		"symfony/console" : "~2.2",
 		"php" : ">=5.3.3",
-		"fzaninotto/Faker": "dev-master",
+		"fzaninotto/faker": "v1.2.0",
 		"symfony/yaml": "dev-master"
 	},
 	"require-dev": {
