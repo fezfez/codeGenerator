@@ -20,7 +20,7 @@
 		"symfony/console" : "~2.2",
 		"php" : ">=5.3.3",
 		"fzaninotto/faker": "v1.2.0",
-		"symfony/yaml": "dev-master"
+		"symfony/yaml": "2.4.*@dev"
 	},
 	"require-dev": {
         "phpunit/phpunit": "3.7.*",
