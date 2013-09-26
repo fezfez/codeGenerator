@@ -64,7 +64,7 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
      * @param string $entityName name of entity
      * @return MetadataDataObjectDoctrine2
      */
-    public function getMetadataFor($entityName, $parentName = null)
+    public function getMetadataFor($entityName, array $parentName = array())
     {
         return $this->hydrateDataObject(
             $this->entityManager->getMetadataFactory()->getMetadataFor($entityName),
@@ -84,7 +84,7 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
 
         foreach ($metadataCollection as $metadata) {
             $metaDataCollection->append(
-                $this->hydrateDataObject($metadata, null)
+                $this->hydrateDataObject($metadata)
             );
         }
 
@@ -97,7 +97,7 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
      * @param \Doctrine\ORM\Mapping\ClassMetadataInfo $metadata Concret metadata
      * @return MetadataDataObjectDoctrine2
      */
-    private function hydrateDataObject(\Doctrine\ORM\Mapping\ClassMetadataInfo $metadata, $parentName)
+    private function hydrateDataObject(\Doctrine\ORM\Mapping\ClassMetadataInfo $metadata, array $parentName = array())
     {
         $dataObject = new MetadataDataObjectDoctrine2(
             new MetaDataColumnCollection(),
@@ -121,14 +121,16 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
         }
 
         foreach ($metadata->getAssociationMappings() as $association) {
-            if ($association['targetEntity'] === $parentName) {
+            if (in_array($association['targetEntity'], $parentName)) {
                 continue;
             }
+
+            $parentName[] = $metadata->name;
 
             $relation = clone $relationDataObject;
             $relation->setFullName($association['targetEntity'])
                      ->setFieldName($association['fieldName'])
-                     ->setMetadata($this->getMetadataFor($association['targetEntity'], ($parentName === null) ? $metadata->name : $parentName));
+                     ->setMetadata($this->getMetadataFor($association['targetEntity'], $parentName));
 
             if (\Doctrine\ORM\Mapping\ClassMetadataInfo::ONE_TO_MANY === $association['type']) {
                 $relation->setAssociationType('oneToMany');
