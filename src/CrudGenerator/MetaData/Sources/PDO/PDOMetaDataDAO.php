@@ -176,7 +176,7 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
      * @param string $tableName
      * @return \CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO
      */
-    public function getMetadataFor($tableName, $parentName = null)
+    public function getMetadataFor($tableName, array $parentName = array())
     {
         return $this->hydrateDataObject($tableName);
     }
