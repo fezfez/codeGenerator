@@ -9,67 +9,59 @@ class <?php echo $this->dataObjectName . "\n"; ?>
 {
 <?php
 /* Traitement des champs */
-foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
+foreach($this->dataObject->getAttributeName() as $originalName => $name):
+if (is_array($name)) {
+	$type = $this->getHelper('Text')->toCamelCase(key($name), true);
+	$name = key($name);
+} else {
+	$type = $this->dataObject->getMetadata()->getColumn($originalName)->getType();
+}
+?>
     /**
-     * @var <?php echo $metadata->getType() . "\n"; ?>
+     * @var <?php echo $type . "\n"; ?>
      */
-    private $<?php echo $metadata->getName(); ?> = null;
+    private $<?php echo $this->getHelper('Text')->toCamelCase($name); ?> = null;
 <?php endforeach; ?>
 
 <?php
-/* Traitement des FK */
-foreach($this->dataObject->getMetadata()->getRelationCollection() as $field => $metadata): ?>
+/* Traitement des champs */
+foreach($this->dataObject->getAttributeName() as $originalName => $name):
+$dto = false;
+if (is_array($name)) {
+	$type = $this->getHelper('Text')->toCamelCase(key($name), true);
+	$name = key($name);
+	$dto = true;
+} else {
+	$type = $this->dataObject->getMetadata()->getColumn($originalName)->getType();
+}
+?>
     /**
-     * @var \<?php echo $metadata->getFullName() . "\n"; ?>
+     * @param <?php echo $type; ?> $value
+     * @return \<?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObjectName; ?>
      */
-    private $<?php echo $metadata->getName(); ?> = null;
-<?php endforeach; ?>
-
-<?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
-    /**
-     * @param <?php echo $metadata->getType(); ?> $value
-     * @return \<?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObject
-     */
-    public function set<?php echo $metadata->getName(true); ?>($value)
+    public function set<?php echo $this->getHelper('Text')->toCamelCase($name, true); ?>(<?php if ($dto === true) { echo $type . ' '; } ?>$value)
     {
-        $this-><?php echo $metadata->getName(); ?> = $value;
+        $this-><?php echo $this->getHelper('Text')->toCamelCase($name); ?> = $value;
         return $this;
     }
 <?php endforeach; ?>
 
 <?php
-/* Traitement des FK */
-foreach($this->dataObject->getMetadata()->getRelationCollection() as $field => $metadata): ?>
+/* Traitement des champs */
+foreach($this->dataObject->getAttributeName() as $originalName => $name):
+if (is_array($name)) {
+$type = $this->getHelper('Text')->toCamelCase(key($name), true);
+	$name = key($name);
+} else {
+	$type = $this->dataObject->getMetadata()->getColumn($originalName)->getType();
+}
+?>
     /**
-     * @param \<?php echo $metadata->getFullName(); ?> $value
-     * @return \<?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObject
+     * @return <?php echo $type . "\n"; ?>
      */
-    public function set<?php echo $metadata->getName(true); ?>(\<?php echo $metadata->getFullName(); ?> $value)
+    public function get<?php echo $this->getHelper('Text')->toCamelCase($name, true); ?>()
     {
-        $this-><?php echo $metadata->getName(); ?> = $value;
-        return $this;
-    }
-<?php endforeach; ?>
-
-<?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
-    /**
-     * @return <?php echo $metadata->getType() . "\n"; ?>
-     */
-    public function get<?php echo $metadata->getName(true); ?>()
-    {
-        return $this-><?php echo $metadata->getName(); ?>;
-    }
-<?php endforeach; ?>
-
-<?php
-/* Traitement des FK */
-foreach($this->dataObject->getMetadata()->getRelationCollection() as $field => $metadata): ?>
-    /**
-     * @return \<?php echo $metadata->getFullName() . "\n"; ?>
-     */
-    public function get<?php echo $metadata->getName(true); ?>()
-    {
-        return $this-><?php echo $metadata->getName(); ?>;
+        return $this-><?php echo $this->getHelper('Text')->toCamelCase($name); ?>;
     }
 <?php endforeach; ?>
 }

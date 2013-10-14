@@ -23,7 +23,7 @@ class Architect extends DataObject
 {
     protected $generator      = 'CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator';
     /**
-     * @var string
+     * @var booelean
      */
     private $generateUnitTest = null;
     /**
@@ -34,6 +34,10 @@ class Architect extends DataObject
      * @var string Target namespace
      */
     private $namespace       = null;
+    /**
+     * @var string Model name
+     */
+    private $modelName       = null;
     /**
      * @var array
      */
@@ -115,6 +119,25 @@ class Architect extends DataObject
     public function getNamespace()
     {
         return $this->namespace;
+    }
+
+    /**
+     * Set ModelName
+     * @param string $value
+     * @return \CrudGenerator\DataObject
+     */
+    public function setModelName($value)
+    {
+    	$this->modelName = $value;
+    	return $this;
+    }
+    /**
+     * Set ModelName
+     * @return string
+     */
+    public function getModelName()
+    {
+    	return $this->modelName;
     }
     /**
      * Get namespace path

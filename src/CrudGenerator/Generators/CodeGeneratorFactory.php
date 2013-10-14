@@ -17,12 +17,14 @@
  */
 namespace CrudGenerator\Generators;
 
+use CrudGenerator\DataObject;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\GeneratorDependenciesFactory;
 use CrudGenerator\Generators\GeneriqueQuestions;
 use CrudGenerator\Generators\Strategies\StrategyInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
+
 
 /**
  * Create CodeGenerator instance
@@ -34,6 +36,10 @@ class CodeGeneratorFactory
      * @var StrategyInterface
      */
     private $strategy = null;
+    /**
+     * @var BaseCodeGenerator
+     */
+    private $instance = null;
 
     /**
      * @param StrategyInterface $strategy
@@ -59,6 +65,61 @@ class CodeGeneratorFactory
         }
         $generatorDependencies = GeneratorDependenciesFactory::getInstance($dialog, $output, $stub);
 
-        return new $class($output, $dialog, $generiqueQuestion, $this->strategy, $generatorDependencies);
+        $class .= 'Factory';
+
+        $this->instance = $class::getInstance($output, $dialog, $generiqueQuestion, $this->strategy, $generatorDependencies);
+
+        return $this;
+    }
+
+    /**
+     * Call the concrete generator
+     * @param DataObject $dataObject
+     * @throws \RuntimeException
+     */
+    public function generate(DataObject $dataObject)
+    {
+        $metadata = $dataObject->getMetadata();
+        if (empty($metadata)) {
+            throw new \RuntimeException('Empty metadata');
+        }
+
+        $identifiers = $metadata->getIdentifier();
+        if (count($identifiers) === 0) {
+            throw new \RuntimeException('The generator does not support entity without primary keys.');
+        }
+
+        if (count($identifiers) !== 1) {
+            throw new \RuntimeException('The generator does not support entity classes with multiple primary keys.');
+        }
+
+        $identifierNames = array();
+        foreach ($identifiers as $identifier) {
+            $identifierNames[] = $identifier->getName();
+        }
+
+        if (!in_array('id', $identifierNames)) {
+            throw new \RuntimeException(
+                    'The generator expects the entity object has a primary key field named "id" with a getId() method.'
+            );
+        }
+
+        return $this->instance->doGenerate($dataObject);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDTO()
+    {
+    	return $this->instance->getDTO();
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefinition()
+    {
+    	return $this->instance->getDefinition();
     }
 }

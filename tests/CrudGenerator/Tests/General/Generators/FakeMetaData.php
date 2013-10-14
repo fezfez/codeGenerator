@@ -1,6 +1,7 @@
 <?php
 
 use CrudGenerator\MetaData\DataObject\MetaDataColumn;
+use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
@@ -34,5 +35,13 @@ $column->setName('myDate')
 ->setLength('100');
 
 $metadata->appendColumn($column);
+
+$relation = new MetaDataRelationColumn();
+$relation->setAssociationType('oneToMany')
+         ->setFieldName('adresse')
+         ->setFullName('test')
+         ->setMetadata(clone $metadata);
+
+$metadata->appendRelation($relation);
 
 return $metadata;

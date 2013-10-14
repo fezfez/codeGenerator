@@ -138,7 +138,8 @@ class GeneratorSandBoxCommand extends Command
         $relation = new MetaDataRelationColumn();
         $relation->setAssociationType('ontomany')
                  ->setFieldName('myName')
-                 ->setFullName('myFullName');
+                 ->setFullName('myFullName')
+                 ->setMetadata(clone $metadata);
 
         $metadata->appendRelation($relation);
 

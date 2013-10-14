@@ -60,7 +60,7 @@ abstract class MetaData
      */
     public function appendColumn(MetaDataColumn $value)
     {
-        $this->columnCollection->append($value);
+        $this->columnCollection->offsetSet($value->getName(), $value);
     }
     /**
      * Append relation dataobject
@@ -80,6 +80,14 @@ abstract class MetaData
         return $this;
     }
 
+    /**
+     * @param string $name
+     * @return mixed
+     */
+    public function getColumn($name)
+    {
+		return $this->columnCollection->offsetGet($name);
+    }
     /**
      * Get column collection
      * @return MetaDataColumnCollection

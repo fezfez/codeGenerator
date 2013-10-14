@@ -44,7 +44,7 @@ class FormGenerator extends BaseCodeGenerator
      * @param DataObject $dataObject
      * @throws \RuntimeException
      */
-    protected function doGenerate($dataObject)
+    public function doGenerate($dataObject)
     {
         $this->skeletonDir = __DIR__ . '/Skeleton';
 

@@ -81,42 +81,7 @@ abstract class BaseCodeGenerator
      * @param DataObject $dataObject
      * @throws \RuntimeException
      */
-    abstract protected function doGenerate($dataObject);
-
-    /**
-     * Call the concrete generator
-     * @param DataObject $dataObject
-     * @throws \RuntimeException
-     */
-    public function generate(DataObject $dataObject)
-    {
-        $metadata = $dataObject->getMetadata();
-        if (empty($metadata)) {
-            throw new \RuntimeException('Empty metadata');
-        }
-
-        $identifiers = $metadata->getIdentifier();
-        if (count($identifiers) === 0) {
-            throw new \RuntimeException('The generator does not support entity without primary keys.');
-        }
-
-        if (count($identifiers) !== 1) {
-            throw new \RuntimeException('The generator does not support entity classes with multiple primary keys.');
-        }
-
-        $identifierNames = array();
-        foreach ($identifiers as $identifier) {
-            $identifierNames[] = $identifier->getName();
-        }
-
-        if (!in_array('id', $identifierNames)) {
-            throw new \RuntimeException(
-                'The generator expects the entity object has a primary key field named "id" with a getId() method.'
-            );
-        }
-
-        return $this->doGenerate($dataObject);
-    }
+    abstract public function doGenerate($dataObject);
 
     /**
      * Get generator definition

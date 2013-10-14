@@ -45,7 +45,7 @@ class CrudGenerator extends BaseCodeGenerator
      * @param DataObject $dataObject
      * @throws \RuntimeException
      */
-    protected function doGenerate($dataObject)
+    public function doGenerate($dataObject)
     {
         $this->output->writeln("<info>CrudGenerator</info>");
 
