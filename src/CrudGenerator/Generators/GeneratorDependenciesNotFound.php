@@ -15,21 +15,13 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\View\Helpers;
+namespace CrudGenerator\Generators;
 
-use CrudGenerator\DataObject;
-use CrudGenerator\MetaData\DataObject\MetaDataColumn;
-use CrudGenerator\View\ViewHelperFactoryInterface;
-use Faker\Factory;
-
-class TextFactory implements ViewHelperFactoryInterface
+/**
+ * CodeGeneratorNotFoundException
+ *
+ * @author Stéphane Demonchaux
+ */
+class GeneratorDependenciesNotFound extends \Exception
 {
-    /**
-     * @param DataObject $dataObject
-     * @return \CrudGenerator\View\Helpers\FixtureRenderer
-     */
-    public static function getInstance(DataObject $dataObject)
-    {
-        return new Text();
-    }
 }

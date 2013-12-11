@@ -32,12 +32,12 @@ class FindAllTest extends \PHPUnit_Framework_TestCase
             self::$fixtureManager->getDatabaseConnection(),
             new <?php echo $this->hydratorName; ?>()
         );
-        $<?php echo $this->entityName; ?>Data = $sUT->findAll();
+        $<?php echo $this->modelName; ?>Data = $sUT->findAll();
 
-        $this->assertEquals(1, $<?php echo $this->entityName; ?>Data->count());
+        $this->assertEquals(1, $<?php echo $this->modelName; ?>Data->count());
         $this->assertInstanceOf(
             '<?php echo $this->dtoCollectionNamespace; ?>',
-            $<?php echo $this->entityName; ?>Data
+            $<?php echo $this->modelName; ?>Data
         );
     }
 }

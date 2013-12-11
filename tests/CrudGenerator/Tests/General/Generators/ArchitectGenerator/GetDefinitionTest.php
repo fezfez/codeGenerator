@@ -48,13 +48,17 @@ class GetDefinitionTest extends \PHPUnit_Framework_TestCase
         $stubGeneratorDependencies =  $this->getMockBuilder('CrudGenerator\Generators\GeneratorDependencies')
         ->disableOriginalConstructor()
         ->getMock();
+        $stubMetaDataToArray =  $this->getMockBuilder('CrudGenerator\Generators\ArchitectGenerator\MetaDataToArray')
+        ->disableOriginalConstructor()
+        ->getMock();
 
         $sUT = new ArchitectGenerator(
             $stubOutput,
             $stubDialog,
             $generiqueQuestion,
             $strategy,
-            $stubGeneratorDependencies
+            $stubGeneratorDependencies,
+        	$stubMetaDataToArray
         );
 
         return $sUT;

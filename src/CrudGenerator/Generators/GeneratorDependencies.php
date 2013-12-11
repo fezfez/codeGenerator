@@ -29,8 +29,14 @@ class GeneratorDependencies
         $this->createCommand  = $createCommand;
     }
 
+    /**
+     * @param string $codeGeneratorName
+     * @throws CodeGeneratorNotFoundException
+     */
     private function codeGeneratorIsset($codeGeneratorName)
     {
+    	$classAwake = new \CrudGenerator\Utils\ClassAwake();
+    	$classAwake->wakeByParent(array(__DIR__ . '/'), 'CrudGenerator\Generators\BaseCodeGenerator');
         if (!class_exists($codeGeneratorName, false)) {
             throw new CodeGeneratorNotFoundException(
                 sprintf(
@@ -44,6 +50,7 @@ class GeneratorDependencies
     /**
      * @param string $codeGeneratorName
      * @throws GeneratorDependenciesNotFound
+     * @throws CodeGeneratorNotFoundException
      * @return \CrudGenerator\DataObject
      */
     public function findDependencie($codeGeneratorName)

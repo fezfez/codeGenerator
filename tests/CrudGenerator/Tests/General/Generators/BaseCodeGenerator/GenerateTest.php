@@ -27,21 +27,19 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         $sUT      = $this->getClass();
         $metadata = $this->getMetadata();
 
-        $dataObject = $this->getMockBuilder('CrudGenerator\DataObject')
-        ->getMockForAbstractClass();
+        $dataObject = new \CrudGenerator\Generators\ArchitectGenerator\Architect;
         $dataObject->setEntity('TestZf2\Entities\NewsEntity');
 
         $this->setExpectedException('RuntimeException');
 
-        $sUT->generate($dataObject);
+        $sUT->doGenerate($dataObject);
     }
 
     public function testFailOnIndentifier()
     {
         $sUT      = $this->getClass();
 
-        $dataObject = $this->getMockBuilder('CrudGenerator\DataObject')
-        ->getMockForAbstractClass();
+        $dataObject = new \CrudGenerator\Generators\ArchitectGenerator\Architect;
         $dataObject->setEntity('TestZf2\Entities\NewsEntity')
                    ->setMetadata(new MetadataDataObjectDoctrine2(
                 new MetaDataColumnCollection(),
@@ -51,7 +49,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('RuntimeException');
 
-        $sUT->generate($dataObject);
+        $sUT->doGenerate($dataObject);
     }
 
     public function testFailOnNameIndentifierMultipe()
@@ -73,7 +71,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('RuntimeException');
 
-        $sUT->generate($dataObject);
+        $sUT->doGenerate($dataObject);
     }
 
     public function testFailOnNameIndentifier()
@@ -91,7 +89,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('RuntimeException');
 
-        $sUT->generate($dataObject);
+        $sUT->doGenerate($dataObject);
     }
 
     /**
@@ -122,13 +120,20 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         $stubGeneratorDependencies =  $this->getMockBuilder('CrudGenerator\Generators\GeneratorDependencies')
         ->disableOriginalConstructor()
         ->getMock();
+        $stubMetaDataToArray =  $this->getMockBuilder('CrudGenerator\Generators\ArchitectGenerator\MetaDataToArray')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $stubMetaDataToArray->expects($this->any())
+        ->method('ask')
+        ->will($this->returnArgument(0));
 
         return new ArchitectGenerator(
             $stubOutput,
             $stubDialog,
             $generiqueQuestion,
             $strategy,
-            $stubGeneratorDependencies
+            $stubGeneratorDependencies,
+        	$stubMetaDataToArray
         );
     }
 

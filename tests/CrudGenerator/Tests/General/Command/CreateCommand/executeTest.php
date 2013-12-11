@@ -23,7 +23,7 @@ class executeTest extends \PHPUnit_Framework_TestCase
 
     public function testFadzadazdzail()
     {
-        $ArchitectGeneratorStub = $this->getMockBuilder('\CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator')
+        $ArchitectGeneratorStub = $this->getMockBuilder('\CrudGenerator\Generators\CodeGeneratorFactory')
         ->disableOriginalConstructor()
         ->getMock();
         $ArchitectGeneratorStub->expects($this->once())
@@ -100,7 +100,7 @@ class executeTest extends \PHPUnit_Framework_TestCase
 
     public function testYesdzadz()
     {
-        $ArchitectGeneratorStub = $this->getMockBuilder('\CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator')
+        $ArchitectGeneratorStub = $this->getMockBuilder('\CrudGenerator\Generators\CodeGeneratorFactory')
         ->disableOriginalConstructor()
         ->getMock();
         $ArchitectGeneratorStub->expects($this->once())

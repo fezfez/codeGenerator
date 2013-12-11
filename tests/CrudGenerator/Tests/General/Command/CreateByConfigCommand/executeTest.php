@@ -23,6 +23,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
+use CrudGenerator\Tests\General\History\HistoryManager\YampToDtoTest;
 
 class executeTest extends \PHPUnit_Framework_TestCase
 {
@@ -140,7 +141,7 @@ class executeTest extends \PHPUnit_Framework_TestCase
 
     public function testYes()
     {
-        $ArchitectGeneratorStub = $this->getMockBuilder('\CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator')
+        $ArchitectGeneratorStub = $this->getMockBuilder('\CrudGenerator\Generators\CodeGeneratorFactory')
         ->disableOriginalConstructor()
         ->getMock();
         $historyStub = $this->getMockBuilder('CrudGenerator\History\HistoryManager')
@@ -169,12 +170,13 @@ class executeTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $ArchitectGeneratorStub->expects($this->once())
-        ->method('generate')
-        ->will($this->returnValue(new \CrudGenerator\Generators\ArchitectGenerator\Architect()));
+        $dto = new \CrudGenerator\Generators\ArchitectGenerator\Architect();
         $ArchitectGeneratorStub->expects($this->once())
         ->method('getDTO')
         ->will($this->returnValue('\CrudGenerator\Generators\ArchitectGenerator\Architect'));
+        $ArchitectGeneratorStub->expects($this->once())
+        ->method('generate')
+        ->will($this->returnValue($dto));
 
         /*$historyStub->expects($this->once())
         ->method('CreateByConfig')

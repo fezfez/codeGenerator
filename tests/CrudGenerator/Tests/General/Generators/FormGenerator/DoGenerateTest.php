@@ -58,7 +58,7 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
             $strategy,
             $stubGeneratorDependencies
         );
-        $sUT->generate($metadata);
+        $sUT->doGenerate($metadata);
     }
 
     private function getMetadata()

@@ -25,7 +25,6 @@ use CrudGenerator\Generators\Strategies\StrategyInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 
-
 /**
  * Create CodeGenerator instance
  * @author Stéphane Demonchaux

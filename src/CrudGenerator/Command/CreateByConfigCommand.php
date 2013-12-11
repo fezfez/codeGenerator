@@ -125,6 +125,7 @@ class CreateByConfigCommand extends Command
 
             // @TODO add metadatasource
 
+            /* @var $dataObject \CrudGenerator\DataObject */
             $dataObject = new $DTOName();
             $dataObject->setEntity($generationInformation->getMetaData()->getName())
                        ->setModule($generalInformation->getPathToModels())
@@ -142,7 +143,7 @@ class CreateByConfigCommand extends Command
                 "\n<question>Do you confirm generation (may others question generator ask you) ?</question> "
             );
 
-            if ($doI === true) {
+            if (true === $doI) {
                 $dataObject = $generator->generate($dataObject);
                 $this->historyManager->create($dataObject);
             } else {

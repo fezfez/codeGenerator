@@ -53,7 +53,7 @@ class MetaDataSourcesQuestion
     /**
      * Ask wich MetaData Source you want to use
      * @param string $default
-     * @return MetaDataSource
+     * @return \CrudGenerator\MetaData\MetaDataSource
      */
     public function ask($choice = null)
     {

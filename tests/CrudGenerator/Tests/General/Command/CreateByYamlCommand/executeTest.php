@@ -27,7 +27,7 @@ class executeTest extends \PHPUnit_Framework_TestCase
         $CodeGeneratorFactoryStub = $this->getMockBuilder('\CrudGenerator\Generators\CodeGeneratorFactory')
         ->disableOriginalConstructor()
         ->getMock();
-        $ArchitectGeneratorStub = $this->getMockBuilder('\CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator')
+        $ArchitectGeneratorStub = $this->getMockBuilder('\CrudGenerator\Generators\CodeGeneratorFactory')
         ->disableOriginalConstructor()
         ->getMock();
         $CodeGeneratorFactoryStub->expects($this->any())
@@ -71,9 +71,11 @@ class executeTest extends \PHPUnit_Framework_TestCase
         $CodeGeneratorFactoryStub = $this->getMockBuilder('\CrudGenerator\Generators\CodeGeneratorFactory')
         ->disableOriginalConstructor()
         ->getMock();
-        $ArchitectGeneratorStub = $this->getMockBuilder('\CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator')
+        $ArchitectGeneratorStub = $this->getMockBuilder('\CrudGenerator\Generators\CodeGeneratorFactory')
         ->disableOriginalConstructor()
         ->getMock();
+        $ArchitectGeneratorStub->expects($this->once())
+        ->method('generate');
         $CodeGeneratorFactoryStub->expects($this->any())
         ->method('create')
         ->will($this->returnValue($ArchitectGeneratorStub));

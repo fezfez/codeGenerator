@@ -129,6 +129,7 @@ class CreateCommand extends Command
 
         $DTOName    = $generator->getDTO();
 
+        /* @var $dataObject \CrudGenerator\DataObject */
         $dataObject = new $DTOName();
         $dataObject->setEntity($metadata->getName())
                    ->setModule($directory)

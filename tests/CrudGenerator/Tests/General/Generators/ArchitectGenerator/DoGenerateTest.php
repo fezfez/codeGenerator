@@ -28,7 +28,7 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
             'CrudGenerator\Generators\ArchitectGenerator\Architect',
-            $sUT->generate($metadata)
+            $sUT->doGenerate($metadata)
         );
 
         $metadata = new Architect();
@@ -37,7 +37,7 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
             'CrudGenerator\Generators\ArchitectGenerator\Architect',
-            $sUT->generate($metadata)
+            $sUT->doGenerate($metadata)
         );
     }
 
@@ -73,13 +73,20 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
         $stubGeneratorDependencies =  $this->getMockBuilder('CrudGenerator\Generators\GeneratorDependencies')
         ->disableOriginalConstructor()
         ->getMock();
+        $stubMetaDataToArray =  $this->getMockBuilder('CrudGenerator\Generators\ArchitectGenerator\MetaDataToArray')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $stubMetaDataToArray->expects($this->any())
+        ->method('ask')
+        ->will($this->returnArgument(0));
 
         $sUT = new ArchitectGenerator(
             $stubOutput,
             $stubDialog,
             $generiqueQuestion,
             $strategy,
-            $stubGeneratorDependencies
+            $stubGeneratorDependencies,
+        	$stubMetaDataToArray
         );
 
         return $sUT;

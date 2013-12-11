@@ -40,7 +40,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $DTO = $sUT->ask($DTO);
 
-        var_export($DTO->getAttributeName());exit;
+        $DTO->getAttributeName();
     }
 
     private function getMetadata()

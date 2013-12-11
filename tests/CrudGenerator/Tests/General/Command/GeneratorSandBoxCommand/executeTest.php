@@ -14,12 +14,14 @@ class executeTest extends \PHPUnit_Framework_TestCase
 {
    public function testInstance()
     {
-        $ArchitectGeneratorStub = $this->getMockBuilder('\CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator')
+        $ArchitectGeneratorStub = $this->getMockBuilder('\CrudGenerator\Generators\CodeGeneratorFactory')
         ->disableOriginalConstructor()
         ->getMock();
         $ArchitectGeneratorStub->expects($this->once())
         ->method('getDTO')
         ->will($this->returnValue('\CrudGenerator\Generators\ArchitectGenerator\Architect'));
+        $ArchitectGeneratorStub->expects($this->once())
+        ->method('generate');
 
         $GeneratorQuestionStub = $this->getMockBuilder('CrudGenerator\Command\Questions\GeneratorQuestion')
         ->disableOriginalConstructor()

@@ -20,13 +20,13 @@ namespace CrudGenerator\Utils;
 use ReflectionClass;
 
 /**
- * Aloow to awake classes
+ * Allow to awake classes
  */
 class ClassAwake
 {
     /**
      * Awake classes by interface
-     * @param string $dir Target directory
+     * @param array $directories Target directory
      * @param string $interfaceName Interface name
      * @return array
      */
@@ -50,30 +50,30 @@ class ClassAwake
 
     /**
      * Awake classes by parent
-     * @param string $dir Target directory
+     * @param array $directories Target directories
      * @param string $parent Parent name
      * @return array
      */
     public function wakeByParent(array $directories, $parent)
     {
-        $classCollection = $this->awake($directories);
-        $classes         = array();
+            $classCollection = $this->awake($directories);
+            $classes         = array();
 
-        foreach ($classCollection as $className) {
-            $reflectionClass = new ReflectionClass($className);
-            $parentClass     = $reflectionClass->getParentClass();
+            foreach ($classCollection as $className) {
+                $reflectionClass = new ReflectionClass($className);
+                $parentClass     = $reflectionClass->getParentClass();
 
-            if (is_object($parentClass) && $parentClass->name == $parent) {
-                $classes[] = $className;
+                if (is_object($parentClass) && $parentClass->name == $parent) {
+                    $classes[] = $className;
+                }
             }
-        }
 
         return $classes;
     }
 
     /**
-     * Find clases on directory
-     * @param string $dir Target directory
+     * Find classes on directory
+     * @param array $directories Target directory
      * @return array
      */
     private function awake(array $directories)
