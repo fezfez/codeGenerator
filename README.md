@@ -14,8 +14,17 @@ Roadmap
 
 Template
 --------
-* Fk management
+* Fk management in DAO, DTO, Hydrator, From
+* Choise form type (select, input etc... )
+* Symfony 2
+* Phalcon PHP
 
 Generator
 ---------
 * Yaml backend
+* Dependencies between entities, table
+* Dependencies between generator
+* Environment manager (more flexible for unit tests)
+* Clear dto attribute
+* Clear unit test
+* Graphic generator

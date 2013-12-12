@@ -1,0 +1,73 @@
+name : ArchitectGenerator
+definition : Generate DAO, DTO, Hydrator, Exception, unit test
+dto : CrudGenerator\Generators\ArchitectGenerator\Architect
+questions : 
+    - 
+        type : complex
+        factory : CrudGenerator\Generators\Helpers\DirectoryValidatorFactory
+    - 
+        dtoAttribute : Namespace
+        text : Choose a target namespace
+    - 
+        dtoAttribute : ModelName
+        text : Choose a model name
+        defaultResponse : <?php ucfirst($metadataName); ?>
+    - 
+        type : complex
+        factory : CrudGenerator\Generators\ArchitectGenerator\MetadataToArrayFactory
+directories :
+    - <?php $basePath; ?>/DAO/
+    - <?php $basePath; ?>/Hydrator/
+    - <?php $basePath; ?>/DataObject/
+    - <?php $unitTestDirectory; ?>DAOFactory
+    - <?php $unitTestDirectory; ?>DAO
+    - <?php $unitTestDirectory; ?>Hydrator
+        
+templateVariables : 
+    - basePath                 : <?php $dto->getModule(); ?>/<?php $dto->getDirectory(); ?>
+    - modelName                : <?php $dto->getModelName(); ?>
+    - ucFirstModel             : <?php ucfirst($dto->getModelName()); ?>
+    - modelName                : <?php $ucFirstModel; ?>
+    - ucfirstEntityName        : <?php $ucFirstModel; ?>
+    - hydratorName             : <?php $ucFirstModel; ?>Hydrator
+    - dataObjectName           : <?php $ucFirstModel; ?>DataObject
+    - collectionName           : <?php $ucFirstModel; ?>Collection
+    - daoName                  : <?php $ucFirstModel; ?>DAO
+    - exceptionName            : No<?php $ucFirstModel; ?>Exception
+    - daoNamespace             : <?php $dto->getNamespace(); ?>\DAO\<?php $ucFirstModel; ?>DAO
+    - dtoNamespace             : <?php $dto->getNamespace(); ?>\DataObject\<?php $ucFirstModel; ?>DataObject
+    - hydratorNamespace        : <?php $dto->getNamespace(); ?>\Hydrator\<?php $ucFirstModel; ?>Hydrator
+    - dtoCollectionNamespace   : <?php $dto->getNamespace(); ?>\DataObject\<?php $ucFirstModel; ?>Collection
+    - exceptionNamespace       : <?php $dto->getNamespace(); ?>\No<?php $ucFirstModel; ?>Exception
+    # unit test
+    - unitTestNamespace        : Tests\<?php $dto->getNamespace(); ?>\<?php $ucFirstModel; ?>
+    - fixtureName              : <?php $ucFirstModel; ?>Fixture
+    - fixtureNamespace         : Tests\<?php $dto->getNamespace(); ?>\<?php $ucFirstModel; ?>\<?php $fixtureName; ?>
+    - environnementCondition   : # reserved word
+        - zf2 : 
+            unitTestDirectory : <php $dto->getModule(); ?>/Tests/<?php str_replace('\\', '/', $dto->getNamespace()); ?>/<?php $ucFirstModel; ?>
+        - else :
+            unitTestDirectory : Tests/<?php str_replace('\\', '/', $dto->getNamespace()); ?>/<?php $ucFirstModel; ?>
+
+filesList :
+    - /Exception.php.phtml            : /No<?php $ucFirstModel; ?>Exception.php
+    - /DAOFactory.php.phtml           : /<?php $ucFirstModel; ?>DAOFactory.php
+    - /DAO.php.phtml                  : /DAO/<?php $ucFirstModel; ?>DAO.php
+    - /Hydrator.php.phtml             : /Hydrator/<?php $ucFirstModel; ?>Hydrator.php
+    - /DataObject.php.phtml           : /DataObject/<?php $ucFirstModel; ?>DataObject.php
+    - /DataObjectCollection.php.phtml : /DataObject/<?php $ucFirstModel; ?>Collection.php
+    # unit test
+    - /test/Fixture.php.phtml                    : <?php $unitTestDirectory . $ucFirstModel; ?>Fixture.php
+    - /test/DAOFactory/getInstanceTest.php.phtml : <?php $unitTestDirectory; ?>DAOFactory/GetInstanceTest.php
+    - /test/DAO/findTest.php.phtml               : <?php $unitTestDirectory; ?>DAO/FindTest.php
+    - /test/DAO/findAllTest.php.phtml            : <?php $unitTestDirectory; ?>DAO/FindAllTest.php
+    - /test/DAO/persistTest.php.phtml            : <?php $unitTestDirectory; ?>DAO/PersitTest.php
+    - /test/DAO/modifyTest.php.phtml             : <?php $unitTestDirectory; ?>DAO/ModifyTest.php
+    - /test/DAO/removeTest.php.phtml             : <?php $unitTestDirectory; ?>DAO/RemoveTest.php
+    - /test/Hydrator/arrayToPopoTest.php.phtml   : <?php $unitTestDirectory; ?>Hydrator/ArrayToPopoTest.php
+    - /test/Hydrator/popoToArrayTest.php.phtml   : <?php $unitTestDirectory; ?>Hydrator/PopoToArrayTest.php
+    - environnementCondition   : # reserved word
+        - zf2 : 
+            - !isFile :
+                /test/Bootstrap.php.zf2.phtml       : <?php $dto->getModule(); ?>/Tests/Bootstrap.php
+                /test/TestConfig.php.dist.zf2.phtml : <?php $dto->getModule(); ?>/Tests/TestConfig.php.dist
