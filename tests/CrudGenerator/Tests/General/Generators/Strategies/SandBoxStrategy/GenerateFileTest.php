@@ -52,4 +52,33 @@ class GenerateFileTest extends \PHPUnit_Framework_TestCase
 
         $sUT->generateFile($dataObject, $skeletonDir, $pathTemplate, $pathTo);
     }
+
+    public function testFilter()
+    {
+    	$view = $this->getMockBuilder('CrudGenerator\View\View')
+    	->disableOriginalConstructor()
+    	->getMock();
+    	$output =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+    	->disableOriginalConstructor()
+    	->getMock();
+    	$dialog =  $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
+    	->disableOriginalConstructor()
+    	->getMock();
+
+    	$templateResult = 'MyResults';
+    	$dataObject     = new Architect();
+    	$skeletonDir    = 'MySkeletonDir';
+    	$pathTemplate   = 'myPathTemplate';
+    	$pathTo         = 'MyPathTo';
+
+    	$view->expects($this->never())
+    	->method('render');
+
+    	$dialog->expects($this->never())
+    	->method('askConfirmation');
+
+    	$sUT = new SandBoxStrategy($view, $output, $dialog, 'path');
+
+    	$sUT->generateFile($dataObject, $skeletonDir, $pathTemplate, $pathTo);
+    }
 }

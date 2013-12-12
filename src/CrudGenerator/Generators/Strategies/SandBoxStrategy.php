@@ -70,7 +70,7 @@ class SandBoxStrategy implements StrategyInterface
      */
     public function generateFile(DataObject $dataObject, $skeletonDir, $pathTemplate, $pathTo, array $suppDatas = array())
     {
-        if ($this->filter != null && strstr($pathTemplate, $this->filter) == false) {
+        if ($this->filter !== null && stristr($this->filter, $pathTemplate) === false) {
             return;
         }
 

@@ -139,18 +139,19 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
     	$stubOutput =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
     	->disableOriginalConstructor()
     	->getMock();
-    	$strategy =  $this->getMockBuilder('CrudGenerator\Generators\Strategies\GeneratorStrategy')
+    	$strategy =  $this->getMockBuilder('CrudGenerator\Generators\Strategies\SandBoxStrategy')
+    	->disableOriginalConstructor()
+    	->getMock();
+    	$stubDialog =  $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
     	->disableOriginalConstructor()
     	->getMock();
 
     	$codeGenerator = new CodeGeneratorFactory($strategy);
     	$sUT = $codeGenerator->create(
-    			$stubOutput,
-    			new DialogHelper(),
-    			'CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator'
+    		$stubOutput,
+    		$stubDialog,
+    		'CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator'
     	);
-
-    	$this->setExpectedException('RuntimeException');
 
     	$metadata = new MetadataDataObjectDoctrine2(new MetaDataColumnCollection(), new MetaDataRelationCollection());
     	$column = new MetaDataColumn();
@@ -162,6 +163,6 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
     	$dataObject->setEntity('TestZf2\Entities\NewsEntity')
     	->setMetadata($metadata);
 
-    	//$sUT->generate($dataObject);
+    	$sUT->generate($dataObject);
     }
 }
