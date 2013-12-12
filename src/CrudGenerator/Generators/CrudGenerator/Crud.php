@@ -65,6 +65,52 @@ class Crud extends DataObject
         return $this;
     }
     /**
+     * @param boolean $value
+     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
+     */
+    public function setWriteAction($value)
+    {
+        $this->writeAction = $value;
+        return $this;
+    }
+    /**
+     * @param string $value
+     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
+     */
+    public function setDisplayName($value)
+    {
+        $this->displayName = $value;
+        return $this;
+    }
+    /**
+     * @param string $value
+     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
+     */
+    public function setPrefixRouteName($value)
+    {
+        $this->prefixRouteName = $value;
+        return $this;
+    }
+    /**
+     * @param string $value
+     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
+     */
+    public function setDisplayNames($value)
+    {
+        $this->displayNames = $value;
+        return $this;
+    }
+    /**
+     * @param string $value
+     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
+     */
+    public function setControllerName($value)
+    {
+        $this->controllerName = $value;
+        return $this;
+    }
+
+    /**
      * @param string $attribute
      * @return string|null
      */
@@ -77,20 +123,11 @@ class Crud extends DataObject
         }
     }
     /**
-     * @return string
+     * @return boolean
      */
     public function getWriteAction()
     {
         return $this->writeAction;
-    }
-    /**
-     * @param string $value
-     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
-     */
-    public function setWriteAction($value)
-    {
-        $this->writeAction = $value;
-        return $this;
     }
     /**
      * @return string
@@ -100,29 +137,11 @@ class Crud extends DataObject
         return $this->prefixRouteName;
     }
     /**
-     * @param string $value
-     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
-     */
-    public function setPrefixRouteName($value)
-    {
-        $this->prefixRouteName = $value;
-        return $this;
-    }
-    /**
      * @return string
      */
     public function getDisplayName()
     {
         return $this->displayName;
-    }
-    /**
-     * @param string $value
-     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
-     */
-    public function setDisplayName($value)
-    {
-        $this->displayName = $value;
-        return $this;
     }
     /**
      * @return string
@@ -132,29 +151,11 @@ class Crud extends DataObject
         return $this->displayNames;
     }
     /**
-     * @param string $value
-     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
-     */
-    public function setDisplayNames($value)
-    {
-        $this->displayNames = $value;
-        return $this;
-    }
-    /**
      * @return string
      */
     public function getControllerName()
     {
         return $this->controllerName;
-    }
-    /**
-     * @param string $value
-     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
-     */
-    public function setControllerName($value)
-    {
-        $this->controllerName = $value;
-        return $this;
     }
     /**
      * @return string

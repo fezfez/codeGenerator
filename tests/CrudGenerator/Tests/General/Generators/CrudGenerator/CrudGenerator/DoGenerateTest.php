@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\General\Generators\CrudGenerator;
+namespace CrudGenerator\Tests\General\Generators\CrudGenerator\CrudGenerator;
 
 use CrudGenerator\View\ViewFactory;
 use CrudGenerator\Utils\FileManager;
@@ -80,6 +80,6 @@ class DoGenerateTest extends \PHPUnit_Framework_TestCase
 
     private function getMetadata()
     {
-        return include __DIR__ . '/../FakeMetaData.php';
+        return include __DIR__ . '/../../FakeMetaData.php';
     }
 }
