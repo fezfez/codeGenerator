@@ -98,7 +98,7 @@ class MetaDataConfigReader
 
         while ($continue) {
             try {
-                $adapterConfig->test($this->output);
+                $adapterConfig->test();
 
                 $continue = false;
                 break;

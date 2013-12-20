@@ -38,10 +38,14 @@ class TemplateDatabaseConnectorFactory implements ViewHelperFactoryInterface
     {
         $metadata = $dataObject->getMetadata();
 
-        if ($metadata instanceof MetadataDataObjectDoctrine2) {
+        if(empty($metadata)) {
+        	throw new \InvalidArgumentException("Empty metadata");
+        } elseif ($metadata instanceof MetadataDataObjectDoctrine2) {
             $strategy = new ZendFramework2Strategy();
         } elseif ($metadata instanceof MetadataDataObjectPDO) {
             $strategy = new PDOStrategy();
+        } else {
+        	throw new \InvalidArgumentException("Is not supported '" . get_class($metadata) . "'");
         }
 
         return new TemplateDatabaseConnector($strategy);

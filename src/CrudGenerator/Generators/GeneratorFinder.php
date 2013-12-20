@@ -21,6 +21,7 @@ use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\ClassAwake;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Find all generator allow in project
@@ -56,16 +57,31 @@ class GeneratorFinder
      */
     public function getAllClasses()
     {
-        $paths = $this->checkZf2Configuration(
+        $directories = $this->checkZf2Configuration(
             array(
                 __DIR__ . '/'
             )
         );
 
-        return $this->classAwake->wakeByParent(
-            $paths,
-            'CrudGenerator\Generators\BaseCodeGenerator'
-        );
+        $generators = array();
+        foreach ($directories as $directorie) {
+        	$iterator = new \RegexIterator(
+        		new \RecursiveIteratorIterator(
+        				new \RecursiveDirectoryIterator($directorie, \FilesystemIterator::SKIP_DOTS),
+        				\RecursiveIteratorIterator::LEAVES_ONLY
+        		),
+        		'/^.+' . preg_quote('.generator.yaml') . '$/i',
+        		\RecursiveRegexIterator::GET_MATCH
+        	);
+
+
+        	foreach ($iterator as $file) {
+				$yaml = Yaml::parse(file_get_contents($file[0]), true);
+        		$generators[$file[0]] = $yaml['name'];
+        	}
+        }
+
+        return $generators;
     }
 
     /**

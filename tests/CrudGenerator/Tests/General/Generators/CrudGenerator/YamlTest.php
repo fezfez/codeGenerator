@@ -88,9 +88,9 @@ class YamlTest extends \PHPUnit_Framework_TestCase
         							} catch (\CrudGenerator\EnvironnementResolver\EnvironnementResolverException $e) {
         							}
         						} elseif($environment === 'else') {
-        								$environmentTragetFileValue = $parser->parse($environmentTragetFile);
-        								echo "ELSE";
-        								echo "$environmentTemplateName => $environmentTragetFileValue \n";
+        							$environmentTragetFileValue = $parser->parse($environmentTragetFile);
+        							echo "ELSE";
+        							echo "$environmentTemplateName => $environmentTragetFileValue \n";
         						}
         					}
         				}

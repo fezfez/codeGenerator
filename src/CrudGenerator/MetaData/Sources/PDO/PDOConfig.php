@@ -169,15 +169,13 @@ class PDOConfig extends AbstractConfig
 
     /**
      * Test if its well configured
-     * @param OutputInterface $output
      * @throws ConfigException
      * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
      */
-    public function test(OutputInterface $output)
+    public function test()
     {
         try {
             new \PDO($this->type . ':dbname='.$this->databaseName . ';host='.$this->host, $this->user, $this->password);
-            $output->writeLn('<info>Connection work !</info>');
             return $this;
         } catch (\PDOException $e) {
             throw new ConfigException('<error>Connection failed with "' . $e->getMessage() . '"</error>');

@@ -1,0 +1,49 @@
+name : CrudGenerator
+definition : Generate CRUD based on ArchitectGenerator utilisation
+dto : CrudGenerator\Generators\CrudGenerator\Crud
+dependencies :
+    CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator
+questions : 
+    - 
+        dtoAttribute : DisplayName
+        text : Display name (in view, title etc..)
+        defaultResponse : <?php $metadataName; ?>
+    - 
+        dtoAttribute : DisplayNames
+        text : Display name au plurielle (in view, title etc..)
+        defaultResponse : <?php $metadataName; ?>s
+    - 
+        dtoAttribute : ControllerName
+        text : Controller name (ucFirst and without "Controller")
+        defaultResponse : <?php ucfirst($metadataName); ?>
+    - 
+        dtoAttribute : PrefixRouteName
+        text : Prefix route name (lower case)
+        defaultResponse : !uncamelcase($metadataName)!
+directories :
+    - <?php $dto->findControllerPath(); ?>
+    - <?php $dto->findViewPath(); ?>
+templateVariables : 
+    - homeRoute              : <?php $dto->getPrefixRouteName(); ?>
+    - newRoute               : <?php $homeRoute; ?>-new
+    - showRoute              : <?php $homeRoute; ?>-show
+    - editRoute              : <?php $homeRoute; ?>-edit
+    - deleteRoute            : <?php $homeRoute; ?>-delete
+    - ucFirstMetadataName    : <?php ucfirst($metadataName); ?>
+    - hydratorName           : <?php $ucFirstMetadataName; ?>Hydrator
+    - dataObjectName         : <?php $ucFirstMetadataName; ?>DataObject
+    - collectionName         : <?php $ucFirstMetadataName; ?>Collection
+    - daoFactoryName         : <?php $ucFirstMetadataName; ?>DAOFactory
+    - exceptionName          : No<?php $ucFirstMetadataName; ?>Exception
+    - daoFactoryNamespace    : <?php $architectGenerator->getNamespace(); ?>\<?php $ucFirstMetadataName; ?>DAOFactory
+    - dtoNamespace           : <?php $architectGenerator->getNamespace(); ?>\DataObject\<?php $ucFirstMetadataName; ?>DataObject
+    - hydratorNamespace      : <?php $architectGenerator->getNamespace(); ?>\Hydrator\<?php $ucFirstMetadataName; ?>Hydrator
+    - dtoCollectionNamespace : <?php $architectGenerator->getNamespace(); ?>\DataObject\<?php $ucFirstMetadataName; ?>Collection
+    - exceptionNamespace     : <?php $architectGenerator->getNamespace(); ?>\No<?php $ucFirstMetadataName; ?>Exception
+filesList :
+    - /controller.php.phtml : $dataObject->findControllerPath() . !$dataObject->getControllerName()!Controller.php',
+    - /views/index.phtml    : $dataObject->findViewPath() . 'index.phtml',
+    - /views/show.phtml     : $dataObject->findViewPath() . 'show.phtml',
+    - /views/new.phtml      : $dataObject->findViewPath() . 'new.phtml',
+    - /views/edit.phtml     : $dataObject->findViewPath() . 'edit.phtml',
+    - /views/edit-js.phtml  : $dataObject->findViewPath() . 'edit-js.phtml
