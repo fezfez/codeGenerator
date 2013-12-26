@@ -25,6 +25,7 @@ namespace CrudGenerator\Generators;
 
 class Generator implements \JsonSerializable
 {
+	private $questions = array();
 	/**
 	 * @var array
 	 */
@@ -41,6 +42,9 @@ class Generator implements \JsonSerializable
 	 * @var string
 	 */
 	private $name = null;
+	/**
+	 * @var unknown
+	 */
 	private $dto = null;
 
 	/**
@@ -89,6 +93,24 @@ class Generator implements \JsonSerializable
 	 * @param string $name
 	 * @return \CrudGenerator\Generators\Generator
 	 */
+	public function addQuestion(array $question)
+	{
+		$this->questions[] = $question;
+		return $this;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getQuestion()
+	{
+		return $this->questions;
+	}
+
+	/**
+	 * @param string $name
+	 * @return \CrudGenerator\Generators\Generator
+	 */
 	public function addFile($name, $value)
 	{
 		$this->files[$name] = $value;
@@ -124,7 +146,8 @@ class Generator implements \JsonSerializable
 			'templateVariable' => $this->templateVariable,
 			'files' => $this->files,
 			'directories' => $this->directories,
-			'name' => $this->name
+			'name' => $this->name,
+			'questions' => $this->questions
 		);
 	}
 }

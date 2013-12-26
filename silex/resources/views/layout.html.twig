@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en"  ng-app="GeneratorApp">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
+
+    <title>Code Generator</title>
+
+    <link rel="stylesheet" href="{{ app.request.basepath }}/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ app.request.basepath }}/assets/css/shCoreDefault.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+</head>
+<body ng-controller="GeneratorCtrl">
+<!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+    {% set active = active|default(null) %}
+    <div class="navbar navbar-inverse" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Code Generator</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <div class="form-group">
+              Backend :
+              <select name="backend" class="form-control" ng-model="backEnd" ng-change="change()" ng-options="obj.id as obj.label for obj in backendList">
+              <option value="">Select Backend</option>
+              </select>
+            </div>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+            {% block content %}
+            {% endblock %}
+            <div id="test" class="row">
+
+            </div>
+            <form id="questions">
+            </form>
+    </div>
+    <!-- Modal -->
+<div class="modal fade" id="configuration-modal" tabindex="-1" role="dialog" aria-labelledby="configuration-modal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Configuration</h4>
+      </div>
+      <div class="modal-body">
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script src="{{ app.request.basepath }}/assets/js/angular.min.js"></script>
+    <script src="{{ app.request.basepath }}/assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/shCore.js"></script>
+	<script type="text/javascript" src="{{ app.request.basepath }}/assets/js/shBrushPhp.js"></script>
+    <script type="text/javascript">
+
+
+    // Define our AngularJS application module.
+    var GeneratorApp = angular.module( "GeneratorApp", [] );
+
+    GeneratorApp.controller("GeneratorCtrl", function($scope, $http) {
+    	$scope.backendList = [{id : 'myValue', label : 'myText'}];
+    	$scope.change = function() {
+			console.log($scope.backEnd);
+		    $http(
+				{
+					method: 'POST',
+					url: 'metadata',
+					data : {
+						backend : $scope.backEnd
+					}
+				}
+			).success(function(data, status, headers, config) {
+		    // this callback will be called asynchronously
+		    // when the response is available
+		    }).error(function(data, status, headers, config) {
+		    // called asynchronously if an error occurs
+		    // or server returns response with an error status.
+		    });
+        };
+	});
+
+
+$('#form_Backend').on('change', function() {
+    $.ajax({
+        type: "POST",
+        url: "metadata",
+        data: { backend: $('#form_Backend').val() }
+    })
+    .done(function( msg ) {
+            if(msg.config !== undefined) {
+                $('#configuration-modal .modal-body').empty(); $('#configuration-modal .modal-body')
+                $('#configuration-modal .modal-body').append(msg.config);
+                $('#configuration-modal').modal('show');
+                $("#configuration-modal form").submit(function(){
+                    $.ajax({
+                        type:"POST",
+                        data: $(this).serialize() + '&'+$('#form_Backend').serialize(),
+                        url : $(this).attr('action')
+                    }).done(function(data){
+                        if (data.error !== undefined) {
+                            $('#alert-config').remove();
+                            $("#configuration-modal .modal-body").prepend('<div id="alert-config" class="alert alert-danger fade in">' + data.error + '</div>');
+                        } else {
+                            $('#configuration-modal').modal('hide');
+                        }
+                    });
+                    return false;
+                });
+            } else if (msg.metadatas !== undefined) {
+                var metadatasString = '';
+                $.each(msg.metadatas, function(name) {
+                    metadatasString += '<option value="' + name +'">' + name + '</option>';
+                });
+                $('#form').append(
+                    '<div class="control-group">'+
+                        '<label for="form_Backend" class="control-label required">Metadata</label>'+
+                        '<div class="controls">'+
+                            '<select name="form[Metadata]" id="form_Metadata">'+
+                                metadatasString +
+                            '</select>'+
+                        '</div>'+
+                    '</div>'
+                );
+            }
+        }
+    );
+});
+function swapJsonKeyValues(input) {
+    var one, output = {};
+    for (one in input) {
+        if (input.hasOwnProperty(one)) {
+            output[input[one]] = one;
+        }
+    }
+    return output;
+}
+
+var generator = {
+	oldGenerator : null,
+	ajax : function() {
+		var self = this;
+		$.ajax({
+	        type: "POST",
+	        url: "generator",
+	        data: {
+	            generator: $('#form_Generator').val(),
+	            backend: $('#form_Backend').val(),
+	            metadata : $('#form_Metadata').val(),
+	            questions : $('#questions').serialize()
+	        }
+	    })
+	    .done(function( data ) {
+
+	        var countProfondeurMax = null,
+	            profondeur = null,
+	            profondeurFiles = new Array(),
+	            filesByValue = swapJsonKeyValues(data.generator.files);
+	        $.each(data.generator.files, function(id, name) {
+
+	            if(typeof name != 'string') {
+	                return;
+	            }
+	            profondeur = name.split('/').length;
+
+	            if(countProfondeurMax < profondeur) {
+	                countProfondeurMax = profondeur;
+	            }
+	            if(profondeurFiles[profondeur] === undefined) {
+	                profondeurFiles[profondeur] = new Array();
+	            }
+	            profondeurFiles[profondeur].push(name);
+	        });
+
+	        if(self.oldGenerator !== $('#form_Generator').val()) {
+		        $.each(data.generator.questions, function(id, name) {
+					$('#questions').append(
+				         '<div class="form-group">'+
+				            '<label for="' + name.dtoAttribute + '">' + name.text + '</label>'+
+							'<input class="form-control" id="' + name.dtoAttribute + '" type="text" name="' + name.dtoAttribute + '" placeholder="' + name.text + '" />' +
+						'</div>'
+					);
+		        });
+		        $('#questions input').on('keyup', function() {
+					self.ajax();
+			    });
+	        }
+
+	        $('#test').empty();
+	        var countFile = 0;
+	        for(var i = 1 ; i <= countProfondeurMax ; i++){
+	            if(profondeurFiles[i] !== undefined) {
+	            	$('#test').append('<div class="col-lg-' + Math.floor(12 / countProfondeurMax) + '" id="test-' + i +'"></div>');
+	                $.each(profondeurFiles[i], function(id, name) {
+	                    var tmp = $('#test-' + i + '').append('<div class="file" id="file-' + '-' + countFile + '">' + name + '</div>');
+	                    $('#file-' + '-' + countFile).on('click', function() {
+	                        $.ajax({
+	                            type: "POST",
+	                            url: "view-file",
+	                            data : {
+	                                generator: $('#form_Generator').val(),
+	                                file : filesByValue[name],
+	                                backend : $('#form_Backend').val(),
+	                                metadata : $('#form_Metadata').val(),
+	                	            questions : $('#questions').serialize()
+	                            }
+	                        }).done(function(data) {
+	                            $('#configuration-modal .modal-title').empty().append(name);
+	                            $('#configuration-modal .modal-body').empty().append('<pre class="brush: php;">' + data.generator + '<pre>');
+	                            $('#configuration-modal').modal('show');
+	                            SyntaxHighlighter.highlight();
+	                        });
+	                    });
+	                    countFile++;
+	                });
+	            }
+	        }
+
+	        self.oldGenerator = $('#form_Generator').val();
+	    });
+	}
+};
+$('#form_Generator').on('change', function() {
+	generator.ajax();
+});
+</script>
+<style type="text/css">
+.file {
+    padding:3px;
+
+}
+</style>
+</body>
+</html>

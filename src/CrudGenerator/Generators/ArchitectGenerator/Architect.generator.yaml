@@ -11,7 +11,7 @@ questions :
     - 
         dtoAttribute : ModelName
         text : Choose a model name
-        defaultResponse : <?php ucfirst($metadataName); ?>
+        defaultResponse : <?php ucfirst($dto->getMetadata()->getName()); ?>
     - 
         type : complex
         factory : CrudGenerator\Generators\ArchitectGenerator\MetadataToArrayFactory

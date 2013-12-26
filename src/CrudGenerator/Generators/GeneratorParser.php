@@ -63,7 +63,7 @@ class GeneratorParser
      * @param Generator $generator
      * @return Generator
      */
-    public function analyse(Generator $generator)
+    public function init(Generator $generator)
     {
         $generator = clone $generator;
         $parser    = clone $this->phpStringParser;
@@ -72,11 +72,30 @@ class GeneratorParser
         $dto = new $process['dto']();
         $generator->setDTO($dto);
 
+        return $generator;
+    }
 
-        $parser->addVariable('dto', $dto);//->addVariable('metadataName', 'sample');
-        //$parser = new \CrudGenerator\Utils\PhpStringParser(array('metadataName' => 'toto', 'dto' => ));
+    /**
+     * @param Generator $generator
+     * @return Generator
+     */
+    public function analyse(Generator $generator)
+    {
+    	$generator = clone $generator;
+    	$parser    = clone $this->phpStringParser;
+    	$process   = Yaml::parse(file_get_contents($generator->getName()), true);
 
-        // question
+        if(empty($generator->getDTO())) {
+    		throw new \InvalidArgumentException('Empty DTO');
+    	}
+
+    	if(empty($generator->getDTO()->getMetadata())) {
+    		throw new \InvalidArgumentException('Empty DTO');
+    	}
+
+        $parser->addVariable('dto', $generator->getDTO());
+
+        $generator = $this->analyseQuestions($process, $parser, $generator);
         $generator = $this->analyseTemplateVariables($process, $parser, $generator);
         $generator = $this->analyseDirectories($process, $parser, $generator);
         $generator = $this->analyseFileList($process, $parser, $generator);
@@ -104,7 +123,36 @@ class GeneratorParser
     		$generator->getTemplateVariables()
 		);
     }
+    /**
+     * @param array $process
+     * @param PhpStringParser $parser
+     * @param Generator $generator
+     * @return Generator
+     */
+    private function analyseQuestions(array $process, PhpStringParser $parser, Generator $generator)
+    {
+    	foreach ($process['questions'] as $question) {
+	    	if (isset($question['type']) && $question['type'] === 'complex') {
+	    		//$question['factory']::getInstance();
+	    	} else {
+	    		$tmp = array();
+	    		if(isset($question['defaultResponse'])) {
+					$tmp = array('defaultResponse' => $parser->parse($question['defaultResponse']));
+	    		}
+		    	$generator->addQuestion(
+		    		array_merge(
+		    			array(
+							'dtoAttribute'    => 'set' . ucfirst($question['dtoAttribute']),
+							'text'            => $question['text']
+		    			),
+		    			$tmp
+		    		)
+		    	);
+	    	}
+    	}
 
+    	return $generator;
+    }
     /**
      * @param array $process
      * @param PhpStringParser $parser
