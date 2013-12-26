@@ -57,21 +57,23 @@ class __TwigTemplate_1d7ae4460741b14cb82df735cca9f7a5dfc9c21caf73de6f787864023f0
           <a class=\"navbar-brand\" href=\"#\">Code Generator</a>
         </div>
         <div class=\"collapse navbar-collapse\">
-          <div class=\"form-group\">
-              Backend :
-              <select name=\"backend\" class=\"form-control\" ng-model=\"backEnd\" ng-change=\"change()\" ng-options=\"obj.id as obj.label for obj in backendList\">
-              <option value=\"\">Select Backend</option>
-              </select>
-            </div>
+        \t<form class=\"navbar-form navbar-right\" role=\"form\" id=\"formBackend\">
+        \t\t<div class=\"form-group\">
+\t\t            Backend :
+\t\t            <select name=\"backend\" class=\"form-control\" ng-model=\"backEnd\" ng-change=\"change()\" ng-options=\"obj.id as obj.label for obj in backendList\">
+\t\t            <option value=\"\">Select Backend</option>
+\t\t            </select>
+            \t</div>
+            </form>
         </div><!--/.nav-collapse -->
       </div>
     </div>
 
     <div class=\"container\">
             ";
-        // line 43
-        $this->displayBlock('content', $context, $blocks);
         // line 45
+        $this->displayBlock('content', $context, $blocks);
+        // line 47
         echo "            <div id=\"test\" class=\"row\">
 
             </div>
@@ -91,97 +93,29 @@ class __TwigTemplate_1d7ae4460741b14cb82df735cca9f7a5dfc9c21caf73de6f787864023f0
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-    <script src=\"http://code.jquery.com/jquery-2.0.3.min.js\"></script>
-    <script src=\"";
-        // line 65
-        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
-        echo "/assets/js/angular.min.js\"></script>
-    <script src=\"";
-        // line 66
-        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
-        echo "/assets/js/bootstrap.min.js\"></script>
+    <script type=\"text/javascript\" src=\"http://code.jquery.com/jquery-2.0.3.min.js\"></script>
     <script type=\"text/javascript\" src=\"";
         // line 67
         echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
-        echo "/assets/js/shCore.js\"></script>
-\t<script type=\"text/javascript\" src=\"";
+        echo "/assets/js/Vendor/angular.min.js\"></script>
+    <script type=\"text/javascript\" src=\"";
         // line 68
         echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
-        echo "/assets/js/shBrushPhp.js\"></script>
+        echo "/assets/js/Corp/Controllers.js\"></script>
+    <script type=\"text/javascript\" src=\"";
+        // line 69
+        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
+        echo "/assets/js/Vendor/bootstrap.min.js\"></script>
+    <script type=\"text/javascript\" src=\"";
+        // line 70
+        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
+        echo "/assets/js/Vendor/shCore.js\"></script>
+\t<script type=\"text/javascript\" src=\"";
+        // line 71
+        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
+        echo "/assets/js/Vendor/shBrushPhp.js\"></script>
     <script type=\"text/javascript\">
 
-
-    // Define our AngularJS application module.
-    var GeneratorApp = angular.module( \"GeneratorApp\", [] );
-
-    GeneratorApp.controller(\"GeneratorCtrl\", function(\$scope, \$http) {
-    \t\$scope.backendList = [{id : 'myValue', label : 'myText'}];
-    \t\$scope.change = function() {
-\t\t\tconsole.log(\$scope.backEnd);
-\t\t    \$http(
-\t\t\t\t{
-\t\t\t\t\tmethod: 'POST',
-\t\t\t\t\turl: 'metadata',
-\t\t\t\t\tdata : {
-\t\t\t\t\t\tbackend : \$scope.backEnd
-\t\t\t\t\t}
-\t\t\t\t}
-\t\t\t).success(function(data, status, headers, config) {
-\t\t    // this callback will be called asynchronously
-\t\t    // when the response is available
-\t\t    }).error(function(data, status, headers, config) {
-\t\t    // called asynchronously if an error occurs
-\t\t    // or server returns response with an error status.
-\t\t    });
-        };
-\t});
-
-
-\$('#form_Backend').on('change', function() {
-    \$.ajax({
-        type: \"POST\",
-        url: \"metadata\",
-        data: { backend: \$('#form_Backend').val() }
-    })
-    .done(function( msg ) {
-            if(msg.config !== undefined) {
-                \$('#configuration-modal .modal-body').empty(); \$('#configuration-modal .modal-body')
-                \$('#configuration-modal .modal-body').append(msg.config);
-                \$('#configuration-modal').modal('show');
-                \$(\"#configuration-modal form\").submit(function(){
-                    \$.ajax({
-                        type:\"POST\",
-                        data: \$(this).serialize() + '&'+\$('#form_Backend').serialize(),
-                        url : \$(this).attr('action')
-                    }).done(function(data){
-                        if (data.error !== undefined) {
-                            \$('#alert-config').remove();
-                            \$(\"#configuration-modal .modal-body\").prepend('<div id=\"alert-config\" class=\"alert alert-danger fade in\">' + data.error + '</div>');
-                        } else {
-                            \$('#configuration-modal').modal('hide');
-                        }
-                    });
-                    return false;
-                });
-            } else if (msg.metadatas !== undefined) {
-                var metadatasString = '';
-                \$.each(msg.metadatas, function(name) {
-                    metadatasString += '<option value=\"' + name +'\">' + name + '</option>';
-                });
-                \$('#form').append(
-                    '<div class=\"control-group\">'+
-                        '<label for=\"form_Backend\" class=\"control-label required\">Metadata</label>'+
-                        '<div class=\"controls\">'+
-                            '<select name=\"form[Metadata]\" id=\"form_Metadata\">'+
-                                metadatasString +
-                            '</select>'+
-                        '</div>'+
-                    '</div>'
-                );
-            }
-        }
-    );
-});
 function swapJsonKeyValues(input) {
     var one, output = {};
     for (one in input) {
@@ -290,10 +224,10 @@ var generator = {
 </html>";
     }
 
-    // line 43
+    // line 45
     public function block_content($context, array $blocks = array())
     {
-        // line 44
+        // line 46
         echo "            ";
     }
 
@@ -309,6 +243,6 @@ var generator = {
 
     public function getDebugInfo()
     {
-        return array (  297 => 44,  294 => 43,  109 => 68,  105 => 67,  101 => 66,  97 => 65,  75 => 45,  73 => 43,  48 => 20,  46 => 19,  38 => 14,  34 => 13,  20 => 1,);
+        return array (  231 => 46,  228 => 45,  115 => 71,  111 => 70,  107 => 69,  103 => 68,  99 => 67,  77 => 47,  75 => 45,  48 => 20,  46 => 19,  38 => 14,  34 => 13,  20 => 1,);
     }
 }

@@ -14,28 +14,26 @@ use CrudGenerator\MetaData\Config\ConfigException;
 $app->match('/', function() use ($app) {
 
     $generatorFinder = CrudGenerator\Generators\GeneratorFinderFactory::getInstance();
-    $backendFinder = CrudGenerator\MetaData\MetaDataSourceFinderFactory::getInstance();
-    $backendCollection = $backendFinder->getAllAdapters();
-    $backendArray = array();
-    foreach ($backendCollection as $backend) {
-    	if(!$backend->getFalseDependencies()) {
-        	$backendArray[$backend->getFactory()] = $backend->getDefinition();
-    	}
-    }
 
     $form = $app['form.factory']->createBuilder('form')
-    ->add('Backend', 'choice', array(
-        'choices' => array_merge(array('' => 'Select a Backend'), $backendArray)
-    ))
     ->add('Generator', 'choice', array(
     	'choices' => array_merge(array('' => 'Select a Generator'), $generatorFinder->getAllClasses())
     ))
     ->getForm();
 
-    return $app['twig']->render('index.html.twig', array(
-        'form' => $form->createView()
-    ));
+    return $app['twig']->render('index.html.twig');
 })->bind('homepage');
+
+$app->match('/backend', function() use ($app) {
+	$backendFinder     = CrudGenerator\MetaData\MetaDataSourceFinderFactory::getInstance();
+	$backendArray = array();
+	foreach ($backendFinder->getAllAdapters() as $backend) {
+		if(!$backend->getFalseDependencies()) {
+			$backendArray[] = array('id' => $backend->getFactory(), 'label' => $backend->getDefinition());
+		}
+	}
+	return $app->json(array('backend' => $backendArray), 201);
+})->bind('backend');
 
 $backendChoice = function($backendString) {
     $backendFinder = CrudGenerator\MetaData\MetaDataSourceFinderFactory::getInstance();

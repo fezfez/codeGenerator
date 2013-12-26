@@ -29,12 +29,14 @@
           <a class="navbar-brand" href="#">Code Generator</a>
         </div>
         <div class="collapse navbar-collapse">
-          <div class="form-group">
-              Backend :
-              <select name="backend" class="form-control" ng-model="backEnd" ng-change="change()" ng-options="obj.id as obj.label for obj in backendList">
-              <option value="">Select Backend</option>
-              </select>
-            </div>
+        	<form class="navbar-form navbar-right" role="form" id="formBackend">
+        		<div class="form-group">
+		            Backend :
+		            <select name="backend" class="form-control" ng-model="backEnd" ng-change="change()" ng-options="obj.id as obj.label for obj in backendList">
+		            <option value="">Select Backend</option>
+		            </select>
+            	</div>
+            </form>
         </div><!--/.nav-collapse -->
       </div>
     </div>
@@ -61,85 +63,14 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-    <script src="{{ app.request.basepath }}/assets/js/angular.min.js"></script>
-    <script src="{{ app.request.basepath }}/assets/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/shCore.js"></script>
-	<script type="text/javascript" src="{{ app.request.basepath }}/assets/js/shBrushPhp.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Vendor/angular.min.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Corp/Controllers.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Vendor/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Vendor/shCore.js"></script>
+	<script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Vendor/shBrushPhp.js"></script>
     <script type="text/javascript">
 
-
-    // Define our AngularJS application module.
-    var GeneratorApp = angular.module( "GeneratorApp", [] );
-
-    GeneratorApp.controller("GeneratorCtrl", function($scope, $http) {
-    	$scope.backendList = [{id : 'myValue', label : 'myText'}];
-    	$scope.change = function() {
-			console.log($scope.backEnd);
-		    $http(
-				{
-					method: 'POST',
-					url: 'metadata',
-					data : {
-						backend : $scope.backEnd
-					}
-				}
-			).success(function(data, status, headers, config) {
-		    // this callback will be called asynchronously
-		    // when the response is available
-		    }).error(function(data, status, headers, config) {
-		    // called asynchronously if an error occurs
-		    // or server returns response with an error status.
-		    });
-        };
-	});
-
-
-$('#form_Backend').on('change', function() {
-    $.ajax({
-        type: "POST",
-        url: "metadata",
-        data: { backend: $('#form_Backend').val() }
-    })
-    .done(function( msg ) {
-            if(msg.config !== undefined) {
-                $('#configuration-modal .modal-body').empty(); $('#configuration-modal .modal-body')
-                $('#configuration-modal .modal-body').append(msg.config);
-                $('#configuration-modal').modal('show');
-                $("#configuration-modal form").submit(function(){
-                    $.ajax({
-                        type:"POST",
-                        data: $(this).serialize() + '&'+$('#form_Backend').serialize(),
-                        url : $(this).attr('action')
-                    }).done(function(data){
-                        if (data.error !== undefined) {
-                            $('#alert-config').remove();
-                            $("#configuration-modal .modal-body").prepend('<div id="alert-config" class="alert alert-danger fade in">' + data.error + '</div>');
-                        } else {
-                            $('#configuration-modal').modal('hide');
-                        }
-                    });
-                    return false;
-                });
-            } else if (msg.metadatas !== undefined) {
-                var metadatasString = '';
-                $.each(msg.metadatas, function(name) {
-                    metadatasString += '<option value="' + name +'">' + name + '</option>';
-                });
-                $('#form').append(
-                    '<div class="control-group">'+
-                        '<label for="form_Backend" class="control-label required">Metadata</label>'+
-                        '<div class="controls">'+
-                            '<select name="form[Metadata]" id="form_Metadata">'+
-                                metadatasString +
-                            '</select>'+
-                        '</div>'+
-                    '</div>'
-                );
-            }
-        }
-    );
-});
 function swapJsonKeyValues(input) {
     var one, output = {};
     for (one in input) {
