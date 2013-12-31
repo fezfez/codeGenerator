@@ -32,23 +32,27 @@
         	<form class="navbar-form navbar-right" role="form" id="formBackend">
         		<div class="form-group">
 		            Backend :
-		            <select name="backend" class="form-control" ng-model="backEnd" ng-change="change()" ng-options="obj.id as obj.label for obj in backendList">
+		            <select name="backend" id="form_Backend" class="form-control" ng-model="backEnd" ng-change="change()" ng-options="obj.id as obj.label for obj in backendList">
 		            <option value="">Select Backend</option>
 		            </select>
             	</div>
+            	<metadata></metadata>
             </form>
         </div><!--/.nav-collapse -->
       </div>
     </div>
 
-    <div class="container">
+    <div class="container row">
             {% block content %}
             {% endblock %}
-            <div id="test" class="row">
-
+            <div id="test" class="col-md-9">
+				<file></file>
             </div>
-            <form id="questions">
-            </form>
+            <div class="col-md-3" id="div-questions">
+                <generators></generators>
+                <questions></questions>
+            </div>
+
     </div>
     <!-- Modal -->
 <div class="modal fade" id="configuration-modal" tabindex="-1" role="dialog" aria-labelledby="configuration-modal" aria-hidden="true">
@@ -63,112 +67,12 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-    <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Vendor/angular.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Corp/Controllers.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Vendor/bootstrap.min.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Vendor/shCore.js"></script>
 	<script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Vendor/shBrushPhp.js"></script>
-    <script type="text/javascript">
-
-function swapJsonKeyValues(input) {
-    var one, output = {};
-    for (one in input) {
-        if (input.hasOwnProperty(one)) {
-            output[input[one]] = one;
-        }
-    }
-    return output;
-}
-
-var generator = {
-	oldGenerator : null,
-	ajax : function() {
-		var self = this;
-		$.ajax({
-	        type: "POST",
-	        url: "generator",
-	        data: {
-	            generator: $('#form_Generator').val(),
-	            backend: $('#form_Backend').val(),
-	            metadata : $('#form_Metadata').val(),
-	            questions : $('#questions').serialize()
-	        }
-	    })
-	    .done(function( data ) {
-
-	        var countProfondeurMax = null,
-	            profondeur = null,
-	            profondeurFiles = new Array(),
-	            filesByValue = swapJsonKeyValues(data.generator.files);
-	        $.each(data.generator.files, function(id, name) {
-
-	            if(typeof name != 'string') {
-	                return;
-	            }
-	            profondeur = name.split('/').length;
-
-	            if(countProfondeurMax < profondeur) {
-	                countProfondeurMax = profondeur;
-	            }
-	            if(profondeurFiles[profondeur] === undefined) {
-	                profondeurFiles[profondeur] = new Array();
-	            }
-	            profondeurFiles[profondeur].push(name);
-	        });
-
-	        if(self.oldGenerator !== $('#form_Generator').val()) {
-		        $.each(data.generator.questions, function(id, name) {
-					$('#questions').append(
-				         '<div class="form-group">'+
-				            '<label for="' + name.dtoAttribute + '">' + name.text + '</label>'+
-							'<input class="form-control" id="' + name.dtoAttribute + '" type="text" name="' + name.dtoAttribute + '" placeholder="' + name.text + '" />' +
-						'</div>'
-					);
-		        });
-		        $('#questions input').on('keyup', function() {
-					self.ajax();
-			    });
-	        }
-
-	        $('#test').empty();
-	        var countFile = 0;
-	        for(var i = 1 ; i <= countProfondeurMax ; i++){
-	            if(profondeurFiles[i] !== undefined) {
-	            	$('#test').append('<div class="col-lg-' + Math.floor(12 / countProfondeurMax) + '" id="test-' + i +'"></div>');
-	                $.each(profondeurFiles[i], function(id, name) {
-	                    var tmp = $('#test-' + i + '').append('<div class="file" id="file-' + '-' + countFile + '">' + name + '</div>');
-	                    $('#file-' + '-' + countFile).on('click', function() {
-	                        $.ajax({
-	                            type: "POST",
-	                            url: "view-file",
-	                            data : {
-	                                generator: $('#form_Generator').val(),
-	                                file : filesByValue[name],
-	                                backend : $('#form_Backend').val(),
-	                                metadata : $('#form_Metadata').val(),
-	                	            questions : $('#questions').serialize()
-	                            }
-	                        }).done(function(data) {
-	                            $('#configuration-modal .modal-title').empty().append(name);
-	                            $('#configuration-modal .modal-body').empty().append('<pre class="brush: php;">' + data.generator + '<pre>');
-	                            $('#configuration-modal').modal('show');
-	                            SyntaxHighlighter.highlight();
-	                        });
-	                    });
-	                    countFile++;
-	                });
-	            }
-	        }
-
-	        self.oldGenerator = $('#form_Generator').val();
-	    });
-	}
-};
-$('#form_Generator').on('change', function() {
-	generator.ajax();
-});
-</script>
 <style type="text/css">
 .file {
     padding:3px;

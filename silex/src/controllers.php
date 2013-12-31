@@ -12,19 +12,10 @@ use Symfony\Component\Console\Helper\DialogHelper;
 use CrudGenerator\MetaData\Config\ConfigException;
 
 $app->match('/', function() use ($app) {
-
-    $generatorFinder = CrudGenerator\Generators\GeneratorFinderFactory::getInstance();
-
-    $form = $app['form.factory']->createBuilder('form')
-    ->add('Generator', 'choice', array(
-    	'choices' => array_merge(array('' => 'Select a Generator'), $generatorFinder->getAllClasses())
-    ))
-    ->getForm();
-
     return $app['twig']->render('index.html.twig');
 })->bind('homepage');
 
-$app->match('/backend', function() use ($app) {
+$app->match('/list-backend', function() use ($app) {
 	$backendFinder     = CrudGenerator\MetaData\MetaDataSourceFinderFactory::getInstance();
 	$backendArray = array();
 	foreach ($backendFinder->getAllAdapters() as $backend) {
@@ -33,7 +24,16 @@ $app->match('/backend', function() use ($app) {
 		}
 	}
 	return $app->json(array('backend' => $backendArray), 201);
-})->bind('backend');
+})->bind('list-backend');
+
+$app->match('/list-generator', function() use ($app) {
+    $generatorFinder = CrudGenerator\Generators\GeneratorFinderFactory::getInstance();
+    $generatorArray = array();
+    foreach ($generatorFinder->getAllClasses() as $path => $name) {
+    	$generatorArray[] = array('id' => $path, 'label' => $name);
+    }
+	return $app->json(array('generators' => $generatorArray), 201);
+})->bind('list-generator');
 
 $backendChoice = function($backendString) {
     $backendFinder = CrudGenerator\MetaData\MetaDataSourceFinderFactory::getInstance();
@@ -95,7 +95,7 @@ $app->match('/metadata', function (Request $request) use ($app, $backendChoice, 
     $metaDataChoicesTmp = $metadataChoice($backendSelect);
     $metaDataChoices = array();
     foreach ($metaDataChoicesTmp as $name => $metaData) {
-    	$metaDataChoices[$name] = $name;
+    	$metaDataChoices[] = array('id' => $name, 'label' => $name);
     }
 
     return $app->json(array('metadatas' => $metaDataChoices), 201);
