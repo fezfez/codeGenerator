@@ -10,7 +10,7 @@
                         if(in_array($record_actions, array($this->editRoute, $this->deleteRoute))): ?>
                         <li>
                             <a class="ajax-modal" href="<?php
-echo '<?php echo $this->url("' . $record_actions . '", array("id" => $' . $this->entityName . '->getId())); ?>'; ?>">
+echo '<?php echo $this->url("' . $record_actions . '", array("id" => $' . $this->modelName . '->getId())); ?>'; ?>">
 <?php if($record_actions === $this->editRoute): ?>
                                 <i class="icon-pencil"></i>Edit
 <?php elseif($record_actions === $this->deleteRoute): ?>

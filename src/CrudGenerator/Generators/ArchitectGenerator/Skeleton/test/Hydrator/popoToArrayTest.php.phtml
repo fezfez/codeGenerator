@@ -11,7 +11,7 @@ class PopoToArrayTest extends \PHPUnit_Framework_TestCase
     {
 <?php
 $keyTestable = array();
-$columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
+$columnCollection = $this->architectGenerator->getMetadata()->getColumnCollection(true);
 foreach($columnCollection as $field => $metadata):
 $modifiedValue = $this->getHelper('FixtureRenderer')->render($metadata);
 ?>
@@ -20,7 +20,7 @@ $modifiedValue = $this->getHelper('FixtureRenderer')->render($metadata);
 
         $dto = new <?php echo $this->dataObjectName; ?>();
         $dto<?php
-        $columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
+        $columnCollection = $this->architectGenerator->getMetadata()->getColumnCollection(true);
         foreach($columnCollection as $field => $metadata):
 ?>
            ->set<?php echo $metadata->getName(true); ?>($<?php echo $metadata->getName(); ?>)<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
@@ -30,7 +30,7 @@ $modifiedValue = $this->getHelper('FixtureRenderer')->render($metadata);
         $arrayDto = $sUT->popoToArray($dto, array());
 
 <?php
-$columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
+$columnCollection = $this->architectGenerator->getMetadata()->getColumnCollection(true);
 foreach($columnCollection as $field => $metadata):
 ?>
         $this->assertEquals($<?php echo $metadata->getName(); ?>, $arrayDto['<?php echo $metadata->getOrininalName(); ?>']);

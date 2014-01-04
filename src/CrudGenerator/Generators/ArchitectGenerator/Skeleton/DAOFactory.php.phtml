@@ -2,7 +2,7 @@
 $databaseConnectorVariableName = $this->getHelper('TemplateDatabaseConnector')->getVariableName();
 ?>
 
-namespace <?php echo $this->dataObject->getNamespace(); ?>;
+namespace <?php echo $this->architectGenerator->getNamespace(); ?>;
 
 use <?php echo $this->getHelper('TemplateDatabaseConnector')->getFullClass(); ?>;
 <?php echo $this->getHelper('TemplateServiceContainer')->getFullClass(); ?>
@@ -12,7 +12,7 @@ use <?php echo $this->daoNamespace; ?>;
 class <?php echo $this->daoName; ?>Factory
 {
     /**
-     * @return <?php echo $this->dataObject->getNamespace(); ?>\DAO\<?php echo $this->ucfirstEntityName; ?>DAO
+     * @return <?php echo $this->architectGenerator->getNamespace(); ?>\DAO\<?php echo $this->ucfirstEntityName; ?>DAO
      */
     public static function getInstance(<?php echo $this->getHelper('TemplateServiceContainer')->getInjectionInDependencie(); ?>)
     {

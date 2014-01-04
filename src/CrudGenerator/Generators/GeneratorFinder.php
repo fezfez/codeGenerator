@@ -85,6 +85,24 @@ class GeneratorFinder
     }
 
     /**
+     * @param unknown $name
+     * @throws \InvalidArgumentException
+     * @return unknown
+     */
+    public function findByName($name)
+    {
+		$generatorCollection = $this->getAllClasses();
+
+		foreach ($generatorCollection as $generatorFile => $generatorName) {
+			if ($generatorName === $name) {
+				return $generatorFile;
+			}
+		}
+
+		throw new \InvalidArgumentException(sprintf('Generator name "%s" does not exist', $name));
+    }
+
+    /**
      * Add Zend Framework 2 paths
      *
      * @param array $paths

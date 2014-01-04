@@ -111,9 +111,9 @@ class Generator implements \JsonSerializable
 	 * @param string $name
 	 * @return \CrudGenerator\Generators\Generator
 	 */
-	public function addFile($name, $value)
+	public function addFile($skeletonPath, $name, $value)
 	{
-		$this->files[$name] = $value;
+		$this->files[$name] = array('skeletonPath' => $skeletonPath, 'fileName' => $value, 'name' => $name);
 		return $this;
 	}
 	/**

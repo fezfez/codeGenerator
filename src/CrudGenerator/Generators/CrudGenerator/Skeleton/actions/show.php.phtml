@@ -1,16 +1,16 @@
     public function showAction()
     {
         $sm = $this->getServiceLocator();
-        $sm->get('viewHelperManager')->get('headTitle')->append('Show "<?php echo $this->dataObject->getDisplayName(); ?>" with id "' . $this->params('id') . '"');
+        $sm->get('viewHelperManager')->get('headTitle')->append('Show "<?php echo $this->crudGenerator->getDisplayName(); ?>" with id "' . $this->params('id') . '"');
 
         $DAO = <?php echo $this->daoFactoryName; ?>::getInstance($sm);
 
-        $<?php echo $this->entityName; ?> = new <?php echo $this->dataObjectName; ?>();
-        $<?php echo $this->entityName; ?>->setId($this->params('id'));
+        $<?php echo $this->modelName; ?> = new <?php echo $this->dataObjectName; ?>();
+        $<?php echo $this->modelName; ?>->setId($this->params('id'));
 
-        $<?php echo $this->entityName; ?> = $DAO->find($<?php echo $this->entityName; ?>);
+        $<?php echo $this->modelName; ?> = $DAO->find($<?php echo $this->modelName; ?>);
 
         return new ViewModel(array(
-            '<?php echo $this->entityName; ?>' => $<?php echo $this->entityName . "\n"; ?>
+            '<?php echo $this->modelName; ?>' => $<?php echo $this->modelName . "\n"; ?>
         ));
     }

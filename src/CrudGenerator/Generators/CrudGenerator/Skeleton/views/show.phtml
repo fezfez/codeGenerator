@@ -1,14 +1,14 @@
-<h1><?php echo $this->dataObject->getDisplayName(); ?></h1>
+<h1><?php echo $this->crudGenerator->getDisplayName(); ?></h1>
 
 <table class="record_properties">
     <tbody>
-<?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $metadata): ?>
+<?php foreach($this->crudGenerator->getMetadata()->getColumnCollection() as $metadata): ?>
         <tr>
-            <th><?php echo $this->dataObject->getAttributeName($metadata->getName()); ?></th>
+            <th><?php echo $this->crudGenerator->getAttributeName($metadata->getName()); ?></th>
 <?php if(in_array($metadata->getType(), array("date", "datetime"))): ?>
-            <?php echo '<?php echo $' . $this->entityName . '->get' . $metadata->getName(true) . '()->format(\'Y-m-d H:i:s\'); ?>'; ?>
+            <?php echo '<?php echo $' . $this->modelName . '->get' . $metadata->getName(true) . '()->format(\'Y-m-d H:i:s\'); ?>'; ?>
 <?php else: ?>
-            <td><?php echo '<?php echo $' . $this->entityName . '->get' . $metadata->getName(true) . '(); ?>'; ?></td>
+            <td><?php echo '<?php echo $' . $this->modelName . '->get' . $metadata->getName(true) . '(); ?>'; ?></td>
 <?php endif; ?>
         </tr>
 <?php endforeach; ?>

@@ -21,6 +21,7 @@ use Symfony\Component\Yaml\Yaml;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\Strategies\ViewFileStategyFactory;
+use CrudGenerator\Generators\GeneratorFinderFactory;
 /**
  * Find all generator allow in project
  *
@@ -33,6 +34,8 @@ class GeneratorParserFactory
 	 */
 	public static function getInstance()
 	{
-		return new GeneratorParser(new FileManager(), new Yaml(), new PhpStringParser(), ViewFileStategyFactory::getInstance());
+		$generatorFinder = GeneratorFinderFactory::getInstance();
+
+		return new GeneratorParser(new FileManager(), new Yaml(), new PhpStringParser(), ViewFileStategyFactory::getInstance(), $generatorFinder);
 	}
 }

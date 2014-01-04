@@ -60,25 +60,29 @@ class __TwigTemplate_1d7ae4460741b14cb82df735cca9f7a5dfc9c21caf73de6f787864023f0
         \t<form class=\"navbar-form navbar-right\" role=\"form\" id=\"formBackend\">
         \t\t<div class=\"form-group\">
 \t\t            Backend :
-\t\t            <select name=\"backend\" class=\"form-control\" ng-model=\"backEnd\" ng-change=\"change()\" ng-options=\"obj.id as obj.label for obj in backendList\">
+\t\t            <select name=\"backend\" id=\"form_Backend\" class=\"form-control\" ng-model=\"backEnd\" ng-change=\"backendChange()\" ng-options=\"obj.id as obj.label for obj in backendList\">
 \t\t            <option value=\"\">Select Backend</option>
 \t\t            </select>
             \t</div>
+            \t<metadata></metadata>
             </form>
         </div><!--/.nav-collapse -->
       </div>
     </div>
 
-    <div class=\"container\">
+    <div class=\"container row\">
             ";
-        // line 45
+        // line 46
         $this->displayBlock('content', $context, $blocks);
-        // line 47
-        echo "            <div id=\"test\" class=\"row\">
-
+        // line 48
+        echo "            <div id=\"test\" class=\"col-md-9\">
+\t\t\t\t<file></file>
             </div>
-            <form id=\"questions\">
-            </form>
+            <div class=\"col-md-3\" id=\"div-questions\">
+                <generators></generators>
+                <questions></questions>
+            </div>
+
     </div>
     <!-- Modal -->
 <div class=\"modal fade\" id=\"configuration-modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"configuration-modal\" aria-hidden=\"true\">
@@ -93,127 +97,28 @@ class __TwigTemplate_1d7ae4460741b14cb82df735cca9f7a5dfc9c21caf73de6f787864023f0
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-    <script type=\"text/javascript\" src=\"http://code.jquery.com/jquery-2.0.3.min.js\"></script>
+    <script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js\"></script>
+    <script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js\"></script>
     <script type=\"text/javascript\" src=\"";
-        // line 67
-        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
-        echo "/assets/js/Vendor/angular.min.js\"></script>
-    <script type=\"text/javascript\" src=\"";
-        // line 68
+        // line 72
         echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
         echo "/assets/js/Corp/Controllers.js\"></script>
     <script type=\"text/javascript\" src=\"";
-        // line 69
+        // line 73
+        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
+        echo "/assets/js/Corp/Directive.js\"></script>
+    <script type=\"text/javascript\" src=\"";
+        // line 74
         echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
         echo "/assets/js/Vendor/bootstrap.min.js\"></script>
     <script type=\"text/javascript\" src=\"";
-        // line 70
+        // line 75
         echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
         echo "/assets/js/Vendor/shCore.js\"></script>
 \t<script type=\"text/javascript\" src=\"";
-        // line 71
+        // line 76
         echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
         echo "/assets/js/Vendor/shBrushPhp.js\"></script>
-    <script type=\"text/javascript\">
-
-function swapJsonKeyValues(input) {
-    var one, output = {};
-    for (one in input) {
-        if (input.hasOwnProperty(one)) {
-            output[input[one]] = one;
-        }
-    }
-    return output;
-}
-
-var generator = {
-\toldGenerator : null,
-\tajax : function() {
-\t\tvar self = this;
-\t\t\$.ajax({
-\t        type: \"POST\",
-\t        url: \"generator\",
-\t        data: {
-\t            generator: \$('#form_Generator').val(),
-\t            backend: \$('#form_Backend').val(),
-\t            metadata : \$('#form_Metadata').val(),
-\t            questions : \$('#questions').serialize()
-\t        }
-\t    })
-\t    .done(function( data ) {
-
-\t        var countProfondeurMax = null,
-\t            profondeur = null,
-\t            profondeurFiles = new Array(),
-\t            filesByValue = swapJsonKeyValues(data.generator.files);
-\t        \$.each(data.generator.files, function(id, name) {
-
-\t            if(typeof name != 'string') {
-\t                return;
-\t            }
-\t            profondeur = name.split('/').length;
-
-\t            if(countProfondeurMax < profondeur) {
-\t                countProfondeurMax = profondeur;
-\t            }
-\t            if(profondeurFiles[profondeur] === undefined) {
-\t                profondeurFiles[profondeur] = new Array();
-\t            }
-\t            profondeurFiles[profondeur].push(name);
-\t        });
-
-\t        if(self.oldGenerator !== \$('#form_Generator').val()) {
-\t\t        \$.each(data.generator.questions, function(id, name) {
-\t\t\t\t\t\$('#questions').append(
-\t\t\t\t         '<div class=\"form-group\">'+
-\t\t\t\t            '<label for=\"' + name.dtoAttribute + '\">' + name.text + '</label>'+
-\t\t\t\t\t\t\t'<input class=\"form-control\" id=\"' + name.dtoAttribute + '\" type=\"text\" name=\"' + name.dtoAttribute + '\" placeholder=\"' + name.text + '\" />' +
-\t\t\t\t\t\t'</div>'
-\t\t\t\t\t);
-\t\t        });
-\t\t        \$('#questions input').on('keyup', function() {
-\t\t\t\t\tself.ajax();
-\t\t\t    });
-\t        }
-
-\t        \$('#test').empty();
-\t        var countFile = 0;
-\t        for(var i = 1 ; i <= countProfondeurMax ; i++){
-\t            if(profondeurFiles[i] !== undefined) {
-\t            \t\$('#test').append('<div class=\"col-lg-' + Math.floor(12 / countProfondeurMax) + '\" id=\"test-' + i +'\"></div>');
-\t                \$.each(profondeurFiles[i], function(id, name) {
-\t                    var tmp = \$('#test-' + i + '').append('<div class=\"file\" id=\"file-' + '-' + countFile + '\">' + name + '</div>');
-\t                    \$('#file-' + '-' + countFile).on('click', function() {
-\t                        \$.ajax({
-\t                            type: \"POST\",
-\t                            url: \"view-file\",
-\t                            data : {
-\t                                generator: \$('#form_Generator').val(),
-\t                                file : filesByValue[name],
-\t                                backend : \$('#form_Backend').val(),
-\t                                metadata : \$('#form_Metadata').val(),
-\t                \t            questions : \$('#questions').serialize()
-\t                            }
-\t                        }).done(function(data) {
-\t                            \$('#configuration-modal .modal-title').empty().append(name);
-\t                            \$('#configuration-modal .modal-body').empty().append('<pre class=\"brush: php;\">' + data.generator + '<pre>');
-\t                            \$('#configuration-modal').modal('show');
-\t                            SyntaxHighlighter.highlight();
-\t                        });
-\t                    });
-\t                    countFile++;
-\t                });
-\t            }
-\t        }
-
-\t        self.oldGenerator = \$('#form_Generator').val();
-\t    });
-\t}
-};
-\$('#form_Generator').on('change', function() {
-\tgenerator.ajax();
-});
-</script>
 <style type=\"text/css\">
 .file {
     padding:3px;
@@ -224,10 +129,10 @@ var generator = {
 </html>";
     }
 
-    // line 45
+    // line 46
     public function block_content($context, array $blocks = array())
     {
-        // line 46
+        // line 47
         echo "            ";
     }
 
@@ -243,6 +148,6 @@ var generator = {
 
     public function getDebugInfo()
     {
-        return array (  231 => 46,  228 => 45,  115 => 71,  111 => 70,  107 => 69,  103 => 68,  99 => 67,  77 => 47,  75 => 45,  48 => 20,  46 => 19,  38 => 14,  34 => 13,  20 => 1,);
+        return array (  136 => 47,  133 => 46,  120 => 76,  116 => 75,  112 => 74,  108 => 73,  104 => 72,  78 => 48,  76 => 46,  48 => 20,  46 => 19,  38 => 14,  34 => 13,  20 => 1,);
     }
 }

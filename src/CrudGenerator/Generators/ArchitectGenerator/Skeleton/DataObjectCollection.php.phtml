@@ -1,9 +1,9 @@
 <?php
 echo '<?php' . "\n";
-$lcfirstEntityName              = $this->dataObject->getMetadata()->getName(true);
+$lcfirstEntityName              = $this->architectGenerator->getMetadata()->getName(true);
 
 ?>
-namespace <?php echo $this->dataObject->getNamespace(); ?>\DataObject;
+namespace <?php echo $this->architectGenerator->getNamespace(); ?>\DataObject;
 
 use <?php echo $this->dtoNamespace; ?>;
 

@@ -87,6 +87,21 @@ $metadataChoice = function($backendSelect) use($app) {
 	return $metaDataChoices;
 };
 
+$parseQuestion = function($questionString) {
+	$questionArray = array();
+
+	if(!empty($questionString)) {
+		$questionString = urldecode($questionString);
+		$questions = explode('&', $questionString);
+		foreach($questions as $question) {
+			$questionValue = explode('=', $question);
+			$questionArray[$questionValue[0]] = $questionValue[1];
+		}
+	}
+
+	return $questionArray;
+};
+
 // on choice metadata
 $app->match('/metadata', function (Request $request) use ($app, $backendChoice, $metadataChoice) {
     $backendString = $request->request->get('backend');
@@ -101,60 +116,36 @@ $app->match('/metadata', function (Request $request) use ($app, $backendChoice, 
     return $app->json(array('metadatas' => $metaDataChoices), 201);
 })->bind('metadata');
 
-$app->match('generator', function (Request $request) use ($app, $backendChoice, $metadataChoice) {
+$app->match('generator', function (Request $request) use ($app, $backendChoice, $metadataChoice, $parseQuestion) {
 
 	$generatorParser = CrudGenerator\Generators\GeneratorParserFactory::getInstance();
 	$backendSelect   = $backendChoice($request->request->get('backend'));
+	$questionString  = $request->request->get('questions');
 	$metaDataChoices = $metadataChoice($backendSelect);
 	$metadata        = isset($metaDataChoices[$request->request->get('metadata')]) ? $metaDataChoices[$request->request->get('metadata')] : null;
 
 	$generator = new CrudGenerator\Generators\Generator();
 	$generator->setName($request->request->get('generator'));
-	$generator = $generatorParser->init($generator);
-	$dto = $generator->getDTO()->setMetaData($metadata);
 
-	$questionString = $request->request->get('questions');
-	if(!empty($questionString)) {
-		$questionString = urldecode($questionString);
-		$questions = explode('&', $questionString);
-		foreach($questions as $question) {
-			$questionValue = explode('=', $question);
-			$questionName = $questionValue[0];
-			$dto->$questionName($questionValue[1]);
-		}
-	}
-	$generator->setDTO($dto);
-	$generator = $generatorParser->analyse($generator);
-
+	$generator = $generatorParser->init($generator, $metadata, $parseQuestion($questionString));
 
 	return $app->json(array('generator' => $generator), 201);
 });
 
-$app->match('view-file', function (Request $request) use ($app, $backendChoice, $metadataChoice) {
+$app->match('view-file', function (Request $request) use ($app, $backendChoice, $metadataChoice, $parseQuestion) {
 
 	$generatorParser = CrudGenerator\Generators\GeneratorParserFactory::getInstance();
 	$backendSelect   = $backendChoice($request->request->get('backend'));
 	$metaDataChoices = $metadataChoice($backendSelect);
 	$metadata        = isset($metaDataChoices[$request->request->get('metadata')]) ? $metaDataChoices[$request->request->get('metadata')] : null;
+	$questionString  = $request->request->get('questions');
 
 	$generator = new CrudGenerator\Generators\Generator();
 	$generator->setName($request->request->get('generator'));
-	$generator = $generatorParser->init($generator);
-	$dto = $generator->getDTO()->setMetaData($metadata);
-	$questionString = $request->request->get('questions');
-	if(!empty($questionString)) {
-		$questionString = urldecode($questionString);
-		$questions = explode('&', $questionString);
-		foreach($questions as $question) {
-			$questionValue = explode('=', $question);
-			$questionName = $questionValue[0];
-			$dto->$questionName($questionValue[1]);
-		}
-	}
-	$generator->setDTO($dto);
-	$generator = $generatorParser->analyse($generator);
 
-	return $app->json(array('generator' => $generatorParser->viewFile($generator, $request->request->get('file'))), 201);
+	$generator = $generatorParser->init($generator, $metadata, $parseQuestion($questionString));
+
+	return $app->json(array('generator' => $generatorParser->viewFile($generator, $request->request->get('file'), $request->request->get('skeletonPath'))), 201);
 });
 
 $app->match('metadata-save', function (Request $request) use ($app, $backendChoice) {

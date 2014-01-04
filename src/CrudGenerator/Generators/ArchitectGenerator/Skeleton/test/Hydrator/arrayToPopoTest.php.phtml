@@ -13,7 +13,7 @@ class ArrayToPopoTest extends \PHPUnit_Framework_TestCase
 <?php
 
 $keyTestable = array();
-$columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
+$columnCollection = $this->architectGenerator->getMetadata()->getColumnCollection(true);
 foreach($columnCollection as $field => $metadata):
 $modifiedValue = $this->getHelper('FixtureRenderer')->render($metadata);
 ?>
@@ -24,7 +24,7 @@ $modifiedValue = $this->getHelper('FixtureRenderer')->render($metadata);
         $dto = $sUT->arrayToPopo($arrayDto, new <?php echo $this->dataObjectName; ?>());
 
 <?php
-$columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
+$columnCollection = $this->architectGenerator->getMetadata()->getColumnCollection(true);
 foreach($columnCollection as $field => $metadata):
 ?>
         $this->assertEquals($dto->get<?php echo $metadata->getName(true); ?>(), $arrayDto['<?php echo $metadata->getOrininalName(); ?>']);

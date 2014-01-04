@@ -2,7 +2,7 @@
 
 namespace <?php echo $this->unitTestNamespace; ?>\DAOFactory;
 
-use <?php echo $this->dataObject->getNamespace(); ?>\<?php echo $this->daoName; ?>Factory;
+use <?php echo $this->architectGenerator->getNamespace(); ?>\<?php echo $this->daoName; ?>Factory;
 use <?php echo $this->daoNamespace; ?>;
 <?php echo $this->getHelper('TemplateServiceContainer')->getFullClassForUnitTest(); ?>
 

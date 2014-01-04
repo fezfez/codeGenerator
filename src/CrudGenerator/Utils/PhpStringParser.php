@@ -27,6 +27,11 @@ class PhpStringParser
     	return $this;
     }
 
+    public function issetVariable($name)
+    {
+    	return isset($this->variables[$name]);
+    }
+
     /**
      * @param string $string
      * @return mixed

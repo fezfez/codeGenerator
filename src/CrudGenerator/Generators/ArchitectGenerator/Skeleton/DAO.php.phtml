@@ -4,14 +4,14 @@ $databaseConnectorClassName     = $this->getHelper('TemplateDatabaseConnector')-
 $databaseConnectionVariableName = $this->getHelper('TemplateDatabaseConnector')->getVariableName();
 
 ?>
-namespace <?php echo $this->dataObject->getNamespace(); ?>\DAO;
+namespace <?php echo $this->architectGenerator->getNamespace(); ?>\DAO;
 
 use <?php echo $this->getHelper('TemplateDatabaseConnector')->getFullClass(); ?>;
 use <?php echo $this->hydratorNamespace; ?>;
 use <?php echo $this->dtoNamespace; ?>;
 use <?php echo $this->dtoCollectionNamespace; ?>;
 use <?php echo $this->exceptionNamespace; ?>;
-use <?php echo $this->dataObject->getEntity(); ?>;
+use <?php echo $this->architectGenerator->getEntity(); ?>;
 
 class <?php echo $this->daoName . "\n"; ?>
 {

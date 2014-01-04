@@ -37,7 +37,7 @@ class PersistTest extends \PHPUnit_Framework_TestCase
         $dtoRetrive   = $sUT->find($dtoPersisted);
 
 <?php
-$columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
+$columnCollection = $this->architectGenerator->getMetadata()->getColumnCollection(true);
 foreach($columnCollection as $field => $metadata): ?>
         $this->assertEquals($dto->get<?php echo $metadata->getName(true); ?>(), $dtoRetrive->get<?php echo $metadata->getName(true); ?>());
 <?php endforeach; ?>

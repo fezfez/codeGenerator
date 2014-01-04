@@ -11,7 +11,7 @@ questions :
     - 
         dtoAttribute : ModelName
         text : Choose a model name
-        defaultResponse : <?php ucfirst($dto->getMetadata()->getName()); ?>
+        defaultResponse : <?php ucfirst($architectGenerator->getMetadata()->getName()); ?>
     - 
         type : complex
         factory : CrudGenerator\Generators\ArchitectGenerator\MetadataToArrayFactory
@@ -24,9 +24,9 @@ directories :
     - <?php $unitTestDirectory; ?>Hydrator
         
 templateVariables : 
-    - basePath                 : <?php $dto->getModule(); ?>/<?php $dto->getDirectory(); ?>
-    - modelName                : <?php $dto->getModelName(); ?>
-    - ucFirstModel             : <?php ucfirst($dto->getModelName()); ?>
+    - basePath                 : <?php $architectGenerator->getModule(); ?>/<?php $architectGenerator->getDirectory(); ?>
+    - modelName                : <?php $architectGenerator->getModelName(); ?>
+    - ucFirstModel             : <?php ucfirst($architectGenerator->getModelName()); ?>
     - modelName                : <?php $ucFirstModel; ?>
     - ucfirstEntityName        : <?php $ucFirstModel; ?>
     - hydratorName             : <?php $ucFirstModel; ?>Hydrator
@@ -34,20 +34,20 @@ templateVariables :
     - collectionName           : <?php $ucFirstModel; ?>Collection
     - daoName                  : <?php $ucFirstModel; ?>DAO
     - exceptionName            : No<?php $ucFirstModel; ?>Exception
-    - daoNamespace             : <?php $dto->getNamespace(); ?>\DAO\<?php $ucFirstModel; ?>DAO
-    - dtoNamespace             : <?php $dto->getNamespace(); ?>\DataObject\<?php $ucFirstModel; ?>DataObject
-    - hydratorNamespace        : <?php $dto->getNamespace(); ?>\Hydrator\<?php $ucFirstModel; ?>Hydrator
-    - dtoCollectionNamespace   : <?php $dto->getNamespace(); ?>\DataObject\<?php $ucFirstModel; ?>Collection
-    - exceptionNamespace       : <?php $dto->getNamespace(); ?>\No<?php $ucFirstModel; ?>Exception
+    - daoNamespace             : <?php $architectGenerator->getNamespace(); ?>\DAO\<?php $ucFirstModel; ?>DAO
+    - dtoNamespace             : <?php $architectGenerator->getNamespace(); ?>\DataObject\<?php $ucFirstModel; ?>DataObject
+    - hydratorNamespace        : <?php $architectGenerator->getNamespace(); ?>\Hydrator\<?php $ucFirstModel; ?>Hydrator
+    - dtoCollectionNamespace   : <?php $architectGenerator->getNamespace(); ?>\DataObject\<?php $ucFirstModel; ?>Collection
+    - exceptionNamespace       : <?php $architectGenerator->getNamespace(); ?>\No<?php $ucFirstModel; ?>Exception
     # unit test
-    - unitTestNamespace        : Tests\<?php $dto->getNamespace(); ?>\<?php $ucFirstModel; ?>
+    - unitTestNamespace        : Tests\<?php $architectGenerator->getNamespace(); ?>\<?php $ucFirstModel; ?>
     - fixtureName              : <?php $ucFirstModel; ?>Fixture
-    - fixtureNamespace         : Tests\<?php $dto->getNamespace(); ?>\<?php $ucFirstModel; ?>\<?php $fixtureName; ?>
+    - fixtureNamespace         : Tests\<?php $architectGenerator->getNamespace(); ?>\<?php $ucFirstModel; ?>\<?php $fixtureName; ?>
     - environnementCondition   : # reserved word
         - zf2 : 
-            unitTestDirectory : <php $dto->getModule(); ?>/Tests/<?php str_replace('\\', '/', $dto->getNamespace()); ?>/<?php $ucFirstModel; ?>
+            unitTestDirectory : <php $architectGenerator->getModule(); ?>/Tests/<?php str_replace('\\', '/', $architectGenerator->getNamespace()); ?>/<?php $ucFirstModel; ?>
         - else :
-            unitTestDirectory : Tests/<?php str_replace('\\', '/', $dto->getNamespace()); ?>/<?php $ucFirstModel; ?>
+            unitTestDirectory : Tests/<?php str_replace('\\', '/', $architectGenerator->getNamespace()); ?>/<?php $ucFirstModel; ?>
 
 filesList :
     - /Exception.php.phtml            : /No<?php $ucFirstModel; ?>Exception.php
@@ -69,5 +69,5 @@ filesList :
     - environnementCondition   : # reserved word
         - zf2 : 
             - !isFile :
-                /test/Bootstrap.php.zf2.phtml       : <?php $dto->getModule(); ?>/Tests/Bootstrap.php
-                /test/TestConfig.php.dist.zf2.phtml : <?php $dto->getModule(); ?>/Tests/TestConfig.php.dist
+                /test/Bootstrap.php.zf2.phtml       : <?php $architectGenerator->getModule(); ?>/Tests/Bootstrap.php
+                /test/TestConfig.php.dist.zf2.phtml : <?php $architectGenerator->getModule(); ?>/Tests/TestConfig.php.dist

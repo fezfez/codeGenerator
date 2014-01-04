@@ -13,7 +13,7 @@ use <?php echo $this->hydratorNamespace; ?>;
 <?php echo $this->getHelper('TemplateServiceContainer')->getFullClassForUnitTest(); ?>
 
 <?php
-    $length = str_repeat(' ', strlen('a' . $this->dataObject->getEntityName()));
+    $length = str_repeat(' ', strlen('a' . $this->architectGenerator->getEntityName()));
 ?>
 class <?php echo $this->ucfirstEntityName; ?>Fixture
 {
@@ -36,7 +36,7 @@ class <?php echo $this->ucfirstEntityName; ?>Fixture
     {
         $dataObject = new <?php echo $this->dataObjectName; ?>();
         $dataObject<?php
-$columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
+$columnCollection = $this->architectGenerator->getMetadata()->getColumnCollection(true);
 foreach($columnCollection as $field => $metadata):
 if($metadata == reset($columnCollection)): ?>
 ->set<?php echo $metadata->getName(true); ?>(<?php echo $this->getHelper('FixtureRenderer')->render($metadata); ?>)<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>

@@ -2,48 +2,48 @@ name : CrudGenerator
 definition : Generate CRUD based on ArchitectGenerator utilisation
 dto : CrudGenerator\Generators\CrudGenerator\Crud
 dependencies :
-    CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator
+    - ArchitectGenerator
 questions : 
     - 
         dtoAttribute : DisplayName
         text : Display name (in view, title etc..)
-        defaultResponse : <?php $metadataName; ?>
+        defaultResponse : <?php $modelName; ?>
     - 
         dtoAttribute : DisplayNames
         text : Display name au plurielle (in view, title etc..)
-        defaultResponse : <?php $metadataName; ?>s
+        defaultResponse : <?php $modelName; ?>s
     - 
         dtoAttribute : ControllerName
         text : Controller name (ucFirst and without "Controller")
-        defaultResponse : <?php ucfirst($metadataName); ?>
+        defaultResponse : <?php ucfirst($modelName); ?>
     - 
         dtoAttribute : PrefixRouteName
         text : Prefix route name (lower case)
-        defaultResponse : !uncamelcase($metadataName)!
+        defaultResponse : !uncamelcase($modelName)!
 directories :
-    - <?php $dto->findControllerPath(); ?>
-    - <?php $dto->findViewPath(); ?>
+    - <?php $crudGenerator->findControllerPath(); ?>
+    - <?php $crudGenerator->findViewPath(); ?>
 templateVariables : 
-    - homeRoute              : <?php $dto->getPrefixRouteName(); ?>
+    - homeRoute              : <?php $crudGenerator->getPrefixRouteName(); ?>
     - newRoute               : <?php $homeRoute; ?>-new
     - showRoute              : <?php $homeRoute; ?>-show
     - editRoute              : <?php $homeRoute; ?>-edit
     - deleteRoute            : <?php $homeRoute; ?>-delete
-    - ucFirstMetadataName    : <?php ucfirst($metadataName); ?>
-    - hydratorName           : <?php $ucFirstMetadataName; ?>Hydrator
-    - dataObjectName         : <?php $ucFirstMetadataName; ?>DataObject
-    - collectionName         : <?php $ucFirstMetadataName; ?>Collection
-    - daoFactoryName         : <?php $ucFirstMetadataName; ?>DAOFactory
-    - exceptionName          : No<?php $ucFirstMetadataName; ?>Exception
-    - daoFactoryNamespace    : <?php $architectGenerator->getNamespace(); ?>\<?php $ucFirstMetadataName; ?>DAOFactory
-    - dtoNamespace           : <?php $architectGenerator->getNamespace(); ?>\DataObject\<?php $ucFirstMetadataName; ?>DataObject
-    - hydratorNamespace      : <?php $architectGenerator->getNamespace(); ?>\Hydrator\<?php $ucFirstMetadataName; ?>Hydrator
-    - dtoCollectionNamespace : <?php $architectGenerator->getNamespace(); ?>\DataObject\<?php $ucFirstMetadataName; ?>Collection
-    - exceptionNamespace     : <?php $architectGenerator->getNamespace(); ?>\No<?php $ucFirstMetadataName; ?>Exception
+    - ucFirstmodelName    : <?php ucfirst($modelName); ?>
+    - hydratorName           : <?php $ucFirstmodelName; ?>Hydrator
+    - dataObjectName         : <?php $ucFirstmodelName; ?>DataObject
+    - collectionName         : <?php $ucFirstmodelName; ?>Collection
+    - daoFactoryName         : <?php $ucFirstmodelName; ?>DAOFactory
+    - exceptionName          : No<?php $ucFirstmodelName; ?>Exception
+    - daoFactoryNamespace    : <?php $architectGenerator->getNamespace(); ?>\<?php $ucFirstmodelName; ?>DAOFactory
+    - dtoNamespace           : <?php $architectGenerator->getNamespace(); ?>\DataObject\<?php $ucFirstmodelName; ?>DataObject
+    - hydratorNamespace      : <?php $architectGenerator->getNamespace(); ?>\Hydrator\<?php $ucFirstmodelName; ?>Hydrator
+    - dtoCollectionNamespace : <?php $architectGenerator->getNamespace(); ?>\DataObject\<?php $ucFirstmodelName; ?>Collection
+    - exceptionNamespace     : <?php $architectGenerator->getNamespace(); ?>\No<?php $ucFirstmodelName; ?>Exception
 filesList :
-    - /controller.php.phtml : $dataObject->findControllerPath() . !$dataObject->getControllerName()!Controller.php',
-    - /views/index.phtml    : $dataObject->findViewPath() . 'index.phtml',
-    - /views/show.phtml     : $dataObject->findViewPath() . 'show.phtml',
-    - /views/new.phtml      : $dataObject->findViewPath() . 'new.phtml',
-    - /views/edit.phtml     : $dataObject->findViewPath() . 'edit.phtml',
-    - /views/edit-js.phtml  : $dataObject->findViewPath() . 'edit-js.phtml
+    - /controller.php.phtml : <?php $crudGenerator->findControllerPath() . $crudGenerator->getControllerName(); ?>Controller.php
+    - /views/index.phtml    : <?php $crudGenerator->findViewPath(); ?>index.phtml
+    - /views/show.phtml     : <?php $crudGenerator->findViewPath(); ?>show.phtml
+    - /views/new.phtml      : <?php $crudGenerator->findViewPath(); ?>new.phtml
+    - /views/edit.phtml     : <?php $crudGenerator->findViewPath(); ?>edit.phtml
+    - /views/edit-js.phtml  : <?php $crudGenerator->findViewPath(); ?>edit-js.phtml

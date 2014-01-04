@@ -32,7 +32,7 @@
         	<form class="navbar-form navbar-right" role="form" id="formBackend">
         		<div class="form-group">
 		            Backend :
-		            <select name="backend" id="form_Backend" class="form-control" ng-model="backEnd" ng-change="change()" ng-options="obj.id as obj.label for obj in backendList">
+		            <select name="backend" id="form_Backend" class="form-control" ng-model="backEnd" ng-change="backendChange()" ng-options="obj.id as obj.label for obj in backendList">
 		            <option value="">Select Backend</option>
 		            </select>
             	</div>
@@ -70,6 +70,7 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Corp/Controllers.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Corp/Directive.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Vendor/bootstrap.min.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Vendor/shCore.js"></script>
 	<script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Vendor/shBrushPhp.js"></script>

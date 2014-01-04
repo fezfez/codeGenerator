@@ -32,7 +32,7 @@ class ModifyTest extends \PHPUnit_Framework_TestCase
     {
         $dtoPersisted = self::$fixtureManager->loadFixture();
         <?php
-$columnCollection = $this->dataObject->getMetadata()->getColumnCollection(true);
+$columnCollection = $this->architectGenerator->getMetadata()->getColumnCollection(true);
 foreach($columnCollection as $field => $metadata) {
     $metadataToTest = $metadata;
     break;

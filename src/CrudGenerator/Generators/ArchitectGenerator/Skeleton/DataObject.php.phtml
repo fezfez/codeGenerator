@@ -1,20 +1,20 @@
 <?php
 echo '<?php' . "\n";
-$lcfirstEntityName              = $this->dataObject->getMetadata()->getName(true);
+$lcfirstEntityName              = $this->architectGenerator->getMetadata()->getName(true);
 
 ?>
-namespace <?php echo $this->dataObject->getNamespace(); ?>\DataObject;
+namespace <?php echo $this->architectGenerator->getNamespace(); ?>\DataObject;
 
 class <?php echo $this->dataObjectName . "\n"; ?>
 {
 <?php
 /* Traitement des champs */
-foreach($this->dataObject->getAttributeName() as $originalName => $name):
+foreach($this->architectGenerator->getAttributeName() as $originalName => $name):
 if (is_array($name)) {
 	$type = $this->getHelper('Text')->toCamelCase(key($name), true);
 	$name = key($name);
 } else {
-	$type = $this->dataObject->getMetadata()->getColumn($originalName)->getType();
+	$type = $this->architectGenerator->getMetadata()->getColumn($originalName)->getType();
 }
 ?>
     /**
@@ -25,19 +25,19 @@ if (is_array($name)) {
 
 <?php
 /* Traitement des champs */
-foreach($this->dataObject->getAttributeName() as $originalName => $name):
+foreach($this->architectGenerator->getAttributeName() as $originalName => $name):
 $dto = false;
 if (is_array($name)) {
 	$type = $this->getHelper('Text')->toCamelCase(key($name), true);
 	$name = key($name);
 	$dto = true;
 } else {
-	$type = $this->dataObject->getMetadata()->getColumn($originalName)->getType();
+	$type = $this->architectGenerator->getMetadata()->getColumn($originalName)->getType();
 }
 ?>
     /**
      * @param <?php echo $type; ?> $value
-     * @return \<?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObjectName; ?>
+     * @return \<?php echo $this->architectGenerator->getNamespace(); ?>\DataObject\<?php echo $this->dataObjectName; ?>
      */
     public function set<?php echo $this->getHelper('Text')->toCamelCase($name, true); ?>(<?php if ($dto === true) { echo $type . ' '; } ?>$value)
     {
@@ -48,12 +48,12 @@ if (is_array($name)) {
 
 <?php
 /* Traitement des champs */
-foreach($this->dataObject->getAttributeName() as $originalName => $name):
+foreach($this->architectGenerator->getAttributeName() as $originalName => $name):
 if (is_array($name)) {
 $type = $this->getHelper('Text')->toCamelCase(key($name), true);
 	$name = key($name);
 } else {
-	$type = $this->dataObject->getMetadata()->getColumn($originalName)->getType();
+	$type = $this->architectGenerator->getMetadata()->getColumn($originalName)->getType();
 }
 ?>
     /**
