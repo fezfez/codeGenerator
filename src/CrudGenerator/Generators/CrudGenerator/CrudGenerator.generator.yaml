@@ -15,7 +15,7 @@ questions :
     - 
         dtoAttribute : ControllerName
         text : Controller name (ucFirst and without "Controller")
-        defaultResponse : <?php ucfirst($modelName); ?>
+        defaultResponse : <?php $ucFirstModelName; ?>
     - 
         dtoAttribute : PrefixRouteName
         text : Prefix route name (lower case)
@@ -29,17 +29,6 @@ templateVariables :
     - showRoute              : <?php $homeRoute; ?>-show
     - editRoute              : <?php $homeRoute; ?>-edit
     - deleteRoute            : <?php $homeRoute; ?>-delete
-    - ucFirstmodelName    : <?php ucfirst($modelName); ?>
-    - hydratorName           : <?php $ucFirstmodelName; ?>Hydrator
-    - dataObjectName         : <?php $ucFirstmodelName; ?>DataObject
-    - collectionName         : <?php $ucFirstmodelName; ?>Collection
-    - daoFactoryName         : <?php $ucFirstmodelName; ?>DAOFactory
-    - exceptionName          : No<?php $ucFirstmodelName; ?>Exception
-    - daoFactoryNamespace    : <?php $architectGenerator->getNamespace(); ?>\<?php $ucFirstmodelName; ?>DAOFactory
-    - dtoNamespace           : <?php $architectGenerator->getNamespace(); ?>\DataObject\<?php $ucFirstmodelName; ?>DataObject
-    - hydratorNamespace      : <?php $architectGenerator->getNamespace(); ?>\Hydrator\<?php $ucFirstmodelName; ?>Hydrator
-    - dtoCollectionNamespace : <?php $architectGenerator->getNamespace(); ?>\DataObject\<?php $ucFirstmodelName; ?>Collection
-    - exceptionNamespace     : <?php $architectGenerator->getNamespace(); ?>\No<?php $ucFirstmodelName; ?>Exception
 filesList :
     - /controller.php.phtml : <?php $crudGenerator->findControllerPath() . $crudGenerator->getControllerName(); ?>Controller.php
     - /views/index.phtml    : <?php $crudGenerator->findViewPath(); ?>index.phtml

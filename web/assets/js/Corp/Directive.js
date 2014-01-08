@@ -37,13 +37,21 @@ GeneratorApp.directive('generators', function($compile) {
 GeneratorApp.directive('file', function($compile) {
     return {
         restrict: 'E',
+        transclude: true,
+        scope: {family: '='},
         link: function(scope, element, attrs) {
-        	
-        	scope.Math = Math;
-            var template = '<div ng-repeat="files in fileList" class="col-lg-{{ Math.floor(12 / fileList.length) }}" id="test-{{ $index }}">'+
-            '<div class="file" ng-click="viewFile(file)" id="file-{{ $index }}" ng-repeat="file in files">{{ file.name }}</div>'+
-            '</div>';
-            scope.$watchCollection('fileList', function(fileList, old) {
+            
+            var template = '<ul>' + 
+	            '<li class="file" ng-repeat="file in family.files">' +
+	            '<span ng-click="viewFile(file)">{{ file.name }}</span>' + 
+	            '</li>'+
+	            '<li ng-repeat="child in family.children">'+
+	            	'<span class="directory">{{ child.name }}</span>' +
+	                '<file family="child"><div ng-transclude></div></file>' +
+	            '</li>' +
+            '</ul>';
+            scope.$watch('family', function(fileList, old) {
+            	console.log('IM CHANGING');
                 if (angular.isObject(fileList)) {
                     element.html(template);
                     $compile(element.contents())(scope);

@@ -1,7 +1,4 @@
-// Define our AngularJS application module.
-var GeneratorApp = angular.module( "GeneratorApp", [] );
-
-GeneratorApp.controller("GeneratorCtrl", function($scope, $http) {
+GeneratorApp.controller("GeneratorCtrl", ['$scope', '$http', 'GeneratorService', '$rootScope', function($scope, $http, $generatorService, $rootScope) {
     $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 
     $http.get('list-backend').success(function(data, status, headers, config) {
@@ -49,50 +46,21 @@ GeneratorApp.controller("GeneratorCtrl", function($scope, $http) {
         });
     };
 
-    $scope.handleGenerator = function(newValue, oldValue) {
-		var datas =  $.param({backend: $scope.backEnd, generator : newValue, metadata : $scope.metadata, questions : $('.questions').serialize()});
-        $.ajax({
-            type: "POST",
-            url: "generator",
-            data: datas
-        })
-        .done(function( data ) {
-
-            var countProfondeurMax = null,
-                profondeur = null,
-                profondeurFiles = new Array();
-            
-            $.each(data.generator.files, function(id, file) {
-
-                if(typeof name != 'string') {
-                    return;
-                }
-                profondeur = name.split('/').length;
-                countProfondeurMax = (countProfondeurMax < profondeur) ? profondeur : countProfondeurMax;
-                
-                if(profondeurFiles[profondeur] === undefined) {
-                    profondeurFiles[profondeur] = new Array();
-                }
-
-                profondeurFiles[profondeur].push({'name' : file.fileName, 'template' : file.name, 'skeletonPath' : file.skeletonPath});
-                
-            });
-            
-            profondeurFiles = profondeurFiles.filter(function(n){return n});
-            
-            $scope.$apply(function () {
-            	$scope.fileList = profondeurFiles;
-            	if (newValue !== oldValue) {
-            		$scope.questionsList = data.generator.questions;
-            	}
-            });
+    $scope.handleGenerator = function(generatorName, oldGeneratorName) {
+        var datas =  $.param({
+            backend: $scope.backEnd,
+            generator : generatorName,
+            metadata : $scope.metadata,
+            questions : $('.questions').serialize()
         });
-    };
 
-    $scope.$watch('generators', function(newValue, oldValue) {
-    	if(newValue !== undefined) {
-    		$scope.handleGenerator(newValue, oldValue);
-    	}
+        $generatorService.events(datas, (generatorName !== oldGeneratorName));
+    };
+    
+    $scope.$watch('generators', function(generatorName, oldGeneratorName) {
+        if(generatorName !== undefined) {
+        	$scope.handleGenerator(generatorName, oldGeneratorName);
+        }
     });
 
     $scope.viewFile = function(file) {
@@ -115,14 +83,5 @@ GeneratorApp.controller("GeneratorCtrl", function($scope, $http) {
             SyntaxHighlighter.highlight();
         });
     };
-});
+}]);
 
-function swapJsonKeyValues(input) {
-    var one, output = {};
-    for (one in input) {
-        if (input.hasOwnProperty(one)) {
-            output[input[one]] = one;
-        }
-    }
-    return output;
-}

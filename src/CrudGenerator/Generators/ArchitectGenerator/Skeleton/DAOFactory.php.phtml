@@ -9,10 +9,10 @@ use <?php echo $this->getHelper('TemplateDatabaseConnector')->getFullClass(); ?>
 use <?php echo $this->hydratorNamespace; ?>;
 use <?php echo $this->daoNamespace; ?>;
 
-class <?php echo $this->daoName; ?>Factory
+class <?php echo $this->daoFactoryName; ?>
 {
     /**
-     * @return <?php echo $this->architectGenerator->getNamespace(); ?>\DAO\<?php echo $this->ucfirstEntityName; ?>DAO
+     * @return <?php echo $this->daoNamespace; ?>
      */
     public static function getInstance(<?php echo $this->getHelper('TemplateServiceContainer')->getInjectionInDependencie(); ?>)
     {

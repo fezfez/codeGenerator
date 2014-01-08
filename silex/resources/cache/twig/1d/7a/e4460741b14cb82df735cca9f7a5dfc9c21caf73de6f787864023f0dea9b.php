@@ -76,7 +76,8 @@ class __TwigTemplate_1d7ae4460741b14cb82df735cca9f7a5dfc9c21caf73de6f787864023f0
         $this->displayBlock('content', $context, $blocks);
         // line 48
         echo "            <div id=\"test\" class=\"col-md-9\">
-\t\t\t\t<file></file>
+\t\t\t\t<file family=\"fileList\">
+\t\t\t\t</file>
             </div>
             <div class=\"col-md-3\" id=\"div-questions\">
                 <generators></generators>
@@ -100,29 +101,39 @@ class __TwigTemplate_1d7ae4460741b14cb82df735cca9f7a5dfc9c21caf73de6f787864023f0
     <script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js\"></script>
     <script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js\"></script>
     <script type=\"text/javascript\" src=\"";
-        // line 72
-        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
-        echo "/assets/js/Corp/Controllers.js\"></script>
-    <script type=\"text/javascript\" src=\"";
         // line 73
         echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
-        echo "/assets/js/Corp/Directive.js\"></script>
+        echo "/assets/js/Corp/App.js\"></script>
     <script type=\"text/javascript\" src=\"";
         // line 74
         echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
-        echo "/assets/js/Vendor/bootstrap.min.js\"></script>
+        echo "/assets/js/Corp/Service.js\"></script>
     <script type=\"text/javascript\" src=\"";
         // line 75
         echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
+        echo "/assets/js/Corp/Controllers.js\"></script>
+    <script type=\"text/javascript\" src=\"";
+        // line 76
+        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
+        echo "/assets/js/Corp/Directive.js\"></script>
+    <script type=\"text/javascript\" src=\"";
+        // line 77
+        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
+        echo "/assets/js/Vendor/bootstrap.min.js\"></script>
+    <script type=\"text/javascript\" src=\"";
+        // line 78
+        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
         echo "/assets/js/Vendor/shCore.js\"></script>
 \t<script type=\"text/javascript\" src=\"";
-        // line 76
+        // line 79
         echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
         echo "/assets/js/Vendor/shBrushPhp.js\"></script>
 <style type=\"text/css\">
 .file {
-    padding:3px;
-
+    cursor:pointer;
+}
+.directory {
+    font-weight:bold;
 }
 </style>
 </body>
@@ -148,6 +159,6 @@ class __TwigTemplate_1d7ae4460741b14cb82df735cca9f7a5dfc9c21caf73de6f787864023f0
 
     public function getDebugInfo()
     {
-        return array (  136 => 47,  133 => 46,  120 => 76,  116 => 75,  112 => 74,  108 => 73,  104 => 72,  78 => 48,  76 => 46,  48 => 20,  46 => 19,  38 => 14,  34 => 13,  20 => 1,);
+        return array (  147 => 47,  144 => 46,  129 => 79,  125 => 78,  121 => 77,  117 => 76,  113 => 75,  109 => 74,  105 => 73,  78 => 48,  76 => 46,  48 => 20,  46 => 19,  38 => 14,  34 => 13,  20 => 1,);
     }
 }
