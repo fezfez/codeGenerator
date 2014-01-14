@@ -46,7 +46,8 @@
             {% block content %}
             {% endblock %}
             <div id="test" class="col-md-9">
-				<file></file>
+				<file-tree family="fileList" file-view="viewFile(fileObject)">
+				</file-tree>
             </div>
             <div class="col-md-3" id="div-questions">
                 <generators></generators>
@@ -55,29 +56,32 @@
 
     </div>
     <!-- Modal -->
-<div class="modal fade" id="configuration-modal" tabindex="-1" role="dialog" aria-labelledby="configuration-modal" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Configuration</h4>
-      </div>
-      <div class="modal-body">
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+	<modal></modal>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Corp/Controllers.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Corp/Directive.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/App.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Corp/File/FileDataObject.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Corp/Directory/DirectoryDataObject.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Corp/Directory/DirectoryDAO.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Corp/Directory/DirectoryBuilder.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Corp/Directory/DirectoryBuilderFactory.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Services/GeneratorService.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Services/ViewFileService.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Controllers/GeneratorController.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Directives/File.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Directives/Generators.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Directives/Metadata.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Directives/Questions.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Directives/Modal.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Vendor/bootstrap.min.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Vendor/shCore.js"></script>
 	<script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Vendor/shBrushPhp.js"></script>
 <style type="text/css">
 .file {
-    padding:3px;
-
+    cursor:pointer;
+}
+.directory {
+    font-weight:bold;
 }
 </style>
 </body>

@@ -113,7 +113,7 @@ class Generator implements \JsonSerializable
 	 */
 	public function addFile($skeletonPath, $name, $value)
 	{
-		$this->files[$name] = array('skeletonPath' => $skeletonPath, 'fileName' => $value, 'name' => $name);
+		$this->files[$value] = array('skeletonPath' => $skeletonPath, 'fileName' => $value, 'name' => $name);
 		return $this;
 	}
 	/**
@@ -142,6 +142,7 @@ class Generator implements \JsonSerializable
 
 	public function jsonSerialize()
 	{
+		sort($this->files);
 		return array(
 			'templateVariable' => $this->templateVariable,
 			'files' => $this->files,

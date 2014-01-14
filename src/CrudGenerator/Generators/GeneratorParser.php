@@ -105,14 +105,15 @@ class GeneratorParser
      */
     public function viewFile(Generator $generator, $fileName, $skeletonPath)
     {
-        if(!array_key_exists($fileName, $generator->getFiles())) {
+    	$files = $generator->getFiles();
+        if(!isset($files[$fileName])) {
             throw new \Exception(sprintf('File "%s" does not exist', $fileName));
         }
 
         return $this->viewFile->generateFile(
             $generator->getDTO(),
             $skeletonPath,
-            $fileName,
+            $files[$fileName]['name'],
             '',
             $generator->getTemplateVariables()
         );

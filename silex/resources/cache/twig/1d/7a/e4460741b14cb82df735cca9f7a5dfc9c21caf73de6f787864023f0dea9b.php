@@ -76,7 +76,8 @@ class __TwigTemplate_1d7ae4460741b14cb82df735cca9f7a5dfc9c21caf73de6f787864023f0
         $this->displayBlock('content', $context, $blocks);
         // line 48
         echo "            <div id=\"test\" class=\"col-md-9\">
-\t\t\t\t<file></file>
+\t\t\t\t<file-tree family=\"fileList\" file-view=\"viewFile(fileObject)\">
+\t\t\t\t</file-tree>
             </div>
             <div class=\"col-md-3\" id=\"div-questions\">
                 <generators></generators>
@@ -85,44 +86,83 @@ class __TwigTemplate_1d7ae4460741b14cb82df735cca9f7a5dfc9c21caf73de6f787864023f0
 
     </div>
     <!-- Modal -->
-<div class=\"modal fade\" id=\"configuration-modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"configuration-modal\" aria-hidden=\"true\">
-  <div class=\"modal-dialog\">
-    <div class=\"modal-content\">
-      <div class=\"modal-header\">
-        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>
-        <h4 class=\"modal-title\" id=\"myModalLabel\">Configuration</h4>
-      </div>
-      <div class=\"modal-body\">
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+\t<modal></modal>
     <script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js\"></script>
     <script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js\"></script>
     <script type=\"text/javascript\" src=\"";
+        // line 62
+        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
+        echo "/assets/js/App/App.js\"></script>
+    <script type=\"text/javascript\" src=\"";
+        // line 63
+        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
+        echo "/assets/js/App/Corp/File/FileDataObject.js\"></script>
+    <script type=\"text/javascript\" src=\"";
+        // line 64
+        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
+        echo "/assets/js/App/Corp/Directory/DirectoryDataObject.js\"></script>
+    <script type=\"text/javascript\" src=\"";
+        // line 65
+        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
+        echo "/assets/js/App/Corp/Directory/DirectoryDAO.js\"></script>
+    <script type=\"text/javascript\" src=\"";
+        // line 66
+        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
+        echo "/assets/js/App/Corp/Directory/DirectoryBuilder.js\"></script>
+    <script type=\"text/javascript\" src=\"";
+        // line 67
+        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
+        echo "/assets/js/App/Corp/Directory/DirectoryBuilderFactory.js\"></script>
+    <script type=\"text/javascript\" src=\"";
+        // line 68
+        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
+        echo "/assets/js/App/Services/GeneratorService.js\"></script>
+    <script type=\"text/javascript\" src=\"";
+        // line 69
+        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
+        echo "/assets/js/App/Services/ViewFileService.js\"></script>
+    <script type=\"text/javascript\" src=\"";
+        // line 70
+        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
+        echo "/assets/js/App/Controllers/GeneratorController.js\"></script>
+    <script type=\"text/javascript\" src=\"";
+        // line 71
+        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
+        echo "/assets/js/App/Directives/File.js\"></script>
+    <script type=\"text/javascript\" src=\"";
         // line 72
         echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
-        echo "/assets/js/Corp/Controllers.js\"></script>
+        echo "/assets/js/App/Directives/Generators.js\"></script>
     <script type=\"text/javascript\" src=\"";
         // line 73
         echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
-        echo "/assets/js/Corp/Directive.js\"></script>
+        echo "/assets/js/App/Directives/Metadata.js\"></script>
     <script type=\"text/javascript\" src=\"";
         // line 74
         echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
-        echo "/assets/js/Vendor/bootstrap.min.js\"></script>
+        echo "/assets/js/App/Directives/Questions.js\"></script>
     <script type=\"text/javascript\" src=\"";
         // line 75
         echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
+        echo "/assets/js/App/Directives/Modal.js\"></script>
+    <script type=\"text/javascript\" src=\"";
+        // line 76
+        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
+        echo "/assets/js/Vendor/bootstrap.min.js\"></script>
+    <script type=\"text/javascript\" src=\"";
+        // line 77
+        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
         echo "/assets/js/Vendor/shCore.js\"></script>
 \t<script type=\"text/javascript\" src=\"";
-        // line 76
+        // line 78
         echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["app"]) ? $context["app"] : $this->getContext($context, "app")), "request"), "basepath"), "html", null, true);
         echo "/assets/js/Vendor/shBrushPhp.js\"></script>
 <style type=\"text/css\">
 .file {
-    padding:3px;
-
+    cursor:pointer;
+}
+.directory {
+    font-weight:bold;
 }
 </style>
 </body>
@@ -148,6 +188,6 @@ class __TwigTemplate_1d7ae4460741b14cb82df735cca9f7a5dfc9c21caf73de6f787864023f0
 
     public function getDebugInfo()
     {
-        return array (  136 => 47,  133 => 46,  120 => 76,  116 => 75,  112 => 74,  108 => 73,  104 => 72,  78 => 48,  76 => 46,  48 => 20,  46 => 19,  38 => 14,  34 => 13,  20 => 1,);
+        return array (  176 => 47,  173 => 46,  158 => 78,  154 => 77,  150 => 76,  146 => 75,  142 => 74,  138 => 73,  134 => 72,  130 => 71,  126 => 70,  122 => 69,  118 => 68,  114 => 67,  110 => 66,  106 => 65,  102 => 64,  98 => 63,  94 => 62,  78 => 48,  76 => 46,  48 => 20,  46 => 19,  38 => 14,  34 => 13,  20 => 1,);
     }
 }

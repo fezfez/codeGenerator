@@ -75,11 +75,11 @@ class <?php echo $this->daoName . "\n"; ?>
     {
         $result = $this->hydrator->popoToEntity(
             $<?php echo $this->modelName; ?>,
-            <?php if ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase() == 'entity'): ?>
+<?php if ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase() == 'entity'): ?>
             new <?php echo $this->modelName; ?>()
-            <?php elseif ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase() == 'array'): ?>
+<?php elseif ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase() == 'array'): ?>
             array()
-            <?php endif; ?>
+<?php endif; ?>
         );
 
         <?php echo $this->getHelper('TemplateDatabaseConnector')->getPersistQuery($this->dataObject) . "\n"; ?>
@@ -116,7 +116,7 @@ class <?php echo $this->daoName . "\n"; ?>
     }
 
     /**
-     * @param <?php echo $this->dataObjectName; ?> $<?php echo $this->ucfirstEntityName . "\n"; ?>
+     * @param <?php echo $this->dataObjectName; ?> $<?php echo $this->modelName . "\n"; ?>
      * @throws <?php echo $this->exceptionName . "\n"; ?>
      */
     public function remove(<?php echo $this->dataObjectName; ?> $<?php echo $this->modelName; ?>)
