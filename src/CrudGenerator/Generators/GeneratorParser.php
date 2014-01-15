@@ -162,9 +162,17 @@ class GeneratorParser
     private function analyseQuestionsReponse(array $questions, $dto)
     {
         foreach ($questions as $questionName => $questionReponse) {
-            if (method_exists($dto, $questionName)) {
-                $dto->$questionName($questionReponse);
-            }
+        	if (is_array($questionReponse)) {
+        		foreach ($questionReponse as $firstArgument => $secondArgument) {
+	        		if (method_exists($dto, $questionName)) {
+	        			$dto->$questionName($firstArgument, $secondArgument);
+	        		}
+        		}
+        	} else {
+	            if (method_exists($dto, $questionName)) {
+	                $dto->$questionName($questionReponse);
+	            }
+        	}
         }
 
         return $dto;
@@ -180,19 +188,14 @@ class GeneratorParser
     {
         foreach ($process['questions'] as $question) {
             if (isset($question['type']) && $question['type'] === 'complex') {
-                //$question['factory']::getInstance();
+                $complex = new $question['factory'];
+                $generator = $complex->ask($generator);
             } else {
-                $tmp = array();
-                if(isset($question['defaultResponse']) && $parser->issetVariable($question['defaultResponse'])) {
-                    $tmp = array('defaultResponse' => $parser->parse($question['defaultResponse']));
-                }
                 $generator->addQuestion(
-                    array_merge(
-                        array(
-                            'dtoAttribute'    => 'set' . ucfirst($question['dtoAttribute']),
-                            'text'            => $question['text']
-                        ),
-                        $tmp
+                    array(
+                        'dtoAttribute'    => 'set' . ucfirst($question['dtoAttribute']),
+                        'text'            => $question['text'],
+                        'defaultResponse' => (isset($question['defaultResponse']) && $parser->issetVariable($question['defaultResponse'])) ? $parser->parse($question['defaultResponse']) : ''
                     )
                 );
             }

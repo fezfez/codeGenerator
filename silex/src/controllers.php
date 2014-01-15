@@ -90,14 +90,7 @@ $metadataChoice = function($backendSelect) use($app) {
 $parseQuestion = function($questionString) {
 	$questionArray = array();
 
-	if(!empty($questionString)) {
-		$questionString = urldecode($questionString);
-		$questions = explode('&', $questionString);
-		foreach($questions as $question) {
-			$questionValue = explode('=', $question);
-			$questionArray[$questionValue[0]] = $questionValue[1];
-		}
-	}
+	parse_str($questionString, $questionArray);
 
 	return $questionArray;
 };
