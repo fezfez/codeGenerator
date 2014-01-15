@@ -7,7 +7,7 @@
 	        link: function(scope, element, attrs) {
 	            var template = '<div class="form-group" ng-repeat="questions in questionsList">'+
 	            '<label for="{{ name.dtoAttribute }}">{{ questions.text }}</label>'+
-	            '<input ng-keyup="handleGenerator(generators, generators)" class="form-control questions" id="{{ questions.dtoAttribute }}" type="text" name="{{ questions.dtoAttribute }}" placeholder="{{ questions.text }}" />' +
+	            '<input ng-keyup="handleGenerator(generators, generators)" value="{{ questions.defaultResponse }}" class="form-control questions" id="{{ questions.dtoAttribute }}" type="text" name="{{ questions.dtoAttribute }}" placeholder="{{ questions.text }}" />' +
 	            '</div>';
 	            scope.$watchCollection('questionsList', function(fileList, old) {
 	                if (angular.isObject(fileList)) {

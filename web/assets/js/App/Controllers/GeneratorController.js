@@ -72,6 +72,7 @@
                 });
 
                 $scope.viewFile = function (file) {
+                	console.log(arguments);
                     var datas = $.param({
                         generator    : $scope.generators,
                         skeletonPath : file.getSkeletonPath(),

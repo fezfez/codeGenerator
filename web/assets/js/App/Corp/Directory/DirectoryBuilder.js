@@ -18,7 +18,9 @@ function DirectoryBuilder(DirectoryDAO) {
             child = null,
             fileDTO = null;
 
-        file.originalName = file.fileName;
+        if (undefined === file.originalName) {
+            file.originalName = file.fileName;
+        }
 
         // If this is a file
         if (filtredName.length === 1) {

@@ -8,7 +8,7 @@ GeneratorApp.factory('GeneratorService', ['$http', '$q', function ($http, $q) {
                 self = this;
 
             if (self.http === true) {
-                canceler.resolve();
+                //canceler.resolve();
             }
 
             self.http = true;

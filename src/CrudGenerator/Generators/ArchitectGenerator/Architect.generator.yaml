@@ -3,9 +3,6 @@ definition : Generate DAO, DTO, Hydrator, Exception, unit test
 dto : CrudGenerator\Generators\ArchitectGenerator\Architect
 questions : 
     - 
-        type : complex
-        factory : CrudGenerator\Generators\Helpers\DirectoryValidatorFactory
-    - 
         dtoAttribute : Namespace
         text : Choose a target namespace
     - 
@@ -14,7 +11,7 @@ questions :
         defaultResponse : <?php ucfirst($architectGenerator->getMetadata()->getName()); ?>
     - 
         type : complex
-        factory : CrudGenerator\Generators\ArchitectGenerator\MetadataToArrayFactory
+        factory : CrudGenerator\Generators\ArchitectGenerator\MetadataToArrayWeb
 directories :
     - <?php $basePath; ?>/DAO/
     - <?php $basePath; ?>/Hydrator/
