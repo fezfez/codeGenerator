@@ -11,7 +11,10 @@ questions :
         defaultResponse : <?php ucfirst($architectGenerator->getMetadata()->getName()); ?>
     - 
         type : complex
-        factory : CrudGenerator\Generators\ArchitectGenerator\MetadataToArrayWeb
+        factory : CrudGenerator\Generators\ArchitectGenerator\MetadataToArrayWebFactory
+    - 
+        type : complex
+        factory : CrudGenerator\Generators\ArchitectGenerator\DirectoryValidatorWebFactory
 directories :
     - <?php $basePath; ?>/DAO/
     - <?php $basePath; ?>/Hydrator/
@@ -47,12 +50,12 @@ templateVariables :
             unitTestDirectory : Tests/<?php str_replace('\\', '/', $architectGenerator->getNamespace()); ?>/<?php $ucFirstModelName; ?>
 
 filesList :
-    - /Exception.php.phtml            : /No<?php $ucFirstModelName; ?>Exception.php
-    - /DAOFactory.php.phtml           : /<?php $ucFirstModelName; ?>DAOFactory.php
-    - /DAO.php.phtml                  : /DAO/<?php $ucFirstModelName; ?>DAO.php
-    - /Hydrator.php.phtml             : /Hydrator/<?php $ucFirstModelName; ?>Hydrator.php
-    - /DataObject.php.phtml           : /DataObject/<?php $ucFirstModelName; ?>DataObject.php
-    - /DataObjectCollection.php.phtml : /DataObject/<?php $ucFirstModelName; ?>Collection.php
+    - /Exception.php.phtml            : <?php $basePath; ?>/No<?php $ucFirstModelName; ?>Exception.php
+    - /DAOFactory.php.phtml           : <?php $basePath; ?>/<?php $ucFirstModelName; ?>DAOFactory.php
+    - /DAO.php.phtml                  : <?php $basePath; ?>/DAO/<?php $ucFirstModelName; ?>DAO.php
+    - /Hydrator.php.phtml             : <?php $basePath; ?>/Hydrator/<?php $ucFirstModelName; ?>Hydrator.php
+    - /DataObject.php.phtml           : <?php $basePath; ?>/DataObject/<?php $ucFirstModelName; ?>DataObject.php
+    - /DataObjectCollection.php.phtml : <?php $basePath; ?>/DataObject/<?php $ucFirstModelName; ?>Collection.php
     # unit test
     - /test/Fixture.php.phtml                    : <?php $unitTestDirectory . $ucFirstModelName; ?>Fixture.php
     - /test/DAOFactory/getInstanceTest.php.phtml : <?php $unitTestDirectory; ?>DAOFactory/GetInstanceTest.php

@@ -2,8 +2,8 @@
     "use strict";
 
     angular.module('GeneratorApp.controllers', [])
-         .controller("GeneratorCtrl", ['$scope', '$http', 'GeneratorService', 'ViewFileService',
-                                              function ($scope, $http, $generatorService, $viewFileService) {
+         .controller("GeneratorCtrl", ['$scope', '$http', 'GeneratorService', 'ViewFileService', 'WaitModalService',
+                                              function ($scope, $http, $generatorService, $viewFileService, $WaitModalService) {
                 $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 
                 $http.get('list-backend').success(function (data) {
@@ -50,6 +50,7 @@
                 };
 
                 $scope.handleGenerator = function (generatorName, oldGeneratorName) {
+                	$WaitModalService.show();
                     var datas =  $.param({
                         backend   : $scope.backEnd,
                         generator : generatorName,
@@ -59,9 +60,8 @@
 
                     $generatorService.build(datas, function (directories, questionList) {
                         $scope.fileList = directories;
-                        if (generatorName !== oldGeneratorName) {
-                            $scope.questionsList = questionList;
-                        }
+                        $scope.questionsList = questionList;
+                        $WaitModalService.hide();
                     });
                 };
 
@@ -72,7 +72,6 @@
                 });
 
                 $scope.viewFile = function (file) {
-                	console.log(arguments);
                     var datas = $.param({
                         generator    : $scope.generators,
                         skeletonPath : file.getSkeletonPath(),
@@ -85,8 +84,10 @@
                     $viewFileService.generate(datas, function (results) {
                         $scope.modal = {
                             'title' : file.getName(),
-                            'body' : '<pre class="brush: php;">' + results.generator + '<pre>',
+                            'body' : results.generator,
                             'callback' : function () {
+                            	var content = $('modal .modal-body').html();
+                            	$('modal .modal-body').empty().append('<pre class="brush: php;">' + content + '</pre>');
                                 SyntaxHighlighter.highlight();
                             }
                         };

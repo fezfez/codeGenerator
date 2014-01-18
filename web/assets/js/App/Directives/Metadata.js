@@ -6,7 +6,7 @@
 	        restrict: 'E',
 	        link: function(scope, element, attrs) {
 	            var template = '<select id="metadataList" class="form-control" name="metadata" ng-model="metadata" ng-options="obj.id as obj.label for obj in metadataList">'+
-	             	'<option value="">Choose metadata</option>'+
+	             	'<option value="">Select Metadata</option>'+
 	                '</select>';
 	            scope.$watch('metadataList', function(metadataList) {
 	                if (angular.isObject(metadataList)) {

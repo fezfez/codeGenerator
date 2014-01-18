@@ -31,6 +31,7 @@ use CrudGenerator\Generators\GeneratorFinder;
  */
 class GeneratorParser
 {
+	const COMPLEX_QUESTION = 'complex';
     /**
      * @var Yaml YamlParser
      */
@@ -89,7 +90,7 @@ class GeneratorParser
         $parser->addVariable(lcfirst($process['name']), $generator->getDTO());
         $generator->addTemplateVariable(lcfirst($process['name']), $generator->getDTO());
 
-        $generator = $this->analyseQuestions($process, $parser, $generator);
+        $generator = $this->analyseQuestions($process, $parser, $generator, $questions);
         $generator = $this->analyseTemplateVariables($process, $parser, $generator);
         $generator = $this->analyseDirectories($process, $parser, $generator);
         $generator = $this->analyseFileList($process, $parser, $generator, dirname($generator->getName()) . '/Skeleton/');
@@ -145,7 +146,7 @@ class GeneratorParser
             $generator->addTemplateVariable(lcfirst($dependenciesProcess['name']), $generator->getDTO());
 
             $generator = $this->analyseDependencies($dependenciesProcess, $parser, $generator, $questions, $metadata);
-            $generator = $this->analyseQuestions($dependenciesProcess, $parser, $generator);
+            $generator = $this->analyseQuestions($dependenciesProcess, $parser, $generator, $questions);
             $generator = $this->analyseTemplateVariables($dependenciesProcess, $parser, $generator);
             $generator = $this->analyseDirectories($dependenciesProcess, $parser, $generator);
             $generator = $this->analyseFileList($dependenciesProcess, $parser, $generator, dirname($generatorFile) . '/Skeleton/');
@@ -184,17 +185,18 @@ class GeneratorParser
      * @param Generator $generator
      * @return Generator
      */
-    private function analyseQuestions(array $process, PhpStringParser $parser, Generator $generator)
+    private function analyseQuestions(array $process, PhpStringParser $parser, Generator $generator, array $questions)
     {
         foreach ($process['questions'] as $question) {
-            if (isset($question['type']) && $question['type'] === 'complex') {
-                $complex = new $question['factory'];
+            if (isset($question['type']) && $question['type'] === self::COMPLEX_QUESTION) {
+                $complex = $question['factory']::getInstance();
                 $generator = $complex->ask($generator);
             } else {
                 $generator->addQuestion(
                     array(
                         'dtoAttribute'    => 'set' . ucfirst($question['dtoAttribute']),
                         'text'            => $question['text'],
+                    	'value'           => (isset($questions['set' . ucfirst($question['dtoAttribute'])])) ? $questions['set' . ucfirst($question['dtoAttribute'])] : '',
                         'defaultResponse' => (isset($question['defaultResponse']) && $parser->issetVariable($question['defaultResponse'])) ? $parser->parse($question['defaultResponse']) : ''
                     )
                 );

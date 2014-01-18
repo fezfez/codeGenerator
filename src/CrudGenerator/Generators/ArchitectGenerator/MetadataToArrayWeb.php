@@ -40,10 +40,6 @@ class MetadataToArrayWeb
         			array(
         				'dtoAttribute'    => 'setAttributeName[' . $column->getName() . ']',
         				'text'            => 'Attribute name for "' . $column->getName() . '"',
-        				'arguments'       => array(
-        					$column->getName(),
-        					'response'
-        				),
         				'defaultResponse' => (null === $generator->getDTO()->getAttributeName($column->getName())) ? $column->getName() : $generator->getDTO()->getAttributeName($column->getName())
         			)
         		)
