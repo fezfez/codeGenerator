@@ -1,7 +1,7 @@
 <?php echo '<?php' . "\n"; ?>
-namespace <?php echo $this->unitTestNamespace; ?>\DAO;
+namespace <?php echo $this->unitTestNamespace; ?>\<?php echo $this->daoName; ?>;
 
-use <?php echo $this->fixtureNamespace; ?>;
+use <?php echo $this->fixtureFactoryNamespace; ?>;
 use <?php echo $this->hydratorNamespace; ?>;
 use <?php echo $this->dtoNamespace; ?>;
 use <?php echo $this->daoNamespace; ?>;
@@ -15,7 +15,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$fixtureManager = new <?php echo $this->fixtureName; ?>();
+        self::$fixtureManager = <?php echo $this->fixtureFactoryName; ?>::getInstance();
     }
 
     public static function tearDownAfterClass()
@@ -45,7 +45,10 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveFailed()
     {
-        $sUT = new <?php echo $this->daoName; ?>(self::$fixtureManager->getDatabaseConnection(), new <?php echo $this->hydratorName; ?>());
+        $sUT = new <?php echo $this->daoName; ?>(
+            self::$fixtureManager->getDatabaseConnection(),
+            new <?php echo $this->hydratorName; ?>()
+        );
         $dto = new <?php echo $this->dataObjectName; ?>();
 
         $this->setExpectedException('<?php echo $this->exceptionNamespace; ?>');
@@ -54,7 +57,10 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveFailedWithId()
     {
-        $sUT = new <?php echo $this->daoName; ?>(self::$fixtureManager->getDatabaseConnection(), new <?php echo $this->hydratorName; ?>());
+        $sUT = new <?php echo $this->daoName; ?>(
+            self::$fixtureManager->getDatabaseConnection(),
+            new <?php echo $this->hydratorName; ?>()
+        );
         $dto = new <?php echo $this->dataObjectName; ?>();
         $dto->setId('42');
 

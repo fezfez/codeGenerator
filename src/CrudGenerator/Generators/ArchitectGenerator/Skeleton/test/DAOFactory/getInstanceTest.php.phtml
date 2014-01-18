@@ -12,7 +12,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(
             '<?php echo $this->daoNamespace; ?>',
-            <?php echo $this->daoName; ?>Factory::getInstance(<?php echo $this->getHelper('TemplateServiceContainer')->getCreateInstanceForUnitTest() . "\n" ?>)
+            <?php echo $this->daoName; ?>Factory::getInstance(<?php echo $this->getHelper('TemplateServiceContainer')->getCreateInstanceForUnitTest(); ?>)
         );
     }
 }

@@ -1,15 +1,12 @@
 <?php
 echo '<?php' . "\n";
-$lcfirstEntityName              = $this->architectGenerator->getMetadata()->getName(true);
-
 ?>
 namespace <?php echo $this->architectGenerator->getNamespace(); ?>\DataObject;
 
 use <?php echo $this->dtoNamespace; ?>;
-
 use ArrayObject;
 
-class <?php echo $lcfirstEntityName; ?>Collection extends ArrayObject
+class <?php echo $this->collectionName; ?> extends ArrayObject
 {
 
 }

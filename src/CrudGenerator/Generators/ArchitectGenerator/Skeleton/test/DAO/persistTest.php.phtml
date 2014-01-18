@@ -1,9 +1,9 @@
 <?php
 echo '<?php' . "\n";
 ?>
-namespace <?php echo $this->unitTestNamespace; ?>\DAO;
+namespace <?php echo $this->unitTestNamespace; ?>\<?php echo $this->daoName; ?>;
 
-use <?php echo $this->fixtureNamespace; ?>;
+use <?php echo $this->fixtureFactoryNamespace; ?>;
 use <?php echo $this->hydratorNamespace; ?>;
 use <?php echo $this->dtoNamespace; ?>;
 use <?php echo $this->daoNamespace; ?>;
@@ -17,7 +17,7 @@ class PersistTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$fixtureManager = new <?php echo $this->fixtureName; ?>();
+        self::$fixtureManager = <?php echo $this->fixtureFactoryName; ?>::getInstance();
     }
 
     public static function tearDownAfterClass()
@@ -37,9 +37,13 @@ class PersistTest extends \PHPUnit_Framework_TestCase
         $dtoRetrive   = $sUT->find($dtoPersisted);
 
 <?php
-$columnCollection = $this->architectGenerator->getMetadata()->getColumnCollection(true);
-foreach($columnCollection as $field => $metadata): ?>
-        $this->assertEquals($dto->get<?php echo $metadata->getName(true); ?>(), $dtoRetrive->get<?php echo $metadata->getName(true); ?>());
+foreach($this->architectGenerator->getAttributeName() as $originalName => $name):
+$isPk = $this->architectGenerator->getMetaData()->getColumn($originalName)->isPrimaryKey();
+if ($isPk === true) {
+    continue;
+}
+?>
+        $this->assertEquals($dto->get<?php echo $this->getHelper('Text')->toCamelCase($name, true); ?>(), $dtoRetrive->get<?php echo $this->getHelper('Text')->toCamelCase($name, true); ?>());
 <?php endforeach; ?>
     }
 }

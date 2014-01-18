@@ -15,23 +15,31 @@ use <?php echo $this->hydratorNamespace; ?>;
 <?php
     $length = str_repeat(' ', strlen('a' . $this->architectGenerator->getEntityName()));
 ?>
-class <?php echo $this->ucFirstModelName; ?>Fixture
+class <?php echo $this->fixtureName . "\n"; ?>
 {
     /**
      * @var <?php echo $databaseConnectorClassName . "\n"; ?>
      */
     private $<?php echo $databaseConnectionVariableName; ?> = null;
     /**
-     * @var <?php echo $this->hydratorName; ?>
+     * @var <?php echo $this->hydratorName . "\n"; ?>
      */
     private $hydrator = null;
 
-    public function __construct()
+    /**
+     * @param <?php echo $this->hydratorName; ?> $hydrator
+     * @param <?php echo $databaseConnectorClassName; ?> $<?php echo $databaseConnectionVariableName . "\n"; ?>
+     */
+    public function __construct(<?php echo $this->hydratorName; ?> $hydrator, <?php echo $databaseConnectorClassName; ?> $<?php echo $databaseConnectionVariableName; ?>)
     {
-        $this->hydrator = new <?php echo $this->hydratorName; ?>();
-        $this->getDatabaseConnection();
+        $this->hydrator = $hydrator;
+        $this-><?php echo $databaseConnectionVariableName; ?> = $<?php echo $databaseConnectionVariableName; ?>;
     }
 
+    /**
+     * Retrieve fixture
+     * @return <?php echo $this->dataObjectName . "\n"; ?>
+     */
     public function getFixture()
     {
         $dataObject = new <?php echo $this->dataObjectName; ?>();
@@ -39,25 +47,29 @@ class <?php echo $this->ucFirstModelName; ?>Fixture
 $columnCollection = $this->architectGenerator->getMetadata()->getColumnCollection(true);
 foreach($columnCollection as $field => $metadata):
 if($metadata == reset($columnCollection)): ?>
-->set<?php echo $metadata->getName(true); ?>(<?php echo $this->getHelper('FixtureRenderer')->render($metadata); ?>)<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
+->set<?php echo $this->getHelper('Text')->toCamelCase($this->architectGenerator->getAttributeName($metadata->getName()), true); ?>(<?php echo $this->getHelper('FixtureRenderer')->render($metadata); ?>)<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
 <?php else: ?>
-                     ->set<?php echo $metadata->getName(true); ?>(<?php echo $this->getHelper('FixtureRenderer')->render($metadata); ?>)<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
+                   ->set<?php echo $this->getHelper('Text')->toCamelCase($this->architectGenerator->getAttributeName($metadata->getName()), true); ?>(<?php echo $this->getHelper('FixtureRenderer')->render($metadata); ?>)<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
 <?php endif; ?>
 <?php endforeach; ?>
 
         return $dataObject;
     }
 
+    /**
+     * Load Fixture in database
+     * @return <?php echo $this->dataObjectName . "\n"; ?>
+     */
     public function loadFixture()
     {
         $fixture = $this->getFixture();
         $result  = $this->hydrator->popoToEntity(
             $fixture,
-            <?php if ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase() == 'entity'): ?>
+<?php if ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase() == 'entity'): ?>
             new <?php echo $this->modelName; ?>()
-            <?php elseif ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase() == 'array'): ?>
+<?php elseif ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase() == 'array'): ?>
             array()
-            <?php endif; ?>
+<?php endif; ?>
         );
 
         <?php echo $this->getHelper('TemplateDatabaseConnector')->getPersistQuery($this->dataObject) . "\n"; ?>
@@ -68,21 +80,11 @@ if($metadata == reset($columnCollection)): ?>
         );
     }
 
+    /**
+     * Purge table
+     */
     public function purge()
     {
         <?php echo $this->getHelper('TemplateDatabaseConnector')->getPurgeQueryForUnitTest($this->dataObject) . "\n"; ?>
-    }
-
-    /**
-     * @return <?php echo $this->getHelper('TemplateDatabaseConnector')->getFullClass() . "\n"; ?>
-     */
-    public function getDatabaseConnection()
-    {
-        if (null === $this-><?php echo $databaseConnectionVariableName; ?>) {
-            <?php echo $this->getHelper('TemplateServiceContainer')->getCreateInstanceForUnitTest() . "\n" ?>
-            $this-><?php echo $databaseConnectionVariableName; ?> = <?php echo $this->getHelper('TemplateDatabaseConnector')->getCreateInstance() . "\n"; ?>
-        }
-
-        return $this-><?php echo $databaseConnectionVariableName; ?>;
     }
 }
