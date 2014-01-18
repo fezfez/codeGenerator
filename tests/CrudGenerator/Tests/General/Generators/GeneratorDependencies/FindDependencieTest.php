@@ -43,13 +43,9 @@ class FindDependencieTest extends \PHPUnit_Framework_TestCase
     	$history->setName('toto')
     	->addDataObject($dto);
 
-    	$stubHistory->expects($this->once())
-    	->method('find')
-    	->will($this->returnValue($history));
-
     	$sUT = new GeneratorDependencies($stubHistory, $stubCreateCommand);
 
-    	$this->setExpectedException('CrudGenerator\Generators\GeneratorDependenciesNotFound');
+    	$this->setExpectedException('CrudGenerator\Generators\CodeGeneratorNotFoundException');
 
     	$sUT->findDependencie('CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator');
     }
