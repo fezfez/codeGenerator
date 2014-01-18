@@ -31,7 +31,6 @@
         <div class="collapse navbar-collapse">
         	<form class="navbar-form navbar-right" role="form" id="formBackend">
         		<div class="form-group">
-		            Backend :
 		            <select name="backend" id="form_Backend" class="form-control" ng-model="backEnd" ng-change="backendChange()" ng-options="obj.id as obj.label for obj in backendList">
 		            <option value="">Select Backend</option>
 		            </select>
@@ -57,6 +56,7 @@
     </div>
     <!-- Modal -->
 	<modal></modal>
+	<waitModal></waitModal>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/App.js"></script>
@@ -67,6 +67,7 @@
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Corp/Directory/DirectoryBuilderFactory.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Services/GeneratorService.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Services/ViewFileService.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Services/WaitModalService.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Controllers/GeneratorController.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Directives/File.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Directives/Generators.js"></script>

@@ -1,0 +1,18 @@
+<div class="form-group" ng-repeat="questions in questionsList">
+    <label for="{{ name.dtoAttribute }}">{{ questions.text }}</label>
+    <input ng-if="questions.type == undefined"
+           ng-blur="handleGenerator(generators, generators)"
+           id="{{ questions.dtoAttribute }}"
+           class="form-control questions"
+           type="text"
+           name="{{ questions.dtoAttribute }}"
+           value="{{ (questions.value) ? questions.value : questions.defaultResponse }}"
+           placeholder="{{ questions.text }}" />
+    <select ng-if="questions.type == 'select'"
+            id="{{ questions.dtoAttribute }}"
+            class="form-control questions"
+            name="{{ questions.dtoAttribute }}">
+            <option selected="selected" value="{{ questions.value }}">{{ questions.placeholder }}</option>
+            <option ng-click="handleGenerator(generators, generators)" ng-repeat="value in questions.values" value="{{ value.id }}">{{ value.label }}</option>
+    </select>
+</div>
