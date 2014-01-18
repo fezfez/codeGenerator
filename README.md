@@ -21,10 +21,6 @@ Template
 
 Generator
 ---------
-* Yaml backend
 * Dependencies between entities, table
-* Dependencies between generator
 * Environment manager (more flexible for unit tests)
-* Clear dto attribute
 * Clear unit test
-* Graphic generator
