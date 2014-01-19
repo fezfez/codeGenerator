@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/fezfez/codeGenerator.png?branch=master)](https://travis-ci.org/fezfez/codeGenerator)
 [![Coverage Status](https://coveralls.io/repos/fezfez/codeGenerator/badge.png?branch=master)](https://coveralls.io/r/fezfez/codeGenerator?branch=master)
-[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/fezfez/codeGenerator/badges/quality-score.png?s=6f4fe2a1be56796f0a4ea62c237c254bf9455ef0)](https://scrutinizer-ci.com/g/fezfez/codeGenerator/)
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/fezfez/codeGenerator/badges/quality-score.png?s=fc3829220661fc6edf510608d909cf7b4776713c)](https://scrutinizer-ci.com/g/fezfez/codeGenerator/)
 
 This is alpha, certainly contains bugs, please dont use it on production
 

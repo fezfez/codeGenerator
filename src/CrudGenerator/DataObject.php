@@ -42,6 +42,10 @@ abstract class DataObject
      * @var string
      */
     private $adapter         = null;
+    /**
+     * @var string
+     */
+    private $generator       = null;
 
     /**
      * Set Module
