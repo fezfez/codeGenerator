@@ -18,7 +18,6 @@
 namespace CrudGenerator\View\Helpers;
 
 use CrudGenerator\DataObject;
-use CrudGenerator\MetaData\DataObject\MetaDataColumn;
 use CrudGenerator\View\ViewHelperFactoryInterface;
 use Faker\Factory;
 

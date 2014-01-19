@@ -21,7 +21,6 @@ use CrudGenerator\History\HistoryManager;
 use CrudGenerator\History\HistoryHydratorFactory;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\GeneratorFinderFactory;
-
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 

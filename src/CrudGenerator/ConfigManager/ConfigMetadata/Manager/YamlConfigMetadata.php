@@ -26,7 +26,6 @@ use CrudGenerator\ConfigManager\ConfigMetadata\DataObject\YamlConfigDataObject;
 use CrudGenerator\ConfigManager\ConfigMetadata\DataObject\MetadataDataObjectConfig;
 use CrudGenerator\MetaData\DataObject\MetaDataColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\DataObject;
 

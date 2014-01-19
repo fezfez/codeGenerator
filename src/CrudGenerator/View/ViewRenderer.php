@@ -19,7 +19,6 @@ namespace CrudGenerator\View;
 
 use CrudGenerator\DataObject;
 use CrudGenerator\View\ViewRendererException;
-use CrudGenerator\View\Helpers\TemplateDependenciesResolverInterface;
 
 /**
  * Template renderer

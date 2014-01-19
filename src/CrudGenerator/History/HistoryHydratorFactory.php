@@ -21,7 +21,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
-
 use CrudGenerator\Command\Questions\MetaDataSourcesQuestionFactory;
 use CrudGenerator\Command\Questions\MetaDataQuestionFactory;
 

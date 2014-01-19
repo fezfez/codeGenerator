@@ -5,7 +5,6 @@ use CrudGenerator\View\Helpers\TemplateDatabaseConnectorStrategies\PDOStrategy;
 use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
 use CrudGenerator\MetaData\DataObject\MetaDataColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\Generators\ArchitectGenerator\Architect;
 

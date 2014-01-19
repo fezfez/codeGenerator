@@ -2,8 +2,6 @@
 namespace CrudGenerator\Tests\General\View\Helpers\FixtureRendererFactory;
 
 use CrudGenerator\View\Helpers\FixtureRendererFactory;
-use CrudGenerator\MetaData\DataObject\MetaDataColumn;
-use Faker\Factory;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {

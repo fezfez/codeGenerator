@@ -17,7 +17,6 @@
  */
 namespace CrudGenerator\Generators;
 
-use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 use CrudGenerator\Generators\GeneratorFinder;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\ClassAwake;

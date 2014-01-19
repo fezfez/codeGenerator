@@ -20,8 +20,7 @@ namespace CrudGenerator\Command;
 use CrudGenerator\Generators\CodeGeneratorFactory;
 use CrudGenerator\Command\Questions\HistoryQuestionFactory;
 use CrudGenerator\Command\CreateByYamlCommand;
-Use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
-
+use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 

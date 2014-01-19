@@ -18,8 +18,6 @@
 namespace CrudGenerator\Generators\ArchitectGenerator;
 
 use CrudGenerator\Generators\ArchitectGenerator\Architect;
-use Symfony\Component\Console\Helper\DialogHelper;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class MetadataToArrayWeb
 {

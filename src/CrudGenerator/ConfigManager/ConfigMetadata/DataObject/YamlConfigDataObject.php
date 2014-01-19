@@ -17,7 +17,6 @@
  */
 namespace CrudGenerator\ConfigManager\ConfigMetadata\DataObject;
 
-use CrudGenerator\ConfigManager\ConfigMetadata\DataObject\PropertiesCollection;
 use CrudGenerator\ConfigManager\ConfigMetadata\DataObject\MetadataDataObjectConfig;
 
 /**

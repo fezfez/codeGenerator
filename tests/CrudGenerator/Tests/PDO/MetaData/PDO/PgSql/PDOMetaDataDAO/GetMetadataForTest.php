@@ -2,7 +2,6 @@
 namespace CrudGenerator\Tests\PDO\MetaData\Sources\PDO\PgSql\PDOMetaDataDAO;
 
 use CrudGenerator\MetaData\Sources\PDO\PDOMetaDataDAOFactory;
-use CrudGenerator\MetaData\Sources\PDO\PDOConfig;
 
 class GetMetadataForTest extends \PHPUnit_Framework_TestCase
 {

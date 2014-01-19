@@ -1,13 +1,8 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Strategies\SandBoxStrategy;
 
-use CrudGenerator\View\ViewFactory;
-use CrudGenerator\Utils\FileManager;
-use CrudGenerator\FileConflict\FileConflictManagerFactory;
 use CrudGenerator\Generators\Strategies\SandBoxStrategy;
 use CrudGenerator\Generators\ArchitectGenerator\Architect;
-
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 
 class GenerateFileTest extends \PHPUnit_Framework_TestCase

@@ -1,20 +1,15 @@
 <?php
 namespace CrudGenerator\Tests\General\Command\CreateCommand;
 
-use CrudGenerator\Tests\General\Command\CommandTestCase;
-
 use CrudGenerator\Command\CreateCommand;
 use Symfony\Component\Console\Application as App;
-use Symfony\Component\Console\Tester\ApplicationTester;
 use Symfony\Component\Console\Tester\CommandTester;
-
 use CrudGenerator\History\HistoryManager;
 use CrudGenerator\Command\Questions\MetaDataSourcesQuestion;
 use CrudGenerator\Command\Questions\DirectoryQuestion;
 use CrudGenerator\Command\Questions\MetaDataQuestion;
 use CrudGenerator\Command\Questions\GeneratorQuestion;
 use CrudGenerator\MetaData\MetaDataSource;
-
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 

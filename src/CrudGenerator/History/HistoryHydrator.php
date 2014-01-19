@@ -18,11 +18,8 @@
 namespace CrudGenerator\History;
 
 use CrudGenerator\DataObject;
-use CrudGenerator\History\HistoryCollection;
-
 use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
-
 use CrudGenerator\Command\Questions\MetaDataSourcesQuestion;
 use CrudGenerator\Command\Questions\MetaDataQuestion;
 

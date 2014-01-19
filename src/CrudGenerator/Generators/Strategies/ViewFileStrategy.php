@@ -28,7 +28,7 @@ use Symfony\Component\Console\Helper\DialogHelper;
  *
  * @author Stéphane Demonchaux
  */
-class ViewFileStategy implements StrategyInterface
+class ViewFileStrategy implements StrategyInterface
 {
     /**
      * @var View View manager

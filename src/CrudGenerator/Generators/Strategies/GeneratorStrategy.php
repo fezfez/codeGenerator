@@ -21,7 +21,6 @@ namespace CrudGenerator\Generators\Strategies;
 use CrudGenerator\DataObject;
 use CrudGenerator\View\View;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\FileConflict\FileConflictManager;
 

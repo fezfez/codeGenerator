@@ -3,7 +3,6 @@ namespace CrudGenerator\Tests\General\Command\CreateCommand\Questions\MetaDataQu
 
 
 use CrudGenerator\Command\Questions\MetaDataQuestion;
-use CrudGenerator\MetaData\MetaDataSourceCollection;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\DataObject\MetaDataCollection;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;

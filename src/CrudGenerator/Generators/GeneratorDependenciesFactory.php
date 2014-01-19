@@ -5,7 +5,6 @@ namespace CrudGenerator\Generators;
 use CrudGenerator\History\HistoryFactory;
 use CrudGenerator\Command\CreateCommandFactory;
 use CrudGenerator\Command\GeneratorSandBoxCommandFactory;
-
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 

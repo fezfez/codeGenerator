@@ -22,7 +22,6 @@ use CrudGenerator\Command\Questions\MetaDataSourcesQuestionFactory;
 use CrudGenerator\Command\Questions\DirectoryQuestionFactory;
 use CrudGenerator\Command\Questions\MetaDataQuestionFactory;
 use CrudGenerator\Command\Questions\GeneratorQuestionFactory;
-
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 

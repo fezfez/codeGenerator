@@ -19,7 +19,6 @@ namespace CrudGenerator\MetaData\Sources\PDO;
 
 use CrudGenerator\MetaData\Config\AbstractConfig;
 use CrudGenerator\MetaData\Config\ConfigException;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * PDO configuration for PDO Metadata adapter

@@ -18,7 +18,6 @@
 namespace CrudGenerator\View;
 
 use CrudGenerator\Utils\ClassAwake;
-
 use CrudGenerator\View\View;
 use CrudGenerator\View\ViewRenderer;
 use CrudGenerator\Utils\FileManager;

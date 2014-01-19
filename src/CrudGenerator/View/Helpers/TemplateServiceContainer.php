@@ -17,7 +17,6 @@
  */
 namespace CrudGenerator\View\Helpers;
 
-use CrudGenerator\DataObject;
 use CrudGenerator\View\Helpers\TemplateServiceContainerStrategies\StrategyInterface;
 
 /**
