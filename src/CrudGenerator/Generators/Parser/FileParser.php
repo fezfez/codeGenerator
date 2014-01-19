@@ -47,7 +47,7 @@ class FileParser implements ParserInterface
         foreach ($process['filesList'] as $files) {
             foreach ($files as $templateName => $tragetFile) {
                 if($templateName === GeneratorParser::ENVIRONNEMENT_CONDITION) {
-
+                    $generator = $this->evaluate($process, $parser, $generator, $questions);
                 } else {
                     $generator->addFile($skeletonPath, $templateName, $parser->parse($tragetFile));
                 }
