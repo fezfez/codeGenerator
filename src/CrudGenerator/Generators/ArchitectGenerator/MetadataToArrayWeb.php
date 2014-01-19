@@ -34,16 +34,13 @@ class MetadataToArrayWeb
     public function ask($generator)
     {
         foreach ($generator->getDTO()->getMetadata()->getColumnCollection() as $column) {
-        	$tmp = array();
-        	$generator->addQuestion(
-        		array_merge(
-        			array(
-        				'dtoAttribute'    => 'setAttributeName[' . $column->getName() . ']',
-        				'text'            => 'Attribute name for "' . $column->getName() . '"',
-        				'defaultResponse' => (null === $generator->getDTO()->getAttributeName($column->getName())) ? $column->getName() : $generator->getDTO()->getAttributeName($column->getName())
-        			)
-        		)
-        	);
+            $generator->addQuestion(
+                array(
+                    'dtoAttribute'    => 'setAttributeName[' . $column->getName() . ']',
+                    'text'            => 'Attribute name for "' . $column->getName() . '"',
+                    'defaultResponse' => (null === $generator->getDTO()->getAttributeName($column->getName())) ? $column->getName() : $generator->getDTO()->getAttributeName($column->getName())
+                )
+            );
         }
 /*
         foreach ($DTO->getMetadata()->getRelationCollection() as $relation) {
@@ -69,9 +66,9 @@ class MetadataToArrayWeb
                     );
                 }
                 $arrayRelation[$name]['persistanceStrategy'] = $this->dialog->select(
-                	$this->output,
-                	'Persistance strategy, retrive or persist ?',
-                	array('retrive', 'persist')
+                    $this->output,
+                    'Persistance strategy, retrive or persist ?',
+                    array('retrive', 'persist')
                 );
 
                 $DTO->setAttributeName(

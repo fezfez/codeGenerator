@@ -46,8 +46,6 @@ class TemplateVariableParser implements ParserInterface
     */
     public function evaluate(array $process, PhpStringParser $parser, Generator $generator, array $questions)
     {
-        $templateVariable = array();
-
         foreach ($process['templateVariables'] as $variables) {
             foreach ($variables as $varName => $value) {
                 if($varName === GeneratorParser::ENVIRONNEMENT_CONDITION) {
