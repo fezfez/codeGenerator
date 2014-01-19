@@ -22,14 +22,7 @@ use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\ClassAwake;
-
 use ReflectionClass;
-use RuntimeException;
-use RegexIterator;
-use RecursiveDirectoryIterator;
-use RecursiveRegexIterator;
-use RecursiveIteratorIterator;
-use FilesystemIterator;
 
 /**
  * Find all MetaDataSource allow in project
@@ -61,7 +54,7 @@ class MetaDataSourceFinder
     /**
      * Find all adpater in the projects
      *
-     * @return AdapterCollection
+     * @return MetaDataSourceCollection
      */
     public function getAllAdapters()
     {

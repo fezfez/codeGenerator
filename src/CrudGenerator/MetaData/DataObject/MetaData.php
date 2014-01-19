@@ -111,7 +111,7 @@ abstract class MetaData
     }
     /**
      * Get relation collection
-     * @return MetaDataRelationColumn
+     * @return MetaDataRelationCollection
      */
     public function getRelationCollection()
     {
