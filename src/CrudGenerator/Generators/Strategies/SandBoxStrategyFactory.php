@@ -18,9 +18,6 @@
 namespace CrudGenerator\Generators\Strategies;
 
 use CrudGenerator\View\ViewFactory;
-use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Generators\GeneriqueQuestions;
-use CrudGenerator\FileConflict\FileConflictManagerFactory;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 

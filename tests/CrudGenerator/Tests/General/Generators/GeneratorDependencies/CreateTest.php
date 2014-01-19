@@ -2,7 +2,6 @@
 namespace CrudGenerator\Tests\General\Generators\GeneratorDependencies;
 
 use CrudGenerator\Generators\GeneratorDependencies;
-use CrudGenerator\Generators\CrudGenerator\Crud;
 use CrudGenerator\Generators\ArchitectGenerator\Architect;
 use CrudGenerator\History\History;
 

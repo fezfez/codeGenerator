@@ -1,14 +1,8 @@
 <?php
 
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Yaml\Yaml;
 use CrudGenerator\MetaData\MetaDataSourceFactory;
-use CrudGenerator\MetaData\Config\MetaDataConfigReaderFactory;
-use Symfony\Component\Console\Output\StreamOutput;
-use Symfony\Component\Console\Helper\DialogHelper;
 use CrudGenerator\MetaData\Config\ConfigException;
 
 $app->match('/', function() use ($app) {

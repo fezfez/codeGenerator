@@ -22,7 +22,6 @@ use CrudGenerator\Generators\GeneriqueQuestions;
 use CrudGenerator\Generators\Strategies\StrategyInterface;
 use CrudGenerator\Generators\GeneratorDependencies;
 use CrudGenerator\History\HistoryNotFoundException;
-
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 

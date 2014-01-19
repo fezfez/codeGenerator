@@ -19,7 +19,6 @@ namespace CrudGenerator\ConfigManager\ConfigMetadata;
 
 use CrudGenerator\ConfigManager\ConfigMetadata\Manager\YamlConfigMetadata;
 use CrudGenerator\Utils\FileManager;
-
 use Symfony\Component\Yaml\Yaml;
 use CrudGenerator\ConfigManager\ConfigMetadata\InvalidYamlConfigPathException;
 

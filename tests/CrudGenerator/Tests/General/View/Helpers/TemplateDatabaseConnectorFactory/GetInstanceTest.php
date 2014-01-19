@@ -2,8 +2,6 @@
 namespace CrudGenerator\Tests\General\View\Helpers\TemplateDatabaseConnectorFactory;
 
 use CrudGenerator\View\Helpers\TemplateDatabaseConnectorFactory;
-use CrudGenerator\MetaData\DataObject\MetaDataColumn;
-use Faker\Factory;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {

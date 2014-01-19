@@ -2,12 +2,8 @@
 namespace CrudGenerator\Tests\General\Command\CreateByYamlCommand;
 
 use CrudGenerator\Generators\ArchitectGenerator\Architect;
-
-use CrudGenerator\History\History;
-
 use CrudGenerator\Command\CreateByYamlCommand;
 use Symfony\Component\Console\Application as App;
-use Symfony\Component\Console\Tester\ApplicationTester;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class executeTest extends \PHPUnit_Framework_TestCase

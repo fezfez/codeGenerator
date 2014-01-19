@@ -19,7 +19,6 @@ namespace CrudGenerator\Generators\Parser;
 
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\Generator;
-use CrudGenerator\Generators\GeneratorParser;
 
 class QuestionResponseParser implements ParserInterface
 {

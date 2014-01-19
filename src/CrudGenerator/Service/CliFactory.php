@@ -21,7 +21,6 @@ use CrudGenerator\Command\CreateCommandFactory;
 use CrudGenerator\Command\CreateByConfigCommandFactory;
 use CrudGenerator\Command\CreateByYamlCommandFactory;
 use CrudGenerator\Command\GeneratorSandBoxCommandFactory;
-
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Application;

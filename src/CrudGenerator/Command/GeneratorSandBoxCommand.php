@@ -19,7 +19,6 @@
 namespace CrudGenerator\Command;
 
 use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
-
 use CrudGenerator\Command\Questions\GeneratorQuestion;
 use CrudGenerator\MetaData\DataObject\MetaDataColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
@@ -27,11 +26,9 @@ use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
 use CrudGenerator\DataObject;
-
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
 
 /**
  * generator-sand-box command

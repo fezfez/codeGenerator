@@ -2,7 +2,6 @@
 namespace CrudGenerator\Tests\PDO\MetaData\PDO\PDOMetaDataDAOFactory;
 
 use CrudGenerator\MetaData\Sources\PDO\PDOMetaDataDAOFactory;
-use CrudGenerator\MetaData\Sources\PDO\PDOConfig;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {

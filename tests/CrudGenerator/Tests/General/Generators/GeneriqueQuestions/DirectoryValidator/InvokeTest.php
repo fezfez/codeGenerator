@@ -3,7 +3,6 @@ namespace CrudGenerator\Tests\General\Generators\GeneratorFinder;
 
 use CrudGenerator\Generators\GeneriqueQuestion\DirectoryValidator;
 use CrudGenerator\Utils\FileManager;
-use CrudGenerator\DataObject;
 use CrudGenerator\Generators\ArchitectGenerator\Architect;
 
 class InvokeTest extends \PHPUnit_Framework_TestCase

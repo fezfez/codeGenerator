@@ -2,8 +2,6 @@
 namespace CrudGenerator\Tests\General\Generators\Strategies\SandBoxStrategyFactory;
 
 use CrudGenerator\Generators\Strategies\SandBoxStrategyFactory;
-
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputArgument;

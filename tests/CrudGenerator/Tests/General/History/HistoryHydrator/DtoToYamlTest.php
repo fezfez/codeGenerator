@@ -3,13 +3,10 @@ namespace CrudGenerator\Tests\General\History\HistoryManager;
 
 use CrudGenerator\History\HistoryHydrator;
 use CrudGenerator\Generators\ArchitectGenerator\Architect;
-
 use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
-
 use CrudGenerator\Command\Questions\MetaDataSourcesQuestion;
 use CrudGenerator\Command\Questions\MetaDataQuestion;
-use CrudGenerator\MetaData\DataObject\MetaDataCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;

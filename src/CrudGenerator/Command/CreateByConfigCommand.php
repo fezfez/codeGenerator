@@ -19,13 +19,10 @@
 namespace CrudGenerator\Command;
 
 use CrudGenerator\History\HistoryManager;
-use CrudGenerator\Command\Questions\MetaDataSourcesQuestion;
 use CrudGenerator\Command\Questions\DirectoryQuestion;
-use CrudGenerator\Command\Questions\MetaDataQuestion;
 use CrudGenerator\Command\Questions\GeneratorQuestion;
 use CrudGenerator\ConfigManager\ConfigGenerator\ManagerFactory;
 use CrudGenerator\ConfigManager\ConfigMetadata\ManagerFactory as ConfigMetadataManagerFactory;
-
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;

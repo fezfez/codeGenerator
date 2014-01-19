@@ -17,9 +17,6 @@
  */
 namespace CrudGenerator\View\Helpers\TemplateServiceContainerStrategies;
 
-use CrudGenerator\View\ViewHelperInterface;
-use CrudGenerator\DataObject;
-
 /**
  * @author stephane.demonchaux
  *
