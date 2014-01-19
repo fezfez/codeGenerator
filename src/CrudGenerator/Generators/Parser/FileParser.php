@@ -47,23 +47,36 @@ class FileParser implements ParserInterface
         foreach ($process['filesList'] as $files) {
             foreach ($files as $templateName => $tragetFile) {
                 if($templateName === GeneratorParser::ENVIRONNEMENT_CONDITION) {
-                    foreach ($tragetFile as $environements) {
-                        foreach ($environements as $environment => $environmentTemplates) {
-                            foreach ($environmentTemplates as $environmentTemplateName => $environmentTragetFile) {
-                                if ($environment === 'zf2') {
-                                    try {
-                                        \CrudGenerator\EnvironnementResolver\ZendFramework2Environnement::getDependence($this->fileManager);
-                                        $generator->addFile($skeletonPath, $environmentTemplateName, $parser->parse($environmentTragetFile));
-                                    } catch (\CrudGenerator\EnvironnementResolver\EnvironnementResolverException $e) {
-                                    }
-                                } elseif ($environment === GeneratorParser::CONDITION_ELSE) {
-                                    $generator->addFile($skeletonPath, $environmentTemplateName, $parser->parse($environmentTragetFile));
-                                }
-                            }
-                        }
-                    }
+
                 } else {
                     $generator->addFile($skeletonPath, $templateName, $parser->parse($tragetFile));
+                }
+            }
+        }
+
+        return $generator;
+    }
+
+    /**
+     * @param array $environnementNode
+     * @param PhpStringParser $parser
+     * @param Generator $generator
+     * @return Generator
+     */
+    private function evaluateEnvironnementCondition(array $environnementNode, PhpStringParser $parser, Generator $generator)
+    {
+        foreach ($environnementNode as $environements) {
+            foreach ($environements as $environment => $environmentTemplates) {
+                foreach ($environmentTemplates as $environmentTemplateName => $environmentTragetFile) {
+                    if ($environment === 'zf2') {
+                        try {
+                            \CrudGenerator\EnvironnementResolver\ZendFramework2Environnement::getDependence($this->fileManager);
+                            $generator->addFile($skeletonPath, $environmentTemplateName, $parser->parse($environmentTragetFile));
+                        } catch (\CrudGenerator\EnvironnementResolver\EnvironnementResolverException $e) {
+                        }
+                    } elseif ($environment === GeneratorParser::CONDITION_ELSE) {
+                        $generator->addFile($skeletonPath, $environmentTemplateName, $parser->parse($environmentTragetFile));
+                    }
                 }
             }
         }
