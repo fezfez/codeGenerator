@@ -47,7 +47,7 @@ class FileParser implements ParserInterface
         foreach ($process['filesList'] as $files) {
             foreach ($files as $templateName => $tragetFile) {
                 if($templateName === GeneratorParser::ENVIRONNEMENT_CONDITION) {
-                    $generator = $this->evaluate($process, $parser, $generator, $questions);
+                    $generator = $this->evaluateEnvironnementCondition($process, $parser, $generator, $questions, $skeletonPath);
                 } else {
                     $generator->addFile($skeletonPath, $templateName, $parser->parse($tragetFile));
                 }
@@ -63,7 +63,7 @@ class FileParser implements ParserInterface
      * @param Generator $generator
      * @return Generator
      */
-    private function evaluateEnvironnementCondition(array $environnementNode, PhpStringParser $parser, Generator $generator)
+    private function evaluateEnvironnementCondition(array $environnementNode, PhpStringParser $parser, Generator $generator, $skeletonPath)
     {
         foreach ($environnementNode as $environements) {
             foreach ($environements as $environment => $environmentTemplates) {
