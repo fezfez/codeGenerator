@@ -37,7 +37,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $stubConfig->expects($this->once())
                    ->method('test')
-                   ->with($this->equalTo($stubConsole))
                    ->will($this->returnValue(true));
 
         $suT->config($stubConfig);
@@ -75,17 +74,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $stubConfig->expects($this->at(0))
                    ->method('test')
-                   ->with($this->equalTo($stubConsole))
                    ->will($this->throwException(new \CrudGenerator\MetaData\Config\ConfigException()));
 
         $stubConfig->expects($this->at(1))
                    ->method('test')
-                   ->with($this->equalTo($stubConsole))
                    ->will($this->throwException(new \CrudGenerator\MetaData\Config\ConfigException()));
 
          $stubConfig->expects($this->at(2))
                     ->method('test')
-                    ->with($this->equalTo($stubConsole))
                     ->will($this->throwException(new \CrudGenerator\MetaData\Config\ConfigException()));
 
         $suT->config($stubConfig);
