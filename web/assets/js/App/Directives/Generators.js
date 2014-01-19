@@ -5,7 +5,7 @@
 	    return {
 	        restrict: 'E',
 	        link: function(scope, element, attrs) {
-	            var template = '<select id="generators" name="generators" ng-model="generators" ng-options="obj.id as obj.label for obj in generatorsList">'+
+	            var template = '<select id="generators" name="generators" ng-model="generators" ng-options="obj.label as obj.label for obj in generatorsList">'+
 	            '<option value="">Select Generator</option>' +
 	            '</select>';
 	            scope.$watch('generatorsList', function(generatorsList) {

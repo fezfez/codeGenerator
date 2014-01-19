@@ -15,37 +15,26 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators;
+namespace CrudGenerator\Generators\Parser;
 
-use Symfony\Component\Yaml\Yaml;
 use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Utils\PhpStringParser;
-use CrudGenerator\Generators\Strategies\ViewFileStategyFactory;
-use CrudGenerator\Generators\GeneratorFinderFactory;
-use CrudGenerator\Generators\Parser\ParserCollectionFactory;
 
-/**
- * Find all generator allow in project
- *
- * @author Stéphane Demonchaux
- */
-class GeneratorParserFactory
+class ParserCollectionFactory
 {
     /**
-     * @return \CrudGenerator\Generators\GeneratorParser
+     * @return ParserCollection
      */
     public static function getInstance()
     {
-        $generatorFinder  = GeneratorFinderFactory::getInstance();
-        $parserCollection = ParserCollectionFactory::getInstance();
+        $fileManager = new FileManager();
+        $collection  = new ParserCollection();
 
-        return new GeneratorParser(
-            new FileManager(),
-            new Yaml(),
-            new PhpStringParser(),
-            ViewFileStategyFactory::getInstance(),
-            $generatorFinder,
-            $parserCollection
-        );
+        $collection->addPreParse(new QuestionResponseParser())
+                   ->addPostParse(new QuestionParser())
+                   ->addPostParse(new TemplateVariableParser($fileManager))
+                   ->addPostParse(new DirectoriesParser())
+                   ->addPostParse(new FileParser($fileManager));
+
+        return $collection;
     }
 }

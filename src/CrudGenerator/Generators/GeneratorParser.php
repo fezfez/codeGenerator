@@ -23,6 +23,7 @@ use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\Strategies\ViewFileStategy;
 use CrudGenerator\MetaData\DataObject\MetaData;
 use CrudGenerator\Generators\GeneratorFinder;
+use CrudGenerator\Generators\Parser\ParserCollection;
 
 /**
  * Find all generator allow in project
@@ -31,7 +32,10 @@ use CrudGenerator\Generators\GeneratorFinder;
  */
 class GeneratorParser
 {
-	const COMPLEX_QUESTION = 'complex';
+    const COMPLEX_QUESTION = 'complex';
+    const ENVIRONNEMENT_CONDITION = 'environnementCondition';
+    const CONDITION_ELSE = 'else';
+
     /**
      * @var Yaml YamlParser
      */
@@ -52,19 +56,30 @@ class GeneratorParser
      * @var GeneratorFinder
      */
     private $generatorFinder = null;
+    /**
+     * @var ParserCollection
+     */
+    private $parserCollection = null;
 
     /**
      * Find all generator allow in project
      * @param FileManager $fileManager
      * @param ClassAwake $classAwake
      */
-    public function __construct(FileManager $fileManager, Yaml $yaml, PhpStringParser $phpStringParser, ViewFileStategy $viewFile, GeneratorFinder $generatorFinder)
+    public function __construct(
+        FileManager $fileManager,
+        Yaml $yaml,
+        PhpStringParser $phpStringParser,
+        ViewFileStategy $viewFile,
+        GeneratorFinder $generatorFinder,
+        ParserCollection $parserCollection)
     {
-        $this->fileManager     = $fileManager;
-        $this->yaml            = $yaml;
-        $this->phpStringParser = $phpStringParser;
-        $this->viewFile        = $viewFile;
-        $this->generatorFinder = $generatorFinder;
+        $this->fileManager      = $fileManager;
+        $this->yaml             = $yaml;
+        $this->phpStringParser  = $phpStringParser;
+        $this->viewFile         = $viewFile;
+        $this->generatorFinder  = $generatorFinder;
+        $this->parserCollection = $parserCollection;
     }
 
     /**
@@ -77,23 +92,46 @@ class GeneratorParser
     public function init(Generator $generator, MetaData $metadata, array $questions)
     {
         $generator = clone $generator;
-        $parser    = clone $this->phpStringParser;
-        $process   = Yaml::parse(file_get_contents($generator->getName()), true);
+        $phpParser = clone $this->phpStringParser;
 
-        $generator = $this->analyseDependencies($process, $parser, $generator, $questions, $metadata);
+        return $this->analyse($generator->getName(), $phpParser, $generator, $questions, $metadata);
+    }
+
+    /**
+     * @param string $name
+     * @param PhpStringParser $phpParser
+     * @param Generator $generator
+     * @param array $questions
+     * @param MetaData $metadata
+     * @return Generator
+     */
+    private function analyse($name, PhpStringParser $phpParser, Generator $generator, array $questions, MetaData $metadata)
+    {
+        $generatorFilePath = $this->generatorFinder->findByName($name);
+        $process           = Yaml::parse(file_get_contents($generatorFilePath), true);
 
         $dto = new $process['dto']();
         $dto->setMetadata($metadata);
-        $dto = $this->analyseQuestionsReponse($questions, $dto);
-        $generator->setDTO($dto);
 
-        $parser->addVariable(lcfirst($process['name']), $generator->getDTO());
+        if (isset($process['dependencies'])) {
+            foreach ($process['dependencies'] as $dependencieName) {
+                $generator = $this->analyse($dependencieName, $phpParser, $generator, $questions, $metadata);
+            }
+        }
+
+        $generator->setDTO($dto)
+                  ->setPath($generatorFilePath);
+
+        foreach ($this->parserCollection->getPreParse() as $parser) {
+            $generator = $parser->evaluate($process, $phpParser, $generator, $questions);
+        }
+
+        $phpParser->addVariable(lcfirst($process['name']), $generator->getDTO());
         $generator->addTemplateVariable(lcfirst($process['name']), $generator->getDTO());
 
-        $generator = $this->analyseQuestions($process, $parser, $generator, $questions);
-        $generator = $this->analyseTemplateVariables($process, $parser, $generator);
-        $generator = $this->analyseDirectories($process, $parser, $generator);
-        $generator = $this->analyseFileList($process, $parser, $generator, dirname($generator->getName()) . '/Skeleton/');
+        foreach ($this->parserCollection->getPostParse() as $parser) {
+            $generator = $parser->evaluate($process, $phpParser, $generator, $questions);
+        }
 
         return $generator;
     }
@@ -104,198 +142,19 @@ class GeneratorParser
      * @throws \Exception
      * @return string
      */
-    public function viewFile(Generator $generator, $fileName, $skeletonPath)
+    public function viewFile(Generator $generator, $fileName)
     {
-    	$files = $generator->getFiles();
+        $files = $generator->getFiles();
         if(!isset($files[$fileName])) {
             throw new \Exception(sprintf('File "%s" does not exist', $fileName));
         }
 
         return $this->viewFile->generateFile(
             $generator->getDTO(),
-            $skeletonPath,
+            $files[$fileName]['skeletonPath'],
             $files[$fileName]['name'],
             '',
             $generator->getTemplateVariables()
         );
-    }
-
-
-    /**
-     * @param array $process
-     * @param PhpStringParser $parser
-     * @param Generator $generator
-     * @param array $questions
-     * @return Generator
-     */
-    private function analyseDependencies(array $process, PhpStringParser $parser, Generator $generator, array $questions, $metadata)
-    {
-        if(!isset($process['dependencies'])) {
-            return $generator;
-        }
-
-        foreach ($process['dependencies'] as $dependencie) {
-        	$generatorFile = $this->generatorFinder->findByName($dependencie);
-            $dependenciesProcess = Yaml::parse(file_get_contents($generatorFile), true);
-
-            $dto = new $dependenciesProcess['dto']();
-            $dto->setMetadata($metadata);
-            $dto = $this->analyseQuestionsReponse($questions, $dto);
-            $generator->setDTO($dto);
-            $parser->addVariable(lcfirst($dependenciesProcess['name']), $generator->getDTO());
-            $generator->addTemplateVariable(lcfirst($dependenciesProcess['name']), $generator->getDTO());
-
-            $generator = $this->analyseDependencies($dependenciesProcess, $parser, $generator, $questions, $metadata);
-            $generator = $this->analyseQuestions($dependenciesProcess, $parser, $generator, $questions);
-            $generator = $this->analyseTemplateVariables($dependenciesProcess, $parser, $generator);
-            $generator = $this->analyseDirectories($dependenciesProcess, $parser, $generator);
-            $generator = $this->analyseFileList($dependenciesProcess, $parser, $generator, dirname($generatorFile) . '/Skeleton/');
-        }
-
-        return $generator;
-    }
-
-    /**
-     * @param array $questions
-     * @param unknown $dto
-     * @return Ambiguous
-     */
-    private function analyseQuestionsReponse(array $questions, $dto)
-    {
-        foreach ($questions as $questionName => $questionReponse) {
-        	if (is_array($questionReponse)) {
-        		foreach ($questionReponse as $firstArgument => $secondArgument) {
-	        		if (method_exists($dto, $questionName)) {
-	        			$dto->$questionName($firstArgument, $secondArgument);
-	        		}
-        		}
-        	} else {
-	            if (method_exists($dto, $questionName)) {
-	                $dto->$questionName($questionReponse);
-	            }
-        	}
-        }
-
-        return $dto;
-    }
-
-    /**
-     * @param array $process
-     * @param PhpStringParser $parser
-     * @param Generator $generator
-     * @return Generator
-     */
-    private function analyseQuestions(array $process, PhpStringParser $parser, Generator $generator, array $questions)
-    {
-        foreach ($process['questions'] as $question) {
-            if (isset($question['type']) && $question['type'] === self::COMPLEX_QUESTION) {
-                $complex = $question['factory']::getInstance();
-                $generator = $complex->ask($generator);
-            } else {
-                $generator->addQuestion(
-                    array(
-                        'dtoAttribute'    => 'set' . ucfirst($question['dtoAttribute']),
-                        'text'            => $question['text'],
-                    	'value'           => (isset($questions['set' . ucfirst($question['dtoAttribute'])])) ? $questions['set' . ucfirst($question['dtoAttribute'])] : '',
-                        'defaultResponse' => (isset($question['defaultResponse']) && $parser->issetVariable($question['defaultResponse'])) ? $parser->parse($question['defaultResponse']) : ''
-                    )
-                );
-            }
-        }
-
-        return $generator;
-    }
-    /**
-     * @param array $process
-     * @param PhpStringParser $parser
-     * @param Generator $generator
-     * @return Generator
-     */
-    private function analyseTemplateVariables(array $process, PhpStringParser $parser, Generator $generator)
-    {
-        $templateVariable = array();
-
-        foreach ($process['templateVariables'] as $variables) {
-            foreach ($variables as $varName => $value) {
-                //var_dump($varName);
-                if($varName === 'environnementCondition') {
-                    foreach ($value as $environements) {
-                        foreach ($environements as $environment => $environmentVariables) {
-                            foreach ($environmentVariables as $environmentVariable => $environmentVariablesValue) {
-                                if($environment === 'zf2') {
-                                    try {
-                                        \CrudGenerator\EnvironnementResolver\ZendFramework2Environnement::getDependence($this->fileManager);
-                                        $variableValue = $parser->parse($environmentVariablesValue);
-                                        $parser->addVariable($environmentVariable, $variableValue);
-                                        $generator->addTemplateVariable($environmentVariable, $variableValue);
-                                    } catch (\CrudGenerator\EnvironnementResolver\EnvironnementResolverException $e) {
-                                    }
-                                } elseif($environment === 'else') {
-                                    $variableValue = $parser->parse($environmentVariablesValue);
-                                    $parser->addVariable($environmentVariable, $variableValue);
-                                    $generator->addTemplateVariable($environmentVariable, $variableValue);
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    $variableValue = $parser->parse($value);
-                    $parser->addVariable($varName, $variableValue);
-                    $generator->addTemplateVariable($varName, $variableValue);
-                }
-            }
-        }
-
-        return $generator;
-    }
-
-    /**
-     * @param array $process
-     * @param PhpStringParser $parser
-     * @param Generator $generator
-     * @return Generator
-     */
-    private function analyseDirectories(array $process, PhpStringParser $parser, Generator $generator)
-    {
-        foreach ($process['directories'] as $directory) {
-            $generator->addDirectories($directory, $parser->parse($directory));
-        }
-
-        return $generator;
-    }
-
-    /**
-     * @param array $process
-     * @param PhpStringParser $parser
-     * @param Generator $generator
-     * @return Generator
-     */
-    private function analyseFileList(array $process, PhpStringParser $parser, Generator $generator, $skeletonPath)
-    {
-        foreach ($process['filesList'] as $files) {
-            foreach ($files as $templateName => $tragetFile) {
-                if($templateName === 'environnementCondition') {
-                    foreach ($tragetFile as $environements) {
-                        foreach ($environements as $environment => $environmentTemplates) {
-                            foreach ($environmentTemplates as $environmentTemplateName => $environmentTragetFile) {
-                                if($environment === 'zf2') {
-                                    try {
-                                        \CrudGenerator\EnvironnementResolver\ZendFramework2Environnement::getDependence(new \CrudGenerator\Utils\FileManager());
-                                        $generator->addFile($skeletonPath, $environmentTemplateName, $parser->parse($environmentTragetFile));
-                                    } catch (\CrudGenerator\EnvironnementResolver\EnvironnementResolverException $e) {
-                                    }
-                                } elseif($environment === 'else') {
-                                    $generator->addFile($skeletonPath, $environmentTemplateName, $parser->parse($environmentTragetFile));
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    $generator->addFile($skeletonPath, $templateName, $parser->parse($tragetFile));
-                }
-            }
-        }
-
-        return $generator;
     }
 }

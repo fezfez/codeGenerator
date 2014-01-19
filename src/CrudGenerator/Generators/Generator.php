@@ -25,130 +25,156 @@ namespace CrudGenerator\Generators;
 
 class Generator implements \JsonSerializable
 {
-	private $questions = array();
-	/**
-	 * @var array
-	 */
-	private $files = array();
-	/**
-	 * @var array
-	 */
-	private $directories = array();
-	/**
-	 * @var array
-	 */
-	private $templateVariable = array();
-	/**
-	 * @var string
-	 */
-	private $name = null;
-	/**
-	 * @var unknown
-	 */
-	private $dto = null;
+    private $questions = array();
+    /**
+     * @var array
+     */
+    private $files = array();
+    /**
+     * @var array
+     */
+    private $directories = array();
+    /**
+     * @var array
+     */
+    private $templateVariable = array();
+    /**
+     * @var string
+     */
+    private $name = null;
+    /**
+     * @var string
+     */
+    private $path = null;
+    /**
+     * @var unknown
+     */
+    private $dto = null;
 
-	/**
-	 * @param string $name
-	 * @return \CrudGenerator\Generators\Generator
-	 */
-	public function setDTO($value)
-	{
-		$this->dto = $value;
-		return $this;
-	}
-	/**
-	 *
-	 */
-	public function getDTO()
-	{
-		return $this->dto;
-	}
+    /**
+     * @param string $name
+     * @return \CrudGenerator\Generators\Generator
+     */
+    public function setDTO($value)
+    {
+        $this->dto = $value;
+        return $this;
+    }
+    /**
+     *
+     */
+    public function getDTO()
+    {
+        return $this->dto;
+    }
 
-	/**
-	 * @param string $name
-	 * @return \CrudGenerator\Generators\Generator
-	 */
-	public function setName($name)
-	{
-		$this->name = $name;
-		return $this;
-	}
+    /**
+     * @param string $name
+     * @return \CrudGenerator\Generators\Generator
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getTemplateVariables()
-	{
-		return $this->templateVariable;
-	}
-	/**
-	 * @param string $name
-	 * @return \CrudGenerator\Generators\Generator
-	 */
-	public function addQuestion(array $question)
-	{
-		$this->questions[] = $question;
-		return $this;
-	}
+    /**
+     * @param string $name
+     * @return \CrudGenerator\Generators\Generator
+     */
+    public function setPath($name)
+    {
+    	$this->path = $name;
+    	return $this;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getQuestion()
-	{
-		return $this->questions;
-	}
+    /**
+     * @return string
+     */
+    public function getPath()
+    {
+    	return $this->path;
+    }
 
-	/**
-	 * @param string $name
-	 * @return \CrudGenerator\Generators\Generator
-	 */
-	public function addFile($skeletonPath, $name, $value)
-	{
-		$this->files[$value] = array('skeletonPath' => $skeletonPath, 'fileName' => $value, 'name' => $name);
-		return $this;
-	}
-	/**
-	 * @param string $name
-	 * @return \CrudGenerator\Generators\Generator
-	 */
-	public function addDirectories($name, $value)
-	{
-		$this->directories[$name] = $value;
-		return $this;
-	}
-	/**
-	 * @param string $name
-	 * @return \CrudGenerator\Generators\Generator
-	 */
-	public function addTemplateVariable($name, $value)
-	{
-		$this->templateVariable[$name] = $value;
-		return $this;
-	}
+    /**
+     * @return array
+     */
+    public function getTemplateVariables()
+    {
+        return $this->templateVariable;
+    }
+    /**
+     * @param string $name
+     * @return \CrudGenerator\Generators\Generator
+     */
+    public function addQuestion(array $question)
+    {
+        $this->questions[] = $question;
+        return $this;
+    }
 
-	public function getFiles()
-	{
-		return $this->files;
-	}
+    /**
+     * @return array
+     */
+    public function getQuestion()
+    {
+        return $this->questions;
+    }
 
-	public function jsonSerialize()
-	{
-		sort($this->files);
-		return array(
-			'templateVariable' => $this->templateVariable,
-			'files' => $this->files,
-			'directories' => $this->directories,
-			'name' => $this->name,
-			'questions' => $this->questions
-		);
-	}
+    /**
+     * @param string $name
+     * @return \CrudGenerator\Generators\Generator
+     */
+    public function addFile($skeletonPath, $name, $value)
+    {
+        $this->files[$value] = array(
+            'skeletonPath' => $skeletonPath,
+            'fileName' => $value,
+            'name' => $name
+        );
+        return $this;
+    }
+    /**
+     * @param string $name
+     * @return \CrudGenerator\Generators\Generator
+     */
+    public function addDirectories($name, $value)
+    {
+        $this->directories[$name] = $value;
+        return $this;
+    }
+    /**
+     * @param string $name
+     * @return \CrudGenerator\Generators\Generator
+     */
+    public function addTemplateVariable($name, $value)
+    {
+        $this->templateVariable[$name] = $value;
+        return $this;
+    }
+
+    public function getFiles()
+    {
+        return $this->files;
+    }
+
+    public function jsonSerialize()
+    {
+        sort($this->files);
+        return array(
+            'templateVariable' => $this->templateVariable,
+            'files' => $this->files,
+            'directories' => $this->directories,
+            'name' => $this->name,
+            'questions' => $this->questions
+        );
+    }
 }
