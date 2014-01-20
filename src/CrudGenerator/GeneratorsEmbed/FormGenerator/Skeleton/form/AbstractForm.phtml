@@ -1,0 +1,110 @@
+<?php echo '<?php' . "\n"; ?>
+namespace <?php echo $this->dataObject->getNamespace(); ?>\Form;
+
+use <?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObject;
+use <?php echo $this->dataObject->getNamespace(); ?>\Form\<?php echo $this->dataObject->getEntityName(); ?>Form;
+use Zend\Stdlib\Hydrator\ClassMethods;
+use Zend\Form\View\Helper\Form;
+use Zend\Mvc\Router\Http\TreeRouteStack;
+
+class Abstract<?php echo $this->dataObject->getEntityName(); ?>Form
+{
+    /**
+     * @var <?php echo $this->dataObject->getEntityName(); ?>Form
+     */
+    private $form       = null;
+    /**
+     * @var ClassMethods
+     */
+    private $hydrator   = null;
+    /**
+     * @var Form
+     */
+    private $formHelper = null;
+    /**
+     * @var TreeRouteStack
+     */
+    private $router     = null;
+
+    /**
+     * @param <?php echo $this->dataObject->getEntityName(); ?>Form $form
+     * @param ClassMethods $hydrator
+     * @param Form $formHelper
+     * @param TreeRouteStack $router
+     */
+    public function __construct(
+        <?php echo $this->dataObject->getEntityName(); ?>Form $form,
+        ClassMethods $hydrator,
+        Form $formHelper,
+        TreeRouteStack $router
+    ) {
+        $this->form       = $form;
+        $this->hydrator   = $hydrator;
+        $this->formHelper = $formHelper;
+        $this->router     = $router;
+    }
+
+    /**
+     * @param array $datas
+     * @return boolean
+     */
+    public function isValid(array $datas)
+    {
+        $this->form->setData($datas);
+        return $this->form->isValid();
+    }
+
+    /**
+     * @return <?php echo $this->dataObject->getEntityName(); ?>Form
+     */
+    public function get($value)
+    {
+        return $this->form->get($value);
+    }
+
+    public function prepare()
+    {
+        $this->form->prepare();
+    }
+
+    public function openTag()
+    {
+        $formHelper = $this->formHelper;
+        return $formHelper->openTag($this->form);
+    }
+
+    public function closeTag()
+    {
+        $formHelper = $this->formHelper;
+        return $formHelper->closeTag($this->form);
+    }
+
+    /**
+     * @param <?php echo $this->dataObject->getEntityName(); ?>DataObject $value
+     * @return void
+     */
+    public function populate(<?php echo $this->dataObject->getEntityName(); ?>DataObject $value)
+    {
+        $tmp = $this->hydrator->extract($value);
+
+        return $this->form->setData($tmp);
+    }
+
+    /**
+     * @param array $datas
+     * @param <?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo $this->dataObject->getEntityName(); ?>DTO
+     */
+    public function getDTO(<?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo $this->dataObject->getEntityName(); ?>DTO = null)
+    {
+        if(null === $<?php echo $this->dataObject->getEntityName(); ?>DTO) {
+            $<?php echo $this->dataObject->getEntityName(); ?>DTO = new <?php echo $this->dataObject->getEntityName(); ?>DataObject();
+        } else {
+            $<?php echo $this->dataObject->getEntityName(); ?>DTO = clone $<?php echo $this->dataObject->getEntityName(); ?>DTO;
+        }
+
+        return $this->hydrator->hydrate(
+            $this->form->getData(),
+            $<?php echo $this->dataObject->getEntityName(); ?>DTO
+        );
+    }
+}

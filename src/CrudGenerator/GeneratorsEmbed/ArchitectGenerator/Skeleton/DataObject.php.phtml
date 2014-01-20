@@ -1,0 +1,67 @@
+<?php
+echo '<?php' . "\n";
+$lcfirstEntityName              = $this->architectGenerator->getMetadata()->getName(true);
+
+?>
+namespace <?php echo $this->architectGenerator->getNamespace(); ?>\DataObject;
+
+class <?php echo $this->dataObjectName . "\n"; ?>
+{
+<?php
+/* Traitement des champs */
+foreach($this->architectGenerator->getAttributeName() as $originalName => $name):
+if (is_array($name)) {
+	$type = $this->getHelper('Text')->toCamelCase(key($name), true);
+	$name = key($name);
+} else {
+	$type = $this->architectGenerator->getMetadata()->getColumn($originalName)->getType();
+}
+?>
+    /**
+     * @var <?php echo $type . "\n"; ?>
+     */
+    private $<?php echo $this->getHelper('Text')->toCamelCase($name); ?> = null;
+<?php endforeach; ?>
+
+<?php
+/* Traitement des champs */
+foreach($this->architectGenerator->getAttributeName() as $originalName => $name):
+$dto = false;
+if (is_array($name)) {
+	$type = $this->getHelper('Text')->toCamelCase(key($name), true);
+	$name = key($name);
+	$dto = true;
+} else {
+	$type = $this->architectGenerator->getMetadata()->getColumn($originalName)->getType();
+}
+?>
+    /**
+     * @param <?php echo $type; ?> $value
+     * @return \<?php echo $this->architectGenerator->getNamespace(); ?>\DataObject\<?php echo $this->dataObjectName; ?>
+     */
+    public function set<?php echo $this->getHelper('Text')->toCamelCase($name, true); ?>(<?php if ($dto === true) { echo $type . ' '; } ?>$value)
+    {
+        $this-><?php echo $this->getHelper('Text')->toCamelCase($name); ?> = $value;
+        return $this;
+    }
+<?php endforeach; ?>
+
+<?php
+/* Traitement des champs */
+foreach($this->architectGenerator->getAttributeName() as $originalName => $name):
+if (is_array($name)) {
+$type = $this->getHelper('Text')->toCamelCase(key($name), true);
+	$name = key($name);
+} else {
+	$type = $this->architectGenerator->getMetadata()->getColumn($originalName)->getType();
+}
+?>
+    /**
+     * @return <?php echo $type . "\n"; ?>
+     */
+    public function get<?php echo $this->getHelper('Text')->toCamelCase($name, true); ?>()
+    {
+        return $this-><?php echo $this->getHelper('Text')->toCamelCase($name); ?>;
+    }
+<?php endforeach; ?>
+}

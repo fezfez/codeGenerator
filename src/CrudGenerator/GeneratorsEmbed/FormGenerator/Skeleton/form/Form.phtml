@@ -1,0 +1,45 @@
+<?php echo '<?php'; ?>
+
+namespace <?php echo $this->dataObject->getNamespace(); ?>\Form;
+
+use Zend\Form\Element;
+use Zend\Form\Form;
+
+class <?php echo $this->dataObject->getEntityName(); ?>Form extends Form
+{
+    public function __construct($name = null)
+    {
+        parent::__construct('');
+
+<?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
+<?php
+$type = $metadata->getType();
+$length = $metadata->getLength();
+$name = $metadata->getName();
+$nullable = $metadata->getNullable();
+if($name == 'id') {
+    continue;
+} elseif($type == 'text') {
+    $type = 'Textarea';
+} else {
+    $type = 'Text';
+}
+
+$strLength = str_repeat(' ', strlen('a' .  $metadata->getName()));
+?>
+        $<?php echo $name; ?> = new Element\<?php echo $type; ?>('<?php echo $name; ?>');
+        $<?php echo $name; ?>->setOptions(array('label' => '<?php echo $name; ?>'));
+
+        $this->add($<?php echo $name; ?>);
+<?php endforeach; ?>
+
+        $submit = new Element\Submit("submit");
+        $submit->setValue('Envoyer');
+        $this->add($submit);
+
+        $this->add(array(
+            'name' => 'csrf',
+            'type' => 'Zend\Form\Element\Csrf',
+        ));
+    }
+}

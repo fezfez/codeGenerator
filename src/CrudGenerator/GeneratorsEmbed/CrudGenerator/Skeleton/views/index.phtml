@@ -1,0 +1,52 @@
+<h1><?php echo ucfirst($this->crudGenerator->getDisplayNames()); ?> list</h1>
+<?php echo '<?php if (!empty($this->successMessages)): ?>'; ?>
+    <?php echo '<?php foreach ($this->successMessages as $successMessages): ?>'; ?>
+        <div class="alert alert-success">
+            <?php echo '<?php echo $successMessages; ?>'; ?>
+        </div>
+    <?php echo '<?php endforeach; ?>'; ?>
+<?php echo '<?php endif; ?>'; ?>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+        <?php foreach($this->crudGenerator->getMetadata()->getColumnCollection() as $metadata): ?>
+    <th><?php echo $this->crudGenerator->getAttributeName($metadata->getName()); ?></th>
+        <?php endforeach; ?>
+    <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php echo '<?php foreach($this->list' . $this->ucFirstmodelName . 's as $' . $this->modelName . '): ?>' . "\n"; ?>
+        <tr>
+<?php
+            $fieldsCollection = $this->crudGenerator->getMetadata()->getColumnCollection();
+            foreach($this->crudGenerator->getMetadata()->getColumnCollection() as $metadata):
+                if($metadata == reset($fieldsCollection)): ?>
+            <td>
+                <a href="<?php echo '<?php echo $this->url("' . $this->showRoute . '", array("id" => $' . $this->modelName . '->getId())); ?>'; ?>">
+                    <?php echo '<?php echo $' . $this->modelName . '->get' . $metadata->getName(true) . '(); ?>' . "\n"; ?>
+                </a>
+            </td>
+<?php elseif(in_array($metadata->getType(), array("date", "datetime"))): ?>
+            <td><?php echo '<?php echo $' . $this->modelName . '->get' . $metadata->getName(true) . '()->format(\'Y-m-d H:i:s\'); ?>'; ?></td>
+<?php else: ?>
+            <td><?php echo '<?php echo $' . $this->modelName . '->get' . $metadata->getName(true) . '(); ?>'; ?></td>
+<?php endif;
+ if($metadata == end($fieldsCollection)): ?>
+            <td>
+<?php echo $this->render(__DIR__ . '/others/', 'actions.phtml'); ?>
+            </td>
+                <?php endif; ?>
+           <?php endforeach; ?>
+        </tr>
+    <?php echo '<?php endforeach; ?>'; ?>
+    </tbody>
+</table>
+
+<ul>
+    <li>
+        <a href="<?php echo '<?php echo $this->url("' . $this->newRoute . '", array()); ?>'; ?>">
+            Create a new entry
+        </a>
+    </li>
+</ul>

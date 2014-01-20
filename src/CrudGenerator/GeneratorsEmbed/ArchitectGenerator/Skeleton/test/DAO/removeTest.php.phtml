@@ -1,0 +1,70 @@
+<?php echo '<?php' . "\n"; ?>
+namespace <?php echo $this->unitTestNamespace; ?>\<?php echo $this->daoName; ?>;
+
+use <?php echo $this->fixtureFactoryNamespace; ?>;
+use <?php echo $this->hydratorNamespace; ?>;
+use <?php echo $this->dtoNamespace; ?>;
+use <?php echo $this->daoNamespace; ?>;
+
+class RemoveTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var <?php echo $this->fixtureName . "\n"; ?>
+     */
+    private static $fixtureManager = null;
+
+    public static function setUpBeforeClass()
+    {
+        self::$fixtureManager = <?php echo $this->fixtureFactoryName; ?>::getInstance();
+    }
+
+    public static function tearDownAfterClass()
+    {
+        self::$fixtureManager->purge();
+    }
+
+    protected function setUp()
+    {
+        self::$fixtureManager->purge();
+    }
+
+    public function testRemove()
+    {
+        $dtoPersisted = self::$fixtureManager->loadFixture();
+
+        $sUT = new <?php echo $this->daoName; ?>(
+            self::$fixtureManager->getDatabaseConnection(),
+            new <?php echo $this->hydratorName; ?>()
+        );
+
+        $sUT->remove($dtoPersisted);
+
+        $this->setExpectedException('<?php echo $this->exceptionNamespace; ?>');
+        $sUT->find($dtoPersisted);
+    }
+
+    public function testRemoveFailed()
+    {
+        $sUT = new <?php echo $this->daoName; ?>(
+            self::$fixtureManager->getDatabaseConnection(),
+            new <?php echo $this->hydratorName; ?>()
+        );
+        $dto = new <?php echo $this->dataObjectName; ?>();
+
+        $this->setExpectedException('<?php echo $this->exceptionNamespace; ?>');
+        $sUT->remove($dto);
+    }
+
+    public function testRemoveFailedWithId()
+    {
+        $sUT = new <?php echo $this->daoName; ?>(
+            self::$fixtureManager->getDatabaseConnection(),
+            new <?php echo $this->hydratorName; ?>()
+        );
+        $dto = new <?php echo $this->dataObjectName; ?>();
+        $dto->setId('42');
+
+        $this->setExpectedException('<?php echo $this->exceptionNamespace; ?>');
+        $sUT->remove($dto);
+    }
+}

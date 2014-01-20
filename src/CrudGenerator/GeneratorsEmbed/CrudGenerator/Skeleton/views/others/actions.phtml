@@ -1,0 +1,25 @@
+                <div class="btn-group action-button">
+                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                      Action
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+<?php
+                    $actions = array($this->editRoute, $this->deleteRoute);
+                    foreach($actions as $record_actions):
+                        if(in_array($record_actions, array($this->editRoute, $this->deleteRoute))): ?>
+                        <li>
+                            <a class="ajax-modal" href="<?php
+echo '<?php echo $this->url("' . $record_actions . '", array("id" => $' . $this->modelName . '->getId())); ?>'; ?>">
+<?php if($record_actions === $this->editRoute): ?>
+                                <i class="icon-pencil"></i>Edit
+<?php elseif($record_actions === $this->deleteRoute): ?>
+                                <i class="icon-trash"></i>Delete
+<?php endif; ?>
+                            </a>
+                        </li>
+<?php
+endif;
+endforeach; ?>
+                    </ul>
+                </div>

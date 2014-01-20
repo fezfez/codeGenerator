@@ -1,0 +1,43 @@
+<?php echo '<?php' . "\n"; ?>
+namespace <?php echo $this->unitTestNamespace; ?>\<?php echo $this->daoName; ?>;
+
+use <?php echo $this->fixtureFactoryNamespace; ?>;
+use <?php echo $this->hydratorNamespace; ?>;
+use <?php echo $this->dtoNamespace; ?>;
+use <?php echo $this->daoNamespace; ?>;
+
+class FindAllTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var <?php echo $this->fixtureName . "\n"; ?>
+     */
+    private static $fixtureManager = null;
+
+    public static function setUpBeforeClass()
+    {
+        self::$fixtureManager = <?php echo $this->fixtureFactoryName; ?>::getInstance();
+        self::$fixtureManager->purge();
+    }
+
+    public static function tearDownAfterClass()
+    {
+        self::$fixtureManager->purge();
+    }
+
+    public function testFindAll()
+    {
+        self::$fixtureManager->loadFixture();
+
+        $sUT = new <?php echo $this->daoName; ?>(
+            self::$fixtureManager->getDatabaseConnection(),
+            new <?php echo $this->hydratorName; ?>()
+        );
+        $<?php echo $this->modelName; ?>Data = $sUT->findAll();
+
+        $this->assertEquals(1, $<?php echo $this->modelName; ?>Data->count());
+        $this->assertInstanceOf(
+            '<?php echo $this->dtoCollectionNamespace; ?>',
+            $<?php echo $this->modelName; ?>Data
+        );
+    }
+}

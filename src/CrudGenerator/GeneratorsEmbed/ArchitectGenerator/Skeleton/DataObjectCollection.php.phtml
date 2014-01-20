@@ -1,0 +1,12 @@
+<?php
+echo '<?php' . "\n";
+?>
+namespace <?php echo $this->architectGenerator->getNamespace(); ?>\DataObject;
+
+use <?php echo $this->dtoNamespace; ?>;
+use ArrayObject;
+
+class <?php echo $this->collectionName; ?> extends ArrayObject
+{
+
+}

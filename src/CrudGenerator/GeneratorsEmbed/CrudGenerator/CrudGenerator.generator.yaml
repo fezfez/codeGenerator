@@ -1,0 +1,38 @@
+name : CrudGenerator
+definition : Generate CRUD based on ArchitectGenerator utilisation
+dto : CrudGenerator\Generators\CrudGenerator\Crud
+dependencies :
+    - ArchitectGenerator
+questions : 
+    - 
+        dtoAttribute : DisplayName
+        text : Display name (in view, title etc..)
+        defaultResponse : <?php $modelName; ?>
+    - 
+        dtoAttribute : DisplayNames
+        text : Display name au plurielle (in view, title etc..)
+        defaultResponse : <?php $modelName; ?>s
+    - 
+        dtoAttribute : ControllerName
+        text : Controller name (ucFirst and without "Controller")
+        defaultResponse : <?php $ucFirstModelName; ?>
+    - 
+        dtoAttribute : PrefixRouteName
+        text : Prefix route name (lower case)
+        defaultResponse : !uncamelcase($modelName)!
+directories :
+    - <?php $crudGenerator->findControllerPath(); ?>
+    - <?php $crudGenerator->findViewPath(); ?>
+templateVariables : 
+    - homeRoute              : <?php $crudGenerator->getPrefixRouteName(); ?>
+    - newRoute               : <?php $homeRoute; ?>-new
+    - showRoute              : <?php $homeRoute; ?>-show
+    - editRoute              : <?php $homeRoute; ?>-edit
+    - deleteRoute            : <?php $homeRoute; ?>-delete
+filesList :
+    - /controller.php.phtml : <?php $crudGenerator->findControllerPath() . $crudGenerator->getControllerName(); ?>Controller.php
+    - /views/index.phtml    : <?php $crudGenerator->findViewPath(); ?>index.phtml
+    - /views/show.phtml     : <?php $crudGenerator->findViewPath(); ?>show.phtml
+    - /views/new.phtml      : <?php $crudGenerator->findViewPath(); ?>new.phtml
+    - /views/edit.phtml     : <?php $crudGenerator->findViewPath(); ?>edit.phtml
+    - /views/edit-js.phtml  : <?php $crudGenerator->findViewPath(); ?>edit-js.phtml
