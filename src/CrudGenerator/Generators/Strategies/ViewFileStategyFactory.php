@@ -38,6 +38,6 @@ class ViewFileStategyFactory
     {
         $view   = ViewFactory::getInstance();
 
-        return new ViewFileStategy($view);
+        return new ViewFileStrategy($view);
     }
 }

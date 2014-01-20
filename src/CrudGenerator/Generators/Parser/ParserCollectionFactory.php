@@ -18,20 +18,39 @@
 namespace CrudGenerator\Generators\Parser;
 
 use CrudGenerator\Utils\FileManager;
+use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\WebContext;
+use CrudGenerator\Context\CliContext;
+use CrudGenerator\Generators\Parser\Lexical\DirectoriesParser;
+use CrudGenerator\Generators\Parser\Lexical\FileParser;
+use CrudGenerator\Generators\Parser\Lexical\TemplateVariableParser;
+use CrudGenerator\Generators\Parser\Lexical\Cli\AskQuestionParser;
+use CrudGenerator\Generators\Parser\Lexical\Web\QuestionParser;
+use CrudGenerator\Generators\Parser\Lexical\Web\QuestionResponseParser;
 
 class ParserCollectionFactory
 {
     /**
+     * @param ContextInterface $context
      * @return ParserCollection
      */
-    public static function getInstance()
+    public static function getInstance(ContextInterface $context)
     {
         $fileManager = new FileManager();
         $collection  = new ParserCollection();
 
-        $collection->addPreParse(new QuestionResponseParser())
-                   ->addPostParse(new QuestionParser())
-                   ->addPostParse(new TemplateVariableParser($fileManager))
+        if ($context instanceof WebContext) {
+            $collection->addPreParse(new QuestionResponseParser())
+                       ->addPostParse(new QuestionParser($context));
+        } elseif ($context instanceof CliContext) {
+        	$collection->addPreParse(
+        		new AskQuestionParser($context)
+			);
+        } else {
+        	throw new \InvalidArgumentException("Context not allowed");
+        }
+
+        $collection->addPostParse(new TemplateVariableParser($fileManager))
                    ->addPostParse(new DirectoriesParser())
                    ->addPostParse(new FileParser($fileManager));
 
