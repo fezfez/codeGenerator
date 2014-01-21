@@ -4,14 +4,11 @@ namespace CrudGenerator\Tests\General\Generators\CrudGenerator\CrudGenerator;
 use CrudGenerator\View\ViewFactory;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\GeneriqueQuestions;
-use CrudGenerator\Utils\DiffPHP;
 use CrudGenerator\Generators\CrudGenerator\CrudGenerator;
 use CrudGenerator\Generators\CrudGenerator\Crud;
 use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 use CrudGenerator\Generators\Strategies\GeneratorStrategy;
-
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Helper\DialogHelper;
 
 class DoGenerateTest extends \PHPUnit_Framework_TestCase

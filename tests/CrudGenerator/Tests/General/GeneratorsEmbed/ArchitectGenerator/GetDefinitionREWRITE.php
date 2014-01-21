@@ -1,19 +1,11 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\ArchitectGenerator;
 
-use CrudGenerator\View\ViewFactory;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\GeneriqueQuestions;
-use CrudGenerator\Utils\DiffPHP;
 use CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator;
-use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
-
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Helper\DialogHelper;
-
-use CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO;
-use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
 
 class GetDefinitionTest extends \PHPUnit_Framework_TestCase
 {

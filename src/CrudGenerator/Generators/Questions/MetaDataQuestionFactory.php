@@ -23,8 +23,6 @@ use CrudGenerator\MetaData\MetaDataSourceFactory;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\CliContext;
 use CrudGenerator\Context\WebContext;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
 
 class MetaDataQuestionFactory
 {

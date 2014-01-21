@@ -18,8 +18,6 @@
 namespace CrudGenerator\Generators\Questions;
 
 use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
-use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
-use CrudGenerator\Generators\Strategies\SandBoxStrategyFactory;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\CliContext;
 use CrudGenerator\Context\WebContext;

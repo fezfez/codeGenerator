@@ -18,7 +18,6 @@
 namespace CrudGenerator\Command;
 
 use CrudGenerator\Command\CreateByYamlCommand;
-use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 use CrudGenerator\Generators\Questions\HistoryQuestionFactory;
 use CrudGenerator\Context\CliContext;
 
