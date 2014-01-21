@@ -1,7 +1,7 @@
 <?php
-namespace CrudGenerator\Tests\General\History\HistoryFactory;
+namespace CrudGenerator\Tests\General\Generators\Questions\MetaDataSourcesQuestion;
 
-use CrudGenerator\History\HistoryFactory;
+use CrudGenerator\Generators\Questions\MetaDataSourcesQuestionFactory;
 use CrudGenerator\Context\CliContext;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
@@ -19,8 +19,8 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
         $context = new CliContext($dialog, $ConsoleOutputStub);
 
         $this->assertInstanceOf(
-            'CrudGenerator\History\HistoryManager',
-            HistoryFactory::getInstance($context)
+            'CrudGenerator\Generators\Questions\Cli\MetaDataSourcesQuestion',
+            MetaDataSourcesQuestionFactory::getInstance($context)
         );
     }
 }

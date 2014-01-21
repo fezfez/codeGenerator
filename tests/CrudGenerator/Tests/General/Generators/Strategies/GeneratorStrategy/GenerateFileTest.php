@@ -3,7 +3,7 @@ namespace CrudGenerator\Tests\General\Generators\Strategies\GeneratorStrategy;
 
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\Strategies\GeneratorStrategy;
-use CrudGenerator\Generators\ArchitectGenerator\Architect;
+use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 
 class GenerateFileTest extends \PHPUnit_Framework_TestCase
 {

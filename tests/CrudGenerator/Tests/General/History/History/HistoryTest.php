@@ -2,7 +2,7 @@
 namespace CrudGenerator\Tests\General\History\History;
 
 use CrudGenerator\History\History;
-use CrudGenerator\Generators\ArchitectGenerator\Architect;
+use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 
 class HistoryTest extends \PHPUnit_Framework_TestCase
 {

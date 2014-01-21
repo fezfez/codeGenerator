@@ -5,37 +5,31 @@ use CrudGenerator\Command\CreateCommand;
 use Symfony\Component\Console\Application as App;
 use Symfony\Component\Console\Tester\CommandTester;
 use CrudGenerator\History\HistoryManager;
-use CrudGenerator\Command\Questions\MetaDataSourcesQuestion;
-use CrudGenerator\Command\Questions\DirectoryQuestion;
-use CrudGenerator\Command\Questions\MetaDataQuestion;
-use CrudGenerator\Command\Questions\GeneratorQuestion;
+use CrudGenerator\Generators\Questions\Cli\MetaDataSourcesQuestion;
+use CrudGenerator\Generators\Questions\Cli\DirectoryQuestion;
+use CrudGenerator\Generators\Questions\Cli\MetaDataQuestion;
+use CrudGenerator\Generators\Questions\Cli\GeneratorQuestion;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
+use CrudGenerator\Context\CliContext;
 
 class executeTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testFadzadazdzail()
+    public function testFail()
     {
-        $ArchitectGeneratorStub = $this->getMockBuilder('\CrudGenerator\Generators\CodeGeneratorFactory')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $ArchitectGeneratorStub->expects($this->once())
-        ->method('getDTO')
-        ->will($this->returnValue('\CrudGenerator\Generators\ArchitectGenerator\Architect'));
-
         $historyStub = $this->getMockBuilder('CrudGenerator\History\HistoryManager')
         ->disableOriginalConstructor()
         ->getMock();
-        $MetaDataSourcesQuestionStub = $this->getMockBuilder('CrudGenerator\Command\Questions\MetaDataSourcesQuestion')
+        $MetaDataSourcesQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\MetaDataSourcesQuestion')
         ->disableOriginalConstructor()
         ->getMock();
         $MetaDataSourcesQuestionStub
         ->expects($this->once())
         ->method('ask')
         ->will($this->returnValue(new MetaDataSource()));
-        $DirectoryQuestionStub = $this->getMockBuilder('CrudGenerator\Command\Questions\DirectoryQuestion')
+        $DirectoryQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\DirectoryQuestion')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -43,7 +37,7 @@ class executeTest extends \PHPUnit_Framework_TestCase
             new MetaDataColumnCollection(),
             new MetaDataRelationCollection()
         );
-        $MetaDataQuestionStub = $this->getMockBuilder('CrudGenerator\Command\Questions\MetaDataQuestion')
+        $MetaDataQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\MetaDataQuestion')
         ->disableOriginalConstructor()
         ->getMock();
         $MetaDataQuestionStub
@@ -51,13 +45,13 @@ class executeTest extends \PHPUnit_Framework_TestCase
         ->method('ask')
         ->will($this->returnValue($metadata));
 
-        $GeneratorQuestionStub = $this->getMockBuilder('CrudGenerator\Command\Questions\GeneratorQuestion')
+        $GeneratorQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\GeneratorQuestion')
         ->disableOriginalConstructor()
         ->getMock();
         $GeneratorQuestionStub
         ->expects($this->once())
         ->method('ask')
-        ->will($this->returnValue($ArchitectGeneratorStub));
+        ->will($this->returnValue("ArchitectGenerator"));
 
         $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
         ->disableOriginalConstructor()
@@ -66,10 +60,18 @@ class executeTest extends \PHPUnit_Framework_TestCase
         ->method('writeln')
         ->will($this->returnValue(''));
 
-        $dialog = $this->getMock('Symfony\Component\Console\Helper\DialogHelper', array('askConfirmation'));
+        $dialog =  $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
+        ->disableOriginalConstructor()
+        ->getMock();
         $dialog->expects($this->once())
                ->method('askConfirmation')
                ->will($this->returnValue(false));
+
+        $dialog->expects($this->any())
+        ->method('ask')
+        ->will($this->returnValue(''));
+
+        $context = new CliContext($dialog, $ConsoleOutputStub);
 
         $commandTmp = new CreateCommand(
             $dialog,
@@ -78,7 +80,8 @@ class executeTest extends \PHPUnit_Framework_TestCase
             $MetaDataSourcesQuestionStub,
             $DirectoryQuestionStub,
             $MetaDataQuestionStub,
-            $GeneratorQuestionStub
+            $GeneratorQuestionStub,
+        	$context
         );
         $application = new App();
         $application->add($commandTmp);
@@ -93,18 +96,8 @@ class executeTest extends \PHPUnit_Framework_TestCase
         $commandTester->execute(array('command' => $sUT->getName()));
     }
 
-    public function testYesdzadz()
+    public function testYes()
     {
-        $ArchitectGeneratorStub = $this->getMockBuilder('\CrudGenerator\Generators\CodeGeneratorFactory')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $ArchitectGeneratorStub->expects($this->once())
-        ->method('generate')
-        ->will($this->returnValue(new \CrudGenerator\Generators\ArchitectGenerator\Architect()));
-        $ArchitectGeneratorStub->expects($this->once())
-        ->method('getDTO')
-        ->will($this->returnValue('\CrudGenerator\Generators\ArchitectGenerator\Architect'));
-
         $historyStub = $this->getMockBuilder('CrudGenerator\History\HistoryManager')
         ->disableOriginalConstructor()
         ->getMock();
@@ -113,14 +106,14 @@ class executeTest extends \PHPUnit_Framework_TestCase
         ->method('create')
         ->will($this->returnValue(''));
 
-        $MetaDataSourcesQuestionStub = $this->getMockBuilder('CrudGenerator\Command\Questions\MetaDataSourcesQuestion')
+        $MetaDataSourcesQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\MetaDataSourcesQuestion')
         ->disableOriginalConstructor()
         ->getMock();
         $MetaDataSourcesQuestionStub
         ->expects($this->once())
         ->method('ask')
         ->will($this->returnValue(new MetaDataSource()));
-        $DirectoryQuestionStub = $this->getMockBuilder('CrudGenerator\Command\Questions\DirectoryQuestion')
+        $DirectoryQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\DirectoryQuestion')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -128,7 +121,7 @@ class executeTest extends \PHPUnit_Framework_TestCase
             new MetaDataColumnCollection(),
             new MetaDataRelationCollection()
         );
-        $MetaDataQuestionStub = $this->getMockBuilder('CrudGenerator\Command\Questions\MetaDataQuestion')
+        $MetaDataQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\MetaDataQuestion')
         ->disableOriginalConstructor()
         ->getMock();
         $MetaDataQuestionStub
@@ -136,13 +129,13 @@ class executeTest extends \PHPUnit_Framework_TestCase
         ->method('ask')
         ->will($this->returnValue($metadata));
 
-        $GeneratorQuestionStub = $this->getMockBuilder('CrudGenerator\Command\Questions\GeneratorQuestion')
+        $GeneratorQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\GeneratorQuestion')
         ->disableOriginalConstructor()
         ->getMock();
         $GeneratorQuestionStub
         ->expects($this->once())
         ->method('ask')
-        ->will($this->returnValue($ArchitectGeneratorStub));
+        ->will($this->returnValue('ArchitectGenerator'));
 
         $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
         ->disableOriginalConstructor()
@@ -151,10 +144,18 @@ class executeTest extends \PHPUnit_Framework_TestCase
         ->method('writeln')
         ->will($this->returnValue(''));
 
-        $dialog = $this->getMock('Symfony\Component\Console\Helper\DialogHelper', array('askConfirmation'));
+        $dialog =  $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
+        ->disableOriginalConstructor()
+        ->getMock();
         $dialog->expects($this->once())
                ->method('askConfirmation')
                ->will($this->returnValue(true));
+
+        $dialog->expects($this->any())
+        ->method('ask')
+        ->will($this->returnValue(''));
+
+        $context = new CliContext($dialog, $ConsoleOutputStub);
 
         $commandTmp = new CreateCommand(
             $dialog,
@@ -163,7 +164,8 @@ class executeTest extends \PHPUnit_Framework_TestCase
             $MetaDataSourcesQuestionStub,
             $DirectoryQuestionStub,
             $MetaDataQuestionStub,
-            $GeneratorQuestionStub
+            $GeneratorQuestionStub,
+        	$context
         );
         $application = new App();
         $application->add($commandTmp);

@@ -3,7 +3,7 @@ namespace CrudGenerator\Tests\General\History\HistoryManager;
 
 use CrudGenerator\History\HistoryManager;
 use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Generators\GeneratorFinderFactory;
+use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
 use CrudGenerator\History\History;
 
 class FindAllTest extends \PHPUnit_Framework_TestCase

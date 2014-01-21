@@ -2,11 +2,11 @@
 namespace CrudGenerator\Tests\General\History\HistoryManager;
 
 use CrudGenerator\History\HistoryHydrator;
-use CrudGenerator\Generators\ArchitectGenerator\Architect;
+use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
-use CrudGenerator\Command\Questions\MetaDataSourcesQuestion;
-use CrudGenerator\Command\Questions\MetaDataQuestion;
+use CrudGenerator\Generators\Questions\Cli\MetaDataSourcesQuestion;
+use CrudGenerator\Generators\Questions\Cli\MetaDataQuestion;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
@@ -23,11 +23,11 @@ class DtoToYamlTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $stubMetadataSourceQuestion = $this->getMockBuilder('CrudGenerator\Command\Questions\MetaDataSourcesQuestion')
+        $stubMetadataSourceQuestion = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\MetaDataSourcesQuestion')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $stubMetadataSource = $this->getMockBuilder('CrudGenerator\Command\Questions\MetaDataQuestion')
+        $stubMetadataSource = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\MetaDataQuestion')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -50,11 +50,11 @@ class DtoToYamlTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $stubMetadataSourceQuestion = $this->getMockBuilder('CrudGenerator\Command\Questions\MetaDataSourcesQuestion')
+        $stubMetadataSourceQuestion = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\MetaDataSourcesQuestion')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $stubMetadataSource = $this->getMockBuilder('CrudGenerator\Command\Questions\MetaDataQuestion')
+        $stubMetadataSource = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\MetaDataQuestion')
         ->disableOriginalConstructor()
         ->getMock();
 

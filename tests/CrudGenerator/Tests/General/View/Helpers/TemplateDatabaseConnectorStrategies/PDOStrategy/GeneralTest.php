@@ -6,7 +6,7 @@ use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
 use CrudGenerator\MetaData\DataObject\MetaDataColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
-use CrudGenerator\Generators\ArchitectGenerator\Architect;
+use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 
 class GeneralTest extends \PHPUnit_Framework_TestCase
 {

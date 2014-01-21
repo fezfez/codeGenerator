@@ -2,7 +2,7 @@
 namespace CrudGenerator\Tests\General\DataObject\DataObject;
 
 use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
-use CrudGenerator\Generators\ArchitectGenerator\Architect;
+use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 

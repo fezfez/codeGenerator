@@ -20,11 +20,11 @@ class YampToDtoTest extends \PHPUnit_Framework_TestCase
 
         $stubParser = new Parser;
 
-        $stubMetadataSourceQuestion = $this->getMockBuilder('CrudGenerator\Command\Questions\MetaDataSourcesQuestion')
+        $stubMetadataSourceQuestion = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\MetaDataSourcesQuestion')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $stubMetadataSource = $this->getMockBuilder('CrudGenerator\Command\Questions\MetaDataQuestion')
+        $stubMetadataSource = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\MetaDataQuestion')
         ->disableOriginalConstructor()
         ->getMock();
 

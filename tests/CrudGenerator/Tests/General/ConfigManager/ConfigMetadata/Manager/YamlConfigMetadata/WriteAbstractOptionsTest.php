@@ -2,7 +2,7 @@
 namespace CrudGenerator\Tests\General\ConfigManager\ConfigMetadata\Manager\YamlConfigMetadata;
 
 use CrudGenerator\ConfigManager\ConfigMetadata\ManagerFactory;
-use CrudGenerator\Generators\ArchitectGenerator\Architect;
+use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
