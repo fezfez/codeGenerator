@@ -4,142 +4,98 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use CrudGenerator\MetaData\MetaDataSourceFactory;
 use CrudGenerator\MetaData\Config\ConfigException;
+use CrudGenerator\Generators\Questions\MetaDataSourcesQuestionFactory;
+use CrudGenerator\Generators\Questions\MetaDataQuestionFactory;
+use CrudGenerator\Generators\Questions\GeneratorQuestionFactory;
+use CrudGenerator\Generators\Parser\GeneratorParserFactory;
+use CrudGenerator\Context\WebContext;
+use CrudGenerator\Generators\GeneratorDataObject;
 
 $app->match('/', function() use ($app) {
     return $app['twig']->render('index.html.twig');
 })->bind('homepage');
 
 $app->match('/list-backend', function() use ($app) {
-	$backendFinder     = CrudGenerator\MetaData\MetaDataSourceFinderFactory::getInstance();
-	$backendArray = array();
-	foreach ($backendFinder->getAllAdapters() as $backend) {
-		if(!$backend->getFalseDependencies()) {
-			$backendArray[] = array('id' => $backend->getFactory(), 'label' => $backend->getDefinition());
-		}
-	}
-	return $app->json(array('backend' => $backendArray), 201);
+
+    $context       = new WebContext($app);
+    $backendFinder = MetaDataSourcesQuestionFactory::getInstance($context);
+
+    return $app->json(array('backend' => $backendFinder->ask()), 201);
 })->bind('list-backend');
 
 $app->match('/list-generator', function() use ($app) {
-    $generatorFinder = CrudGenerator\Generators\GeneratorFinderFactory::getInstance();
-    $generatorArray = array();
-    foreach ($generatorFinder->getAllClasses() as $path => $name) {
-    	$generatorArray[] = array('id' => $path, 'label' => $name);
-    }
-	return $app->json(array('generators' => $generatorArray), 201);
+
+    $context         = new WebContext($app);
+    $generatorFinder = GeneratorQuestionFactory::getInstance($context);
+
+    return $app->json(array('generators' => $generatorFinder->ask()), 201);
 })->bind('list-generator');
 
-$backendChoice = function($backendString) {
-    $backendFinder = CrudGenerator\MetaData\MetaDataSourceFinderFactory::getInstance();
-    $backendSelect = null;
-    foreach ($backendFinder->getAllAdapters() as $backend) {
-        if($backend->getFactory() === $backendString) {
-            $backendSelect = $backend;
-        }
-    }
-
-    if (null === $backendSelect) {
-        throw new InvalidArgumentException(sprintf('Invalid %s', $backendString));
-    }
-
-    return $backendSelect;
-};
-
-$metadataChoice = function($backendSelect) use($app) {
-	$metadataSourceFactory = new MetaDataSourceFactory();
-	$metadataSourceFactoryName = $backendSelect->getFactory();
-	$metadataSourceConfig      = $backendSelect->getConfig();
-
-	if (null !== $metadataSourceConfig) {
-		$configReader = CrudGenerator\MetaData\Config\MetaDataConfigReaderFormFactory::getInstance($app);
-		try {
-			$metadataSourceConfigured = $configReader->config($metadataSourceConfig);
-			$metaDataDAO = $metadataSourceFactory->create($metadataSourceFactoryName, $metadataSourceConfigured);
-		} catch (ConfigException $e) {
-			$form = $configReader->getForm($metadataSourceConfig);
-			return $app->json(
-					array(
-							'config' =>
-							$app['twig']->render(
-									'metadata-config.html.twig',
-									array(
-											'form' => $form->createView()
-									)
-							)
-					)
-			);
-		}
-	} else {
-		$metaDataDAO = $metadataSourceFactory->create($metadataSourceFactoryName);
-	}
-
-	$metaDataChoices = array();
-	foreach ($metaDataDAO->getAllMetadata() as $metaData) {
-		$metaDataChoices[$metaData->getOriginalName()] = $metaData;
-	}
-
-	return $metaDataChoices;
-};
-
-$parseQuestion = function($questionString) {
-	$questionArray = array();
-
-	parse_str($questionString, $questionArray);
-
-	return $questionArray;
-};
-
 // on choice metadata
-$app->match('/metadata', function (Request $request) use ($app, $backendChoice, $metadataChoice) {
+$app->match('/metadata', function (Request $request) use ($app) {
     $backendString = $request->request->get('backend');
 
-    $backendSelect = $backendChoice($backendString);
-    $metaDataChoicesTmp = $metadataChoice($backendSelect);
-    $metaDataChoices = array();
-    foreach ($metaDataChoicesTmp as $name => $metaData) {
-    	$metaDataChoices[] = array('id' => $name, 'label' => $name);
-    }
+    $context        = new WebContext($app);
+    $backendFinder  = MetaDataSourcesQuestionFactory::getInstance($context);
+    $metadataFinder = MetaDataQuestionFactory::getInstance($context);
 
-    return $app->json(array('metadatas' => $metaDataChoices), 201);
+    $metadataSource = $backendFinder->ask($backendString);
+
+    return $app->json(array('metadatas' => $metadataFinder->ask($metadataSource)), 201);
 })->bind('metadata');
 
-$app->match('generator', function (Request $request) use ($app, $backendChoice, $metadataChoice, $parseQuestion) {
+$app->match('generator', function (Request $request) use ($app) {
 
-	$generatorParser = CrudGenerator\Generators\GeneratorParserFactory::getInstance();
-	$backendSelect   = $backendChoice($request->request->get('backend'));
-	$questionString  = $request->request->get('questions');
-	$metaDataChoices = $metadataChoice($backendSelect);
-	$metadata        = isset($metaDataChoices[$request->request->get('metadata')]) ? $metaDataChoices[$request->request->get('metadata')] : null;
+    parse_str($request->request->get('questions'), $questionArray);
+    $metadataSource = $request->request->get('backend');
+    $metadata       = $request->request->get('metadata');
+    $context        = new WebContext($app);
 
-	$generator = new CrudGenerator\Generators\Generator();
-	$generator->setName($request->request->get('generator'));
+    $generatorParser        = GeneratorParserFactory::getInstance($context);
+    $matadataSourceFinder   = MetaDataSourcesQuestionFactory::getInstance($context);
+    $metadataFinder         = MetaDataQuestionFactory::getInstance($context);
 
-	$generator = $generatorParser->init($generator, $metadata, $parseQuestion($questionString));
+    $metadataSourceSelect   = $matadataSourceFinder->ask($metadataSource);
+    $metaData               = $metadataFinder->ask($metadataSourceSelect, $metadata);
 
-	return $app->json(array('generator' => $generator), 201);
+    $generator = new GeneratorDataObject();
+    $generator->setName($request->request->get('generator'));
+
+    $generator = $generatorParser->init($generator, $metaData, $questionArray);
+
+    return $app->json(array('generator' => $generator), 201);
 });
 
-$app->match('view-file', function (Request $request) use ($app, $backendChoice, $metadataChoice, $parseQuestion) {
+$app->match('view-file', function (Request $request) use ($app) {
 
-	$generatorParser = CrudGenerator\Generators\GeneratorParserFactory::getInstance();
-	$backendSelect   = $backendChoice($request->request->get('backend'));
-	$metaDataChoices = $metadataChoice($backendSelect);
-	$metadata        = isset($metaDataChoices[$request->request->get('metadata')]) ? $metaDataChoices[$request->request->get('metadata')] : null;
-	$questionString  = $request->request->get('questions');
+    parse_str($request->request->get('questions'), $questionArray);
+    $metadataSource = $request->request->get('backend');
+    $metadata       = $request->request->get('metadata');
+    $file           = $request->request->get('file');
+    $context        = new WebContext($app);
 
-	$generator = new CrudGenerator\Generators\Generator();
-	$generator->setName($request->request->get('generator'));
+    $generatorParser        = GeneratorParserFactory::getInstance($context);
+    $matadataSourceFinder   = MetaDataSourcesQuestionFactory::getInstance($context);
+    $metadataFinder         = MetaDataQuestionFactory::getInstance($context);
 
-	$generator = $generatorParser->init($generator, $metadata, $parseQuestion($questionString));
+    $metadataSourceSelect   = $matadataSourceFinder->ask($metadataSource);
+    $metaData               = $metadataFinder->ask($metadataSourceSelect, $metadata);
 
-	return $app->json(array('generator' => $generatorParser->viewFile($generator, $request->request->get('file'), $request->request->get('skeletonPath'))), 201);
+    $generator = new GeneratorDataObject();
+    $generator->setName($request->request->get('generator'));
+
+    $generator = $generatorParser->init($generator, $metaData, $questionArray);
+
+    return $app->json(array('generator' => $generatorParser->viewFile($generator, $file)), 201);
 });
 
-$app->match('metadata-save', function (Request $request) use ($app, $backendChoice) {
+$app->match('metadata-save', function (Request $request) use ($app) {
 
     $formDatas             = $request->request->get('form');
     $backendString         = isset($formDatas['Backend']) ? $formDatas['Backend'] : null;
-    $backendSelect         = $backendChoice($backendString);
+    $context         = new WebContext($app);
+    $backendFinder   = MetaDataSourcesQuestionFactory::getInstance($context);
+    $backendSelect   = $backendFinder->ask($request->request->get('backend'));
     $metadataSourceFactory = new MetaDataSourceFactory();
 
     $configReader = CrudGenerator\MetaData\Config\MetaDataConfigReaderFormFactory::getInstance($app);

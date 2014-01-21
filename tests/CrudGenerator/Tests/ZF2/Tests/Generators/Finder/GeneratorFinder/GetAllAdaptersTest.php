@@ -1,7 +1,7 @@
 <?php
-namespace CrudGenerator\Tests\ZF2\Tests\Generators\GeneratorFinder;
+namespace CrudGenerator\Tests\ZF2\Tests\Generators\Finder\GeneratorFinder;
 
-use CrudGenerator\Generators\GeneratorFinder;
+use CrudGenerator\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\ClassAwake;
 

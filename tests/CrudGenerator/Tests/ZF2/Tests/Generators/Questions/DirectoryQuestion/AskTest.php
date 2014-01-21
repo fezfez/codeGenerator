@@ -1,9 +1,11 @@
 <?php
-namespace CrudGenerator\Tests\ZF2\Tests\Command\Questions\DirectoryQuestion;
+namespace CrudGenerator\Tests\ZF2\Tests\Generators\Questions\DirectoryQuestion;
 
-
-use CrudGenerator\Command\Questions\DirectoryQuestion;
+use CrudGenerator\Generators\Questions\Cli\DirectoryQuestion;
 use CrudGenerator\Utils\FileManager;
+use CrudGenerator\Context\CliContext;
+use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {
@@ -55,6 +57,10 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $sUT = new DirectoryQuestion($fileManagerStub, $ConsoleOutputStub, $dialog);
 
-        $this->assertEquals('./module/', $sUT->ask());
+
+        $generatorDTO = new GeneratorDataObject();
+        $generatorDTO->setDTO(new Architect());
+
+        $this->assertEquals('./module/', $sUT->ask($generatorDTO)->getDTO()->getModule());
     }
 }
