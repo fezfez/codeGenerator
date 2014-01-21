@@ -20,7 +20,6 @@ namespace CrudGenerator\Generators\Questions;
 use CrudGenerator\History\HistoryFactory;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\CliContext;
-use CrudGenerator\Context\WebContext;
 
 class HistoryQuestionFactory
 {

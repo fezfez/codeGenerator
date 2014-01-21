@@ -2,7 +2,6 @@
 namespace CrudGenerator\Tests\General\Generators\Questions\DirectoryQuestion;
 
 use CrudGenerator\Generators\Questions\Cli\DirectoryQuestion;
-use CrudGenerator\Context\CliContext;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 

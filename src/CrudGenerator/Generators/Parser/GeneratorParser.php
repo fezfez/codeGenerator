@@ -18,7 +18,6 @@
 namespace CrudGenerator\Generators\Parser;
 
 use Symfony\Component\Yaml\Yaml;
-
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\MetaData\DataObject\MetaData;

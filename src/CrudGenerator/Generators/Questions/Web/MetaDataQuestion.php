@@ -20,8 +20,6 @@ namespace CrudGenerator\Generators\Questions\Web;
 use CrudGenerator\MetaData\Config\MetaDataConfigReaderForm;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\MetaDataSourceFactory;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
 
 class MetaDataQuestion
 {

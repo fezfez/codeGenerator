@@ -3,7 +3,6 @@ namespace CrudGenerator\Tests\ZF2\Tests\Generators\Questions\DirectoryQuestion;
 
 use CrudGenerator\Generators\Questions\Cli\DirectoryQuestion;
 use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Context\CliContext;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 
