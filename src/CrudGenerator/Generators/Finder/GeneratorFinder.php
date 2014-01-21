@@ -15,7 +15,7 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators;
+namespace CrudGenerator\Generators\Finder;
 
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
@@ -59,7 +59,7 @@ class GeneratorFinder
     {
         $directories = $this->checkZf2Configuration(
             array(
-                __DIR__ . '/'
+                __DIR__ . '/../../' // @TODO fix path
             )
         );
 
@@ -85,9 +85,9 @@ class GeneratorFinder
     }
 
     /**
-     * @param unknown $name
+     * @param string $name
      * @throws \InvalidArgumentException
-     * @return unknown
+     * @return string
      */
     public function findByName($name)
     {

@@ -20,22 +20,22 @@ namespace CrudGenerator\Generators\Parser\Lexical;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\GeneratorParser;
+use CrudGenerator\Generators\Parser\GeneratorParser;
 
 class TemplateVariableParser implements ParserInterface
 {
-	/**
-	 * @var FileManager
-	 */
-	private $fileManager = null;
+    /**
+     * @var FileManager
+     */
+    private $fileManager = null;
 
-	/**
-	 * @param FileManager $fileManager
-	 */
-	public function __construct(FileManager $fileManager)
-	{
-		$this->fileManager = $fileManager;
-	}
+    /**
+     * @param FileManager $fileManager
+     */
+    public function __construct(FileManager $fileManager)
+    {
+        $this->fileManager = $fileManager;
+    }
 
    /**
     * @param array $process
@@ -49,7 +49,7 @@ class TemplateVariableParser implements ParserInterface
         foreach ($process['templateVariables'] as $variables) {
             foreach ($variables as $varName => $value) {
                 if($varName === GeneratorParser::ENVIRONNEMENT_CONDITION) {
-                	$generator =  $this->evaluateEnvironnementCondition($value, $parser, $generator);
+                    $generator =  $this->evaluateEnvironnementCondition($value, $parser, $generator);
                 } else {
                     $variableValue = $parser->parse($value);
                     $parser->addVariable($varName, $variableValue);

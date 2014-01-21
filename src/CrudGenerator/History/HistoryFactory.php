@@ -20,9 +20,10 @@ namespace CrudGenerator\History;
 use CrudGenerator\History\HistoryManager;
 use CrudGenerator\History\HistoryHydratorFactory;
 use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Generators\GeneratorFinderFactory;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
+use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
+use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\CliContext;
+use CrudGenerator\Context\WebContext;
 
 /**
  * Create HistoryManager instance
@@ -36,15 +37,18 @@ class HistoryFactory
      *
      * @return \CrudGenerator\History\HistoryManager
      */
-    public static function getInstance(DialogHelper $dialog, OutputInterface $output)
+    public static function getInstance(ContextInterface $context)
     {
         // wakeup classes
         $generatorFinder = GeneratorFinderFactory::getInstance();
         $generatorFinder->getAllClasses();
 
+        if ($context instanceof WebContext) {
+        	throw new \Exception('not supported');
+        }
         $fileManager = new FileManager();
 
-        $historyHydrator = HistoryHydratorFactory::getInstance($dialog, $output);
+        $historyHydrator = HistoryHydratorFactory::getInstance($context);
 
         return new HistoryManager($fileManager, $historyHydrator);
     }

@@ -18,19 +18,15 @@
 namespace CrudGenerator\Generators\Parser\Lexical\Web;
 
 use CrudGenerator\Utils\PhpStringParser;
-use CrudGenerator\Generators\Generator;
+use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
 
 class QuestionResponseParser implements ParserInterface
 {
-   /**
-    * @param array $process
-    * @param PhpStringParser $parser
-    * @param Generator $generator
-    * @param array $questions
-    * @return Generator
-    */
-    public function evaluate(array $process, PhpStringParser $parser, Generator $generator, array $questions)
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
+     */
+    public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions)
     {
          foreach ($questions as $questionName => $questionReponse) {
              if (is_array($questionReponse)) {

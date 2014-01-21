@@ -15,14 +15,14 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Command\Questions;
+namespace CrudGenerator\Generators\Questions;
 
-use CrudGenerator\Generators\GeneratorFinderFactory;
-use CrudGenerator\Generators\CodeGeneratorFactory;
+use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
 use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 use CrudGenerator\Generators\Strategies\SandBoxStrategyFactory;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
+use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\CliContext;
+use CrudGenerator\Context\WebContext;
 
 class GeneratorQuestionFactory
 {
@@ -32,15 +32,16 @@ class GeneratorQuestionFactory
      * @param boolean $stub
      * @return \CrudGenerator\Command\Questions\GeneratorQuestion
      */
-    public static function getInstance(DialogHelper $dialog, OutputInterface $output, $input = null, $stub = false)
+    public static function getInstance(ContextInterface $context, $input = null, $stub = false)
     {
         $generatorFinder = GeneratorFinderFactory::getInstance();
-        if ($stub === true) {
-            $codeGeneratorFactory = new CodeGeneratorFactory(SandBoxStrategyFactory::getInstance($output, $dialog, $input));
-        } else {
-            $codeGeneratorFactory = new CodeGeneratorFactory(GeneratorStrategyFactory::getInstance($output, $dialog));
-        }
 
-        return new GeneratorQuestion($generatorFinder, $codeGeneratorFactory, $output, $dialog);
+        if ($context instanceof CliContext) {
+            return new Cli\GeneratorQuestion($generatorFinder, $context->getOutput(), $context->getDialogHelper());
+        } elseif ($context instanceof WebContext) {
+        	return new Web\GeneratorQuestion($generatorFinder);
+        } else {
+        	throw new \Exception('Invalid context');
+        }
     }
 }

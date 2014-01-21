@@ -19,8 +19,8 @@
 namespace CrudGenerator\Command;
 
 use CrudGenerator\History\HistoryManager;
-use CrudGenerator\Command\Questions\DirectoryQuestion;
-use CrudGenerator\Command\Questions\GeneratorQuestion;
+use CrudGenerator\Generators\Questions\Cli\DirectoryQuestion;
+use CrudGenerator\Generators\Questions\Cli\GeneratorQuestion;
 use CrudGenerator\ConfigManager\ConfigGenerator\ManagerFactory;
 use CrudGenerator\ConfigManager\ConfigMetadata\ManagerFactory as ConfigMetadataManagerFactory;
 use Symfony\Component\Console\Command\Command;

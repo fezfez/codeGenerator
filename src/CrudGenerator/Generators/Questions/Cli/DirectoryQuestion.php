@@ -15,13 +15,14 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Command\Questions;
+namespace CrudGenerator\Generators\Questions\Cli;
 
 use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 use CrudGenerator\Utils\FileManager;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
+use CrudGenerator\Generators\GeneratorDataObject;
 
 class DirectoryQuestion
 {
@@ -64,9 +65,10 @@ class DirectoryQuestion
 
     /**
      * Ask in wich directory you want to write
-     * @return string
+     * @param GeneratorDataObject
+     * @return GeneratorDataObject
      */
-    public function ask($withFile = false)
+    public function ask(GeneratorDataObject $generator)
     {
         try {
             ZendFramework2Environnement::getDependence($this->fileManager);
@@ -79,7 +81,7 @@ class DirectoryQuestion
         while ($choice != self::CURRENT_DIRECTORY) {
             $directories = $this->fileManager->glob(
                 $directory . '*',
-                ($withFile === false) ? GLOB_ONLYDIR|GLOB_MARK : GLOB_MARK
+                GLOB_ONLYDIR|GLOB_MARK
             );
 
             array_unshift(
@@ -113,7 +115,9 @@ class DirectoryQuestion
             }
         }
 
-        return $directory;
+        $generator->getDTO()->setModule($directory);
+
+        return $generator;
     }
 
     private function createDirectory($baseDirectory)

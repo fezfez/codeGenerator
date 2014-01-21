@@ -15,9 +15,9 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators;
+namespace CrudGenerator\Generators\Finder;
 
-use CrudGenerator\Generators\GeneratorFinder;
+use CrudGenerator\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\ClassAwake;
 

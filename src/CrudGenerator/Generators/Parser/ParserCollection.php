@@ -17,57 +17,58 @@
  */
 namespace CrudGenerator\Generators\Parser;
 
+use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
 
 class ParserCollection
 {
-	/**
-	 * @var ArrayObject
-	 */
-	private $preParser = null;
-	/**
-	 * @var ArrayObject
-	 */
-	private $postParser = null;
+    /**
+     * @var ArrayObject
+     */
+    private $preParser = null;
+    /**
+     * @var ArrayObject
+     */
+    private $postParser = null;
 
-	public function __construct()
-	{
-		$this->preParser = new \ArrayObject();
-		$this->postParser = new \ArrayObject();
-	}
+    public function __construct()
+    {
+        $this->preParser = new \ArrayObject();
+        $this->postParser = new \ArrayObject();
+    }
 
-	/**
-	 * @param ParserInterface $value
-	 * @return \CrudGenerator\Generators\Parser\ParserCollection
-	 */
-	public function addPreParse(ParserInterface $value)
-	{
-		$this->preParser->append($value);
-		return $this;
-	}
+    /**
+     * @param ParserInterface $value
+     * @return \CrudGenerator\Generators\Parser\ParserCollection
+     */
+    public function addPreParse(ParserInterface $value)
+    {
+        $this->preParser->append($value);
+        return $this;
+    }
 
-	/**
-	 * @param ParserInterface $value
-	 * @return \CrudGenerator\Generators\Parser\ParserCollection
-	 */
-	public function addPostParse(ParserInterface $value)
-	{
-		$this->postParser->append($value);
-		return $this;
-	}
+    /**
+     * @param ParserInterface $value
+     * @return \CrudGenerator\Generators\Parser\ParserCollection
+     */
+    public function addPostParse(ParserInterface $value)
+    {
+        $this->postParser->append($value);
+        return $this;
+    }
 
-	/**
-	 * @return ArrayObject
-	 */
-	public function getPreParse()
-	{
-		return $this->preParser;
-	}
+    /**
+     * @return ArrayObject
+     */
+    public function getPreParse()
+    {
+        return $this->preParser;
+    }
 
-	/**
-	 * @return ArrayObject
-	 */
-	public function getPostParse()
-	{
-		return $this->postParser;
-	}
+    /**
+     * @return ArrayObject
+     */
+    public function getPostParse()
+    {
+        return $this->postParser;
+    }
 }

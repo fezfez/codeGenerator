@@ -15,21 +15,30 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Command\Questions;
+namespace CrudGenerator\Generators\Questions;
 
 use CrudGenerator\MetaData\MetaDataSourceFinderFactory;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
+use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\CliContext;
+use CrudGenerator\Context\WebContext;
 
 class MetaDataSourcesQuestionFactory
 {
     /**
-     * @return \CrudGenerator\Command\Questions\MetaDataSourcesQuestion
+     * @param ContextInterface $context
+     * @throws \InvalidArgumentException
+     * @return \CrudGenerator\Generators\Questions\Cli\MetaDataSourcesQuestion|\CrudGenerator\Generators\Questions\Web\MetaDataSourcesQuestion
      */
-    public static function getInstance(DialogHelper $dialog, OutputInterface $output)
+    public static function getInstance(ContextInterface $context)
     {
         $metadataSourceFinder = MetaDataSourceFinderFactory::getInstance();
 
-        return new MetaDataSourcesQuestion($metadataSourceFinder, $output, $dialog);
+        if ($context instanceof CliContext) {
+        	return new Cli\MetaDataSourcesQuestion($metadataSourceFinder, $context->getOutput(), $context->getDialogHelper());
+        } elseif ($context instanceof WebContext) {
+        	return new Web\MetaDataSourcesQuestion($metadataSourceFinder);
+        } else {
+        	throw new \InvalidArgumentException('Invalid context given');
+        }
     }
 }

@@ -17,12 +17,10 @@
  */
 namespace CrudGenerator\Command;
 
-use CrudGenerator\Generators\CodeGeneratorFactory;
-use CrudGenerator\Command\Questions\HistoryQuestionFactory;
 use CrudGenerator\Command\CreateByYamlCommand;
 use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
-use Symfony\Component\Console\Helper\DialogHelper;
-use Symfony\Component\Console\Output\OutputInterface;
+use CrudGenerator\Generators\Questions\HistoryQuestionFactory;
+use CrudGenerator\Context\CliContext;
 
 /**
  * Regenerate command factory
@@ -32,15 +30,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CreateByYamlCommandFactory
 {
     /**
-     * @param DialogHelper $dialog
-     * @param OutputInterface $output
-     * @return \CrudGenerator\Command\RegenerateCommand
+     * @param CliContext $context
+     * @return \CrudGenerator\Command\CreateByYamlCommand
      */
-    public static function getInstance(DialogHelper $dialog, OutputInterface $output)
+    public static function getInstance(CliContext $context)
     {
-        $historyQuestion      = HistoryQuestionFactory::getInstance($dialog, $output);
-        $codeGeneratorFactory = new CodeGeneratorFactory(GeneratorStrategyFactory::getInstance($output, $dialog));
+        $historyQuestion      = HistoryQuestionFactory::getInstance($context);
+        //$codeGeneratorFactory = new CodeGeneratorFactory(GeneratorStrategyFactory::getInstance($context->getOutput(), $context->getDialogHelper()));
 
-        return new CreateByYamlCommand($dialog, $output, $historyQuestion, $codeGeneratorFactory);
+        return new CreateByYamlCommand($context->getDialogHelper(), $context->getOutput(), $historyQuestion, $codeGeneratorFactory);
     }
 }

@@ -19,7 +19,7 @@ namespace CrudGenerator\Generators\Parser\Lexical\Cli;
 
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\GeneratorParser;
+use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
 use CrudGenerator\Context\CliContext;
 
@@ -48,9 +48,10 @@ class AskQuestionParser implements ParserInterface
     public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions)
     {
     	foreach ($process['questions'] as $question) {
+
     		if (isset($question['type']) && $question['type'] === GeneratorParser::COMPLEX_QUESTION) {
-    			$complex = $question['factory']::getInstance($this->cliContext);
-    			$generator = $complex->ask($generator);
+    			//$complex = $question['factory']::getInstance($this->cliContext);
+    			//$generator = $complex->ask($generator);
     		} else {
 
     			$questionName = 'set' . ucfirst($question['dtoAttribute']);

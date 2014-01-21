@@ -15,9 +15,9 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\ArchitectGenerator;
+namespace CrudGenerator\GeneratorsEmbed\ArchitectGenerator;
 
-use CrudGenerator\Generators\ArchitectGenerator\Architect;
+use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 
 class MetadataToArrayWeb
 {

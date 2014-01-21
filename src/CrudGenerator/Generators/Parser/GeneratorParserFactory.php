@@ -15,14 +15,15 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators;
+namespace CrudGenerator\Generators\Parser;
 
 use Symfony\Component\Yaml\Yaml;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\Strategies\ViewFileStategyFactory;
-use CrudGenerator\Generators\GeneratorFinderFactory;
+use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
 use CrudGenerator\Generators\Parser\ParserCollectionFactory;
+use CrudGenerator\Context\ContextInterface;
 
 /**
  * Find all generator allow in project
@@ -32,12 +33,13 @@ use CrudGenerator\Generators\Parser\ParserCollectionFactory;
 class GeneratorParserFactory
 {
     /**
+     * @param ContextInterface $context
      * @return \CrudGenerator\Generators\GeneratorParser
      */
-    public static function getInstance()
+    public static function getInstance(ContextInterface $context)
     {
         $generatorFinder  = GeneratorFinderFactory::getInstance();
-        $parserCollection = ParserCollectionFactory::getInstance();
+        $parserCollection = ParserCollectionFactory::getInstance($context);
 
         return new GeneratorParser(
             new FileManager(),

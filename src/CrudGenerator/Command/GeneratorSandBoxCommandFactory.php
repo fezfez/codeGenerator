@@ -17,9 +17,8 @@
  */
 namespace CrudGenerator\Command;
 
-use CrudGenerator\Command\Questions\GeneratorQuestionFactory;
-use Symfony\Component\Console\Helper\DialogHelper;
-use Symfony\Component\Console\Output\OutputInterface;
+use CrudGenerator\Generators\Questions\GeneratorQuestionFactory;
+use CrudGenerator\Context\CliContext;
 
 
 /**
@@ -30,17 +29,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 class GeneratorSandBoxCommandFactory
 {
     /**
-     * @param DialogHelper $dialog
-     * @param OutputInterface $output
+     * @param CliContext $context
      * @return \CrudGenerator\Command\GeneratorSandBoxCommand
      */
-    public static function getInstance(DialogHelper $dialog, OutputInterface $output)
+    public static function getInstance(CliContext $context)
     {
-        /*$inputDefinition = new InputDefinition();
-        $inputDefinition->addArgument(new InputArgument('filter', InputArgument::OPTIONAL, 'template name'));
-        $input->bind($inputDefinition);*/
-
-        $generatorQuestion = GeneratorQuestionFactory::getInstance($dialog, $output, null, true);
+        $generatorQuestion = GeneratorQuestionFactory::getInstance($context, null, true);
         return new GeneratorSandBoxCommand($generatorQuestion);
     }
 }

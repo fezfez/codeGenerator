@@ -15,7 +15,7 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Command\Questions;
+namespace CrudGenerator\Generators\Questions\Cli;
 
 use CrudGenerator\History\HistoryManager;
 use Symfony\Component\Console\Output\OutputInterface;

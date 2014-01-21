@@ -15,15 +15,28 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\ArchitectGenerator;
+namespace CrudGenerator\Generators\Questions;
 
 use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Generators\ArchitectGenerator\DirectoryValidatorWeb;
+use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\CliContext;
+use CrudGenerator\Context\WebContext;
 
-class DirectoryValidatorWebFactory
+class DirectoryQuestionFactory
 {
-    public static function getInstance()
+    /**
+     * @return \CrudGenerator\Command\Questions\DirectoryQuestion
+     */
+    public static function getInstance(ContextInterface $context)
     {
-    	return new DirectoryValidatorWeb(new FileManager());
+        $fileManager = new FileManager();
+
+        if ($context instanceof CliContext) {
+	        return new Cli\DirectoryQuestion($fileManager, $context->getOutput(), $context->getDialogHelper());
+        } elseif ($context instanceof WebContext) {
+        	return new Web\DirectoryQuestion($fileManager);
+        } else {
+        	throw new \InvalidArgumentException('Invalid context given');
+        }
     }
 }

@@ -15,25 +15,36 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Command\Questions;
+namespace CrudGenerator\Generators\Questions;
 
 use CrudGenerator\MetaData\Config\MetaDataConfigReaderFactory;
+use CrudGenerator\MetaData\Config\MetaDataConfigReaderFormFactory;
 use CrudGenerator\MetaData\MetaDataSourceFactory;
+use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\CliContext;
+use CrudGenerator\Context\WebContext;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 
 class MetaDataQuestionFactory
 {
     /**
-     * @param OutputInterface $output
-     * @param DialogHelper $dialog
-     * @return \CrudGenerator\Command\Questions\MetaDataQuestion
+     * @param ContextInterface $context
+     * @throws \InvalidArgumentException
+     * @return \CrudGenerator\Generators\Questions\Cli\MetaDataQuestion|\CrudGenerator\Generators\Questions\Web\MetaDataQuestion
      */
-    public static function getInstance(DialogHelper $dialog, OutputInterface $output)
+    public static function getInstance(ContextInterface $context)
     {
-        $metaDataConfigReader  = MetaDataConfigReaderFactory::getInstance($output, $dialog);
         $metadataSourceFactory = new MetaDataSourceFactory();
 
-        return new MetaDataQuestion($metaDataConfigReader, $metadataSourceFactory, $output, $dialog);
+        if ($context instanceof CliContext) {
+        	$metaDataConfigReader  = MetaDataConfigReaderFactory::getInstance($context->getOutput(), $context->getDialogHelper());
+        	return new Cli\MetaDataQuestion($metaDataConfigReader, $metadataSourceFactory, $context->getOutput(), $context->getDialogHelper());
+        } elseif ($context instanceof WebContext) {
+        	$metaDataConfigReader = MetaDataConfigReaderFormFactory::getInstance($context->getApplication());
+        	return new Web\MetaDataQuestion($metaDataConfigReader, $metadataSourceFactory);
+        } else {
+        	throw new \InvalidArgumentException('Invalid context given');
+        }
     }
 }

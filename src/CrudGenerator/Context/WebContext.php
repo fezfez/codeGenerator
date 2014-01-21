@@ -18,7 +18,28 @@
 
 namespace CrudGenerator\Context;
 
+use Silex\Application;
+
 class WebContext implements ContextInterface
 {
+    /**
+     * @var Application
+     */
+    private $application = null;
 
+    /**
+     * @param Application $application
+     */
+    public function __construct(Application $application)
+    {
+        $this->application = $application;
+    }
+
+    /**
+     * @return \Silex\Application
+     */
+    public function getApplication()
+    {
+        return $this->application;
+    }
 }

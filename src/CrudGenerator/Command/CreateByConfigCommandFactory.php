@@ -18,12 +18,11 @@
 namespace CrudGenerator\Command;
 
 use CrudGenerator\History\HistoryFactory;
-use CrudGenerator\Command\Questions\DirectoryQuestionFactory;
-use CrudGenerator\Command\Questions\GeneratorQuestionFactory;
+use CrudGenerator\Generators\Questions\DirectoryQuestionFactory;
+use CrudGenerator\Generators\Questions\GeneratorQuestionFactory;
 use CrudGenerator\ConfigManager\ConfigGenerator\ManagerFactory;
 use CrudGenerator\ConfigManager\ConfigMetadata\ManagerFactory as ConfigMetadataManagerFactory;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
+use CrudGenerator\Context\CliContext;
 
 /**
  * Generator command
@@ -33,19 +32,18 @@ use Symfony\Component\Console\Helper\DialogHelper;
 class CreateByConfigCommandFactory
 {
     /**
-     * @param DialogHelper $dialog
-     * @param OutputInterface $output
-     * @return \CrudGenerator\Command\CreateCommand
+     * @param CliContext $context
+     * @return \CrudGenerator\Command\CreateByConfigCommand
      */
-    public static function getInstance(DialogHelper $dialog, OutputInterface $output)
+    public static function getInstance(CliContext $context)
     {
-        $historyManager          = HistoryFactory::getInstance($dialog, $output);
-        $directoryQuestion       = DirectoryQuestionFactory::getInstance($dialog, $output);
-        $generatorQuestion       = GeneratorQuestionFactory::getInstance($dialog, $output);
+        $historyManager          = HistoryFactory::getInstance($context);
+        $directoryQuestion       = DirectoryQuestionFactory::getInstance($context);
+        $generatorQuestion       = GeneratorQuestionFactory::getInstance($context);
 
         return new CreateByConfigCommand(
-            $dialog,
-            $output,
+            $context->getDialogHelper(),
+            $context->getOutput(),
             $historyManager,
             $directoryQuestion,
             $generatorQuestion,

@@ -20,7 +20,7 @@ namespace CrudGenerator\Generators\Parser\Lexical;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\GeneratorParser;
+use CrudGenerator\Generators\Parser\GeneratorParser;
 
 class FileParser implements ParserInterface
 {
@@ -47,7 +47,7 @@ class FileParser implements ParserInterface
         foreach ($process['filesList'] as $files) {
             foreach ($files as $templateName => $tragetFile) {
                 if($templateName === GeneratorParser::ENVIRONNEMENT_CONDITION) {
-                    $generator = $this->evaluateEnvironnementCondition($process, $parser, $generator, $skeletonPath);
+                    $generator = $this->evaluateEnvironnementCondition($tragetFile, $parser, $generator, $skeletonPath);
                 } else {
                     $generator->addFile($skeletonPath, $templateName, $parser->parse($tragetFile));
                 }

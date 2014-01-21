@@ -15,9 +15,9 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Command\Questions;
+namespace CrudGenerator\Generators\Questions\Web;
 
-use CrudGenerator\MetaData\Config\MetaDataConfigReader;
+use CrudGenerator\MetaData\Config\MetaDataConfigReaderForm;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\MetaDataSourceFactory;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -26,37 +26,24 @@ use Symfony\Component\Console\Helper\DialogHelper;
 class MetaDataQuestion
 {
     /**
-     * @var MetaDataConfigReader
+     * @var MetaDataConfigReaderForm
      */
-    private $metaDataConfigReader = null;
+    private $metaDataConfigReaderForm = null;
     /**
      * @var MetaDataSourceFactory
      */
     private $metaDataSourceFactory = null;
+
     /**
-     * @var OutputInterface
-     */
-    private $output = null;
-    /**
-     * @var DialogHelper
-     */
-    private $dialog = null;
-    /**
-     * @param MetaDataSourceFinder $metaDataConfigReader
+     * @param MetaDataConfigReaderForm $metaDataConfigReader
      * @param MetaDataSourceFactory $metaDataSourceFactory
-     * @param OutputInterface $output
-     * @param DialogHelper $dialog
      */
     public function __construct(
-        MetaDataConfigReader $metaDataConfigReader,
-        MetaDataSourceFactory $metaDataSourceFactory,
-        OutputInterface $output,
-        DialogHelper $dialog
+        MetaDataConfigReaderForm $metaDataConfigReaderForm,
+        MetaDataSourceFactory $metaDataSourceFactory
     ) {
-        $this->metaDataConfigReader = $metaDataConfigReader;
+        $this->metaDataConfigReaderForm = $metaDataConfigReaderForm;
         $this->metaDataSourceFactory = $metaDataSourceFactory;
-        $this->output = $output;
-        $this->dialog = $dialog;
     }
 
     /**
@@ -70,28 +57,29 @@ class MetaDataQuestion
         $metadataSourceConfig      = $metadataSource->getConfig();
 
         if (null !== $metadataSourceConfig) {
-            $metadataSourceConfig = $this->metaDataConfigReader->config($metadataSourceConfig);
+            $metadataSourceConfig = $this->metaDataConfigReaderForm->config($metadataSourceConfig);
+            try {
+            	$metadataSourceConfigured = $this->metaDataConfigReaderForm->config($metadataSourceConfig);
+            } catch (ConfigException $e) {
+            	return $configReader->getForm($metadataSourceConfig);
+            }
         }
 
         $metaDataDAO = $this->metaDataSourceFactory->create($metadataSourceFactoryName, $metadataSourceConfig);
 
         $metaDataChoices = array();
-        foreach ($metaDataDAO->getAllMetadata() as $metaData) {
-            $metaDataChoices[] = $metaData->getOriginalName();
-        }
+        foreach ($metaDataDAO->getAllMetadata() as $metadata) {
+	    	$metaDataChoices[] = array('id' => $metadata->getOriginalName(), 'label' => $metadata->getOriginalName());
+	    }
 
-        if ($metaDataNamePreselected === null || !in_array($metaDataNamePreselected, $metaDataChoices)) {
-            $metaDataName = $this->dialog->select(
-                $this->output,
-                "<question>Full namespace Metadata</question> \n> ",
-                $metaDataChoices
-            );
-        } else {
-            $metaDataName = array_search($metaDataNamePreselected, $metaDataChoices);
-        }
+	    if (null !== $metaDataNamePreselected) {
+	    	foreach ($metaDataDAO->getAllMetadata() as $metadata) {
+				if ($metadata->getOriginalName() === $metaDataNamePreselected) {
+					return $metadata;
+				}
+			}
+	    }
 
-        return $metaDataDAO->getMetadataFor(
-            $metaDataChoices[$metaDataName]
-        );
+        return $metaDataChoices;
     }
 }

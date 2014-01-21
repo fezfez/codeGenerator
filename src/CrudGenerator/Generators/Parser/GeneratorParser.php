@@ -15,7 +15,7 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators;
+namespace CrudGenerator\Generators\Parser;
 
 use Symfony\Component\Yaml\Yaml;
 
@@ -23,7 +23,7 @@ use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\MetaData\DataObject\MetaData;
 use CrudGenerator\Generators\Strategies\ViewFileStrategy;
-use CrudGenerator\Generators\GeneratorFinder;
+use CrudGenerator\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\ParserCollection;
 
@@ -91,7 +91,7 @@ class GeneratorParser
      * @throws \InvalidArgumentException
      * @return Generator
      */
-    public function init(GeneratorDataObject $generator, MetaData $metadata, array $questions)
+    public function init(GeneratorDataObject $generator, MetaData $metadata, array $questions = array())
     {
         $generator = clone $generator;
         $phpParser = clone $this->phpStringParser;

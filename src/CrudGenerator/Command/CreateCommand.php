@@ -18,15 +18,17 @@
 namespace CrudGenerator\Command;
 
 use CrudGenerator\History\HistoryManager;
-use CrudGenerator\Command\Questions\MetaDataSourcesQuestion;
-use CrudGenerator\Command\Questions\DirectoryQuestion;
-use CrudGenerator\Command\Questions\MetaDataQuestion;
-use CrudGenerator\Command\Questions\GeneratorQuestion;
+use CrudGenerator\Generators\Questions\Cli\MetaDataSourcesQuestion;
+use CrudGenerator\Generators\Questions\Cli\DirectoryQuestion;
+use CrudGenerator\Generators\Questions\Cli\MetaDataQuestion;
+use CrudGenerator\Generators\Questions\Cli\GeneratorQuestion;
+use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\DataObject;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Input\InputInterface;
+use CrudGenerator\Context\CliContext;
 
 /**
  * Generator command
@@ -63,6 +65,10 @@ class CreateCommand extends Command
      * @var GeneratorQuestion
      */
     private $generatorQuestion = null;
+    /**
+     * @var CliContext
+     */
+    private $cliContext = null;
 
     /**
      * @param DialogHelper $dialog
@@ -80,7 +86,8 @@ class CreateCommand extends Command
         MetaDataSourcesQuestion $metaDataSourcesQuestion,
         DirectoryQuestion $directoryQuestion,
         MetaDataQuestion $metaDataQuestion,
-        GeneratorQuestion $generatorQuestion
+        GeneratorQuestion $generatorQuestion,
+    	CliContext $cliContext
     ) {
         parent::__construct('create');
         $this->dialog = $dialog;
@@ -90,6 +97,7 @@ class CreateCommand extends Command
         $this->directoryQuestion = $directoryQuestion;
         $this->metaDataQuestion = $metaDataQuestion;
         $this->generatorQuestion = $generatorQuestion;
+        $this->cliContext         = $cliContext;
     }
     /**
      * (non-PHPdoc)
@@ -115,30 +123,32 @@ class CreateCommand extends Command
     public function create(DataObject $dto = null, $generatorName = null)
     {
         if (null !== $dto) {
-            $directory  = $this->directoryQuestion->ask();
             $adapter    = $this->metaDataSourcesQuestion->ask($dto->getAdapter());
             $metadata   = $this->metaDataQuestion->ask($adapter, $dto->getMetadata());
             $generator  = $this->generatorQuestion->ask($generatorName);
         } else {
-            $directory  = $this->directoryQuestion->ask();
             $adapter    = $this->metaDataSourcesQuestion->ask();
             $metadata   = $this->metaDataQuestion->ask($adapter);
             $generator  = $this->generatorQuestion->ask();
         }
 
-        $DTOName    = $generator->getDTO();
+        $generatorParser = \CrudGenerator\Generators\Parser\GeneratorParserFactory::getInstance($this->cliContext);
 
-        /* @var $dataObject \CrudGenerator\DataObject */
-        $dataObject = new $DTOName();
-        $dataObject->setEntity($metadata->getName())
-                   ->setModule($directory)
+        $generatorDTO = new GeneratorDataObject();
+        $generatorDTO->setName($generator);
+        $this->directoryQuestion->ask($generatorDTO);
+        $generatorDTO = $generatorParser->init($generatorDTO, $metadata);
+
+        $DTO    = $generatorDTO->getDTO();
+
+        $DTO->setEntity($metadata->getName())
                    ->setMetaData($metadata)
                    ->setAdapter($adapter->getName());
 
         $this->output->writeln("<info>Resume</info>");
-        $this->output->writeln('<info>Metadata : ' . $dataObject->getEntity(), '*</info>');
-        $this->output->writeln('<info>Directory : ' . $dataObject->getModule(), '*</info>');
-        $this->output->writeln("<info>Generator : " . $generator->getDefinition(), "*</info>");
+        $this->output->writeln('<info>Metadata : ' . $DTO->getEntity(), '*</info>');
+        $this->output->writeln('<info>Directory : ' . $DTO->getModule(), '*</info>');
+        //$this->output->writeln("<info>Generator : " . $generator->getDefinition(), "*</info>");
 
         $doI = $this->dialog->askConfirmation(
             $this->output,
@@ -146,10 +156,10 @@ class CreateCommand extends Command
         );
 
         if ($doI === true) {
-            $dataObject = $generator->generate($dataObject);
-            $this->historyManager->create($dataObject);
+            //$dataObject = $generator->generate($dataObject);
+            //$this->historyManager->create($dataObject);
 
-            return $dataObject;
+            return $DTO;
         } else {
             throw new \RuntimeException('Command aborted');
         }

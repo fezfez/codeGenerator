@@ -15,20 +15,28 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Command\Questions;
+namespace CrudGenerator\Generators\Questions;
 
-use CrudGenerator\Utils\FileManager;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
+use CrudGenerator\History\HistoryFactory;
+use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\CliContext;
+use CrudGenerator\Context\WebContext;
 
-class DirectoryQuestionFactory
+class HistoryQuestionFactory
 {
     /**
-     * @return \CrudGenerator\Command\Questions\DirectoryQuestion
+     * @param ContextInterface $context
+     * @throws \Exception
+     * @return \CrudGenerator\Generators\Questions\Cli\HistoryQuestion
      */
-    public static function getInstance(DialogHelper $dialog, OutputInterface $output)
+    public static function getInstance(ContextInterface $context)
     {
-        $fileManager = new FileManager();
-        return new DirectoryQuestion($fileManager, $output, $dialog);
+        $historyManager = HistoryFactory::getInstance($context);
+
+        if ($context instanceof CliContext) {
+        	return new Cli\HistoryQuestion($historyManager, $output, $dialog);
+        } else {
+        	throw new \Exception("Web not suported");
+        }
     }
 }

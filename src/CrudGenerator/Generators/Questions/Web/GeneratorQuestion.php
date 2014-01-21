@@ -15,23 +15,38 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Command\Questions;
+namespace CrudGenerator\Generators\Questions\Web;
 
-use CrudGenerator\History\HistoryFactory;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
+use CrudGenerator\Generators\Finder\GeneratorFinder;
 
-class HistoryQuestionFactory
+class GeneratorQuestion
 {
     /**
-     * @param DialogHelper $dialog
-     * @param OutputInterface $output
-     * @return \CrudGenerator\Command\Questions\HistoryQuestion
+     * @var GeneratorFinder
      */
-    public static function getInstance(DialogHelper $dialog, OutputInterface $output)
-    {
-        $historyManager = HistoryFactory::getInstance($dialog, $output);
+    private $generatorFinder = null;
 
-        return new HistoryQuestion($historyManager, $output, $dialog);
+    /**
+     * @param GeneratorFinder $generatorFinder
+     */
+    public function __construct(GeneratorFinder $generatorFinder)
+    {
+        $this->generatorFinder = $generatorFinder;
+    }
+
+    /**
+     * Ask wich generator you want to use
+     * @param string $defaultGenerator
+     * @throws \Exception
+     * @return \CrudGenerator\Generators\BaseCodeGenerator
+     */
+    public function ask($defaultGenerator = null)
+    {
+        $generatorArray = array();
+        foreach ($this->generatorFinder->getAllClasses() as $path => $name) {
+        	$generatorArray[] = array('id' => $path, 'label' => $name);
+        }
+
+        return $generatorArray;
     }
 }

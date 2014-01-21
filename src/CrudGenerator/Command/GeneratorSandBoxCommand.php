@@ -19,7 +19,7 @@
 namespace CrudGenerator\Command;
 
 use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
-use CrudGenerator\Command\Questions\GeneratorQuestion;
+use CrudGenerator\Generators\Questions\Cli\GeneratorQuestion;
 use CrudGenerator\MetaData\DataObject\MetaDataColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;

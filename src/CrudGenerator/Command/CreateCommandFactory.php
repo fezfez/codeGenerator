@@ -18,12 +18,11 @@
 namespace CrudGenerator\Command;
 
 use CrudGenerator\History\HistoryFactory;
-use CrudGenerator\Command\Questions\MetaDataSourcesQuestionFactory;
-use CrudGenerator\Command\Questions\DirectoryQuestionFactory;
-use CrudGenerator\Command\Questions\MetaDataQuestionFactory;
-use CrudGenerator\Command\Questions\GeneratorQuestionFactory;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
+use CrudGenerator\Generators\Questions\MetaDataSourcesQuestionFactory;
+use CrudGenerator\Generators\Questions\DirectoryQuestionFactory;
+use CrudGenerator\Generators\Questions\MetaDataQuestionFactory;
+use CrudGenerator\Generators\Questions\GeneratorQuestionFactory;
+use CrudGenerator\Context\CliContext;
 
 /**
  * Generator command
@@ -33,26 +32,27 @@ use Symfony\Component\Console\Helper\DialogHelper;
 class CreateCommandFactory
 {
     /**
-     * @param DialogHelper $dialog
-     * @param OutputInterface $output
+     * @param CliContext $context
+     * @param string $strategy
      * @return \CrudGenerator\Command\CreateCommand
      */
-    public static function getInstance(DialogHelper $dialog, OutputInterface $output, $strategy = false)
+    public static function getInstance(CliContext $context, $strategy = false)
     {
-        $historyManager          = HistoryFactory::getInstance($dialog, $output);
-        $metaDataSourcesQuestion = MetaDataSourcesQuestionFactory::getInstance($dialog, $output);
-        $directoryQuestion       = DirectoryQuestionFactory::getInstance($dialog, $output);
-        $metaDataQuestion        = MetaDataQuestionFactory::getInstance($dialog, $output);
-        $generatorQuestion       = GeneratorQuestionFactory::getInstance($dialog, $output, null, $strategy);
+        $historyManager          = HistoryFactory::getInstance($context);
+        $metaDataSourcesQuestion = MetaDataSourcesQuestionFactory::getInstance($context);
+        $directoryQuestion       = DirectoryQuestionFactory::getInstance($context);
+        $metaDataQuestion        = MetaDataQuestionFactory::getInstance($context);
+        $generatorQuestion       = GeneratorQuestionFactory::getInstance($context, null, $strategy);
 
         return new CreateCommand(
-            $dialog,
-            $output,
+            $context->getDialogHelper(),
+            $context->getOutput(),
             $historyManager,
             $metaDataSourcesQuestion,
             $directoryQuestion,
             $metaDataQuestion,
-            $generatorQuestion
+            $generatorQuestion,
+        	$context
         );
     }
 }

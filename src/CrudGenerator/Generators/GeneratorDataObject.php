@@ -156,7 +156,7 @@ class GeneratorDataObject implements \JsonSerializable
      */
     public function getFiles()
     {
-    	sort($this->files);
+    	//sort($this->files);
         return $this->files;
     }
     /**

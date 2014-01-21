@@ -15,10 +15,9 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Command\Questions;
+namespace CrudGenerator\Generators\Questions\Cli;
 
-use CrudGenerator\Generators\GeneratorFinder;
-use CrudGenerator\Generators\CodeGeneratorFactory;
+use CrudGenerator\Generators\Finder\GeneratorFinder;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 
@@ -28,10 +27,6 @@ class GeneratorQuestion
      * @var GeneratorFinder
      */
     private $generatorFinder = null;
-    /**
-     * @var CodeGeneratorFactory
-     */
-    private $codeGeneratorFactory = null;
     /**
      * @var OutputInterface
      */
@@ -43,18 +38,15 @@ class GeneratorQuestion
 
     /**
      * @param GeneratorFinder $generatorFinder
-     * @param CodeGeneratorFactory $codeGeneratorFactory
      * @param OutputInterface $output
      * @param DialogHelper $dialog
      */
     public function __construct(
         GeneratorFinder $generatorFinder,
-        CodeGeneratorFactory $codeGeneratorFactory,
         OutputInterface $output,
         DialogHelper $dialog
     ) {
         $this->generatorFinder = $generatorFinder;
-        $this->codeGeneratorFactory = $codeGeneratorFactory;
         $this->output = $output;
         $this->dialog = $dialog;
     }
@@ -72,11 +64,10 @@ class GeneratorQuestion
         foreach ($generatorCollection as $generatorClassName) {
             if (null !== $defaultGenerator) {
                 if ($defaultGenerator === $generatorClassName) {
-                    return $this->codeGeneratorFactory->create($this->output, $this->dialog, $generatorClassName);
+                    return $generatorClassName;
                 }
             } else {
-                $generator = $this->codeGeneratorFactory->create($this->output, $this->dialog, $generatorClassName);
-                $generatorsChoices[$generator->getDefinition()] = $generator;
+                $generatorsChoices[$generator->getDefinition()] = $generatorClassName;
             }
         }
 

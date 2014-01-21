@@ -21,6 +21,7 @@ use CrudGenerator\Command\CreateCommandFactory;
 use CrudGenerator\Command\CreateByConfigCommandFactory;
 use CrudGenerator\Command\CreateByYamlCommandFactory;
 use CrudGenerator\Command\GeneratorSandBoxCommandFactory;
+use CrudGenerator\Context\CliContext;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Application;
@@ -47,12 +48,14 @@ class CliFactory
         $application->getHelperSet()->set(new FormatterHelper(), 'formatter');
         $application->getHelperSet()->set($dialogHelper, 'dialog');
 
+        $context = new CliContext($dialogHelper, $output);
+
         $application->addCommands(
             array(
-                CreateCommandFactory::getInstance($dialogHelper, $output),
-                CreateByConfigCommandFactory::getInstance($dialogHelper, $output),
-                CreateByYamlCommandFactory::getInstance($dialogHelper, $output),
-                GeneratorSandBoxCommandFactory::getInstance($dialogHelper, $output, $input)
+                CreateCommandFactory::getInstance($context),
+                CreateByConfigCommandFactory::getInstance($context),
+                CreateByYamlCommandFactory::getInstance($context),
+                GeneratorSandBoxCommandFactory::getInstance($context)
             )
         );
 

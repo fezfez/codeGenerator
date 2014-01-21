@@ -1,6 +1,6 @@
 name : ArchitectGenerator
 definition : Generate DAO, DTO, Hydrator, Exception, unit test
-dto : CrudGenerator\Generators\ArchitectGenerator\Architect
+dto : CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect
 questions : 
     - 
         dtoAttribute : Namespace
@@ -11,10 +11,10 @@ questions :
         defaultResponse : <?php ucfirst($architectGenerator->getMetadata()->getName()); ?>
     - 
         type : complex
-        factory : CrudGenerator\Generators\ArchitectGenerator\MetadataToArrayWebFactory
+        factory : CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArrayWebFactory
     - 
         type : complex
-        factory : CrudGenerator\Generators\ArchitectGenerator\DirectoryValidatorWebFactory
+        factory : CrudGenerator\Generators\Questions\DirectoryQuestionFactory
 directories :
     - <?php $basePath; ?>/DAO/
     - <?php $basePath; ?>/Hydrator/

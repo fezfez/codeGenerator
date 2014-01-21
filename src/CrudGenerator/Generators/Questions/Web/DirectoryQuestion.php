@@ -15,11 +15,12 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\ArchitectGenerator;
+namespace CrudGenerator\Generators\Questions\Web;
 
 use CrudGenerator\Utils\FileManager;
+use CrudGenerator\Generators\GeneratorDataObject;
 
-class DirectoryValidatorWeb
+class DirectoryQuestion
 {
 	/**
 	 * @var FileManager $fileManager
@@ -35,10 +36,10 @@ class DirectoryValidatorWeb
     }
 
     /**
-     * @param Architect $DTO
-     * @return Architect
+     * @param GeneratorDataObject $DTO
+     * @return GeneratorDataObject
      */
-    public function ask($generator)
+    public function ask(GeneratorDataObject $generator)
     {
     	$module = $generator->getDTO()->getModule();
     	$directoriesRaw = $this->fileManager->glob(
@@ -50,7 +51,6 @@ class DirectoryValidatorWeb
     	if ('' !== $module && null !== $module) {
     		$back = str_replace(array(getcwd() . '/', getcwd()), array('', ''), realpath($module . '../'));
     		$directories[] = array('label' => 'Back', 'id' => ($back !== '') ? $back . '/' : '');
-    		//array_unshift($directories, 'try replace "' . getcwd() . '/" in "' . realpath($module . '../') . '"');
     	}
 
     	foreach ($directoriesRaw as $directory) {
