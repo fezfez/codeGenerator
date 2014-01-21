@@ -20,5 +20,4 @@ namespace CrudGenerator\Context;
 
 interface ContextInterface
 {
-
-};
+}

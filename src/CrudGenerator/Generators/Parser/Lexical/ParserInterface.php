@@ -30,4 +30,4 @@ interface ParserInterface
      * @return Generator
      */
     public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions);
-};
+}
