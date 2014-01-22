@@ -49,29 +49,6 @@ class ClassAwake
     }
 
     /**
-     * Awake classes by parent
-     * @param array $directories Target directories
-     * @param string $parent Parent name
-     * @return array
-     */
-    public function wakeByParent(array $directories, $parent)
-    {
-            $classCollection = $this->awake($directories);
-            $classes         = array();
-
-            foreach ($classCollection as $className) {
-                $reflectionClass = new ReflectionClass($className);
-                $parentClass     = $reflectionClass->getParentClass();
-
-                if (is_object($parentClass) && $parentClass->name == $parent) {
-                    $classes[] = $className;
-                }
-            }
-
-        return $classes;
-    }
-
-    /**
      * Find classes on directory
      * @param array $directories Target directory
      * @return array

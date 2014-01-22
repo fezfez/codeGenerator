@@ -18,8 +18,8 @@
 namespace CrudGenerator\Generators\Strategies;
 
 use CrudGenerator\View\ViewFactory;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
+use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\CliContext;
 
 /**
  * Base code generator, extends it and implement doGenerate method

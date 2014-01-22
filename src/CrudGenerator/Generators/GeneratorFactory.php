@@ -15,20 +15,21 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\Parser\Lexical;
+namespace CrudGenerator\Generators;
 
-use CrudGenerator\Utils\PhpStringParser;
-use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Generators\Strategies\StrategyInterface;
 
-interface ParserInterface
+/**
+ * @author Stéphane Demonchaux
+ */
+class GeneratorFactory
 {
-    /**
-     * @param array $process
-     * @param PhpStringParser $parser
-     * @param Generator $generator
-     * @param array $questions
-     * @param boolean $firstIteration
-     * @return Generator
-     */
-    public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration);
+	/**
+	 * @param StrategyInterface $strategy
+	 * @return \CrudGenerator\Generators\Generator
+	 */
+	public static function getInstance(StrategyInterface $strategy)
+	{
+		return new Generator($strategy);
+	}
 }

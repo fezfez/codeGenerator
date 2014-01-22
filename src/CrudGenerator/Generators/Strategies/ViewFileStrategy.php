@@ -33,34 +33,26 @@ class ViewFileStrategy implements StrategyInterface
     /**
      * @var View View manager
      */
-    private $view                = null;
+    private $view = null;
 
     /**
      * Base code generator
      * @param View $view
-     * @param OutputInterface $output
-     * @param DialogHelper $dialog
      */
-    public function __construct(
-        View $view
-    ) {
+    public function __construct(View $view)
+    {
         $this->view     = $view;
     }
 
     /* (non-PHPdoc)
      * @see CrudGenerator\Generators\Strategies.StrategyInterface::generateFile()
      */
-    public function generateFile(DataObject $dataObject, $skeletonDir, $pathTemplate, $pathTo, array $suppDatas = array())
+    public function generateFile(array $datas, $skeletonDir, $pathTemplate, $target)
     {
-        $datas = array(
-            'dir'        => $skeletonDir,
-            'dataObject' => $dataObject,
-        );
-
         return $this->view->render(
             $skeletonDir,
             $pathTemplate,
-            array_merge($datas, $suppDatas)
+            $datas
         );
     }
 

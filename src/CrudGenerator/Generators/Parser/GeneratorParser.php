@@ -95,18 +95,19 @@ class GeneratorParser
         $generator = clone $generator;
         $phpParser = clone $this->phpStringParser;
 
-        return $this->analyse($generator->getName(), $phpParser, $generator, $questions, $metadata);
+        return $this->analyse($generator->getName(), $phpParser, $generator, $questions, $metadata, true);
     }
 
     /**
      * @param string $name
      * @param PhpStringParser $phpParser
-     * @param Generator $generator
+     * @param GeneratorDataObject $generator
      * @param array $questions
      * @param MetaData $metadata
-     * @return Generator
+     * @param string $firstIteration
+     * @return GeneratorDataObject
      */
-    private function analyse($name, PhpStringParser $phpParser, GeneratorDataObject $generator, array $questions, MetaData $metadata)
+    private function analyse($name, PhpStringParser $phpParser, GeneratorDataObject $generator, array $questions, MetaData $metadata, $firstIteration = false)
     {
         $generatorFilePath = $this->generatorFinder->findByName($name);
         $process           = Yaml::parse(file_get_contents($generatorFilePath), true);
@@ -124,38 +125,18 @@ class GeneratorParser
                   ->setPath($generatorFilePath);
 
         foreach ($this->parserCollection->getPreParse() as $parser) {
-            $generator = $parser->evaluate($process, $phpParser, $generator, $questions);
+            $generator = $parser->evaluate($process, $phpParser, $generator, $questions, $firstIteration);
         }
 
         $phpParser->addVariable(lcfirst($process['name']), $generator->getDTO());
         $generator->addTemplateVariable(lcfirst($process['name']), $generator->getDTO());
 
         foreach ($this->parserCollection->getPostParse() as $parser) {
-            $generator = $parser->evaluate($process, $phpParser, $generator, $questions);
+            $generator = $parser->evaluate($process, $phpParser, $generator, $questions, $firstIteration);
         }
 
         return $generator;
     }
 
-    /**
-     * @param Generator $generator
-     * @param string $fileName
-     * @throws \Exception
-     * @return string
-     */
-    public function viewFile(GeneratorDataObject $generator, $fileName)
-    {
-        $files = $generator->getFiles();
-        if(!isset($files[$fileName])) {
-            throw new \Exception(sprintf('File "%s" does not exist', $fileName));
-        }
 
-        return $this->viewFile->generateFile(
-            $generator->getDTO(),
-            $files[$fileName]['skeletonPath'],
-            $files[$fileName]['name'],
-            '',
-            $generator->getTemplateVariables()
-        );
-    }
 }

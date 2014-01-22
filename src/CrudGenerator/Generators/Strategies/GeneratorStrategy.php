@@ -71,24 +71,19 @@ class GeneratorStrategy implements StrategyInterface
     /* (non-PHPdoc)
      * @see CrudGenerator\Generators\Strategies.StrategyInterface::generateFile()
      */
-    public function generateFile(DataObject $dataObject, $skeletonDir, $pathTemplate, $pathTo, array $suppDatas = array())
+    public function generateFile(array $datas, $skeletonDir, $pathTemplate, $target)
     {
-        $datas = array(
-            'dir'        => $skeletonDir,
-            'dataObject' => $dataObject,
-        );
-
         $results = $this->view->render(
             $skeletonDir,
             $pathTemplate,
-            array_merge($datas, $suppDatas)
+            $datas
         );
 
-        if (true === $this->fileConflictManager->test($pathTo, $results)) {
-            $this->fileConflictManager->handle($pathTo, $results);
+        if (true === $this->fileConflictManager->test($target, $results)) {
+            $this->fileConflictManager->handle($target, $results);
         } else {
-            $this->fileManager->filePutsContent($pathTo, $results);
-            $this->output->writeln('--> Create ' . $pathTo);
+            $this->fileManager->filePutsContent($target, $results);
+            $this->output->writeln('--> Create file ' . $target);
         }
     }
 
@@ -98,7 +93,7 @@ class GeneratorStrategy implements StrategyInterface
     public function ifDirDoesNotExistCreate($dir)
     {
         if (true === $this->fileManager->ifDirDoesNotExistCreate($dir)) {
-            $this->output->writeln('--> Create dir ' . $dir);
+            $this->output->writeln('--> Create directory ' . $dir);
         }
     }
 }

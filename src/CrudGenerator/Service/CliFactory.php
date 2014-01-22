@@ -53,9 +53,9 @@ class CliFactory
         $application->addCommands(
             array(
                 CreateCommandFactory::getInstance($context),
-                CreateByConfigCommandFactory::getInstance($context),
-                CreateByYamlCommandFactory::getInstance($context),
-                GeneratorSandBoxCommandFactory::getInstance($context)
+                //CreateByConfigCommandFactory::getInstance($context),
+                //CreateByYamlCommandFactory::getInstance($context),
+                //GeneratorSandBoxCommandFactory::getInstance($context)
             )
         );
 

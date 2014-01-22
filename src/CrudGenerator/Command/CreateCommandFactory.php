@@ -22,6 +22,9 @@ use CrudGenerator\Generators\Questions\MetaDataSourcesQuestionFactory;
 use CrudGenerator\Generators\Questions\DirectoryQuestionFactory;
 use CrudGenerator\Generators\Questions\MetaDataQuestionFactory;
 use CrudGenerator\Generators\Questions\GeneratorQuestionFactory;
+use CrudGenerator\Generators\Parser\GeneratorParserFactory;
+use CrudGenerator\Generators\GeneratorFactory;
+use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 use CrudGenerator\Context\CliContext;
 
 /**
@@ -40,16 +43,17 @@ class CreateCommandFactory
     {
         $historyManager          = HistoryFactory::getInstance($context);
         $metaDataSourcesQuestion = MetaDataSourcesQuestionFactory::getInstance($context);
-        $directoryQuestion       = DirectoryQuestionFactory::getInstance($context);
         $metaDataQuestion        = MetaDataQuestionFactory::getInstance($context);
         $generatorQuestion       = GeneratorQuestionFactory::getInstance($context, null, $strategy);
+        $parser                  = GeneratorParserFactory::getInstance($context);
+        $generatorStrategy       = GeneratorStrategyFactory::getInstance($context);
+        $generator               = GeneratorFactory::getInstance($generatorStrategy);
 
         return new CreateCommand(
-            $context->getDialogHelper(),
-            $context->getOutput(),
+            $parser,
+        	$generator,
             $historyManager,
             $metaDataSourcesQuestion,
-            $directoryQuestion,
             $metaDataQuestion,
             $generatorQuestion,
         	$context

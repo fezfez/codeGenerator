@@ -40,7 +40,7 @@ class FileParser implements ParserInterface
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\ParserInterface::evaluate()
      */
-    public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions)
+    public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
     {
         $skeletonPath = dirname($generator->getPath()) . '/Skeleton/';
 

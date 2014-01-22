@@ -26,7 +26,7 @@ class QuestionResponseParser implements ParserInterface
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
      */
-    public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions)
+    public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
     {
          foreach ($questions as $questionName => $questionReponse) {
              if (is_array($questionReponse)) {

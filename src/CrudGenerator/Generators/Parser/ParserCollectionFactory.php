@@ -27,6 +27,7 @@ use CrudGenerator\Generators\Parser\Lexical\TemplateVariableParser;
 use CrudGenerator\Generators\Parser\Lexical\Cli\AskQuestionParser;
 use CrudGenerator\Generators\Parser\Lexical\Web\QuestionParser;
 use CrudGenerator\Generators\Parser\Lexical\Web\QuestionResponseParser;
+use CrudGenerator\Generators\Questions\DirectoryQuestionFactory;
 
 class ParserCollectionFactory
 {
@@ -36,18 +37,19 @@ class ParserCollectionFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-        $fileManager = new FileManager();
-        $collection  = new ParserCollection();
+        $fileManager       = new FileManager();
+        $collection        = new ParserCollection();
+        $directoryQuestion = DirectoryQuestionFactory::getInstance($context);
 
         if ($context instanceof WebContext) {
             $collection->addPreParse(new QuestionResponseParser())
-                       ->addPostParse(new QuestionParser($context));
+                       ->addPostParse(new QuestionParser($context, $directoryQuestion));
         } elseif ($context instanceof CliContext) {
-        	$collection->addPreParse(
-        		new AskQuestionParser($context)
-			);
+            $collection->addPreParse(
+                new AskQuestionParser($context, $directoryQuestion)
+            );
         } else {
-        	throw new \InvalidArgumentException("Context not allowed");
+            throw new \InvalidArgumentException("Context not allowed");
         }
 
         $collection->addPostParse(new TemplateVariableParser($fileManager))

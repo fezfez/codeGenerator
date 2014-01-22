@@ -22,14 +22,10 @@ use CrudGenerator\Generators\GeneratorDataObject;
 
 class DirectoriesParser implements ParserInterface
 {
-   /**
-    * @param array $process
-    * @param PhpStringParser $parser
-    * @param Generator $generator
-    * @param array $questions
-    * @return Generator
+   /* (non-PHPdoc)
+    * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
     */
-   public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions)
+   public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
    {
         foreach ($process['directories'] as $directory) {
             $generator->addDirectories($directory, $parser->parse($directory));

@@ -17,8 +17,6 @@
  */
 namespace CrudGenerator\Generators\Strategies;
 
-use CrudGenerator\DataObject;
-
 /**
  * Base code generator, extends it and implement doGenerate method
  * to make you own Generator
@@ -28,15 +26,16 @@ use CrudGenerator\DataObject;
 interface StrategyInterface
 {
     /**
-     * @param DataObject $dataObject
+     * @param array $datas
+     * @param string $skeletonDir
      * @param string $pathTemplate
      * @param string $pathTo
-     * @param array $suppDatas
      */
-    public function generateFile(DataObject $dataObject, $skeletonDir, $pathTemplate, $pathTo, array $suppDatas = array());
+    public function generateFile(array $datas, $skeletonDir, $pathTemplate, $pathTo);
+
     /**
-     * Create dir if not exist
-     * @param string $dir
+     * Create directory if not exist
+     * @param string directory
      */
-    public function ifDirDoesNotExistCreate($dir);
+    public function ifDirDoesNotExistCreate($directory);
 }

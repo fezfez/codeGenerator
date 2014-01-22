@@ -45,7 +45,7 @@ class FixtureRenderer
         if ($metadata->getType() == 'integer' || $metadata->getType() == 'float') {
             $data = $this->faker->randomNumber();
         } elseif ($metadata->getType() == 'string' || $metadata->getType() == 'text') {
-            $data = (!$metadata->getLength()) ? '"' . $this->faker->text(50) . '"' : '"' . $this->faker->text($metadata->getLength()) . '"';
+            $data = (!$metadata->getLength()) ? '"' . $this->faker->text(50) . '"' : '"' . ($metadata->getLength() <=  5) ? '"test"' : $this->faker->text($metadata->getLength()) . '"';
         } elseif ($metadata->getType() == 'date') {
             $data = 'new DateTime()';
         } elseif ($metadata->getType() == 'bool' || $metadata->getType() == 'boolean') {

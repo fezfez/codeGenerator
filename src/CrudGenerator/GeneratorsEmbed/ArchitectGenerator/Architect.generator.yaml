@@ -12,9 +12,6 @@ questions :
     - 
         type : complex
         factory : CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArrayWebFactory
-    - 
-        type : complex
-        factory : CrudGenerator\Generators\Questions\DirectoryQuestionFactory
 directories :
     - <?php $basePath; ?>/DAO/
     - <?php $basePath; ?>/Hydrator/

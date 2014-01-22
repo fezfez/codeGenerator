@@ -67,7 +67,7 @@ class GeneratorQuestion
                     return $generatorClassName;
                 }
             } else {
-                $generatorsChoices[$generator->getDefinition()] = $generatorClassName;
+                $generatorsChoices[] = $generatorClassName;
             }
         }
 

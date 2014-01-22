@@ -18,8 +18,8 @@
 namespace CrudGenerator\Generators\Strategies;
 
 use CrudGenerator\View\ViewFactory;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
+use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\CliContext;
 
 /**
  * Base code generator, extends it and implement doGenerate method
@@ -34,7 +34,7 @@ class SandBoxStrategyFactory
      * @param DialogHelper $dialog
      * @return \CrudGenerator\Generators\Strategies\SandBoxStrategy
      */
-    public static function getInstance(OutputInterface $output, DialogHelper $dialog, $input = null)
+    public static function getInstance(ContextInterface $context, $input = null)
     {
         $view   = ViewFactory::getInstance();
 
@@ -44,6 +44,6 @@ class SandBoxStrategyFactory
             $filter = null;
         }
 
-        return new SandBoxStrategy($view, $output, $dialog, $filter);
+        return new SandBoxStrategy($view, $context->getOutput(), $context->getDialogHelper(), $filter);
     }
 }

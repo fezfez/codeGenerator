@@ -21,6 +21,7 @@ use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
+use CrudGenerator\Generators\Questions\Cli\DirectoryQuestion;
 use CrudGenerator\Context\CliContext;
 
 class AskQuestionParser implements ParserInterface
@@ -29,24 +30,30 @@ class AskQuestionParser implements ParserInterface
 	 * @var CliContext
 	 */
 	private $cliContext = null;
+	/**
+	 * @var DirectoryQuestion
+	 */
+	private $directoryQuestion = null;
 
 	/**
 	 * @param CliContext $cliContext
+	 * @param DirectoryQuestion $directoryQuestion
 	 */
-	public function __construct(CliContext $cliContext)
+	public function __construct(CliContext $cliContext, DirectoryQuestion $directoryQuestion)
 	{
-		$this->cliContext = $cliContext;
+		$this->cliContext        = $cliContext;
+		$this->directoryQuestion = $directoryQuestion;
 	}
 
-   /**
-    * @param array $process
-    * @param PhpStringParser $parser
-    * @param Generator $generator
-    * @param array $questions
-    * @return GeneratorDataObject
-    */
-    public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions)
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
+     */
+    public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
     {
+    	if (true === $firstIteration) {
+    		$generator = $this->directoryQuestion->ask($generator);
+    	}
+
     	foreach ($process['questions'] as $question) {
 
     		if (isset($question['type']) && $question['type'] === GeneratorParser::COMPLEX_QUESTION) {

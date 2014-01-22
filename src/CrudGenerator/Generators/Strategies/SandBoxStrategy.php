@@ -68,23 +68,18 @@ class SandBoxStrategy implements StrategyInterface
     /* (non-PHPdoc)
      * @see CrudGenerator\Generators\Strategies.StrategyInterface::generateFile()
      */
-    public function generateFile(DataObject $dataObject, $skeletonDir, $pathTemplate, $pathTo, array $suppDatas = array())
+    public function generateFile(array $datas, $skeletonDir, $pathTemplate, $pathTo)
     {
         if ($this->filter !== null && stristr($this->filter, $pathTemplate) === false) {
             return;
         }
-
-        $datas = array(
-            'dir'        => $skeletonDir,
-            'dataObject' => $dataObject,
-        );
 
         $continue = true;
         while ($continue) {
             $results = $this->view->render(
                 $skeletonDir,
                 $pathTemplate,
-                array_merge($datas, $suppDatas)
+                $datas
             );
 
             $this->output->writeln("<info>[LOG] Generate $pathTo \nfrom $skeletonDir$pathTemplate</info>");

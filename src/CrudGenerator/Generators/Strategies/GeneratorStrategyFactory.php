@@ -20,8 +20,8 @@ namespace CrudGenerator\Generators\Strategies;
 use CrudGenerator\View\ViewFactory;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\FileConflict\FileConflictManagerFactory;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
+use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\CliContext;
 
 /**
  * Base code generator, extends it and implement doGenerate method
@@ -32,16 +32,20 @@ use Symfony\Component\Console\Helper\DialogHelper;
 class GeneratorStrategyFactory
 {
     /**
-     * @param OutputInterface $output
-     * @param DialogHelper $dialog
+     * @param ContextInterface $context
+     * @throws \Exception
      * @return \CrudGenerator\Generators\Strategies\GeneratorStrategy
      */
-    public static function getInstance(OutputInterface $output, DialogHelper $dialog)
+    public static function getInstance(ContextInterface $context)
     {
-        $view               = ViewFactory::getInstance();
-        $fileManager        = new FileManager();
-        $fileConflitManager = FileConflictManagerFactory::getInstance($output, $dialog);
+    	if ($context instanceof CliContext) {
+	        $view               = ViewFactory::getInstance();
+	        $fileManager        = new FileManager();
+	        $fileConflitManager = FileConflictManagerFactory::getInstance($context->getOutput(), $context->getDialogHelper());
 
-        return new GeneratorStrategy($view, $output, $fileManager, $fileConflitManager);
+	        return new GeneratorStrategy($view, $context->getOutput(), $fileManager, $fileConflitManager);
+    	} else {
+			throw new \Exception('Web not supported');
+    	}
     }
 }

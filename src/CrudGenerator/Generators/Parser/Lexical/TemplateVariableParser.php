@@ -37,14 +37,10 @@ class TemplateVariableParser implements ParserInterface
         $this->fileManager = $fileManager;
     }
 
-   /**
-    * @param array $process
-    * @param PhpStringParser $parser
-    * @param Generator $generator
-    * @param array $questions
-    * @return Generator
-    */
-    public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions)
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
+     */
+    public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
     {
         foreach ($process['templateVariables'] as $variables) {
             foreach ($variables as $varName => $value) {
