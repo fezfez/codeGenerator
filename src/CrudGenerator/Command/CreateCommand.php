@@ -19,7 +19,6 @@ namespace CrudGenerator\Command;
 
 use CrudGenerator\History\HistoryManager;
 use CrudGenerator\Generators\Questions\Cli\MetaDataSourcesQuestion;
-use CrudGenerator\Generators\Questions\Cli\DirectoryQuestion;
 use CrudGenerator\Generators\Questions\Cli\MetaDataQuestion;
 use CrudGenerator\Generators\Questions\Cli\GeneratorQuestion;
 use CrudGenerator\Generators\GeneratorDataObject;
@@ -28,7 +27,6 @@ use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\DataObject;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use CrudGenerator\Context\CliContext;
 

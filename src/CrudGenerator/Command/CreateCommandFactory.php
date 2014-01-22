@@ -19,7 +19,6 @@ namespace CrudGenerator\Command;
 
 use CrudGenerator\History\HistoryFactory;
 use CrudGenerator\Generators\Questions\MetaDataSourcesQuestionFactory;
-use CrudGenerator\Generators\Questions\DirectoryQuestionFactory;
 use CrudGenerator\Generators\Questions\MetaDataQuestionFactory;
 use CrudGenerator\Generators\Questions\GeneratorQuestionFactory;
 use CrudGenerator\Generators\Parser\GeneratorParserFactory;

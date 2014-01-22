@@ -18,8 +18,6 @@
 namespace CrudGenerator\Generators\Strategies;
 
 use CrudGenerator\View\ViewFactory;
-use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\CliContext;
 
 /**
  * Base code generator, extends it and implement doGenerate method

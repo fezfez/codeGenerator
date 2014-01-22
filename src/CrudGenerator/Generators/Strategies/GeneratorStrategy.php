@@ -18,7 +18,6 @@
 namespace CrudGenerator\Generators\Strategies;
 
 
-use CrudGenerator\DataObject;
 use CrudGenerator\View\View;
 use Symfony\Component\Console\Output\OutputInterface;
 use CrudGenerator\Utils\FileManager;
