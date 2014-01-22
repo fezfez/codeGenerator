@@ -22,15 +22,7 @@ class HandleTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $fileManager->expects($this->once())
-        ->method('filePutsContent')
-        ->will($this->returnValue('test'));
-
-        $fileManager->expects($this->once())
-        ->method('unlink')
-        ->will($this->returnValue('test'));
-
-        $diffPHP = $this->getMockBuilder('CrudGenerator\Utils\DiffPHP')
+        $diffPHP = $this->getMockBuilder('SebastianBergmann\Diff\Differ')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -56,12 +48,12 @@ class HandleTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $fileManager->expects($this->exactly(2))
+        $fileManager->expects($this->exactly(1))
         ->method('filePutsContent')
         ->will($this->returnValue('test'));
 
 
-        $diffPHP = $this->getMockBuilder('CrudGenerator\Utils\DiffPHP')
+        $diffPHP = $this->getMockBuilder('SebastianBergmann\Diff\Differ')
         ->disableOriginalConstructor()
         ->getMock();
         $diffPHP->expects($this->once())
@@ -95,7 +87,7 @@ class HandleTest extends \PHPUnit_Framework_TestCase
         ->will($this->returnValue('test'));
 
 
-        $diffPHP = $this->getMockBuilder('CrudGenerator\Utils\DiffPHP')
+        $diffPHP = $this->getMockBuilder('SebastianBergmann\Diff\Differ')
         ->disableOriginalConstructor()
         ->getMock();
 

@@ -19,7 +19,7 @@ use CrudGenerator\Generators\GeneratorDataObject;
 class executeTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testFail()
+    public function testFailOKOKOK()
     {
         $historyStub = $this->getMockBuilder('CrudGenerator\History\HistoryManager')
         ->disableOriginalConstructor()

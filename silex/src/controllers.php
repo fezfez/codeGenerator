@@ -10,6 +10,7 @@ use CrudGenerator\Generators\Questions\GeneratorQuestionFactory;
 use CrudGenerator\Generators\Parser\GeneratorParserFactory;
 use CrudGenerator\Generators\GeneratorFactory;
 use CrudGenerator\Generators\Strategies\ViewFileStategyFactory;
+use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 use CrudGenerator\Context\WebContext;
 use CrudGenerator\Generators\GeneratorDataObject;
 
@@ -92,6 +93,32 @@ $app->match('view-file', function (Request $request) use ($app) {
     $fileGenerate = $generatorEngine->generate($generator, $file);
 
     return $app->json(array('generator' => $fileGenerate), 201);
+});
+
+$app->match('generate', function (Request $request) use ($app) {
+
+	parse_str($request->request->get('questions'), $questionArray);
+	$metadataSource = $request->request->get('backend');
+	$metadata       = $request->request->get('metadata');
+	$file           = $request->request->get('file');
+	$context        = new WebContext($app);
+
+	$generatorParser        = GeneratorParserFactory::getInstance($context);
+	$matadataSourceFinder   = MetaDataSourcesQuestionFactory::getInstance($context);
+	$metadataFinder         = MetaDataQuestionFactory::getInstance($context);
+	$generatorStrategy      = ViewFileStategyFactory::getInstance($context);
+	$generatorEngine        = GeneratorFactory::getInstance($generatorStrategy);
+
+	$metadataSourceSelect   = $matadataSourceFinder->ask($metadataSource);
+	$metaData               = $metadataFinder->ask($metadataSourceSelect, $metadata);
+
+	$generator = new GeneratorDataObject();
+	$generator->setName($request->request->get('generator'));
+
+	$generator    = $generatorParser->init($generator, $metaData, $questionArray);
+	$fileGenerate = $generatorEngine->generate($generator, $file);
+
+	return $app->json(array('generator' => $fileGenerate), 201);
 });
 
 $app->match('metadata-save', function (Request $request) use ($app) {

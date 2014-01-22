@@ -2,7 +2,7 @@
 namespace CrudGenerator\FileConflict;
 
 use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Utils\DiffPHP;
+use SebastianBergmann\Diff\Differ;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 
@@ -38,7 +38,7 @@ class FileConflictManager
      */
     private $dialog      = null;
     /**
-     * @var DiffPHP Diff php
+     * @var Differ Diff php
      */
     private $diffPHP     = null;
 
@@ -52,7 +52,7 @@ class FileConflictManager
         OutputInterface $output,
         DialogHelper $dialog,
         FileManager $fileManager,
-        DiffPHP $diffPHP
+        Differ $diffPHP
     ) {
         $this->output            = $output;
         $this->fileManager       = $fileManager;
@@ -94,31 +94,22 @@ class FileConflictManager
             $response = intval($response);
 
             if ($response === self::SHOW_DIFF) {
-                // generate diff file
-                $this->fileManager->filePutsContent($filePath . '.diff', $results);
-
                 // write to output the diff
                 $this->output->writeln(
-                    '<info>' . $this->diffPHP->diff($filePath . '.diff', $filePath) . '</info>'
+                    '<info>' . $this->diffPHP->diff($results, $this->fileManager->fileGetContent($filePath)) . '</info>'
                 );
-
-                // delete the diff file
-                $this->fileManager->unlink($filePath . '.diff');
             } else {
                 break;
             }
         }
 
         if ($response === self::POSTPONE) {
-            // Generate the new file
-            $this->fileManager->filePutsContent($filePath . '.new', $results);
-
             //Generate the diff file
             $this->fileManager->filePutsContent(
                 $filePath . '.diff',
                 $this->diffPHP->diff(
-                    $filePath . '.new',
-                    $filePath
+                	$results,
+                    $this->fileManager->fileGetContent($filePath)
                 )
             );
             $this->output->writeln('--> Generate diff and new file ' . $filePath . '.diff');

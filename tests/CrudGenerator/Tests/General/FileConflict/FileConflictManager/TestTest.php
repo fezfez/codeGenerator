@@ -27,7 +27,7 @@ class TestTest extends \PHPUnit_Framework_TestCase
         ->method('fileGetContent')
         ->will($this->returnValue('test'));
 
-        $diffPHP = $this->getMockBuilder('CrudGenerator\Utils\DiffPHP')
+        $diffPHP = $this->getMockBuilder('SebastianBergmann\Diff\Differ')
         ->disableOriginalConstructor()
         ->getMock();
 

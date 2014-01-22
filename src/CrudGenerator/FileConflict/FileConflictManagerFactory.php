@@ -2,7 +2,7 @@
 namespace CrudGenerator\FileConflict;
 
 use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Utils\DiffPHP;
+use SebastianBergmann\Diff\Differ;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 
@@ -19,7 +19,7 @@ class FileConflictManagerFactory
             $output,
             $dialog,
             new FileManager(),
-            new DiffPHP()
+            new Differ()
         );
     }
 }
