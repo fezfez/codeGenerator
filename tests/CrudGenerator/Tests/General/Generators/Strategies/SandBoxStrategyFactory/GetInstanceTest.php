@@ -2,6 +2,7 @@
 namespace CrudGenerator\Tests\General\Generators\Strategies\SandBoxStrategyFactory;
 
 use CrudGenerator\Generators\Strategies\SandBoxStrategyFactory;
+use CrudGenerator\Context\CliContext;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,9 +19,11 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
+        $context = new CliContext($dialog, $output);
+
         $this->assertInstanceOf(
         	'CrudGenerator\Generators\Strategies\SandBoxStrategy',
-        	SandBoxStrategyFactory::getInstance($output, $dialog)
+        	SandBoxStrategyFactory::getInstance($context)
 		);
     }
 
@@ -33,6 +36,8 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
+        $context = new CliContext($dialog, $output);
+
         $argument = new InputArgument('filter');
 
         $definition = new InputDefinition(array($argument));
@@ -40,7 +45,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
         	'CrudGenerator\Generators\Strategies\SandBoxStrategy',
-        	SandBoxStrategyFactory::getInstance($output, $dialog, $input)
+        	SandBoxStrategyFactory::getInstance($context, $input)
 		);
     }
 }

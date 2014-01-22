@@ -9,10 +9,12 @@ use CrudGenerator\Generators\Questions\Cli\MetaDataSourcesQuestion;
 use CrudGenerator\Generators\Questions\Cli\DirectoryQuestion;
 use CrudGenerator\Generators\Questions\Cli\MetaDataQuestion;
 use CrudGenerator\Generators\Questions\Cli\GeneratorQuestion;
+use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\Context\CliContext;
+use CrudGenerator\Generators\GeneratorDataObject;
 
 class executeTest extends \PHPUnit_Framework_TestCase
 {
@@ -71,14 +73,28 @@ class executeTest extends \PHPUnit_Framework_TestCase
         ->method('ask')
         ->will($this->returnValue(''));
 
+        $parserStub = $this->getMockBuilder('CrudGenerator\Generators\Parser\GeneratorParser')
+        ->disableOriginalConstructor()
+        ->getMock();
+
+        $generatorDTO = new GeneratorDataObject();
+        $generatorDTO->setDTO(new Architect());
+
+        $parserStub->expects($this->any())
+        ->method('init')
+        ->will($this->returnValue($generatorDTO));
+
+        $generatorStub = $this->getMockBuilder('CrudGenerator\Generators\Generator')
+        ->disableOriginalConstructor()
+        ->getMock();
+
         $context = new CliContext($dialog, $ConsoleOutputStub);
 
         $commandTmp = new CreateCommand(
-            $dialog,
-            $ConsoleOutputStub,
+            $parserStub,
+        	$generatorStub,
             $historyStub,
             $MetaDataSourcesQuestionStub,
-            $DirectoryQuestionStub,
             $MetaDataQuestionStub,
             $GeneratorQuestionStub,
         	$context
@@ -155,14 +171,28 @@ class executeTest extends \PHPUnit_Framework_TestCase
         ->method('ask')
         ->will($this->returnValue(''));
 
+        $parserStub = $this->getMockBuilder('CrudGenerator\Generators\Parser\GeneratorParser')
+        ->disableOriginalConstructor()
+        ->getMock();
+
+        $generatorDTO = new GeneratorDataObject();
+        $generatorDTO->setDTO(new Architect());
+
+        $parserStub->expects($this->any())
+        ->method('init')
+        ->will($this->returnValue($generatorDTO));
+
+        $generatorStub = $this->getMockBuilder('CrudGenerator\Generators\Generator')
+        ->disableOriginalConstructor()
+        ->getMock();
+
         $context = new CliContext($dialog, $ConsoleOutputStub);
 
         $commandTmp = new CreateCommand(
-            $dialog,
-            $ConsoleOutputStub,
+            $parserStub,
+        	$generatorStub,
             $historyStub,
             $MetaDataSourcesQuestionStub,
-            $DirectoryQuestionStub,
             $MetaDataQuestionStub,
             $GeneratorQuestionStub,
         	$context

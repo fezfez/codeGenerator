@@ -32,7 +32,6 @@ class GenerateFileTest extends \PHPUnit_Framework_TestCase
             $this->equalTo($pathTemplate),
             $this->equalTo(
                 array(
-                    'dir'        => $skeletonDir,
                     'dataObject' => $dataObject,
                 )
             )
@@ -45,7 +44,7 @@ class GenerateFileTest extends \PHPUnit_Framework_TestCase
 
         $sUT = new SandBoxStrategy($view, $output, $dialog);
 
-        $sUT->generateFile($dataObject, $skeletonDir, $pathTemplate, $pathTo);
+        $sUT->generateFile(array('dataObject' => $dataObject), $skeletonDir, $pathTemplate, $pathTo);
     }
 
     public function testFilter()
@@ -74,6 +73,6 @@ class GenerateFileTest extends \PHPUnit_Framework_TestCase
 
     	$sUT = new SandBoxStrategy($view, $output, $dialog, 'path');
 
-    	$sUT->generateFile($dataObject, $skeletonDir, $pathTemplate, $pathTo);
+    	$sUT->generateFile(array('dataObject' => $dataObject), $skeletonDir, $pathTemplate, $pathTo);
     }
 }

@@ -13,8 +13,8 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
         $manager = ManagerFactory::getInstance('Sample.yml');
 
         $this->assertInstanceOf(
-            'CrudGenerator\Generators\ArchitectGenerator\Architect',
-            $manager->writeAbstractOptions('CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator', new Architect())
+            'CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect',
+            $manager->writeAbstractOptions('CrudGenerator\GeneratorsEmbed\ArchitectGenerator\ArchitectGenerator', new Architect())
         );
     }
 }
