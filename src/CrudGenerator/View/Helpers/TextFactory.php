@@ -26,7 +26,7 @@ class TextFactory implements ViewHelperFactoryInterface
      * @param DataObject $dataObject
      * @return \CrudGenerator\View\Helpers\FixtureRenderer
      */
-    public static function getInstance(DataObject $dataObject)
+    public static function getInstance()
     {
         return new Text();
     }

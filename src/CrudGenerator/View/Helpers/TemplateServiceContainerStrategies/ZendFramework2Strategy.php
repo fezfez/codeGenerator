@@ -17,6 +17,8 @@
  */
 namespace CrudGenerator\View\Helpers\TemplateServiceContainerStrategies;
 
+use CrudGenerator\DataObject;
+
 /**
  * @author stephane.demonchaux
  *
@@ -26,7 +28,7 @@ class ZendFramework2Strategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getFullClass()
+    public function getFullClass(DataObject $dataObject)
     {
         return 'use Zend\ServiceManager\ServiceManager;' . "\n";
     }
@@ -34,7 +36,7 @@ class ZendFramework2Strategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getFullClassForUnitTest()
+    public function getFullClassForUnitTest(DataObject $dataObject)
     {
         return 'use Tests\Bootstrap;' . "\n";
     }
@@ -42,7 +44,7 @@ class ZendFramework2Strategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getCreateInstanceForUnitTest()
+    public function getCreateInstanceForUnitTest(DataObject $dataObject)
     {
         return '$' . $this->getVariableName() . ' = Bootstrap::getServiceManager();' . "\n";
     }
@@ -50,7 +52,7 @@ class ZendFramework2Strategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getClassName()
+    public function getClassName(DataObject $dataObject)
     {
         return 'ServiceManager';
     }
@@ -58,7 +60,7 @@ class ZendFramework2Strategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getVariableName()
+    public function getVariableName(DataObject $dataObject)
     {
         return 'serviceManager';
     }
@@ -67,7 +69,7 @@ class ZendFramework2Strategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getInjectionInDependencie()
+    public function getInjectionInDependencie(DataObject $dataObject)
     {
         return $this->getClassName() . ' $' . $this->getVariableName();
     }

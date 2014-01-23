@@ -2,8 +2,8 @@
     "use strict";
 
     angular.module('GeneratorApp.controllers', [])
-         .controller("GeneratorCtrl", ['$scope', '$http', 'GeneratorService', 'ViewFileService', 'WaitModalService',
-                                              function ($scope, $http, $generatorService, $viewFileService, $WaitModalService) {
+         .controller("GeneratorCtrl", ['$scope', '$http', 'GeneratorService', 'ViewFileService', 'WaitModalService', 'GenerateService',
+                                              function ($scope, $http, $generatorService, $viewFileService, $WaitModalService, $generateService) {
                 $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 
                 $http.get('list-backend').success(function (data) {
@@ -70,6 +70,22 @@
                         $scope.handleGenerator(generatorName, oldGeneratorName);
                     }
                 });
+                
+                $scope.generate = function() {
+                    var datas = $.param({
+                        generator    : $scope.generators,
+                        backend      : $scope.backEnd,
+                        metadata     : $scope.metadata,
+                        questions    : $('.questions').serialize(),
+                        conflict     : $('.conflict_handle').serialize()
+                    });
+
+                    $generateService.generate(datas, function (results) {
+                    	if (null !== results.conflictList) {
+                    		$scope.conflictList = results.conflictList;
+                    	}
+                    });
+                };
 
                 $scope.viewFile = function (file) {
                     var datas = $.param({

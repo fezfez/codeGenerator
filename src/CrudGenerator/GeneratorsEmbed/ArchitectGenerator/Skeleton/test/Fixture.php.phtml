@@ -1,16 +1,16 @@
 <?php
 echo '<?php' . "\n";
-$databaseConnectorClassName     = $this->getHelper('TemplateDatabaseConnector')->getClassName();
-$databaseConnectionVariableName = $this->getHelper('TemplateDatabaseConnector')->getVariableName();
+$databaseConnectorClassName     = $this->getHelper('TemplateDatabaseConnector')->getClassName($this->architectGenerator);
+$databaseConnectionVariableName = $this->getHelper('TemplateDatabaseConnector')->getVariableName($this->architectGenerator);
 
 ?>
 namespace <?php echo $this->unitTestNamespace; ?>;
 
 use DateTime;
-use <?php echo $this->getHelper('TemplateDatabaseConnector')->getFullClass(); ?>;
+use <?php echo $this->getHelper('TemplateDatabaseConnector')->getFullClass($this->architectGenerator); ?>;
 use <?php echo $this->dtoNamespace; ?>;
 use <?php echo $this->hydratorNamespace; ?>;
-<?php echo $this->getHelper('TemplateServiceContainer')->getFullClassForUnitTest(); ?>
+<?php echo $this->getHelper('TemplateServiceContainer')->getFullClassForUnitTest($this->architectGenerator); ?>
 
 <?php
     $length = str_repeat(' ', strlen('a' . $this->architectGenerator->getEntityName()));
@@ -65,14 +65,14 @@ if($metadata == reset($columnCollection)): ?>
         $fixture = $this->getFixture();
         $result  = $this->hydrator->popoToEntity(
             $fixture,
-<?php if ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase() == 'entity'): ?>
+<?php if ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase($this->architectGenerator) == 'entity'): ?>
             new <?php echo $this->modelName; ?>()
-<?php elseif ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase() == 'array'): ?>
+<?php elseif ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase($this->architectGenerator) == 'array'): ?>
             array()
 <?php endif; ?>
         );
 
-        <?php echo $this->getHelper('TemplateDatabaseConnector')->getPersistQuery($this->dataObject) . "\n"; ?>
+        <?php echo $this->getHelper('TemplateDatabaseConnector')->getPersistQuery($this->architectGenerator) . "\n"; ?>
 
         return $this->hydrator->entityToPopo(
             $result,
@@ -85,6 +85,6 @@ if($metadata == reset($columnCollection)): ?>
      */
     public function purge()
     {
-        <?php echo $this->getHelper('TemplateDatabaseConnector')->getPurgeQueryForUnitTest($this->dataObject) . "\n"; ?>
+        <?php echo $this->getHelper('TemplateDatabaseConnector')->getPurgeQueryForUnitTest($this->architectGenerator) . "\n"; ?>
     }
 }

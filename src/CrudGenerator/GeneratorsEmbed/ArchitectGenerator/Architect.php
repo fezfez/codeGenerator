@@ -84,25 +84,6 @@ class Architect extends DataObject
     }
 
     /**
-     * Set Directory
-     * @param string $value
-     * @return \CrudGenerator\DataObject
-     */
-    public function setDirectory($value)
-    {
-        $this->directory = $value;
-        return $this;
-    }
-    /**
-     * Get directory
-     *
-     * @return string
-     */
-    public function getDirectory()
-    {
-        return $this->directory;
-    }
-    /**
      * Set Namespace
      * @param string $value
      * @return \CrudGenerator\DataObject

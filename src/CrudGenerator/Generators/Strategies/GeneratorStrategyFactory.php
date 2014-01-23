@@ -22,6 +22,9 @@ use CrudGenerator\Utils\FileManager;
 use CrudGenerator\FileConflict\FileConflictManagerFactory;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\CliContext;
+use CrudGenerator\Context\WebContext;
+use Symfony\Component\Console\Output\StreamOutput;
+use Symfony\Component\Console\Helper\DialogHelper;
 
 /**
  * Base code generator, extends it and implement doGenerate method
@@ -41,11 +44,20 @@ class GeneratorStrategyFactory
     	if ($context instanceof CliContext) {
 	        $view               = ViewFactory::getInstance();
 	        $fileManager        = new FileManager();
-	        $fileConflitManager = FileConflictManagerFactory::getInstance($context->getOutput(), $context->getDialogHelper());
+	        $fileConflitManager = FileConflictManagerFactory::getInstance($context);
 
 	        return new GeneratorStrategy($view, $context->getOutput(), $fileManager, $fileConflitManager);
-    	} else {
-			throw new \Exception('Web not supported');
+    	} elseif ($context instanceof WebContext) {
+    		$fp = fopen("php://output","w");
+
+    		$output = new StreamOutput($fp);
+    		$dialog = new DialogHelper();
+
+    		$view               = ViewFactory::getInstance();
+    		$fileManager        = new FileManager();
+    		$fileConflitManager = FileConflictManagerFactory::getInstance($context);
+
+			return new GeneratorStrategy($view, $output, $fileManager, $fileConflitManager);
     	}
     }
 }

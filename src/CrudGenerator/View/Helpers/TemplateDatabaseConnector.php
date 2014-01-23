@@ -19,6 +19,10 @@ namespace CrudGenerator\View\Helpers;
 
 use CrudGenerator\DataObject;
 use CrudGenerator\View\Helpers\TemplateDatabaseConnectorStrategies\StrategyInterface;
+use CrudGenerator\View\Helpers\TemplateDatabaseConnectorStrategies\PDOStrategy;
+use CrudGenerator\View\Helpers\TemplateDatabaseConnectorStrategies\ZendFramework2Strategy;
+use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
+use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
 
 /**
  * @author stephane.demonchaux
@@ -29,46 +33,66 @@ class TemplateDatabaseConnector implements StrategyInterface
     /**
      * @var CrudGenerator\View\Helpers\TemplateDatabaseConnectorStrategies\StrategyInterface
      */
-    private $strategy = null;
+    private $zendFramework2Strategy = null;
+    /**
+     * @var CrudGenerator\View\Helpers\TemplateDatabaseConnectorStrategies\StrategyInterface
+     */
+    private $pdo = null;
 
     /**
      * @param StrategyInterface $strategy
      */
-    public function __construct(StrategyInterface $strategy)
+    public function __construct(ZendFramework2Strategy $zendFramework2Strategy, PDOStrategy $pdo)
     {
-        $this->strategy = $strategy;
+        $this->zendFramework2Strategy = $zendFramework2Strategy;
+        $this->pdo = $pdo;
+    }
+
+    private function findStrategy(DataObject $dataObject)
+    {
+    	$metadata = $dataObject->getMetadata();
+
+    	if ($metadata instanceof MetadataDataObjectDoctrine2) {
+    		$strategy = $this->zendFramework2Strategy;
+    	} elseif ($metadata instanceof MetadataDataObjectPDO) {
+    		$strategy = $this->pdo;
+    	} else {
+    		throw new \InvalidArgumentException("Metadata '" . get_class($metadata) . "' not supported");
+    	}
+
+    	return $strategy;
     }
 
     /**
      * @return string
      */
-    public function getFullClass()
+    public function getFullClass(DataObject $dataObject)
     {
-        return $this->strategy->getFullClass();
+		return $this->findStrategy($dataObject)->getFullClass($dataObject);
     }
 
     /**
      * @return string
      */
-    public function getClassName()
+    public function getClassName(DataObject $dataObject)
     {
-        return $this->strategy->getClassName();
+    	return $this->findStrategy($dataObject)->getClassName($dataObject);
     }
 
     /**
      * @return string
      */
-    public function getVariableName()
+    public function getVariableName(DataObject $dataObject)
     {
-        return $this->strategy->getVariableName();
+    	return $this->findStrategy($dataObject)->getVariableName($dataObject);
     }
 
     /**
      * @return string
      */
-    public function getCreateInstance()
+    public function getCreateInstance(DataObject $dataObject)
     {
-        return $this->strategy->getCreateInstance();
+    	return $this->findStrategy($dataObject)->getCreateInstance($dataObject);
     }
 
     /**
@@ -77,7 +101,7 @@ class TemplateDatabaseConnector implements StrategyInterface
      */
     public function getQueryFindOneBy(DataObject $dataObject)
     {
-        return $this->strategy->getQueryFindOneBy($dataObject);
+    	return $this->findStrategy($dataObject)->getQueryFindOneBy($dataObject);
     }
 
     /**
@@ -86,7 +110,7 @@ class TemplateDatabaseConnector implements StrategyInterface
      */
     public function getQueryFindAll(DataObject $dataObject)
     {
-        return $this->strategy->getQueryFindAll($dataObject);
+    	return $this->findStrategy($dataObject)->getQueryFindAll($dataObject);
     }
 
     /**
@@ -94,7 +118,7 @@ class TemplateDatabaseConnector implements StrategyInterface
      */
     public function getModifyQuery(DataObject $dataObject)
     {
-        return $this->strategy->getModifyQuery($dataObject);
+    	return $this->findStrategy($dataObject)->getModifyQuery($dataObject);
     }
 
     /**
@@ -102,7 +126,7 @@ class TemplateDatabaseConnector implements StrategyInterface
      */
     public function getPersistQuery(DataObject $dataObject)
     {
-        return $this->strategy->getPersistQuery($dataObject);
+        return $this->findStrategy($dataObject)->getPersistQuery($dataObject);
     }
 
     /**
@@ -110,7 +134,7 @@ class TemplateDatabaseConnector implements StrategyInterface
      */
     public function getPurgeQueryForUnitTest(DataObject $dataObject)
     {
-        return $this->strategy->getPurgeQueryForUnitTest($dataObject);
+        return $this->findStrategy($dataObject)->getPurgeQueryForUnitTest($dataObject);
     }
 
     /**
@@ -118,15 +142,15 @@ class TemplateDatabaseConnector implements StrategyInterface
      */
     public function getRemoveQuery(DataObject $dataObject)
     {
-        return $this->strategy->getRemoveQuery($dataObject);
+        return $this->findStrategy($dataObject)->getRemoveQuery($dataObject);
     }
 
     /* (non-PHPdoc)
      * @see CrudGenerator\View\Helpers\TemplateDatabaseConnectorStrategies.StrategyInterface::getTypeReturnedByDatabase()
      */
-    public function getTypeReturnedByDatabase()
+    public function getTypeReturnedByDatabase(DataObject $dataObject)
     {
-        return $this->strategy->getTypeReturnedByDatabase();
+        return $this->findStrategy($dataObject)->getTypeReturnedByDatabase($dataObject);
     }
 
     /* (non-PHPdoc)
@@ -134,6 +158,6 @@ class TemplateDatabaseConnector implements StrategyInterface
      */
     public function getConcreteTypeReturnedByDatabase(DataObject $dataObject)
     {
-        return $this->strategy->getConcreteTypeReturnedByDatabase($dataObject);
+        return $this->findStrategy($dataObject)->getConcreteTypeReturnedByDatabase($dataObject);
     }
 }

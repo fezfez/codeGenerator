@@ -3,7 +3,7 @@ echo '<?php' . "\n";
 ?>
 namespace <?php echo $this->unitTestNamespace; ?>\<?php echo $this->daoName; ?>;
 
-<?php echo $this->getHelper('TemplateServiceContainer')->getFullClassForUnitTest(); ?>
+<?php echo $this->getHelper('TemplateServiceContainer')->getFullClassForUnitTest($this->architectGenerator); ?>
 use <?php echo $this->fixtureFactoryNamespace; ?>;
 use <?php echo $this->hydratorNamespace; ?>;
 use <?php echo $this->dtoNamespace; ?>;

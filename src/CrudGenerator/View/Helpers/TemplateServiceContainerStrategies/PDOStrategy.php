@@ -17,6 +17,8 @@
  */
 namespace CrudGenerator\View\Helpers\TemplateServiceContainerStrategies;
 
+use CrudGenerator\DataObject;
+
 /**
  * @author stephane.demonchaux
  *
@@ -26,7 +28,7 @@ class PDOStrategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getFullClass()
+    public function getFullClass(DataObject $dataObject)
     {
         return '';
     }
@@ -34,7 +36,7 @@ class PDOStrategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getFullClassForUnitTest()
+    public function getFullClassForUnitTest(DataObject $dataObject)
     {
         return '';
     }
@@ -42,7 +44,7 @@ class PDOStrategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getCreateInstanceForUnitTest()
+    public function getCreateInstanceForUnitTest(DataObject $dataObject)
     {
         return '';
     }
@@ -50,7 +52,7 @@ class PDOStrategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getClassName()
+    public function getClassName(DataObject $dataObject)
     {
         return '';
     }
@@ -58,7 +60,7 @@ class PDOStrategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getVariableName()
+    public function getVariableName(DataObject $dataObject)
     {
         return '';
     }
@@ -66,7 +68,7 @@ class PDOStrategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getInjectionInDependencie()
+    public function getInjectionInDependencie(DataObject $dataObject)
     {
         return '';
     }

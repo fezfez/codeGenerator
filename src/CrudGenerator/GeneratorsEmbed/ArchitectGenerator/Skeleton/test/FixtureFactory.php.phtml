@@ -1,15 +1,15 @@
 <?php
 echo '<?php' . "\n";
-$databaseConnectorClassName     = $this->getHelper('TemplateDatabaseConnector')->getClassName();
-$databaseConnectionVariableName = $this->getHelper('TemplateDatabaseConnector')->getVariableName();
+$databaseConnectorClassName     = $this->getHelper('TemplateDatabaseConnector')->getClassName($this->architectGenerator);
+$databaseConnectionVariableName = $this->getHelper('TemplateDatabaseConnector')->getVariableName($this->architectGenerator);
 
 ?>
 namespace <?php echo $this->unitTestNamespace; ?>;
 
-use <?php echo $this->getHelper('TemplateDatabaseConnector')->getFullClass(); ?>;
+use <?php echo $this->getHelper('TemplateDatabaseConnector')->getFullClass($this->architectGenerator); ?>;
 use <?php echo $this->dtoNamespace; ?>;
 use <?php echo $this->hydratorNamespace; ?>;
-<?php echo $this->getHelper('TemplateServiceContainer')->getFullClassForUnitTest(); ?>
+<?php echo $this->getHelper('TemplateServiceContainer')->getFullClassForUnitTest($this->architectGenerator); ?>
 
 class <?php echo $this->fixtureFactoryName . "\n"; ?>
 {
@@ -22,8 +22,8 @@ class <?php echo $this->fixtureFactoryName . "\n"; ?>
     {
         if (null === self::instance) {
             $hydrator = new <?php echo $this->hydratorName; ?>();
-            <?php echo $this->getHelper('TemplateServiceContainer')->getCreateInstanceForUnitTest() . "\n" ?>
-            $<?php echo $databaseConnectionVariableName; ?> = <?php echo $this->getHelper('TemplateDatabaseConnector')->getCreateInstance() . "\n"; ?>
+            <?php echo $this->getHelper('TemplateServiceContainer')->getCreateInstanceForUnitTest($this->architectGenerator) . "\n" ?>
+            $<?php echo $databaseConnectionVariableName; ?> = <?php echo $this->getHelper('TemplateDatabaseConnector')->getCreateInstance($this->architectGenerator) . "\n"; ?>
 
             self::instance = new <?php echo $this->fixtureName; ?>($hydrator, $<?php echo $databaseConnectionVariableName; ?>);
         }

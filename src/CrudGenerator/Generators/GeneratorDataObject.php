@@ -93,16 +93,24 @@ class GeneratorDataObject implements \JsonSerializable
         return $this;
     }
     /**
+     * @param string $skeletonPath
      * @param string $name
-     * @return \CrudGenerator\Generators\Generator
+     * @param string $value
+     * @param string $result
+     * @return \CrudGenerator\Generators\GeneratorDataObject
      */
-    public function addFile($skeletonPath, $name, $value)
+    public function addFile($skeletonPath, $name, $value, $result = null)
     {
         $this->files[$value] = array(
-                'skeletonPath' => $skeletonPath,
-                'fileName' => $value,
-                'name' => $name
+            'skeletonPath' => $skeletonPath,
+            'fileName' => $value,
+            'name' => $name
         );
+
+        if (null !== $result) {
+        	$this->files[$value]['result'] = $result;
+        }
+
         return $this;
     }
     /**
@@ -156,7 +164,6 @@ class GeneratorDataObject implements \JsonSerializable
      */
     public function getFiles()
     {
-    	//sort($this->files);
         return $this->files;
     }
     /**
@@ -172,6 +179,15 @@ class GeneratorDataObject implements \JsonSerializable
     public function getTemplateVariables()
     {
         return $this->templateVariable;
+    }
+
+    /**
+     * @return \CrudGenerator\Generators\GeneratorDataObject
+     */
+    public function deleteFile($value)
+    {
+    	unset($this->files[$value]);
+    	return $this;
     }
 
     public function jsonSerialize()

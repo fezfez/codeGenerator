@@ -1,11 +1,11 @@
 <?php echo '<?php' . "\n";
-$databaseConnectorVariableName = $this->getHelper('TemplateDatabaseConnector')->getVariableName();
+$databaseConnectorVariableName = $this->getHelper('TemplateDatabaseConnector')->getVariableName($this->architectGenerator);
 ?>
 
 namespace <?php echo $this->architectGenerator->getNamespace(); ?>;
 
-use <?php echo $this->getHelper('TemplateDatabaseConnector')->getFullClass(); ?>;
-<?php echo $this->getHelper('TemplateServiceContainer')->getFullClass(); ?>
+use <?php echo $this->getHelper('TemplateDatabaseConnector')->getFullClass($this->architectGenerator); ?>;
+<?php echo $this->getHelper('TemplateServiceContainer')->getFullClass($this->architectGenerator); ?>
 use <?php echo $this->hydratorNamespace; ?>;
 use <?php echo $this->daoNamespace; ?>;
 
@@ -14,9 +14,9 @@ class <?php echo $this->daoFactoryName; ?>
     /**
      * @return <?php echo $this->daoNamespace; ?>
      */
-    public static function getInstance(<?php echo $this->getHelper('TemplateServiceContainer')->getInjectionInDependencie(); ?>)
+    public static function getInstance(<?php echo $this->getHelper('TemplateServiceContainer')->getInjectionInDependencie($this->architectGenerator); ?>)
     {
-        $<?php echo $databaseConnectorVariableName; ?> = <?php echo $this->getHelper('TemplateDatabaseConnector')->getCreateInstance() . "\n"; ?>
+        $<?php echo $databaseConnectorVariableName; ?> = <?php echo $this->getHelper('TemplateDatabaseConnector')->getCreateInstance($this->architectGenerator) . "\n"; ?>
         $hydrator      = new <?php echo $this->hydratorName; ?>();
 
         return new <?php echo $this->daoName; ?>(

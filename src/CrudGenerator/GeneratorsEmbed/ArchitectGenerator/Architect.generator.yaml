@@ -21,7 +21,7 @@ directories :
     - <?php $unitTestDirectory; ?>Hydrator
         
 templateVariables : 
-    - basePath                 : <?php $architectGenerator->getModule(); ?>/<?php $architectGenerator->getDirectory(); ?>
+    - basePath                 : <?php $architectGenerator->getModule(); ?>
     - modelName                : <?php lcfirst($architectGenerator->getModelName()); ?>
     - ucFirstModelName         : <?php ucfirst($architectGenerator->getModelName()); ?>
     - hydratorName             : <?php $ucFirstModelName; ?>Hydrator

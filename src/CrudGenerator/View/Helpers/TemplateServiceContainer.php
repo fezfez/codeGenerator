@@ -18,6 +18,12 @@
 namespace CrudGenerator\View\Helpers;
 
 use CrudGenerator\View\Helpers\TemplateServiceContainerStrategies\StrategyInterface;
+use CrudGenerator\View\Helpers\TemplateServiceContainerStrategies\PDOStrategy;
+use CrudGenerator\View\Helpers\TemplateServiceContainerStrategies\ZendFramework2Strategy;
+use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
+use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
+
+use CrudGenerator\DataObject;
 
 /**
  * @author stephane.demonchaux
@@ -26,63 +32,86 @@ use CrudGenerator\View\Helpers\TemplateServiceContainerStrategies\StrategyInterf
 class TemplateServiceContainer implements StrategyInterface
 {
     /**
-     * @var CrudGenerator\View\Helpers\TemplateServiceContainerStrategies\StrategyInterface
+     * @var CrudGenerator\View\Helpers\TemplateServiceContainerStrategies\ZendFramework2Strategy
      */
-    private $strategy = null;
+    private $zendFramework2Strategy = null;
+    /**
+     * @var CrudGenerator\View\Helpers\TemplateServiceContainerStrategies\PDOStrategy
+     */
+    private $pdo = null;
 
     /**
-     * @param StrategyInterface $strategy
+     * @param ZendFramework2Strategy $zendFramework2Strategy
+     * @param PDOStrategy $pdo
      */
-    public function __construct(StrategyInterface $strategy)
+    public function __construct(ZendFramework2Strategy $zendFramework2Strategy, PDOStrategy $pdo)
     {
-        $this->strategy = $strategy;
+        $this->zendFramework2Strategy = $zendFramework2Strategy;
+        $this->pdo = $pdo;
+    }
+
+    /**
+     * @param DataObject $dataObject
+     * @return Ambiguous
+     */
+    private function findStrategy(DataObject $dataObject)
+    {
+    	$metadata = $dataObject->getMetadata();
+
+    	if ($metadata instanceof MetadataDataObjectDoctrine2) {
+    		$strategy = $this->zendFramework2Strategy;
+    	} elseif ($metadata instanceof MetadataDataObjectPDO) {
+    		$strategy = $this->pdo;
+    	}
+
+    	return $strategy;
     }
 
     /**
      * @return string
      */
-    public function getFullClassForUnitTest()
+    public function getFullClassForUnitTest(DataObject $dataObject)
     {
-        return $this->strategy->getFullClassForUnitTest();
+    	return $this->findStrategy($dataObject)->getFullClassForUnitTest($dataObject);
     }
 
     /**
      * @return string
      */
-    public function getCreateInstanceForUnitTest()
+    public function getCreateInstanceForUnitTest(DataObject $dataObject)
     {
-        return $this->strategy->getCreateInstanceForUnitTest();
+    	return $this->findStrategy($dataObject)->getCreateInstanceForUnitTest($dataObject);
     }
 
     /**
      * @return string
      */
-    public function getFullClass()
+    public function getFullClass(DataObject $dataObject)
     {
-        return $this->strategy->getFullClass();
+    	return $this->findStrategy($dataObject)->getFullClass($dataObject);
     }
 
     /**
      * @return string
      */
-    public function getClassName()
+    public function getClassName(DataObject $dataObject)
     {
-        return $this->strategy->getClassName();
+    	return $this->findStrategy($dataObject)->getClassName($dataObject);
     }
 
     /**
      * @return string
      */
-    public function getVariableName()
+    public function getVariableName(DataObject $dataObject)
     {
-        return $this->strategy->getVariableName();
+    	return $this->findStrategy($dataObject)->getVariableName($dataObject);
     }
 
     /**
      * @return string
      */
-    public function getInjectionInDependencie()
+    public function getInjectionInDependencie(DataObject $dataObject)
     {
-        return $this->strategy->getInjectionInDependencie();
+    	return $this->findStrategy($dataObject)->getInjectionInDependencie($dataObject);
     }
 }

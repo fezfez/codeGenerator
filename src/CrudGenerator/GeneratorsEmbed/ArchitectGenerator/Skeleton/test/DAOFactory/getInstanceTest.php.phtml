@@ -4,7 +4,7 @@ namespace <?php echo $this->unitTestNamespace; ?>\DAOFactory;
 
 use <?php echo $this->architectGenerator->getNamespace(); ?>\<?php echo $this->daoName; ?>Factory;
 use <?php echo $this->daoNamespace; ?>;
-<?php echo $this->getHelper('TemplateServiceContainer')->getFullClassForUnitTest(); ?>
+<?php echo $this->getHelper('TemplateServiceContainer')->getFullClassForUnitTest($this->architectGenerator); ?>
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,7 +12,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(
             '<?php echo $this->daoNamespace; ?>',
-            <?php echo $this->daoName; ?>Factory::getInstance(<?php echo $this->getHelper('TemplateServiceContainer')->getCreateInstanceForUnitTest(); ?>)
+            <?php echo $this->daoName; ?>Factory::getInstance(<?php echo $this->getHelper('TemplateServiceContainer')->getCreateInstanceForUnitTest($this->architectGenerator); ?>)
         );
     }
 }

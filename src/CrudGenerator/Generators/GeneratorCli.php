@@ -18,23 +18,35 @@
 namespace CrudGenerator\Generators;
 
 use CrudGenerator\Generators\Strategies\StrategyInterface;
+use CrudGenerator\FileConflict\FileConflictManagerCli;
+use CrudGenerator\Utils\FileManager;
 
 /**
  * @author Stéphane Demonchaux
  */
-class Generator
+class GeneratorCli
 {
     /**
      * @var StrategyInterface
      */
     private $strategy = null;
+    /**
+     * @var FileConflictManagerCli
+     */
+    private $fileConflict = null;
+    /**
+     * @var FileManager
+     */
+    private $fileManager = null;
 
     /**
      * @param StrategyInterface $strategy
      */
-    public function __construct(StrategyInterface $strategy)
+    public function __construct(StrategyInterface $strategy, FileConflictManagerCli $fileConflict, FileManager $fileManager)
     {
         $this->strategy = $strategy;
+        $this->fileConflict = $fileConflict;
+        $this->fileManager = $fileManager;
     }
 
     /**
@@ -43,30 +55,26 @@ class Generator
      * @throws \Exception
      * @return string
      */
-    public function generate(GeneratorDataObject $generator, $fileName = null)
+    public function generate(GeneratorDataObject $generator)
     {
-        $files = $generator->getFiles();
-
-        if (null !== $fileName) {
-            if (!isset($files[$fileName])) {
-                throw new \Exception(sprintf('File "%s" does not exist', $fileName));
-            }
-
-            return $this->strategy->generateFile(
-                $generator->getTemplateVariables(),
-                $files[$fileName]['skeletonPath'],
-                $files[$fileName]['name'],
-                ''
-            );
-        }
+    	$files = $generator->getFiles();
 
         foreach ($files as $fileName => $file) {
-            $this->strategy->generateFile(
+            $result = $this->strategy->generateFile(
                 $generator->getTemplateVariables(),
                 $file[$fileName]['skeletonPath'],
                 $file[$fileName]['name'],
                 $file[$fileName]['fileName']
             );
+
+            if ($this->fileConflict->test($file[$fileName]['fileName'], $result)) {
+            	$this->fileConflict->handle($file[$fileName]['fileName'], $result);
+            } else {
+            	$this->fileManager->filePutsContent($file[$fileName]['fileName'], $result);
+            	$this->output->writeln('--> Create file ' . $file[$fileName]['fileName']);
+            }
         }
+
+        return $generationResult;
     }
 }

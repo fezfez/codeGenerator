@@ -6,7 +6,7 @@ use SebastianBergmann\Diff\Differ;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 
-class FileConflictManager
+class FileConflictManagerCli
 {
     /**
      * @var integer Post pone choise

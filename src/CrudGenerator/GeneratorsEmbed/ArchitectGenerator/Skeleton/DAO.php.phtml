@@ -1,12 +1,12 @@
 <?php
 echo '<?php' . "\n";
-$databaseConnectorClassName     = $this->getHelper('TemplateDatabaseConnector')->getClassName();
-$databaseConnectionVariableName = $this->getHelper('TemplateDatabaseConnector')->getVariableName();
+$databaseConnectorClassName     = $this->getHelper('TemplateDatabaseConnector')->getClassName($this->architectGenerator);
+$databaseConnectionVariableName = $this->getHelper('TemplateDatabaseConnector')->getVariableName($this->architectGenerator);
 
 ?>
 namespace <?php echo $this->architectGenerator->getNamespace(); ?>\DAO;
 
-use <?php echo $this->getHelper('TemplateDatabaseConnector')->getFullClass(); ?>;
+use <?php echo $this->getHelper('TemplateDatabaseConnector')->getFullClass($this->architectGenerator); ?>;
 use <?php echo $this->hydratorNamespace; ?>;
 use <?php echo $this->dtoNamespace; ?>;
 use <?php echo $this->dtoCollectionNamespace; ?>;
@@ -41,7 +41,7 @@ class <?php echo $this->daoName . "\n"; ?>
      */
     public function find(<?php echo $this->dataObjectName; ?> $<?php echo $this->modelName; ?>)
     {
-        <?php echo $this->getHelper('TemplateDatabaseConnector')->getQueryFindOneBy($this->dataObject) . "\n"; ?>
+        <?php echo $this->getHelper('TemplateDatabaseConnector')->getQueryFindOneBy($this->architectGenerator) . "\n"; ?>
 
         if(empty($result)) {
             throw new <?php echo $this->exceptionName; ?>('<?php echo $this->modelName; ?> not found');
@@ -58,7 +58,7 @@ class <?php echo $this->daoName . "\n"; ?>
      */
     public function findAll()
     {
-        <?php echo $this->getHelper('TemplateDatabaseConnector')->getQueryFindAll($this->dataObject) . "\n"; ?>
+        <?php echo $this->getHelper('TemplateDatabaseConnector')->getQueryFindAll($this->architectGenerator) . "\n"; ?>
 
         return $this->hydrator->entityCollectionToPopoCollection(
             $results,
@@ -75,14 +75,14 @@ class <?php echo $this->daoName . "\n"; ?>
     {
         $result = $this->hydrator->popoToEntity(
             $<?php echo $this->modelName; ?>,
-<?php if ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase() == 'entity'): ?>
+<?php if ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase($this->architectGenerator) == 'entity'): ?>
             new <?php echo $this->modelName; ?>()
-<?php elseif ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase() == 'array'): ?>
+<?php elseif ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase($this->architectGenerator) == 'array'): ?>
             array()
 <?php endif; ?>
         );
 
-        <?php echo $this->getHelper('TemplateDatabaseConnector')->getPersistQuery($this->dataObject) . "\n"; ?>
+        <?php echo $this->getHelper('TemplateDatabaseConnector')->getPersistQuery($this->architectGenerator) . "\n"; ?>
 
         return $this->hydrator->entityToPopo(
             $result,
@@ -96,7 +96,7 @@ class <?php echo $this->daoName . "\n"; ?>
      */
     public function modify(<?php echo $this->dataObjectName; ?> $<?php echo $this->modelName; ?>)
     {
-        <?php echo $this->getHelper('TemplateDatabaseConnector')->getQueryFindOneBy($this->dataObject) . "\n"; ?>
+        <?php echo $this->getHelper('TemplateDatabaseConnector')->getQueryFindOneBy($this->architectGenerator) . "\n"; ?>
 
         if(empty($result)) {
             throw new <?php echo $this->exceptionName; ?>('<?php echo $this->modelName; ?> not found');
@@ -107,7 +107,7 @@ class <?php echo $this->daoName . "\n"; ?>
             $result
         );
 
-        <?php echo $this->getHelper('TemplateDatabaseConnector')->getModifyQuery($this->dataObject) . "\n"; ?>
+        <?php echo $this->getHelper('TemplateDatabaseConnector')->getModifyQuery($this->architectGenerator) . "\n"; ?>
 
         return $this->hydrator->entityToPopo(
             $result,
@@ -121,12 +121,12 @@ class <?php echo $this->daoName . "\n"; ?>
      */
     public function remove(<?php echo $this->dataObjectName; ?> $<?php echo $this->modelName; ?>)
     {
-        <?php echo $this->getHelper('TemplateDatabaseConnector')->getQueryFindOneBy($this->dataObject) . "\n"; ?>
+        <?php echo $this->getHelper('TemplateDatabaseConnector')->getQueryFindOneBy($this->architectGenerator) . "\n"; ?>
 
         if(empty($result)) {
             throw new <?php echo $this->exceptionName; ?>('<?php echo $this->modelName; ?> not found');
         }
 
-        <?php echo $this->getHelper('TemplateDatabaseConnector')->getRemoveQuery($this->dataObject) . "\n"; ?>
+        <?php echo $this->getHelper('TemplateDatabaseConnector')->getRemoveQuery($this->architectGenerator) . "\n"; ?>
     }
 }

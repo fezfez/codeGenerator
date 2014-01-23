@@ -5,6 +5,10 @@ use CrudGenerator\Utils\FileManager;
 use SebastianBergmann\Diff\Differ;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
+use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\WebContext;
+use CrudGenerator\Context\CliContext;
+
 
 class FileConflictManagerFactory
 {
@@ -13,13 +17,20 @@ class FileConflictManagerFactory
      * @param DialogHelper $dialog
      * @return \CrudGenerator\FileConflict\FileConflictManager
      */
-    public static function getInstance(OutputInterface $output, DialogHelper $dialog)
+    public static function getInstance(ContextInterface $context)
     {
-        return new FileConflictManager(
-            $output,
-            $dialog,
-            new FileManager(),
-            new Differ()
-        );
+    	if ($context instanceof WebContext) {
+    		return new FileConflictManagerWeb(
+    			new FileManager(),
+    			new Differ()
+    		);
+    	} elseif ($context instanceof CliContext) {
+    		return new FileConflictManagerCli(
+    			$context->getOutput(),
+    			$context->getDialogHelper(),
+    			new FileManager(),
+    			new Differ()
+    		);
+    	}
     }
 }

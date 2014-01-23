@@ -21,9 +21,6 @@ use CrudGenerator\View\ViewHelperFactoryInterface;
 use CrudGenerator\DataObject;
 use CrudGenerator\View\Helpers\TemplateServiceContainerStrategies\PDOStrategy;
 use CrudGenerator\View\Helpers\TemplateServiceContainerStrategies\ZendFramework2Strategy;
-use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
-use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
-
 /**
  * @author stephane.demonchaux
  *
@@ -34,16 +31,8 @@ class TemplateServiceContainerFactory implements ViewHelperFactoryInterface
      * @param DataObject $dataObject
      * @return \CrudGenerator\View\Helpers\TemplateServiceContainer
      */
-    public static function getInstance(DataObject $dataObject)
+    public static function getInstance()
     {
-        $metadata = $dataObject->getMetadata();
-
-        if ($metadata instanceof MetadataDataObjectDoctrine2) {
-            $strategy = new ZendFramework2Strategy();
-        } elseif ($metadata instanceof MetadataDataObjectPDO) {
-            $strategy = new PDOStrategy();
-        }
-
-        return new TemplateServiceContainer($strategy);
+        return new TemplateServiceContainer(new ZendFramework2Strategy(), new PDOStrategy());
     }
 }

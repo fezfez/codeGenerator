@@ -1,0 +1,29 @@
+<div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">File conflict during generation</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-repeat="conflict in conflictList">
+                    <h3>Conflict in {{ conflict.fileName }}</h3>
+                    <select class="conflict_handle" name="handle_{{ conflict.fileName }}">
+                        <option>Selection action</option>
+                        <option value="postpone">Postpone</option>
+                        <option value="erase">Erase the old content</option>
+                    </select>
+                    <div ng-repeat="line in conflict.line">
+                        <span ng-if="line.type == 'add'" style="background-color:#f7c8c8;">{{ line.content }}></span>
+                        <span ng-if="line.type == 'delete'" style="background-color:#ceffce;">{{ line.content }}></span>
+                        <span ng-if="line.type == 'other'">{{ line.content }}></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="generate()">Resolve file conflict</button>
+           </div>
+        </div>
+    </div>
+</div>

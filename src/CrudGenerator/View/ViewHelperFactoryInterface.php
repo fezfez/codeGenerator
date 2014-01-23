@@ -24,5 +24,5 @@ use CrudGenerator\DataObject;
  */
 interface ViewHelperFactoryInterface
 {
-    public static function getInstance(DataObject $dataObject);
+    public static function getInstance();
 }

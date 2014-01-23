@@ -1,14 +1,14 @@
 <?php
 echo '<?php' . "\n";
-$databaseConnectorClassName     = $this->getHelper('TemplateDatabaseConnector', $this->architectGenerator)->getClassName();
-$databaseConnectionVariableName = $this->getHelper('TemplateDatabaseConnector', $this->architectGenerator)->getVariableName();
+$databaseConnectorClassName     = $this->getHelper('TemplateDatabaseConnector')->getClassName($this->architectGenerator);
+$databaseConnectionVariableName = $this->getHelper('TemplateDatabaseConnector')->getVariableName($this->architectGenerator);
 
 ?>
 namespace <?php echo $this->architectGenerator->getNamespace(); ?>\Hydrator;
 
 use <?php echo $this->dtoNamespace; ?>;
 use <?php echo $this->dtoCollectionNamespace; ?>;
-<?php if ($this->getHelper('TemplateDatabaseConnector', $this->architectGenerator)->getTypeReturnedByDatabase() == 'entity'): ?>
+<?php if ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase($this->architectGenerator) == 'entity'): ?>
 use <?php echo $this->architectGenerator->getEntity(); ?>;
 <?php endif; ?>
 
@@ -18,13 +18,13 @@ use <?php echo $this->architectGenerator->getEntity(); ?>;
 class <?php echo $this->hydratorName . "\n"; ?>
 {
     /**
-     * @param <?php echo $this->getHelper('TemplateDatabaseConnector', $this->architectGenerator)->getTypeReturnedByDatabase(); ?> $entity
+     * @param <?php echo $this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase($this->architectGenerator); ?> $entity
      * @param <?php echo $this->dataObjectName; ?> $<?php echo $this->modelName . "\n"; ?>
      * @return <?php echo $this->dataObjectName . "\n"; ?>
      */
-    public function entityToPopo(<?php echo $this->getHelper('TemplateDatabaseConnector', $this->architectGenerator)->getConcreteTypeReturnedByDatabase($this->architectGenerator); ?> $entity, <?php echo $this->modelName; ?>DataObject $<?php echo $this->modelName; ?>)
+    public function entityToPopo(<?php echo $this->getHelper('TemplateDatabaseConnector')->getConcreteTypeReturnedByDatabase($this->architectGenerator); ?> $entity, <?php echo $this->modelName; ?>DataObject $<?php echo $this->modelName; ?>)
     {
-        <?php if ($this->getHelper('TemplateDatabaseConnector', $this->architectGenerator)->getTypeReturnedByDatabase() == 'entity'): ?>
+        <?php if ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase($this->architectGenerator) == 'entity'): ?>
         $<?php echo $this->modelName; ?> = clone $<?php echo $this->modelName; ?>;
 
 <?php
@@ -57,13 +57,13 @@ foreach($columnCollection as $field => $metadata): ?>
      * @param <?php echo $this->modelName; ?> $entity
      * @return <?php echo $this->dataObjectName . "\n"; ?>
      */
-    public function popoToEntity(<?php echo $this->dataObjectName; ?> $<?php echo $this->modelName; ?>, <?php echo $this->getHelper('TemplateDatabaseConnector', $this->architectGenerator)->getConcreteTypeReturnedByDatabase($this->architectGenerator); ?> $entity)
+    public function popoToEntity(<?php echo $this->dataObjectName; ?> $<?php echo $this->modelName; ?>, <?php echo $this->getHelper('TemplateDatabaseConnector')->getConcreteTypeReturnedByDatabase($this->architectGenerator); ?> $entity)
     {
 <?php
 $columnCollection = $this->architectGenerator->getMetadata()->getColumnCollection();
 foreach($columnCollection as $field => $metadata): ?>
 <?php if($metadata == reset($columnCollection)) continue; ?>
-<?php if ($this->getHelper('TemplateDatabaseConnector', $this->architectGenerator)->getTypeReturnedByDatabase() == 'entity'): ?>
+<?php if ($this->getHelper('TemplateDatabaseConnector')->getTypeReturnedByDatabase($this->architectGenerator) == 'entity'): ?>
         $entity->set<?php echo $metadata->getName(true); ?>($<?php echo $this->modelName; ?>->get<?php echo $this->architectGenerator->getAttributeName($metadata->getName()); ?>());<?php echo "\n"; ?>
 <?php else: ?>
         $entity['<?php echo $metadata->getOrininalName(); ?>'] = $<?php echo $this->modelName; ?>->get<?php echo $this->architectGenerator->getAttributeName($metadata->getName()); ?>();<?php echo "\n"; ?>

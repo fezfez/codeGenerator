@@ -15,40 +15,9 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\View\Helpers\TemplateServiceContainerStrategies;
+namespace CrudGenerator\Generators;
 
-use CrudGenerator\DataObject;
-
-/**
- * @author stephane.demonchaux
- *
- */
-interface StrategyInterface
+class GeneratorWebConflictException extends \Exception
 {
-    /**
-     * @return string
-     */
-    public function getFullClass(DataObject $dataObject);
 
-    /**
-     * @return string
-     */
-    public function getFullClassForUnitTest(DataObject $dataObject);
-
-    /**
-     * @return string
-     */
-    public function getCreateInstanceForUnitTest(DataObject $dataObject);
-    /**
-     * @return string
-     */
-    public function getClassName(DataObject $dataObject);
-    /**
-     * @return string
-     */
-    public function getVariableName(DataObject $dataObject);
-    /**
-     * @return string
-     */
-    public function getInjectionInDependencie(DataObject $dataObject);
 }

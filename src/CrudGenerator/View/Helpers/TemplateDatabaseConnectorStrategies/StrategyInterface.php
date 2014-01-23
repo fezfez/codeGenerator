@@ -28,19 +28,19 @@ interface StrategyInterface
     /**
      * @return string
      */
-    public function getFullClass();
+    public function getFullClass(DataObject $dataObject);
     /**
      * @return string
      */
-    public function getClassName();
+    public function getClassName(DataObject $dataObject);
     /**
      * @return string
      */
-    public function getVariableName();
+    public function getVariableName(DataObject $dataObject);
     /**
      * @return string
      */
-    public function getCreateInstance();
+    public function getCreateInstance(DataObject $dataObject);
     /**
      * @param DataObject $dataobject
      * @return string
@@ -70,7 +70,7 @@ interface StrategyInterface
     /**
      * @return string
      */
-    public function getTypeReturnedByDatabase();
+    public function getTypeReturnedByDatabase(DataObject $dataObject);
     /**
      * @return string
      */

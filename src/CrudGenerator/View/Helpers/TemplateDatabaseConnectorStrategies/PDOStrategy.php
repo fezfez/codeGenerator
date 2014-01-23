@@ -28,7 +28,7 @@ class PDOStrategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getFullClass()
+    public function getFullClass(DataObject $dataObject)
     {
         return 'PDO';
     }
@@ -36,7 +36,7 @@ class PDOStrategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getClassName()
+    public function getClassName(DataObject $dataObject)
     {
         return 'PDO';
     }
@@ -44,7 +44,7 @@ class PDOStrategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getVariableName()
+    public function getVariableName(DataObject $dataObject)
     {
         return 'pdo';
     }
@@ -52,7 +52,7 @@ class PDOStrategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getCreateInstance()
+    public function getCreateInstance(DataObject $dataObject)
     {
         return 'new PDO();';
     }
@@ -68,7 +68,7 @@ class PDOStrategy implements StrategyInterface
             throw new No' . $dataObject->getMetadata()->getName(true) . 'Exception(\'' . $dataObject->getMetadata()->getName() .' with not found\');
         }
 
-        $query = $this->' . $this->getVariableName() . '->prepare("SELECT * FROM ' . $dataObject->getMetaData()->getOriginalName() .' WHERE id = " . $' . $dataObject->getMetadata()->getName() . '->getId());
+        $query = $this->' . $this->getVariableName($dataObject) . '->prepare("SELECT * FROM ' . $dataObject->getMetaData()->getOriginalName() .' WHERE id = " . $' . $dataObject->getMetadata()->getName() . '->getId());
         $query->execute();
         $result = $query->fetch();';
     }
@@ -79,7 +79,7 @@ class PDOStrategy implements StrategyInterface
      */
     public function getQueryFindAll(DataObject $dataObject)
     {
-        return '$query = $this->' . $this->getVariableName() . '->prepare("SELECT * FROM ' . $dataObject->getMetaData()->getOriginalName() .'");
+        return '$query = $this->' . $this->getVariableName($dataObject) . '->prepare("SELECT * FROM ' . $dataObject->getMetaData()->getOriginalName() .'");
         $query->execute();
         $results = $query->fetchAll();';
     }
@@ -123,7 +123,7 @@ class PDOStrategy implements StrategyInterface
         $result .= implode(', ' . "\n", $columnInArray) . "\n";
         $result .= "        ));\n\n";
 
-        $result .= '        $query = $this->' . $this->getVariableName() . '->prepare("SELECT * FROM ' . $dataObject->getMetaData()->getOriginalName() . ' WHERE id = " . $this->pdo->lastInsertId());' . "\n";
+        $result .= '        $query = $this->' . $this->getVariableName($dataObject) . '->prepare("SELECT * FROM ' . $dataObject->getMetaData()->getOriginalName() . ' WHERE id = " . $this->pdo->lastInsertId());' . "\n";
         $result .= '        $query->execute();' . "\n";
         $result .= '        $result = $query->fetch();' . "\n";
 
@@ -135,7 +135,7 @@ class PDOStrategy implements StrategyInterface
      */
     public function getPersistQuery(DataObject $dataObject)
     {
-        $result = '$query = $this->' . $this->getVariableName() . '->prepare("INSERT INTO ' . $dataObject->getMetaData()->getOriginalName();
+        $result = '$query = $this->' . $this->getVariableName($dataObject) . '->prepare("INSERT INTO ' . $dataObject->getMetaData()->getOriginalName();
 
         $columnName = array();
         $columnCollection = $dataObject->getMetadata()->getColumnCollection(true);
@@ -157,7 +157,7 @@ class PDOStrategy implements StrategyInterface
      */
     public function getRemoveQuery(DataObject $dataObject)
     {
-        return '$this->' . $this->getVariableName() . '->exec("DELETE FROM ' . $dataObject->getMetaData()->getOriginalName() . ' WHERE id = " . $' . $dataObject->getMetadata()->getName() . '->getId());';
+        return '$this->' . $this->getVariableName($dataObject) . '->exec("DELETE FROM ' . $dataObject->getMetaData()->getOriginalName() . ' WHERE id = " . $' . $dataObject->getMetadata()->getName() . '->getId());';
     }
 
     /**
@@ -171,7 +171,7 @@ class PDOStrategy implements StrategyInterface
     /* (non-PHPdoc)
      * @see CrudGenerator\View\Helpers\TemplateDatabaseConnectorStrategies.StrategyInterface::getTypeReturnedByDatabase()
      */
-    public function getTypeReturnedByDatabase()
+    public function getTypeReturnedByDatabase(DataObject $dataObject)
     {
         return 'array';
     }

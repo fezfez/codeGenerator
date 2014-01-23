@@ -69,12 +69,12 @@ class ViewRenderer
      * @throws ViewRendererException
      * @return unknown
      */
-    public function getHelper($name, $dto)
+    public function getHelper($name)
     {
         $name = $name . 'Factory';
         if (isset($this->helpers[$name])) {
             $className = $this->helpers[$name];
-            return $className::getInstance($dto);
+            return $className::getInstance();
         } else {
             throw new ViewRendererException(
                 'Helper ' . $name . ' does not exist'

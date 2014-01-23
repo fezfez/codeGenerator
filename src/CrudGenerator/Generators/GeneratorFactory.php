@@ -18,6 +18,11 @@
 namespace CrudGenerator\Generators;
 
 use CrudGenerator\Generators\Strategies\StrategyInterface;
+use CrudGenerator\FileConflict\FileConflictManagerFactory;
+use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\CliContext;
+use CrudGenerator\Context\WebContext;
+use CrudGenerator\Utils\FileManager;
 
 /**
  * @author Stéphane Demonchaux
@@ -28,8 +33,13 @@ class GeneratorFactory
 	 * @param StrategyInterface $strategy
 	 * @return \CrudGenerator\Generators\Generator
 	 */
-	public static function getInstance(StrategyInterface $strategy)
+	public static function getInstance(ContextInterface $context, StrategyInterface $strategy)
 	{
-		return new Generator($strategy);
+		$fileManager = new FileManager();
+		if ($context instanceof CliContext) {
+			return new GeneratorCli($strategy, FileConflictManagerFactory::getInstance($context), $fileManager);
+		} elseif ($context instanceof WebContext) {
+			return new GeneratorWeb($strategy, FileConflictManagerFactory::getInstance($context), $fileManager);
+		}
 	}
 }

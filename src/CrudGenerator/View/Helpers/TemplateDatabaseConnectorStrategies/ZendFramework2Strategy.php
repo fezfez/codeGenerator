@@ -28,7 +28,7 @@ class ZendFramework2Strategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getFullClass()
+    public function getFullClass(DataObject $dataObject)
     {
         return 'Doctrine\ORM\EntityManager';
     }
@@ -36,7 +36,7 @@ class ZendFramework2Strategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getClassName()
+    public function getClassName(DataObject $dataObject)
     {
         return 'EntityManager';
     }
@@ -44,7 +44,7 @@ class ZendFramework2Strategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getVariableName()
+    public function getVariableName(DataObject $dataObject)
     {
         return 'entityManager';
     }
@@ -52,7 +52,7 @@ class ZendFramework2Strategy implements StrategyInterface
     /**
      * @return string
      */
-    public function getCreateInstance()
+    public function getCreateInstance(DataObject $dataObject)
     {
         return '$serviceManager->get(\'doctrine.entitymanager.orm_default\');';
     }
@@ -116,7 +116,7 @@ class ZendFramework2Strategy implements StrategyInterface
     /* (non-PHPdoc)
      * @see CrudGenerator\View\Helpers\TemplateDatabaseConnectorStrategies.StrategyInterface::getTypeReturnedByDatabase()
      */
-    public function getTypeReturnedByDatabase()
+    public function getTypeReturnedByDatabase(DataObject $dataObject)
     {
         return 'entity';
     }

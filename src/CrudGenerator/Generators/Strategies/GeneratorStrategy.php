@@ -59,7 +59,7 @@ class GeneratorStrategy implements StrategyInterface
         View $view,
         OutputInterface $output,
         FileManager $fileManager,
-        FileConflictManager $fileConflictManager
+         $fileConflictManager
     ) {
         $this->view                = $view;
         $this->output              = $output;
@@ -72,18 +72,11 @@ class GeneratorStrategy implements StrategyInterface
      */
     public function generateFile(array $datas, $skeletonDir, $pathTemplate, $target)
     {
-        $results = $this->view->render(
+        return $this->view->render(
             $skeletonDir,
             $pathTemplate,
             $datas
         );
-
-        if (true === $this->fileConflictManager->test($target, $results)) {
-            $this->fileConflictManager->handle($target, $results);
-        } else {
-            $this->fileManager->filePutsContent($target, $results);
-            $this->output->writeln('--> Create file ' . $target);
-        }
     }
 
     /* (non-PHPdoc)

@@ -34,20 +34,8 @@ class TemplateDatabaseConnectorFactory implements ViewHelperFactoryInterface
      * @param DataObject $dataObject
      * @return \CrudGenerator\View\Helpers\TemplateDataBaseConnector
      */
-    public static function getInstance(DataObject $dataObject)
+    public static function getInstance()
     {
-        $metadata = $dataObject->getMetadata();
-
-        if(empty($metadata)) {
-        	throw new \InvalidArgumentException("Empty metadata");
-        } elseif ($metadata instanceof MetadataDataObjectDoctrine2) {
-            $strategy = new ZendFramework2Strategy();
-        } elseif ($metadata instanceof MetadataDataObjectPDO) {
-            $strategy = new PDOStrategy();
-        } else {
-        	throw new \InvalidArgumentException("Is not supported '" . get_class($metadata) . "'");
-        }
-
-        return new TemplateDatabaseConnector($strategy);
+        return new TemplateDatabaseConnector(new ZendFramework2Strategy(), new PDOStrategy());
     }
 }
