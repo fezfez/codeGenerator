@@ -13,6 +13,7 @@ use CrudGenerator\Generators\Strategies\ViewFileStategyFactory;
 use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 use CrudGenerator\Context\WebContext;
 use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Generators\GeneratorWebConflictException;
 
 $app->match('/', function() use ($app) {
     return $app['twig']->render('index.html.twig');
@@ -97,28 +98,39 @@ $app->match('view-file', function (Request $request) use ($app) {
 
 $app->match('generate', function (Request $request) use ($app) {
 
-	parse_str($request->request->get('questions'), $questionArray);
-	$metadataSource = $request->request->get('backend');
-	$metadata       = $request->request->get('metadata');
-	$file           = $request->request->get('file');
-	$context        = new WebContext($app);
+    parse_str($request->request->get('questions'), $questionArray);
+    parse_str($request->request->get('conflict'), $conflictArray);
+    $metadataSource = $request->request->get('backend');
+    $metadata       = $request->request->get('metadata');
+    $file           = $request->request->get('file');
+    $context        = new WebContext($app);
 
-	$generatorParser        = GeneratorParserFactory::getInstance($context);
-	$matadataSourceFinder   = MetaDataSourcesQuestionFactory::getInstance($context);
-	$metadataFinder         = MetaDataQuestionFactory::getInstance($context);
-	$generatorStrategy      = ViewFileStategyFactory::getInstance($context);
-	$generatorEngine        = GeneratorFactory::getInstance($generatorStrategy);
+    $generatorParser        = GeneratorParserFactory::getInstance($context);
+    $matadataSourceFinder   = MetaDataSourcesQuestionFactory::getInstance($context);
+    $metadataFinder         = MetaDataQuestionFactory::getInstance($context);
+    $generatorStrategy      = GeneratorStrategyFactory::getInstance($context);
+    $generatorEngine        = GeneratorFactory::getInstance($context, $generatorStrategy);
 
-	$metadataSourceSelect   = $matadataSourceFinder->ask($metadataSource);
-	$metaData               = $metadataFinder->ask($metadataSourceSelect, $metadata);
+    $metadataSourceSelect   = $matadataSourceFinder->ask($metadataSource);
+    $metaData               = $metadataFinder->ask($metadataSourceSelect, $metadata);
 
-	$generator = new GeneratorDataObject();
-	$generator->setName($request->request->get('generator'));
+    $generator = new GeneratorDataObject();
+    $generator->setName($request->request->get('generator'));
 
-	$generator    = $generatorParser->init($generator, $metaData, $questionArray);
-	$fileGenerate = $generatorEngine->generate($generator, $file);
+    $generator    = $generatorParser->init($generator, $metaData, $questionArray);
 
-	return $app->json(array('generator' => $fileGenerate), 201);
+    try {
+        if(!empty($conflictArray)) {
+            $generator = $generatorEngine->handleConflict($generator, $conflictArray);
+        }
+        $generationLog = $generatorEngine->generate($generator);
+        $toReturn = array('generationLog' => $generationLog);
+    } catch (\CrudGenerator\Generators\GeneratorWebConflictException $e) {
+        $conflict = $generatorEngine->checkConflict($generator, $conflictArray);
+        $toReturn = array('conflict' => $conflict);
+    }
+
+    return $app->json($toReturn, 201);
 });
 
 $app->match('metadata-save', function (Request $request) use ($app) {

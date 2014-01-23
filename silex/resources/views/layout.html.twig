@@ -36,6 +36,7 @@
 		            </select>
             	</div>
             	<metadata></metadata>
+            	<button ng-if="questionsList != undefined" ng-click="generate()">Generate</button>
             </form>
         </div><!--/.nav-collapse -->
       </div>
@@ -57,6 +58,7 @@
     <!-- Modal -->
 	<modal></modal>
 	<waitModal></waitModal>
+	<conflict></conflict>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/App.js"></script>
@@ -66,6 +68,7 @@
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Corp/Directory/DirectoryBuilder.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Corp/Directory/DirectoryBuilderFactory.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Services/GeneratorService.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Services/GenerateService.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Services/ViewFileService.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Services/WaitModalService.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Controllers/GeneratorController.js"></script>
@@ -74,6 +77,7 @@
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Directives/Metadata.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Directives/Questions.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Directives/Modal.js"></script>
+    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Directives/Conflict.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Vendor/bootstrap.min.js"></script>
     <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Vendor/shCore.js"></script>
 	<script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Vendor/shBrushPhp.js"></script>
