@@ -63,7 +63,7 @@ class ZendFramework2Strategy implements StrategyInterface
      */
     public function getQueryFindOneBy(DataObject $dataObject)
     {
-        return '$result = $this->' . $this->getVariableName() . '->getRepository(\'' . $dataObject->getEntity() .
+        return '$result = $this->' . $this->getVariableName($dataObject) . '->getRepository(\'' . $dataObject->getEntity() .
                 '\')->findOneBy(array("id" => $' . $dataObject->getEntityName() . '->getId()));';
     }
 
@@ -73,7 +73,7 @@ class ZendFramework2Strategy implements StrategyInterface
      */
     public function getQueryFindAll(DataObject $dataObject)
     {
-        return '$results = $this->' . $this->getVariableName() . '->getRepository(\'' . $dataObject->getEntity() . '\')->findAll();';
+        return '$results = $this->' . $this->getVariableName($dataObject) . '->getRepository(\'' . $dataObject->getEntity() . '\')->findAll();';
     }
 
     /**
@@ -81,8 +81,8 @@ class ZendFramework2Strategy implements StrategyInterface
      */
     public function getModifyQuery(DataObject $dataObject)
     {
-        return '$this->' . $this->getVariableName() . '->persist($result);
-        $this->' . $this->getVariableName() . '->flush();';
+        return '$this->' . $this->getVariableName($dataObject) . '->persist($result);
+        $this->' . $this->getVariableName($dataObject) . '->flush();';
     }
 
     /**
@@ -90,8 +90,8 @@ class ZendFramework2Strategy implements StrategyInterface
      */
     public function getPersistQuery(DataObject $dataObject)
     {
-        return '$this->' . $this->getVariableName() . '->persist($result);
-        $this->' . $this->getVariableName() . '->flush();';
+        return '$this->' . $this->getVariableName($dataObject) . '->persist($result);
+        $this->' . $this->getVariableName($dataObject) . '->flush();';
     }
 
     /**
@@ -99,8 +99,8 @@ class ZendFramework2Strategy implements StrategyInterface
      */
     public function getRemoveQuery(DataObject $dataObject)
     {
-        return '$this->' . $this->getVariableName() . '->remove($result);
-        $this->' . $this->getVariableName() . '->flush();';
+        return '$this->' . $this->getVariableName($dataObject) . '->remove($result);
+        $this->' . $this->getVariableName($dataObject) . '->flush();';
     }
 
     /**
@@ -109,7 +109,7 @@ class ZendFramework2Strategy implements StrategyInterface
     public function getPurgeQueryForUnitTest(DataObject $dataObject)
     {
         return '
-        $query = $this->' . $this->getVariableName() . '->createQuery(\'DELETE ' . $dataObject->getEntity() . ' e\');
+        $query = $this->' . $this->getVariableName($dataObject) . '->createQuery(\'DELETE ' . $dataObject->getEntity() . ' e\');
         $query->execute();';
     }
 

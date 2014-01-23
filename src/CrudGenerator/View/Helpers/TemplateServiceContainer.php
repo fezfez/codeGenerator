@@ -62,6 +62,8 @@ class TemplateServiceContainer implements StrategyInterface
     		$strategy = $this->zendFramework2Strategy;
     	} elseif ($metadata instanceof MetadataDataObjectPDO) {
     		$strategy = $this->pdo;
+    	} else {
+    		throw new \InvalidArgumentException('Metadata "' . get_class($metadata) . '" not supported');
     	}
 
     	return $strategy;

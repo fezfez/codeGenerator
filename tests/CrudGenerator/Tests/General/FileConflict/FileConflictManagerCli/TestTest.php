@@ -1,7 +1,7 @@
 <?php
 namespace CrudGenerator\Tests\General\FileConflict\FileConflictManager;
 
-use CrudGenerator\FileConflict\FileConflictManager;
+use CrudGenerator\FileConflict\FileConflictManagerCli;
 
 class TestTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,7 +31,7 @@ class TestTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new FileConflictManager($ConsoleOutputStub, $dialog, $fileManager, $diffPHP);
+        $sUT = new FileConflictManagerCli($ConsoleOutputStub, $dialog, $fileManager, $diffPHP);
 
         $this->assertEquals(
             true,

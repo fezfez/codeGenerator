@@ -17,7 +17,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
             $methodName = $method->name;
             $this->assertInternalType(
                 'string',
-                $sUT->$methodName()
+                $sUT->$methodName($dataObject)
             );
         }
     }

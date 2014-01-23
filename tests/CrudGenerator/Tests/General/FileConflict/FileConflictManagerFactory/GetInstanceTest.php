@@ -2,6 +2,7 @@
 namespace CrudGenerator\Tests\General\FileConflict\FileConflictManagerFactory;
 
 use CrudGenerator\FileConflict\FileConflictManagerFactory;
+use CrudGenerator\Context\CliContext;
 
 class getInstanceTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,9 +16,11 @@ class getInstanceTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
+        $context = new CliContext($dialog, $ConsoleOutputStub);
+
         $this->assertInstanceOf(
-            'CrudGenerator\FileConflict\FileConflictManager',
-            FileConflictManagerFactory::getInstance($ConsoleOutputStub, $dialog)
+            'CrudGenerator\FileConflict\FileConflictManagerCli',
+            FileConflictManagerFactory::getInstance($context)
         );
     }
 }

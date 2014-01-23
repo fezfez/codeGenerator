@@ -38,17 +38,17 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInternalType(
             'string',
-            $sUT->getClassName()
+            $sUT->getClassName($crudDataObject)
         );
 
         $this->assertInternalType(
             'string',
-            $sUT->getCreateInstance()
+            $sUT->getCreateInstance($crudDataObject)
         );
 
         $this->assertInternalType(
             'string',
-            $sUT->getFullClass()
+            $sUT->getFullClass($crudDataObject)
         );
 
         $this->assertInternalType(
@@ -78,7 +78,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInternalType(
             'string',
-            $sUT->getVariableName()
+            $sUT->getVariableName($crudDataObject)
         );
 
         $this->assertInternalType(
@@ -88,7 +88,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInternalType(
             'string',
-            $sUT->getTypeReturnedByDatabase()
+            $sUT->getTypeReturnedByDatabase($crudDataObject)
         );
 
         $this->assertInternalType(

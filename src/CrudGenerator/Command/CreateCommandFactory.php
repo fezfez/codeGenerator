@@ -46,7 +46,7 @@ class CreateCommandFactory
         $generatorQuestion       = GeneratorQuestionFactory::getInstance($context, null, $strategy);
         $parser                  = GeneratorParserFactory::getInstance($context);
         $generatorStrategy       = GeneratorStrategyFactory::getInstance($context);
-        $generator               = GeneratorFactory::getInstance($generatorStrategy);
+        $generator               = GeneratorFactory::getInstance($context, $generatorStrategy);
 
         return new CreateCommand(
             $parser,

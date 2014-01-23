@@ -46,7 +46,7 @@ class ZendFramework2Strategy implements StrategyInterface
      */
     public function getCreateInstanceForUnitTest(DataObject $dataObject)
     {
-        return '$' . $this->getVariableName() . ' = Bootstrap::getServiceManager();' . "\n";
+        return '$' . $this->getVariableName($dataObject) . ' = Bootstrap::getServiceManager();' . "\n";
     }
 
     /**
@@ -71,7 +71,7 @@ class ZendFramework2Strategy implements StrategyInterface
      */
     public function getInjectionInDependencie(DataObject $dataObject)
     {
-        return $this->getClassName() . ' $' . $this->getVariableName();
+        return $this->getClassName($dataObject) . ' $' . $this->getVariableName($dataObject);
     }
 
 }

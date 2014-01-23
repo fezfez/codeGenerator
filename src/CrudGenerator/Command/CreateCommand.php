@@ -22,7 +22,7 @@ use CrudGenerator\Generators\Questions\Cli\MetaDataSourcesQuestion;
 use CrudGenerator\Generators\Questions\Cli\MetaDataQuestion;
 use CrudGenerator\Generators\Questions\Cli\GeneratorQuestion;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Generator;
+use CrudGenerator\Generators\GeneratorCli;
 use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\DataObject;
 use Symfony\Component\Console\Command\Command;
@@ -42,7 +42,7 @@ class CreateCommand extends Command
      */
     private $parser = null;
     /**
-     * @var Generator
+     * @var GeneratorCli
      */
     private $generator = null;
     /**
@@ -76,7 +76,7 @@ class CreateCommand extends Command
      */
     public function __construct(
         GeneratorParser $parser,
-    	Generator $generator,
+    	GeneratorCli $generator,
         HistoryManager $historyManager,
         MetaDataSourcesQuestion $metaDataSourcesQuestion,
         MetaDataQuestion $metaDataQuestion,

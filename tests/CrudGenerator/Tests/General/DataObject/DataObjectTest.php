@@ -16,8 +16,7 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
         );
 
         $dataObject = new Architect();
-        $dataObject->setDirectory('dir')
-                   ->setEntity('my\entity')
+        $dataObject->setEntity('my\entity')
                    ->setGenerator('generator')
                    ->setMetadata($metaData)
                    ->setModule('module')
@@ -26,11 +25,6 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(
             'CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO',
             $dataObject->getMetadata()
-        );
-
-        $this->assertEquals(
-            'dir',
-            $dataObject->getDirectory()
         );
 
         $this->assertEquals(

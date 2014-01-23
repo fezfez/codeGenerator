@@ -16,17 +16,10 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
         $sUT = new ZendFramework2Strategy;
         foreach ($methods as $method) {
             $methodName = $method->name;
-            if(0 === $method->getNumberOfParameters()) {
-                $this->assertInternalType(
-                    'string',
-                    $sUT->$methodName()
-                );
-            } else {
-                $this->assertInternalType(
-                    'string',
-                    $sUT->$methodName($dataObject)
-                );
-            }
+            $this->assertInternalType(
+                'string',
+                $sUT->$methodName($dataObject)
+            );
         }
     }
 }
