@@ -30,13 +30,14 @@
         </div>
         <div class="collapse navbar-collapse">
         	<form class="navbar-form navbar-right" role="form" id="formBackend">
+        	    <generators></generators>
+        	    <metadata></metadata>
         		<div class="form-group">
 		            <select name="backend" id="form_Backend" class="form-control" ng-model="backEnd" ng-change="backendChange()" ng-options="obj.id as obj.label for obj in backendList">
 		            <option value="">Select Backend</option>
 		            </select>
             	</div>
-            	<metadata></metadata>
-            	<button ng-if="questionsList != undefined" ng-click="generate()">Generate</button>
+            	<button class="btn btn-success dropdown-toggle" ng-if="questionsList != undefined" ng-click="generate()">Generate files !</button>
             </form>
         </div><!--/.nav-collapse -->
       </div>
@@ -50,7 +51,6 @@
 				</file-tree>
             </div>
             <div class="col-md-3" id="div-questions">
-                <generators></generators>
                 <questions></questions>
             </div>
 

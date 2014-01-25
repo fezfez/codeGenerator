@@ -1,7 +1,7 @@
 <?php
-namespace CrudGenerator\Tests\General\FileConflict\FileConflictManagerFactory;
+namespace CrudGenerator\Tests\General\Generators\GeneratorFactory;
 
-use CrudGenerator\FileConflict\FileConflictManagerFactory;
+use CrudGenerator\Generators\GeneratorFactory;
 use CrudGenerator\Context\CliContext;
 use CrudGenerator\Context\WebContext;
 
@@ -19,9 +19,13 @@ class getInstanceTest extends \PHPUnit_Framework_TestCase
 
         $context = new CliContext($dialog, $ConsoleOutputStub);
 
+        $stategy = $this->getMockBuilder('CrudGenerator\Generators\Strategies\GeneratorStrategy')
+        ->disableOriginalConstructor()
+        ->getMock();
+
         $this->assertInstanceOf(
-            'CrudGenerator\FileConflict\FileConflictManagerCli',
-            FileConflictManagerFactory::getInstance($context)
+            'CrudGenerator\Generators\GeneratorCli',
+            GeneratorFactory::getInstance($context, $stategy)
         );
     }
 
@@ -33,9 +37,13 @@ class getInstanceTest extends \PHPUnit_Framework_TestCase
 
     	$context = new WebContext($web);
 
+    	$stategy = $this->getMockBuilder('CrudGenerator\Generators\Strategies\GeneratorStrategy')
+    	->disableOriginalConstructor()
+    	->getMock();
+
     	$this->assertInstanceOf(
-    		'CrudGenerator\FileConflict\FileConflictManagerWeb',
-    		FileConflictManagerFactory::getInstance($context)
+    		'CrudGenerator\Generators\GeneratorWeb',
+    		GeneratorFactory::getInstance($context, $stategy)
     	);
     }
 }

@@ -3,28 +3,9 @@ namespace CrudGenerator\FileConflict;
 
 use CrudGenerator\Utils\FileManager;
 use SebastianBergmann\Diff\Differ;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
 
 class FileConflictManagerWeb
 {
-    /**
-     * @var integer Post pone choise
-     */
-    const POSTPONE = 0;
-    /**
-     * @var integer Show diff choise
-     */
-    const SHOW_DIFF = 1;
-    /**
-     * @var integer Erase choise
-     */
-    const ERASE = 2;
-    /**
-     * @var integer Cancel choise
-     */
-    const CANCEL = 3;
-
     /**
      * @var FileManager File Manager
      */
@@ -56,6 +37,11 @@ class FileConflictManagerWeb
                         && $this->fileManager->fileGetContent($filePath) !== $newResult);
     }
 
+    /**
+     * @param string $filePath
+     * @param string $results
+     * @return string
+     */
     public function handle($filePath, $results)
     {
     	return $this->diffPHP->diff($results, $this->fileManager->fileGetContent($filePath));
