@@ -10,7 +10,8 @@
 	"keywords" : [
 		"crud",
 		"zf2",
-		"code generator"
+		"code generator",
+		"SOLID principles"
 	],
 	"homepage" : "https://github.com/fezfez/crudGenerator",
 	"license" : "MIT",
