@@ -38,7 +38,7 @@ class GeneratorFactory
         $fileManager = new FileManager();
 
         if ($context instanceof CliContext) {
-            return new GeneratorCli($strategy, FileConflictManagerFactory::getInstance($context), $fileManager);
+            return new GeneratorCli($strategy, FileConflictManagerFactory::getInstance($context), $fileManager, $context);
         } elseif ($context instanceof WebContext) {
             return new GeneratorWeb($strategy, FileConflictManagerFactory::getInstance($context), $fileManager);
         } else {

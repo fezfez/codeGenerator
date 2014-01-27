@@ -110,7 +110,6 @@ class GeneratorWeb
         $files = $generator->getFiles();
 
         $generationResult = array();
-        $isConfliInFile = false;
         foreach ($files as $fileName => $fileInfos) {
             $generationResult[$fileName]['result'] = $this->strategy->generateFile(
                 $generator->getTemplateVariables(),
@@ -121,7 +120,7 @@ class GeneratorWeb
 
             $isConfliInFile = $this->fileConflict->test($files[$fileName]['fileName'], $generationResult[$fileName]['result']);
 
-            if (isset($responseToHandle['handle_' . str_replace('.', '_', $fileName)])) {
+            if (true === $isConfliInFile && isset($responseToHandle['handle_' . str_replace('.', '_', $fileName)])) {
                 if ($responseToHandle['handle_' . str_replace('.', '_', $fileName)] === 'postpone') {
 
                     $generator->addFile(
@@ -139,14 +138,7 @@ class GeneratorWeb
                     ->deleteFile($fileName);
                 } elseif ($responseToHandle['handle_' . str_replace('.', '_', $fileName)] === 'erase') {
                     $file = $files[$fileName];
-                    $generator->deleteFile($fileName)
-                              ->addFile(
-                                      $file['skeletonPath'],
-                                      $file['name'],
-                                      $file['value'],
-                                      $generationResult[$fileName]['result']
-                              );
-                    $this->fileManager->filePutsContent($filePath, $results);
+                    $this->fileManager->unlink($file['skeletonPath'] . $files[$fileName]['fileName']);
                 }
             }
         }

@@ -5,9 +5,9 @@ use CrudGenerator\Generators\GeneratorWeb;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Context\CliContext;
 
-class CheckConflictTest extends \PHPUnit_Framework_TestCase
+class HandleConflictTest extends \PHPUnit_Framework_TestCase
 {
-    public function testConflict()
+    public function testConflictWithPostPone()
     {
         $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
         ->disableOriginalConstructor()
@@ -49,64 +49,54 @@ class CheckConflictTest extends \PHPUnit_Framework_TestCase
 
         $generator->addFile('test', 'myName', 'MyValue');
 
-    	$this->assertEquals(
-    		array(
-    			'MyValue' => array(
-    				'isConflict' => true,
-					'result' => 'myGeneratedFile',
-    				'diff' => 'MyDiff'
-    			)
-    		),
-    		$sUt->handleConflict($generator)
-    	);
+        $responseHandle = array('handle_MyValue' => 'postpone');
+
+    	$sUt->handleConflict($generator, $responseHandle);
     }
 
-    public function testOk()
+    public function testWithErase()
     {
-    	$ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$context = new CliContext($dialog, $ConsoleOutputStub);
+        $context = new CliContext($dialog, $ConsoleOutputStub);
 
-    	$stategy = $this->getMockBuilder('CrudGenerator\Generators\Strategies\GeneratorStrategy')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $stategy = $this->getMockBuilder('CrudGenerator\Generators\Strategies\GeneratorStrategy')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$stategy->expects($this->once())
-    	->method('generateFile')
-    	->will($this->returnValue('myGeneratedFile'));
+        $stategy->expects($this->once())
+        ->method('generateFile')
+        ->will($this->returnValue('myGeneratedFile'));
 
-    	$fileConflict = $this->getMockBuilder('CrudGenerator\FileConflict\FileConflictManagerWeb')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $fileConflict = $this->getMockBuilder('CrudGenerator\FileConflict\FileConflictManagerWeb')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$fileConflict->expects($this->once())
-    	->method('test')
-    	->will($this->returnValue(false));
+        $fileConflict->expects($this->once())
+        ->method('test')
+        ->will($this->returnValue(true));
 
-    	$fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $fileConflict->expects($this->never())
+        ->method('handle');
 
-    	$sUt = new GeneratorWeb($stategy, $fileConflict, $fileManager);
+        $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$generator = new GeneratorDataObject();
+        $sUt = new GeneratorWeb($stategy, $fileConflict, $fileManager);
 
-    	$generator->addFile('test', 'myName', 'MyValue');
+        $generator = new GeneratorDataObject();
 
-    	$this->assertEquals(
-    		array(
-    			'MyValue' => array(
-    				'isConflict' => false,
-					'result' => 'myGeneratedFile'
-    			)
-    		),
-    		$sUt->checkConflict($generator)
-    	);
+        $generator->addFile('test', 'myName', 'MyValue');
+
+        $responseHandle = array('handle_MyValue' => 'erase');
+
+    	$sUt->handleConflict($generator, $responseHandle);
     }
 }
