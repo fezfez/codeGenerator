@@ -7,7 +7,7 @@ php:
 before_script:
   - composer self-update
   - composer install --dev
-  - composer require satooshi/php-coveralls:dev-master --dev
+  - composer require satooshi/php-coveralls:v0.6.1 --dev
   - psql -c 'DROP DATABASE IF EXISTS code_generator;' -U postgres
   - psql -c 'create database code_generator; ' -U postgres
   - psql -U postgres -d code_generator -a -f ./tests/pg-table.sql
