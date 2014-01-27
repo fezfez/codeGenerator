@@ -24,6 +24,7 @@ use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
 use CrudGenerator\Generators\Questions\Web\DirectoryQuestion;
 use CrudGenerator\Context\WebContext;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
+use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 
 class QuestionParser implements ParserInterface
 {
@@ -61,9 +62,15 @@ class QuestionParser implements ParserInterface
              $generator = $this->directoryQuestion->ask($generator);
          }
 
-        foreach ($process['questions'] as $question) {
-            $generator = $this->evaluateQuestions($question, $parser, $generator, $questions, $firstIteration);
-        }
+         if (isset($process['questions'])) {
+	        foreach ($process['questions'] as $question) {
+	        	if (!is_array($question)) {
+					throw new MalformedGeneratorException('Questions excepts to be an array "' . gettype($question) . "' given");
+	        	}
+
+	            $generator = $this->evaluateQuestions($question, $parser, $generator, $questions, $firstIteration);
+	        }
+         }
 
         return $generator;
     }

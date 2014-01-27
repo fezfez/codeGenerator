@@ -23,6 +23,7 @@ use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
+use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 
 class TemplateVariableParser implements ParserInterface
 {
@@ -56,6 +57,9 @@ class TemplateVariableParser implements ParserInterface
     {
     	if (isset($process['templateVariables'])) {
 	        foreach ($process['templateVariables'] as $variables) {
+	        	if (!is_array($variables)) {
+	        		throw new MalformedGeneratorException('Variable excepts to be an array "' . gettype($variables) . "' given");
+	        	}
 				$this->evaluateVariable($variables, $parser, $generator, $questions, $firstIteration);
 	        }
     	}

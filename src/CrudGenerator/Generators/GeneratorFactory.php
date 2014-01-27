@@ -29,17 +29,20 @@ use CrudGenerator\Utils\FileManager;
  */
 class GeneratorFactory
 {
-	/**
-	 * @param StrategyInterface $strategy
-	 * @return \CrudGenerator\Generators\Generator
-	 */
-	public static function getInstance(ContextInterface $context, StrategyInterface $strategy)
-	{
-		$fileManager = new FileManager();
-		if ($context instanceof CliContext) {
-			return new GeneratorCli($strategy, FileConflictManagerFactory::getInstance($context), $fileManager);
-		} elseif ($context instanceof WebContext) {
-			return new GeneratorWeb($strategy, FileConflictManagerFactory::getInstance($context), $fileManager);
-		}
-	}
+    /**
+     * @param StrategyInterface $strategy
+     * @return \CrudGenerator\Generators\Generator
+     */
+    public static function getInstance(ContextInterface $context, StrategyInterface $strategy)
+    {
+        $fileManager = new FileManager();
+
+        if ($context instanceof CliContext) {
+            return new GeneratorCli($strategy, FileConflictManagerFactory::getInstance($context), $fileManager);
+        } elseif ($context instanceof WebContext) {
+            return new GeneratorWeb($strategy, FileConflictManagerFactory::getInstance($context), $fileManager);
+        } else {
+            throw new \InvalidArgumentException('Context "' . get_class($context) . '" not supported');
+        }
+    }
 }

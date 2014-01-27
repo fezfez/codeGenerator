@@ -112,7 +112,7 @@ class GeneratorParser
     private function analyse($name, PhpStringParser $phpParser, GeneratorDataObject $generator, array $questions, MetaData $metadata, $firstIteration = false)
     {
         $generatorFilePath = $this->generatorFinder->findByName($name);
-        $process           = Yaml::parse(file_get_contents($generatorFilePath), true);
+        $process           = Yaml::parse($this->fileManager->fileGetContent($generatorFilePath), true);
 
         $dto = new $process['dto']();
         $dto->setMetadata($metadata);

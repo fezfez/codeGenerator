@@ -23,6 +23,7 @@ use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
+use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 
 class FileParser implements ParserInterface
 {
@@ -56,7 +57,15 @@ class FileParser implements ParserInterface
     {
         $skeletonPath = dirname($generator->getPath()) . '/Skeleton/';
 
+        if (!isset($process['filesList'])) {
+			throw new MalformedGeneratorException('No file given');
+        }
+
         foreach ($process['filesList'] as $files) {
+        	if (!is_array($files)) {
+        		throw new MalformedGeneratorException('File excepts to be an array "' . gettype($files) . "' given");
+        	}
+
             $this->evaluateFile($files, $parser, $generator, $questions, $firstIteration, $skeletonPath);
         }
 

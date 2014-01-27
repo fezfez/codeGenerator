@@ -156,10 +156,9 @@ class GeneratorWeb
 
     /**
      * @param GeneratorDataObject $generator
-     * @param array $responseToHandle
      * @return array
      */
-    public function checkConflict(GeneratorDataObject $generator, array $responseToHandle)
+    public function checkConflict(GeneratorDataObject $generator)
     {
         $files = $generator->getFiles();
 

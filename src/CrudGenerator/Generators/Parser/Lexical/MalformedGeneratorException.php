@@ -17,27 +17,6 @@
  */
 namespace CrudGenerator\Generators\Parser\Lexical;
 
-use CrudGenerator\Utils\PhpStringParser;
-use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
-
-class DirectoriesParser implements ParserInterface
+class MalformedGeneratorException extends \Exception
 {
-   /* (non-PHPdoc)
-    * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
-    */
-   public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
-   {
-   	    if (isset($process['directories'])) {
-	        foreach ($process['directories'] as $directory) {
-	        	if (!is_string($directory)) {
-	        		throw new MalformedGeneratorException('Directory excepts to be an string "' . gettype($directory) . "' given");
-	        	}
-
-	            $generator->addDirectories($directory, $parser->parse($directory));
-	        }
-   	    }
-
-        return $generator;
-   }
 }
