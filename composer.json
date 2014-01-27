@@ -29,7 +29,8 @@
 		"symfony/twig-bridge" : "~2.5",
 		"symfony/validator" : "~2.5",
 		"symfony/yaml" : "~2.5",
-		"sebastian/diff" : "1.1.0"
+		"sebastian/diff" : "1.1.0",
+		"psr/log" : "1.0.0 as 1.0.x-dev"
 	},
 	"require-dev" : {
 		"zendframework/zendframework" : "2.2.5",
