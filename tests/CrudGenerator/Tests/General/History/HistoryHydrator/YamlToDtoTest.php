@@ -57,7 +57,7 @@ class YampToDtoTest extends \PHPUnit_Framework_TestCase
 metaDataSource: " . $metaDataSource . "
 metaData: " . $metaDataName . "
 Generators:
-    CrudGenerator\Generators\CrudGenerator\Crud:
+    CrudGenerator\GeneratorsEmbed\CrudGenerator\Crud:
         options:
             AttributeName:
                 id: Id

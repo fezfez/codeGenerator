@@ -21,8 +21,6 @@ use CrudGenerator\DataObject;
 
 class Form extends DataObject
 {
-    protected $generator      = 'CrudGenerator\Generators\FormGenerator\FormGenerator';
-
     /**
      * @var string Target directory
      */
@@ -34,7 +32,7 @@ class Form extends DataObject
     /**
      * @var array
      */
-    protected $attributesDisplayName = array();
+    private $attributesDisplayName = array();
 
     /**
      * @param string $attribute
@@ -95,14 +93,6 @@ class Form extends DataObject
     public function getNamespace()
     {
         return $this->namespace;
-    }
-    /**
-     * Get namespace path
-     * @return string
-     */
-    public function getNamespacePath()
-    {
-        return str_replace('\\', '/', $this->namespace);
     }
 
     public function getFormPath()

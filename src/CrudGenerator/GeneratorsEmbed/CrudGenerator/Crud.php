@@ -15,16 +15,12 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\CrudGenerator;
+namespace CrudGenerator\GeneratorsEmbed\CrudGenerator;
 
 use CrudGenerator\DataObject;
 
 class Crud extends DataObject
 {
-    /**
-     * @var string
-     */
-    protected $generator      = 'CrudGenerator\Generators\CrudGenerator\CrudGenerator';
     /**
      * @var boolean
      */
@@ -57,7 +53,7 @@ class Crud extends DataObject
     /**
      * @param string $attribute
      * @param string $name
-     * @return \CrudGenerator\Generators\CrudGenerator\Crud
+     * @return \CrudGenerator\GeneratorsEmbed\CrudGenerator\Crud
      */
     public function setAttributeName($attribute, $name)
     {
@@ -66,7 +62,7 @@ class Crud extends DataObject
     }
     /**
      * @param boolean $value
-     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
+     * @return \CrudGenerator\GeneratorsEmbed\CrudGenerator\Crud
      */
     public function setWriteAction($value)
     {
@@ -75,7 +71,7 @@ class Crud extends DataObject
     }
     /**
      * @param string $value
-     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
+     * @return \CrudGenerator\GeneratorsEmbed\CrudGenerator\Crud
      */
     public function setDisplayName($value)
     {
@@ -84,7 +80,7 @@ class Crud extends DataObject
     }
     /**
      * @param string $value
-     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
+     * @return \CrudGenerator\GeneratorsEmbed\CrudGenerator\Crud
      */
     public function setPrefixRouteName($value)
     {
@@ -93,7 +89,7 @@ class Crud extends DataObject
     }
     /**
      * @param string $value
-     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
+     * @return \CrudGenerator\GeneratorsEmbed\CrudGenerator\Crud
      */
     public function setDisplayNames($value)
     {
@@ -102,7 +98,7 @@ class Crud extends DataObject
     }
     /**
      * @param string $value
-     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
+     * @return \CrudGenerator\GeneratorsEmbed\CrudGenerator\Crud
      */
     public function setControllerName($value)
     {

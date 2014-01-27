@@ -1,8 +1,9 @@
 <?php
-namespace CrudGenerator\Tests\General\GeneratorsEmbed\ArchitectGenerator\MetadataToArray;
+namespace CrudGenerator\Tests\General\GeneratorsEmbed\ArchitectGenerator\MetadataToArrayCli;
 
 use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
-use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArray;
+use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArrayCli;
+use CrudGenerator\Generators\GeneratorDataObject;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,11 +37,14 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->method('writeln')
         ->will($this->returnValue(''));
 
-        $sUT = new MetadataToArray($stubDialog, $stubOutput);
+        $sUT = new MetadataToArrayCli($stubDialog, $stubOutput);
 
-        $DTO = $sUT->ask($DTO);
+        $generator = new GeneratorDataObject();
+        $generator->setDTO($DTO);
 
-        $DTO->getAttributeName();
+        $DTO = $sUT->ask($generator);
+
+        $generator->getDTO()->getAttributeName();
     }
 
     private function getMetadata()

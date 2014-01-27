@@ -17,7 +17,7 @@ questions :
         defaultResponse : <?php ucfirst($architectGenerator->getMetadata()->getName()); ?>
     - 
         type : complex
-        factory : CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArrayWebFactory
+        factory : CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArrayFactory
 directories :
     - <?php $basePath; ?>/DAO/
     - <?php $basePath; ?>/Hydrator/

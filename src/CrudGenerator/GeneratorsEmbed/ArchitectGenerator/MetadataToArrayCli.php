@@ -17,23 +17,44 @@
  */
 namespace CrudGenerator\GeneratorsEmbed\ArchitectGenerator;
 
-use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 use CrudGenerator\Generators\GeneratorDataObject;
+use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class MetadataToArrayWeb
+class MetadataToArrayCli
 {
     /**
-     * @param GeneratorDataObject $generator
-     * @return GeneratorDataObject
+     * @var DialogHelper
+     */
+    private $dialog = null;
+    /**
+     * @var OutputInterface
+     */
+    private $output = null;
+
+    /**
+     * @param DialogHelper $dialog
+     * @param OutputInterface $output
+     */
+    public function __construct(DialogHelper $dialog, OutputInterface $output)
+    {
+        $this->dialog = $dialog;
+        $this->output = $output;
+    }
+
+    /**
+     * @param Architect $DTO
+     * @return Architect
      */
     public function ask(GeneratorDataObject $generator)
     {
         foreach ($generator->getDTO()->getMetadata()->getColumnCollection() as $column) {
-            $generator->addQuestion(
-                array(
-                    'dtoAttribute'    => 'setAttributeName[' . $column->getName() . ']',
-                    'text'            => 'Attribute name for "' . $column->getName() . '"',
-                    'defaultResponse' => (null === $generator->getDTO()->getAttributeName($column->getName())) ? $column->getName() : $generator->getDTO()->getAttributeName($column->getName())
+            $generator->getDTO()->setAttributeName(
+                $column->getName(),
+                $this->dialog->ask(
+                    $this->output,
+                    '<question>Attribute name for "' . $column->getName() . '"</question> ',
+                    $column->getName()
                 )
             );
         }

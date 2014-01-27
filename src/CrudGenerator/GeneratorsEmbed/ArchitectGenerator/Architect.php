@@ -46,7 +46,7 @@ class Architect extends DataObject
     /**
      * @param string $attribute
      * @param string $name
-     * @return \CrudGenerator\Generators\CrudGenerator\Crud
+     * @return \CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect
      */
     public function setAttributeName($attribute, $name)
     {
@@ -75,7 +75,7 @@ class Architect extends DataObject
 
     /**
      * @param string $value
-     * @return \CrudGenerator\Generators\ArchitectGenerator\Artchitect
+     * @return \CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect
      */
     public function setGenerateUnitTest($value)
     {
@@ -86,7 +86,7 @@ class Architect extends DataObject
     /**
      * Set Namespace
      * @param string $value
-     * @return \CrudGenerator\DataObject
+     * @return \CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect
      */
     public function setNamespace($value)
     {
@@ -105,7 +105,7 @@ class Architect extends DataObject
     /**
      * Set ModelName
      * @param string $value
-     * @return \CrudGenerator\DataObject
+     * @return \CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect
      */
     public function setModelName($value)
     {

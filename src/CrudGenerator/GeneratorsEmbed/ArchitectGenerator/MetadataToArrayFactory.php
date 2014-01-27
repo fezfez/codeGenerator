@@ -17,10 +17,24 @@
  */
 namespace CrudGenerator\GeneratorsEmbed\ArchitectGenerator;
 
-class MetadataToArrayWebFactory
+use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\CliContext;
+use CrudGenerator\Context\WebContext;
+
+class MetadataToArrayFactory
 {
-    public static function getInstance()
+    /**
+     * @param ContextInterface $context
+     * @return \CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArrayWeb|\CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArray
+     */
+    public static function getInstance(ContextInterface $context)
     {
-    	return new MetadataToArrayWeb();
+        if ($context instanceof WebContext) {
+            return new MetadataToArrayWeb();
+        } elseif ($context instanceof CliContext) {
+            return new MetadataToArrayCli($context->getDialogHelper(), $context->getOutput());
+        } else {
+            throw new \InvalidArgumentException('Invalid context');
+        }
     }
 }

@@ -3,6 +3,7 @@ namespace CrudGenerator\Tests\General\Generators\Questions\MetaDataQuestion;
 
 use CrudGenerator\Generators\Questions\MetaDataQuestionFactory;
 use CrudGenerator\Context\CliContext;
+use CrudGenerator\Context\WebContext;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,4 +24,17 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
             MetaDataQuestionFactory::getInstance($context)
         );
     }
+
+    /*public function testInstanceWeb()
+    {
+    	$app =  $this->getMockBuilder('Silex\Application')
+    	->disableOriginalConstructor()
+    	->getMock();
+    	$context = new WebContext($app);
+
+    	$this->assertInstanceOf(
+    		'CrudGenerator\Generators\Questions\Web\MetaDataQuestion',
+    		MetaDataQuestionFactory::getInstance($context)
+    	);
+    }*/
 }

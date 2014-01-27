@@ -23,33 +23,27 @@ use CrudGenerator\Generators\Parser\GeneratorParser;
 
 class DependencyCondition
 {
-    public function evaluate(array $environnementNode, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
+    /**
+     * @param array $dependencyNode
+     * @param PhpStringParser $parser
+     * @param GeneratorDataObject $generator
+     * @param array $questions
+     * @param boolean $firstIteration
+     * @return array
+     */
+    public function evaluate(array $dependencyNode, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
     {
         $matches = array();
 
-        foreach ($environnementNode as $environements) {
-             foreach ($environements as $environment => $environmentTemplates) {
-                 foreach ($environmentTemplates as $environmentTemplateName => $environmentTragetFile) {
-                     if ($environment[0] === GeneratorParser::DIFFERENT) {
-                        if (!in_array(substr($environment, 1), $generator->getDependencies())) {
-                            if (is_array($environmentTragetFile) && array_diff_key($environmentTragetFile,array_keys(array_keys($environmentTragetFile)))) {
-                                $matches[] = $environmentTragetFile;
-                            } else {
-                                foreach ($environmentTragetFile as $key => $file) {
-                                    $matches[] = array($key => $file);
-                                }
-                            }
-                        }
-                     } else {
-                         if (in_array($environment, $generator->getDependencies())) {
-                             if (is_array($environmentTragetFile) && array_diff_key($environmentTragetFile,array_keys(array_keys($environmentTragetFile)))) {
-                                 $matches[] = $environmentTragetFile;
-                             } else {
-                                foreach ($environmentTragetFile as $key => $file) {
-                                    $matches[$key] = array($key => $file);
-                                }
-                             }
-                         }
+        foreach ($dependencyNode as $dependencyNodes) {
+             foreach ($dependencyNodes as $dependencyName => $dependencyList) {
+                 if (substr($dependencyName, 0, 1) === GeneratorParser::DIFFERENT && !in_array(substr($dependencyName, 1), $generator->getDependencies())) {
+                     foreach ($dependencyList as $key => $dependency) {
+                         $matches[] = $dependency;
+                     }
+                 } elseif (in_array($dependencyName, $generator->getDependencies())) {
+                     foreach ($dependencyList as $key => $dependency) {
+                         $matches[] = $dependency;
                      }
                  }
              }
