@@ -55,36 +55,49 @@ class GeneratorWeb
      * @throws \Exception
      * @return string
      */
-    public function generate(GeneratorDataObject $generator)
+    public function generate(GeneratorDataObject $generator, $fileName = null)
     {
     	$files = $generator->getFiles();
-        $generationResult = array();
-        $isConflictInGeneration = false;
-        $isConfliInFile = false;
-        foreach ($files as $fileName => $fileInfos) {
-            if (isset($files[$fileName]['result'])) {
-                $generationResult[$fileName] = $files[$fileName]['result'];
-            } else {
-                $generationResult[$fileName] = $this->strategy->generateFile(
-                    $generator->getTemplateVariables(),
-                    $files[$fileName]['skeletonPath'],
-                    $files[$fileName]['name'],
-                    $files[$fileName]['fileName']
-                );
 
-                $isConfliInFile = $this->fileConflict->test($files[$fileName]['fileName'], $generationResult[$fileName]);
-                if (true === $isConfliInFile) {
-                    throw new GeneratorWebConflictException('Conflict in "' . $files[$fileName]['fileName'] . '" file');
-                }
-            }
-        }
+    	if (null !== $fileName) {
+    		if (!isset($files[$fileName])) {
+    			throw new \InvalidArgumentException('File does not exist');
+    		}
+    		return $this->strategy->generateFile(
+    			$generator->getTemplateVariables(),
+    			$files[$fileName]['skeletonPath'],
+    			$files[$fileName]['name'],
+    			$files[$fileName]['fileName']
+    		);
+    	} else {
+	        $generationResult = array();
+	        $isConflictInGeneration = false;
+	        $isConfliInFile = false;
+	        foreach ($files as $fileName => $fileInfos) {
+	            if (isset($files[$fileName]['result'])) {
+	                $generationResult[$fileName] = $files[$fileName]['result'];
+	            } else {
+	                $generationResult[$fileName] = $this->strategy->generateFile(
+	                    $generator->getTemplateVariables(),
+	                    $files[$fileName]['skeletonPath'],
+	                    $files[$fileName]['name'],
+	                    $files[$fileName]['fileName']
+	                );
 
-        $log = '';
-        foreach ($generationResult as $fileName => $result) {
-            $log .= $this->fileManager->filePutsContent($fileName, $result);
-        }
+	                $isConfliInFile = $this->fileConflict->test($files[$fileName]['fileName'], $generationResult[$fileName]);
+	                if (true === $isConfliInFile) {
+	                    throw new GeneratorWebConflictException('Conflict in "' . $files[$fileName]['fileName'] . '" file');
+	                }
+	            }
+	        }
 
-        return $log;
+	        $log = '';
+	        foreach ($generationResult as $fileName => $result) {
+	            $log .= $this->fileManager->filePutsContent($fileName, $result);
+	        }
+
+	        return $log;
+    	}
     }
 
     /**

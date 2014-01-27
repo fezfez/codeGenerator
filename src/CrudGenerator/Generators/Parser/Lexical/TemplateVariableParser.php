@@ -21,6 +21,8 @@ use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
+use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
+use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 
 class TemplateVariableParser implements ParserInterface
 {
@@ -28,13 +30,23 @@ class TemplateVariableParser implements ParserInterface
      * @var FileManager
      */
     private $fileManager = null;
+    /**
+     * @var EnvironnementCondition
+     */
+    private $environnementCondition = null;
+    /**
+     * @var DependencyCondition
+     */
+    private $dependencyCondition = null;
 
     /**
      * @param FileManager $fileManager
      */
-    public function __construct(FileManager $fileManager)
+    public function __construct(FileManager $fileManager, EnvironnementCondition $environnementCondition, DependencyCondition $dependencyCondition)
     {
-        $this->fileManager = $fileManager;
+        $this->fileManager            = $fileManager;
+        $this->environnementCondition = $environnementCondition;
+        $this->dependencyCondition    = $dependencyCondition;
     }
 
     /* (non-PHPdoc)
@@ -42,49 +54,43 @@ class TemplateVariableParser implements ParserInterface
      */
     public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
     {
-        foreach ($process['templateVariables'] as $variables) {
-            foreach ($variables as $varName => $value) {
-                if($varName === GeneratorParser::ENVIRONNEMENT_CONDITION) {
-                    $generator =  $this->evaluateEnvironnementCondition($value, $parser, $generator);
-                } else {
-                    $variableValue = $parser->parse($value);
-                    $parser->addVariable($varName, $variableValue);
-                    $generator->addTemplateVariable($varName, $variableValue);
-                }
-            }
-        }
+    	if (isset($process['templateVariables'])) {
+	        foreach ($process['templateVariables'] as $variables) {
+				$this->evaluateVariable($variables, $parser, $generator, $questions, $firstIteration);
+	        }
+    	}
 
         return $generator;
     }
 
     /**
-     * @param array $environnementNode
+     * @param array $variables
      * @param PhpStringParser $parser
-     * @param Generator $generator
-     * @return Generator
+     * @param GeneratorDataObject $generator
+     * @param array $questions
+     * @param unknown $firstIteration
+     * @return GeneratorDataObject
      */
-    private function evaluateEnvironnementCondition(array $environnementNode, PhpStringParser $parser, GeneratorDataObject $generator)
+    private function evaluateVariable(array $variables, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
     {
-        foreach ($environnementNode as $environements) {
-            foreach ($environements as $environment => $environmentVariables) {
-                foreach ($environmentVariables as $environmentVariable => $environmentVariablesValue) {
-                    if ($environment === 'zf2') {
-                        try {
-                            \CrudGenerator\EnvironnementResolver\ZendFramework2Environnement::getDependence($this->fileManager);
-                            $variableValue = $parser->parse($environmentVariablesValue);
-                            $parser->addVariable($environmentVariable, $variableValue);
-                            $generator->addTemplateVariable($environmentVariable, $variableValue);
-                        } catch (\CrudGenerator\EnvironnementResolver\EnvironnementResolverException $e) {
-                        }
-                    } elseif ($environment === GeneratorParser::CONDITION_ELSE) {
-                        $variableValue = $parser->parse($environmentVariablesValue);
-                        $parser->addVariable($environmentVariable, $variableValue);
-                        $generator->addTemplateVariable($environmentVariable, $variableValue);
-                    }
-                }
-            }
-        }
+    	foreach ($variables as $varName => $value) {
+    		if ($varName === GeneratorParser::DEPENDENCY_CONDITION) {
+    			$matches = $this->dependencyCondition->evaluate($value, $parser, $generator, $questions, $firstIteration);
+    			foreach ($matches as $matchesDependency) {
+    				$generator = $this->evaluateVariable($matchesDependency, $parser, $generator, $questions, $firstIteration);
+    			}
+    		} elseif ($varName === GeneratorParser::ENVIRONNEMENT_CONDITION) {
+    			$matches = $this->environnementCondition->evaluate($value, $parser, $generator, $questions, $firstIteration);
+    		    foreach ($matches as $matchesEnvironnement) {
+    				$generator = $this->evaluateVariable($matchesEnvironnement, $parser, $generator, $questions, $firstIteration);
+    			}
+    		} else {
+    			$variableValue = $parser->parse($value);
+    			$parser->addVariable($varName, $variableValue);
+    			$generator->addTemplateVariable($varName, $variableValue);
+    		}
+    	}
 
-        return $generator;
+    	return $generator;
     }
 }

@@ -55,6 +55,10 @@ class GeneratorDataObject implements \JsonSerializable
      * @var array
      */
     private $templateVariable = array();
+    /**
+     * @var array
+     */
+    private $dependecies = array();
 
     /**
      * @param DataObject $name
@@ -91,6 +95,15 @@ class GeneratorDataObject implements \JsonSerializable
     {
         $this->questions[] = $question;
         return $this;
+    }
+    /**
+     * @param string $name
+     * @return \CrudGenerator\Generators\Generator
+     */
+    public function addDependency($value)
+    {
+    	$this->dependecies[] = $value;
+    	return $this;
     }
     /**
      * @param string $skeletonPath
@@ -179,6 +192,13 @@ class GeneratorDataObject implements \JsonSerializable
     public function getTemplateVariables()
     {
         return $this->templateVariable;
+    }
+    /**
+     * @return array
+     */
+    public function getDependencies()
+    {
+    	return $this->dependecies;
     }
 
     /**

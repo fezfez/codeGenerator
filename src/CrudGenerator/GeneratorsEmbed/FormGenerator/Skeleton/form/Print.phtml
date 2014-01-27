@@ -3,7 +3,7 @@ $this->form->prepare();
 
 echo $this->form->openTag() . PHP_EOL;
 
-<?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
+<?php foreach($this->formGenerator->getMetadata()->getColumnCollection() as $field => $metadata): ?>
 echo $this->formRow($this->form->get('<?php echo $metadata->getName(); ?>')) . PHP_EOL;
 <?php endforeach; ?>
 echo $this->formInput($this->form->get('submit')) . PHP_EOL;

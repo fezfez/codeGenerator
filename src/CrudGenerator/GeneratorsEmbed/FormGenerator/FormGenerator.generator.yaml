@@ -1,36 +1,35 @@
 name : FormGenerator
 definition : Generate Form
-dto : CrudGenerator\Generators\FormGenerator\Form
+dto : CrudGenerator\GeneratorsEmbed\FormGenerator\Form
 questions : 
-    - 
-        dtoAttribute : DisplayName
-        text : Display name (in view, title etc..)
-        defaultResponse : <?php $modelName; ?>
-    - 
-        dtoAttribute : DisplayNames
-        text : Display name au plurielle (in view, title etc..)
-        defaultResponse : <?php $modelName; ?>s
-    - 
-        dtoAttribute : ControllerName
-        text : Controller name (ucFirst and without "Controller")
-        defaultResponse : <?php $ucFirstModelName; ?>
-    - 
-        dtoAttribute : PrefixRouteName
-        text : Prefix route name (lower case)
-        defaultResponse : !uncamelcase($modelName)!
+    - dependencyCondition :
+        - !ArchitectGenerator :
+            - 
+                dtoAttribute : Namespace
+                text : Choose a target namespace
+            - 
+                dtoAttribute : ModelName
+                text : Choose a model name
+                defaultResponse : <?php ucfirst($architectGenerator->getMetadata()->getName()); ?>
+            - 
+                type : complex
+                factory : CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArrayWebFactory
 directories :
-    - <?php $crudGenerator->findControllerPath(); ?>
-    - <?php $crudGenerator->findViewPath(); ?>
+    - <?php $formGenerator->getFormPath(); ?>
+    
 templateVariables : 
-    - homeRoute              : <?php $crudGenerator->getPrefixRouteName(); ?>
-    - newRoute               : <?php $homeRoute; ?>-new
-    - showRoute              : <?php $homeRoute; ?>-show
-    - editRoute              : <?php $homeRoute; ?>-edit
-    - deleteRoute            : <?php $homeRoute; ?>-delete
+    - dependencyCondition :
+        - !ArchitectGenerator :
+            - ucFirstModelName         : <?php ucfirst($formGenerator->getModelName()); ?>
+            - dataObjectName           : <?php $ucFirstModelName; ?>DataObject
+            - dtoNamespace             : <?php $formGenerator->getNamespace(); ?>\Form\<?php $dataObjectName; ?>
+    
 filesList :
-    - /controller.php.phtml : <?php $crudGenerator->findControllerPath() . $crudGenerator->getControllerName(); ?>Controller.php
-    - /views/index.phtml    : <?php $crudGenerator->findViewPath(); ?>index.phtml
-    - /views/show.phtml     : <?php $crudGenerator->findViewPath(); ?>show.phtml
-    - /views/new.phtml      : <?php $crudGenerator->findViewPath(); ?>new.phtml
-    - /views/edit.phtml     : <?php $crudGenerator->findViewPath(); ?>edit.phtml
-    - /views/edit-js.phtml  : <?php $crudGenerator->findViewPath(); ?>edit-js.phtml
+    - /form/FormFactory.phtml  : <?php $formGenerator->getFormPath() . $formGenerator->getModelName(); ?>FormFactory.php
+    - /form/AbstractForm.phtml : <?php $formGenerator->getFormPath() . 'Abstract' . $formGenerator->getModelName(); ?>Form.php
+    - /form/Form.phtml         : <?php $formGenerator->getFormPath() . $formGenerator->getModelName(); ?>Form.php
+    - /form/FormFilter.phtml   : <?php $formGenerator->getFormPath() . $formGenerator->getModelName(); ?>FormFilter.php
+    - /form/Print.phtml        : <?php $formGenerator->getFormPath(); ?>FormPrint.phtml
+    - dependencyCondition :
+        - !ArchitectGenerator :
+            - /form/DataObject.phtml        : <?php $formGenerator->getFormPath(); ?>DataObject.phtml

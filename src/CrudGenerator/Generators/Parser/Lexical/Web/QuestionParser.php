@@ -23,49 +23,80 @@ use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
 use CrudGenerator\Generators\Questions\Web\DirectoryQuestion;
 use CrudGenerator\Context\WebContext;
+use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 
 class QuestionParser implements ParserInterface
 {
-	/**
-	 * @var WebContext
-	 */
-	private $webContext = null;
+    /**
+     * @var WebContext
+     */
+    private $webContext = null;
+    /**
+     * @var DirectoryQuestion
+     */
+    private $directoryQuestion = null;
+    /**
+     * @var DependencyCondition
+     */
+    private $dependencyCondition = null;
 
-	/**
-	 * @param WebContext $webContext
-	 * @param DirectoryQuestion $directoryQuestion
-	 */
-	public function __construct(WebContext $webContext, DirectoryQuestion $directoryQuestion)
-	{
-		$this->webContext        = $webContext;
-		$this->directoryQuestion = $directoryQuestion;
-	}
-
-   /* (non-PHPdoc)
-    * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
-    */
-    public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
+    /**
+     * @param WebContext $webContext
+     * @param DirectoryQuestion $directoryQuestion
+     * @param DependencyCondition $dependencyCondition
+     */
+    public function __construct(WebContext $webContext, DirectoryQuestion $directoryQuestion, DependencyCondition $dependencyCondition)
     {
-	    if (true === $firstIteration) {
-	    	$generator = $this->directoryQuestion->ask($generator);
-	    }
+        $this->webContext          = $webContext;
+        $this->directoryQuestion   = $directoryQuestion;
+        $this->dependencyCondition = $dependencyCondition;
+    }
 
-      foreach ($process['questions'] as $question) {
-         if (isset($question['type']) && $question['type'] === GeneratorParser::COMPLEX_QUESTION) {
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
+     */
+     public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
+     {
+         if (true === $firstIteration) {
+             $generator = $this->directoryQuestion->ask($generator);
+         }
+
+        foreach ($process['questions'] as $question) {
+            $generator = $this->evaluateQuestions($question, $parser, $generator, $questions, $firstIteration);
+        }
+
+        return $generator;
+    }
+
+    /**
+     * @param array $question
+     * @param PhpStringParser $parser
+     * @param GeneratorDataObject $generator
+     * @param array $questions
+     * @param unknown $firstIteration
+     * @return GeneratorDataObject
+     */
+    private function evaluateQuestions(array $question, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
+    {
+        if(isset($question[GeneratorParser::DEPENDENCY_CONDITION])) {
+            $matches = $this->dependencyCondition->evaluate($question[GeneratorParser::DEPENDENCY_CONDITION], $parser, $generator, $questions, $firstIteration);
+            foreach ($matches as $questionsMatchs) {
+	            $generator = $this->evaluateQuestions($questionsMatchs, $parser, $generator, $questions, $firstIteration);
+            }
+        } elseif (isset($question['type']) && $question['type'] === GeneratorParser::COMPLEX_QUESTION) {
             $complex = $question['factory']::getInstance($this->webContext);
             $generator = $complex->ask($generator);
-         } else {
+        } else {
             $generator->addQuestion(
-                  array(
-                        'dtoAttribute'    => 'set' . ucfirst($question['dtoAttribute']),
-                        'text'            => $question['text'],
-                        'value'           => (isset($questions['set' . ucfirst($question['dtoAttribute'])])) ? $questions['set' . ucfirst($question['dtoAttribute'])] : '',
-                        'defaultResponse' => (isset($question['defaultResponse']) && $parser->issetVariable($question['defaultResponse'])) ? $parser->parse($question['defaultResponse']) : ''
-                  )
+                array(
+                    'dtoAttribute'    => 'set' . ucfirst($question['dtoAttribute']),
+                    'text'            => $question['text'],
+                    'value'           => (isset($questions['set' . ucfirst($question['dtoAttribute'])])) ? $questions['set' . ucfirst($question['dtoAttribute'])] : '',
+                    'defaultResponse' => (isset($question['defaultResponse']) && $parser->issetVariable($question['defaultResponse'])) ? $parser->parse($question['defaultResponse']) : ''
+                )
             );
-         }
-      }
+        }
 
-      return $generator;
-   }
+        return $generator;
+    }
 }

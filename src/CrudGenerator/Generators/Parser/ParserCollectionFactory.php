@@ -27,6 +27,8 @@ use CrudGenerator\Generators\Parser\Lexical\TemplateVariableParser;
 use CrudGenerator\Generators\Parser\Lexical\Cli\AskQuestionParser;
 use CrudGenerator\Generators\Parser\Lexical\Web\QuestionParser;
 use CrudGenerator\Generators\Parser\Lexical\Web\QuestionResponseParser;
+use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
+use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
 use CrudGenerator\Generators\Questions\DirectoryQuestionFactory;
 
 class ParserCollectionFactory
@@ -37,13 +39,15 @@ class ParserCollectionFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-        $fileManager       = new FileManager();
-        $collection        = new ParserCollection();
-        $directoryQuestion = DirectoryQuestionFactory::getInstance($context);
+        $fileManager           = new FileManager();
+        $collection            = new ParserCollection();
+        $environnemetCondition = new EnvironnementCondition($fileManager);
+        $dependencyCondition   = new DependencyCondition();
+        $directoryQuestion     = DirectoryQuestionFactory::getInstance($context);
 
         if ($context instanceof WebContext) {
             $collection->addPreParse(new QuestionResponseParser())
-                       ->addPostParse(new QuestionParser($context, $directoryQuestion));
+                       ->addPostParse(new QuestionParser($context, $directoryQuestion, $dependencyCondition));
         } elseif ($context instanceof CliContext) {
             $collection->addPreParse(
                 new AskQuestionParser($context, $directoryQuestion)
@@ -52,9 +56,9 @@ class ParserCollectionFactory
             throw new \InvalidArgumentException("Context not allowed");
         }
 
-        $collection->addPostParse(new TemplateVariableParser($fileManager))
+        $collection->addPostParse(new TemplateVariableParser($fileManager, $environnemetCondition, $dependencyCondition))
                    ->addPostParse(new DirectoriesParser())
-                   ->addPostParse(new FileParser($fileManager));
+                   ->addPostParse(new FileParser($fileManager, $dependencyCondition, $environnemetCondition));
 
         return $collection;
     }

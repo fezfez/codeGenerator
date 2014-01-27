@@ -1,16 +1,16 @@
 <?php echo '<?php' . "\n"; ?>
-namespace <?php echo $this->dataObject->getNamespace(); ?>\Form;
+namespace <?php echo $this->formGenerator->getNamespace(); ?>\Form;
 
-use <?php echo $this->dataObject->getNamespace(); ?>\DataObject\<?php echo $this->dataObject->getEntityName(); ?>DataObject;
-use <?php echo $this->dataObject->getNamespace(); ?>\Form\<?php echo $this->dataObject->getEntityName(); ?>Form;
+use <?php echo $this->dtoNamespace; ?>;
+use <?php echo $this->formGenerator->getNamespace(); ?>\Form\<?php echo $this->formGenerator->getEntityName(); ?>Form;
 use Zend\Stdlib\Hydrator\ClassMethods;
 use Zend\Form\View\Helper\Form;
 use Zend\Mvc\Router\Http\TreeRouteStack;
 
-class Abstract<?php echo $this->dataObject->getEntityName(); ?>Form
+class Abstract<?php echo $this->formGenerator->getEntityName(); ?>Form
 {
     /**
-     * @var <?php echo $this->dataObject->getEntityName(); ?>Form
+     * @var <?php echo $this->formGenerator->getEntityName(); ?>Form
      */
     private $form       = null;
     /**
@@ -27,13 +27,13 @@ class Abstract<?php echo $this->dataObject->getEntityName(); ?>Form
     private $router     = null;
 
     /**
-     * @param <?php echo $this->dataObject->getEntityName(); ?>Form $form
+     * @param <?php echo $this->formGenerator->getEntityName(); ?>Form $form
      * @param ClassMethods $hydrator
      * @param Form $formHelper
      * @param TreeRouteStack $router
      */
     public function __construct(
-        <?php echo $this->dataObject->getEntityName(); ?>Form $form,
+        <?php echo $this->formGenerator->getEntityName(); ?>Form $form,
         ClassMethods $hydrator,
         Form $formHelper,
         TreeRouteStack $router
@@ -55,7 +55,7 @@ class Abstract<?php echo $this->dataObject->getEntityName(); ?>Form
     }
 
     /**
-     * @return <?php echo $this->dataObject->getEntityName(); ?>Form
+     * @return <?php echo $this->formGenerator->getEntityName(); ?>Form
      */
     public function get($value)
     {
@@ -80,10 +80,10 @@ class Abstract<?php echo $this->dataObject->getEntityName(); ?>Form
     }
 
     /**
-     * @param <?php echo $this->dataObject->getEntityName(); ?>DataObject $value
+     * @param <?php echo $this->formGenerator->getEntityName(); ?>DataObject $value
      * @return void
      */
-    public function populate(<?php echo $this->dataObject->getEntityName(); ?>DataObject $value)
+    public function populate(<?php echo $this->formGenerator->getEntityName(); ?>DataObject $value)
     {
         $tmp = $this->hydrator->extract($value);
 
@@ -92,19 +92,19 @@ class Abstract<?php echo $this->dataObject->getEntityName(); ?>Form
 
     /**
      * @param array $datas
-     * @param <?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo $this->dataObject->getEntityName(); ?>DTO
+     * @param <?php echo $this->formGenerator->getEntityName(); ?>DataObject $<?php echo $this->formGenerator->getEntityName(); ?>DTO
      */
-    public function getDTO(<?php echo $this->dataObject->getEntityName(); ?>DataObject $<?php echo $this->dataObject->getEntityName(); ?>DTO = null)
+    public function getDTO(<?php echo $this->formGenerator->getEntityName(); ?>DataObject $<?php echo $this->formGenerator->getEntityName(); ?>DTO = null)
     {
-        if(null === $<?php echo $this->dataObject->getEntityName(); ?>DTO) {
-            $<?php echo $this->dataObject->getEntityName(); ?>DTO = new <?php echo $this->dataObject->getEntityName(); ?>DataObject();
+        if(null === $<?php echo $this->formGenerator->getEntityName(); ?>DTO) {
+            $<?php echo $this->formGenerator->getEntityName(); ?>DTO = new <?php echo $this->formGenerator->getEntityName(); ?>DataObject();
         } else {
-            $<?php echo $this->dataObject->getEntityName(); ?>DTO = clone $<?php echo $this->dataObject->getEntityName(); ?>DTO;
+            $<?php echo $this->formGenerator->getEntityName(); ?>DTO = clone $<?php echo $this->formGenerator->getEntityName(); ?>DTO;
         }
 
         return $this->hydrator->hydrate(
             $this->form->getData(),
-            $<?php echo $this->dataObject->getEntityName(); ?>DTO
+            $<?php echo $this->formGenerator->getEntityName(); ?>DTO
         );
     }
 }

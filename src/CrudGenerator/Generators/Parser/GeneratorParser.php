@@ -35,7 +35,9 @@ class GeneratorParser
 {
     const COMPLEX_QUESTION = 'complex';
     const ENVIRONNEMENT_CONDITION = 'environnementCondition';
+    const DEPENDENCY_CONDITION = 'dependencyCondition';
     const CONDITION_ELSE = 'else';
+    const DIFFERENT = '!';
 
     /**
      * @var Yaml YamlParser
@@ -114,6 +116,8 @@ class GeneratorParser
 
         $dto = new $process['dto']();
         $dto->setMetadata($metadata);
+
+        $generator->addDependency($name);
 
         if (isset($process['dependencies'])) {
             foreach ($process['dependencies'] as $dependencieName) {

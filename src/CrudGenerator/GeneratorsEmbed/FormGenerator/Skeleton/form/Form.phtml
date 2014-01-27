@@ -1,17 +1,17 @@
 <?php echo '<?php'; ?>
 
-namespace <?php echo $this->dataObject->getNamespace(); ?>\Form;
+namespace <?php echo $this->formGenerator->getNamespace(); ?>\Form;
 
 use Zend\Form\Element;
 use Zend\Form\Form;
 
-class <?php echo $this->dataObject->getEntityName(); ?>Form extends Form
+class <?php echo $this->formGenerator->getEntityName(); ?>Form extends Form
 {
     public function __construct($name = null)
     {
         parent::__construct('');
 
-<?php foreach($this->dataObject->getMetadata()->getColumnCollection() as $field => $metadata): ?>
+<?php foreach($this->formGenerator->getMetadata()->getColumnCollection() as $field => $metadata): ?>
 <?php
 $type = $metadata->getType();
 $length = $metadata->getLength();

@@ -82,7 +82,7 @@ $app->match('view-file', function (Request $request) use ($app) {
     $matadataSourceFinder   = MetaDataSourcesQuestionFactory::getInstance($context);
     $metadataFinder         = MetaDataQuestionFactory::getInstance($context);
     $generatorStrategy      = ViewFileStategyFactory::getInstance($context);
-    $generatorEngine        = GeneratorFactory::getInstance($generatorStrategy);
+    $generatorEngine        = GeneratorFactory::getInstance($context, $generatorStrategy);
 
     $metadataSourceSelect   = $matadataSourceFinder->ask($metadataSource);
     $metaData               = $metadataFinder->ask($metadataSourceSelect, $metadata);

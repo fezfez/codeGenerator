@@ -55,25 +55,37 @@ class GeneratorCli
      * @throws \Exception
      * @return string
      */
-    public function generate(GeneratorDataObject $generator)
+    public function generate(GeneratorDataObject $generator, $fileName = null)
     {
     	$files = $generator->getFiles();
 
-        foreach ($files as $fileName => $file) {
-            $result = $this->strategy->generateFile(
-                $generator->getTemplateVariables(),
-                $file[$fileName]['skeletonPath'],
-                $file[$fileName]['name'],
-                $file[$fileName]['fileName']
-            );
+    	if (null !== $fileName) {
+    		if (!isset($files[$fileName])) {
+    			throw new \InvalidArgumentException('File does not exist');
+    		}
+    		return $this->strategy->generateFile(
+    			$generator->getTemplateVariables(),
+    			$file[$fileName]['skeletonPath'],
+    			$file[$fileName]['name'],
+    			$file[$fileName]['fileName']
+    		);
+    	} else {
+	        foreach ($files as $fileName => $file) {
+	            $result = $this->strategy->generateFile(
+	                $generator->getTemplateVariables(),
+	                $file[$fileName]['skeletonPath'],
+	                $file[$fileName]['name'],
+	                $file[$fileName]['fileName']
+	            );
 
-            if ($this->fileConflict->test($file[$fileName]['fileName'], $result)) {
-            	$this->fileConflict->handle($file[$fileName]['fileName'], $result);
-            } else {
-            	$this->fileManager->filePutsContent($file[$fileName]['fileName'], $result);
-            	$this->output->writeln('--> Create file ' . $file[$fileName]['fileName']);
-            }
-        }
+	            if ($this->fileConflict->test($file[$fileName]['fileName'], $result)) {
+	            	$this->fileConflict->handle($file[$fileName]['fileName'], $result);
+	            } else {
+	            	$this->fileManager->filePutsContent($file[$fileName]['fileName'], $result);
+	            	$this->output->writeln('--> Create file ' . $file[$fileName]['fileName']);
+	            }
+	        }
+    	}
 
         return $generationResult;
     }

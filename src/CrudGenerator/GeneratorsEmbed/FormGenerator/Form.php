@@ -15,7 +15,7 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\FormGenerator;
+namespace CrudGenerator\GeneratorsEmbed\FormGenerator;
 
 use CrudGenerator\DataObject;
 
@@ -26,20 +26,47 @@ class Form extends DataObject
     /**
      * @var string Target directory
      */
-    private $directory       = null;
+    private $modelName       = null;
     /**
      * @var string Target namespace
      */
     private $namespace       = null;
+    /**
+     * @var array
+     */
+    protected $attributesDisplayName = array();
+
+    /**
+     * @param string $attribute
+     * @param string $name
+     * @return \CrudGenerator\Generators\CrudGenerator\Crud
+    */
+    public function setAttributeName($attribute, $name)
+    {
+    	$this->attributesDisplayName[$attribute] = $name;
+    	return $this;
+    }
+    /**
+     * @param string $attribute
+     * @return string|null
+     */
+    public function getAttributeName($attribute = null)
+    {
+    	if ($attribute === null) {
+    		return $this->attributesDisplayName;
+    	} else {
+    		return (isset($this->attributesDisplayName[$attribute])) ? $this->attributesDisplayName[$attribute] : null;
+    	}
+    }
 
     /**
      * Set Directory
      * @param string $value
      * @return \CrudGenerator\DataObject
      */
-    public function setDirectory($value)
+    public function setModelName($value)
     {
-        $this->directory = $value;
+        $this->modelName = $value;
         return $this;
     }
     /**
@@ -47,9 +74,9 @@ class Form extends DataObject
      *
      * @return string
      */
-    public function getDirectory()
+    public function getModelName()
     {
-        return $this->directory;
+        return $this->modelName;
     }
     /**
      * Set Namespace
@@ -76,5 +103,10 @@ class Form extends DataObject
     public function getNamespacePath()
     {
         return str_replace('\\', '/', $this->namespace);
+    }
+
+    public function getFormPath()
+    {
+    	return $this->getModule() . '/Form/';
     }
 }

@@ -3,6 +3,7 @@ definition : Generate CRUD based on ArchitectGenerator utilisation
 dto : CrudGenerator\Generators\CrudGenerator\Crud
 dependencies :
     - ArchitectGenerator
+    - FormGenerator
 questions : 
     - 
         dtoAttribute : DisplayName
