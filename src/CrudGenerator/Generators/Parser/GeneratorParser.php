@@ -112,7 +112,8 @@ class GeneratorParser
     private function analyse($name, PhpStringParser $phpParser, GeneratorDataObject $generator, array $questions, MetaData $metadata, $firstIteration = false)
     {
         $generatorFilePath = $this->generatorFinder->findByName($name);
-        $process           = Yaml::parse($this->fileManager->fileGetContent($generatorFilePath), true);
+        $yaml              = $this->yaml;
+        $process           = $yaml::parse($this->fileManager->fileGetContent($generatorFilePath), true);
 
         $dto = new $process['dto']();
         $dto->setMetadata($metadata);
@@ -128,15 +129,19 @@ class GeneratorParser
         $generator->setDTO($dto)
                   ->setPath($generatorFilePath);
 
-        foreach ($this->parserCollection->getPreParse() as $parser) {
-            $generator = $parser->evaluate($process, $phpParser, $generator, $questions, $firstIteration);
+        if ($this->parserCollection->getPreParse()->count() > 0) {
+	        foreach ($this->parserCollection->getPreParse() as $parser) {
+	            $generator = $parser->evaluate($process, $phpParser, $generator, $questions, $firstIteration);
+	        }
         }
 
         $phpParser->addVariable(lcfirst($process['name']), $generator->getDTO());
         $generator->addTemplateVariable(lcfirst($process['name']), $generator->getDTO());
 
-        foreach ($this->parserCollection->getPostParse() as $parser) {
-            $generator = $parser->evaluate($process, $phpParser, $generator, $questions, $firstIteration);
+        if ($this->parserCollection->getPostParse()->count() > 0) {
+	        foreach ($this->parserCollection->getPostParse() as $parser) {
+	            $generator = $parser->evaluate($process, $phpParser, $generator, $questions, $firstIteration);
+	        }
         }
 
         return $generator;
