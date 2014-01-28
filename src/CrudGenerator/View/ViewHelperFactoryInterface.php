@@ -17,8 +17,6 @@
  */
 namespace CrudGenerator\View;
 
-use CrudGenerator\DataObject;
-
 /**
  * @author Stéphane Demonchaux <demonchaux.stephane@gmail.com>
  */

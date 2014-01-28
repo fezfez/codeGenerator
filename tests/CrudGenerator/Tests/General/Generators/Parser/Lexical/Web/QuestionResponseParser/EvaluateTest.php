@@ -4,7 +4,6 @@ namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\Web\QuestionResp
 use CrudGenerator\Generators\Parser\Lexical\Web\QuestionResponseParser;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 
 

@@ -2,7 +2,6 @@
 namespace CrudGenerator\Tests\General\GeneratorsEmbed\ArchitectGenerator\MetadataToArrayFactory;
 
 use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArrayFactory;
-use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\WebContext;
 use CrudGenerator\Context\CliContext;
 
