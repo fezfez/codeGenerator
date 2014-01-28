@@ -8,7 +8,7 @@ GeneratorApp.factory('ViewFileService', ['$http', function ($http) {
                 {
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'},
                     method: "POST",
-                    url: "view-file",
+                    url: __BASEPATH__ + "view-file",
                     data: datas
                 }
             ).success(function (data) {

@@ -8,7 +8,7 @@ GeneratorApp.factory('GenerateService', ['$http', function ($http) {
                 {
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'},
                     method: "POST",
-                    url: "generate",
+                    url: __BASEPATH__ + "generate",
                     data: datas
                 }
             ).success(function (datas) {

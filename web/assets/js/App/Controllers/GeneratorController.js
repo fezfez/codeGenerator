@@ -6,7 +6,7 @@
                                               function ($scope, $http, $generatorService, $viewFileService, $WaitModalService, $generateService) {
                 $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 
-                $http.get('list-backend').success(function (data) {
+                $http.get(__BASEPATH__ + 'list-backend').success(function (data) {
                     $scope.backendList = data.backend;
                 });
 
@@ -42,7 +42,7 @@
                         } else if (data.metadatas !== undefined) {
                             $scope.metadataList = data.metadatas;
 
-                            $http.get('list-generator').success(function (data) {
+                            $http.get(__BASEPATH__ + 'list-generator').success(function (data) {
                                 $scope.generatorsList = data.generators;
                             });
                         }

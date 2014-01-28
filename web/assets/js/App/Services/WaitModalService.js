@@ -3,7 +3,7 @@ GeneratorApp.factory('WaitModalService', ['$http', function ($http) {
 
     return {
         show: function() {
-            $http.get('assets/js/App/Template/WaitModal.html').success(function(template) {
+            $http.get(__BASEPATH__ + 'assets/js/App/Template/WaitModal.html').success(function(template) {
             	$('waitModal').html(template);
             	$('waitModal > div').modal('show');
           });

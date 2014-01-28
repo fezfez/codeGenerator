@@ -16,7 +16,7 @@ GeneratorApp.factory('GeneratorService', ['$http', '$q', function ($http, $q) {
                 {
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     method: "POST",
-                    url: "generator",
+                    url: __BASEPATH__ + "generator",
                     data: datas,
                     timeout: canceler.promise
                 }

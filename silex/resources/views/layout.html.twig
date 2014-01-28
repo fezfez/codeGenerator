@@ -10,8 +10,11 @@
 
     <title>Code Generator</title>
 
-    <link rel="stylesheet" href="{{ app.request.basepath }}/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ app.request.basepath }}/assets/css/shCoreDefault.css">
+    <link rel="stylesheet" href="{{ app.base_path }}/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ app.base_path }}/assets/css/shCoreDefault.css">
+    <script type="text/javascript">
+		__BASEPATH__ = '{{ app.base_path }}';
+    </script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
 </head>
 <body ng-controller="GeneratorCtrl">
@@ -61,26 +64,26 @@
 	<conflict></conflict>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/App.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Corp/File/FileDataObject.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Corp/Directory/DirectoryDataObject.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Corp/Directory/DirectoryDAO.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Corp/Directory/DirectoryBuilder.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Corp/Directory/DirectoryBuilderFactory.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Services/GeneratorService.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Services/GenerateService.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Services/ViewFileService.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Services/WaitModalService.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Controllers/GeneratorController.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Directives/File.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Directives/Generators.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Directives/Metadata.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Directives/Questions.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Directives/Modal.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/App/Directives/Conflict.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Vendor/bootstrap.min.js"></script>
-    <script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Vendor/shCore.js"></script>
-	<script type="text/javascript" src="{{ app.request.basepath }}/assets/js/Vendor/shBrushPhp.js"></script>
+    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/App.js"></script>
+    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Corp/File/FileDataObject.js"></script>
+    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Corp/Directory/DirectoryDataObject.js"></script>
+    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Corp/Directory/DirectoryDAO.js"></script>
+    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Corp/Directory/DirectoryBuilder.js"></script>
+    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Corp/Directory/DirectoryBuilderFactory.js"></script>
+    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Services/GeneratorService.js"></script>
+    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Services/GenerateService.js"></script>
+    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Services/ViewFileService.js"></script>
+    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Services/WaitModalService.js"></script>
+    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Controllers/GeneratorController.js"></script>
+    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Directives/File.js"></script>
+    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Directives/Generators.js"></script>
+    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Directives/Metadata.js"></script>
+    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Directives/Questions.js"></script>
+    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Directives/Modal.js"></script>
+    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Directives/Conflict.js"></script>
+    <script type="text/javascript" src="{{ app.base_path }}/assets/js/Vendor/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{ app.base_path }}/assets/js/Vendor/shCore.js"></script>
+	<script type="text/javascript" src="{{ app.base_path }}/assets/js/Vendor/shBrushPhp.js"></script>
 <style type="text/css">
 .file {
     cursor:pointer;
