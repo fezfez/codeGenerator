@@ -79,11 +79,11 @@ class GeneratorQuestion
                 )
             );
         } else {
-            $generatorKeysChoices = array_keys($generatorsChoices);
+            $generatorKeysChoices = $generatorsChoices;
 
             $choice = $this->dialog->select($this->output, "Choose a generators \n> ", $generatorKeysChoices);
 
-            return $generatorsChoices[$generatorKeysChoices[$choice]];
+            return $generatorsChoices[$choice];
         }
     }
 }
