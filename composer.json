@@ -13,13 +13,14 @@
 		"code generator",
 		"SOLID principles"
 	],
-	"homepage" : "https://github.com/fezfez/crudGenerator",
+	"homepage" : "https://github.com/fezfez/codeGenerator",
 	"license" : "MIT",
 	"require" : {
 		"php" : ">=5.4",
 		"fzaninotto/faker" : "v1.2.0",
 		"silex/silex" : "~1.1",
 		"twig/twig" : "1.15.0",
+		"mheap/Silex-Assetic": "1.0.*",
 		"symfony/console" : "~2.5",
 		"symfony/config" : "~2.5",
 		"symfony/form" : "~2.5",
@@ -54,6 +55,6 @@
 		}
 	},
 	"bin" : [
-		"bin/crud-generator"
+		"bin/code-generator"
 	]
 }
