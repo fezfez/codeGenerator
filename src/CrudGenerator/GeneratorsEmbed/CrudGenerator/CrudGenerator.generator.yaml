@@ -1,6 +1,6 @@
 name : CrudGenerator
 definition : Generate CRUD based on ArchitectGenerator utilisation
-dto : CrudGenerator\Generators\CrudGenerator\Crud
+dto : CrudGenerator\GeneratorsEmbed\CrudGenerator\Crud
 dependencies :
     - ArchitectGenerator
     - FormGenerator
