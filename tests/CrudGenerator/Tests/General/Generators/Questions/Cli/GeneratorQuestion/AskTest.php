@@ -1,8 +1,8 @@
 <?php
-namespace CrudGenerator\Tests\General\Command\Questions\GeneratorQuestion;
+namespace CrudGenerator\Tests\General\Command\Questions\Cli\GeneratorQuestion;
 
 
-use CrudGenerator\Command\Questions\GeneratorQuestion;
+use CrudGenerator\Generators\Questions\Cli\GeneratorQuestion;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,10 +17,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper', array('select'))
         ->disableOriginalConstructor()
         ->getMock();
-        $codeGeneratorStub = $this->getMockBuilder('CrudGenerator\Generators\CodeGeneratorFactory', array('create'))
-        ->disableOriginalConstructor()
-        ->getMock();
-        $sourceFinderStub = $this->getMockBuilder('CrudGenerator\Generators\GeneratorFinder', array('select'))
+        $sourceFinderStub = $this->getMockBuilder('CrudGenerator\Generators\Finder\GeneratorFinder', array('select'))
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -32,23 +29,19 @@ class AskTest extends \PHPUnit_Framework_TestCase
                ->method('select')
                ->will($this->returnValue(0));
 
-        $codeGeneratorStub->expects($this->once())
-                          ->method('create')
-                          ->will($this->returnValue($generatorStub));
-
         $sourceFinderStub->expects($this->once())
                          ->method('getAllClasses')
                          ->will(
                             $this->returnValue(
                                 array(
-                                    'CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator'
+                                    'path/ArchitectGenerator.generator.yaml' => 'ArchitectGenerator'
                                 )
                             )
                         );
 
 
-        $sUT = new GeneratorQuestion($sourceFinderStub, $codeGeneratorStub, $consoleOutputStub, $dialog);
-        $this->assertEquals($generatorStub, $sUT->ask());
+        $sUT = new GeneratorQuestion($sourceFinderStub, $consoleOutputStub, $dialog);
+        $this->assertEquals('ArchitectGenerator', $sUT->ask());
     }
 
     public function testWithInvalidDefault()
@@ -56,16 +49,10 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $consoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
         ->disableOriginalConstructor()
         ->getMock();
-        $generatorStub =  $this->getMockBuilder('CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator')
-        ->disableOriginalConstructor()
-        ->getMock();
         $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper', array('select'))
         ->disableOriginalConstructor()
         ->getMock();
-        $codeGeneratorStub = $this->getMockBuilder('CrudGenerator\Generators\CodeGeneratorFactory', array('create'))
-        ->disableOriginalConstructor()
-        ->getMock();
-        $sourceFinderStub = $this->getMockBuilder('CrudGenerator\Generators\GeneratorFinder', array('select'))
+        $sourceFinderStub = $this->getMockBuilder('CrudGenerator\Generators\Finder\GeneratorFinder', array('select'))
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -74,13 +61,13 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->will(
             $this->returnValue(
                 array(
-                    'CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator'
+                    'path/ArchitectGenerator.generator.yaml' => 'ArchitectGenerator'
                 )
             )
         );
 
 
-        $sUT = new GeneratorQuestion($sourceFinderStub, $codeGeneratorStub, $consoleOutputStub, $dialog);
+        $sUT = new GeneratorQuestion($sourceFinderStub, $consoleOutputStub, $dialog);
 
         $this->setExpectedException('Exception');
 
@@ -98,10 +85,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper', array('select'))
         ->disableOriginalConstructor()
         ->getMock();
-        $codeGeneratorStub = $this->getMockBuilder('CrudGenerator\Generators\CodeGeneratorFactory', array('create'))
-        ->disableOriginalConstructor()
-        ->getMock();
-        $sourceFinderStub = $this->getMockBuilder('CrudGenerator\Generators\GeneratorFinder', array('select'))
+        $sourceFinderStub = $this->getMockBuilder('CrudGenerator\Generators\Finder\GeneratorFinder', array('select'))
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -110,18 +94,14 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->will(
             $this->returnValue(
                 array(
-                    'CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator'
+                    'path/ArchitectGenerator.generator.yaml' => 'ArchitectGenerator'
                 )
             )
         );
 
-        $codeGeneratorStub->expects($this->once())
-        ->method('create')
-        ->will($this->returnValue($generatorStub));
 
+        $sUT = new GeneratorQuestion($sourceFinderStub, $consoleOutputStub, $dialog);
 
-        $sUT = new GeneratorQuestion($sourceFinderStub, $codeGeneratorStub, $consoleOutputStub, $dialog);
-
-        $this->assertEquals($generatorStub, $sUT->ask('CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator'));
+        $this->assertEquals('ArchitectGenerator', $sUT->ask('ArchitectGenerator'));
     }
 }

@@ -39,7 +39,7 @@ class GeneratorQuestionFactory
         } elseif ($context instanceof WebContext) {
         	return new Web\GeneratorQuestion($generatorFinder);
         } else {
-        	throw new \Exception('Invalid context');
+        	throw new \InvalidArgumentException('Invalid context');
         }
     }
 }

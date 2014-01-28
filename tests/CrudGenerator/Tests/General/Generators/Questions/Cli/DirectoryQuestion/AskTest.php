@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\General\Generators\Questions\DirectoryQuestion;
+namespace CrudGenerator\Tests\General\Generators\Questions\Cli\DirectoryQuestion;
 
 use CrudGenerator\Generators\Questions\Cli\DirectoryQuestion;
 use CrudGenerator\Generators\GeneratorDataObject;

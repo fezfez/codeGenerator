@@ -1,8 +1,8 @@
 <?php
-namespace CrudGenerator\Tests\General\Generators\Questions\MetaDataSourcesQuestion;
+namespace CrudGenerator\Tests\General\Generators\Questions\Web\MetaDataSourcesQuestion;
 
 
-use CrudGenerator\Generators\Questions\Cli\MetaDataSourcesQuestion;
+use CrudGenerator\Generators\Questions\Web\MetaDataSourcesQuestion;
 use CrudGenerator\MetaData\MetaDataSourceCollection;
 use CrudGenerator\MetaData\MetaDataSource;
 
@@ -11,21 +11,6 @@ class AskTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {
-        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $ConsoleOutputStub->expects($this->any())
-        ->method('writeln')
-        ->will($this->returnValue(''));
-
-        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper', array('select'))
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $dialog->expects($this->once())
-        ->method('select')
-        ->will($this->returnValue(0));
-
         $metadataSourceCollection = new MetaDataSourceCollection();
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
@@ -45,25 +30,38 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->will($this->returnValue($metadataSourceCollection));
 
 
-        $sUT = new MetaDataSourcesQuestion($sourceFinderStub, $ConsoleOutputStub, $dialog);
-        $this->assertEquals($source, $sUT->ask());
+        $sUT = new MetaDataSourcesQuestion($sourceFinderStub);
+        $this->assertEquals(array(array('id' => 'My nameFactory', 'label' => 'My definition')), $sUT->ask());
     }
 
     public function testWithPreselected()
     {
-        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $ConsoleOutputStub->expects($this->any())
-        ->method('writeln')
-        ->will($this->returnValue(''));
 
-        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper', array('select'))
-        ->disableOriginalConstructor()
-        ->getMock();
+    	$metadataSourceCollection = new MetaDataSourceCollection();
+    	$source = new MetaDataSource();
+    	$source->setDefinition('My definition')
+    	->setName('My name');
+    	$metadataSourceCollection->append($source);
+    	$sourceWithFailedDependencie = new MetaDataSource();
+    	$sourceWithFailedDependencie->setDefinition('My definition')
+    	->setName('My named')
+    	->setFalseDependencie('My false dependencies');
+    	$metadataSourceCollection->append($sourceWithFailedDependencie);
 
-        $dialog->expects($this->never())
-        ->method('select');
+    	$sourceFinderStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFinder', array('select'))
+    	->disableOriginalConstructor()
+    	->getMock();
+    	$sourceFinderStub->expects($this->once())
+    	->method('getAllAdapters')
+    	->will($this->returnValue($metadataSourceCollection));
+
+
+    	$sUT = new MetaDataSourcesQuestion($sourceFinderStub);
+    	$this->assertEquals($source, $sUT->ask('My nameFactory'));
+    }
+
+    public function testWithPreselectedFail()
+    {
 
         $metadataSourceCollection = new MetaDataSourceCollection();
         $source = new MetaDataSource();
@@ -84,7 +82,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->will($this->returnValue($metadataSourceCollection));
 
 
-        $sUT = new MetaDataSourcesQuestion($sourceFinderStub, $ConsoleOutputStub, $dialog);
-        $this->assertEquals($source, $sUT->ask('My name'));
+        $sUT = new MetaDataSourcesQuestion($sourceFinderStub);
+
+        $this->setExpectedException('InvalidArgumentException');
+        $sUT->ask('My name');
     }
 }

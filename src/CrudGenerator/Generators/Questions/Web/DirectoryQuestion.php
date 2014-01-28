@@ -22,17 +22,17 @@ use CrudGenerator\Generators\GeneratorDataObject;
 
 class DirectoryQuestion
 {
-	/**
-	 * @var FileManager $fileManager
-	 */
-	private $fileManager = null;
+    /**
+     * @var FileManager $fileManager
+     */
+    private $fileManager = null;
 
     /**
      * @param FileManager $fileManager
      */
     public function __construct(FileManager $fileManager)
     {
-    	$this->fileManager = $fileManager;
+        $this->fileManager = $fileManager;
     }
 
     /**
@@ -41,31 +41,31 @@ class DirectoryQuestion
      */
     public function ask(GeneratorDataObject $generator)
     {
-    	$module = $generator->getDTO()->getModule();
-    	$directoriesRaw = $this->fileManager->glob(
-    		$module . '*',
-    		GLOB_ONLYDIR|GLOB_MARK
-    	);
+        $module = $generator->getDTO()->getModule();
+        $directoriesRaw = $this->fileManager->glob(
+            $module . '*',
+            GLOB_ONLYDIR|GLOB_MARK
+        );
 
-		$directories = array();
-    	if ('' !== $module && null !== $module) {
-    		$back = str_replace(array(getcwd() . '/', getcwd()), array('', ''), realpath($module . '../'));
-    		$directories[] = array('label' => 'Back', 'id' => ($back !== '') ? $back . '/' : '');
-    	}
+        $directories = array();
+        if ('' !== $module && null !== $module) {
+            $back = str_replace(array(getcwd() . '/', getcwd()), array('', ''), realpath($module . '../'));
+            $directories[] = array('label' => 'Back', 'id' => ($back !== '') ? $back . '/' : '');
+        }
 
-    	foreach ($directoriesRaw as $directory) {
-    		$directories[] = array('label' => $directory, 'id' => $directory);
-    	}
+        foreach ($directoriesRaw as $directory) {
+            $directories[] = array('label' => $directory, 'id' => $directory);
+        }
 
         $generator->addQuestion(
-        	array(
-        		'dtoAttribute'    => 'setModule',
-        		'text'            => 'Select a Directory',
-        		'placeholder'     => 'Actual directory "' . $module . '"',
-        		'value'           => $module,
-        		'type'            => 'select',
-        		'values'          => $directories
-        	)
+            array(
+                'dtoAttribute'    => 'setModule',
+                'text'            => 'Select a Directory',
+                'placeholder'     => 'Actual directory "' . $module . '"',
+                'value'           => $module,
+                'type'            => 'select',
+                'values'          => $directories
+            )
         );
 
         return $generator;

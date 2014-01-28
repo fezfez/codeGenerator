@@ -1,7 +1,7 @@
 <?php
-namespace CrudGenerator\Tests\General\Command\Questions\HistoryQuestion;
+namespace CrudGenerator\Tests\General\Command\Questions\Cli\HistoryQuestion;
 
-use CrudGenerator\Command\Questions\HistoryQuestion;
+use CrudGenerator\Generators\Questions\Cli\HistoryQuestion;
 use CrudGenerator\History\HistoryCollection;
 use CrudGenerator\History\History;
 use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
