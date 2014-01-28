@@ -1,12 +1,13 @@
 <?php
-namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\Web\QuestionParser;
+namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\Cli\QuestionParser;
 
-use CrudGenerator\Generators\Parser\Lexical\Web\QuestionParser;
+use CrudGenerator\Generators\Parser\Lexical\Cli\AskQuestionParser;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
-use CrudGenerator\Context\WebContext;
+use CrudGenerator\Context\CliContext;
+use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 
 class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,15 +17,19 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
     	->disableOriginalConstructor()
     	->getMock();
 
-    	$directoryQuestion =  $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\DirectoryQuestion')
+    	$directoryQuestion =  $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\DirectoryQuestion')
     	->disableOriginalConstructor()
     	->getMock();
 
-    	$app = $this->getMockBuilder('Silex\Application')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$context = new WebContext($app);
+        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
+        ->disableOriginalConstructor()
+        ->getMock();
+
+        $context = new CliContext($dialog, $ConsoleOutputStub);
 
     	$phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
     	->disableOriginalConstructor()
@@ -37,7 +42,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
     	->will($this->returnValue($generator));
 
 
-    	$sUT = new QuestionParser($context, $directoryQuestion, $dependencyCondition);
+    	$sUT = new AskQuestionParser($context, $directoryQuestion, $dependencyCondition);
 
     	$process = array();
 
@@ -53,21 +58,25 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
     	->disableOriginalConstructor()
     	->getMock();
 
-    	$directoryQuestion =  $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\DirectoryQuestion')
+    	$directoryQuestion =  $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\DirectoryQuestion')
     	->disableOriginalConstructor()
     	->getMock();
 
-    	$app = $this->getMockBuilder('Silex\Application')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$context = new WebContext($app);
+        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
+        ->disableOriginalConstructor()
+        ->getMock();
+
+        $context = new CliContext($dialog, $ConsoleOutputStub);
 
     	$phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
     	->disableOriginalConstructor()
     	->getMock();
 
-    	$sUT = new QuestionParser($context, $directoryQuestion, $dependencyCondition);
+    	$sUT = new AskQuestionParser($context, $directoryQuestion, $dependencyCondition);
 
     	$generator = new GeneratorDataObject();
 
@@ -87,21 +96,25 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
     	->disableOriginalConstructor()
     	->getMock();
 
-    	$directoryQuestion =  $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\DirectoryQuestion')
+    	$directoryQuestion =  $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\DirectoryQuestion')
     	->disableOriginalConstructor()
     	->getMock();
 
-    	$app = $this->getMockBuilder('Silex\Application')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$context = new WebContext($app);
+        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
+        ->disableOriginalConstructor()
+        ->getMock();
+
+        $context = new CliContext($dialog, $ConsoleOutputStub);
 
     	$phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
     	->disableOriginalConstructor()
     	->getMock();
 
-    	$sUT = new QuestionParser($context, $directoryQuestion, $dependencyCondition);
+    	$sUT = new AskQuestionParser($context, $directoryQuestion, $dependencyCondition);
 
     	$generator = new GeneratorDataObject();
 
@@ -133,15 +146,25 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
     	->disableOriginalConstructor()
     	->getMock();
 
-    	$directoryQuestion =  $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\DirectoryQuestion')
+    	$directoryQuestion =  $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\DirectoryQuestion')
     	->disableOriginalConstructor()
     	->getMock();
 
-    	$app = $this->getMockBuilder('Silex\Application')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$context = new WebContext($app);
+
+        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
+        ->disableOriginalConstructor()
+        ->getMock();
+
+        $dialog->expects($this->once())
+        ->method('ask')
+        ->with($ConsoleOutputStub, '<question>MyTest</question> ', 'MyDefaultReponse')
+        ->will($this->returnValue('myReponse'));
+
+        $context = new CliContext($dialog, $ConsoleOutputStub);
 
     	$phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
     	->disableOriginalConstructor()
@@ -149,47 +172,36 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     	$dependencyCondition->expects($this->once())
     	->method('evaluate')
-    	->will($this->returnValue(
-    		array(
-	    		array(
-	    			'dtoAttribute'    => 'test',
-			    	'text'            => 'test',
-			    	'defaultResponse' => 'myDefaultResponse'
-	    		)
-    		)
-    	));
+    	->with(array('!ArchitedGenerator' => array(
+		    				'dtoAttribute'    => 'Namespace',
+		    				'text'            => 'MyTest',
+		    				'defaultResponse' => 'MyDefaultReponse'
+    					)
+    				))
+    	->will($this->returnValue(array(array(		    				'dtoAttribute'    => 'Namespace',
+		    				'text'            => 'MyTest',
+		    				'defaultResponse' => 'MyDefaultReponse'))));
 
-    	$sUT = new QuestionParser($context, $directoryQuestion, $dependencyCondition);
+    	$sUT = new AskQuestionParser($context, $directoryQuestion, $dependencyCondition);
 
     	$generator = new GeneratorDataObject();
+    	$generator->setDTO(new Architect());
 
     	$process = array(
     		'questions' => array(
     			array(
     				GeneratorParser::DEPENDENCY_CONDITION => array(
     					'!ArchitedGenerator' => array(
-		    				'dtoAttribute'    => 'test',
-		    				'text'            => 'test',
-		    				'defaultResponse' => 'myDefaultResponse'
+		    				'dtoAttribute'    => 'Namespace',
+		    				'text'            => 'MyTest',
+		    				'defaultResponse' => 'MyDefaultReponse'
     					)
     				)
     			)
     		)
     	);
 
-    	$generatorToTest = clone $generator;
-
-    	$this->assertEquals(
-    		$generatorToTest->addQuestion(
-                array(
-                    'dtoAttribute'    => 'setTest',
-                    'text'            => 'test',
-                    'value'           => '',
-                    'defaultResponse' => 'myDefaultResponse'
-                )
-            ),
-    		$sUT->evaluate($process, $phpParser, $generator, array(), false)
-    	);
+    	$this->assertEquals('myReponse', $sUT->evaluate($process, $phpParser, $generator, array(), false)->getDTO()->getNamespace());
     }
 
     /*public function testWithEnvironnemetnCondiction()

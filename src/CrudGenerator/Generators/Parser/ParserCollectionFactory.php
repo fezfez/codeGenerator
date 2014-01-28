@@ -50,7 +50,7 @@ class ParserCollectionFactory
                        ->addPostParse(new QuestionParser($context, $directoryQuestion, $dependencyCondition));
         } elseif ($context instanceof CliContext) {
             $collection->addPreParse(
-                new AskQuestionParser($context, $directoryQuestion)
+                new AskQuestionParser($context, $directoryQuestion, $dependencyCondition)
             );
         } else {
             throw new \InvalidArgumentException("Context not allowed");

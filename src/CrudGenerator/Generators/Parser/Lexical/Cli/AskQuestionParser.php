@@ -23,6 +23,8 @@ use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
 use CrudGenerator\Generators\Questions\Cli\DirectoryQuestion;
 use CrudGenerator\Context\CliContext;
+use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
+use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 
 class AskQuestionParser implements ParserInterface
 {
@@ -34,15 +36,21 @@ class AskQuestionParser implements ParserInterface
 	 * @var DirectoryQuestion
 	 */
 	private $directoryQuestion = null;
+	/**
+	 * @var DependencyCondition
+	 */
+	private $dependencyCondition = null;
+
 
 	/**
 	 * @param CliContext $cliContext
 	 * @param DirectoryQuestion $directoryQuestion
 	 */
-	public function __construct(CliContext $cliContext, DirectoryQuestion $directoryQuestion)
+	public function __construct(CliContext $cliContext, DirectoryQuestion $directoryQuestion, DependencyCondition $dependencyCondition)
 	{
-		$this->cliContext        = $cliContext;
-		$this->directoryQuestion = $directoryQuestion;
+		$this->cliContext         = $cliContext;
+		$this->directoryQuestion  = $directoryQuestion;
+		$this->dependencyCondition = $dependencyCondition;
 	}
 
     /* (non-PHPdoc)
@@ -54,24 +62,51 @@ class AskQuestionParser implements ParserInterface
     		$generator = $this->directoryQuestion->ask($generator);
     	}
 
-    	foreach ($process['questions'] as $question) {
-
-    		if (isset($question['type']) && $question['type'] === GeneratorParser::COMPLEX_QUESTION) {
-    			//$complex = $question['factory']::getInstance($this->cliContext);
-    			//$generator = $complex->ask($generator);
-    		} else {
-
-    			$questionName = 'set' . ucfirst($question['dtoAttribute']);
-
-    			$response = $this->cliContext->getDialogHelper()->ask(
-    				$this->cliContext->getOutput(),
-    				'<question>' . $question['text'] . '</question> ',
-    				(isset($question['defaultResponse']) && $parser->issetVariable($question['defaultResponse'])) ? $parser->parse($question['defaultResponse']) : null
-    			);
-
-    			if (method_exists($generator->getDTO(), $questionName)) {
-    				$generator->getDTO()->$questionName($response);
+    	if (isset($process['questions'])) {
+    		foreach ($process['questions'] as $question) {
+    			if (!is_array($question)) {
+    				throw new MalformedGeneratorException('Questions excepts to be an array "' . gettype($question) . "' given");
     			}
+
+    			$generator = $this->evaluateQuestions($question, $parser, $generator, $questions, $firstIteration);
+    		}
+    	}
+
+    	return $generator;
+    }
+
+    /**
+     * @param array $question
+     * @param PhpStringParser $parser
+     * @param GeneratorDataObject $generator
+     * @param array $questions
+     * @param unknown $firstIteration
+     * @return GeneratorDataObject
+     */
+    private function evaluateQuestions(array $question, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
+    {
+    	if(isset($question[GeneratorParser::DEPENDENCY_CONDITION])) {
+    		$matches = $this->dependencyCondition->evaluate($question[GeneratorParser::DEPENDENCY_CONDITION], $parser, $generator, $questions, $firstIteration);
+    		foreach ($matches as $questionsMatchs) {
+    			$generator = $this->evaluateQuestions($questionsMatchs, $parser, $generator, $questions, $firstIteration);
+    		}
+    	} elseif (isset($question['type']) && $question['type'] === GeneratorParser::COMPLEX_QUESTION) {
+    		$complex = $question['factory']::getInstance($this->cliContext);
+    		$generator = $complex->ask($generator);
+    	} else {
+    		$defaultResponse = (isset($question['defaultResponse']) && $parser->issetVariable($question['defaultResponse']))
+    								? $parser->parse($question['defaultResponse']) : null;
+
+    		$questionName = 'set' . ucfirst($question['dtoAttribute']);
+
+    		$response = $this->cliContext->getDialogHelper()->ask(
+    			$this->cliContext->getOutput(),
+    			'<question>' . $question['text'] . '</question> ',
+    			($defaultResponse === null && isset($question['defaultResponse'])) ? $question['defaultResponse'] : $defaultResponse
+    		);
+
+    		if (method_exists($generator->getDTO(), $questionName)) {
+    			$generator->getDTO()->$questionName($response);
     		}
     	}
 
