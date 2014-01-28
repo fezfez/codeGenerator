@@ -70,7 +70,7 @@ class MetaDataConfigReaderForm
         $configPath = 'data/crudGenerator/Config/' . md5(get_class($adapterConfig));
 
         if (!$this->fileManager->isFile($configPath)) {
-			throw new ConfigException();
+			throw new ConfigException('File "' . getcwd() . $configPath . "' does not exist");
         }
 
         $configured = unserialize($this->fileManager->fileGetContent($configPath));

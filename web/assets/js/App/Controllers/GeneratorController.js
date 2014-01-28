@@ -16,7 +16,7 @@
                         {
                             headers : {'Content-Type': 'application/x-www-form-urlencoded'},
                             method  : 'POST',
-                            url     : 'metadata',
+                            url     : __BASEPATH__ + 'metadata',
                             data    : datas
                         }
                     ).success(function (data) {
