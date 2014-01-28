@@ -17,7 +17,6 @@
  */
 namespace CrudGenerator\GeneratorsEmbed\ArchitectGenerator;
 
-use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 use CrudGenerator\Generators\GeneratorDataObject;
 
 class MetadataToArrayWeb

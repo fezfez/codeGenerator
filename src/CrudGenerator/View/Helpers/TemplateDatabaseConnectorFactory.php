@@ -21,8 +21,6 @@ use CrudGenerator\View\ViewHelperFactoryInterface;
 use CrudGenerator\DataObject;
 use CrudGenerator\View\Helpers\TemplateDatabaseConnectorStrategies\PDOStrategy;
 use CrudGenerator\View\Helpers\TemplateDatabaseConnectorStrategies\ZendFramework2Strategy;
-use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
-use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
 
 /**
  * @author stephane.demonchaux

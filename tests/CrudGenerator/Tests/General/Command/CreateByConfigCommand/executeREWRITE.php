@@ -1,29 +1,18 @@
 <?php
 namespace CrudGenerator\Tests\General\Command\CreateByConfigCommand;
 
-use CrudGenerator\Tests\General\Command\CommandTestCase;
-
 use CrudGenerator\Command\CreateByConfigCommand;
 use Symfony\Component\Console\Application as App;
-use Symfony\Component\Console\Tester\ApplicationTester;
 use Symfony\Component\Console\Tester\CommandTester;
-
 use CrudGenerator\History\HistoryManager;
-use CrudGenerator\Command\Questions\MetaDataSourcesQuestion;
 use CrudGenerator\Command\Questions\DirectoryQuestion;
-use CrudGenerator\Command\Questions\MetaDataQuestion;
 use CrudGenerator\Command\Questions\GeneratorQuestion;
-
 use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 use CrudGenerator\ConfigManager\ConfigGenerator\DataObject\ConfigDataObject;
 use CrudGenerator\ConfigManager\ConfigMetadata\DataObject\YamlConfigDataObject;
 use CrudGenerator\ConfigManager\ConfigMetadata\DataObject\MetadataDataObjectConfig;
-use CrudGenerator\MetaData\MetaDataSource;
-use CrudGenerator\MetaData\DataObject\MetaDataColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
-use CrudGenerator\Tests\General\History\HistoryManager\YampToDtoTest;
 
 class executeTest extends \PHPUnit_Framework_TestCase
 {

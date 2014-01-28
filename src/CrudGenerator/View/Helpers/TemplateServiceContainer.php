@@ -22,7 +22,6 @@ use CrudGenerator\View\Helpers\TemplateServiceContainerStrategies\PDOStrategy;
 use CrudGenerator\View\Helpers\TemplateServiceContainerStrategies\ZendFramework2Strategy;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
-
 use CrudGenerator\DataObject;
 
 /**
