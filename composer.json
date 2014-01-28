@@ -20,7 +20,7 @@
 		"fzaninotto/faker" : "v1.2.0",
 		"silex/silex" : "~1.1",
 		"twig/twig" : "1.15.0",
-		"mheap/Silex-Assetic": "1.0.*",
+		"mheap/Silex-Assetic" : "1.0.*",
 		"symfony/console" : "~2.5",
 		"symfony/config" : "~2.5",
 		"symfony/form" : "~2.5",
@@ -55,6 +55,7 @@
 		}
 	},
 	"bin" : [
-		"bin/code-generator"
+		"bin/code-generator",
+		"bin/code-generator-web.php"
 	]
 }
