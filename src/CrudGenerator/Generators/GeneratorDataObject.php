@@ -46,6 +46,10 @@ class GeneratorDataObject implements \JsonSerializable
     /**
      * @var array
      */
+    private $environnement = array();
+    /**
+     * @var array
+     */
     private $files = array();
     /**
      * @var array
@@ -95,6 +99,15 @@ class GeneratorDataObject implements \JsonSerializable
     {
         $this->questions[] = $question;
         return $this;
+    }
+    /**
+     * @param string $name
+     * @return \CrudGenerator\Generators\Generator
+     */
+    public function addEnvironnement($environnement)
+    {
+    	$this->environnement[$environnement] = array();
+    	return $this;
     }
     /**
      * @param string $name
@@ -175,6 +188,13 @@ class GeneratorDataObject implements \JsonSerializable
     /**
      * @return array
      */
+    public function getEnvironnementQuestions()
+    {
+    	return $this->environnementQuestions;
+    }
+    /**
+     * @return array
+     */
     public function getFiles()
     {
         return $this->files;
@@ -217,7 +237,8 @@ class GeneratorDataObject implements \JsonSerializable
             'files' => $this->getFiles(),
             'directories' => $this->directories,
             'name' => $this->name,
-            'questions' => $this->questions
+            'questions' => $this->questions,
+        	'environnementQuestions' => $this->environnementQuestions
         );
     }
 }

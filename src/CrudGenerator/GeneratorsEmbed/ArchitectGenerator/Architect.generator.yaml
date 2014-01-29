@@ -2,11 +2,13 @@ name : ArchitectGenerator
 definition : Generate DAO, DTO, Hydrator, Exception, unit test
 dto : CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect
 environnement :
-    - framework : 
-        - zend_framework_2 : 
-            - backend : 
-                - pdo
-                - doctrine2
+    framework : 
+        "zend_framework_2" :
+            backend : [pdo, doctrine2]
+            template : [phtml]
+        symfony2 :
+            backend : [doctrine2]
+            template : [twig]
 questions : 
     - 
         dtoAttribute : Namespace

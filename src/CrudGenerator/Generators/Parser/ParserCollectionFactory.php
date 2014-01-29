@@ -27,6 +27,7 @@ use CrudGenerator\Generators\Parser\Lexical\TemplateVariableParser;
 use CrudGenerator\Generators\Parser\Lexical\Cli\AskQuestionParser;
 use CrudGenerator\Generators\Parser\Lexical\Web\QuestionParser;
 use CrudGenerator\Generators\Parser\Lexical\Web\QuestionResponseParser;
+use CrudGenerator\Generators\Parser\Lexical\Web\EnvironnementParser;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
 use CrudGenerator\Generators\Questions\DirectoryQuestionFactory;
@@ -47,6 +48,7 @@ class ParserCollectionFactory
 
         if ($context instanceof WebContext) {
             $collection->addPreParse(new QuestionResponseParser())
+                       //->addPreParse(new EnvironnementParser($context))
                        ->addPostParse(new QuestionParser($context, $directoryQuestion, $dependencyCondition));
         } elseif ($context instanceof CliContext) {
             $collection->addPreParse(

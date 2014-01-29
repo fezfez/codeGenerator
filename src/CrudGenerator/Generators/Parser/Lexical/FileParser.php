@@ -72,6 +72,15 @@ class FileParser implements ParserInterface
         return $generator;
     }
 
+    /**
+     * @param array $files
+     * @param PhpStringParser $parser
+     * @param GeneratorDataObject $generator
+     * @param array $questions
+     * @param boolean $firstIteration
+     * @param string $skeletonPath
+     * @return GeneratorDataObject
+     */
     private function evaluateFile(array $files, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration, $skeletonPath)
     {
         foreach ($files as $templateName => $tragetFile) {
