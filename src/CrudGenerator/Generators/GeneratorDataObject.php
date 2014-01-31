@@ -113,6 +113,15 @@ class GeneratorDataObject implements \JsonSerializable
      * @param string $name
      * @return \CrudGenerator\Generators\Generator
      */
+    public function addEnvironnementValue($environnement, $value)
+    {
+        $this->environnement[$environnement] = $value;
+        return $this;
+    }
+    /**
+     * @param string $name
+     * @return \CrudGenerator\Generators\Generator
+     */
     public function addDependency($value)
     {
     	$this->dependecies[] = $value;
@@ -190,7 +199,7 @@ class GeneratorDataObject implements \JsonSerializable
      */
     public function getEnvironnementQuestions()
     {
-    	return $this->environnementQuestions;
+    	return $this->environnement;
     }
     /**
      * @return array

@@ -21,8 +21,12 @@
                         }
                     ).success(function (data) {
                         if (data.config !== undefined) {
+                            $scope.modal = {
+                                'title' : 'Configuration',
+                                'body' : data.config
+                            };
                             $('#configuration-modal .modal-body').empty();
-                            $('#configuration-modal .modal-body').append(msg.config);
+                            $('#configuration-modal .modal-body').append();
                             $('#configuration-modal').modal('show');
                             $("#configuration-modal form").submit(function (){
                                 $.ajax({

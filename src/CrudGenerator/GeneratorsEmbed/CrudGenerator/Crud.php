@@ -26,23 +26,23 @@ class Crud extends DataObject
      */
     protected $writeAction    = null;
     /**
-     * @var string
+     * @var string Prefix for routes
      */
     protected $prefixRouteName = null;
     /**
-     * @var string
+     * @var string Controller name
      */
     protected $controllerName = null;
     /**
-     * @var string
+     * @var string Metadata name to display
      */
     protected $displayName = null;
     /**
-     * @var array
+     * @var string Metadata name to display
      */
     protected $displayNames = null;
     /**
-     * @var array
+     * @var string Model namespace
      */
     protected $modelNamespace = null;
     /**

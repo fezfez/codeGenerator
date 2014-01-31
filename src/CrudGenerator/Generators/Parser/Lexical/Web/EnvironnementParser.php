@@ -49,12 +49,12 @@ class EnvironnementParser implements ParserInterface
      public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
      {
          if (isset($process['environnement'])) {
-	        foreach ($process['environnement'] as $question) {
+	        foreach ($process['environnement'] as $key => $question) {
 	        	if (!is_array($question)) {
 					throw new MalformedGeneratorException('Questions excepts to be an array "' . gettype($question) . "' given");
 	        	}
 
-	            $generator = $this->evaluateQuestions($question, $parser, $generator, $questions, $firstIteration);
+	            $generator = $this->evaluateQuestions($key, $question, $parser, $generator, $questions, $firstIteration);
 	        }
          }
 
@@ -69,17 +69,39 @@ class EnvironnementParser implements ParserInterface
      * @param unknown $firstIteration
      * @return GeneratorDataObject
      */
-    private function evaluateQuestions(array $environnements, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
+    private function evaluateQuestions($key, array $environnements, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
     {
+        //echo 'env : ' . $key . "\n";
+        //$generator->addEnvironnement($key);
+        $possibleValues = array();
     	foreach ($environnements as $framework => $environnement) {
-    		$generator->addEnvironnement();
-    	    foreach ($environnement['backend'] as $backend) {
 
-    		}
-    		foreach ($environnement['template'] as $backend) {
-
-    		}
+    	    if (is_array($environnement)) {
+    	        $possibleValues[] = $framework;
+    	        if (isset($questions['environnement_' . $key]) && $questions['environnement_' . $key] === $framework) {
+    	            $generator->addEnvironnementValue($key, $framework);
+        	        foreach ($environnement as $test => $test2) {
+        	            $generator = $this->evaluateQuestions($test, $test2, $parser, $generator, $questions, $firstIteration);
+        	        }
+    	        }
+    	    } else {
+    	        if (isset($questions['environnement_' . $key]) && $questions['environnement_' . $key] === $environnement) {
+    	            $generator->addEnvironnementValue($key, $environnement);
+    	        }
+    	        $possibleValues[] = $environnement;
+    	        //$generator->addEnvironnementValue($key, $environnement);
+    	        //echo 'possible value : ' . $environnement . "\n";
+    	    }
     	}
+
+    	$generator->addQuestion(
+            array(
+                'dtoAttribute'    => 'environnement_' . $key,
+                'text'            => $key . ' environnement',
+                'type'            => 'select',
+                'value'           => $possibleValues
+            )
+    	);
 
         return $generator;
     }
