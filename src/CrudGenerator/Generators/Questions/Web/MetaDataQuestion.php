@@ -20,6 +20,7 @@ namespace CrudGenerator\Generators\Questions\Web;
 use CrudGenerator\MetaData\Config\MetaDataConfigReaderForm;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\MetaDataSourceFactory;
+use CrudGenerator\MetaData\Config\ConfigException;
 
 class MetaDataQuestion
 {
@@ -56,27 +57,22 @@ class MetaDataQuestion
 
         if (null !== $metadataSourceConfig) {
             $metadataSourceConfig = $this->metaDataConfigReaderForm->config($metadataSourceConfig);
-            try {
-            	$metadataSourceConfigured = $this->metaDataConfigReaderForm->config($metadataSourceConfig);
-            } catch (ConfigException $e) {
-            	return $configReader->getForm($metadataSourceConfig);
-            }
         }
 
         $metaDataDAO = $this->metaDataSourceFactory->create($metadataSourceFactoryName, $metadataSourceConfig);
 
         $metaDataChoices = array();
         foreach ($metaDataDAO->getAllMetadata() as $metadata) {
-	    	$metaDataChoices[] = array('id' => $metadata->getOriginalName(), 'label' => $metadata->getOriginalName());
-	    }
+            $metaDataChoices[] = array('id' => $metadata->getOriginalName(), 'label' => $metadata->getOriginalName());
+        }
 
-	    if (null !== $metaDataNamePreselected) {
-	    	foreach ($metaDataDAO->getAllMetadata() as $metadata) {
-				if ($metadata->getOriginalName() === $metaDataNamePreselected) {
-					return $metadata;
-				}
-			}
-	    }
+        if (null !== $metaDataNamePreselected) {
+            foreach ($metaDataDAO->getAllMetadata() as $metadata) {
+                if ($metadata->getOriginalName() === $metaDataNamePreselected) {
+                    return $metadata;
+                }
+            }
+        }
 
         return $metaDataChoices;
     }

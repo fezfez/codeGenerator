@@ -45,7 +45,25 @@ $app->match('/metadata', function (Request $request) use ($app) {
 
     $metadataSource = $backendFinder->ask($backendString);
 
-    return $app->json(array('metadatas' => $metadataFinder->ask($metadataSource)), 201);
+    try {
+        return $app->json(array('metadatas' => $metadataFinder->ask($metadataSource)), 201);
+    } catch (\CrudGenerator\MetaData\Config\ConfigException $e) {
+        $formReader = \CrudGenerator\MetaData\Config\MetaDataConfigReaderFormFactory::getInstance($app);
+
+        return $app->json(
+            array(
+                'config' =>
+                $app['twig']->render(
+                    'metadata-config.html.twig',
+                    array(
+                        'form' => $formReader->getForm(
+                            $metadataSource->getConfig()
+                         )->createView()
+                    )
+                )
+            )
+        );
+    }
 })->bind('metadata');
 
 $app->match('generator', function (Request $request) use ($app) {

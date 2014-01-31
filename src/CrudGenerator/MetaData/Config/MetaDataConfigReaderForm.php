@@ -37,7 +37,7 @@ class MetaDataConfigReaderForm
      */
     private $fileManager = null;
     /**
-     * @var $formFactory Form factory
+     * @var FormFactory Form factory
      */
     private $formFactory = null;
     /**
@@ -91,6 +91,7 @@ class MetaDataConfigReaderForm
     	$form = $this->formFactory->createBuilder('form', null, array(
 		    'action' => $this->urlGenerator->generate('metadata-save'),
 		    'method' => 'POST',
+    	    'attr'   => array('ng-submit' => 'backendConfig()')
 		));
 
     	foreach ($props as $prop) {
@@ -98,7 +99,7 @@ class MetaDataConfigReaderForm
     		if ($propName === 'definition') {
     			continue;
     		}
-    		$form->add($propName, 'text');
+    		$form->add($propName, 'text', array('attr' => array('ng-model' => 'configForm.' . $propName)));
     	}
 
     	return $form->add('save', 'submit')->getForm();
