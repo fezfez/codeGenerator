@@ -247,7 +247,7 @@ class GeneratorDataObject implements \JsonSerializable
             'directories' => $this->directories,
             'name' => $this->name,
             'questions' => $this->questions,
-        	'environnementQuestions' => $this->environnementQuestions
+            'environnement' => $this->environnement
         );
     }
 }

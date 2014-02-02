@@ -49,13 +49,13 @@ class EnvironnementParser implements ParserInterface
      public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
      {
          if (isset($process['environnement'])) {
-	        foreach ($process['environnement'] as $key => $question) {
-	        	if (!is_array($question)) {
-					throw new MalformedGeneratorException('Questions excepts to be an array "' . gettype($question) . "' given");
-	        	}
+            foreach ($process['environnement'] as $key => $question) {
+                if (!is_array($question)) {
+                    throw new MalformedGeneratorException('Questions excepts to be an array "' . gettype($question) . "' given");
+                }
 
-	            $generator = $this->evaluateQuestions($key, $question, $parser, $generator, $questions, $firstIteration);
-	        }
+                $generator = $this->evaluateQuestions($key, $question, $parser, $generator, $questions, $firstIteration);
+            }
          }
 
         return $generator;
@@ -71,37 +71,38 @@ class EnvironnementParser implements ParserInterface
      */
     private function evaluateQuestions($key, array $environnements, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
     {
-        //echo 'env : ' . $key . "\n";
-        //$generator->addEnvironnement($key);
         $possibleValues = array();
-    	foreach ($environnements as $framework => $environnement) {
+        $value = null;
+        foreach ($environnements as $framework => $environnement) {
 
-    	    if (is_array($environnement)) {
-    	        $possibleValues[] = $framework;
-    	        if (isset($questions['environnement_' . $key]) && $questions['environnement_' . $key] === $framework) {
-    	            $generator->addEnvironnementValue($key, $framework);
-        	        foreach ($environnement as $test => $test2) {
-        	            $generator = $this->evaluateQuestions($test, $test2, $parser, $generator, $questions, $firstIteration);
-        	        }
-    	        }
-    	    } else {
-    	        if (isset($questions['environnement_' . $key]) && $questions['environnement_' . $key] === $environnement) {
-    	            $generator->addEnvironnementValue($key, $environnement);
-    	        }
-    	        $possibleValues[] = $environnement;
-    	        //$generator->addEnvironnementValue($key, $environnement);
-    	        //echo 'possible value : ' . $environnement . "\n";
-    	    }
-    	}
+            if (is_array($environnement)) {
+                $possibleValues[] = array('label' => $framework, 'id' => $framework);
+                if (isset($questions['environnement_' . $key]) && $questions['environnement_' . $key] === $framework) {
+                    $value = $framework;
+                    $generator->addEnvironnementValue($key, $framework);
+                    foreach ($environnement as $test => $test2) {
+                        $generator = $this->evaluateQuestions($test, $test2, $parser, $generator, $questions, $firstIteration);
+                    }
+                }
+            } else {
+                if (isset($questions['environnement_' . $key]) && $questions['environnement_' . $key] === $environnement) {
+                    $value = $environnement;
+                    $generator->addEnvironnementValue($key, $environnement);
+                }
+                $possibleValues[] = array('label' => $environnement, 'id' => $environnement);
+            }
+        }
 
-    	$generator->addQuestion(
+        $generator->addQuestion(
             array(
                 'dtoAttribute'    => 'environnement_' . $key,
                 'text'            => $key . ' environnement',
                 'type'            => 'select',
-                'value'           => $possibleValues
+                'values'          => $possibleValues,
+                'value'           => $value,
+            	'placeholder'     => $value
             )
-    	);
+        );
 
         return $generator;
     }

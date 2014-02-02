@@ -48,7 +48,7 @@ class ParserCollectionFactory
 
         if ($context instanceof WebContext) {
             $collection->addPreParse(new QuestionResponseParser())
-                       //->addPreParse(new EnvironnementParser($context))
+                       ->addPreParse(new EnvironnementParser($context))
                        ->addPostParse(new QuestionParser($context, $directoryQuestion, $dependencyCondition));
         } elseif ($context instanceof CliContext) {
             $collection->addPreParse(
