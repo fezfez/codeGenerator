@@ -25,10 +25,10 @@ templateVariables :
             - dtoNamespace             : <?php $formGenerator->getNamespace(); ?>\Form\<?php $dataObjectName; ?>
     
 filesList :
-    - /form/FormFactory.phtml  : <?php $formGenerator->getFormPath() . $formGenerator->getModelName(); ?>FormFactory.php
-    - /form/AbstractForm.phtml : <?php $formGenerator->getFormPath() . 'Abstract' . $formGenerator->getModelName(); ?>Form.php
-    - /form/Form.phtml         : <?php $formGenerator->getFormPath() . $formGenerator->getModelName(); ?>Form.php
-    - /form/FormFilter.phtml   : <?php $formGenerator->getFormPath() . $formGenerator->getModelName(); ?>FormFilter.php
+    - /form/FormFactory.phtml  : <?php $formGenerator->getFormPath() . $ucFirstModelName; ?>FormFactory.php
+    - /form/AbstractForm.phtml : <?php $formGenerator->getFormPath() . 'Abstract' . $ucFirstModelName; ?>Form.php
+    - /form/Form.phtml         : <?php $formGenerator->getFormPath() . $ucFirstModelName; ?>Form.php
+    - /form/FormFilter.phtml   : <?php $formGenerator->getFormPath() . $ucFirstModelName; ?>FormFilter.php
     - /form/Print.phtml        : <?php $formGenerator->getFormPath(); ?>FormPrint.phtml
     - dependencyCondition :
         - !ArchitectGenerator :

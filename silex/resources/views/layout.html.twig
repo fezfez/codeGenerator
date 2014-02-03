@@ -49,16 +49,16 @@
     <div class="container-full row">
             {% block content %}
             {% endblock %}
-            <div id="test" class="col-md-9">
+            <div id="files" class="col-md-9 full-height">
             	<h2>File list</h2>
-            	<div class="">
+            	<div>
 					<file-tree family="fileList" file-view="viewFile(fileObject)">
 					</file-tree>
 				</div>
             </div>
-            <div class="col-md-3" id="div-questions">
+            <div class="col-md-3 full-height" id="questions">
             	<h2>Questions</h2>
-            	<div class="">
+            	<div>
 	                <questions></questions>
                 </div>
             </div>
@@ -106,12 +106,30 @@
   width: 100%;
 }
 
-html, body {height: 100%;}
+html, body {
+    height: 100%;
+}
 
-#content, .container-fluid, .col-md-9, .col-md-3
-{
-    overflow-y:auto;
-    height:100%;
+#files {
+    left:0px;
+}
+
+#questions {
+    right:0px;
+}
+
+.full-height {
+    bottom: 50px;
+    position: absolute;
+    top: 50px;
+}
+.full-height > div {
+    bottom: -50px;
+    overflow-y: auto;
+    padding-right: 20px;
+    position: absolute;
+    top: 50px;
+    width: 95%;
 }​
 </style>
 </body>

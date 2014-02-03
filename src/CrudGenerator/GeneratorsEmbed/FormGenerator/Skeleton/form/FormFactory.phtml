@@ -1,14 +1,14 @@
 <?php echo '<?php' . "\n"; ?>
 namespace <?php echo $this->formGenerator->getNamespace(); ?>;
 
-use <?php echo $this->formGenerator->getNamespace(); ?>\Form\Abstract<?php echo $this->formGenerator->getEntityName(); ?>Form;
-use <?php echo $this->formGenerator->getNamespace(); ?>\Form\<?php echo $this->formGenerator->getEntityName(); ?>Form;
-use <?php echo $this->formGenerator->getNamespace(); ?>\Form\<?php echo $this->formGenerator->getEntityName(); ?>FormFilter;
+use <?php echo $this->formGenerator->getNamespace(); ?>\Form\Abstract<?php echo $this->ucFirstModelName; ?>Form;
+use <?php echo $this->formGenerator->getNamespace(); ?>\Form\<?php echo $this->ucFirstModelName; ?>Form;
+use <?php echo $this->formGenerator->getNamespace(); ?>\Form\<?php echo $this->ucFirstModelName; ?>FormFilter;
 use Zend\Stdlib\Hydrator\ClassMethods;
 use Zend\Form\View\Helper\Form;
 use Zend\ServiceManager\ServiceManager;
 
-class <?php echo $this->formGenerator->getEntityName(); ?>FormFactory
+class <?php echo $this->ucFirstModelName; ?>FormFactory
 {
     /**
      * @return Abstract<?php echo $this->formGenerator->getEntityName(); ?>Form
@@ -17,10 +17,10 @@ class <?php echo $this->formGenerator->getEntityName(); ?>FormFactory
     {
         $router = $serviceManager->get('router');
 
-        $form = new <?php echo $this->formGenerator->getEntityName(); ?>Form();
-        $form->setInputFilter(new <?php echo $this->formGenerator->getEntityName(); ?>FormFilter());
+        $form = new <?php echo $this->ucFirstModelName; ?>Form();
+        $form->setInputFilter(new <?php echo $this->ucFirstModelName; ?>FormFilter());
 
-        return new Abstract<?php echo $this->formGenerator->getEntityName(); ?>Form(
+        return new Abstract<?php echo $this->ucFirstModelName; ?>Form(
             $form,
             new ClassMethods(),
             new Form(),

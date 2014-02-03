@@ -110,8 +110,8 @@ abstract class DataObject
      */
     public function addEnvironnementValue($environnement, $value)
     {
-    	$this->environnement[$environnement] = $value;
-    	return $this;
+        $this->environnement[$environnement] = $value;
+        return $this;
     }
 
     /**
@@ -187,6 +187,15 @@ abstract class DataObject
      */
     public function getEnvironnement($environnement)
     {
-    	return $this->environnement[$environnement];
+        if (!isset($this->environnement[$environnement])) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Environnement "%s" not defined',
+                    $environnement
+                )
+            );
+        } else {
+            return $this->environnement[$environnement];
+        }
     }
 }
