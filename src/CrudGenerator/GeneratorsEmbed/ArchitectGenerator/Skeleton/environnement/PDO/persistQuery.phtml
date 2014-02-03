@@ -1,0 +1,32 @@
+<?php
+$columnName = array();
+$columnCollection = $this->architectGenerator->getMetadata()->getColumnCollection(true);
+foreach ($columnCollection as $column) {
+	$columnName[] = $column->getOrininalName();
+}
+?>
+$query = $this-><?php echo $this->renderFile(__DIR__ . '/variableName.phtml'); ?>->prepare(
+            "INSERT INTO <?php echo $this->architectGenerator->getMetaData()->getOriginalName(); ?> ('<?php echo implode(', ', $columnName); ?>')
+            VALUES ('<?php echo implode(', ', array_fill(0, count($columnCollection), '?')); ?>')
+            "
+        );
+
+<?php
+$columnInArray = array();
+$columnCollection = $this->architectGenerator->getMetadata()->getColumnCollection(true);
+foreach($columnCollection as $metadata) {
+	if(!$metadata->isPrimaryKey())
+		$columnInArray[] = '            $result[\'' . $metadata->getOrininalName() . '\']';
+}
+?>
+        $query->execute(array(
+<?php echo implode(', ' . "\n", $columnInArray) . "\n"; ?>
+        ));
+
+
+        $query = $this-><?php echo $this->renderFile(__DIR__ . '/variableName.phtml'); ?>->prepare(
+            "SELECT * FROM <?php echo $this->architectGenerator->getMetaData()->getOriginalName(); ?> WHERE id = " . $this-><?php echo $this->renderFile(__DIR__ . '/variableName.phtml'); ?>->lastInsertId()
+        );
+
+        $query->execute();
+        $result = $query->fetch();

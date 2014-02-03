@@ -33,6 +33,7 @@ class PersistTest extends \PHPUnit_Framework_TestCase
             self::$fixtureManager->getDatabaseConnection(),
             new <?php echo $this->hydratorName; ?>()
         );
+
         $dtoPersisted = $sUT->persist($dto);
         $dtoRetrive   = $sUT->find($dtoPersisted);
 

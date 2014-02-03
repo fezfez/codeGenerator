@@ -108,22 +108,14 @@ class CreateCommand extends Command
     }
 
     /**
-     * @param DataObject $dto
-     * @param string $generatorName
      * @throws \RuntimeException
-     * @return DataObject
+     * @return \CrudGenerator\DataObject
      */
-    public function create(DataObject $dto = null, $generatorName = null)
+    public function create()
     {
-        if (null !== $dto) {
-            $adapter    = $this->metaDataSourcesQuestion->ask($dto->getAdapter());
-            $metadata   = $this->metaDataQuestion->ask($adapter, $dto->getMetadata());
-            $generator  = $this->generatorQuestion->ask($generatorName);
-        } else {
-            $adapter    = $this->metaDataSourcesQuestion->ask();
-            $metadata   = $this->metaDataQuestion->ask($adapter);
-            $generator  = $this->generatorQuestion->ask();
-        }
+        $adapter    = $this->metaDataSourcesQuestion->ask();
+        $metadata   = $this->metaDataQuestion->ask($adapter);
+        $generator  = $this->generatorQuestion->ask();
 
         $generatorDTO = new GeneratorDataObject();
         $generatorDTO->setName($generator);

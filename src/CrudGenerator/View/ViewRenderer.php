@@ -39,6 +39,7 @@ class ViewRenderer
     {
         $this->helpers = $helpers;
     }
+
     /**
      * Interprete the file
      *
@@ -61,6 +62,30 @@ class ViewRenderer
         }
 
         return $content;
+    }
+
+    /**
+     * Interprete the file
+     *
+     * @param string $path
+     * @param string $templateName
+     * @throws Exception
+     * @return string
+     */
+    public function renderFile($path)
+    {
+    	try {
+    		ob_start();
+    		include $path;
+    		$content = ob_get_clean();
+    	} catch (\Exception $ex) {
+    		ob_end_clean();
+    		throw new ViewRendererException(
+    			'In : "' . $path . '" ' . $ex->getMessage() . ' Line ' . $ex->getLine()
+    		);
+    	}
+
+    	return $content;
     }
 
     /**

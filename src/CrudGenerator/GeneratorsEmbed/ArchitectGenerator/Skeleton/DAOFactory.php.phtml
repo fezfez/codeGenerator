@@ -1,22 +1,22 @@
 <?php echo '<?php' . "\n";
-$databaseConnectorVariableName = $this->getHelper('TemplateDatabaseConnector')->getVariableName($this->architectGenerator);
+$databaseConnectorVariableName = $this->renderFile(__DIR__ . '/environnement/' . $this->architectGenerator->getEnvironnement('backend') . '/variableName.phtml');
 ?>
 
 namespace <?php echo $this->architectGenerator->getNamespace(); ?>;
 
-use <?php echo $this->getHelper('TemplateDatabaseConnector')->getFullClass($this->architectGenerator); ?>;
-<?php echo $this->getHelper('TemplateServiceContainer')->getFullClass($this->architectGenerator); ?>
+use <?php echo $this->renderFile(__DIR__ . '/environnement/' . $this->architectGenerator->getEnvironnement('backend') . '/fullClass.phtml'); ?>;
+<?php echo $this->renderFile(__DIR__ . '/environnement/' . $this->architectGenerator->getEnvironnement('framework') . '/fullClass.phtml'); ?>
 use <?php echo $this->hydratorNamespace; ?>;
 use <?php echo $this->daoNamespace; ?>;
 
-class <?php echo $this->daoFactoryName; ?>
+class <?php echo $this->daoFactoryName . "\n"; ?>
 {
     /**
-     * @return <?php echo $this->daoNamespace; ?>
+     * @return <?php echo $this->daoNamespace . "\n"; ?>
      */
-    public static function getInstance(<?php echo $this->getHelper('TemplateServiceContainer')->getInjectionInDependencie($this->architectGenerator); ?>)
+    public static function getInstance(<?php echo $this->renderFile(__DIR__ . '/environnement/' . $this->architectGenerator->getEnvironnement('framework') . '/injectionInDependencie.phtml'); ?>)
     {
-        $<?php echo $databaseConnectorVariableName; ?> = <?php echo $this->getHelper('TemplateDatabaseConnector')->getCreateInstance($this->architectGenerator) . "\n"; ?>
+        $<?php echo $databaseConnectorVariableName; ?> = <?php echo $this->renderFile(__DIR__ . '/environnement/' . $this->architectGenerator->getEnvironnement('backend') . '/createInstance.phtml') . "\n"; ?>
         $hydrator      = new <?php echo $this->hydratorName; ?>();
 
         return new <?php echo $this->daoName; ?>(

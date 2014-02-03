@@ -1,0 +1,23 @@
+<?php
+$columnInArray = array();
+$columnCollection = $this->architectGenerator->getMetadata()->getColumnCollection(true);
+foreach($columnCollection as $metadata) {
+	$columnInArray[] = '            $result[\'' . $metadata->getOrininalName() . '\']';
+}
+$identifiers = $this->architectGenerator->getMetadata()->getIdentifier();
+if ($withoutId == false) {
+	foreach($identifiers as $identifier) {
+		$columnInArray[] = '            $result[\'' . $identifier->getOrininalName() . '\']';
+	}
+}
+?>
+$query->execute(array('
+<?php echo implode(', ' . "\n", $columnInArray); ?>
+        ));
+
+
+        $query = $this-><?php echo $this->renderFile(__DIR__ . '/variableName.phtml'); ?>->prepare(
+            "SELECT * FROM <?php echo $this->architectGenerator->getMetaData()->getOriginalName(); ?>WHERE id = " . $this-><?php echo $this->renderFile(__DIR__ . '/variableName.phtml'); ?>->lastInsertId()
+        );
+        $query->execute();
+        $result = $query->fetch();

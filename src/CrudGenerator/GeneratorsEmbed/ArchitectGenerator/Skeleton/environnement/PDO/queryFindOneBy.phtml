@@ -1,0 +1,10 @@
+if(!$<?php echo $this->modelName; ?>->getId()) {
+            throw new <?php echo $this->exceptionName; ?>('<?php echo $this->modelName; ?> not found');
+        }
+
+        $query = $this-><?php echo $this->renderFile(__DIR__ . '/variableName.phtml'); ?>->prepare(
+            "SELECT * FROM <?php echo $this->architectGenerator->getMetaData()->getOriginalName(); ?> WHERE id = " . $<?php echo $this->modelName; ?>->getId()
+        );
+
+        $query->execute();
+        $result = $query->fetch();

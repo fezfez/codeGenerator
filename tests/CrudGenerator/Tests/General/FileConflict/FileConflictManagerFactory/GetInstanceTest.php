@@ -38,4 +38,13 @@ class getInstanceTest extends \PHPUnit_Framework_TestCase
     		FileConflictManagerFactory::getInstance($context)
     	);
     }
+
+    public function testInstanceErrror()
+    {
+    	$context = $this->getMock('CrudGenerator\Context\ContextInterface');
+
+    	$this->setExpectedException('InvalidArgumentException');
+
+    	FileConflictManagerFactory::getInstance($context);
+    }
 }

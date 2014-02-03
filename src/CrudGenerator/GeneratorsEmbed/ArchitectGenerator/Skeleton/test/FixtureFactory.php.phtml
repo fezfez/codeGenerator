@@ -1,29 +1,33 @@
 <?php
 echo '<?php' . "\n";
-$databaseConnectorClassName     = $this->getHelper('TemplateDatabaseConnector')->getClassName($this->architectGenerator);
-$databaseConnectionVariableName = $this->getHelper('TemplateDatabaseConnector')->getVariableName($this->architectGenerator);
+$pathBackend = __DIR__ . '/../environnement/' . $this->architectGenerator->getEnvironnement('backend') . '/';
+$frameworkPath = __DIR__ . '/../environnement/' . $this->architectGenerator->getEnvironnement('framework') . '/';
+$databaseConnectionVariableName = $this->renderFile($pathBackend . 'variableName.phtml');
 
 ?>
 namespace <?php echo $this->unitTestNamespace; ?>;
 
-use <?php echo $this->getHelper('TemplateDatabaseConnector')->getFullClass($this->architectGenerator); ?>;
+use <?php echo $this->renderFile($pathBackend . 'fullClass.phtml'); ?>;
 use <?php echo $this->dtoNamespace; ?>;
 use <?php echo $this->hydratorNamespace; ?>;
-<?php echo $this->getHelper('TemplateServiceContainer')->getFullClassForUnitTest($this->architectGenerator); ?>
+<?php echo $this->renderFile($frameworkPath . 'fullClassForUnitTest.phtml'); ?>
 
 class <?php echo $this->fixtureFactoryName . "\n"; ?>
 {
     /**
-     * @return <?php echo $this->fixtureName . "\n"; ?>
+     * @var <?php echo $this->fixtureName; ?> Fixture for <?php echo $this->modelName . "\n"; ?>
      */
     private $instance = null;
 
+    /**
+     * @return <?php echo $this->fixtureName . "\n"; ?>
+     */
     public static function getInstance()
     {
         if (null === self::instance) {
             $hydrator = new <?php echo $this->hydratorName; ?>();
-            <?php echo $this->getHelper('TemplateServiceContainer')->getCreateInstanceForUnitTest($this->architectGenerator) . "\n" ?>
-            $<?php echo $databaseConnectionVariableName; ?> = <?php echo $this->getHelper('TemplateDatabaseConnector')->getCreateInstance($this->architectGenerator) . "\n"; ?>
+            <?php echo $this->renderFile($frameworkPath . 'createInstanceForUnitTest.phtml') . "\n" ?>
+            $<?php echo $databaseConnectionVariableName; ?> = <?php echo $this->renderFile($pathBackend .'createInstance.phtml') . "\n"; ?>
 
             self::instance = new <?php echo $this->fixtureName; ?>($hydrator, $<?php echo $databaseConnectionVariableName; ?>);
         }

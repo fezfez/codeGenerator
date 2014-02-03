@@ -4,7 +4,7 @@ dto : CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect
 environnement :
     framework : 
         "zend_framework_2" :
-            backend : [pdo, doctrine2]
+            backend : [PDO, doctrine2]
             template : [phtml]
         symfony2 :
             backend : [doctrine2]

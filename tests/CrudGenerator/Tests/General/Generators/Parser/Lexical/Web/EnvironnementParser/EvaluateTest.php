@@ -7,6 +7,7 @@ use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\Context\WebContext;
 use Symfony\Component\Yaml\Yaml;
+use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 
 class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,6 +24,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
     	->getMock();
 
     	$generator = new GeneratorDataObject();
+    	$generator->setDTO(new Architect());
 
     	$sUT = new EnvironnementParser($context);
 

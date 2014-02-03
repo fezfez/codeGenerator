@@ -1,0 +1,5 @@
+$result = $this-><?php echo $this->renderFile(__DIR__ . '/variableName.phtml'); ?>->getRepository('<?php echo $this->architectGenerator->getMetadata()->getName(); ?>')->findOneBy(
+            array(
+                "id" => $<?php echo $this->modelName; ?>->getId()
+            )
+        );

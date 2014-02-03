@@ -1,18 +1,24 @@
-<?php echo '<?php' . "\n"; ?>
+<?php
+echo '<?php' . "\n";
+$frameworkPath = __DIR__ . '/../../environnement/' . $this->architectGenerator->getEnvironnement('framework') . '/';
+
+?>
 
 namespace <?php echo $this->unitTestNamespace; ?>\DAOFactory;
 
-use <?php echo $this->architectGenerator->getNamespace(); ?>\<?php echo $this->daoName; ?>Factory;
+use <?php echo $this->daoFactoryNamespace; ?>;
 use <?php echo $this->daoNamespace; ?>;
-<?php echo $this->getHelper('TemplateServiceContainer')->getFullClassForUnitTest($this->architectGenerator); ?>
+<?php echo $this->renderFile($frameworkPath . 'fullClassForUnitTest.phtml'); ?>
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testReturnType()
     {
+        <?php echo $this->renderFile($frameworkPath . 'createInstanceForUnitTest.phtml') . "\n"; ?>
+
         $this->assertInstanceOf(
             '<?php echo $this->daoNamespace; ?>',
-            <?php echo $this->daoName; ?>Factory::getInstance(<?php echo $this->getHelper('TemplateServiceContainer')->getCreateInstanceForUnitTest($this->architectGenerator); ?>)
+            <?php echo $this->daoFactoryName; ?>::getInstance($serviceManager)
         );
     }
 }

@@ -46,6 +46,10 @@ abstract class DataObject
      * @var string
      */
     private $generator       = null;
+    /**
+     * @var array
+     */
+    private $environnement   = array();
 
     /**
      * Set Module
@@ -98,6 +102,16 @@ abstract class DataObject
     {
         $this->adapter = $value;
         return $this;
+    }
+
+    /**
+     * @param string $name
+     * @return \CrudGenerator\DataObject
+     */
+    public function addEnvironnementValue($environnement, $value)
+    {
+    	$this->environnement[$environnement] = $value;
+    	return $this;
     }
 
     /**
@@ -166,5 +180,13 @@ abstract class DataObject
     public function getAdapter()
     {
         return $this->adapter;
+    }
+    /**
+     * @param string $environnement
+     * @return string
+     */
+    public function getEnvironnement($environnement)
+    {
+    	return $this->environnement[$environnement];
     }
 }

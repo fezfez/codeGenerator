@@ -1,0 +1,29 @@
+<?php
+$columnInArray = array();
+$columnCollection = $this->architectGenerator->getMetadata()->getColumnCollection(true);
+foreach($columnCollection as $metadata) {
+	$columnInArray[] = '' . $metadata->getOrininalName() . ' = ?';
+}
+?>
+$query = $this-><?php echo $this->renderFile(__DIR__ . '/variableName.phtml'); ?>->prepare(
+            "UPDATE <?php echo $this->architectGenerator->getMetaData()->getOriginalName(); ?> SET <?php echo implode(', ', $columnInArray); ?> WHERE id = ?"
+        );
+
+<?php
+$columnInArray = array();
+$columnCollection = $this->architectGenerator->getMetadata()->getColumnCollection();
+foreach($columnCollection as $metadata) {
+	$columnInArray[] = '            $result[\'' . $metadata->getOrininalName() . '\']';
+}
+?>
+        $query->execute(array(
+<?php echo implode(', ' . "\n", $columnInArray) . "\n"; ?>
+        ));
+
+
+        $query = $this-><?php echo $this->renderFile(__DIR__ . '/variableName.phtml'); ?>->prepare(
+            "SELECT * FROM <?php echo $this->architectGenerator->getMetaData()->getOriginalName(); ?> WHERE id = " . $this-><?php echo $this->renderFile(__DIR__ . '/variableName.phtml'); ?>->lastInsertId()
+        );
+
+        $query->execute();
+        $result = $query->fetch();

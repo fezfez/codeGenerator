@@ -9,11 +9,11 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testWeb()
     {
-    	$web =  $this->getMockBuilder('Silex\Application')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $web =  $this->getMockBuilder('Silex\Application')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$context = new WebContext($web);
+        $context = new WebContext($web);
 
         $this->assertInstanceOf(
             'CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArrayWeb',
@@ -23,19 +23,28 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 
     public function testCli()
     {
-    	$ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$context = new CliContext($dialog, $ConsoleOutputStub);
+        $context = new CliContext($dialog, $ConsoleOutputStub);
 
         $this->assertInstanceOf(
             'CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArrayCli',
             MetadataToArrayFactory::getInstance($context)
         );
+    }
+
+    public function testInstanceErrror()
+    {
+        $context = $this->getMock('CrudGenerator\Context\ContextInterface');
+
+        $this->setExpectedException('InvalidArgumentException');
+
+        MetadataToArrayFactory::getInstance($context);
     }
 }

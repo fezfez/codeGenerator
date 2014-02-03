@@ -100,21 +100,14 @@ class GeneratorDataObject implements \JsonSerializable
         $this->questions[] = $question;
         return $this;
     }
-    /**
-     * @param string $name
-     * @return \CrudGenerator\Generators\Generator
-     */
-    public function addEnvironnement($environnement)
-    {
-    	$this->environnement[$environnement] = array();
-    	return $this;
-    }
+
     /**
      * @param string $name
      * @return \CrudGenerator\Generators\Generator
      */
     public function addEnvironnementValue($environnement, $value)
     {
+    	$this->dto->addEnvironnementValue($environnement, $value);
         $this->environnement[$environnement] = $value;
         return $this;
     }

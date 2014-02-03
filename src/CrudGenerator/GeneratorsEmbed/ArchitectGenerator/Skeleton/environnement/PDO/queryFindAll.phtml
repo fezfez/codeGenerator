@@ -1,0 +1,6 @@
+$query = $this-><?php echo $this->renderFile(__DIR__ . '/variableName.phtml'); ?>->prepare(
+            "SELECT * FROM <?php echo $this->architectGenerator->getMetaData()->getOriginalName(); ?>"
+        );
+
+        $query->execute();
+        $results = $query->fetchAll();
