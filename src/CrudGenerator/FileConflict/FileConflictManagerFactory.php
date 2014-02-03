@@ -3,8 +3,6 @@ namespace CrudGenerator\FileConflict;
 
 use CrudGenerator\Utils\FileManager;
 use SebastianBergmann\Diff\Differ;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\WebContext;
 use CrudGenerator\Context\CliContext;
