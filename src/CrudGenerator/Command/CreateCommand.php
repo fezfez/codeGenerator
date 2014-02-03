@@ -76,7 +76,7 @@ class CreateCommand extends Command
      */
     public function __construct(
         GeneratorParser $parser,
-    	GeneratorCli $generator,
+        GeneratorCli $generator,
         HistoryManager $historyManager,
         MetaDataSourcesQuestion $metaDataSourcesQuestion,
         MetaDataQuestion $metaDataQuestion,
@@ -123,17 +123,11 @@ class CreateCommand extends Command
         $generatorDTO = $this->parser->init($generatorDTO, $metadata);
 
         $generatorDTO->getDTO()
-                     ->setEntity($metadata->getName())
-                     ->setMetaData($metadata)
                      ->setAdapter($adapter->getName());
-
-        $this->cliContext->getOutput()->writeln("<info>Resume</info>");
-        $this->cliContext->getOutput()->writeln('<info>Metadata : ' . $generatorDTO->getDTO()->getEntity(), '*</info>');
-        $this->cliContext->getOutput()->writeln('<info>Directory : ' . $generatorDTO->getDTO()->getModule(), '*</info>');
 
         $doI = $this->cliContext->getDialogHelper()->askConfirmation(
             $this->cliContext->getOutput(),
-            "\n<question>Do you confirm generation (may others question generator ask you) ?</question> "
+            "\n<question>Do you confirm generation ?</question> "
         );
 
         if ($doI === true) {

@@ -56,7 +56,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $generatorDTO = new GeneratorDataObject();
         $generatorDTO->setDTO(new Architect());
 
-        $this->assertEquals('./', $sUT->ask($generatorDTO)->getDTO()->getModule());
+        $this->assertEquals('./', $sUT->ask($generatorDTO, array('attribute' => 'ModelDirectory'))->getDTO()->getModelDirectory());
     }
 
     public function testOkWithCreateFile()
@@ -139,11 +139,12 @@ class AskTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
+
         $sUT = new DirectoryQuestion($fileManagerStub, $ConsoleOutputStub, $dialog);
 
         $generatorDTO = new GeneratorDataObject();
         $generatorDTO->setDTO(new Architect());
 
-        $this->assertEquals('./MyTrueDir/',  $sUT->ask($generatorDTO)->getDTO()->getModule());
+        $this->assertEquals('./MyTrueDir/',  $sUT->ask($generatorDTO, array('attribute' => 'ModelDirectory'))->getDTO()->getModelDirectory());
     }
 }

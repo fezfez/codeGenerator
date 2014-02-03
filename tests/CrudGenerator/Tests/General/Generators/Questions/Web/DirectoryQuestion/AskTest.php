@@ -11,7 +11,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
     {
         $generatorDTO = new GeneratorDataObject();
         $dto = new Architect();
-        $dto->setModule('src');
+        $dto->setModelDirectory('src');
         $generatorDTO->setDTO($dto);
 
         $generatorToTest = clone $generatorDTO;
@@ -22,10 +22,10 @@ class AskTest extends \PHPUnit_Framework_TestCase
         );
         $generatorToTest->addQuestion(
         	array(
-        		'dtoAttribute'    => 'setModule',
+        		'dtoAttribute'    => 'setModelDirectory',
         		'text'            => 'Select a Directory',
-        		'placeholder'     => 'Actual directory "' . $dto->getModule() . '"',
-        		'value'           => $dto->getModule(),
+        		'placeholder'     => 'Actual directory "' . $dto->getModelDirectory() . '"',
+        		'value'           => $dto->getModelDirectory(),
         		'type'            => 'select',
         		'values'          => array(
         			array('label' => 'Back', 'id' => ''),
@@ -41,11 +41,11 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $fileManagerStub->expects($this->once())
         ->method('glob')
-        ->with($dto->getModule() . '*', GLOB_ONLYDIR|GLOB_MARK)
+        ->with($dto->getModelDirectory() . '*', GLOB_ONLYDIR|GLOB_MARK)
         ->will($this->returnValue($directories));
 
         $sUT = new DirectoryQuestion($fileManagerStub);
 
-        $this->assertEquals($generatorToTest, $sUT->ask($generatorDTO));
+        $this->assertEquals($generatorToTest, $sUT->ask($generatorDTO, array('dtoAttribute' => 'ModelDirectory', 'text' => 'Select a Directory')));
     }
 }

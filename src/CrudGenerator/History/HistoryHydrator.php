@@ -79,7 +79,6 @@ class HistoryHydrator
         }
 
         $dumpArray = array(
-            'module'         => $dataObject->getModule(),
             'metaDataSource' => $dataObject->getAdapter(),
             'metaData'       => $metadata->getOriginalName(),
             'Generators'     => $this->dumpToArray($dataObject)
@@ -103,9 +102,7 @@ class HistoryHydrator
             $metaData       = $this->metaDataQuestion->ask($metadataSource, $arrayRepresentation['metaData']);
 
             $dto = new $dtoName();
-            $dto->setModule($arrayRepresentation['module'])
-                ->setMetadata($metaData)
-                ->setEntity($metaData->getName());
+            $dto->setMetadata($metaData);
 
             $dto = $this->writeAbstractOptions($arrayRepresentation['Generators'][$dtoName], $dto);
 

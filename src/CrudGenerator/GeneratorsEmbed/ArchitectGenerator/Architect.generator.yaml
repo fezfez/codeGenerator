@@ -11,6 +11,16 @@ environnement :
             template : [twig]
 questions : 
     - 
+        dtoAttribute : ModelDirectory
+        text : Chose a directory for model
+        type : complex
+        factory : CrudGenerator\Generators\Questions\DirectoryQuestionFactory
+    - 
+        dtoAttribute : UnitTestDirectory
+        text : Chose a directory for unit test
+        type : complex
+        factory : CrudGenerator\Generators\Questions\DirectoryQuestionFactory
+    - 
         dtoAttribute : Namespace
         text : Choose a target namespace
     - 
@@ -21,15 +31,14 @@ questions :
         type : complex
         factory : CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArrayFactory
 directories :
-    - <?php $basePath; ?>/DAO/
-    - <?php $basePath; ?>/Hydrator/
-    - <?php $basePath; ?>/DataObject/
-    - <?php $unitTestDirectory; ?>DAOFactory
-    - <?php $unitTestDirectory; ?>DAO
-    - <?php $unitTestDirectory; ?>Hydrator
+    - <?php $architectGenerator->getModelDirectory(); ?>/DAO/
+    - <?php $architectGenerator->getModelDirectory(); ?>/Hydrator/
+    - <?php $architectGenerator->getModelDirectory(); ?>/DataObject/
+    - <?php $architectGenerator->getUnitTestDirectory(); ?>DAOFactory
+    - <?php $architectGenerator->getUnitTestDirectory(); ?>DAO
+    - <?php $architectGenerator->getUnitTestDirectory(); ?>Hydrator
         
 templateVariables : 
-    - basePath                 : <?php $architectGenerator->getModule(); ?>
     - modelName                : <?php lcfirst($architectGenerator->getModelName()); ?>
     - ucFirstModelName         : <?php ucfirst($architectGenerator->getModelName()); ?>
     - hydratorName             : <?php $ucFirstModelName; ?>Hydrator
@@ -50,28 +59,23 @@ templateVariables :
     - fixtureFactoryName       : <?php $ucFirstModelName; ?>FixtureFactory
     - fixtureNamespace         : Tests\<?php $architectGenerator->getNamespace(); ?>\<?php $fixtureName; ?>
     - fixtureFactoryNamespace  : Tests\<?php $architectGenerator->getNamespace(); ?>\<?php $fixtureFactoryName; ?>
-    - environnementCondition   : # reserved word
-        - zf2 : 
-            unitTestDirectory : <php $architectGenerator->getModule(); ?>/Tests/<?php str_replace('\\', '/', $architectGenerator->getNamespace()); ?>/<?php $ucFirstModelName; ?>
-        - else :
-            unitTestDirectory : Tests/<?php $architectGenerator->getModule(); ?>
 
 filesList :
-    - /Exception.php.phtml            : <?php $basePath; ?>/No<?php $ucFirstModelName; ?>Exception.php
-    - /DAOFactory.php.phtml           : <?php $basePath; ?>/<?php $ucFirstModelName; ?>DAOFactory.php
-    - /DAO.php.phtml                  : <?php $basePath; ?>/DAO/<?php $ucFirstModelName; ?>DAO.php
-    - /Hydrator.php.phtml             : <?php $basePath; ?>/Hydrator/<?php $ucFirstModelName; ?>Hydrator.php
-    - /DataObject.php.phtml           : <?php $basePath; ?>/DataObject/<?php $ucFirstModelName; ?>DataObject.php
-    - /DataObjectCollection.php.phtml : <?php $basePath; ?>/DataObject/<?php $ucFirstModelName; ?>Collection.php
+    - /Exception.php.phtml            : <?php $architectGenerator->getModelDirectory(); ?>/No<?php $ucFirstModelName; ?>Exception.php
+    - /DAOFactory.php.phtml           : <?php $architectGenerator->getModelDirectory(); ?>/<?php $ucFirstModelName; ?>DAOFactory.php
+    - /DAO.php.phtml                  : <?php $architectGenerator->getModelDirectory(); ?>/DAO/<?php $ucFirstModelName; ?>DAO.php
+    - /Hydrator.php.phtml             : <?php $architectGenerator->getModelDirectory(); ?>/Hydrator/<?php $ucFirstModelName; ?>Hydrator.php
+    - /DataObject.php.phtml           : <?php $architectGenerator->getModelDirectory(); ?>/DataObject/<?php $ucFirstModelName; ?>DataObject.php
+    - /DataObjectCollection.php.phtml : <?php $architectGenerator->getModelDirectory(); ?>/DataObject/<?php $ucFirstModelName; ?>Collection.php
     # unit test
-    - /test/Fixture.php.phtml                    : <?php $unitTestDirectory . $fixtureName; ?>.php
-    - /test/FixtureFactory.php.phtml             : <?php $unitTestDirectory . $fixtureFactoryName; ?>.php
-    - /test/DAOFactory/getInstanceTest.php.phtml : <?php $unitTestDirectory . $daoFactoryName; ?>/GetInstanceTest.php
-    - /test/DAO/findTest.php.phtml               : <?php $unitTestDirectory . $daoName; ?>/FindTest.php
-    - /test/DAO/findAllTest.php.phtml            : <?php $unitTestDirectory . $daoName; ?>/FindAllTest.php
-    - /test/DAO/persistTest.php.phtml            : <?php $unitTestDirectory . $daoName; ?>/PersitTest.php
-    - /test/DAO/modifyTest.php.phtml             : <?php $unitTestDirectory . $daoName; ?>/ModifyTest.php
-    - /test/DAO/removeTest.php.phtml             : <?php $unitTestDirectory . $daoName; ?>/RemoveTest.php
+    - /test/Fixture.php.phtml                    : <?php $architectGenerator->getUnitTestDirectory() . $fixtureName; ?>.php
+    - /test/FixtureFactory.php.phtml             : <?php $architectGenerator->getUnitTestDirectory() . $fixtureFactoryName; ?>.php
+    - /test/DAOFactory/getInstanceTest.php.phtml : <?php $architectGenerator->getUnitTestDirectory() . $daoFactoryName; ?>/GetInstanceTest.php
+    - /test/DAO/findTest.php.phtml               : <?php $architectGenerator->getUnitTestDirectory() . $daoName; ?>/FindTest.php
+    - /test/DAO/findAllTest.php.phtml            : <?php $architectGenerator->getUnitTestDirectory() . $daoName; ?>/FindAllTest.php
+    - /test/DAO/persistTest.php.phtml            : <?php $architectGenerator->getUnitTestDirectory() . $daoName; ?>/PersitTest.php
+    - /test/DAO/modifyTest.php.phtml             : <?php $architectGenerator->getUnitTestDirectory() . $daoName; ?>/ModifyTest.php
+    - /test/DAO/removeTest.php.phtml             : <?php $architectGenerator->getUnitTestDirectory() . $daoName; ?>/RemoveTest.php
     - environnementCondition   : # reserved word
         - zf2 : 
             - !isFile :

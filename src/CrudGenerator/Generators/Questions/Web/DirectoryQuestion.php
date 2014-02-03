@@ -39,9 +39,10 @@ class DirectoryQuestion
      * @param GeneratorDataObject $DTO
      * @return GeneratorDataObject
      */
-    public function ask(GeneratorDataObject $generator)
+    public function ask(GeneratorDataObject $generator, array $question)
     {
-        $module = $generator->getDTO()->getModule();
+    	$attribute = 'get' . $question['dtoAttribute'];
+        $module = $generator->getDTO()->$attribute();
         $directoriesRaw = $this->fileManager->glob(
             $module . '*',
             GLOB_ONLYDIR|GLOB_MARK
@@ -59,8 +60,8 @@ class DirectoryQuestion
 
         $generator->addQuestion(
             array(
-                'dtoAttribute'    => 'setModule',
-                'text'            => 'Select a Directory',
+                'dtoAttribute'    => 'set' . $question['dtoAttribute'],
+                'text'            => $question['text'],
                 'placeholder'     => 'Actual directory "' . $module . '"',
                 'value'           => $module,
                 'type'            => 'select',

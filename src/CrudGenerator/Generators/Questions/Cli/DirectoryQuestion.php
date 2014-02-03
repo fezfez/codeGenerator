@@ -68,16 +68,11 @@ class DirectoryQuestion
      * @param GeneratorDataObject
      * @return GeneratorDataObject
      */
-    public function ask(GeneratorDataObject $generator)
+    public function ask(GeneratorDataObject $generator, $question)
     {
-        try {
-            ZendFramework2Environnement::getDependence($this->fileManager);
-            $directory = './module/';
-        } catch (EnvironnementResolverException $e) {
-            $directory = './';
-        }
-
+        $directory = './';
         $choice = null;
+
         while ($choice != self::CURRENT_DIRECTORY) {
             $directories = $this->fileManager->glob(
                 $directory . '*',
@@ -115,7 +110,9 @@ class DirectoryQuestion
             }
         }
 
-        $generator->getDTO()->setModule($directory);
+        $attribute = 'set' . $question['attribute'];
+
+        $generator->getDTO()->$attribute($directory);
 
         return $generator;
     }

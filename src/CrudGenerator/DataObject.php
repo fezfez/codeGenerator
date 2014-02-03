@@ -27,14 +27,6 @@ use CrudGenerator\MetaData\DataObject\MetaData;
 abstract class DataObject
 {
     /**
-     * @var string Module name
-     */
-    private $module          = null;
-    /**
-     * @var string Entity name
-     */
-    private $entity          = null;
-    /**
      * @var MetaData Metadata object
      */
     private $metadata        = null;
@@ -52,26 +44,6 @@ abstract class DataObject
     private $environnement   = array();
 
     /**
-     * Set Module
-     * @param string $value
-     * @return \CrudGenerator\DataObject
-     */
-    public function setModule($value)
-    {
-        $this->module = $value;
-        return $this;
-    }
-    /**
-     * Set Entity
-     * @param string $value
-     * @return \CrudGenerator\DataObject
-     */
-    public function setEntity($value)
-    {
-        $this->entity = $value;
-        return $this;
-    }
-    /**
      * Set MetaData
      * @param MetaData $value
      * @return \CrudGenerator\DataObject
@@ -81,7 +53,16 @@ abstract class DataObject
         $this->metadata = $value;
         return $this;
     }
-
+    /**
+     * Set Generator
+     * @param string $value
+     * @return \CrudGenerator\DataObject
+     */
+    public function setAdapter($value)
+    {
+    	$this->adapter = $value;
+    	return $this;
+    }
     /**
      * Set Generator
      * @param string $value
@@ -92,20 +73,9 @@ abstract class DataObject
         $this->generator = $value;
         return $this;
     }
-
     /**
-     * Set Generator
+     * @param string $environnement
      * @param string $value
-     * @return \CrudGenerator\DataObject
-     */
-    public function setAdapter($value)
-    {
-        $this->adapter = $value;
-        return $this;
-    }
-
-    /**
-     * @param string $name
      * @return \CrudGenerator\DataObject
      */
     public function addEnvironnementValue($environnement, $value)
@@ -115,53 +85,22 @@ abstract class DataObject
     }
 
     /**
-     * Get Module
-     * @return string
-     */
-    public function getModule()
-    {
-        return $this->module;
-    }
-    /**
-     * Get Module name
-     * @return string
-     */
-    public function getModuleName()
-    {
-        if (!strrchr($this->module, '/')) {
-            return $this->module;
-        } else {
-            return substr(strrchr(substr($this->module, 0, -1), "/"), 1);
-        }
-    }
-    /**
-     * Get Entity
-     * @return string
-     */
-    public function getEntity()
-    {
-        return $this->entity;
-    }
-    /**
-     * Get Entity name
-     * @return string
-     */
-    public function getEntityName()
-    {
-        if (!strrchr($this->entity, '\\')) {
-            return $this->entity;
-        } else {
-            return str_replace('\\', '', strrchr($this->entity, '\\'));
-        }
-    }
-
-    /**
      * Get MetaData
+     *
      * @return \CrudGenerator\MetaData\DataObject\MetaData
      */
     public function getMetadata()
     {
         return $this->metadata;
+    }
+    /**
+     * Get Adapter
+     *
+     * @return string
+     */
+    public function getAdapter()
+    {
+    	return $this->adapter;
     }
     /**
      * Get generator
@@ -173,16 +112,10 @@ abstract class DataObject
         return $this->generator;
     }
     /**
-     * Get Adapter
+     * Get environnement
      *
-     * @return string
-     */
-    public function getAdapter()
-    {
-        return $this->adapter;
-    }
-    /**
      * @param string $environnement
+     * @throws \InvalidArgumentException
      * @return string
      */
     public function getEnvironnement($environnement)

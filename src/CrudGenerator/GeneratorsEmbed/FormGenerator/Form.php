@@ -97,6 +97,6 @@ class Form extends DataObject
 
     public function getFormPath()
     {
-    	return $this->getModule() . '/Form/';
+    	return '/Form/';
     }
 }

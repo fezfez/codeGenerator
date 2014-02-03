@@ -21,15 +21,14 @@ use CrudGenerator\DataObject;
 
 class Architect extends DataObject
 {
-    protected $generator      = 'CrudGenerator\Generators\ArchitectGenerator\ArchitectGenerator';
-    /**
-     * @var booelean
-     */
-    private $generateUnitTest = null;
     /**
      * @var string Target directory
      */
-    private $directory       = null;
+    private $modelDirectory  = null;
+    /**
+     * @var string Target directory
+     */
+    private $unitTestDirectory  = null;
     /**
      * @var string Target namespace
      */
@@ -41,8 +40,28 @@ class Architect extends DataObject
     /**
      * @var array
      */
-    protected $attributesDisplayName = array();
+    private $attributesDisplayName = array();
 
+    /**
+     * Set model directory
+     * @param string $value
+     * @return \CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect
+     */
+    public function setModelDirectory($value)
+    {
+    	$this->modelDirectory = $value;
+    	return $this;
+    }
+    /**
+     * Set model directory
+     * @param string $value
+     * @return \CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect
+     */
+    public function setUnitTestDirectory($value)
+    {
+    	$this->unitTestDirectory = $value;
+    	return $this;
+    }
     /**
      * @param string $attribute
      * @param string $name
@@ -52,6 +71,43 @@ class Architect extends DataObject
     {
         $this->attributesDisplayName[$attribute] = $name;
         return $this;
+    }
+    /**
+     * Set Namespace
+     * @param string $value
+     * @return \CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect
+     */
+    public function setNamespace($value)
+    {
+        $this->namespace = $value;
+        return $this;
+    }
+    /**
+     * Set ModelName
+     * @param string $value
+     * @return \CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect
+     */
+    public function setModelName($value)
+    {
+        $this->modelName = $value;
+        return $this;
+    }
+
+    /**
+     * Get model directory
+     * @return string
+     */
+    public function getModelDirectory()
+    {
+    	return $this->modelDirectory;
+    }
+    /**
+     * Get unit test directory
+     * @return string
+     */
+    public function getUnitTestDirectory()
+    {
+    	return $this->unitTestDirectory;
     }
     /**
      * @param string $attribute
@@ -66,34 +122,6 @@ class Architect extends DataObject
         }
     }
     /**
-     * @return string
-     */
-    public function getGenerateUnitTest()
-    {
-        return $this->generateUnitTest;
-    }
-
-    /**
-     * @param string $value
-     * @return \CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect
-     */
-    public function setGenerateUnitTest($value)
-    {
-        $this->generateUnitTest = $value;
-        return $this;
-    }
-
-    /**
-     * Set Namespace
-     * @param string $value
-     * @return \CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect
-     */
-    public function setNamespace($value)
-    {
-        $this->namespace = $value;
-        return $this;
-    }
-    /**
      * Set Namespace
      * @return string
      */
@@ -101,24 +129,13 @@ class Architect extends DataObject
     {
         return $this->namespace;
     }
-
-    /**
-     * Set ModelName
-     * @param string $value
-     * @return \CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect
-     */
-    public function setModelName($value)
-    {
-    	$this->modelName = $value;
-    	return $this;
-    }
     /**
      * Set ModelName
      * @return string
      */
     public function getModelName()
     {
-    	return $this->modelName;
+        return $this->modelName;
     }
     /**
      * Get namespace path

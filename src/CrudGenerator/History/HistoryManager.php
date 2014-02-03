@@ -63,7 +63,13 @@ class HistoryManager
             $this->fileManager->mkdir(self::HISTORY_PATH);
         }
 
-        $fileName = $dataObject->getEntityName();
+        $metadata = $dataObject->getMetadata();
+
+        if (empty($metadata)) {
+			throw new \InvalidArgumentException('Metadata cant be empty');
+        }
+
+        $fileName = $metadata->getName();
 
         if ($this->fileManager->isFile(self::HISTORY_PATH . $fileName)) {
             $this->fileManager->unlink(self::HISTORY_PATH . $fileName);

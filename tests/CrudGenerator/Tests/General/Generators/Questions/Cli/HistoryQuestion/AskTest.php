@@ -5,6 +5,10 @@ use CrudGenerator\Generators\Questions\Cli\HistoryQuestion;
 use CrudGenerator\History\HistoryCollection;
 use CrudGenerator\History\History;
 use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
+use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
+use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
+use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
+
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,7 +29,14 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->method('select')
         ->will($this->returnValue(0));
 
+        $metaData = new MetadataDataObjectDoctrine2(
+        	new MetaDataColumnCollection(),
+        	new MetaDataRelationCollection()
+        );
+        $metaData->setName('MyName');
         $dto = new Architect();
+        $dto->setMetadata($metaData);
+
         $HistoryCollection = new HistoryCollection();
         $history = new History();
         $history->setName('MyEntity')

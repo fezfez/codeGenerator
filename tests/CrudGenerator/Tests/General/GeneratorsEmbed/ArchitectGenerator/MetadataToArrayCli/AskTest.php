@@ -10,10 +10,8 @@ class AskTest extends \PHPUnit_Framework_TestCase
     public function testOk()
     {
         $DTO = new Architect();
-        $DTO->setEntity('TestZf2\Entities\NewsEntity')
-        ->setMetadata($this->getMetadata())
-        ->setNamespace('namespace')
-        ->setGenerateUnitTest(true);
+        $DTO->setMetadata($this->getMetadata())
+        ->setNamespace('namespace');
 
         $stubDialog = $this->getMock('\Symfony\Component\Console\Helper\DialogHelper');
         $stubDialog->expects($this->any())

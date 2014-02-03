@@ -58,18 +58,14 @@ class QuestionParser implements ParserInterface
      */
      public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
      {
-         if (true === $firstIteration) {
-             $generator = $this->directoryQuestion->ask($generator);
-         }
-
          if (isset($process['questions'])) {
-	        foreach ($process['questions'] as $question) {
-	        	if (!is_array($question)) {
-					throw new MalformedGeneratorException('Questions excepts to be an array "' . gettype($question) . "' given");
-	        	}
+            foreach ($process['questions'] as $question) {
+                if (!is_array($question)) {
+                    throw new MalformedGeneratorException('Questions excepts to be an array "' . gettype($question) . "' given");
+                }
 
-	            $generator = $this->evaluateQuestions($question, $parser, $generator, $questions, $firstIteration);
-	        }
+                $generator = $this->evaluateQuestions($question, $parser, $generator, $questions, $firstIteration);
+            }
          }
 
         return $generator;
@@ -88,15 +84,15 @@ class QuestionParser implements ParserInterface
         if(isset($question[GeneratorParser::DEPENDENCY_CONDITION])) {
             $matches = $this->dependencyCondition->evaluate($question[GeneratorParser::DEPENDENCY_CONDITION], $parser, $generator, $questions, $firstIteration);
             foreach ($matches as $questionsMatchs) {
-	            $generator = $this->evaluateQuestions($questionsMatchs, $parser, $generator, $questions, $firstIteration);
+                $generator = $this->evaluateQuestions($questionsMatchs, $parser, $generator, $questions, $firstIteration);
             }
         } elseif (isset($question['type']) && $question['type'] === GeneratorParser::COMPLEX_QUESTION) {
             $complex = $question['factory']::getInstance($this->webContext);
-            $generator = $complex->ask($generator);
+            $generator = $complex->ask($generator, $question);
         } else {
-        	// @FIXME Default response not parsed
-        	$defaultResponse = (isset($question['defaultResponse']) && $parser->issetVariable($question['defaultResponse']))
-        							? $parser->parse($question['defaultResponse']) : null;
+            // @FIXME Default response not parsed
+            $defaultResponse = (isset($question['defaultResponse']) && $parser->issetVariable($question['defaultResponse']))
+                                    ? $parser->parse($question['defaultResponse']) : null;
             $generator->addQuestion(
                 array(
                     'dtoAttribute'    => 'set' . ucfirst($question['dtoAttribute']),

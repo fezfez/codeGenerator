@@ -25,7 +25,7 @@ class MetadataToArrayWeb
      * @param GeneratorDataObject $generator
      * @return GeneratorDataObject
      */
-    public function ask(GeneratorDataObject $generator)
+    public function ask(GeneratorDataObject $generator, $questions)
     {
         foreach ($generator->getDTO()->getMetadata()->getColumnCollection() as $column) {
             $generator->addQuestion(

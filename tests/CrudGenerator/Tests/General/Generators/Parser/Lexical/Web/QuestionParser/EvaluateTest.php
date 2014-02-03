@@ -10,43 +10,6 @@ use CrudGenerator\Context\WebContext;
 
 class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
-    public function testEmptyWithDirectoryQuestion()
-    {
-    	$dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
-    	->disableOriginalConstructor()
-    	->getMock();
-
-    	$directoryQuestion =  $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\DirectoryQuestion')
-    	->disableOriginalConstructor()
-    	->getMock();
-
-    	$app = $this->getMockBuilder('Silex\Application')
-    	->disableOriginalConstructor()
-    	->getMock();
-
-    	$context = new WebContext($app);
-
-    	$phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-    	->disableOriginalConstructor()
-    	->getMock();
-
-    	$generator = new GeneratorDataObject();
-
-    	$directoryQuestion->expects($this->once())
-    	->method('ask')
-    	->will($this->returnValue($generator));
-
-
-    	$sUT = new QuestionParser($context, $directoryQuestion, $dependencyCondition);
-
-    	$process = array();
-
-        $this->assertEquals(
-            $generator,
-            $sUT->evaluate($process, $phpParser, $generator, array(), true)
-        );
-    }
-
     public function testMalformedVar()
     {
     	$dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')

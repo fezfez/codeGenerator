@@ -61,7 +61,7 @@ class HistoryQuestion
         $historyChoices = array();
         foreach ($historyCollection as $history) {
             foreach ($history->getDataObjects() as $dto) {
-                $historyChoices[$dto->getEntity() . ' ' . $dto->getGenerator()] = $dto;
+                $historyChoices[$dto->getMetadata()->getName() . ' ' . $dto->getGenerator()] = $dto;
             }
         }
 

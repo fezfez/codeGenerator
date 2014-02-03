@@ -16,40 +16,19 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
         );
 
         $dataObject = new Architect();
-        $dataObject->setEntity('my\entity')
-                   ->setGenerator('generator')
+        $dataObject->setGenerator('generator')
                    ->setMetadata($metaData)
-                   ->setModule('module')
-                   ->setNamespace('my\namespace');
-
-        $this->assertInstanceOf(
-            'CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO',
-            $dataObject->getMetadata()
-        );
-
-        $this->assertEquals(
-            'my\entity',
-            $dataObject->getEntity()
-        );
-
-        $this->assertEquals(
-            'entity',
-            $dataObject->getEntityName()
-        );
+                   ->setNamespace('my\namespace')
+                   ->addEnvironnementValue('framework', 'zend2');
 
         $this->assertEquals(
             'generator',
             $dataObject->getGenerator()
         );
 
-        $this->assertEquals(
-            'module',
-            $dataObject->getModule()
-        );
-
-        $this->assertEquals(
-            'module',
-            $dataObject->getModuleName()
+        $this->assertInstanceOf(
+            'CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO',
+            $dataObject->getMetadata()
         );
 
         $this->assertEquals(
@@ -58,15 +37,11 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'my/namespace',
-            $dataObject->getNamespacePath()
+        	'zend2',
+        	$dataObject->getEnvironnement('framework')
         );
 
-        $dataObject->setEntity('entity');
-
-        $this->assertEquals(
-            'entity',
-            $dataObject->getEntityName()
-        );
+        $this->setExpectedException('InvalidArgumentException');
+        $dataObject->getEnvironnement('exception');
     }
 }
