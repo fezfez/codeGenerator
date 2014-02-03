@@ -19,7 +19,6 @@ namespace CrudGenerator\Generators\Parser\Lexical\Web;
 
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
 use CrudGenerator\Generators\Questions\Web\DirectoryQuestion;
 use CrudGenerator\Context\WebContext;

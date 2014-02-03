@@ -20,7 +20,6 @@ namespace CrudGenerator\Generators\Questions\Web;
 use CrudGenerator\MetaData\Config\MetaDataConfigReaderForm;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\MetaDataSourceFactory;
-use CrudGenerator\MetaData\Config\ConfigException;
 
 class MetaDataQuestion
 {
