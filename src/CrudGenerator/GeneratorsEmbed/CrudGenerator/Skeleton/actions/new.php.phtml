@@ -3,7 +3,7 @@
         $sm = $this->getServiceLocator();
         $sm->get('viewHelperManager')->get('headTitle')->append("Create <?php echo $this->crudGenerator->getDisplayName(); ?>");
 
-        $<?php echo $this->modelName; ?>Form = <?php echo $this->ucFirstmodelName; ?>FormFactory::getInstance($sm);
+        $<?php echo $this->modelName; ?>Form = <?php echo $this->ucFirstModelName; ?>FormFactory::getInstance($sm);
         $<?php echo $this->modelName; ?>DAO  = <?php echo $this->daoFactoryName; ?>::getInstance($sm);
         $datas          = $this->getRequest()->getPost()->toArray();
 

@@ -16,6 +16,7 @@ class <?php echo $this->crudGenerator->getControllerName(); ?>Controller extends
             $this->_helper->layout()->disableLayout();
         }
     }
+
 <?php echo $this->render(__DIR__ . '/actions/', 'index.php.phtml'); ?>
 
 <?php echo $this->render(__DIR__ . '/actions/', 'show.php.phtml'); ?>

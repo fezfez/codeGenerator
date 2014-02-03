@@ -174,21 +174,7 @@ $app->match('metadata-save', function (Request $request) use ($app) {
 })->bind('metadata-save');
 
 $app->error(function (\Exception $e, $code) use ($app) {
-    if ($app['debug']) {
-        return;
-    }
-
-    var_dump($e);exit;
-
-    switch ($code) {
-        case 404:
-            $message = 'The requested page could not be found.';
-            break;
-        default:
-            $message = 'We are sorry, but something went terribly wrong.';
-    }
-
-    return new Response($message, $code);
+return $app->json(array('error' => 'Exception "' . get_class($e) . '" in ' . $e->getFile() . ' message : ' . $e->getMessage() . ' on line ' . $e->getLine()), 500);
 });
 
 return $app;

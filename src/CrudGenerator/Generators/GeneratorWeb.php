@@ -61,7 +61,13 @@ class GeneratorWeb
 
     	if (null !== $fileName) {
     		if (!isset($files[$fileName])) {
-    			throw new \InvalidArgumentException('File does not exist');
+    			throw new \InvalidArgumentException(
+    				sprintf(
+    					'File "%s" does not exist in %s',
+    					$fileName,
+    					implode(", \n", array_keys($files))
+    				)
+				);
     		}
     		return $this->strategy->generateFile(
     			$generator->getTemplateVariables(),

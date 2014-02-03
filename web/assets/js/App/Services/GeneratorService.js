@@ -30,6 +30,8 @@ GeneratorApp.factory('GeneratorService', ['$http', '$q', function ($http, $q) {
 
                 callback(directories, data.generator.questions);
                 self.http = false;
+            }).error(function(data) {
+            	alert(data.error);
             });
         }
     };

@@ -7,7 +7,7 @@
         $<?php echo $this->modelName; ?>DAO = <?php echo $this->daoFactoryName; ?>::getInstance($serviceManager);
 
         return new ViewModel(array(
-            'list<?php echo $this->ucFirstmodelName; ?>s' => $<?php echo $this->modelName; ?>DAO->findAll(),
+            'list<?php echo $this->ucFirstModelName; ?>s' => $<?php echo $this->modelName; ?>DAO->findAll(),
             'successMessages' => $this->flashMessenger()->getCurrentSuccessMessages(),
         ));
     }

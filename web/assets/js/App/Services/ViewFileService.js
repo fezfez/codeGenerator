@@ -13,6 +13,8 @@ GeneratorApp.factory('ViewFileService', ['$http', function ($http) {
                 }
             ).success(function (data) {
                 callback(data);
+            }).error(function(data) {
+            	alert(data.error);
             });
         }
     };

@@ -1,11 +1,11 @@
 <h1><?php echo ucfirst($this->crudGenerator->getDisplayNames()); ?> list</h1>
-<?php echo '<?php if (!empty($this->successMessages)): ?>'; ?>
-    <?php echo '<?php foreach ($this->successMessages as $successMessages): ?>'; ?>
+<?php echo '<?php if (!empty($this->successMessages)): ?>' . "\n"; ?>
+    <?php echo '<?php foreach ($this->successMessages as $successMessages): ?>' . "\n"; ?>
         <div class="alert alert-success">
-            <?php echo '<?php echo $successMessages; ?>'; ?>
+            <?php echo '<?php echo $successMessages; ?>' . "\n"; ?>
         </div>
-    <?php echo '<?php endforeach; ?>'; ?>
-<?php echo '<?php endif; ?>'; ?>
+    <?php echo '<?php endforeach; ?>' . "\n"; ?>
+<?php echo '<?php endif; ?>' . "\n"; ?>
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
@@ -16,7 +16,7 @@
         </tr>
     </thead>
     <tbody>
-    <?php echo '<?php foreach($this->list' . $this->ucFirstmodelName . 's as $' . $this->modelName . '): ?>' . "\n"; ?>
+    <?php echo '<?php foreach($this->list' . $this->ucFirstModelName . 's as $' . $this->modelName . '): ?>' . "\n"; ?>
         <tr>
 <?php
             $fieldsCollection = $this->crudGenerator->getMetadata()->getColumnCollection();

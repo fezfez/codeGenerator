@@ -12,15 +12,26 @@ Running tests
 Roadmap
 =======
 
-Template
---------
-* Fk management in DAO, DTO, Hydrator, From
-* Choise form type (select, input etc... )
-* Symfony 2
-* Phalcon PHP
-
-Generator
+Metadata source
 ---------
+PDO
 * Dependencies between entities, table
-* Environment manager (more flexible for unit tests)
-* Clear unit test
+Doctrine2
+* Dependencies between entities, table
+
+FormGenerator
+---------
+* Choise form type (select, input etc... )
+* Add Fk management
+* Add support of  Symfony 2
+* Add support of Phalcon PHP
+
+ArchitectGenerator
+--------
+* Add FK management
+* Add support of Phalcon PHP
+
+CrudGenerator
+--------
+* Add support of  Symfony 2
+* Add support of Phalcon PHP

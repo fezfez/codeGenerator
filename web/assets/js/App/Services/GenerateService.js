@@ -47,6 +47,8 @@ GeneratorApp.factory('GenerateService', ['$http', function ($http) {
                 }
 
                 callback({'log' : log, 'conflictList' : conflictList});
+            }).error(function(data) {
+            	alert(data.error);
             });
         }
     };
