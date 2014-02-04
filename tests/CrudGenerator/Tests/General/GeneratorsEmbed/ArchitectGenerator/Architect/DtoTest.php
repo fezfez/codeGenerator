@@ -11,12 +11,14 @@ class DtoTest extends \PHPUnit_Framework_TestCase
 
         $sUT->setAttributeName('attribute', 'value')
         ->setModelName('ModelName')
-        ->setNamespace('MyNamespace');
+        ->setNamespace('MyNamespace')
+        ->setUnitTestDirectory('MyDir');
 
         $this->assertEquals(array('attribute' => 'value'), $sUT->getAttributeName());
         $this->assertEquals('value', $sUT->getAttributeName('attribute'));
         $this->assertEquals(null, $sUT->getAttributeName('attddzribute'));
         $this->assertEquals('ModelName', $sUT->getModelName());
         $this->assertEquals('MyNamespace', $sUT->getNamespace());
+        $this->assertEquals('MyDir', $sUT->getUnitTestDirectory());
     }
 }

@@ -5,15 +5,15 @@ if (!(@include_once __DIR__ . '/../vendor/autoload.php') && !(@include_once __DI
 }
 
 if (is_file(__DIR__ . '/../vendor/autoload.php')) {
-	chdir(__DIR__ . '/../');
+	chdir(__DIR__ . '/../'); // standalone
+} else {
+	chdir(__DIR__ . '/../../../../'); // install with composer
 }
 
 $app = new Silex\Application();
 
 require __DIR__.'/../silex/resources/config/prod.php';
 require __DIR__.'/../silex/src/app.php';
-
 require __DIR__.'/../silex/src/controllers.php';
-
 
 $app->run();
