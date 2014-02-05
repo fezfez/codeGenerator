@@ -33,4 +33,4 @@ php composer.phar require fezfez/code-generator
 ```
 
 
-  [1]: https://github.com/fezfez/codeGenerator/howtouse.mb
+  [1]: https://github.com/fezfez/codeGenerator/blob/master/HOWTOUSE.md
