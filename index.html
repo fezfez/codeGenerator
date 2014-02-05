@@ -32,66 +32,36 @@
 <a href="https://coveralls.io/r/fezfez/codeGenerator?branch=master"><img src="https://coveralls.io/repos/fezfez/codeGenerator/badge.png?branch=master" alt="Coverage Status"></a>
 <a href="https://scrutinizer-ci.com/g/fezfez/codeGenerator/"><img src="https://scrutinizer-ci.com/g/fezfez/codeGenerator/badges/quality-score.png?s=fc3829220661fc6edf510608d909cf7b4776713c" alt="Scrutinizer Quality Score"></a></p>
 
-<p>This is alpha, certainly contains bugs, please dont use it on production</p>
-
-<h2>
-<a name="running-tests" class="anchor" href="#running-tests"><span class="octicon octicon-link"></span></a>Running tests</h2>
-
-<pre><code>composer install --dev
-./vendor/bin/phpunit
-</code></pre>
-
 <h1>
-<a name="roadmap" class="anchor" href="#roadmap"><span class="octicon octicon-link"></span></a>Roadmap</h1>
+<a name="code-generator" class="anchor" href="#code-generator"><span class="octicon octicon-link"></span></a>Code Generator</h1>
 
 <h2>
-<a name="historic" class="anchor" href="#historic"><span class="octicon octicon-link"></span></a>Historic</h2>
+<a name="what-is-code-generator-" class="anchor" href="#what-is-code-generator-"><span class="octicon octicon-link"></span></a>What is "Code Generator" ?</h2>
+
+<p>"Code generator" is simply a tools suite who gonna help you to generate code.</p>
+
+<h2>
+<a name="compatibility" class="anchor" href="#compatibility"><span class="octicon octicon-link"></span></a>Compatibility</h2>
+
+<p>PHP : 5.4</p>
+
+<p>Database driver : </p>
 
 <ul>
-<li>Add in web</li>
+<li>PDO PgSQL</li>
+<li>Doctrine2 in Zend Framework 2 environment</li>
 </ul><h2>
-<a name="metadata-source" class="anchor" href="#metadata-source"><span class="octicon octicon-link"></span></a>Metadata source</h2>
+<a name="how-to-use" class="anchor" href="#how-to-use"><span class="octicon octicon-link"></span></a>How to use</h2>
 
-<ul>
-<li>PDO
+<p>Refer to <a href="https://github.com/fezfez/codeGenerator/blob/master/HOWTOUSE.md">How to use page</a> </p>
 
-<ul>
-<li>Dependencies between table</li>
-</ul>
-</li>
-<li>Doctrine2
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
 
-<ul>
-<li>Dependencies between entities</li>
-</ul>
-</li>
-</ul><h2>
-<a name="formgenerator" class="anchor" href="#formgenerator"><span class="octicon octicon-link"></span></a>FormGenerator</h2>
+<p>Installation of CodeGenerator uses composer. For composer documentation, please refer to <a href="http://getcomposer.org/">getcomposer.org</a>.</p>
 
-<ul>
-<li>Choise form type (select, input etc... )</li>
-<li>Add Fk management</li>
-<li>Add support of  Symfony 2</li>
-<li>Add support of Phalcon PHP</li>
-</ul><h2>
-<a name="architectgenerator" class="anchor" href="#architectgenerator"><span class="octicon octicon-link"></span></a>ArchitectGenerator</h2>
-
-<ul>
-<li>Add FK management</li>
-<li>Add support of Phalcon PHP</li>
-</ul><h2>
-<a name="crudgenerator" class="anchor" href="#crudgenerator"><span class="octicon octicon-link"></span></a>CrudGenerator</h2>
-
-<ul>
-<li>Add support of  Symfony 2</li>
-<li>Add support of Phalcon PHP</li>
-</ul><h2>
-<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
-
-<ul>
-<li>Create documentation "How to use"</li>
-<li>Create documentation "How to create a generator"</li>
-</ul>
+<div class="highlight highlight-sh"><pre>php composer.phar require fezfez/code-generator
+</pre></div>
         </section>
 
         <aside id="sidebar">
