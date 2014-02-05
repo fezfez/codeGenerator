@@ -36,7 +36,7 @@ class GeneratorStrategyFactory
 {
     /**
      * @param ContextInterface $context
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      * @return \CrudGenerator\Generators\Strategies\GeneratorStrategy
      */
     public static function getInstance(ContextInterface $context)
@@ -47,17 +47,8 @@ class GeneratorStrategyFactory
 	        $fileConflitManager = FileConflictManagerFactory::getInstance($context);
 
 	        return new GeneratorStrategy($view, $context->getOutput(), $fileManager, $fileConflitManager);
-    	} elseif ($context instanceof WebContext) {
-    		$fp = fopen("php://output","w");
-
-    		$output = new StreamOutput($fp);
-    		$dialog = new DialogHelper();
-
-    		$view               = ViewFactory::getInstance();
-    		$fileManager        = new FileManager();
-    		$fileConflitManager = FileConflictManagerFactory::getInstance($context);
-
-			return new GeneratorStrategy($view, $output, $fileManager, $fileConflitManager);
+    	} else {
+    		throw new \InvalidArgumentException('Context "' . get_class($context) . '" not supported');
     	}
     }
 }

@@ -38,4 +38,13 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
     		ParserCollectionFactory::getInstance($context)
     	);
     }
+
+    public function testFail()
+    {
+    	$context = $this->getMockForAbstractClass('CrudGenerator\Context\ContextInterface');
+
+    	$this->setExpectedException('InvalidArgumentException');
+
+    	ParserCollectionFactory::getInstance($context);
+    }
 }

@@ -3,6 +3,7 @@ namespace CrudGenerator\Tests\General\Generators\Questions\MetaDataQuestion;
 
 use CrudGenerator\Generators\Questions\MetaDataQuestionFactory;
 use CrudGenerator\Context\CliContext;
+use CrudGenerator\Context\WebContext;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,7 +25,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /*public function testInstanceWeb()
+    public function testInstanceWeb()
     {
     	$app =  $this->getMockBuilder('Silex\Application')
     	->disableOriginalConstructor()
@@ -35,5 +36,14 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
     		'CrudGenerator\Generators\Questions\Web\MetaDataQuestion',
     		MetaDataQuestionFactory::getInstance($context)
     	);
-    }*/
+    }
+
+    public function testFail()
+    {
+    	$context = $this->getMockForAbstractClass('CrudGenerator\Context\ContextInterface');
+
+    	$this->setExpectedException('InvalidArgumentException');
+
+    	MetaDataQuestionFactory::getInstance($context);
+    }
 }

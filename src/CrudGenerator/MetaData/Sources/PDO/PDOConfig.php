@@ -177,7 +177,7 @@ class PDOConfig extends AbstractConfig
             new \PDO($this->type . ':dbname='.$this->databaseName . ';host='.$this->host, $this->user, $this->password);
             return $this;
         } catch (\PDOException $e) {
-            throw new ConfigException('<error>Connection failed with "' . $e->getMessage() . '"</error>');
+            throw new ConfigException('Connection failed with "' . $e->getMessage() . '"');
         }
     }
 }

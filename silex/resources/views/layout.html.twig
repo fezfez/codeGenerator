@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ app.base_path }}/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ app.base_path }}/assets/css/shCoreDefault.css">
     <script type="text/javascript">
-		__BASEPATH__ = '{{ app.base_path }}';
+        __BASEPATH__ = '{{ app.base_path }}';
     </script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
 </head>
@@ -32,15 +32,15 @@
           <a class="navbar-brand" href="#">Code Generator</a>
         </div>
         <div class="collapse navbar-collapse">
-        	<form class="navbar-form navbar-right" role="form" id="formBackend">
-        	    <generators></generators>
-        	    <metadata></metadata>
-        		<div class="form-group">
-		            <select name="backend" id="form_Backend" class="form-control" ng-model="backEnd" ng-change="backendChange()" ng-options="obj.id as obj.label for obj in backendList">
-		            <option value="">Select Backend</option>
-		            </select>
-            	</div>
-            	<button class="btn btn-success dropdown-toggle" ng-if="questionsList != undefined" ng-click="generate()">Generate files !</button>
+            <form class="navbar-form navbar-right" role="form" id="formBackend">
+                <generators></generators>
+                <metadata></metadata>
+                <div class="form-group">
+                    <select name="backend" id="form_Backend" class="form-control" ng-model="backEnd" ng-change="backendChange()" ng-options="obj.id as obj.label for obj in backendList">
+                    <option value="">Select Backend</option>
+                    </select>
+                </div>
+                <button class="btn btn-success dropdown-toggle" ng-if="questionsList != undefined" ng-click="generate()">Generate files !</button>
             </form>
         </div><!--/.nav-collapse -->
       </div>
@@ -50,24 +50,24 @@
             {% block content %}
             {% endblock %}
             <div id="files" class="col-md-9 full-height">
-            	<h2>File list</h2>
-            	<div>
-					<file-tree family="fileList" file-view="viewFile(fileObject)">
-					</file-tree>
-				</div>
-            </div>
-            <div class="col-md-3 full-height" id="questions">
-            	<h2>Questions</h2>
-            	<div>
-	                <questions></questions>
+                <h2>File list</h2>
+                <div>
+                    <file-tree family="fileList" file-view="viewFile(fileObject)">
+                    </file-tree>
                 </div>
             </div>
-
+            <div class="col-md-3 full-height" id="questions">
+                <h2>Questions</h2>
+                <div>
+                    <questions></questions>
+                </div>
+            </div>
     </div>
     <!-- Modal -->
-	<modal></modal>
-	<waitModal></waitModal>
-	<conflict></conflict>
+    <modal></modal>
+    <waitModal></waitModal>
+    <conflict></conflict>
+    <metadatasource></metadatasource>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/App.js"></script>
@@ -86,10 +86,11 @@
     <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Directives/Metadata.js"></script>
     <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Directives/Questions.js"></script>
     <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Directives/Modal.js"></script>
+    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Directives/MetadataSourceConfig.js"></script>
     <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Directives/Conflict.js"></script>
     <script type="text/javascript" src="{{ app.base_path }}/assets/js/Vendor/bootstrap.min.js"></script>
     <script type="text/javascript" src="{{ app.base_path }}/assets/js/Vendor/shCore.js"></script>
-	<script type="text/javascript" src="{{ app.base_path }}/assets/js/Vendor/shBrushPhp.js"></script>
+    <script type="text/javascript" src="{{ app.base_path }}/assets/js/Vendor/shBrushPhp.js"></script>
 <style type="text/css">
 .file {
     cursor:pointer;

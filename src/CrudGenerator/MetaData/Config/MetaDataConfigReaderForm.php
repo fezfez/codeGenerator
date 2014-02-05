@@ -36,27 +36,15 @@ class MetaDataConfigReaderForm
      * @var FileManager File manager
      */
     private $fileManager = null;
-    /**
-     * @var FormFactory Form factory
-     */
-    private $formFactory = null;
-    /**
-     * @var UrlGenerator
-     */
-    private $urlGenerator = null;
 
     /**
      * Config a Dataobject for particulary Metadata adpater based on AbstractConfig
      *
      * @param FileManager $fileManager
-     * @param FormFactory $formFactory
-     * @param UrlGenerator $urlGenerator
      */
-    public function __construct(FileManager $fileManager, FormFactory $formFactory, UrlGenerator $urlGenerator)
+    public function __construct(FileManager $fileManager)
     {
         $this->fileManager  = $fileManager;
-        $this->formFactory  = $formFactory;
-        $this->urlGenerator = $urlGenerator;
     }
 
     /**
@@ -88,21 +76,20 @@ class MetaDataConfigReaderForm
     	$reflect = new ReflectionClass($adapterConfig);
     	$props   = $reflect->getProperties(ReflectionProperty::IS_PROTECTED);
 
-    	$form = $this->formFactory->createBuilder('form', null, array(
-		    'action' => $this->urlGenerator->generate('metadata-save'),
-		    'method' => 'POST',
-    	    'attr'   => array('ng-submit' => 'backendConfig()')
-		));
+    	$question = array();
 
     	foreach ($props as $prop) {
     		$propName = $prop->getName();
     		if ($propName === 'definition') {
     			continue;
     		}
-    		$form->add($propName, 'text', array('attr' => array('ng-model' => 'configForm.' . $propName)));
+    		$question[] = array(
+				'text' => $propName,
+    			'dtoAttribute' => $propName
+    		);
     	}
 
-    	return $form->add('save', 'submit')->getForm();
+    	return $question;
     }
 
     /**

@@ -37,4 +37,13 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
     		DirectoryQuestionFactory::getInstance($context)
     	);
     }
+
+    public function testFail()
+    {
+    	$context = $this->getMockForAbstractClass('CrudGenerator\Context\ContextInterface');
+
+    	$this->setExpectedException('InvalidArgumentException');
+
+    	DirectoryQuestionFactory::getInstance($context);
+    }
 }

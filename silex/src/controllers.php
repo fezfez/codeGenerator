@@ -52,15 +52,7 @@ $app->match('/metadata', function (Request $request) use ($app) {
 
         return $app->json(
             array(
-                'config' =>
-                $app['twig']->render(
-                    'metadata-config.html.twig',
-                    array(
-                        'form' => $formReader->getForm(
-                            $metadataSource->getConfig()
-                         )->createView()
-                    )
-                )
+                'config' => $formReader->getForm($metadataSource->getConfig())
             )
         );
     }
@@ -153,8 +145,8 @@ $app->match('generate', function (Request $request) use ($app) {
 
 $app->match('metadata-save', function (Request $request) use ($app) {
 
-    $formDatas             = $request->request->get('form');
-    $backendString         = isset($formDatas['Backend']) ? $formDatas['Backend'] : null;
+    $formDatas       = $request->request->get('form');
+    $backendString   = isset($formDatas['Backend']) ? $formDatas['Backend'] : null;
     $context         = new WebContext($app);
     $backendFinder   = MetaDataSourcesQuestionFactory::getInstance($context);
     $backendSelect   = $backendFinder->ask($request->request->get('backend'));

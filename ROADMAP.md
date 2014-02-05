@@ -31,5 +31,4 @@ CrudGenerator
 
 Documentation
 --------
-* Create documentation "How to use"
 * Create documentation "How to create a generator"

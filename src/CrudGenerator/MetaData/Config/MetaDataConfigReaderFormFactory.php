@@ -37,6 +37,6 @@ class MetaDataConfigReaderFormFactory
     public static function getInstance(Application $application)
     {
         $fileManager = new FileManager();
-        return new MetaDataConfigReaderForm($fileManager, $application['form.factory'], $application['url_generator']);
+        return new MetaDataConfigReaderForm($fileManager);
     }
 }

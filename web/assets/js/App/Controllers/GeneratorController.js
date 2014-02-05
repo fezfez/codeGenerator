@@ -21,28 +21,11 @@
                         }
                     ).success(function (data) {
                         if (data.config !== undefined) {
-                            $scope.modal = {
-                                'title' : 'Configuration',
-                                'body' : data.config
+                        	$scope.metadataSourceConfig = {};
+                            $scope.metadataSourceConfigForm = {
+                                'title' : $scope.backEnd + ' configuration',
+                                'questionsList' : data.config
                             };
-                            $('#configuration-modal .modal-body').empty();
-                            $('#configuration-modal .modal-body').append();
-                            $('#configuration-modal').modal('show');
-                            $("#configuration-modal form").submit(function (){
-                                $.ajax({
-                                    type : "POST",
-                                    data : $(this).serialize() + '&' + $('#form_Backend').serialize(),
-                                    url  : $(this).attr('action')
-                                }).done(function (data) {
-                                    if (data.error !== undefined) {
-                                        $('#alert-config').remove();
-                                        $("#configuration-modal .modal-body").prepend('<div id="alert-config" class="alert alert-danger fade in">' + data.error + '</div>');
-                                    } else {
-                                        $('#configuration-modal').modal('hide');
-                                    }
-                                });
-                                return false;
-                            });
                         } else if (data.metadatas !== undefined) {
                             $scope.metadataList = data.metadatas;
 
@@ -51,6 +34,26 @@
                             });
                         }
                     });
+                };
+                
+                $scope.backendConfig = function() {
+                    var datas =  $.param({backend: $scope.backEnd, form : $scope.metadataSourceConfig});
+                    $http(
+                        {
+                            headers : {'Content-Type': 'application/x-www-form-urlencoded'},
+                            method  : 'POST',
+                            url     : __BASEPATH__ + 'metadata-save',
+                            data    : datas
+                        }
+                    ).success(function (data) {
+                        if (data.error !== undefined) {
+                        	$scope.metadataSourceConfigForm.error = data.error;
+                        } else {
+                        	delete $scope.metadataSourceConfigForm;
+                        	$scope.backendChange();
+                        }
+                    });
+                    return false;
                 };
 
                 $scope.handleGenerator = function (generatorName, oldGeneratorName) {
