@@ -12,4 +12,4 @@ Then you see
 
   [1]: https://raw2.github.com/fezfez/codeGenerator/gh-pages/images/screenhost-01-min.png
   [2]: https://raw2.github.com/fezfez/codeGenerator/gh-pages/images/screenhost-02-03-min.png
-  [3]: https://raw2.github.com/fezfez/codeGenerator/gh-pages/images/screenhost-04-min.png
+  [3]: https://raw2.github.com/fezfez/codeGenerator/gh-pages/images/screenhost-04.png
