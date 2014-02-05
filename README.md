@@ -20,6 +20,10 @@ Database driver :
  - PDO PgSQL
  - Doctrine2 in Zend Framework 2 environment
 
+How to use
+----------
+Refer to [How to use page][1] 
+ 
 Installation
 ------------
 Installation of CodeGenerator uses composer. For composer documentation, please refer to [getcomposer.org](http://getcomposer.org/).
@@ -27,3 +31,6 @@ Installation of CodeGenerator uses composer. For composer documentation, please 
 ```sh
 php composer.phar require fezfez/code-generator
 ```
+
+
+  [1]: https://github.com/fezfez/codeGenerator/howtouse.mb
