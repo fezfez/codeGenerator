@@ -14,6 +14,10 @@ use <?php echo $this->renderFile($pathBackend . 'fullClass.phtml'); ?>;
 use <?php echo $this->dtoNamespace; ?>;
 use <?php echo $this->hydratorNamespace; ?>;
 <?php echo $this->renderFile(__DIR__ . '/../environnement/' . $this->architectGenerator->getEnvironnement('framework') . '/fullClassForUnitTest.phtml'); ?>
+<?php if ('doctrine2' === $this->architectGenerator->getEnvironnement('backend')): ?>
+use <?php echo $this->architectGenerator->getMetadata()->getOriginalName(); ?>;
+<?php endif; ?>
+
 
 <?php
     $length = str_repeat(' ', strlen('a' . $this->modelName));
@@ -68,8 +72,8 @@ if($metadata == reset($columnCollection)): ?>
         $fixture = $this->getFixture();
         $result  = $this->hydrator->popoToEntity(
             $fixture,
-<?php if ($typeReturnedByDatabase == 'entity'): ?>
-            new <?php echo $this->modelName; ?>()
+<?php if ('doctrine2' === $this->architectGenerator->getEnvironnement('backend')): ?>
+            new <?php echo $this->architectGenerator->getMetadata()->getName(); ?>()
 <?php elseif ($typeReturnedByDatabase == 'array'): ?>
             array()
 <?php endif; ?>

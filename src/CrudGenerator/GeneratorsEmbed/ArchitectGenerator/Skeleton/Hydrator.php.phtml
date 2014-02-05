@@ -24,9 +24,9 @@ class <?php echo $this->hydratorName . "\n"; ?>
      * @param <?php echo $this->dataObjectName; ?> $<?php echo $this->modelName . "\n"; ?>
      * @return <?php echo $this->dataObjectName . "\n"; ?>
      */
-    public function entityToPopo(<?php echo $concreteTypeReturnedByDatabase; ?> $entity, <?php echo $this->modelName; ?>DataObject $<?php echo $this->modelName; ?>)
+    public function entityToPopo(<?php echo ('doctrine2' === $this->architectGenerator->getEnvironnement('backend')) ? $this->architectGenerator->getMetadata()->getName() : $concreteTypeReturnedByDatabase; ?> $entity, <?php echo $this->dataObjectName; ?> $<?php echo $this->modelName; ?>)
     {
-        <?php if ($typeReturnedByDatabase == 'entity'): ?>
+<?php if ($typeReturnedByDatabase == 'entity'): ?>
         $<?php echo $this->modelName; ?> = clone $<?php echo $this->modelName; ?>;
 
 <?php
@@ -59,7 +59,7 @@ foreach($columnCollection as $field => $metadata): ?>
      * @param <?php echo $this->modelName; ?> $entity
      * @return <?php echo $this->dataObjectName . "\n"; ?>
      */
-    public function popoToEntity(<?php echo $this->dataObjectName; ?> $<?php echo $this->modelName; ?>, <?php echo $concreteTypeReturnedByDatabase; ?> $entity)
+    public function popoToEntity(<?php echo $this->dataObjectName; ?> $<?php echo $this->modelName; ?>, <?php echo ('doctrine2' === $this->architectGenerator->getEnvironnement('backend')) ? $this->architectGenerator->getMetadata()->getName() : $concreteTypeReturnedByDatabase; ?> $entity)
     {
 <?php
 $columnCollection = $this->architectGenerator->getMetadata()->getColumnCollection();

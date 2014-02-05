@@ -34,9 +34,8 @@ directories :
     - <?php $architectGenerator->getModelDirectory(); ?>/DAO/
     - <?php $architectGenerator->getModelDirectory(); ?>/Hydrator/
     - <?php $architectGenerator->getModelDirectory(); ?>/DataObject/
-    - <?php $architectGenerator->getUnitTestDirectory(); ?>DAOFactory
-    - <?php $architectGenerator->getUnitTestDirectory(); ?>DAO
-    - <?php $architectGenerator->getUnitTestDirectory(); ?>Hydrator
+    - <?php $architectGenerator->getUnitTestDirectory() . $daoFactoryName; ?>
+    - <?php $architectGenerator->getUnitTestDirectory() . $daoName; ?>
         
 templateVariables : 
     - modelName                : <?php lcfirst($architectGenerator->getModelName()); ?>
@@ -61,12 +60,12 @@ templateVariables :
     - fixtureFactoryNamespace  : Tests\<?php $architectGenerator->getNamespace(); ?>\<?php $fixtureFactoryName; ?>
 
 filesList :
-    - /Exception.php.phtml            : <?php $architectGenerator->getModelDirectory(); ?>/No<?php $ucFirstModelName; ?>Exception.php
-    - /DAOFactory.php.phtml           : <?php $architectGenerator->getModelDirectory(); ?>/<?php $ucFirstModelName; ?>DAOFactory.php
-    - /DAO.php.phtml                  : <?php $architectGenerator->getModelDirectory(); ?>/DAO/<?php $ucFirstModelName; ?>DAO.php
-    - /Hydrator.php.phtml             : <?php $architectGenerator->getModelDirectory(); ?>/Hydrator/<?php $ucFirstModelName; ?>Hydrator.php
-    - /DataObject.php.phtml           : <?php $architectGenerator->getModelDirectory(); ?>/DataObject/<?php $ucFirstModelName; ?>DataObject.php
-    - /DataObjectCollection.php.phtml : <?php $architectGenerator->getModelDirectory(); ?>/DataObject/<?php $ucFirstModelName; ?>Collection.php
+    - /Exception.php.phtml            : <?php $architectGenerator->getModelDirectory(); ?>No<?php $ucFirstModelName; ?>Exception.php
+    - /DAOFactory.php.phtml           : <?php $architectGenerator->getModelDirectory(); ?><?php $ucFirstModelName; ?>DAOFactory.php
+    - /DAO.php.phtml                  : <?php $architectGenerator->getModelDirectory(); ?>DAO/<?php $ucFirstModelName; ?>DAO.php
+    - /Hydrator.php.phtml             : <?php $architectGenerator->getModelDirectory(); ?>Hydrator/<?php $ucFirstModelName; ?>Hydrator.php
+    - /DataObject.php.phtml           : <?php $architectGenerator->getModelDirectory(); ?>DataObject/<?php $ucFirstModelName; ?>DataObject.php
+    - /DataObjectCollection.php.phtml : <?php $architectGenerator->getModelDirectory(); ?>DataObject/<?php $ucFirstModelName; ?>Collection.php
     # unit test
     - /test/Fixture.php.phtml                    : <?php $architectGenerator->getUnitTestDirectory() . $fixtureName; ?>.php
     - /test/FixtureFactory.php.phtml             : <?php $architectGenerator->getUnitTestDirectory() . $fixtureFactoryName; ?>.php
@@ -77,7 +76,7 @@ filesList :
     - /test/DAO/modifyTest.php.phtml             : <?php $architectGenerator->getUnitTestDirectory() . $daoName; ?>/ModifyTest.php
     - /test/DAO/removeTest.php.phtml             : <?php $architectGenerator->getUnitTestDirectory() . $daoName; ?>/RemoveTest.php
     - environnementCondition   : # reserved word
-        - zf2 : 
+        - zend_framework_2 : 
             - !isFile :
                 /test/Bootstrap.php.zf2.phtml       : <?php $architectGenerator->getModule(); ?>/Tests/Bootstrap.php
                 /test/TestConfig.php.dist.zf2.phtml : <?php $architectGenerator->getModule(); ?>/Tests/TestConfig.php.dist

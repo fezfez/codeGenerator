@@ -54,7 +54,7 @@
                 };
 
                 $scope.handleGenerator = function (generatorName, oldGeneratorName) {
-                	$WaitModalService.show();
+                    $WaitModalService.show();
                     var datas =  $.param({
                         backend   : $scope.backEnd,
                         generator : generatorName,
@@ -85,9 +85,17 @@
                     });
 
                     $generateService.generate(datas, function (results) {
-                    	if (null !== results.conflictList) {
-                    		$scope.conflictList = results.conflictList;
-                    	}
+                        if (null !== results.conflictList) {
+                            $scope.conflictList = results.conflictList;
+                        } else if (null !== results.log) {
+                            $scope.modal = {
+                                'title' : 'Generated succefuly',
+                                'body' : results.log.join('<br/>'),
+                                'callback' : function () {
+                                    $('modal .modal-body').empty().append(results.log.join('<br/>'));
+                                }
+                            };
+                        }
                     });
                 };
 
@@ -106,8 +114,8 @@
                             'title' : file.getName(),
                             'body' : results.generator,
                             'callback' : function () {
-                            	var content = $('modal .modal-body').html();
-                            	$('modal .modal-body').empty().append('<pre class="brush: php;">' + content + '</pre>');
+                                var content = $('modal .modal-body').html();
+                                $('modal .modal-body').empty().append('<pre class="brush: php;">' + content + '</pre>');
                                 SyntaxHighlighter.highlight();
                             }
                         };

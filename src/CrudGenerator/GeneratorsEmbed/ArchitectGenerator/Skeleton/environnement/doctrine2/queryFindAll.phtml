@@ -1,1 +1,1 @@
-$results = $this-><?php echo $this->renderFile(__DIR__ . '/variableName.phtml'); ?>->getRepository('<?php echo $this->architectGenerator->getMetadata()->getName(); ?>')->findAll();
+$results = $this-><?php echo $this->renderFile(__DIR__ . '/variableName.phtml'); ?>->getRepository('<?php echo $this->architectGenerator->getMetadata()->getOriginalName(); ?>')->findAll();

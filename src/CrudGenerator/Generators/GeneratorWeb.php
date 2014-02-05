@@ -57,53 +57,61 @@ class GeneratorWeb
      */
     public function generate(GeneratorDataObject $generator, $fileName = null)
     {
-    	$files = $generator->getFiles();
+        $files = $generator->getFiles();
 
-    	if (null !== $fileName) {
-    		if (!isset($files[$fileName])) {
-    			throw new \InvalidArgumentException(
-    				sprintf(
-    					'File "%s" does not exist in %s',
-    					$fileName,
-    					implode(", \n", array_keys($files))
-    				)
-				);
-    		}
-    		return $this->strategy->generateFile(
-    			$generator->getTemplateVariables(),
-    			$files[$fileName]['skeletonPath'],
-    			$files[$fileName]['name'],
-    			$files[$fileName]['fileName']
-    		);
-    	} else {
-	        $generationResult = array();
-	        $isConflictInGeneration = false;
-	        $isConfliInFile = false;
-	        foreach ($files as $fileName => $fileInfos) {
-	            if (isset($files[$fileName]['result'])) {
-	                $generationResult[$fileName] = $files[$fileName]['result'];
-	            } else {
-	                $generationResult[$fileName] = $this->strategy->generateFile(
-	                    $generator->getTemplateVariables(),
-	                    $files[$fileName]['skeletonPath'],
-	                    $files[$fileName]['name'],
-	                    $files[$fileName]['fileName']
-	                );
+        if (null !== $fileName) {
+            if (!isset($files[$fileName])) {
+                throw new \InvalidArgumentException(
+                    sprintf(
+                        'File "%s" does not exist in %s',
+                        $fileName,
+                        implode(", \n", array_keys($files))
+                    )
+                );
+            }
+            return $this->strategy->generateFile(
+                $generator->getTemplateVariables(),
+                $files[$fileName]['skeletonPath'],
+                $files[$fileName]['name'],
+                $files[$fileName]['fileName']
+            );
+        } else {
+            $generationResult = array();
+            $isConflictInGeneration = false;
+            $isConfliInFile = false;
+            foreach ($files as $fileName => $fileInfos) {
+                if (isset($files[$fileName]['result'])) {
+                    $generationResult[$fileName] = $files[$fileName]['result'];
+                } else {
+                    $generationResult[$fileName] = $this->strategy->generateFile(
+                        $generator->getTemplateVariables(),
+                        $files[$fileName]['skeletonPath'],
+                        $files[$fileName]['name'],
+                        $files[$fileName]['fileName']
+                    );
 
-	                $isConfliInFile = $this->fileConflict->test($files[$fileName]['fileName'], $generationResult[$fileName]);
-	                if (true === $isConfliInFile) {
-	                    throw new GeneratorWebConflictException('Conflict in "' . $files[$fileName]['fileName'] . '" file');
-	                }
-	            }
-	        }
+                    $isConfliInFile = $this->fileConflict->test($files[$fileName]['fileName'], $generationResult[$fileName]);
+                    if (true === $isConfliInFile) {
+                        throw new GeneratorWebConflictException('Conflict in "' . $files[$fileName]['fileName'] . '" file');
+                    }
+                }
+            }
 
-	        $log = '';
-	        foreach ($generationResult as $fileName => $result) {
-	            $log .= $this->fileManager->filePutsContent($fileName, $result);
-	        }
+            $log = array();
+            foreach ($generator->getDirectories() as $directory) {
+            	if (!$this->fileManager->isDir($directory)) {
+                	$this->fileManager->mkdir($directory);
+                	$log[] = 'Create directory "' . $directory . '"';
+            	}
+            }
 
-	        return $log;
-    	}
+            foreach ($generationResult as $fileName => $result) {
+                $this->fileManager->filePutsContent($fileName, $result);
+                $log[] = 'File "' . $fileName . '" created';
+            }
+
+            return $log;
+        }
     }
 
     /**
