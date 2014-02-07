@@ -78,7 +78,7 @@ class <?php echo $this->daoName . "\n"; ?>
         $result = $this->hydrator->popoToEntity(
             $<?php echo $this->modelName; ?>,
 <?php if ($this->renderFile(__DIR__ . '/environnement/' . $this->architectGenerator->getEnvironnement('backend') . '/typeReturnedByDatabase.phtml') == 'entity'): ?>
-            new <?php echo $this->dataObjectName; ?>()
+            new <?php echo $this->architectGenerator->getMetadata()->getName(); ?>()
 <?php elseif ($this->renderFile(__DIR__ . '/environnement/' . $this->architectGenerator->getEnvironnement('backend') . '/typeReturnedByDatabase.phtml') == 'array'): ?>
             array()
 <?php endif; ?>
