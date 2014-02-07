@@ -36,35 +36,19 @@ class GeneratorStrategy implements StrategyInterface
      */
     private $view                = null;
     /**
-     * @var OutputInterface Output
-     */
-    private $output              = null;
-    /**
      * @var FileManager File Manager
      */
     private $fileManager         = null;
-    /**
-     * @var FileConflictManager File conflict manager
-     */
-    private $fileConflictManager = null;
 
     /**
      * Base code generator
      * @param View $view
-     * @param OutputInterface $output
      * @param FileManager $fileManager
-     * @param FileConflictManager $fileConflictManager
      */
-    public function __construct(
-        View $view,
-        OutputInterface $output,
-        FileManager $fileManager,
-         $fileConflictManager
-    ) {
-        $this->view                = $view;
-        $this->output              = $output;
-        $this->fileManager         = $fileManager;
-        $this->fileConflictManager = $fileConflictManager;
+    public function __construct(View $view, FileManager $fileManager)
+    {
+        $this->view        = $view;
+        $this->fileManager = $fileManager;
     }
 
     /* (non-PHPdoc)
@@ -84,8 +68,8 @@ class GeneratorStrategy implements StrategyInterface
      */
     public function ifDirDoesNotExistCreate($dir)
     {
-        if (true === $this->fileManager->ifDirDoesNotExistCreate($dir)) {
+        /*if (true === $this->fileManager->ifDirDoesNotExistCreate($dir)) {
             $this->output->writeln('--> Create directory ' . $dir);
-        }
+        }*/
     }
 }

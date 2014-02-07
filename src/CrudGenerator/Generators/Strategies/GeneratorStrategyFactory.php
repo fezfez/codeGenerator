@@ -41,14 +41,15 @@ class GeneratorStrategyFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-    	if ($context instanceof CliContext) {
-	        $view               = ViewFactory::getInstance();
-	        $fileManager        = new FileManager();
-	        $fileConflitManager = FileConflictManagerFactory::getInstance($context);
+        $view        = ViewFactory::getInstance();
+        $fileManager = new FileManager();
 
-	        return new GeneratorStrategy($view, $context->getOutput(), $fileManager, $fileConflitManager);
-    	} else {
-    		throw new \InvalidArgumentException('Context "' . get_class($context) . '" not supported');
-    	}
+        if ($context instanceof CliContext) {
+            return new GeneratorStrategy($view, $fileManager);
+        } elseif ($context instanceof WebContext) {
+            return new GeneratorStrategy($view, $fileManager);
+        } else {
+            throw new \InvalidArgumentException('Context "' . get_class($context) . '" not supported');
+        }
     }
 }

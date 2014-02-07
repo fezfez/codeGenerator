@@ -9,16 +9,10 @@ class GenerateFileTest extends \PHPUnit_Framework_TestCase
 {
     public function testWithGenerate()
     {
-        $output =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
-        ->disableOriginalConstructor()
-        ->getMock();
         $view = $this->getMockBuilder('CrudGenerator\View\View')
         ->disableOriginalConstructor()
         ->getMock();
         $fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $fileConflitManager = $this->getMockBuilder('CrudGenerator\FileConflict\FileConflictManager')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -41,7 +35,7 @@ class GenerateFileTest extends \PHPUnit_Framework_TestCase
         )
         ->will($this->returnValue($templateResult));
 
-        $sUT = new GeneratorStrategy($view, $output, $fileManager, $fileConflitManager);
+        $sUT = new GeneratorStrategy($view, $fileManager);
 
         $sUT->generateFile(array('dataObject' => $dataObject), $skeletonDir, $pathTemplate, $pathTo);
     }
