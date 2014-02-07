@@ -17,21 +17,21 @@ class <?php echo $this->fixtureFactoryName . "\n"; ?>
     /**
      * @var <?php echo $this->fixtureName; ?> Fixture for <?php echo $this->modelName . "\n"; ?>
      */
-    private $instance = null;
+    private static $instance = null;
 
     /**
      * @return <?php echo $this->fixtureName . "\n"; ?>
      */
     public static function getInstance()
     {
-        if (null === self::instance) {
+        if (null === self::$instance) {
             $hydrator = new <?php echo $this->hydratorName; ?>();
             <?php echo $this->renderFile($frameworkPath . 'createInstanceForUnitTest.phtml') . "\n" ?>
             $<?php echo $databaseConnectionVariableName; ?> = <?php echo $this->renderFile($pathBackend .'createInstance.phtml') . "\n"; ?>
 
-            self::instance = new <?php echo $this->fixtureName; ?>($hydrator, $<?php echo $databaseConnectionVariableName; ?>);
+            self::$instance = new <?php echo $this->fixtureName; ?>($hydrator, $<?php echo $databaseConnectionVariableName; ?>);
         }
 
-        return self::instance;
+        return self::$instance;
     }
 }

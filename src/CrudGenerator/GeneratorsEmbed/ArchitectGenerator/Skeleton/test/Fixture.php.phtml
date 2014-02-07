@@ -88,6 +88,15 @@ if($metadata == reset($columnCollection)): ?>
     }
 
     /**
+     * Return database connection
+     * @return <?php echo $databaseConnectorClassName . "\n"; ?>
+     */
+    public function getDatabaseConnection()
+    {
+        return $this-><?php echo $databaseConnectionVariableName; ?>;
+    }
+
+    /**
      * Purge table
      */
     public function purge()
