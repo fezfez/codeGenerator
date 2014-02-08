@@ -2,8 +2,6 @@
 namespace CrudGenerator\Tests\General\MetaData\Config\MetaDataConfigReaderFormFactory;
 
 use CrudGenerator\MetaData\Config\MetaDataConfigReaderFormFactory;
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Helper\DialogHelper;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {

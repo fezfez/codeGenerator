@@ -18,7 +18,6 @@
 namespace CrudGenerator\Generators\Parser\Lexical\Condition;
 
 use CrudGenerator\Utils\PhpStringParser;
-use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\Generators\Parser\Lexical\ParserInterface;

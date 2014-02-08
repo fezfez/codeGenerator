@@ -1,7 +1,6 @@
 <?php
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use CrudGenerator\MetaData\MetaDataSourceFactory;
 use CrudGenerator\MetaData\Config\ConfigException;
 use CrudGenerator\Generators\Questions\MetaDataSourcesQuestionFactory;
