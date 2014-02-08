@@ -107,7 +107,11 @@ class GeneratorDataObject implements \JsonSerializable
      */
     public function addEnvironnementValue($environnement, $value)
     {
-    	$this->dto->addEnvironnementValue($environnement, $value);
+        if (empty($this->dto)) {
+            throw new \LogicException('DTO cant be empty');
+        }
+
+        $this->dto->addEnvironnementValue($environnement, $value);
         $this->environnement[$environnement] = $value;
         return $this;
     }
@@ -117,8 +121,8 @@ class GeneratorDataObject implements \JsonSerializable
      */
     public function addDependency($value)
     {
-    	$this->dependecies[] = $value;
-    	return $this;
+        $this->dependecies[] = $value;
+        return $this;
     }
     /**
      * @param string $skeletonPath
@@ -136,7 +140,7 @@ class GeneratorDataObject implements \JsonSerializable
         );
 
         if (null !== $result) {
-        	$this->files[$value]['result'] = $result;
+            $this->files[$value]['result'] = $result;
         }
 
         return $this;
@@ -188,9 +192,16 @@ class GeneratorDataObject implements \JsonSerializable
         return $this->questions;
     }
     /**
+     * @return null|string
+     */
+    public function getEnvironnement($name)
+    {
+        return (isset($this->environnement[$name])) ? $this->environnement[$name] : null;
+    }
+    /**
      * @return array
      */
-    public function getEnvironnementQuestions()
+    public function getEnvironnementCollection()
     {
     	return $this->environnement;
     }
@@ -220,7 +231,7 @@ class GeneratorDataObject implements \JsonSerializable
      */
     public function getDependencies()
     {
-    	return $this->dependecies;
+        return $this->dependecies;
     }
 
     /**
@@ -228,8 +239,8 @@ class GeneratorDataObject implements \JsonSerializable
      */
     public function deleteFile($value)
     {
-    	unset($this->files[$value]);
-    	return $this;
+        unset($this->files[$value]);
+        return $this;
     }
 
     public function jsonSerialize()

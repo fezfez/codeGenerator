@@ -58,13 +58,13 @@ class FileParser implements ParserInterface
         $skeletonPath = dirname($generator->getPath()) . '/Skeleton/';
 
         if (!isset($process['filesList'])) {
-			throw new MalformedGeneratorException('No file given');
+            throw new MalformedGeneratorException('No file given');
         }
 
         foreach ($process['filesList'] as $files) {
-        	if (!is_array($files)) {
-        		throw new MalformedGeneratorException('File excepts to be an array "' . gettype($files) . "' given");
-        	}
+            if (!is_array($files)) {
+                throw new MalformedGeneratorException('File excepts to be an array "' . gettype($files) . "' given");
+            }
 
             $this->evaluateFile($files, $parser, $generator, $questions, $firstIteration, $skeletonPath);
         }

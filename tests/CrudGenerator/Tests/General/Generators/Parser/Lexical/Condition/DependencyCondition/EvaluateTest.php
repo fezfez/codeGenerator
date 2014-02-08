@@ -67,4 +67,33 @@ questions :
     		}
     	}
     }
+
+    public function testWithout()
+    {
+    	$phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+    	->disableOriginalConstructor()
+    	->getMock();
+
+    	$sUT = new DependencyCondition();
+
+    	$generator = new GeneratorDataObject();
+
+    	$string = '
+questions :
+    - dependencyCondition :
+        - ArchitectGenerator :
+            - /form/DataObject.phtml        : <?php $formGenerator->getFormPath(); ?>DataObject.phtml';
+
+    	$result = Yaml::parse($string, true);
+    	foreach ($result['questions'] as  $files) {
+    		foreach ($files as $templateName => $tragetFile) {
+    			if ($templateName === 'dependencyCondition') {
+    				$this->assertEquals(
+    						array(),
+    						$sUT->evaluate($tragetFile, $phpParser, $generator, array(), true)
+    				);
+    			}
+    		}
+    	}
+    }
 }

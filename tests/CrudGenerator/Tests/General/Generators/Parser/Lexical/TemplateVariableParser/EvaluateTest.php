@@ -13,28 +13,28 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
     public function testEmpty()
     {
-    	$fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        ->disableOriginalConstructor()
+        ->getMock();
 
 
-    	$sUT = new TemplateVariableParser($fileManager, $environnementCondition, $dependencyCondition);
+        $sUT = new TemplateVariableParser($fileManager, $environnementCondition, $dependencyCondition);
 
-    	$generator = new GeneratorDataObject();
+        $generator = new GeneratorDataObject();
 
-    	$process = array();
+        $process = array();
 
         $this->assertEquals(
             $generator,
@@ -44,159 +44,181 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testMalformedVar()
     {
-    	$fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        ->disableOriginalConstructor()
+        ->getMock();
 
 
-    	$sUT = new TemplateVariableParser($fileManager, $environnementCondition, $dependencyCondition);
+        $sUT = new TemplateVariableParser($fileManager, $environnementCondition, $dependencyCondition);
 
-    	$generator = new GeneratorDataObject();
+        $generator = new GeneratorDataObject();
 
-    	$process = array(
-    			'templateVariables' => array(
-    				'MyVar' => 'MyValue'
-    			)
-    	);
+        $process = array(
+                'templateVariables' => array(
+                    'MyVar' => 'MyValue'
+                )
+        );
 
-		$this->setexpectedexception('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
-    	$sUT->evaluate($process, $phpParser, $generator, array(), true);
+        $this->setexpectedexception('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
+        $sUT->evaluate($process, $phpParser, $generator, array(), true);
     }
 
     public function testWithVar()
     {
-    	$fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        ->disableOriginalConstructor()
+        ->getMock();
+
+        $phpParser->expects($this->once())
+        ->method('parse')
+        ->with('MyValue')
+        ->will($this->returnValue('MyValueParser'));
 
 
-    	$sUT = new TemplateVariableParser($fileManager, $environnementCondition, $dependencyCondition);
+        $sUT = new TemplateVariableParser($fileManager, $environnementCondition, $dependencyCondition);
 
-    	$generator = new GeneratorDataObject();
+        $generator = new GeneratorDataObject();
 
-    	$process = array(
-    		'templateVariables' => array(
-				array('MyVar' => 'MyValue')
-    		)
-    	);
+        $process = array(
+            'templateVariables' => array(
+                array('MyVar' => 'MyValue')
+            )
+        );
 
-    	$this->assertEquals(
-    		$generator->addTemplateVariable('MyVar', 'MyValue'),
-    		$sUT->evaluate($process, $phpParser, $generator, array(), true)
-    	);
+        $generatorToTest = clone $generator;
+
+        $this->assertEquals(
+            $generatorToTest->addTemplateVariable('MyVar', 'MyValueParser'),
+            $sUT->evaluate($process, $phpParser, $generator, array(), true)
+        );
     }
 
     public function testWithDependencyCondiction()
     {
-    	$fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$dependencyCondition->expects($this->once())
-    	->method('evaluate')
-    	->will($this->returnValue(array(array('MyVar' => 'MyValue'))));
+        $dependencyCondition->expects($this->once())
+        ->method('evaluate')
+        ->will($this->returnValue(array(array('MyVar' => 'MyValue'))));
 
-    	$phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        ->disableOriginalConstructor()
+        ->getMock();
+
+        $phpParser->expects($this->once())
+        ->method('parse')
+        ->with('MyValue')
+        ->will($this->returnValue('MyValueParser'));
 
 
-    	$sUT = new TemplateVariableParser($fileManager, $environnementCondition, $dependencyCondition);
+        $sUT = new TemplateVariableParser($fileManager, $environnementCondition, $dependencyCondition);
 
-    	$generator = new GeneratorDataObject();
+        $generator = new GeneratorDataObject();
 
-    	$process = array(
-    		'templateVariables' => array(
-    			array(
-    				GeneratorParser::DEPENDENCY_CONDITION => array(
-	    				'!ArchitedGenerator' => array(
-	    					array('MyVar' => 'MyValue')
-	    				)
-    				)
-    			)
-    		)
-    	);
+        $process = array(
+            'templateVariables' => array(
+                array(
+                    GeneratorParser::DEPENDENCY_CONDITION => array(
+                        '!ArchitedGenerator' => array(
+                            array('MyVar' => 'MyValue')
+                        )
+                    )
+                )
+            )
+        );
 
-    	$this->assertEquals(
-    		$generator->addTemplateVariable('MyVar', 'MyValue'),
-    		$sUT->evaluate($process, $phpParser, $generator, array(), true)
-    	);
+        $generatorToTest = clone $generator;
+
+        $this->assertEquals(
+            $generatorToTest->addTemplateVariable('MyVar', 'MyValueParser'),
+            $sUT->evaluate($process, $phpParser, $generator, array(), true)
+        );
     }
 
-    /*public function testWithEnvironnemetnCondiction()
+    public function testWithEnvironnemetnCondiction()
     {
-    	$fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$dependencyCondition->expects($this->once())
-    	->method('evaluate')
-    	->will($this->returnValue(array(array('MyVar' => 'MyValue'))));
+        $environnementCondition->expects($this->once())
+        ->method('evaluate')
+        ->will($this->returnValue(array(array('MyVar' => 'MyValue'))));
 
-    	$phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        ->disableOriginalConstructor()
+        ->getMock();
+
+        $phpParser->expects($this->once())
+        ->method('parse')
+        ->with('MyValue')
+        ->will($this->returnValue('MyValueParser'));
 
 
-    	$sUT = new TemplateVariableParser($fileManager, $environnementCondition, $dependencyCondition);
+        $sUT = new TemplateVariableParser($fileManager, $environnementCondition, $dependencyCondition);
 
-    	$generator = new GeneratorDataObject();
+        $generator = new GeneratorDataObject();
 
-    	$process = array(
-    		'templateVariables' => array(
-    			array(
-    				GeneratorParser::ENVIRONNEMENT_CONDITION => array(
-    	    			'!ArchitedGenerator' => array(
-    	    				array('MyVar' => 'MyValue')
-    	    			)
-    				)
-    			)
-    		)
-    	);
 
-    	$this->assertEquals(
-    			$generator->addTemplateVariable('MyVar', 'MyValue'),
-    			$sUT->evaluate($process, $phpParser, $generator, array(), true)
-    	);
-    }*/
+        $process = array(
+            'templateVariables' => array(
+                array(
+                    GeneratorParser::ENVIRONNEMENT_CONDITION => array(
+                        'backend == pdo' => array(
+                            array('MyVar' => 'MyValue')
+                        )
+                    )
+                )
+            )
+        );
+
+        $generatorToTest = clone $generator;
+
+        $this->assertEquals(
+            $generatorToTest->addTemplateVariable('MyVar', 'MyValueParser'),
+            $sUT->evaluate($process, $phpParser, $generator, array(), true)
+        );
+    }
 }

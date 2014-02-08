@@ -34,12 +34,10 @@ class EnvironnementParser implements ParserInterface
 
     /**
      * @param WebContext $webContext
-     * @param DirectoryQuestion $directoryQuestion
-     * @param DependencyCondition $dependencyCondition
      */
     public function __construct(WebContext $webContext)
     {
-        $this->webContext          = $webContext;
+        $this->webContext = $webContext;
     }
 
     /* (non-PHPdoc)

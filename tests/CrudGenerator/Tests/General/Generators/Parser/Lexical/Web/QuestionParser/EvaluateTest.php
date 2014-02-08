@@ -136,6 +136,10 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 		    				'defaultResponse' => 'myDefaultResponse'
     					)
     				)
+    			),
+    			array(
+    				'type'    => GeneratorParser::COMPLEX_QUESTION,
+    				'factory' => 'CrudGenerator\Tests\General\Generators\Parser\Lexical\MyFakeQuestionFactory'
     			)
     		)
     	);

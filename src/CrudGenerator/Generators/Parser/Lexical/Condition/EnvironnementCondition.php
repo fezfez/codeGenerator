@@ -21,41 +21,49 @@ use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
+use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
 
-class EnvironnementCondition
+class EnvironnementCondition implements ParserInterface
 {
-	/**
-	 * @var FileManager
-	 */
-	private $fileManager = null;
-
-	/**
-	 * @param FileManager $fileManager
-	 */
-	public function __construct(FileManager $fileManager)
-	{
-		$this->fileManager = $fileManager;
-	}
-
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
+     */
     public function evaluate(array $environnementNode, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
     {
         $matches = array();
-        foreach ($environnementNode as $environements) {
-            foreach ($environements as $environment => $environmentVariables) {
-                foreach ($environmentVariables as $environmentVariable => $environmentVariablesValue) {
-                    if ($environment === 'zf2') {
-                        try {
-                            \CrudGenerator\EnvironnementResolver\ZendFramework2Environnement::getDependence($this->fileManager);
-                            $matches[] = array($environmentVariable => $environmentVariablesValue);
-                        } catch (\CrudGenerator\EnvironnementResolver\EnvironnementResolverException $e) {
-                        }
-                    } elseif ($environment === GeneratorParser::CONDITION_ELSE) {
-                        $matches[] = array($environmentVariable => $environmentVariablesValue);
+
+        foreach ($environnementNode as $environnementNodes) {
+             foreach ($environnementNodes as $environnementExpression => $dependencyList) {
+                 $comparaisonEquals          = explode(GeneratorParser::EQUAL, $environnementExpression);
+                 $comparaisonDifferentEquals = explode(GeneratorParser::DIFFERENT_EQUAL, $environnementExpression);
+
+                 if (!empty($comparaisonDifferentEquals) && count($comparaisonDifferentEquals) !== 1) {
+                     $environnementName          = trim($comparaisonDifferentEquals[0]);
+                     $environnementValue         = trim($comparaisonDifferentEquals[1]);
+                     $addEnvironnementExpression = ($environnementValue !== $generator->getEnvironnement($environnementName)) ? true : false;
+
+                 } elseif (!empty($comparaisonEquals) && count($comparaisonEquals) !== 1) {
+                     $environnementName          = trim($comparaisonEquals[0]);
+                     $environnementValue         = trim($comparaisonEquals[1]);
+                     $addEnvironnementExpression = ($environnementValue === $generator->getEnvironnement($environnementName)) ? true : false;
+
+                 } else {
+                     throw new \InvalidArgumentException(
+                        sprintf(
+                            'Unknown expression %s',
+                            $environnementExpression
+                        )
+                     );
+                 }
+
+                 if (true === $addEnvironnementExpression) {
+                    foreach ($dependencyList as $key => $dependency) {
+                        $matches[] = $dependency;
                     }
-                }
-            }
+                 }
+             }
         }
 
-        return $matches;
+         return $matches;
     }
 }

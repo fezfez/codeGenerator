@@ -20,16 +20,12 @@ namespace CrudGenerator\Generators\Parser\Lexical\Condition;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
+use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
 
-class DependencyCondition
+class DependencyCondition implements ParserInterface
 {
-    /**
-     * @param array $dependencyNode
-     * @param PhpStringParser $parser
-     * @param GeneratorDataObject $generator
-     * @param array $questions
-     * @param boolean $firstIteration
-     * @return array
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
      */
     public function evaluate(array $dependencyNode, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
     {

@@ -38,6 +38,8 @@ class GeneratorParser
     const DEPENDENCY_CONDITION = 'dependencyCondition';
     const CONDITION_ELSE = 'else';
     const DIFFERENT = '!';
+    const EQUAL = '==';
+    const DIFFERENT_EQUAL = '!=';
 
     /**
      * @var Yaml YamlParser

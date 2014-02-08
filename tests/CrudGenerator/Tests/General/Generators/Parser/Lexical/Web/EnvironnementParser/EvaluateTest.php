@@ -10,6 +10,33 @@ use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 
 class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
+	public function testEnvironnementMalFormed()
+	{
+		$app = $this->getMockBuilder('Silex\Application')
+		->disableOriginalConstructor()
+		->getMock();
+
+		$context = new WebContext($app);
+
+		$phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+		->disableOriginalConstructor()
+		->getMock();
+
+		$generator = new GeneratorDataObject();
+		$generator->setDTO(new Architect());
+
+		$sUT = new EnvironnementParser($context);
+
+		$string = 'environnement :
+    framework :
+        "zend_framework_2"';
+		$process = Yaml::parse($string, true);
+
+		$this->setExpectedException('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
+
+		$sUT->evaluate($process, $phpParser, $generator, array(), true);
+	}
+
     public function testEnvironnement()
     {
     	$app = $this->getMockBuilder('Silex\Application')
@@ -46,7 +73,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             array('framework' => 'zend_framework_2', 'backend' => 'pdo'),
-            $generator->getEnvironnementQuestions()
+            $generator->getEnvironnementCollection()
         );
     }
 }
