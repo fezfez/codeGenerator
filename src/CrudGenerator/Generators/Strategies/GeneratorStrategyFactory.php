@@ -19,12 +19,9 @@ namespace CrudGenerator\Generators\Strategies;
 
 use CrudGenerator\View\ViewFactory;
 use CrudGenerator\Utils\FileManager;
-use CrudGenerator\FileConflict\FileConflictManagerFactory;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\CliContext;
 use CrudGenerator\Context\WebContext;
-use Symfony\Component\Console\Output\StreamOutput;
-use Symfony\Component\Console\Helper\DialogHelper;
 
 /**
  * Base code generator, extends it and implement doGenerate method

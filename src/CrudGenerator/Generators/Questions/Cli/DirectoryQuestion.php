@@ -17,8 +17,6 @@
  */
 namespace CrudGenerator\Generators\Questions\Cli;
 
-use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
-use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 use CrudGenerator\Utils\FileManager;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;

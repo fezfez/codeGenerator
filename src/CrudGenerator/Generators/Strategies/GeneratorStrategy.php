@@ -19,7 +19,6 @@ namespace CrudGenerator\Generators\Strategies;
 
 
 use CrudGenerator\View\View;
-use Symfony\Component\Console\Output\OutputInterface;
 use CrudGenerator\Utils\FileManager;
 
 /**

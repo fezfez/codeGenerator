@@ -20,8 +20,6 @@ namespace CrudGenerator\MetaData\Config;
 use CrudGenerator\MetaData\Config\AbstractConfig;
 use CrudGenerator\MetaData\Config\ConfigException;
 use CrudGenerator\Utils\FileManager;
-use Symfony\Component\Form\FormFactory;
-use Symfony\Component\Routing\Generator\UrlGenerator;
 use ReflectionClass;
 use ReflectionProperty;
 

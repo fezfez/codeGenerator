@@ -20,9 +20,7 @@ namespace CrudGenerator\Generators\Parser\Lexical\Web;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
-use CrudGenerator\Generators\Questions\Web\DirectoryQuestion;
 use CrudGenerator\Context\WebContext;
-use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 
 class EnvironnementParser implements ParserInterface
