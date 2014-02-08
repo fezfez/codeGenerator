@@ -44,13 +44,17 @@ class ParserCollectionFactory
         $collection            = new ParserCollection();
         $environnemetCondition = new EnvironnementCondition($fileManager);
         $dependencyCondition   = new DependencyCondition();
-        $directoryQuestion     = DirectoryQuestionFactory::getInstance($context);
+
 
         if ($context instanceof WebContext) {
+            $directoryQuestion = DirectoryQuestionFactory::getInstance($context);
+
             $collection->addPreParse(new QuestionResponseParser())
                        ->addPreParse(new EnvironnementParser($context))
                        ->addPostParse(new QuestionParser($context, $directoryQuestion, $dependencyCondition));
         } elseif ($context instanceof CliContext) {
+            $directoryQuestion = DirectoryQuestionFactory::getInstance($context);
+
             $collection->addPreParse(
                 new AskQuestionParser($context, $directoryQuestion, $dependencyCondition)
             );

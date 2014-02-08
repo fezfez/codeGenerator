@@ -21,7 +21,7 @@ use Symfony\Component\Yaml\Yaml;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\MetaData\DataObject\MetaData;
-use CrudGenerator\Generators\Strategies\ViewFileStrategy;
+use CrudGenerator\Generators\Strategies\GeneratorStrategy;
 use CrudGenerator\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\ParserCollection;
@@ -65,15 +65,18 @@ class GeneratorParser
     private $parserCollection = null;
 
     /**
-     * Find all generator allow in project
      * @param FileManager $fileManager
-     * @param ClassAwake $classAwake
+     * @param Yaml $yaml
+     * @param PhpStringParser $phpStringParser
+     * @param GeneratorStrategy $viewFile
+     * @param GeneratorFinder $generatorFinder
+     * @param ParserCollection $parserCollection
      */
     public function __construct(
         FileManager $fileManager,
         Yaml $yaml,
         PhpStringParser $phpStringParser,
-        ViewFileStrategy $viewFile,
+        GeneratorStrategy $viewFile,
         GeneratorFinder $generatorFinder,
         ParserCollection $parserCollection)
     {
@@ -106,7 +109,7 @@ class GeneratorParser
      * @param GeneratorDataObject $generator
      * @param array $questions
      * @param MetaData $metadata
-     * @param string $firstIteration
+     * @param boolean $firstIteration
      * @return GeneratorDataObject
      */
     private function analyse($name, PhpStringParser $phpParser, GeneratorDataObject $generator, array $questions, MetaData $metadata, $firstIteration = false)
@@ -130,22 +133,20 @@ class GeneratorParser
                   ->setPath($generatorFilePath);
 
         if ($this->parserCollection->getPreParse()->count() > 0) {
-	        foreach ($this->parserCollection->getPreParse() as $parser) {
-	            $generator = $parser->evaluate($process, $phpParser, $generator, $questions, $firstIteration);
-	        }
+            foreach ($this->parserCollection->getPreParse() as $parser) {
+                $generator = $parser->evaluate($process, $phpParser, $generator, $questions, $firstIteration);
+            }
         }
 
         $phpParser->addVariable(lcfirst($process['name']), $generator->getDTO());
         $generator->addTemplateVariable(lcfirst($process['name']), $generator->getDTO());
 
         if ($this->parserCollection->getPostParse()->count() > 0) {
-	        foreach ($this->parserCollection->getPostParse() as $parser) {
-	            $generator = $parser->evaluate($process, $phpParser, $generator, $questions, $firstIteration);
-	        }
+            foreach ($this->parserCollection->getPostParse() as $parser) {
+                $generator = $parser->evaluate($process, $phpParser, $generator, $questions, $firstIteration);
+            }
         }
 
         return $generator;
     }
-
-
 }

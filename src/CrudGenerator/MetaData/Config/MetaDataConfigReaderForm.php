@@ -58,7 +58,7 @@ class MetaDataConfigReaderForm
         $configPath = 'data/crudGenerator/Config/' . md5(get_class($adapterConfig));
 
         if (!$this->fileManager->isFile($configPath)) {
-			throw new ConfigException('File "' . getcwd() . $configPath . "' does not exist");
+            throw new ConfigException('File "' . getcwd() . $configPath . "' does not exist");
         }
 
         $configured = unserialize($this->fileManager->fileGetContent($configPath));
@@ -72,24 +72,24 @@ class MetaDataConfigReaderForm
      */
     public function getForm(AbstractConfig $adapterConfig)
     {
-    	$adapterConfig = clone $adapterConfig;
-    	$reflect = new ReflectionClass($adapterConfig);
-    	$props   = $reflect->getProperties(ReflectionProperty::IS_PROTECTED);
+        $adapterConfig = clone $adapterConfig;
+        $reflect = new ReflectionClass($adapterConfig);
+        $props   = $reflect->getProperties(ReflectionProperty::IS_PROTECTED);
 
-    	$question = array();
+        $question = array();
 
-    	foreach ($props as $prop) {
-    		$propName = $prop->getName();
-    		if ($propName === 'definition') {
-    			continue;
-    		}
-    		$question[] = array(
-				'text' => $propName,
-    			'dtoAttribute' => $propName
-    		);
-    	}
+        foreach ($props as $prop) {
+            $propName = $prop->getName();
+            if ($propName === 'definition') {
+                continue;
+            }
+            $question[] = array(
+                'text' => $propName,
+                'dtoAttribute' => $propName
+            );
+        }
 
-    	return $question;
+        return $question;
     }
 
     /**
@@ -100,22 +100,22 @@ class MetaDataConfigReaderForm
      */
     public function write(AbstractConfig $adapterConfig, $datas)
     {
-    	$adapterConfig = clone $adapterConfig;
-    	$reflect = new ReflectionClass($adapterConfig);
-    	$props   = $reflect->getProperties(ReflectionProperty::IS_PROTECTED);
+        $adapterConfig = clone $adapterConfig;
+        $reflect = new ReflectionClass($adapterConfig);
+        $props   = $reflect->getProperties(ReflectionProperty::IS_PROTECTED);
 
-    	foreach ($props as $prop) {
-    		$propName = $prop->getName();
-    		if ($propName === 'definition') {
-    			continue;
-    		}
-			if(isset($datas[$propName])) {
-	    		$prop->setAccessible(true);
-	    		$prop->setValue($adapterConfig, $datas[$propName]);
-			}
-    	}
+        foreach ($props as $prop) {
+            $propName = $prop->getName();
+            if ($propName === 'definition') {
+                continue;
+            }
+            if(isset($datas[$propName])) {
+                $prop->setAccessible(true);
+                $prop->setValue($adapterConfig, $datas[$propName]);
+            }
+        }
 
-    	return $adapterConfig;
+        return $adapterConfig;
     }
 
     /**
@@ -123,9 +123,9 @@ class MetaDataConfigReaderForm
      */
     public function isValid(AbstractConfig $adapterConfig)
     {
-    	$adapterConfig->test();
-    	$configPath = 'data/crudGenerator/Config/' . md5(get_class($adapterConfig));
-    	$this->fileManager->filePutsContent($configPath, serialize($adapterConfig));
-    	return true;
+        $adapterConfig->test();
+        $configPath = 'data/crudGenerator/Config/' . md5(get_class($adapterConfig));
+        $this->fileManager->filePutsContent($configPath, serialize($adapterConfig));
+        return true;
     }
 }

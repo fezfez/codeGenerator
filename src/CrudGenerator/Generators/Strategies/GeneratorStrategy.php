@@ -21,7 +21,6 @@ namespace CrudGenerator\Generators\Strategies;
 use CrudGenerator\View\View;
 use Symfony\Component\Console\Output\OutputInterface;
 use CrudGenerator\Utils\FileManager;
-use CrudGenerator\FileConflict\FileConflictManager;
 
 /**
  * Base code generator, extends it and implement doGenerate method
@@ -61,15 +60,5 @@ class GeneratorStrategy implements StrategyInterface
             $pathTemplate,
             $datas
         );
-    }
-
-    /* (non-PHPdoc)
-     * @see CrudGenerator\Generators\Strategies.StrategyInterface::ifDirDoesNotExistCreate()
-     */
-    public function ifDirDoesNotExistCreate($dir)
-    {
-        /*if (true === $this->fileManager->ifDirDoesNotExistCreate($dir)) {
-            $this->output->writeln('--> Create directory ' . $dir);
-        }*/
     }
 }

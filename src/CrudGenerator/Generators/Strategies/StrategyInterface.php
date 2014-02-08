@@ -32,10 +32,4 @@ interface StrategyInterface
      * @param string $pathTo
      */
     public function generateFile(array $datas, $skeletonDir, $pathTemplate, $pathTo);
-
-    /**
-     * Create directory if not exist
-     * @param string directory
-     */
-    public function ifDirDoesNotExistCreate($directory);
 }

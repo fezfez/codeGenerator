@@ -9,7 +9,7 @@ use CrudGenerator\Generators\Questions\MetaDataQuestionFactory;
 use CrudGenerator\Generators\Questions\GeneratorQuestionFactory;
 use CrudGenerator\Generators\Parser\GeneratorParserFactory;
 use CrudGenerator\Generators\GeneratorFactory;
-use CrudGenerator\Generators\Strategies\ViewFileStategyFactory;
+use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 use CrudGenerator\Context\WebContext;
 use CrudGenerator\Generators\GeneratorDataObject;
@@ -91,7 +91,7 @@ $app->match('view-file', function (Request $request) use ($app) {
     $generatorParser        = GeneratorParserFactory::getInstance($context);
     $matadataSourceFinder   = MetaDataSourcesQuestionFactory::getInstance($context);
     $metadataFinder         = MetaDataQuestionFactory::getInstance($context);
-    $generatorStrategy      = ViewFileStategyFactory::getInstance($context);
+    $generatorStrategy      = GeneratorStrategyFactory::getInstance($context);
     $generatorEngine        = GeneratorFactory::getInstance($context, $generatorStrategy);
 
     $metadataSourceSelect   = $matadataSourceFinder->ask($metadataSource);

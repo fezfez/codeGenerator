@@ -102,9 +102,6 @@ class DirectoryQuestion
                     '',
                     $directory
                 );
-            } elseif ($this->fileManager->isFile($directories[$choice])) {
-                $directory = $directories[$choice];
-                break;
             } elseif ($choice != self::CURRENT_DIRECTORY) {
                 $directory = $directories[$choice];
             }

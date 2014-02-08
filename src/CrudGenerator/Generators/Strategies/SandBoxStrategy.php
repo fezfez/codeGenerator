@@ -90,12 +90,4 @@ class SandBoxStrategy implements StrategyInterface
             );
         }
     }
-
-    /* (non-PHPdoc)
-     * @see CrudGenerator\Generators\Strategies.StrategyInterface::ifDirDoesNotExistCreate()
-     */
-    public function ifDirDoesNotExistCreate($dir)
-    {
-        $this->output->writeln('<info>[LOG] --> Create dir ' . $dir . '</info>');
-    }
 }
