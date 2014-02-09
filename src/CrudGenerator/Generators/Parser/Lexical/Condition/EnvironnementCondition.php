@@ -32,37 +32,54 @@ class EnvironnementCondition implements ParserInterface
         $matches = array();
 
         foreach ($environnementNode as $environnementNodes) {
-             foreach ($environnementNodes as $environnementExpression => $dependencyList) {
-                 $comparaisonEquals          = explode(GeneratorParser::EQUAL, $environnementExpression);
-                 $comparaisonDifferentEquals = explode(GeneratorParser::DIFFERENT_EQUAL, $environnementExpression);
-
-                 if (!empty($comparaisonDifferentEquals) && count($comparaisonDifferentEquals) !== 1) {
-                     $environnementName          = trim($comparaisonDifferentEquals[0]);
-                     $environnementValue         = trim($comparaisonDifferentEquals[1]);
-                     $addEnvironnementExpression = ($environnementValue !== $generator->getEnvironnement($environnementName)) ? true : false;
-
-                 } elseif (!empty($comparaisonEquals) && count($comparaisonEquals) !== 1) {
-                     $environnementName          = trim($comparaisonEquals[0]);
-                     $environnementValue         = trim($comparaisonEquals[1]);
-                     $addEnvironnementExpression = ($environnementValue === $generator->getEnvironnement($environnementName)) ? true : false;
-
-                 } else {
-                     throw new \InvalidArgumentException(
-                        sprintf(
-                            'Unknown expression %s',
-                            $environnementExpression
-                        )
-                     );
-                 }
-
-                 if (true === $addEnvironnementExpression) {
-                    foreach ($dependencyList as $key => $dependency) {
-                        $matches[] = $dependency;
-                    }
-                 }
+             foreach ($environnementNodes as $expression => $toDoIfValidExpression) {
+                $matches = array_merge($matches, $this->analyseExpression($expression, $toDoIfValidExpression, $generator));
              }
         }
 
          return $matches;
+    }
+
+    /**
+     * @param string $expression
+     * @param array $toDoIfValidExpression
+     * @param GeneratorDataObject $generator
+     * @throws \InvalidArgumentException
+     * @return array
+     */
+    private function analyseExpression($expression, $toDoIfValidExpression, $generator)
+    {
+        $matches                    = array();
+        $comparaisonEquals          = explode(GeneratorParser::EQUAL, $expression);
+        $comparaisonDifferentEquals = explode(GeneratorParser::DIFFERENT_EQUAL, $expression);
+
+        if (!empty($comparaisonDifferentEquals) && count($comparaisonDifferentEquals) !== 1) {
+            $comparaisonDifferentEquals = array_map('trim', $comparaisonDifferentEquals);
+            $environnementName          = $comparaisonDifferentEquals[0];
+            $environnementValue         = $comparaisonDifferentEquals[1];
+            $addEnvironnementExpression = ($environnementValue !== $generator->getEnvironnement($environnementName)) ? true : false;
+
+        } elseif (!empty($comparaisonEquals) && count($comparaisonEquals) !== 1) {
+            $comparaisonEquals          = array_map('trim', $comparaisonEquals);
+            $environnementName          = $comparaisonEquals[0];
+            $environnementValue         = $comparaisonEquals[1];
+            $addEnvironnementExpression = ($environnementValue === $generator->getEnvironnement($environnementName)) ? true : false;
+
+        } else {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Unknown expression %s',
+                    $expression
+                )
+            );
+        }
+
+        if (true === $addEnvironnementExpression) {
+            foreach ($toDoIfValidExpression as $key => $dependency) {
+                $matches[] = $dependency;
+            }
+        }
+
+        return $matches;
     }
 }
