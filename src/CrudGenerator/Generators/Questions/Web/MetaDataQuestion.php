@@ -47,7 +47,8 @@ class MetaDataQuestion
     /**
      * Ask wich metadata you want to use
      * @param MetaDataSource $adapter
-     * @param string $default
+     * @param string $metaDataNamePreselected
+     * @return array|\CrudGenerator\MetaData\DataObject\MetaData
      */
     public function ask(MetaDataSource $metadataSource, $metaDataNamePreselected = null)
     {
@@ -60,17 +61,24 @@ class MetaDataQuestion
 
         $metaDataDAO = $this->metaDataSourceFactory->create($metadataSourceFactoryName, $metadataSourceConfig);
 
-        $metaDataChoices = array();
-        foreach ($metaDataDAO->getAllMetadata() as $metadata) {
-            $metaDataChoices[] = array('id' => $metadata->getOriginalName(), 'label' => $metadata->getOriginalName());
-        }
-
-        if (null !== $metaDataNamePreselected) {
+        if (null === $metaDataNamePreselected) {
+            $metaDataChoices = array();
+            foreach ($metaDataDAO->getAllMetadata() as $metadata) {
+                $metaDataChoices[] = array('id' => $metadata->getOriginalName(), 'label' => $metadata->getOriginalName());
+            }
+        } else {
             foreach ($metaDataDAO->getAllMetadata() as $metadata) {
                 if ($metadata->getOriginalName() === $metaDataNamePreselected) {
                     return $metadata;
                 }
             }
+
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Metadata %s does not exist",
+                    $metaDataNamePreselected
+                )
+            );
         }
 
         return $metaDataChoices;

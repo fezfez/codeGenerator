@@ -37,16 +37,16 @@ class HistoryHydratorFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-    	if ($context instanceof CliContext) {
-	        $metaDataSourceQuestion = MetaDataSourcesQuestionFactory::getInstance($context);
-	        $metaDataQuestion       = MetaDataQuestionFactory::getInstance($context);
+        if ($context instanceof CliContext) {
+            $metaDataSourceQuestion = MetaDataSourcesQuestionFactory::getInstance($context);
+            $metaDataQuestion       = MetaDataQuestionFactory::getInstance($context);
 
-	        $yampDump   = new Dumper();
-	        $yampParser = new Parser();
+            $yampDump   = new Dumper();
+            $yampParser = new Parser();
 
-	        return new HistoryHydrator($yampDump, $yampParser, $metaDataSourceQuestion, $metaDataQuestion);
-    	} else {
-    		throw new \Exception('Context web not supported');
-    	}
+            return new HistoryHydrator($yampDump, $yampParser, $metaDataSourceQuestion, $metaDataQuestion);
+        } else {
+            throw new \InvalidArgumentException('Context web not supported');
+        }
     }
 }

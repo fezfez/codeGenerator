@@ -1,8 +1,8 @@
 <?php
-namespace CrudGenerator\Tests\General\Generators\Questions\Cli\MetaDataQuestion;
+namespace CrudGenerator\Tests\General\Generators\Questions\Web\MetaDataQuestion;
 
 
-use CrudGenerator\Generators\Questions\Cli\MetaDataQuestion;
+use CrudGenerator\Generators\Questions\Web\MetaDataQuestion;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\DataObject\MetaDataCollection;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
@@ -19,21 +19,11 @@ class AskTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper', array('select'))
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $dialog
-            ->expects($this->once())
-            ->method('select')
-            ->will($this->returnValue(0));
-
-
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
                ->setName('Name');
 
-        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigReader')
+        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigReaderForm')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -53,10 +43,6 @@ class AskTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getAllMetadata')
             ->will($this->returnValue($metaDataCollection));
-        $doctrine2MetaDataDAOStub
-            ->expects($this->once())
-            ->method('getMetadataFor')
-            ->will($this->returnValue($metaData));
 
         $metaDataSourceFactoryStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFactory')
             ->disableOriginalConstructor()
@@ -68,33 +54,19 @@ class AskTest extends \PHPUnit_Framework_TestCase
              ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
 
-        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub, $ConsoleOutputStub, $dialog);
-        $this->assertEquals($metaData, $sUT->ask($source));
+        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub);
+        $this->assertEquals(array(array('id' => 'MyName', 'label' => 'MyName')), $sUT->ask($source));
     }
 
     public function testWithConfig()
     {
-        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper', array('select'))
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $dialog
-        ->expects($this->once())
-        ->method('select')
-        ->will($this->returnValue(0));
-
-
         $config = new PDOConfig();
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
         ->setName('Name')
         ->setConfig($config);
 
-        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigReader')
+        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigReaderForm')
         ->disableOriginalConstructor()
         ->getMock();
         $metaDataConfigReaderStub->expects($this->once())
@@ -118,10 +90,6 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->expects($this->once())
         ->method('getAllMetadata')
         ->will($this->returnValue($metaDataCollection));
-        $doctrine2MetaDataDAOStub
-        ->expects($this->once())
-        ->method('getMetadataFor')
-        ->will($this->returnValue($metaData));
 
         $metaDataSourceFactoryStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFactory')
         ->disableOriginalConstructor()
@@ -133,36 +101,23 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
 
-        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub, $ConsoleOutputStub, $dialog);
-        $this->assertEquals($metaData, $sUT->ask($source));
+        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub);
+        $this->assertEquals(array(array('id' => 'MyName', 'label' => 'MyName')), $sUT->ask($source));
     }
 
     public function testOkWithPreselected()
     {
-        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper', array('select'))
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $dialog
-        ->expects($this->never())
-        ->method('select');
-
-
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
         ->setName('Name');
 
-        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigReader')
+        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigReaderForm')
         ->disableOriginalConstructor()
         ->getMock();
 
         $metaData = new MetadataDataObjectDoctrine2(
-                        new MetaDataColumnCollection(),
-                        new MetaDataRelationCollection()
+            new MetaDataColumnCollection(),
+            new MetaDataRelationCollection()
         );
         $metaData->setName('MyName');
 
@@ -176,10 +131,6 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->expects($this->once())
         ->method('getAllMetadata')
         ->will($this->returnValue($metaDataCollection));
-        $doctrine2MetaDataDAOStub
-        ->expects($this->once())
-        ->method('getMetadataFor')
-        ->will($this->returnValue($metaData));
 
         $metaDataSourceFactoryStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFactory')
         ->disableOriginalConstructor()
@@ -191,7 +142,51 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
 
-        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub, $ConsoleOutputStub, $dialog);
+        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub);
         $this->assertEquals($metaData, $sUT->ask($source, 'MyName'));
+    }
+
+    public function testFailWithPreselected()
+    {
+        $source = new MetaDataSource();
+        $source->setDefinition('My definition')
+        ->setName('Name');
+
+        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigReaderForm')
+        ->disableOriginalConstructor()
+        ->getMock();
+
+        $metaData = new MetadataDataObjectDoctrine2(
+            new MetaDataColumnCollection(),
+            new MetaDataRelationCollection()
+        );
+        $metaData->setName('MyName');
+
+        $metaDataCollection = new MetaDataCollection();
+        $metaDataCollection->append($metaData);
+
+        $doctrine2MetaDataDAOStub = $this->getMockBuilder('CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $doctrine2MetaDataDAOStub
+        ->expects($this->once())
+        ->method('getAllMetadata')
+        ->will($this->returnValue($metaDataCollection));
+
+        $metaDataSourceFactoryStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFactory')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $metaDataSourceFactoryStub
+        ->expects($this->once())
+        ->method('create')
+        ->with($this->equalTo($source->getName() . 'Factory'),$this->equalTo(null))
+        ->will($this->returnValue($doctrine2MetaDataDAOStub));
+
+
+        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub);
+
+        $this->setExpectedException('InvalidArgumentException');
+
+        $sUT->ask($source, 'fail');
     }
 }

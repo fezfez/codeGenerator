@@ -25,17 +25,16 @@ class HistoryQuestionFactory
 {
     /**
      * @param ContextInterface $context
-     * @throws \Exception
+     * @throws \InvalidArgumenteXcepiton
      * @return \CrudGenerator\Generators\Questions\Cli\HistoryQuestion
      */
     public static function getInstance(ContextInterface $context)
     {
-        $historyManager = HistoryFactory::getInstance($context);
-
         if ($context instanceof CliContext) {
-        	return new Cli\HistoryQuestion($historyManager, $output, $dialog);
+            $historyManager = HistoryFactory::getInstance($context);
+            return new Cli\HistoryQuestion($historyManager, $context->getOutput(), $context->getDialogHelper());
         } else {
-        	throw new \Exception("Web not suported");
+            throw new \InvalidArgumentException('Context "' . get_class($context) . '" not supported');
         }
     }
 }

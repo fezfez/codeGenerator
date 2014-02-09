@@ -23,6 +23,7 @@ use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\WebContext;
+use CrudGenerator\Context\CliContext;
 
 /**
  * Create HistoryManager instance
@@ -38,17 +39,17 @@ class HistoryFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-        // wakeup classes
-        $generatorFinder = GeneratorFinderFactory::getInstance();
-        $generatorFinder->getAllClasses();
+        if ($context instanceof CliContext) {
+            // wakeup classes
+            $generatorFinder = GeneratorFinderFactory::getInstance();
+            $generatorFinder->getAllClasses();
 
-        if ($context instanceof WebContext) {
-        	throw new \Exception('not supported');
+            $fileManager     = new FileManager();
+            $historyHydrator = HistoryHydratorFactory::getInstance($context);
+
+            return new HistoryManager($fileManager, $historyHydrator);
+        } else {
+            throw new \InvalidArgumentException('not supported');
         }
-        $fileManager = new FileManager();
-
-        $historyHydrator = HistoryHydratorFactory::getInstance($context);
-
-        return new HistoryManager($fileManager, $historyHydrator);
     }
 }
