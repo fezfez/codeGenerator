@@ -114,7 +114,6 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
             new MetaDataRelationCollection()
         );
         $columnDataObject   = new MetaDataColumn();
-        $relationDataObject = new MetaDataRelationColumn();
 
         foreach ($metadata->fieldMappings as $field => $columnMetadata) {
             $column = clone $columnDataObject;
@@ -126,6 +125,22 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
 
             $dataObject->appendColumn($column);
         }
+
+        $dataObject = $this->hydrateAssociation($metadata, $dataObject, $parentName);
+
+        $dataObject->setName($metadata->name);
+
+        return $dataObject;
+    }
+
+    /**
+     * @param ClassMetadataInfo $metadata
+     * @param MetadataDataObjectDoctrine2 $dataObject
+     * @return MetadataDataObjectDoctrine2
+     */
+    private function hydrateAssociation(ClassMetadataInfo $metadata, MetadataDataObjectDoctrine2 $dataObject, array $parentName = array())
+    {
+        $relationDataObject = new MetaDataRelationColumn();
 
         foreach ($metadata->getAssociationMappings() as $association) {
             if (in_array($association['targetEntity'], $parentName)) {
@@ -145,8 +160,6 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
 
             $dataObject->appendRelation($relation);
         }
-
-        $dataObject->setName($metadata->name);
 
         return $dataObject;
     }
