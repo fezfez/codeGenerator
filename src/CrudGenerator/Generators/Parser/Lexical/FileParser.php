@@ -66,7 +66,7 @@ class FileParser implements ParserInterface
                 throw new MalformedGeneratorException('File excepts to be an array "' . gettype($files) . "' given");
             }
 
-            $this->evaluateFile($files, $parser, $generator, $questions, $firstIteration, $skeletonPath);
+            $this->evaluateFile($files, $parser, $generator, $questions, (bool) $firstIteration, $skeletonPath);
         }
 
         return $generator;
