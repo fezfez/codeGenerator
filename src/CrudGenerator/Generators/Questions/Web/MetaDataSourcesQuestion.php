@@ -35,29 +35,32 @@ class MetaDataSourcesQuestion
     }
 
     /**
-     * Ask wich MetaData Source you want to use
-     * @param string $default
-     * @return \CrudGenerator\MetaData\MetaDataSource
+     * Ask witch MetaData Source you want to use
+     * @param string $choice
+     * @throws \InvalidArgumentException
+     * @return \CrudGenerator\MetaData\MetaDataSource|array
      */
     public function ask($choice = null)
     {
         if ($choice !== null) {
-            $backendSelect = null;
             foreach ($this->metadataSourceFinder->getAllAdapters() as $backend) {
                 if ($backend->getFactory() === $choice) {
                     return $backend;
                 }
             }
 
-            throw new \InvalidArgumentException(sprintf('Invalid %s', $choice));
-        } else {
-            $backendArray = array();
-            foreach ($this->metadataSourceFinder->getAllAdapters() as $backend) {
-                if(!$backend->getFalseDependencies()) {
-                    $backendArray[] = array('id' => $backend->getFactory(), 'label' => $backend->getDefinition());
-                }
-            }
-            return $backendArray;
+            throw new \InvalidArgumentException(sprintf('Invalid metadata %s', $choice));
         }
+
+        $backendArray = array();
+        foreach ($this->metadataSourceFinder->getAllAdapters() as $backend) {
+            if(!$backend->getFalseDependencies()) {
+                $backendArray[] = array(
+                    'id'    => $backend->getFactory(),
+                    'label' => $backend->getDefinition()
+                );
+            }
+        }
+        return $backendArray;
     }
 }
