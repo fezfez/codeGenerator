@@ -39,7 +39,7 @@ class QuestionParserFactory
         if ($context instanceof CliContext) {
             return new QuestionParser($context, $dependencyCondition, new Cli\QuestionParser($context));
         } elseif ($context instanceof WebContext) {
-            return new QuestionParser($context, $dependencyCondition, new Web\QuestionParser($context));
+            return new QuestionParser($context, $dependencyCondition, new Web\QuestionParser());
         } else {
             throw new \InvalidArgumentException('Context "' . get_class($context) . '" not allowed');
         }
