@@ -19,6 +19,9 @@ namespace CrudGenerator\Generators\Strategies;
 
 use CrudGenerator\View\ViewFactory;
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\WebContext;
+use CrudGenerator\Context\CliContext;
+use Symfony\Component\Console\Input\ArrayInput;
 
 /**
  * Base code generator, extends it and implement doGenerate method
@@ -29,20 +32,25 @@ use CrudGenerator\Context\ContextInterface;
 class SandBoxStrategyFactory
 {
     /**
-     * @param OutputInterface $output
-     * @param DialogHelper $dialog
+     * @param ContextInterface $context
+     * @param InputArgument $input
+     * @throws \InvalidArgumentException
      * @return \CrudGenerator\Generators\Strategies\SandBoxStrategy
      */
-    public static function getInstance(ContextInterface $context, $input = null)
+    public static function getInstance(ContextInterface $context, ArrayInput $input = null)
     {
-        $view   = ViewFactory::getInstance();
+        if ($context instanceof CliContext) {
+            $view   = ViewFactory::getInstance();
 
-        if ($input !== null) {
-            $filter = $input->getArgument('filter');
+            if ($input !== null) {
+                $filter = $input->getArgument('filter');
+            } else {
+                $filter = null;
+            }
+
+            return new SandBoxStrategy($view, $context->getOutput(), $context->getDialogHelper(), $filter);
         } else {
-            $filter = null;
+            throw new \InvalidArgumentException('Context "' . get_class($context) . '" not allowed');
         }
-
-        return new SandBoxStrategy($view, $context->getOutput(), $context->getDialogHelper(), $filter);
     }
 }

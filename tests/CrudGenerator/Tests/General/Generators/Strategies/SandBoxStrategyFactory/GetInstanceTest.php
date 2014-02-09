@@ -3,6 +3,7 @@ namespace CrudGenerator\Tests\General\Generators\Strategies\SandBoxStrategyFacto
 
 use CrudGenerator\Generators\Strategies\SandBoxStrategyFactory;
 use CrudGenerator\Context\CliContext;
+use CrudGenerator\Context\WebContext;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputArgument;
@@ -25,6 +26,17 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
         	'CrudGenerator\Generators\Strategies\SandBoxStrategy',
         	SandBoxStrategyFactory::getInstance($context)
 		);
+    }
+
+    public function testFailInstance()
+    {
+    	$app =  $this->getMockBuilder('Silex\Application')
+    	->disableOriginalConstructor()
+    	->getMock();
+    	$context = new WebContext($app);
+
+    	$this->setExpectedException('InvalidArgumentException');
+    	SandBoxStrategyFactory::getInstance($context);
     }
 
     public function testInstanceWithFilter()
