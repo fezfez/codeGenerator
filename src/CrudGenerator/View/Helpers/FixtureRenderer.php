@@ -23,7 +23,7 @@ use Faker\Generator;
 class FixtureRenderer
 {
     /**
-     * @var \Faker\Generator
+     * @var Generator
      */
     private $faker = null;
 
@@ -42,13 +42,13 @@ class FixtureRenderer
     public function render(MetaDataColumn $metadata)
     {
         $data = '';
-        if ($metadata->getType() == 'integer' || $metadata->getType() == 'float') {
+        if (in_array($metadata->getType(), array('integer', 'float'))) {
             $data = $this->faker->randomNumber();
-        } elseif ($metadata->getType() == 'string' || $metadata->getType() == 'text') {
+        } elseif (in_array($metadata->getType(), array('string', 'text'))) {
             $data = (!$metadata->getLength()) ? '"' . $this->faker->text(50) . '"' : '"' . ($metadata->getLength() <=  5) ? '"test"' : $this->faker->text($metadata->getLength()) . '"';
         } elseif ($metadata->getType() == 'date') {
             $data = 'new DateTime()';
-        } elseif ($metadata->getType() == 'bool' || $metadata->getType() == 'boolean') {
+        } elseif (in_array($metadata->getType(), array('bool', 'boolean'))) {
             $data = 'true';
         }
 
