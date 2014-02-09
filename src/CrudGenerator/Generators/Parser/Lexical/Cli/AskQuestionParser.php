@@ -41,10 +41,10 @@ class AskQuestionParser implements ParserInterface
      */
     private $dependencyCondition = null;
 
-
     /**
      * @param CliContext $cliContext
      * @param DirectoryQuestion $directoryQuestion
+     * @param DependencyCondition $dependencyCondition
      */
     public function __construct(CliContext $cliContext, DirectoryQuestion $directoryQuestion, DependencyCondition $dependencyCondition)
     {
@@ -89,21 +89,16 @@ class AskQuestionParser implements ParserInterface
         } elseif (isset($question['type']) && $question['type'] === GeneratorParser::COMPLEX_QUESTION) {
             $complex = $question['factory']::getInstance($this->cliContext);
             $generator = $complex->ask($generator, $question);
-        } else {
-            $defaultResponse = (isset($question['defaultResponse']) && $parser->issetVariable($question['defaultResponse']))
-                                    ? $parser->parse($question['defaultResponse']) : null;
-
-            $questionName = 'set' . ucfirst($question['dtoAttribute']);
+        } elseif (isset($question['dtoAttribute']) && method_exists($generator->getDTO(), 'set' . ucfirst($question['dtoAttribute']))) {
 
             $response = $this->cliContext->getDialogHelper()->ask(
                 $this->cliContext->getOutput(),
                 '<question>' . $question['text'] . '</question> ',
-                ($defaultResponse === null && isset($question['defaultResponse'])) ? $question['defaultResponse'] : $defaultResponse
+                (isset($question['defaultResponse'])) ? $parser->parse($question['defaultResponse']) : null
             );
 
-            if (method_exists($generator->getDTO(), $questionName)) {
-                $generator->getDTO()->$questionName($response);
-            }
+            $questionName = 'set' . ucfirst($question['dtoAttribute']);
+            $generator->getDTO()->$questionName($response);
         }
 
         return $generator;
