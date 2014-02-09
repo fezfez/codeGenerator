@@ -12,7 +12,7 @@ class GetAllAdapatersTest extends \PHPUnit_Framework_TestCase
         chdir(__DIR__);
         $fileManager = new FileManager();
 
-        $suT = new GeneratorFinder($fileManager, new ClassAwake());
+        $suT = new GeneratorFinder($fileManager);
 
         $this->assertInternalType(
             'array',

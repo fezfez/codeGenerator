@@ -9,7 +9,7 @@ function DirectoryBuilder(DirectoryDAO) {
 
     var DAO = DirectoryDAO;
 
-    this.build = function(file, directories) {
+    this.build = function (file, directories) {
         var filtredName = file.fileName.split('/').filter(function (n) {
                 return n;
             }),
@@ -50,5 +50,5 @@ function DirectoryBuilder(DirectoryDAO) {
         child         = this.build(file, child);
 
         return directories;
-    }
+    };
 }
