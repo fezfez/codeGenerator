@@ -19,12 +19,7 @@ namespace CrudGenerator\Generators\Parser\Lexical\Web;
 
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\Generators\Parser\Lexical\QuestionInterface;
-use CrudGenerator\Generators\Questions\Web\DirectoryQuestion;
-use CrudGenerator\Context\WebContext;
-use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
-use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 
 class QuestionParser implements QuestionInterface
 {

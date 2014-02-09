@@ -22,7 +22,6 @@ use CrudGenerator\Context\CliContext;
 use CrudGenerator\Context\WebContext;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
-use CrudGenerator\Generators\Questions\DirectoryQuestionFactory;
 
 
 class QuestionParserFactory
