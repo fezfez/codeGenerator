@@ -50,17 +50,15 @@ class EnvironnementCondition implements ParserInterface
     private function analyseExpression($expression, $toDoIfValidExpression, $generator)
     {
         $matches                    = array();
-        $comparaisonEquals          = explode(GeneratorParser::EQUAL, $expression);
-        $comparaisonDifferentEquals = explode(GeneratorParser::DIFFERENT_EQUAL, $expression);
+        $comparaisonDifferentEquals = array_map('trim', explode(GeneratorParser::DIFFERENT_EQUAL, $expression));
+        $comparaisonEquals          = array_map('trim', explode(GeneratorParser::EQUAL, $expression));
 
-        if (!empty($comparaisonDifferentEquals) && count($comparaisonDifferentEquals) !== 1) {
-            $comparaisonDifferentEquals = array_map('trim', $comparaisonDifferentEquals);
+        if (count($comparaisonDifferentEquals) !== 1) {
             $environnementName          = $comparaisonDifferentEquals[0];
             $environnementValue         = $comparaisonDifferentEquals[1];
             $addEnvironnementExpression = ($environnementValue !== $generator->getEnvironnement($environnementName)) ? true : false;
 
-        } elseif (!empty($comparaisonEquals) && count($comparaisonEquals) !== 1) {
-            $comparaisonEquals          = array_map('trim', $comparaisonEquals);
+        } elseif (count($comparaisonEquals) !== 1) {
             $environnementName          = $comparaisonEquals[0];
             $environnementValue         = $comparaisonEquals[1];
             $addEnvironnementExpression = ($environnementValue === $generator->getEnvironnement($environnementName)) ? true : false;
