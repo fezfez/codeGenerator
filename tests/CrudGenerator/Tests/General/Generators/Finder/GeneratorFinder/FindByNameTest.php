@@ -3,7 +3,6 @@ namespace CrudGenerator\Tests\General\Generators\Finder\GeneratorFinder;
 
 use CrudGenerator\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Utils\ClassAwake;
 
 class FindByNameTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,7 +10,7 @@ class FindByNameTest extends \PHPUnit_Framework_TestCase
     {
         $fileManager = new FileManager();
 
-        $suT = new GeneratorFinder($fileManager, new ClassAwake());
+        $suT = new GeneratorFinder($fileManager);
 
         $this->setExpectedException('InvalidArgumentException');
 
@@ -22,7 +21,7 @@ class FindByNameTest extends \PHPUnit_Framework_TestCase
     {
     	$fileManager = new FileManager();
 
-    	$suT = new GeneratorFinder($fileManager, new ClassAwake());
+    	$suT = new GeneratorFinder($fileManager);
 
     	$this->assertInternalType(
     		'string',

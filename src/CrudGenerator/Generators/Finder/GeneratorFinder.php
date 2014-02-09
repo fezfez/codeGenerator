@@ -17,10 +17,7 @@
  */
 namespace CrudGenerator\Generators\Finder;
 
-use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
-use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
 use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Utils\ClassAwake;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -34,20 +31,14 @@ class GeneratorFinder
      * @var FileManager File manager
      */
     private $fileManager = null;
-    /**
-     * @var ClassAwake Class awake
-     */
-    private $classAwake = null;
 
     /**
      * Find all generator allow in project
      * @param FileManager $fileManager
-     * @param ClassAwake $classAwake
      */
-    public function __construct(FileManager $fileManager, ClassAwake $classAwake)
+    public function __construct(FileManager $fileManager)
     {
         $this->fileManager = $fileManager;
-        $this->classAwake  = $classAwake;
     }
 
     /**
@@ -57,28 +48,26 @@ class GeneratorFinder
      */
     public function getAllClasses()
     {
-        $directories = $this->checkZf2Configuration(
-            array(
-                __DIR__ . '/../../' // @TODO fix path
-            )
+        $directories = array(
+            __DIR__ . '/../../' // @TODO fix path
         );
 
         $generators = array();
         foreach ($directories as $directorie) {
-        	$iterator = new \RegexIterator(
-        		new \RecursiveIteratorIterator(
-        				new \RecursiveDirectoryIterator($directorie, \FilesystemIterator::SKIP_DOTS),
-        				\RecursiveIteratorIterator::LEAVES_ONLY
-        		),
-        		'/^.+' . preg_quote('.generator.yaml') . '$/i',
-        		\RecursiveRegexIterator::GET_MATCH
-        	);
+            $iterator = new \RegexIterator(
+                new \RecursiveIteratorIterator(
+                        new \RecursiveDirectoryIterator($directorie, \FilesystemIterator::SKIP_DOTS),
+                        \RecursiveIteratorIterator::LEAVES_ONLY
+                ),
+                '/^.+' . preg_quote('.generator.yaml') . '$/i',
+                \RecursiveRegexIterator::GET_MATCH
+            );
 
 
-        	foreach ($iterator as $file) {
-				$yaml = Yaml::parse(file_get_contents($file[0]), true);
-        		$generators[$file[0]] = $yaml['name'];
-        	}
+            foreach ($iterator as $file) {
+                $yaml = Yaml::parse(file_get_contents($file[0]), true);
+                $generators[$file[0]] = $yaml['name'];
+            }
         }
 
         return $generators;
@@ -91,38 +80,14 @@ class GeneratorFinder
      */
     public function findByName($name)
     {
-		$generatorCollection = $this->getAllClasses();
+        $generatorCollection = $this->getAllClasses();
 
-		foreach ($generatorCollection as $generatorFile => $generatorName) {
-			if ($generatorName === $name) {
-				return $generatorFile;
-			}
-		}
-
-		throw new \InvalidArgumentException(sprintf('Generator name "%s" does not exist', $name));
-    }
-
-    /**
-     * Add Zend Framework 2 paths
-     *
-     * @param array $paths
-     * @throws \RuntimeException
-     * @return array
-     */
-    private function checkZf2Configuration($paths)
-    {
-        try {
-            $serviceManager = ZendFramework2Environnement::getDependence($this->fileManager);
-            $config         = $serviceManager->get('config');
-
-            if (isset($config['crudGenerator']) && isset($config['crudGenerator']['path'])) {
-                foreach ($config['crudGenerator']['path'] as $path) {
-                    $paths[] = $path;
-                }
+        foreach ($generatorCollection as $generatorFile => $generatorName) {
+            if ($generatorName === $name) {
+                return $generatorFile;
             }
-        } catch (EnvironnementResolverException $e) {
         }
 
-        return $paths;
+        throw new \InvalidArgumentException(sprintf('Generator name "%s" does not exist', $name));
     }
 }
