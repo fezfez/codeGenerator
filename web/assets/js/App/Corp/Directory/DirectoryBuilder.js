@@ -5,7 +5,7 @@
  * @returns directories
  */
 function DirectoryBuilder(DirectoryDAO) {
-	"use strict";
+    "use strict";
 
     var DAO = DirectoryDAO;
 
@@ -25,8 +25,8 @@ function DirectoryBuilder(DirectoryDAO) {
         // If this is a file
         if (filtredName.length === 1) {
             // Add to the current directory
-        	fileDTO = new FileDataObject();
-        	fileDTO.setName(fileName)
+            fileDTO = new FileDataObject();
+            fileDTO.setName(fileName)
                 .setTemplate(file.name)
                 .setSkeletonPath(file.skeletonPath)
                 .setOriginalName(file.originalName);

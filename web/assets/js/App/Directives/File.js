@@ -4,7 +4,7 @@ GeneratorApp.directive('fileTree', function ($compile) {
         replace: true,
         restrict: 'E',
         scope: {
-        	family: '=',
+            family: '=',
             fileView: '&'
         },
         link: function(scope, element, attrs) {
@@ -30,7 +30,7 @@ angular.module('GeneratorApp.directives', [])
             '<span ng-click="fileView({fileObject : file})">{{ file.getName() }}</span>' +
             '</li>',
         link: function (scope, elm, attrs) {
-        	var template = '<li ng-repeat="child in family.getChildren()">'+
+            var template = '<li ng-repeat="child in family.getChildren()">'+
                 '<span class="directory">{{ child.getName() }}</span>' +
                 '<file-tree family="child" file-view="fileView({fileObject : fileObject})"></file-tree>' +
             '</li>';

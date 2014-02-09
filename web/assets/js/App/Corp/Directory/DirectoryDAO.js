@@ -22,7 +22,7 @@ function DirectoryDAO() {
 
         throw new Error('Cant find child with name "' + directoryName + '"');
     };
-    
+
     this.viewFile = function (datas, callback) {
         $http(
             {

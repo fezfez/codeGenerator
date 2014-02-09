@@ -1,6 +1,6 @@
 GeneratorApp.factory('GeneratorService', ['$http', '$q', function ($http, $q) {
     "use strict";
-    
+
     return {
         http : false,
         build : function (datas, callback) {
@@ -31,7 +31,7 @@ GeneratorApp.factory('GeneratorService', ['$http', '$q', function ($http, $q) {
                 callback(directories, data.generator.questions);
                 self.http = false;
             }).error(function(data) {
-            	alert(data.error);
+                alert(data.error);
             });
         }
     };

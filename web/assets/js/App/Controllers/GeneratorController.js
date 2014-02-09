@@ -21,7 +21,7 @@
                         }
                     ).success(function (data) {
                         if (data.config !== undefined) {
-                        	$scope.metadataSourceConfig = {};
+                            $scope.metadataSourceConfig = {};
                             $scope.metadataSourceConfigForm = {
                                 'title' : $scope.backEnd + ' configuration',
                                 'questionsList' : data.config
@@ -47,10 +47,10 @@
                         }
                     ).success(function (data) {
                         if (data.error !== undefined) {
-                        	$scope.metadataSourceConfigForm.error = data.error;
+                            $scope.metadataSourceConfigForm.error = data.error;
                         } else {
-                        	delete $scope.metadataSourceConfigForm;
-                        	$scope.backendChange();
+                            delete $scope.metadataSourceConfigForm;
+                            $scope.backendChange();
                         }
                     });
                     return false;

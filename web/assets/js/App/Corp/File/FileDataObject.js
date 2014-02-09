@@ -33,11 +33,11 @@ function FileDataObject() {
         return this;
     };
     this.setSkeletonPath = function (value) {
-    	skeletonPath = value;
+        skeletonPath = value;
         return this;
     };
     this.setOriginalName = function (value) {
-    	originalName = value;
+        originalName = value;
         return this;
     };
 }
