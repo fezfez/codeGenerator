@@ -77,7 +77,6 @@ class GeneratorWeb
             );
         } else {
             $generationResult = array();
-            $isConflictInGeneration = false;
             $isConfliInFile = false;
             foreach ($files as $fileName => $fileInfos) {
                 if (isset($files[$fileName]['result'])) {

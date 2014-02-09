@@ -41,7 +41,7 @@ class ManagerFactory
             $fileManager = new FileManager();
             $configContent = $fileManager->fileGetContent($pathToConf . 'ConfigGenerator.yml');
             $yamlDatas = Yaml::parse($configContent, true);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $exception) {
             throw new InvalidConfigPathException(
                 'The given path is not valid, application cannot open the config file from : ' .
                 $pathToConf .

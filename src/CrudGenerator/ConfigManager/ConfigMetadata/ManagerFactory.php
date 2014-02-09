@@ -41,7 +41,7 @@ class ManagerFactory
             $fileManager = new FileManager();
             $configContent = $fileManager->fileGetContent($filePath);
             $yamlDatas = Yaml::parse($configContent, true);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException $exception) {
             throw new InvalidYamlConfigPathException(
                 'The given path is not valid, application cannot open the yml file from : ' .
                 $filePath

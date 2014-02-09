@@ -46,7 +46,7 @@ $app->match('/metadata', function (Request $request) use ($app) {
     try {
         return $app->json(array('metadatas' => $metadataFinder->ask($metadataSource)), 201);
     } catch (\CrudGenerator\MetaData\Config\ConfigException $e) {
-        $formReader = \CrudGenerator\MetaData\Config\MetaDataConfigReaderFormFactory::getInstance($app);
+        $formReader = \CrudGenerator\MetaData\Config\MetaDataConfigReaderFormFactory::getInstance();
 
         return $app->json(
             array(
@@ -150,7 +150,7 @@ $app->match('metadata-save', function (Request $request) use ($app) {
     $backendSelect   = $backendFinder->ask($request->request->get('backend'));
     $metadataSourceFactory = new MetaDataSourceFactory();
 
-    $configReader = CrudGenerator\MetaData\Config\MetaDataConfigReaderFormFactory::getInstance($app);
+    $configReader = CrudGenerator\MetaData\Config\MetaDataConfigReaderFormFactory::getInstance();
     try {
         $metadataSourceConfigured = $configReader->write($backendSelect->getConfig(), $formDatas);
         $configReader->isValid($metadataSourceConfigured);

@@ -29,12 +29,11 @@ use Silex\Application;
 class MetaDataConfigReaderFormFactory
 {
     /**
-     * Create MetaDataConfigReader instance
+     * Create MetaDataConfigReaderForm instance
      *
-     * @param Application $application
      * @return \CrudGenerator\MetaData\Config\MetaDataConfigReaderForm
      */
-    public static function getInstance(Application $application)
+    public static function getInstance()
     {
         $fileManager = new FileManager();
         return new MetaDataConfigReaderForm($fileManager);

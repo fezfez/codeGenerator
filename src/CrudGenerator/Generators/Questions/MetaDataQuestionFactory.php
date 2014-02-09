@@ -39,7 +39,7 @@ class MetaDataQuestionFactory
         	$metaDataConfigReader  = MetaDataConfigReaderFactory::getInstance($context->getOutput(), $context->getDialogHelper());
         	return new Cli\MetaDataQuestion($metaDataConfigReader, $metadataSourceFactory, $context->getOutput(), $context->getDialogHelper());
         } elseif ($context instanceof WebContext) {
-        	$metaDataConfigReader = MetaDataConfigReaderFormFactory::getInstance($context->getApplication());
+        	$metaDataConfigReader = MetaDataConfigReaderFormFactory::getInstance();
         	return new Web\MetaDataQuestion($metaDataConfigReader, $metadataSourceFactory);
         } else {
         	throw new \InvalidArgumentException('Invalid context given');

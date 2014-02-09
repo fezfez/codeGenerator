@@ -103,6 +103,9 @@ class CreateCommand extends Command
              ->setDescription('Generate code based on metadata');
     }
 
+    /* (non-PHPdoc)
+     * @see \Symfony\Component\Console\Command\Command::execute()
+     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->create();

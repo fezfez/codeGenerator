@@ -7,15 +7,9 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstance()
     {
-        $app =  $this->getMockBuilder('Silex\Application')
-                            ->disableOriginalConstructor()
-                            ->getMock();
-
         $this->assertInstanceOf(
             'CrudGenerator\MetaData\Config\MetaDataConfigReaderForm',
-            MetaDataConfigReaderFormFactory::getInstance(
-	            $app
-	        )
+            MetaDataConfigReaderFormFactory::getInstance()
         );
     }
 }

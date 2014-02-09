@@ -35,12 +35,10 @@ class GeneratorQuestion
     }
 
     /**
-     * Ask wich generator you want to use
-     * @param string $defaultGenerator
-     * @throws \Exception
-     * @return \CrudGenerator\Generators\BaseCodeGenerator
+     * Return generator list
+     * @return array
      */
-    public function ask($defaultGenerator = null)
+    public function ask()
     {
         $generatorArray = array();
         foreach ($this->generatorFinder->getAllClasses() as $path => $name) {
