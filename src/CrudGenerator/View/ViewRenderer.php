@@ -17,7 +17,6 @@
  */
 namespace CrudGenerator\View;
 
-use CrudGenerator\DataObject;
 use CrudGenerator\View\ViewRendererException;
 
 /**
