@@ -30,8 +30,10 @@ use CrudGenerator\Utils\FileManager;
 class GeneratorFactory
 {
     /**
+     * @param ContextInterface $context
      * @param StrategyInterface $strategy
-     * @return \CrudGenerator\Generators\Generator
+     * @throws \InvalidArgumentException
+     * @return \CrudGenerator\Generators\GeneratorCli|\CrudGenerator\Generators\GeneratorWeb
      */
     public static function getInstance(ContextInterface $context, StrategyInterface $strategy)
     {

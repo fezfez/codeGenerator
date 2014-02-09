@@ -42,6 +42,8 @@ class TemplateVariableParser implements ParserInterface
 
     /**
      * @param FileManager $fileManager
+     * @param EnvironnementCondition $environnementCondition
+     * @param DependencyCondition $dependencyCondition
      */
     public function __construct(FileManager $fileManager, EnvironnementCondition $environnementCondition, DependencyCondition $dependencyCondition)
     {
@@ -55,14 +57,14 @@ class TemplateVariableParser implements ParserInterface
      */
     public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
     {
-    	if (isset($process['templateVariables'])) {
-	        foreach ($process['templateVariables'] as $variables) {
-	        	if (!is_array($variables)) {
-	        		throw new MalformedGeneratorException('Variable excepts to be an array "' . gettype($variables) . "' given");
-	        	}
-				$this->evaluateVariable($variables, $parser, $generator, $questions, $firstIteration);
-	        }
-    	}
+        if (isset($process['templateVariables'])) {
+            foreach ($process['templateVariables'] as $variables) {
+                if (!is_array($variables)) {
+                    throw new MalformedGeneratorException('Variable excepts to be an array "' . gettype($variables) . "' given");
+                }
+                $this->evaluateVariable($variables, $parser, $generator, $questions, (bool) $firstIteration);
+            }
+        }
 
         return $generator;
     }
@@ -72,29 +74,29 @@ class TemplateVariableParser implements ParserInterface
      * @param PhpStringParser $parser
      * @param GeneratorDataObject $generator
      * @param array $questions
-     * @param unknown $firstIteration
+     * @param boolean $firstIteration
      * @return GeneratorDataObject
      */
     private function evaluateVariable(array $variables, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
     {
-    	foreach ($variables as $varName => $value) {
-    		if ($varName === GeneratorParser::DEPENDENCY_CONDITION) {
-    			$matches = $this->dependencyCondition->evaluate($value, $parser, $generator, $questions, $firstIteration);
-    			foreach ($matches as $matchesDependency) {
-    				$generator = $this->evaluateVariable($matchesDependency, $parser, $generator, $questions, $firstIteration);
-    			}
-    		} elseif ($varName === GeneratorParser::ENVIRONNEMENT_CONDITION) {
-    			$matches = $this->environnementCondition->evaluate($value, $parser, $generator, $questions, $firstIteration);
-    		    foreach ($matches as $matchesEnvironnement) {
-    				$generator = $this->evaluateVariable($matchesEnvironnement, $parser, $generator, $questions, $firstIteration);
-    			}
-    		} else {
-    			$variableValue = $parser->parse($value);
-    			$parser->addVariable($varName, $variableValue);
-    			$generator->addTemplateVariable($varName, $variableValue);
-    		}
-    	}
+        foreach ($variables as $varName => $value) {
+            if ($varName === GeneratorParser::DEPENDENCY_CONDITION) {
+                $matches = $this->dependencyCondition->evaluate($value, $parser, $generator, $questions, $firstIteration);
+                foreach ($matches as $matchesDependency) {
+                    $generator = $this->evaluateVariable($matchesDependency, $parser, $generator, $questions, $firstIteration);
+                }
+            } elseif ($varName === GeneratorParser::ENVIRONNEMENT_CONDITION) {
+                $matches = $this->environnementCondition->evaluate($value, $parser, $generator, $questions, $firstIteration);
+                foreach ($matches as $matchesEnvironnement) {
+                    $generator = $this->evaluateVariable($matchesEnvironnement, $parser, $generator, $questions, $firstIteration);
+                }
+            } else {
+                $variableValue = $parser->parse($value);
+                $parser->addVariable($varName, $variableValue);
+                $generator->addTemplateVariable($varName, $variableValue);
+            }
+        }
 
-    	return $generator;
+        return $generator;
     }
 }

@@ -121,7 +121,9 @@ class HistoryHydrator
     {
         $dataObject = clone $dataObject;
 
-        if (isset($generatorName['options']) && is_array($generatorName['options'])) {
+        $generatorName['options'] = (array) $generatorName['options'];
+
+        if (!empty($generatorName['options'])) {
             foreach ($generatorName['options'] as $optionName => $optionValue) {
                 $methodName = 'set' . ucfirst($optionName);
                 if (method_exists($dataObject, $methodName)) {
