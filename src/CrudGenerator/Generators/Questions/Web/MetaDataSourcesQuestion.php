@@ -45,15 +45,11 @@ class MetaDataSourcesQuestion
             $backendSelect = null;
             foreach ($this->metadataSourceFinder->getAllAdapters() as $backend) {
                 if ($backend->getFactory() === $choice) {
-                    $backendSelect = $backend;
+                    return $backend;
                 }
             }
 
-            if (null === $backendSelect) {
-                throw new \InvalidArgumentException(sprintf('Invalid %s', $choice));
-            }
-
-            return $backendSelect;
+            throw new \InvalidArgumentException(sprintf('Invalid %s', $choice));
         } else {
             $backendArray = array();
             foreach ($this->metadataSourceFinder->getAllAdapters() as $backend) {
