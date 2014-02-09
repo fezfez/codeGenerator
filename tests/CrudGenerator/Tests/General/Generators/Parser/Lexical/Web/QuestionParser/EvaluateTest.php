@@ -110,6 +110,11 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
     	->disableOriginalConstructor()
     	->getMock();
 
+    	$phpParser->expects($this->once())
+    	->method('parse')
+    	->with('myDefaultResponse')
+    	->will($this->returnValue('myDefaultResponse'));
+
     	$dependencyCondition->expects($this->once())
     	->method('evaluate')
     	->will($this->returnValue(

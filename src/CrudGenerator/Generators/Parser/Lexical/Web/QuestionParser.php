@@ -90,15 +90,12 @@ class QuestionParser implements ParserInterface
             $complex = $question['factory']::getInstance($this->webContext);
             $generator = $complex->ask($generator, $question);
         } else {
-            // @FIXME Default response not parsed
-            $defaultResponse = (isset($question['defaultResponse']) && $parser->issetVariable($question['defaultResponse']))
-                                    ? $parser->parse($question['defaultResponse']) : null;
             $generator->addQuestion(
                 array(
                     'dtoAttribute'    => 'set' . ucfirst($question['dtoAttribute']),
                     'text'            => $question['text'],
                     'value'           => (isset($questions['set' . ucfirst($question['dtoAttribute'])])) ? $questions['set' . ucfirst($question['dtoAttribute'])] : '',
-                    'defaultResponse' => ($defaultResponse === null && isset($question['defaultResponse'])) ? $question['defaultResponse'] : $defaultResponse
+                    'defaultResponse' => (isset($question['defaultResponse'])) ? $parser->parse($question['defaultResponse']) : null
                 )
             );
         }
