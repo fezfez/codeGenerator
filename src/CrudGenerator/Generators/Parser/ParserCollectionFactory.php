@@ -24,13 +24,13 @@ use CrudGenerator\Context\CliContext;
 use CrudGenerator\Generators\Parser\Lexical\DirectoriesParser;
 use CrudGenerator\Generators\Parser\Lexical\FileParser;
 use CrudGenerator\Generators\Parser\Lexical\TemplateVariableParser;
-use CrudGenerator\Generators\Parser\Lexical\Cli\AskQuestionParser;
+use CrudGenerator\Generators\Parser\Lexical\QuestionInterface;
+use CrudGenerator\Generators\Parser\Lexical\QuestionParserFactory;
 use CrudGenerator\Generators\Parser\Lexical\Web\QuestionParser;
 use CrudGenerator\Generators\Parser\Lexical\Web\QuestionResponseParser;
 use CrudGenerator\Generators\Parser\Lexical\Web\EnvironnementParser;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
-use CrudGenerator\Generators\Questions\DirectoryQuestionFactory;
 
 class ParserCollectionFactory
 {
@@ -46,19 +46,12 @@ class ParserCollectionFactory
         $environnemetCondition = new EnvironnementCondition();
         $dependencyCondition   = new DependencyCondition();
 
-
         if ($context instanceof WebContext) {
-            $directoryQuestion = DirectoryQuestionFactory::getInstance($context);
-
             $collection->addPreParse(new QuestionResponseParser())
                        ->addPreParse(new EnvironnementParser($context))
-                       ->addPostParse(new QuestionParser($context, $directoryQuestion, $dependencyCondition));
+                       ->addPostParse(QuestionParserFactory::getInstance($context));
         } elseif ($context instanceof CliContext) {
-            $directoryQuestion = DirectoryQuestionFactory::getInstance($context);
-
-            $collection->addPreParse(
-                new AskQuestionParser($context, $directoryQuestion, $dependencyCondition)
-            );
+            $collection->addPreParse(QuestionParserFactory::getInstance($context));
         } else {
             throw new \InvalidArgumentException("Context not allowed");
         }

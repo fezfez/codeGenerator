@@ -1,7 +1,8 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\Cli\QuestionParser;
 
-use CrudGenerator\Generators\Parser\Lexical\Cli\AskQuestionParser;
+use CrudGenerator\Generators\Parser\Lexical\Cli\QuestionParser as CliQuestionParser;
+use CrudGenerator\Generators\Parser\Lexical\QuestionParser;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
@@ -35,7 +36,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new AskQuestionParser($context, $directoryQuestion, $dependencyCondition);
+        $sUT = new QuestionParser(new CliQuestionParser($context, $directoryQuestion, $dependencyCondition));
 
         $generator = new GeneratorDataObject();
 
@@ -73,7 +74,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT       = new AskQuestionParser($context, $directoryQuestion, $dependencyCondition);
+        $sUT = new QuestionParser(new CliQuestionParser($context, $directoryQuestion, $dependencyCondition));
         $generator = new GeneratorDataObject();
 
         $process = array(
@@ -156,7 +157,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $sUT       = new AskQuestionParser($context, $directoryQuestion, $dependencyCondition);
+        $sUT = new QuestionParser(new CliQuestionParser($context, $directoryQuestion, $dependencyCondition));
         $generator = new GeneratorDataObject();
         $generator->setDTO(new Architect());
 

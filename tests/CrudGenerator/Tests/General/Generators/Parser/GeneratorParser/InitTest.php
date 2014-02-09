@@ -76,7 +76,7 @@ class InitTest extends \PHPUnit_Framework_TestCase
         $generator = new GeneratorDataObject();
         $parserCollection =  new \CrudGenerator\Generators\Parser\ParserCollection();
 
-        $questionResponse =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Web\QuestionParser')
+        $questionResponse =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\QuestionParser')
         ->disableOriginalConstructor()
         ->getMock();
 

@@ -20,13 +20,13 @@ namespace CrudGenerator\Generators\Parser\Lexical\Web;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
-use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
+use CrudGenerator\Generators\Parser\Lexical\QuestionInterface;
 use CrudGenerator\Generators\Questions\Web\DirectoryQuestion;
 use CrudGenerator\Context\WebContext;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 
-class QuestionParser implements ParserInterface
+class QuestionParser implements QuestionInterface
 {
     /**
      * @var WebContext
@@ -53,24 +53,6 @@ class QuestionParser implements ParserInterface
         $this->dependencyCondition = $dependencyCondition;
     }
 
-    /* (non-PHPdoc)
-     * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
-     */
-     public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
-     {
-         if (isset($process['questions'])) {
-            foreach ($process['questions'] as $question) {
-                if (!is_array($question)) {
-                    throw new MalformedGeneratorException('Questions excepts to be an array "' . gettype($question) . "' given");
-                }
-
-                $generator = $this->evaluateQuestions($question, $parser, $generator, $questions, $firstIteration);
-            }
-         }
-
-        return $generator;
-    }
-
     /**
      * @param array $question
      * @param PhpStringParser $parser
@@ -79,7 +61,7 @@ class QuestionParser implements ParserInterface
      * @param unknown $firstIteration
      * @return GeneratorDataObject
      */
-    private function evaluateQuestions(array $question, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
+    public function evaluateQuestions(array $question, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
     {
         if(isset($question[GeneratorParser::DEPENDENCY_CONDITION])) {
             $matches = $this->dependencyCondition->evaluate($question[GeneratorParser::DEPENDENCY_CONDITION], $parser, $generator, $questions, $firstIteration);
