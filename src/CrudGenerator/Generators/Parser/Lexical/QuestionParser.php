@@ -22,7 +22,6 @@ use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
 use CrudGenerator\Generators\Parser\Lexical\QuestionInterface;
-use CrudGenerator\Generators\Questions\Cli\DirectoryQuestion;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
