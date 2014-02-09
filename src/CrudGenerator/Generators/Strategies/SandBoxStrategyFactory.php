@@ -19,7 +19,6 @@ namespace CrudGenerator\Generators\Strategies;
 
 use CrudGenerator\View\ViewFactory;
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\WebContext;
 use CrudGenerator\Context\CliContext;
 use Symfony\Component\Console\Input\ArrayInput;
 

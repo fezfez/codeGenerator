@@ -19,7 +19,6 @@ namespace CrudGenerator\MetaData\Config;
 
 use CrudGenerator\MetaData\Config\MetaDataConfigReaderForm;
 use CrudGenerator\Utils\FileManager;
-use Silex\Application;
 
 /**
  * Create MetaDataConfigReader instance
