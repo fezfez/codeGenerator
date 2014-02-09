@@ -49,12 +49,12 @@ class CreateCommandFactory
 
         return new CreateCommand(
             $parser,
-        	$generator,
+            $generator,
             $historyManager,
             $metaDataSourcesQuestion,
             $metaDataQuestion,
             $generatorQuestion,
-        	$context
+            $context
         );
     }
 }

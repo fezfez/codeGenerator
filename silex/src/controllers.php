@@ -134,7 +134,7 @@ $app->match('generate', function (Request $request) use ($app) {
         $generationLog = $generatorEngine->generate($generator);
         $toReturn = array('generationLog' => $generationLog);
     } catch (\CrudGenerator\Generators\GeneratorWebConflictException $e) {
-        $conflict = $generatorEngine->checkConflict($generator, $conflictArray);
+        $conflict = $generatorEngine->checkConflict($generator);
         $toReturn = array('conflict' => $conflict);
     }
 

@@ -68,11 +68,12 @@ class CreateCommand extends Command
 
     /**
      * @param GeneratorParser $parser
-     * @param Generator $generator
+     * @param GeneratorCli $generator
      * @param HistoryManager $historyManager
      * @param MetaDataSourcesQuestion $metaDataSourcesQuestion
      * @param MetaDataQuestion $metaDataQuestion
      * @param GeneratorQuestion $generatorQuestion
+     * @param CliContext $cliContext
      */
     public function __construct(
         GeneratorParser $parser,
