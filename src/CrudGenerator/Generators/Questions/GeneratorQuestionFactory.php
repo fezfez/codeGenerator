@@ -25,12 +25,11 @@ use CrudGenerator\Context\WebContext;
 class GeneratorQuestionFactory
 {
     /**
-     * @param DialogHelper $dialog
-     * @param OutputInterface $output
-     * @param boolean $stub
-     * @return \CrudGenerator\Command\Questions\GeneratorQuestion
+     * @param ContextInterface $context
+     * @throws \InvalidArgumentException
+     * @return \CrudGenerator\Generators\Questions\Cli\GeneratorQuestion|\CrudGenerator\Generators\Questions\Web\GeneratorQuestion
      */
-    public static function getInstance(ContextInterface $context, $input = null, $stub = false)
+    public static function getInstance(ContextInterface $context)
     {
         $generatorFinder = GeneratorFinderFactory::getInstance();
 

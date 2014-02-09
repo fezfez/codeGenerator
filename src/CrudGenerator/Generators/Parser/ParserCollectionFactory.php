@@ -36,13 +36,14 @@ class ParserCollectionFactory
 {
     /**
      * @param ContextInterface $context
+     * @throws \InvalidArgumentException
      * @return ParserCollection
      */
     public static function getInstance(ContextInterface $context)
     {
         $fileManager           = new FileManager();
         $collection            = new ParserCollection();
-        $environnemetCondition = new EnvironnementCondition($fileManager);
+        $environnemetCondition = new EnvironnementCondition();
         $dependencyCondition   = new DependencyCondition();
 
 

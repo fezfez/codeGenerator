@@ -74,25 +74,23 @@ class ViewRenderer
      */
     public function renderFile($path)
     {
-    	try {
-    		ob_start();
-    		include $path;
-    		$content = ob_get_clean();
-    	} catch (\Exception $ex) {
-    		ob_end_clean();
-    		throw new ViewRendererException(
-    			'In : "' . $path . '" ' . $ex->getMessage() . ' Line ' . $ex->getLine()
-    		);
-    	}
+        try {
+            ob_start();
+            include $path;
+            $content = ob_get_clean();
+        } catch (\Exception $ex) {
+            ob_end_clean();
+            throw new ViewRendererException(
+                'In : "' . $path . '" ' . $ex->getMessage() . ' Line ' . $ex->getLine()
+            );
+        }
 
-    	return $content;
+        return $content;
     }
 
     /**
      * @param string $name
-     * @param DataObject $dataObject
      * @throws ViewRendererException
-     * @return unknown
      */
     public function getHelper($name)
     {

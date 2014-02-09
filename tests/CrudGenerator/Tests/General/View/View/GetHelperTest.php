@@ -12,13 +12,13 @@ class GetHelperTest extends \PHPUnit_Framework_TestCase
         $viewRenderer = new ViewRenderer(array());
 
         $this->setExpectedException('CrudGenerator\View\ViewRendererException');
-        $viewRenderer->getHelper('toto', $this->getMockForAbstractClass('CrudGenerator\DataObject'));
+        $viewRenderer->getHelper('toto');
     }
 
     public function testOk()
     {
         $viewRenderer = new ViewRenderer(array('FixtureRendererFactory' => '\CrudGenerator\View\Helpers\FixtureRendererFactory'));
 
-        $this->assertInstanceOf('\CrudGenerator\View\Helpers\FixtureRenderer', $viewRenderer->getHelper('FixtureRenderer', $this->getMockForAbstractClass('CrudGenerator\DataObject')));
+        $this->assertInstanceOf('\CrudGenerator\View\Helpers\FixtureRenderer', $viewRenderer->getHelper('FixtureRenderer'));
     }
 }

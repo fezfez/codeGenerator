@@ -35,15 +35,14 @@ class CreateCommandFactory
 {
     /**
      * @param CliContext $context
-     * @param string $strategy
      * @return \CrudGenerator\Command\CreateCommand
      */
-    public static function getInstance(CliContext $context, $strategy = false)
+    public static function getInstance(CliContext $context)
     {
         $historyManager          = HistoryFactory::getInstance($context);
         $metaDataSourcesQuestion = MetaDataSourcesQuestionFactory::getInstance($context);
         $metaDataQuestion        = MetaDataQuestionFactory::getInstance($context);
-        $generatorQuestion       = GeneratorQuestionFactory::getInstance($context, null, $strategy);
+        $generatorQuestion       = GeneratorQuestionFactory::getInstance($context);
         $parser                  = GeneratorParserFactory::getInstance($context);
         $generatorStrategy       = GeneratorStrategyFactory::getInstance($context);
         $generator               = GeneratorFactory::getInstance($context, $generatorStrategy);

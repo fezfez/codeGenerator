@@ -9,7 +9,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(
             'CrudGenerator\View\Helpers\FixtureRenderer',
-            FixtureRendererFactory::getInstance($this->getMockForAbstractClass('CrudGenerator\DataObject'))
+            FixtureRendererFactory::getInstance()
         );
     }
 }

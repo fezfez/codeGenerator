@@ -8,12 +8,9 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstance()
     {
-    	$dto = new Architect();
-
-    	$this->assertInstanceOf(
-    		'CrudGenerator\View\Helpers\Text',
-    		TextFactory::getInstance($dto)
-		);
-
+        $this->assertInstanceOf(
+            'CrudGenerator\View\Helpers\Text',
+            TextFactory::getInstance()
+        );
     }
 }
