@@ -29,31 +29,6 @@ use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 class QuestionParser implements QuestionInterface
 {
     /**
-     * @var WebContext
-     */
-    private $webContext = null;
-    /**
-     * @var DirectoryQuestion
-     */
-    private $directoryQuestion = null;
-    /**
-     * @var DependencyCondition
-     */
-    private $dependencyCondition = null;
-
-    /**
-     * @param WebContext $webContext
-     * @param DirectoryQuestion $directoryQuestion
-     * @param DependencyCondition $dependencyCondition
-     */
-    public function __construct(WebContext $webContext, DirectoryQuestion $directoryQuestion, DependencyCondition $dependencyCondition)
-    {
-        $this->webContext          = $webContext;
-        $this->directoryQuestion   = $directoryQuestion;
-        $this->dependencyCondition = $dependencyCondition;
-    }
-
-    /**
      * @param array $question
      * @param PhpStringParser $parser
      * @param GeneratorDataObject $generator
@@ -63,24 +38,14 @@ class QuestionParser implements QuestionInterface
      */
     public function evaluateQuestions(array $question, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
     {
-        if(isset($question[GeneratorParser::DEPENDENCY_CONDITION])) {
-            $matches = $this->dependencyCondition->evaluate($question[GeneratorParser::DEPENDENCY_CONDITION], $parser, $generator, $questions, $firstIteration);
-            foreach ($matches as $questionsMatchs) {
-                $generator = $this->evaluateQuestions($questionsMatchs, $parser, $generator, $questions, $firstIteration);
-            }
-        } elseif (isset($question['type']) && $question['type'] === GeneratorParser::COMPLEX_QUESTION) {
-            $complex = $question['factory']::getInstance($this->webContext);
-            $generator = $complex->ask($generator, $question);
-        } else {
-            $generator->addQuestion(
-                array(
-                    'dtoAttribute'    => 'set' . ucfirst($question['dtoAttribute']),
-                    'text'            => $question['text'],
-                    'value'           => (isset($questions['set' . ucfirst($question['dtoAttribute'])])) ? $questions['set' . ucfirst($question['dtoAttribute'])] : '',
-                    'defaultResponse' => (isset($question['defaultResponse'])) ? $parser->parse($question['defaultResponse']) : null
-                )
-            );
-        }
+        $generator->addQuestion(
+            array(
+                'dtoAttribute'    => 'set' . ucfirst($question['dtoAttribute']),
+                'text'            => $question['text'],
+                'value'           => (isset($questions['set' . ucfirst($question['dtoAttribute'])])) ? $questions['set' . ucfirst($question['dtoAttribute'])] : '',
+                'defaultResponse' => (isset($question['defaultResponse'])) ? $parser->parse($question['defaultResponse']) : null
+            )
+        );
 
         return $generator;
     }

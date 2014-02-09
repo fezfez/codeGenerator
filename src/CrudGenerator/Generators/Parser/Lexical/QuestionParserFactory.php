@@ -37,11 +37,9 @@ class QuestionParserFactory
         $dependencyCondition = new DependencyCondition();
 
         if ($context instanceof CliContext) {
-            $directoryQuestion = DirectoryQuestionFactory::getInstance($context);
-            return new QuestionParser(new Cli\QuestionParser($context, $directoryQuestion, $dependencyCondition));
+            return new QuestionParser($context, $dependencyCondition, new Cli\QuestionParser($context));
         } elseif ($context instanceof WebContext) {
-            $directoryQuestion = DirectoryQuestionFactory::getInstance($context);
-            return new QuestionParser(new Web\QuestionParser($context, $directoryQuestion, $dependencyCondition));
+            return new QuestionParser($context, $dependencyCondition, new Web\QuestionParser($context));
         } else {
             throw new \InvalidArgumentException('Context "' . get_class($context) . '" not allowed');
         }

@@ -36,7 +36,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new QuestionParser(new CliQuestionParser($context, $directoryQuestion, $dependencyCondition));
+        $sUT = new QuestionParser($context, $dependencyCondition, new CliQuestionParser($context));
 
         $generator = new GeneratorDataObject();
 
@@ -74,7 +74,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new QuestionParser(new CliQuestionParser($context, $directoryQuestion, $dependencyCondition));
+        $sUT = new QuestionParser($context, $dependencyCondition, new CliQuestionParser($context));
         $generator = new GeneratorDataObject();
 
         $process = array(
@@ -157,7 +157,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $sUT = new QuestionParser(new CliQuestionParser($context, $directoryQuestion, $dependencyCondition));
+        $sUT = new QuestionParser($context, $dependencyCondition, new CliQuestionParser($context));
         $generator = new GeneratorDataObject();
         $generator->setDTO(new Architect());
 

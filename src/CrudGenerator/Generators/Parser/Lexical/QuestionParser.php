@@ -23,23 +23,35 @@ use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
 use CrudGenerator\Generators\Parser\Lexical\QuestionInterface;
 use CrudGenerator\Generators\Questions\Cli\DirectoryQuestion;
-use CrudGenerator\Context\CliContext;
+use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 
 class QuestionParser implements ParserInterface
 {
     /**
+     * @var ContextInterface
+     */
+    private $context = null;
+    /**
+     * @var DependencyCondition
+     */
+    private $dependencyCondition = null;
+    /**
      * @var QuestionInterface
      */
     private $strategy = null;
 
     /**
+     * @param ContextInterface $context
+     * @param DependencyCondition $dependencyCondition
      * @param QuestionInterface $strategy
      */
-    public function __construct(QuestionInterface $strategy)
+    public function __construct(ContextInterface $context, DependencyCondition $dependencyCondition, QuestionInterface $strategy)
     {
-        $this->strategy = $strategy;
+        $this->context             = $context;
+        $this->dependencyCondition = $dependencyCondition;
+        $this->strategy            = $strategy;
     }
 
     /* (non-PHPdoc)
@@ -53,8 +65,33 @@ class QuestionParser implements ParserInterface
                     throw new MalformedGeneratorException('Questions excepts to be an array "' . gettype($question) . "' given");
                 }
 
-                $generator = $this->strategy->evaluateQuestions($question, $parser, $generator, $questions, $firstIteration);
+                $generator = $this->evaluateQuestions($question, $parser, $generator, $questions, $firstIteration);
             }
+        }
+
+        return $generator;
+    }
+
+    /**
+     * @param array $question
+     * @param PhpStringParser $parser
+     * @param GeneratorDataObject $generator
+     * @param array $questions
+     * @param unknown $firstIteration
+     * @return GeneratorDataObject
+     */
+    public function evaluateQuestions(array $question, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
+    {
+        if(isset($question[GeneratorParser::DEPENDENCY_CONDITION])) {
+            $matches = $this->dependencyCondition->evaluate($question[GeneratorParser::DEPENDENCY_CONDITION], $parser, $generator, $questions, $firstIteration);
+            foreach ($matches as $questionsMatchs) {
+                $generator = $this->evaluateQuestions($questionsMatchs, $parser, $generator, $questions, $firstIteration);
+            }
+        } elseif (isset($question['type']) && $question['type'] === GeneratorParser::COMPLEX_QUESTION) {
+            $complex = $question['factory']::getInstance($this->context);
+            $generator = $complex->ask($generator, $question);
+        } else {
+            $generator = $this->strategy->evaluateQuestions($question, $parser, $generator, $questions, $firstIteration);
         }
 
         return $generator;

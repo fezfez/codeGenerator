@@ -31,7 +31,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
     	->disableOriginalConstructor()
     	->getMock();
 
-    	$sUT = new QuestionParser(new WebQuestionParser($context, $directoryQuestion, $dependencyCondition));
+    	$sUT = new QuestionParser($context, $dependencyCondition, new WebQuestionParser());
 
     	$generator = new GeneratorDataObject();
 
@@ -65,7 +65,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
     	->disableOriginalConstructor()
     	->getMock();
 
-    	$sUT = new QuestionParser(new WebQuestionParser($context, $directoryQuestion, $dependencyCondition));
+    	$sUT = new QuestionParser($context, $dependencyCondition, new WebQuestionParser());
 
     	$generator = new GeneratorDataObject();
 
@@ -128,7 +128,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
     		)
     	));
 
-    	$sUT = new QuestionParser(new WebQuestionParser($context, $directoryQuestion, $dependencyCondition));
+    	$sUT = new QuestionParser($context, $dependencyCondition, new WebQuestionParser());
 
     	$generator = new GeneratorDataObject();
 

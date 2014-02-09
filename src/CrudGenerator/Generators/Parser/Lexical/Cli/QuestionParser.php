@@ -32,25 +32,13 @@ class QuestionParser implements QuestionInterface
      * @var CliContext
      */
     private $cliContext = null;
-    /**
-     * @var DirectoryQuestion
-     */
-    private $directoryQuestion = null;
-    /**
-     * @var DependencyCondition
-     */
-    private $dependencyCondition = null;
 
     /**
      * @param CliContext $cliContext
-     * @param DirectoryQuestion $directoryQuestion
-     * @param DependencyCondition $dependencyCondition
      */
-    public function __construct(CliContext $cliContext, DirectoryQuestion $directoryQuestion, DependencyCondition $dependencyCondition)
+    public function __construct(CliContext $cliContext)
     {
-        $this->cliContext         = $cliContext;
-        $this->directoryQuestion  = $directoryQuestion;
-        $this->dependencyCondition = $dependencyCondition;
+        $this->cliContext = $cliContext;
     }
 
     /* (non-PHPdoc)
@@ -58,24 +46,15 @@ class QuestionParser implements QuestionInterface
      */
     public function evaluateQuestions(array $question, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
     {
-        if(isset($question[GeneratorParser::DEPENDENCY_CONDITION])) {
-            $matches = $this->dependencyCondition->evaluate($question[GeneratorParser::DEPENDENCY_CONDITION], $parser, $generator, $questions, $firstIteration);
-            foreach ($matches as $questionsMatchs) {
-                $generator = $this->evaluateQuestions($questionsMatchs, $parser, $generator, $questions, $firstIteration);
-            }
-        } elseif (isset($question['type']) && $question['type'] === GeneratorParser::COMPLEX_QUESTION) {
-            $complex = $question['factory']::getInstance($this->cliContext);
-            $generator = $complex->ask($generator, $question);
-        } elseif (isset($question['dtoAttribute']) && method_exists($generator->getDTO(), 'set' . ucfirst($question['dtoAttribute']))) {
+        $response = $this->cliContext->getDialogHelper()->ask(
+            $this->cliContext->getOutput(),
+            '<question>' . $question['text'] . '</question> ',
+            (isset($question['defaultResponse'])) ? $parser->parse($question['defaultResponse']) : null
+        );
 
-            $response = $this->cliContext->getDialogHelper()->ask(
-                $this->cliContext->getOutput(),
-                '<question>' . $question['text'] . '</question> ',
-                (isset($question['defaultResponse'])) ? $parser->parse($question['defaultResponse']) : null
-            );
-
-            $questionName = 'set' . ucfirst($question['dtoAttribute']);
-            $generator->getDTO()->$questionName($response);
+        $questionName = 'set' . ucfirst($question['dtoAttribute']);
+        if (method_exists($generator->getDTO(), $questionName)) {
+        	$generator->getDTO()->$questionName($response);
         }
 
         return $generator;

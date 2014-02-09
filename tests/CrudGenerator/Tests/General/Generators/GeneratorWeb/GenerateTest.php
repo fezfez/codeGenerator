@@ -82,13 +82,9 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         ->getMock();
 
         $fileManager->expects($this->once())
-        ->method('isDir')
+        ->method('ifDirDoesNotExistCreate')
         ->with('myDirName')
-        ->will($this->returnValue(false));
-
-        $fileManager->expects($this->once())
-        ->method('mkdir')
-        ->with('myDirName');
+        ->will($this->returnValue(true));
 
         $sUt = new GeneratorWeb($stategy, $fileConflict, $fileManager);
 

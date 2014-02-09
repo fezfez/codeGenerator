@@ -96,8 +96,7 @@ class GeneratorWeb
 
             $log = array();
             foreach ($generator->getDirectories() as $directory) {
-                if (!$this->fileManager->isDir($directory)) {
-                    $this->fileManager->mkdir($directory);
+                if (true === $this->fileManager->ifDirDoesNotExistCreate($directory)) {
                     $log[] = 'Create directory "' . $directory . '"';
                 }
             }
