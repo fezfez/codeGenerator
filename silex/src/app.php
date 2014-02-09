@@ -8,6 +8,10 @@ use Silex\Provider\UrlGeneratorServiceProvider;
 use SilexAssetic\AsseticServiceProvider;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 
+/*
+ * @var $app Silex\Application
+ */
+
 $app->register(new FormServiceProvider());
 $app->register(new UrlGeneratorServiceProvider());
 $app->register(new AsseticServiceProvider());
