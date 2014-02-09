@@ -25,6 +25,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
 /**
  *
@@ -36,6 +37,15 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
      * @var Doctrine\ORM\EntityManager Entity manager
      */
     private $entityManager = null;
+    /**
+     * @var array
+     */
+    private $relationConverter = array(
+        ClassMetadataInfo::ONE_TO_MANY  => MetaDataRelationColumn::ONE_TO_MANY,
+        ClassMetadataInfo::ONE_TO_ONE   => MetaDataRelationColumn::ONE_TO_ONE,
+        ClassMetadataInfo::MANY_TO_MANY => MetaDataRelationColumn::MANY_TO_MANY,
+        ClassMetadataInfo::MANY_TO_ONE  => MetaDataRelationColumn::MANY_TO_ONE,
+    );
 
     /**
      * Doctrine2 adapter in ZF2 environnement
@@ -94,16 +104,16 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
     /**
      * Transform a doctrine2 metadata into generator metadata
      *
-     * @param \Doctrine\ORM\Mapping\ClassMetadataInfo $metadata Concret metadata
+     * @param ClassMetadataInfo $metadata Concret metadata
      * @return MetadataDataObjectDoctrine2
      */
-    private function hydrateDataObject(\Doctrine\ORM\Mapping\ClassMetadataInfo $metadata, array $parentName = array())
+    private function hydrateDataObject(ClassMetadataInfo $metadata, array $parentName = array())
     {
         $dataObject = new MetadataDataObjectDoctrine2(
             new MetaDataColumnCollection(),
             new MetaDataRelationCollection()
         );
-        $columnDataObject = new MetaDataColumn();
+        $columnDataObject   = new MetaDataColumn();
         $relationDataObject = new MetaDataRelationColumn();
 
         foreach ($metadata->fieldMappings as $field => $columnMetadata) {
@@ -111,11 +121,8 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
             $column->setName($field)
                    ->setType($columnMetadata['type'])
                    ->setLength(isset($columnMetadata['length']) ? $columnMetadata['length'] : null)
-                   ->setNullable($columnMetadata['nullable']);
-
-            if (in_array($field, $metadata->identifier)) {
-                $column->setPrimaryKey(true);
-            }
+                   ->setNullable($columnMetadata['nullable'])
+                   ->setPrimaryKey((in_array($field, $metadata->identifier)) ? true : false);
 
             $dataObject->appendColumn($column);
         }
@@ -132,14 +139,8 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
                      ->setFieldName($association['fieldName'])
                      ->setMetadata($this->getMetadataFor($association['targetEntity'], $parentName));
 
-            if (\Doctrine\ORM\Mapping\ClassMetadataInfo::ONE_TO_MANY === $association['type']) {
-                $relation->setAssociationType('oneToMany');
-            } elseif (\Doctrine\ORM\Mapping\ClassMetadataInfo::ONE_TO_ONE === $association['type']) {
-                $relation->setAssociationType('oneToOne');
-            } elseif (\Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_MANY === $association['type']) {
-                $relation->setAssociationType('manyToMany');
-            } elseif (\Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_ONE === $association['type']) {
-                $relation->setAssociationType('manyToOne');
+            if (isset($this->relationConverter[$association['type']])) {
+                $relation->setAssociationType($this->relationConverter[$association['type']]);
             }
 
             $dataObject->appendRelation($relation);

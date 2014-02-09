@@ -77,7 +77,6 @@ class GeneratorWeb
             );
         } else {
             $generationResult = array();
-            $isConfliInFile = false;
             foreach ($files as $fileName => $fileInfos) {
                 if (isset($files[$fileName]['result'])) {
                     $generationResult[$fileName] = $files[$fileName]['result'];
@@ -89,8 +88,7 @@ class GeneratorWeb
                         $files[$fileName]['fileName']
                     );
 
-                    $isConfliInFile = $this->fileConflict->test($files[$fileName]['fileName'], $generationResult[$fileName]);
-                    if (true === $isConfliInFile) {
+                    if (true === $this->fileConflict->test($files[$fileName]['fileName'], $generationResult[$fileName])) {
                         throw new GeneratorWebConflictException('Conflict in "' . $files[$fileName]['fileName'] . '" file');
                     }
                 }
@@ -98,10 +96,10 @@ class GeneratorWeb
 
             $log = array();
             foreach ($generator->getDirectories() as $directory) {
-            	if (!$this->fileManager->isDir($directory)) {
-                	$this->fileManager->mkdir($directory);
-                	$log[] = 'Create directory "' . $directory . '"';
-            	}
+                if (!$this->fileManager->isDir($directory)) {
+                    $this->fileManager->mkdir($directory);
+                    $log[] = 'Create directory "' . $directory . '"';
+                }
             }
 
             foreach ($generationResult as $fileName => $result) {

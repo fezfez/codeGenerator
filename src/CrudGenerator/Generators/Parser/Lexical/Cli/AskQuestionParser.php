@@ -76,7 +76,7 @@ class AskQuestionParser implements ParserInterface
      * @param PhpStringParser $parser
      * @param GeneratorDataObject $generator
      * @param array $questions
-     * @param unknown $firstIteration
+     * @param boolean $firstIteration
      * @return GeneratorDataObject
      */
     private function evaluateQuestions(array $question, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)

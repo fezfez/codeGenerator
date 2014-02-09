@@ -4,6 +4,7 @@ namespace CrudGenerator\Tests\ZF2\MetaData\Sources\Doctrine2\Doctrine2MetaDataDA
 use CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO;
 use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
 use CrudGenerator\Utils\FileManager;
+use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
 
 class GetMetadataForTest extends \PHPUnit_Framework_TestCase
 {
@@ -62,25 +63,25 @@ class GetMetadataForTest extends \PHPUnit_Framework_TestCase
 
         $manyToOneRelation = $relationCollection->offsetGet(0);
         $this->assertEquals(
-            'manyToOne',
+            MetaDataRelationColumn::MANY_TO_ONE,
             $manyToOneRelation->getAssociationType()
         );
 
         $oneToOneRelation = $relationCollection->offsetGet(1);
         $this->assertEquals(
-            'oneToOne',
+            MetaDataRelationColumn::ONE_TO_ONE,
             $oneToOneRelation->getAssociationType()
         );
 
         $oneToManyRelation = $relationCollection->offsetGet(2);
         $this->assertEquals(
-            'oneToMany',
+            MetaDataRelationColumn::ONE_TO_MANY,
             $oneToManyRelation->getAssociationType()
         );
 
         $manyToManyRelation = $relationCollection->offsetGet(3);
         $this->assertEquals(
-            'manyToMany',
+            MetaDataRelationColumn::MANY_TO_MANY,
             $manyToManyRelation->getAssociationType()
         );
 
