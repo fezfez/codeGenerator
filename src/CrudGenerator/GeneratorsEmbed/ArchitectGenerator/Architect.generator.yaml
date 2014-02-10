@@ -36,7 +36,7 @@ directories :
     - <?php $architectGenerator->getModelDirectory(); ?>/DataObject/
     - <?php $architectGenerator->getUnitTestDirectory() . $daoFactoryName; ?>
     - <?php $architectGenerator->getUnitTestDirectory() . $daoName; ?>
-        
+
 templateVariables : 
     - modelName                : <?php lcfirst($architectGenerator->getModelName()); ?>
     - ucFirstModelName         : <?php ucfirst($architectGenerator->getModelName()); ?>
@@ -75,8 +75,8 @@ filesList :
     - /test/DAO/persistTest.php.phtml            : <?php $architectGenerator->getUnitTestDirectory() . $daoName; ?>/PersitTest.php
     - /test/DAO/modifyTest.php.phtml             : <?php $architectGenerator->getUnitTestDirectory() . $daoName; ?>/ModifyTest.php
     - /test/DAO/removeTest.php.phtml             : <?php $architectGenerator->getUnitTestDirectory() . $daoName; ?>/RemoveTest.php
-    - environnementCondition   : # reserved word
-        - framework == zend_framework_2 : 
-            - !isFile :
-                /test/Bootstrap.php.zf2.phtml       : <?php $architectGenerator->getModule(); ?>/Tests/Bootstrap.php
-                /test/TestConfig.php.dist.zf2.phtml : <?php $architectGenerator->getModule(); ?>/Tests/TestConfig.php.dist
+    # - environnementCondition   : # reserved word
+    #    - framework == zend_framework_2 : 
+    #        - !isFile :
+    #            /test/Bootstrap.php.zf2.phtml       : <?php $architectGenerator->getModule(); ?>/Tests/Bootstrap.php
+    #            /test/TestConfig.php.dist.zf2.phtml : <?php $architectGenerator->getModule(); ?>/Tests/TestConfig.php.dist
