@@ -2,7 +2,7 @@
 
 <phpunit bootstrap="./tests/bootstrap.php"
          backupGlobals="false"
-         processIsolation="false"
+         processIsolation="true"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"

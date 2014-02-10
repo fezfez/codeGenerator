@@ -10,7 +10,7 @@ questions :
             - 
                 dtoAttribute : ModelName
                 text : Choose a model name
-                defaultResponse : <?php ucfirst($architectGenerator->getMetadata()->getName()); ?>
+                defaultResponse : <?php ucfirst($formGenerator->getMetadata()->getName()); ?>
             - 
                 type : complex
                 factory : CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArrayFactory

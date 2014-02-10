@@ -111,6 +111,7 @@ class GeneratorDataObject implements \JsonSerializable
             throw new \LogicException('DTO cant be empty');
         }
 
+        // @FIXME has to be propaged in dependencies
         $this->dto->addEnvironnementValue($environnement, $value);
         $this->environnement[$environnement] = $value;
         return $this;

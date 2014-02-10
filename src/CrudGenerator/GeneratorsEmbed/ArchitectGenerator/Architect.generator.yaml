@@ -76,7 +76,7 @@ filesList :
     - /test/DAO/modifyTest.php.phtml             : <?php $architectGenerator->getUnitTestDirectory() . $daoName; ?>/ModifyTest.php
     - /test/DAO/removeTest.php.phtml             : <?php $architectGenerator->getUnitTestDirectory() . $daoName; ?>/RemoveTest.php
     - environnementCondition   : # reserved word
-        - zend_framework_2 : 
+        - framework == zend_framework_2 : 
             - !isFile :
                 /test/Bootstrap.php.zf2.phtml       : <?php $architectGenerator->getModule(); ?>/Tests/Bootstrap.php
                 /test/TestConfig.php.dist.zf2.phtml : <?php $architectGenerator->getModule(); ?>/Tests/TestConfig.php.dist
