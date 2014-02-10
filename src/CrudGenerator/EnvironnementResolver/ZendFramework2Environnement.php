@@ -42,9 +42,7 @@ class ZendFramework2Environnement
      */
     public static function getDependence(FileManager $fileManager)
     {
-        if (null !== self::$serviceManager) {
-            return self::$serviceManager;
-        } else {
+        if (null === self::$serviceManager) {
             $previousDir = '.';
 
             $actualDir = getcwd();
@@ -55,7 +53,7 @@ class ZendFramework2Environnement
                     chdir($actualDir);
                     throw new EnvironnementResolverException(
                         'Unable to locate "config/application.config.php": ' .
-                        'is CrudGenerator in a subdir of your application skeleton?'
+                        'is CodeGenerator in a subdir of your application skeleton?'
                     );
                 }
 
@@ -72,7 +70,8 @@ class ZendFramework2Environnement
             chdir($actualDir);
 
             self::$serviceManager = $application->getServiceManager();
-            return self::$serviceManager;
         }
+
+        return self::$serviceManager;
     }
 }
