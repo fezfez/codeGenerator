@@ -5,7 +5,7 @@ namespace <?php echo $this->crudGenerator->getControllerNamespace(); ?>\Controll
 use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
 use <?php echo $this->daoFactoryNamespace; ?>;
-use <?php echo $this->architectGenerator->getNamespace(); ?>\<?php echo $this->crudGenerator->getEntityName(); ?>FormFactory;
+use <?php echo $this->architectGenerator->getNamespace(); ?>\<?php echo $this->ucFirstModelName; ?>FormFactory;
 use <?php echo $this->dtoNamespace; ?>;
 
 class <?php echo $this->crudGenerator->getControllerName(); ?>Controller extends AbstractActionController

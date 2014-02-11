@@ -22,10 +22,11 @@ class AnalyseTest extends \PHPUnit_Framework_TestCase
 
         $generatorParser = GeneratorParserFactory::getInstance($context);
 
-        $generator = $generatorParser->init($generator, $this->getMetadata());
-
-        $generator->addEnvironnementValue('backend', 'PDO')
-        ->addEnvironnementValue('framework', 'zend_framework_2');
+        $generator = $generatorParser->init(
+            $generator,
+            $this->getMetadata(),
+            array('environnement_backend' => 'PDO', 'environnement_framework' => 'zend_framework_2')
+        );
 
         $fileGenerator = GeneratorStrategyFactory::getInstance($context);
 
