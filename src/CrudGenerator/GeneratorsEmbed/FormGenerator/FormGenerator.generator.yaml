@@ -2,6 +2,11 @@ name : FormGenerator
 definition : Generate Form
 dto : CrudGenerator\GeneratorsEmbed\FormGenerator\Form
 questions : 
+    - 
+        dtoAttribute : FormDirectory
+        text : Chose the form directory
+        type : complex
+        factory : CrudGenerator\Generators\Questions\DirectoryQuestionFactory
     - dependencyCondition :
         - !ArchitectGenerator :
             - 
@@ -15,7 +20,7 @@ questions :
                 type : complex
                 factory : CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArrayFactory
 directories :
-    - <?php $formGenerator->getFormPath(); ?>
+    - <?php $formGenerator->getFormDirectory(); ?>
     
 templateVariables : 
     - dependencyCondition :
@@ -25,11 +30,11 @@ templateVariables :
             - dtoNamespace             : <?php $formGenerator->getNamespace(); ?>\Form\<?php $dataObjectName; ?>
     
 filesList :
-    - /form/FormFactory.phtml  : <?php $formGenerator->getFormPath() . $ucFirstModelName; ?>FormFactory.php
-    - /form/AbstractForm.phtml : <?php $formGenerator->getFormPath() . 'Abstract' . $ucFirstModelName; ?>Form.php
-    - /form/Form.phtml         : <?php $formGenerator->getFormPath() . $ucFirstModelName; ?>Form.php
-    - /form/FormFilter.phtml   : <?php $formGenerator->getFormPath() . $ucFirstModelName; ?>FormFilter.php
-    - /form/Print.phtml        : <?php $formGenerator->getFormPath(); ?>FormPrint.phtml
+    - /form/FormFactory.phtml  : <?php $formGenerator->getFormDirectory() . $ucFirstModelName; ?>FormFactory.php
+    - /form/AbstractForm.phtml : <?php $formGenerator->getFormDirectory() . 'Abstract' . $ucFirstModelName; ?>Form.php
+    - /form/Form.phtml         : <?php $formGenerator->getFormDirectory() . $ucFirstModelName; ?>Form.php
+    - /form/FormFilter.phtml   : <?php $formGenerator->getFormDirectory() . $ucFirstModelName; ?>FormFilter.php
+    - /form/Print.phtml        : <?php $formGenerator->getFormDirectory(); ?>FormPrint.phtml
     - dependencyCondition :
         - !ArchitectGenerator :
-            - /form/DataObject.phtml        : <?php $formGenerator->getFormPath(); ?>DataObject.phtml
+            - /form/DataObject.phtml        : <?php $formGenerator->getFormDirectory(); ?>DataObject.phtml

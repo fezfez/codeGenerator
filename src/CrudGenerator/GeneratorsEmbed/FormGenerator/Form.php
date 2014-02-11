@@ -33,6 +33,10 @@ class Form extends DataObject
      * @var array
      */
     private $attributesDisplayName = array();
+    /**
+     * @var string
+     */
+    private $formDirectory = null;
 
     /**
      * @param string $attribute
@@ -68,6 +72,15 @@ class Form extends DataObject
         return $this;
     }
     /**
+     * @param string $value
+     * @return \CrudGenerator\GeneratorsEmbed\CrudGenerator\Crud
+     */
+    public function setFormDirectory($value)
+    {
+        $this->formDirectory = $value;
+        return $this;
+    }
+    /**
      * Get directory
      *
      * @return string
@@ -95,8 +108,12 @@ class Form extends DataObject
         return $this->namespace;
     }
 
-    public function getFormPath()
+    /**
+     * Get view path
+     * @return string
+     */
+    public function getFormDirectory()
     {
-    	return '/Form/';
+        return $this->formDirectory;
     }
 }

@@ -49,6 +49,14 @@ class Crud extends DataObject
      * @var array
      */
     protected $attributesDisplayName = array();
+    /**
+     * @var string
+     */
+    private $viewDirectory = null;
+    /**
+     * @var string
+     */
+    private $controllerDirectory = null;
 
     /**
      * @param string $attribute
@@ -103,6 +111,24 @@ class Crud extends DataObject
     public function setControllerName($value)
     {
         $this->controllerName = $value;
+        return $this;
+    }
+    /**
+     * @param string $value
+     * @return \CrudGenerator\GeneratorsEmbed\CrudGenerator\Crud
+     */
+    public function setViewDirectory($value)
+    {
+        $this->viewDirectory = $value;
+        return $this;
+    }
+    /**
+     * @param string $value
+     * @return \CrudGenerator\GeneratorsEmbed\CrudGenerator\Crud
+     */
+    public function setControllerDirectory($value)
+    {
+        $this->controllerDirectory = $value;
         return $this;
     }
 
@@ -164,16 +190,16 @@ class Crud extends DataObject
      * Get controller path
      * @return string
      */
-    public function findControllerPath()
+    public function getViewDirectory()
     {
-        return '/src/' . $this->getControllerNamespace() . '/Controller/';
+        return $this->viewDirectory;
     }
     /**
      * Get view path
      * @return string
      */
-    public function findViewPath()
+    public function getControllerDirectory()
     {
-        return '/view/' .  strtolower($this->getControllerNamespace()) . '/' . strtolower(preg_replace("[A-Z]", "-\$1", $this->getControllerName())) . '/';
+        return $this->controllerDirectory;
     }
 }

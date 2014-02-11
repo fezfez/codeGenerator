@@ -8,11 +8,11 @@ questions :
     - 
         dtoAttribute : DisplayName
         text : Display name (in view, title etc..)
-        defaultResponse : <?php $modelName; ?>
+        defaultResponse : <?php $ucFirstModelName; ?>
     - 
         dtoAttribute : DisplayNames
-        text : Display name au plurielle (in view, title etc..)
-        defaultResponse : <?php $modelName; ?>s
+        text : Plural Display name (in view, title etc..)
+        defaultResponse : <?php $ucFirstModelName; ?>s
     - 
         dtoAttribute : ControllerName
         text : Controller name (ucFirst and without "Controller")
@@ -21,9 +21,19 @@ questions :
         dtoAttribute : PrefixRouteName
         text : Prefix route name (lower case)
         defaultResponse : !uncamelcase($modelName)!
+    - 
+        dtoAttribute : ViewDirectory
+        text : Chose the view directory
+        type : complex
+        factory : CrudGenerator\Generators\Questions\DirectoryQuestionFactory
+    - 
+        dtoAttribute : ControllerDirectory
+        text : Chose the controller directory
+        type : complex
+        factory : CrudGenerator\Generators\Questions\DirectoryQuestionFactory
 directories :
-    - <?php $crudGenerator->findControllerPath(); ?>
-    - <?php $crudGenerator->findViewPath(); ?>
+    - <?php $crudGenerator->getControllerDirectory(); ?>
+    - <?php $crudGenerator->getViewDirectory(); ?>
 templateVariables : 
     - homeRoute              : <?php $crudGenerator->getPrefixRouteName(); ?>
     - newRoute               : <?php $homeRoute; ?>-new
@@ -31,9 +41,9 @@ templateVariables :
     - editRoute              : <?php $homeRoute; ?>-edit
     - deleteRoute            : <?php $homeRoute; ?>-delete
 filesList :
-    - /controller.php.phtml : <?php $crudGenerator->findControllerPath() . $crudGenerator->getControllerName(); ?>Controller.php
-    - /views/index.phtml    : <?php $crudGenerator->findViewPath(); ?>index.phtml
-    - /views/show.phtml     : <?php $crudGenerator->findViewPath(); ?>show.phtml
-    - /views/new.phtml      : <?php $crudGenerator->findViewPath(); ?>new.phtml
-    - /views/edit.phtml     : <?php $crudGenerator->findViewPath(); ?>edit.phtml
-    - /views/edit-js.phtml  : <?php $crudGenerator->findViewPath(); ?>edit-js.phtml
+    - /controller.php.phtml : <?php $crudGenerator->getControllerDirectory() . $crudGenerator->getControllerName(); ?>Controller.php
+    - /views/index.phtml    : <?php $crudGenerator->getViewDirectory(); ?>index.phtml
+    - /views/show.phtml     : <?php $crudGenerator->getViewDirectory(); ?>show.phtml
+    - /views/new.phtml      : <?php $crudGenerator->getViewDirectory(); ?>new.phtml
+    - /views/edit.phtml     : <?php $crudGenerator->getViewDirectory(); ?>edit.phtml
+    - /views/edit-js.phtml  : <?php $crudGenerator->getViewDirectory(); ?>edit-js.phtml
