@@ -60,7 +60,7 @@
 	],
 	"scripts" : {
 	   "post-install-cmd" : [
-	       "chmod +w ./vendir/fezfez-code-generator/silex/resources/cache/"
+	       "chmod +w ./vendor/fezfez/code-generator/silex/resources/cache/"
 	   ]
 	}
 }
