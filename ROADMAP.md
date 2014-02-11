@@ -1,10 +1,6 @@
 Roadmap
 =======
 
-Installation
------------
-* Add write permission in silex/cache
-
 Historic
 -------
 * Add in web
