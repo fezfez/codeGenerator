@@ -148,7 +148,7 @@ class GeneratorWeb
                     ->deleteFile($fileName);
                 } elseif ($responseToHandle['handle_' . str_replace('.', '_', $fileName)] === 'erase') {
                     $file = $files[$fileName];
-                    $this->fileManager->unlink($file['skeletonPath'] . $files[$fileName]['fileName']);
+                    $this->fileManager->unlink($files[$fileName]['fileName']);
                 }
             }
         }
