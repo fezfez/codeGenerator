@@ -106,7 +106,6 @@ $app->match('view-file', function (Request $request) use ($app) {
 
 $app->match('generate', function (Request $request) use ($app) {
 
-	throw new \Exception('test');
     parse_str($request->request->get('questions'), $questionArray);
     parse_str($request->request->get('conflict'), $conflictArray);
     $metadataSource = $request->request->get('backend');
