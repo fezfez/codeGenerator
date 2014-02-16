@@ -24,6 +24,10 @@ class AnalyseTest extends \PHPUnit_Framework_TestCase
 
         $generator = $generatorParser->init($generator, $this->getMetadata());
 
+        $generator->getDTO()->setAttributeName('tetze', 'myName')
+        ->setAttributeName('myDate', 'madata')
+        ->setAttributeName('name', 'name');
+
         $fileGenerator = GeneratorStrategyFactory::getInstance($context);
 
         foreach ($generator->getFiles() as $file) {

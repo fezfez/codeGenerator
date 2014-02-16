@@ -10,12 +10,8 @@ class <?php echo $this->dataObjectName . "\n"; ?>
 <?php
 /* Traitement des champs */
 foreach($this->formGenerator->getAttributeName() as $originalName => $name):
-if (is_array($name)) {
-	$type = $this->getHelper('Text')->toCamelCase(key($name), true);
-	$name = key($name);
-} else {
+
 	$type = $this->formGenerator->getMetadata()->getColumn($originalName)->getType();
-}
 ?>
     /**
      * @var <?php echo $type . "\n"; ?>
@@ -26,20 +22,14 @@ if (is_array($name)) {
 <?php
 /* Traitement des champs */
 foreach($this->formGenerator->getAttributeName() as $originalName => $name):
-$dto = false;
-if (is_array($name)) {
-	$type = $this->getHelper('Text')->toCamelCase(key($name), true);
-	$name = key($name);
-	$dto = true;
-} else {
+
 	$type = $this->formGenerator->getMetadata()->getColumn($originalName)->getType();
-}
 ?>
     /**
      * @param <?php echo $type; ?> $value
      * @return \<?php echo $this->formGenerator->getNamespace(); ?>\DataObject\<?php echo $this->dataObjectName; ?>
      */
-    public function set<?php echo $this->getHelper('Text')->toCamelCase($name, true); ?>(<?php if ($dto === true) { echo $type . ' '; } ?>$value)
+    public function set<?php echo $this->getHelper('Text')->toCamelCase($name, true); ?>($value)
     {
         $this-><?php echo $this->getHelper('Text')->toCamelCase($name); ?> = $value;
         return $this;
@@ -49,12 +39,8 @@ if (is_array($name)) {
 <?php
 /* Traitement des champs */
 foreach($this->formGenerator->getAttributeName() as $originalName => $name):
-if (is_array($name)) {
-$type = $this->getHelper('Text')->toCamelCase(key($name), true);
-	$name = key($name);
-} else {
+
 	$type = $this->formGenerator->getMetadata()->getColumn($originalName)->getType();
-}
 ?>
     /**
      * @return <?php echo $type . "\n"; ?>

@@ -28,10 +28,20 @@ $column->setName('tetze')
 ->setType('integer')
 ->setLength('100');
 
+$metadata->appendColumn($column);
+
 $column = new MetaDataColumn();
 $column->setName('myDate')
 ->setNullable(true)
 ->setType('date')
+->setLength('100');
+
+$metadata->appendColumn($column);
+
+$column = new MetaDataColumn();
+$column->setName('name')
+->setNullable(true)
+->setType('text')
 ->setLength('100');
 
 $metadata->appendColumn($column);
