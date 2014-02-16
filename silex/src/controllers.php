@@ -1,6 +1,7 @@
 <?php
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use CrudGenerator\MetaData\MetaDataSourceFactory;
 use CrudGenerator\MetaData\Config\ConfigException;
 use CrudGenerator\Generators\Questions\MetaDataSourcesQuestionFactory;
@@ -14,6 +15,7 @@ use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\GeneratorWebConflictException;
 
 $app->match('/', function() use ($app) {
+    throw new \Exception('toto');
     return $app['twig']->render('index.html.twig');
 })->bind('homepage');
 
@@ -163,8 +165,20 @@ $app->match('metadata-save', function (Request $request) use ($app) {
 
 })->bind('metadata-save');
 
-$app->error(function (\Exception $e, $code) use ($app) {
-return $app->json(array('error' => 'Exception "' . get_class($e) . '" in ' . $e->getFile() . ' message : ' . $e->getMessage() . ' on line ' . $e->getLine()), 500);
+$app->error(function (\Exception $e) use ($app) {
+    $request = $app['request'];
+
+    if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
+        return $app->json(
+            array(
+                'error' => 'Exception "' . get_class($e) . '" in ' . $e->getFile() . ' message : ' . $e->getMessage() . ' on line ' . $e->getLine()
+            ),
+            500
+        );
+    } else {
+        return new Response( $app['twig']->render('404.html.twig', array( 'error' => $e )), 500);
+    }
+
 });
 
 return $app;

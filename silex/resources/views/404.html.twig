@@ -1,0 +1,11 @@
+{% extends 'layout.html.twig' %}
+{% set active = 'homepage' %}
+
+{% block content %}
+
+<div class="text-center">
+<h1>Oops !</h1>
+<h2>500 internal server error</h2>
+<p>in {{ error.getFile() }} message : {{ error.getMessage() }} on line {{ error.getLine() }}</p>
+</div>
+{% endblock %}
