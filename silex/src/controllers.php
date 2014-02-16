@@ -15,12 +15,10 @@ use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\GeneratorWebConflictException;
 
 $app->match('/', function() use ($app) {
-    throw new \Exception('toto');
     return $app['twig']->render('index.html.twig');
 })->bind('homepage');
 
 $app->match('/list-backend', function() use ($app) {
-
     $context       = new WebContext($app);
     $backendFinder = MetaDataSourcesQuestionFactory::getInstance($context);
 
@@ -108,6 +106,7 @@ $app->match('view-file', function (Request $request) use ($app) {
 
 $app->match('generate', function (Request $request) use ($app) {
 
+	throw new \Exception('test');
     parse_str($request->request->get('questions'), $questionArray);
     parse_str($request->request->get('conflict'), $conflictArray);
     $metadataSource = $request->request->get('backend');
@@ -165,20 +164,28 @@ $app->match('metadata-save', function (Request $request) use ($app) {
 
 })->bind('metadata-save');
 
-$app->error(function (\Exception $e) use ($app) {
+$app->error(function (\Exception $e, $code) use ($app) {
     $request = $app['request'];
 
-    if (0 === strpos($request->headers->get('Content-Type'), 'application/json')) {
+    $datas = array(
+        'error'   => $e,
+        'code'    => $code,
+    	'request' => $request
+    );
+
+    if (0 === strpos($request->headers->get('Accept'), 'application/json')) {
         return $app->json(
             array(
-                'error' => 'Exception "' . get_class($e) . '" in ' . $e->getFile() . ' message : ' . $e->getMessage() . ' on line ' . $e->getLine()
+                'error' => $app['twig']->render('404.html.twig', $datas)
             ),
-            500
+            $code
         );
     } else {
-        return new Response( $app['twig']->render('404.html.twig', array( 'error' => $e )), 500);
+        return new Response(
+            $app['twig']->render('404layout.html.twig', $datas),
+            $code
+        );
     }
-
 });
 
 return $app;

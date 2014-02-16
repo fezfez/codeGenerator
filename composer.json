@@ -20,22 +20,15 @@
 		"fzaninotto/faker" : "v1.2.0",
 		"silex/silex" : "~1.1",
 		"twig/twig" : "1.15.0",
-		"mheap/Silex-Assetic" : "1.0.*",
 		"symfony/console" : "~2.5",
-		"symfony/config" : "~2.5",
-		"symfony/form" : "~2.5",
-		"symfony/finder" : "~2.5",
-		"symfony/security" : "~2.5",
-		"symfony/translation" : "~2.5",
 		"symfony/twig-bridge" : "~2.5",
-		"symfony/validator" : "~2.5",
 		"symfony/yaml" : "~2.5",
 		"sebastian/diff" : "1.1.0",
 		"psr/log" : "1.0.0 as 1.0.x-dev"
 	},
 	"require-dev" : {
-		"zendframework/zendframework" : "2.2.5",
-		"doctrine/doctrine-orm-module" : "0.8.0"
+		"zendframework/zendframework" : "2.3.*",
+		"doctrine/doctrine-orm-module" : "0.*"
 	},
 	"autoload" : {
 		"psr-0" : {
@@ -59,8 +52,8 @@
 		"bin/code-generator-web.php"
 	],
 	"scripts" : {
-	   "post-install-cmd" : [
-	       "chmod +w ./vendor/fezfez/code-generator/silex/resources/cache/"
-	   ]
+		"post-install-cmd" : [
+			"chmod +w ./vendor/fezfez/code-generator/silex/resources/cache/"
+		]
 	}
 }

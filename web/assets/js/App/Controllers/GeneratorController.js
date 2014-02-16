@@ -5,9 +5,18 @@
          .controller("GeneratorCtrl", ['$scope', '$http', 'GeneratorService', 'ViewFileService', 'WaitModalService', 'GenerateService',
                                               function ($scope, $http, $generatorService, $viewFileService, $WaitModalService, $generateService) {
                 $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+                $http.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 
                 $http.get(__BASEPATH__ + 'list-backend').success(function (data) {
                     $scope.backendList = data.backend;
+                }).error(function(data) {
+                    $scope.modal = {
+                        'title' : 'Error',
+                        'body' : '',
+                        'callback' : function () {
+                            $('modal .modal-body').empty().append(data.error);
+                        }
+                    };
                 });
 
                 $scope.backendChange = function () {
@@ -31,6 +40,8 @@
 
                             $http.get(__BASEPATH__ + 'list-generator').success(function (data) {
                                 $scope.generatorsList = data.generators;
+                            }).error(function(data) {
+                                alert(data.error);
                             });
                         }
                     });
@@ -88,7 +99,15 @@
                     });
 
                     $generateService.generate(datas, function (results) {
-                        if (null !== results.conflictList) {
+                        if (undefined !== results.error) {
+                            $scope.modal = {
+                                'title' : 'Error',
+                                'body' : '',
+                                'callback' : function () {
+                                    $('modal .modal-body').empty().append(results.error);
+                                }
+                            };
+                        } else if (null !== results.conflictList) {
                             $scope.conflictList = results.conflictList;
                         } else if (null !== results.log) {
                             $scope.modal = {

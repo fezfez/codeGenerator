@@ -14,7 +14,9 @@ class DtoTest extends \PHPUnit_Framework_TestCase
         ->setControllerName('MyController')
         ->setDisplayName('myName')
         ->setDisplayNames('MyNames')
-        ->setPrefixRouteName('name-');
+        ->setPrefixRouteName('name-')
+        ->setControllerDirectory('/src/Controller/')
+        ->setViewDirectory('/view/mycontroller/');
 
         $this->assertEquals(array('attribute' => 'value'), $sUT->getAttributeName());
         $this->assertEquals('value', $sUT->getAttributeName('attribute'));
@@ -25,7 +27,7 @@ class DtoTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('MyNames', $sUT->getDisplayNames());
         $this->assertEquals('name-', $sUT->getPrefixRouteName());
 
-        $this->assertEquals('/src//Controller/', $sUT->findControllerPath());
-        $this->assertEquals('/view//mycontroller/', $sUT->findViewPath());
+        $this->assertEquals('/src/Controller/', $sUT->getControllerDirectory());
+        $this->assertEquals('/view/mycontroller/', $sUT->getViewDirectory());
     }
 }

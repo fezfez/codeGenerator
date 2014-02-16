@@ -1,11 +1,12 @@
-{% extends 'layout.html.twig' %}
-{% set active = 'homepage' %}
-
-{% block content %}
-
 <div class="text-center">
 <h1>Oops !</h1>
-<h2>500 internal server error</h2>
-<p>in {{ error.getFile() }} message : {{ error.getMessage() }} on line {{ error.getLine() }}</p>
+<h2>{{ code }} internal server error</h2>
+<p>
+	{{ error.getMessage() }}<br/>
+	in {{ error.getFile() }} on line {{ error.getLine() }}
+</p>
+<a href="https://github.com/fezfez/codeGenerator/issues/new?title=[Error {{ code }}] {{ error.getMessage() }}&body={{ error.getMessage() }} in {{ error.getFile() }} on line {{ error.getLine() }}" class="btn btn-default btn-lg">
+	<span class="glyphicon glyphicon-envelope"></span>
+	Open new issue
+</a>
 </div>
-{% endblock %}
