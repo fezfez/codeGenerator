@@ -50,10 +50,5 @@
 	"bin" : [
 		"bin/code-generator",
 		"bin/code-generator-web.php"
-	],
-	"scripts" : {
-		"post-install-cmd" : [
-			"chmod +w ./vendor/fezfez/code-generator/silex/resources/cache/"
-		]
-	}
+	]
 }
