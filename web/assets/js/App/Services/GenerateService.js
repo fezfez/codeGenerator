@@ -1,3 +1,9 @@
+define([
+    "Angular",
+    "App/App",
+    "JQuery"
+    ],
+    function(angular, GeneratorApp) {
 GeneratorApp.factory('GenerateService', ['$http', function ($http) {
     "use strict";
 
@@ -53,3 +59,4 @@ GeneratorApp.factory('GenerateService', ['$http', function ($http) {
         }
     };
 }]);
+});

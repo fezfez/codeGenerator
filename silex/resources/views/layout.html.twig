@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"  ng-app="GeneratorApp">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,15 +7,30 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
-
     <title>Code Generator</title>
-
-    <link rel="stylesheet" href="{{ app.base_path }}/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ app.base_path }}/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="{{ app.base_path }}/assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ app.base_path }}/assets/css/shCoreDefault.css">
+    <link rel="stylesheet" href="{{ app.base_path }}/assets/css/styles.css">
+    <link rel="stylesheet" href="{{ app.base_path }}/assets/css/nprogress.css">
+    <script src="{{ app.base_path }}/assets/js/Vendor/nprogress.js"></script>
+    <style type="text/css">
+        body > div.navbar , body > div.container-full {
+          visibility:hidden;
+          opacity: 0;
+          transition: opacity 0.5s linear;
+        }
+    </style>
     <script type="text/javascript">
+        Pace.on('hide', function() {
+            $('body > div.navbar , body > div.container-full').css({'visibility' : 'visible', 'opacity' : 1});
+        });
         __BASEPATH__ = '{{ app.base_path }}';
     </script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
+    <script type="text/javascript" 
+            data-main="{{ app.base_path }}/assets/js/App/Bootstrap.js" 
+            src="{{ app.base_path }}/assets/js/Vendor/require.js">
+    </script>
 </head>
 <body ng-controller="GeneratorCtrl">
 <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
@@ -32,93 +47,41 @@
           <a class="navbar-brand" href="#">Code Generator</a>
         </div>
         <div class="collapse navbar-collapse">
-            <form class="navbar-form navbar-right" role="form" id="formBackend">
-                <generators></generators>
-                <metadata></metadata>
+            <form class="navbar-form navbar-right" role="form">
                 <div class="form-group">
-                    <select name="backend" id="form_Backend" class="form-control" ng-model="backEnd" ng-change="backendChange()" ng-options="obj.id as obj.label for obj in backendList">
-                    <option value="">Select Backend</option>
+                    <select ng-class="{hide : (!generatorsList || !metadataName)}" 
+                            ng-model="generators" 
+                            ng-options="obj.label as obj.label for obj in generatorsList" 
+                            class="form-control" 
+                            name="generators">
+                        <option value="">Select Generator</option>
+                    </select>
+                    <select ng-model="metadataName" 
+                            ng-class="{hide : !metadataList}"
+                            ng-options="obj.id as obj.label for obj in metadataList"
+                            class="form-control">
+                         <option value="">Select Metadata</option>
+                    </select>
+                    <select name="backend" 
+                            class="form-control" 
+                            ng-model="backEnd" 
+                            ng-options="obj.id as obj.label for obj in backendList">
+                        <option value="">Select Backend</option>
                     </select>
                 </div>
-                <button class="btn btn-success dropdown-toggle" ng-if="questionsList != undefined" ng-click="generate()">Generate files !</button>
+                <button class="btn btn-success dropdown-toggle" ng-if="generators != undefined" ng-click="generate()">Generate files !</button>
             </form>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-
     <div class="container-full row">
-            {% block content %}
-            {% endblock %}
+        {% block content %}
+        {% endblock %}
     </div>
     <!-- Modal -->
     <modal></modal>
     <waitModal></waitModal>
     <conflict></conflict>
     <metadatasource></metadatasource>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/Vendor/angular.min.js"></script>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/Vendor/jquery-2.1.0.min.js"></script>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/App.js"></script>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Corp/File/FileDataObject.js"></script>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Corp/Directory/DirectoryDataObject.js"></script>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Corp/Directory/DirectoryDAO.js"></script>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Corp/Directory/DirectoryBuilder.js"></script>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Corp/Directory/DirectoryBuilderFactory.js"></script>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Services/GeneratorService.js"></script>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Services/GenerateService.js"></script>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Services/ViewFileService.js"></script>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Services/WaitModalService.js"></script>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Controllers/GeneratorController.js"></script>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Directives/File.js"></script>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Directives/Generators.js"></script>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Directives/Metadata.js"></script>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Directives/Questions.js"></script>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Directives/Modal.js"></script>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Directives/MetadataSourceConfig.js"></script>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/App/Directives/Conflict.js"></script>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/Vendor/bootstrap.min.js"></script>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/Vendor/shCore.js"></script>
-    <script type="text/javascript" src="{{ app.base_path }}/assets/js/Vendor/shBrushPhp.js"></script>
-<style type="text/css">
-.file {
-    cursor:pointer;
-}
-.directory {
-    font-weight:bold;
-}
-.modal-dialog {
-    margin: 30px auto;
-    width: 80%;
-}
-.container-full {
-  margin: 0 auto;
-  width: 100%;
-}
-
-html, body {
-    height: 100%;
-}
-
-#files {
-    left:0px;
-}
-
-#questions {
-    right:0px;
-}
-
-.full-height {
-    bottom: 50px;
-    position: absolute;
-    top: 50px;
-}
-.full-height > div {
-    bottom: -50px;
-    overflow-y: auto;
-    padding-right: 20px;
-    position: absolute;
-    top: 50px;
-    width: 95%;
-}​
-</style>
 </body>
 </html>

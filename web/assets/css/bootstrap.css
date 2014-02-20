@@ -6000,8 +6000,8 @@ button.close {
 }
 
 .modal-backdrop.in {
-  opacity: 0.5;
-  filter: alpha(opacity=50);
+  opacity: 0.10;
+  filter: alpha(opacity=10);
 }
 
 .modal-header {

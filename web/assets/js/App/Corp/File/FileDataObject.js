@@ -1,3 +1,4 @@
+define(function() {
 /**
  * Create a new Directory Object
  * @param name
@@ -9,7 +10,8 @@ function FileDataObject() {
     var name         = null,
         template     = null,
         skeletonPath = null,
-        originalName = null;
+        originalName = null,
+        isWritable = null;
 
     this.getName = function () {
         return name;
@@ -22,6 +24,9 @@ function FileDataObject() {
     };
     this.getOriginalName = function () {
         return originalName;
+    };
+    this.isWritable = function () {
+        return isWritable;
     };
 
     this.setName = function (value) {
@@ -40,4 +45,11 @@ function FileDataObject() {
         originalName = value;
         return this;
     };
+    this.setIsWritable = function (value) {
+        isWritable = value;
+        return this;
+    };
 }
+
+    return FileDataObject;
+});

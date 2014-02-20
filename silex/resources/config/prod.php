@@ -1,6 +1,6 @@
 <?php
 
-$app['debug'] = false;
+$app['debug'] = true;
 // Local
 $app['locale'] = 'fr';
 $app['session.default_locale'] = $app['locale'];

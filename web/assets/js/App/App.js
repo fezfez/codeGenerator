@@ -1,2 +1,14 @@
-// Define our AngularJS application module.
-var GeneratorApp = angular.module('GeneratorApp', ['GeneratorApp.directives', 'GeneratorApp.controllers']);
+define(["Angular"], function(angular) {
+    var app = angular.module(
+        'GeneratorApp', 
+        []
+    );
+    app.init = (function () {
+        angular.bootstrap(
+            document,
+            ['GeneratorApp']
+        );
+    });
+
+    return app;
+});

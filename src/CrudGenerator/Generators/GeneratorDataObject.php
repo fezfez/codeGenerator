@@ -137,7 +137,8 @@ class GeneratorDataObject implements \JsonSerializable
         $this->files[$value] = array(
             'skeletonPath' => $skeletonPath,
             'fileName' => $value,
-            'name' => $name
+            'name' => $name,
+            'isWritable' => is_writable(dirname($value))
         );
 
         if (null !== $result) {
