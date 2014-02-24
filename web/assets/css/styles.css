@@ -1,6 +1,17 @@
 .file {
     cursor:pointer;
 }
+
+.tools {
+    margin-right: 28px;
+    margin-top: -34px;
+}
+
+.reload {
+    font-size: 25px;
+    cursor:pointer;
+}
+
 .directory {
     font-weight:bold;
 }

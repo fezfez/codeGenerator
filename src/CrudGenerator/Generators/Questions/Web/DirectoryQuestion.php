@@ -65,7 +65,8 @@ class DirectoryQuestion
                 'placeholder'     => 'Actual directory "' . $module . '"',
                 'value'           => $module,
                 'type'            => 'select',
-                'values'          => $directories
+                'values'          => $directories,
+            	'required'        => (isset($question['required'])) ? $question['required'] : false
             )
         );
 

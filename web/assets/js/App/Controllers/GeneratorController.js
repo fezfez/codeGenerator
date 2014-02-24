@@ -13,6 +13,8 @@ define(
         GeneratorApp.controller("GeneratorCtrl",
                 ['$scope', '$http', 'GeneratorService', 'ViewFileService', 'WaitModalService', 'GenerateService',
                 function ($scope, $http, $generatorService, $viewFileService, $WaitModalService, $generateService) {
+                	
+                	$scope.Answers = {};
                     $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
                     $http.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -132,22 +134,16 @@ define(
     
                         $generateService.generate(datas, function (results) {
                             if (undefined !== results.error) {
-                                $scope.modal = {
+                                $scope.unsafeModal = {
                                     'title' : 'Error',
-                                    'body' : '',
-                                    'callback' : function () {
-                                        $('modal .modal-body').empty().append(results.error);
-                                    }
+                                    'body' : results.error
                                 };
                             } else if (null !== results.conflictList) {
                                 $scope.conflictList = results.conflictList;
                             } else if (null !== results.log) {
-                                $scope.modal = {
+                                $scope.unsafeModal = {
                                     'title' : 'Generated succefuly',
-                                    'body' : results.log.join('<br/>'),
-                                    'callback' : function () {
-                                        $('modal .modal-body').empty().append(results.log.join('<br/>'));
-                                    }
+                                    'body' : results.log.join('<br/>')
                                 };
                             }
                         });
@@ -164,15 +160,21 @@ define(
                         });
     
                         $viewFileService.generate(datas, function (results) {
-                            $scope.modal = {
-                                'title' : file.getName(),
-                                'body' : results.generator,
-                                'callback' : function () {
-                                    var content = $('modal .modal-body').html();
-                                    $('modal .modal-body').empty().append('<pre class="brush: php;">' + content + '</pre>');
-                                    SyntaxHighlighter.highlight();
-                                }
-                            };
+                        	
+                        	if (results.error !== undefined) {
+                                $scope.unsafeModal = {
+                                    'title' : 'Error on generating ' + file.getName(),
+                                    'body' : results.error,
+                                };
+                        	} else {
+	                            $scope.unsafeModal = {
+	                                'title' : file.getName(),
+	                                'body' : '<pre class="brush: php;">' + results.generator + '</pre>',
+	                                'callback' : function () {
+	                                    SyntaxHighlighter.highlight();
+	                                }
+	                            };
+                        	}
                         });
                     };
                 }]);

@@ -27,8 +27,8 @@
         });
         __BASEPATH__ = '{{ app.base_path }}';
     </script>
-    <script type="text/javascript" 
-            data-main="{{ app.base_path }}/assets/js/App/Bootstrap.js" 
+    <script type="text/javascript"
+            data-main="{{ app.base_path }}/assets/js/App/Bootstrap.js"
             src="{{ app.base_path }}/assets/js/Vendor/require.js">
     </script>
 </head>
@@ -49,22 +49,22 @@
         <div class="collapse navbar-collapse">
             <form class="navbar-form navbar-right" role="form">
                 <div class="form-group">
-                    <select ng-class="{hide : (!generatorsList || !metadataName)}" 
-                            ng-model="generators" 
-                            ng-options="obj.label as obj.label for obj in generatorsList" 
-                            class="form-control" 
+                    <select ng-class="{hide : (!generatorsList || !metadataName)}"
+                            ng-model="generators"
+                            ng-options="obj.label as obj.label for obj in generatorsList"
+                            class="form-control"
                             name="generators">
                         <option value="">Select Generator</option>
                     </select>
-                    <select ng-model="metadataName" 
+                    <select ng-model="metadataName"
                             ng-class="{hide : !metadataList}"
                             ng-options="obj.id as obj.label for obj in metadataList"
                             class="form-control">
                          <option value="">Select Metadata</option>
                     </select>
-                    <select name="backend" 
-                            class="form-control" 
-                            ng-model="backEnd" 
+                    <select name="backend"
+                            class="form-control"
+                            ng-model="backEnd"
                             ng-options="obj.id as obj.label for obj in backendList">
                         <option value="">Select Backend</option>
                     </select>
@@ -80,6 +80,7 @@
     </div>
     <!-- Modal -->
     <modal></modal>
+    <unsafe-modal></unsafe-modal>
     <waitModal></waitModal>
     <conflict></conflict>
     <metadatasource></metadatasource>

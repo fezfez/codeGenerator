@@ -1,4 +1,9 @@
-(function () {
+define([
+    "Angular",
+    "App/App",
+    "JQuery"
+    ],
+    function(angular, GeneratorApp) {
     "use strict";
 
     GeneratorApp.directive('modal', ['$compile', '$http', '$templateCache', '$timeout', function($compile, $http, $templateCache, $timeout) {
@@ -24,4 +29,4 @@
             }
         };
     }]);
-}());
+});

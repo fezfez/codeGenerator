@@ -95,7 +95,8 @@ class EnvironnementParser implements ParserInterface
                 'type'            => 'select',
                 'values'          => $possibleValues,
                 'value'           => $value,
-            	'placeholder'     => $value
+                'placeholder'     => $value,
+                'required'        => true
             )
         );
 

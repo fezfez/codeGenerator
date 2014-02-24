@@ -1,7 +1,8 @@
 define([
     "Angular",
     "App/App",
-    "JQuery"
+    "JQuery",
+    "HighLighterPHP"
     ],
     function(angular, GeneratorApp) {
     GeneratorApp.factory('ViewFileService', ['$http', function ($http) {
@@ -20,7 +21,7 @@ define([
                 ).success(function (data) {
                     callback(data);
                 }).error(function(data) {
-                    alert(data.error);
+                	callback(data);
                 });
             }
         };

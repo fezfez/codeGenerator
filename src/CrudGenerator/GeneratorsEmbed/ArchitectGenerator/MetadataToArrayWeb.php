@@ -32,7 +32,8 @@ class MetadataToArrayWeb
                 array(
                     'dtoAttribute'    => 'setAttributeName[' . $column->getName() . ']',
                     'text'            => 'Attribute name for "' . $column->getName() . '"',
-                    'defaultResponse' => (null === $generator->getDTO()->getAttributeName($column->getName())) ? $column->getName() : $generator->getDTO()->getAttributeName($column->getName())
+                    'defaultResponse' => (null === $generator->getDTO()->getAttributeName($column->getName())) ? $column->getName() : $generator->getDTO()->getAttributeName($column->getName()),
+                	'required' => true
                 )
             );
         }
