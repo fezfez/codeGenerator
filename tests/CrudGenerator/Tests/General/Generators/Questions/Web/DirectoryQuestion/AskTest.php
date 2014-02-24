@@ -27,6 +27,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         		'placeholder'     => 'Actual directory "' . $dto->getModelDirectory() . '"',
         		'value'           => $dto->getModelDirectory(),
         		'type'            => 'select',
+        		'required'        => false,
         		'values'          => array(
         			array('label' => 'Back', 'id' => ''),
         			array('label' => 'dirOne', 'id' => 'dirOne'),

@@ -158,7 +158,8 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
                     'dtoAttribute'    => 'setTest',
                     'text'            => 'test',
                     'value'           => '',
-                    'defaultResponse' => 'myDefaultResponse'
+                    'defaultResponse' => 'myDefaultResponse',
+                	'required'        => false
                 )
             ),
     		$sUT->evaluate($process, $phpParser, $generator, array(), false)
