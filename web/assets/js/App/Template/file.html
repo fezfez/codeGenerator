@@ -1,0 +1,13 @@
+<li ng-repeat="file in fileList.getFiles()">
+    <span ng-click="fileView({fileObject : file})">{{file.getName()}} </span>
+    <span ng-if="!file.isWritable()" class="cannot-write-text">Cannot write file</span>
+</li>
+<ng-switch on="fileList.getChildren() != null">
+    <span ng-switch-when="true">
+        <li ng-repeat="child in fileList.getChildren()">
+            <span class="directory">{{child.getName()}}</span>
+            <ul onload="fileList=child" ng-include="'assets/js/App/Template/file.html'">
+            </ul>
+        </li>
+    </span>
+</ng-switch>
