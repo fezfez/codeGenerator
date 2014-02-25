@@ -27,97 +27,11 @@
 		"symfony/twig-bridge" : "2.4.*",
 		"symfony/yaml" : "2.4.*",
 		"sebastian/diff" : "1.1.0",
-		"psr/log" : "1.0.0 as 1.0.x-dev",
-		"js/jquery" : "2.1.*",
-		"js/require" : "2.1.*",
-		"js/angular" : "1.*"
+		"psr/log" : "1.0.0 as 1.0.x-dev"
 	},
 	"require-dev" : {
 		"zendframework/zendframework" : "2.2.*",
 		"doctrine/doctrine-orm-module" : "0.*"
-	},
-	"repositories" : [{
-			"type" : "package",
-			"package" : {
-				"name" : "js/jquery",
-				"type" : "component",
-				"version" : "2.1.0",
-				"dist" : {
-					"url" : "http://code.jquery.com/jquery-2.1.0.min.js",
-					"type" : "file"
-				},
-				"source" : {
-					"url" : "https://github.com/jquery/jquery.git",
-					"type" : "git",
-					"reference" : "2.1.0"
-				},
-				"extra" : {
-					"component" : {
-						"files" : [
-							"js/Vendor/JQuery.js"
-						]
-					}
-				},
-				"require" : {
-					"robloach/component-installer" : "*"
-				}
-			}
-		}, {
-			"type" : "package",
-			"package" : {
-				"name" : "js/require",
-				"type" : "component",
-				"version" : "2.1.11",
-				"dist" : {
-					"url" : "http://requirejs.org/docs/release/2.1.11/minified/require.js",
-					"type" : "file"
-				},
-				"source" : {
-					"url" : "https://github.com/jrburke/requirejs.git",
-					"type" : "git",
-					"reference" : "2.1.11"
-				},
-				"extra" : {
-					"component" : {
-						"files" : [
-							"js/Vendor/require.js"
-						]
-					}
-				},
-				"require" : {
-					"robloach/component-installer" : "*"
-				}
-			}
-		}, {
-			"type" : "package",
-			"package" : {
-				"name" : "js/angular",
-				"type" : "component",
-				"version" : "1.2.1333333",
-				"dist" : {
-					"url" : "https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js",
-					"type" : "file"
-				},
-				"source" : {
-					"url" : "https://github.com/angular/angular.js",
-					"type" : "git",
-					"reference" : "1.2.13"
-				},
-				"extra" : {
-					"component" : {
-						"files" : [
-							"fzefzefzefze.js"
-						]
-					}
-				},
-				"require" : {
-					"robloach/component-installer" : "*"
-				}
-			}
-		}
-	],
-	"config" : {
-		"component-dir" : "web/assets/"
 	},
 	"autoload" : {
 		"psr-0" : {
