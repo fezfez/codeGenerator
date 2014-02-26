@@ -17,7 +17,7 @@
  */
 
 
-ini_set('display_errors', true);
+ini_set('display_errors', '1');
 chdir(realpath('./'));
 
 if (!(@include_once __DIR__ . '/../vendor/autoload.php') && !(@include_once __DIR__ . '/../../../autoload.php')) {
