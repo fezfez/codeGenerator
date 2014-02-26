@@ -3,7 +3,7 @@ namespace CrudGenerator\Tests\General\FileManager;
 
 use CrudGenerator\Utils\FileManager;
 
-class IsDirTest extends \PHPUnit_Framework_TestCase
+class isDirTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {

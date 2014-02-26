@@ -3,7 +3,7 @@ namespace CrudGenerator\Tests\General\Command\RegenerateCommandFactory;
 
 use CrudGenerator\Command\CreateByYamlCommandFactory;
 
-class GetInstanceTest extends \PHPUnit_Framework_TestCase
+class GetInstanceREWRITE extends \PHPUnit_Framework_TestCase
 {
     public function testInstance()
     {

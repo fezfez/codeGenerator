@@ -3,7 +3,7 @@ namespace CrudGenerator\Tests\General\ConfigManager\ConfigGenerator\ManagerFacto
 
 use CrudGenerator\ConfigManager\ConfigGenerator\DataObject\ConfigDataObject;
 
-class hydrationTest extends \PHPUnit_Framework_TestCase
+class HydrationTest extends \PHPUnit_Framework_TestCase
 {
     public function testHydrationDTO()
     {

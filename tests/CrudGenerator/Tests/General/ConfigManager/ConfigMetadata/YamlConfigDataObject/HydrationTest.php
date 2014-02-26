@@ -3,7 +3,7 @@ namespace CrudGenerator\Tests\General\ConfigManager\ManagerFactory;
 
 use CrudGenerator\ConfigManager\ConfigMetadata\DataObject\YamlConfigDataObject;
 
-class hydrationTest extends \PHPUnit_Framework_TestCase
+class HydrationTest extends \PHPUnit_Framework_TestCase
 {
     public function testHydrationMainDTO()
     {

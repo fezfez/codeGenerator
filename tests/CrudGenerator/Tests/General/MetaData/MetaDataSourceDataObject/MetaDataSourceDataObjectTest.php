@@ -4,7 +4,7 @@ namespace CrudGenerator\Tests\General\Adapater\MetaDataSource;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Sources\PDO\PDOConfig;
 
-class MetaDataSourceTest extends \PHPUnit_Framework_TestCase
+class MetaDataSourceDataObjectTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {

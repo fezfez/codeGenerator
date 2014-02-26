@@ -14,7 +14,7 @@ use CrudGenerator\ConfigManager\ConfigMetadata\DataObject\MetadataDataObjectConf
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 
-class executeTest extends \PHPUnit_Framework_TestCase
+class executeREWRITE extends \PHPUnit_Framework_TestCase
 {
 
     public function testFail()

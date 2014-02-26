@@ -7,7 +7,7 @@ use CrudGenerator\MetaData\MetaDataSourceCollection;
 use CrudGenerator\MetaData\MetaDataSource;
 
 
-class AskTest extends \PHPUnit_Framework_TestCase
+class AskTestTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {

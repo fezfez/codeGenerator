@@ -5,7 +5,7 @@ use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 
-class GetCamelNameTest extends \PHPUnit_Framework_TestCase
+class GetCamelCaseNameTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {

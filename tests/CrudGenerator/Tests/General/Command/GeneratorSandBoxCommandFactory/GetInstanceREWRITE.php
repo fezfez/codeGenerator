@@ -3,7 +3,7 @@ namespace CrudGenerator\Tests\General\Command\GeneratorSandBoxCommandFactory;
 
 use CrudGenerator\Command\GeneratorSandBoxCommandFactory;
 
-class GetInstanceTest extends \PHPUnit_Framework_TestCase
+class GetInstanceREWRITE extends \PHPUnit_Framework_TestCase
 {
     public function testInstance()
     {

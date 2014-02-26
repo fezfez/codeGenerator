@@ -6,7 +6,7 @@ use CrudGenerator\History\HistoryCollection;
 use CrudGenerator\History\History;
 use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 
-class AskTest extends \PHPUnit_Framework_TestCase
+class AskTestT extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {

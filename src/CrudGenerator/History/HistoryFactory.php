@@ -22,7 +22,6 @@ use CrudGenerator\History\HistoryHydratorFactory;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\WebContext;
 use CrudGenerator\Context\CliContext;
 
 /**

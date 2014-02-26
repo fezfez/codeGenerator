@@ -2,7 +2,7 @@
 
 namespace MyNamespace;
 
-class File
+class LeftFile
 {
     /**
      * @var string

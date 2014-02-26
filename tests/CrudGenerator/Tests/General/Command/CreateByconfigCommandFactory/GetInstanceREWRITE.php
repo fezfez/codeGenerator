@@ -1,9 +1,9 @@
 <?php
-namespace CrudGenerator\Tests\General\Command\CreateByConfigCommandFactory;
+namespace CrudGenerator\Tests\General\Command\CreateByconfigCommandFactory;
 
 use CrudGenerator\Command\CreateByConfigCommandFactory;
 
-class GetInstanceTest extends \PHPUnit_Framework_TestCase
+class GetInstanceREWRITE extends \PHPUnit_Framework_TestCase
 {
     public function testInstance()
     {
