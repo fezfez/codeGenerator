@@ -3,7 +3,7 @@ namespace CrudGenerator\Tests\General\MetaData\DataObject\MetaDataRelationColumn
 
 use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
 
-class MetaDataRelationColumnTest extends \PHPUnit_Framework_TestCase
+class MetaDataRelationColumnDataObjectTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {

@@ -10,7 +10,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 
-class YampToDtoTest extends \PHPUnit_Framework_TestCase
+class YamlToDtoTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {

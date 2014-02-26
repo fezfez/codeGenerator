@@ -5,7 +5,7 @@ use CrudGenerator\MetaData\MetaDataSourceFinder;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\ClassAwake;
 
-class GetAllAdapatersTest extends \PHPUnit_Framework_TestCase
+class GetAllAdaptersTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {

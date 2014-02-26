@@ -5,7 +5,7 @@ use CrudGenerator\Generators\GeneratorFactory;
 use CrudGenerator\Context\CliContext;
 use CrudGenerator\Context\WebContext;
 
-class getInstanceTest extends \PHPUnit_Framework_TestCase
+class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstance()
     {
