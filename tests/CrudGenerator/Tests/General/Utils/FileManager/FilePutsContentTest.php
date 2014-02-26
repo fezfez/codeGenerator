@@ -12,7 +12,7 @@ class FilePutsContentTest extends \PHPUnit_Framework_TestCase
 
         $sUT = new FileManager();
 
-        $fileContent = $sUT->filePutsContent($filePath, $content);
+        $sUT->filePutsContent($filePath, $content);
 
         $this->assertEquals(
             $content,
