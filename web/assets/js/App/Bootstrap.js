@@ -33,7 +33,7 @@ requirejs.config({
         },
         'shCore': {
             //These script dependencies should be loaded before loading
-        	exports: 'SyntaxHighlighter'
+            exports: 'SyntaxHighlighter'
         },
         'HighLighterPHP': {
             //These script dependencies should be loaded before loading

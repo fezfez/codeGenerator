@@ -25,10 +25,10 @@ define(["Corp/Directory/DirectoryDataObject"], function(DirectoryDataObject) {
             files.push(file);
         };
         this.addChildren = function (child) {
-        	children.push(child);
+            children.push(child);
             return this;
         };
     }
-    
+
     return DirectoryDataObject;
 });

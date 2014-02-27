@@ -5,25 +5,25 @@ define(["Angular"], function() {
      * @returns directory
      */
     function DirectoryDAO() {
-    	"use strict";
-    
+        "use strict";
+
         this.findChildByNameInChildren = function (directoryName, children) {
             var foundedChild = null;
-    
+
             children.forEach(function (child) {
                 if (child.getName() === directoryName) {
                     foundedChild = child;
                     return;
                 }
             });
-    
+
             if (null !== foundedChild) {
                 return foundedChild;
             }
-    
+
             throw new Error('Cant find child with name "' + directoryName + '"');
         };
-    
+
         this.viewFile = function (datas, callback) {
             $http(
                 {
@@ -37,6 +37,6 @@ define(["Angular"], function() {
             });
         };
     }
-    
+
     return DirectoryDAO;
 });

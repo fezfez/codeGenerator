@@ -13,8 +13,8 @@ define(
         GeneratorApp.controller("GeneratorCtrl",
                 ['$scope', '$http', 'GeneratorService', 'ViewFileService', 'WaitModalService', 'GenerateService',
                 function ($scope, $http, $generatorService, $viewFileService, $WaitModalService, $generateService) {
-                	
-                	$scope.Answers = {};
+                    
+                    $scope.Answers = {};
                     $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
                     $http.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -29,9 +29,9 @@ define(
                             }
                         };
                     });
-    
+
                     $scope.$watch('backEnd', function (backEnd, oldValue) {
-                       
+
                         if (undefined === backEnd || null === backEnd) {
                             $scope.metadataList  = undefined;
                             $scope.generators    = null;
@@ -58,7 +58,7 @@ define(
                                 };
                             } else if (data.metadatas !== undefined) {
                                 $scope.metadataList = data.metadatas;
-    
+
                                 $http.get(__BASEPATH__ + 'list-generator').success(function (data) {
                                     $scope.generatorsList = data.generators;
                                 }).error(function(data) {
@@ -73,7 +73,7 @@ define(
                             }
                         });
                     });
-                    
+
                     $scope.backendConfig = function() {
                         var datas =  $.param({backend: $scope.backEnd, form : $scope.metadataSourceConfig});
                         $http(
@@ -93,7 +93,7 @@ define(
                         });
                         return false;
                     };
-    
+
                     $scope.handleGenerator = function (generatorName) {
                         $WaitModalService.show();
                         var datas =  $.param({
@@ -102,27 +102,27 @@ define(
                             metadata  : $scope.metadataName,
                             questions : $('.questions').serialize()
                         });
-    
+
                         $generatorService.build(datas, function (directories, questionList) {
                             $scope.fileList = directories;
                             $scope.questionsList = questionList;
                             $WaitModalService.hide();
                         });
                     };
-                    
+
                     $scope.$watch('metadataName', function (metadataName, oldMetadataName) {
                         if (metadataName !== undefined && metadataName !== null && 
                                 $scope.generators !== undefined && $scope.generators !== null) {
                             $scope.handleGenerator($scope.generators);
                         }
                     });
-    
+
                     $scope.$watch('generators', function (generatorName, oldGeneratorName) {
                         if (generatorName !== undefined && generatorName !== null) {
                             $scope.handleGenerator(generatorName);
                         }
                     });
-                    
+
                     $scope.generate = function() {
                         var datas = $.param({
                             generator    : $scope.generators,
@@ -131,7 +131,7 @@ define(
                             questions    : $('.questions').serialize(),
                             conflict     : $('.conflict_handle').serialize()
                         });
-    
+
                         $generateService.generate(datas, function (results) {
                             if (undefined !== results.error) {
                                 $scope.unsafeModal = {
@@ -148,7 +148,7 @@ define(
                             }
                         });
                     };
-    
+
                     $scope.viewFile = function (file) {
                         var datas = $.param({
                             generator    : $scope.generators,
@@ -158,23 +158,23 @@ define(
                             metadata     : $scope.metadataName,
                             questions    : $('.questions').serialize()
                         });
-    
+
                         $viewFileService.generate(datas, function (results) {
-                        	
-                        	if (results.error !== undefined) {
+                            
+                            if (results.error !== undefined) {
                                 $scope.unsafeModal = {
                                     'title' : 'Error on generating ' + file.getName(),
                                     'body' : results.error,
                                 };
-                        	} else {
-	                            $scope.unsafeModal = {
-	                                'title' : file.getName(),
-	                                'body' : '<pre class="brush: php;">' + results.generator + '</pre>',
-	                                'callback' : function () {
-	                                    SyntaxHighlighter.highlight();
-	                                }
-	                            };
-                        	}
+                            } else {
+                                $scope.unsafeModal = {
+                                    'title' : file.getName(),
+                                    'body' : '<pre class="brush: php;">' + results.generator + '</pre>',
+                                    'callback' : function () {
+                                        SyntaxHighlighter.highlight();
+                                    }
+                                };
+                            }
                         });
                     };
                 }]);

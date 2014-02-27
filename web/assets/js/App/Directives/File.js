@@ -5,7 +5,7 @@ define(["Angular", "App/App"], function (angular, GeneratorApp) {
             replace: true,
             restrict: 'E',
             scope: {
-            	tree: '=',
+                tree: '=',
                 fileView: '&'
             },
         };
