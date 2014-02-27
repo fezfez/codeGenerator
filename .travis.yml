@@ -8,7 +8,6 @@ php:
 before_script:
   - composer self-update
   - composer install --dev
-  - composer require satooshi/php-coveralls:dev-master --dev
   - psql -c 'DROP DATABASE IF EXISTS code_generator;' -U postgres
   - psql -c 'create database code_generator; ' -U postgres
   - psql -U postgres -d code_generator -a -f ./tests/pg-table.sql
@@ -16,10 +15,11 @@ before_script:
 script: 
   - mkdir -p build
   - mkdir -p build/logs
-  - phpunit --debug --coverage-clover build/logs/clover.xml
+  - phpunit --debug --coverage-clover coverage.clover
 
 after_script:
-  - php vendor/bin/coveralls
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 
 matrix:
   allow_failures:
