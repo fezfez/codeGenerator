@@ -1,4 +1,4 @@
-define(
+require(
     [
         "Angular",
         "App/App",
@@ -143,7 +143,7 @@ define(
                             } else if (null !== results.log) {
                                 $scope.unsafeModal = {
                                     'title' : 'Generated succefuly',
-                                    'body' : results.log.join('<br/>')
+                                    'body' : results.log.join('<br/>'),
                                 };
                             }
                         });
@@ -156,7 +156,7 @@ define(
                             file         : file.getOriginalName(),
                             backend      : $scope.backEnd,
                             metadata     : $scope.metadataName,
-                            questions    : $('.questions').serialize()
+                            questions    : $('.questions').serialize(),
                         });
 
                         $viewFileService.generate(datas, function (results) {
@@ -172,7 +172,7 @@ define(
                                     'body' : '<pre class="brush: php;">' + results.generator + '</pre>',
                                     'callback' : function () {
                                         SyntaxHighlighter.highlight();
-                                    }
+                                    },
                                 };
                             }
                         });

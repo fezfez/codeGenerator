@@ -3,6 +3,7 @@ define(["Angular"], function(angular) {
         'GeneratorApp', 
         []
     );
+
     app.init = (function () {
         angular.bootstrap(
             document,

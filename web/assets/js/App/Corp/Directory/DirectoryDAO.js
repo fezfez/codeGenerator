@@ -1,12 +1,15 @@
-define(["Angular"], function() {
+define(/*["Angular"], not passing in unit test */ function() {
     /**
-     * Create a new Directory Object
-     * @param name
-     * @returns directory
+     * DirectoryDAO
      */
     function DirectoryDAO() {
         "use strict";
 
+        /*
+         * Find a directory in array of children
+         * @param string directoryName
+         * @param array children
+         */
         this.findChildByNameInChildren = function (directoryName, children) {
             var foundedChild = null;
 
