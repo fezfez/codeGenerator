@@ -1,4 +1,4 @@
-define(["Angular", "App/App"], function (angular, GeneratorApp) {
+require(["Angular", "App/App"], function (angular, GeneratorApp) {
     GeneratorApp.directive('fileTree', function () {
         return {
             templateUrl: __BASEPATH__ + 'assets/js/App/Template/file.html',

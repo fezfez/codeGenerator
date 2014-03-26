@@ -1,8 +1,8 @@
-define(["Corp/Directory/DirectoryDataObject"], function(DirectoryDataObject) {
+define(function() {
     /**
      * Create a new Directory Object
      * @param name
-     * @returns directory
+     * @returns DirectoryDataObject
      */
     function DirectoryDataObject(directoryName) {
         "use strict";

@@ -1,4 +1,4 @@
-define([
+require([
     "Angular",
     "App/App",
     "App/Corp/Directory/DirectoryDataObject",
