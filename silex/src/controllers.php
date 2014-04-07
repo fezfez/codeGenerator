@@ -14,6 +14,20 @@ use CrudGenerator\Context\WebContext;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\GeneratorWebConflictException;
 
+/**
+ * @param string $ressouce
+ * @return array
+ */
+function urlToArray($ressouce) {
+    parse_str($ressouce, $ressouceParsed);
+
+    if (!is_array($ressouceParsed)) {
+        $ressouceParsed = array();
+    }
+
+    return $ressouceParsed;
+}
+
 $app->match('/', function() use ($app) {
     return $app['twig']->render('index.html.twig');
 })->bind('homepage');
@@ -58,7 +72,7 @@ $app->match('/metadata', function (Request $request) use ($app) {
 
 $app->match('generator', function (Request $request) use ($app) {
 
-    parse_str($request->request->get('questions'), $questionArray);
+    $questionArray  = urlToArray($request->request->get('questions'));
     $metadataSource = $request->request->get('backend');
     $metadata       = $request->request->get('metadata');
     $context        = new WebContext($app);
@@ -80,7 +94,7 @@ $app->match('generator', function (Request $request) use ($app) {
 
 $app->match('view-file', function (Request $request) use ($app) {
 
-    parse_str($request->request->get('questions'), $questionArray);
+	$questionArray  = urlToArray($request->request->get('questions'));
     $metadataSource = $request->request->get('backend');
     $metadata       = $request->request->get('metadata');
     $file           = $request->request->get('file');
@@ -106,8 +120,8 @@ $app->match('view-file', function (Request $request) use ($app) {
 
 $app->match('generate', function (Request $request) use ($app) {
 
-    parse_str($request->request->get('questions'), $questionArray);
-    parse_str($request->request->get('conflict'), $conflictArray);
+	$questionArray  = urlToArray($request->request->get('questions'));
+	$conflictArray  = urlToArray($request->request->get('conflict'));
     $metadataSource = $request->request->get('backend');
     $metadata       = $request->request->get('metadata');
     $file           = $request->request->get('file');
@@ -169,7 +183,7 @@ $app->error(function (\Exception $e, $code) use ($app) {
     $datas = array(
         'error'   => $e,
         'code'    => $code,
-    	'request' => $request
+        'request' => $request
     );
 
     if (0 === strpos($request->headers->get('Accept'), 'application/json')) {
