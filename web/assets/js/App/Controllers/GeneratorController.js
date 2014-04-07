@@ -1,4 +1,4 @@
-require(
+define(
     [
         "Angular",
         "App/App",

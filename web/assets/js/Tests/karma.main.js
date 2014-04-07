@@ -4,23 +4,22 @@ var tests = [];
 // we want require to load our test(spec) files
 
 for (var file in window.__karma__.files) {
-  if (window.__karma__.files.hasOwnProperty(file)) {
-    // simple pattern that matches our files
-    // note that these files are available here 
-    // because of our settings in the karma.conf.js files[]
-    if (/(.+test)\.js$/.test(file)) {
-    	
-      tests.push(file);
+    if (window.__karma__.files.hasOwnProperty(file)) {
+        // simple pattern that matches our files
+        // note that these files are available here 
+        // because of our settings in the karma.conf.js files[]
+        if (/(.+test)\.js$/.test(file)) {
+            tests.push(file);
+        }
     }
-  }
 }
 
 var path = '';
- 
+
 if (typeof window.__karma__ !== 'undefined') {
-  path += '/base/';
+    path += '/base/';
 }
- 
+
 requirejs.config({
     //By default load any module IDs from js/lib
     baseUrl: 'base/',
@@ -72,10 +71,10 @@ requirejs.config({
             deps: ['shCore']
         },
     },
-    
+
     // ask Require.js to load these files (all our tests)
     deps: tests,
- 
+
     // start test run, once Require.js is done
     // the original callback here was just:
     // callback: window.__karma__.start

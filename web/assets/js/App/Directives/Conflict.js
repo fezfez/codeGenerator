@@ -1,4 +1,4 @@
-require(["Angular", "App/App"], function (angular, GeneratorApp) {
+define(["Angular", "App/App"], function (angular, GeneratorApp) {
     "use strict";
 
     GeneratorApp.directive('conflict', ['$compile', '$http', function($compile, $http) {
