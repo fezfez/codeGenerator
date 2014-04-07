@@ -1,8 +1,9 @@
 define([
-    "App/Corp/Directory/DirectoryDAO",
-    "App/Corp/Directory/DirectoryBuilder",
+    "Corp/Directory/DirectoryDAO",
+    "Corp/Directory/DirectoryBuilder",
     ],
     function(DirectoryDAO, DirectoryBuilder) {
+
     var DirectoryBuilderFactory = (function () {
         "use strict";
 
@@ -21,6 +22,6 @@ define([
             }
         };
     })();
-    
+
     return DirectoryBuilderFactory;
 });

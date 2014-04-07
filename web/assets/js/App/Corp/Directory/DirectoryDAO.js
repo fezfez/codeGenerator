@@ -1,4 +1,4 @@
-define(/*["Angular"], not passing in unit test */ function() {
+define(/*["Angular"], */function() {
     /**
      * DirectoryDAO
      */
