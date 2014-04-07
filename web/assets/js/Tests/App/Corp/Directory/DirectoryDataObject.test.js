@@ -7,25 +7,25 @@ require(['Corp/Directory/DirectoryDataObject', 'Corp/File/FileDataObject'], func
 
             expect(directoryObject.getName()).toEqual('myname');
         });
-        
+
         it('Check children attribute', function() {
-        	var directoryObject = new DirectoryDataObject('myname');
-        	
-        	expect(directoryObject.getChildren().length).toEqual(0);
-        	
-        	directoryObject.addChildren(new DirectoryDataObject('test'));
+            var directoryObject = new DirectoryDataObject('myname');
 
-        	expect(directoryObject.getChildren().length).toEqual(1);
+            expect(directoryObject.getChildren().length).toEqual(0);
+
+            directoryObject.addChildren(new DirectoryDataObject('test'));
+
+            expect(directoryObject.getChildren().length).toEqual(1);
         });
-        
-        it('Check file attribute', function() {
-        	var directoryObject = new DirectoryDataObject('myname');
-        	
-        	expect(directoryObject.getFiles().length).toEqual(0);
-        	
-        	directoryObject.addFile(new FileDataObject());
 
-        	expect(directoryObject.getFiles().length).toEqual(1);
+        it('Check file attribute', function() {
+            var directoryObject = new DirectoryDataObject('myname');
+
+            expect(directoryObject.getFiles().length).toEqual(0);
+
+            directoryObject.addFile(new FileDataObject());
+
+            expect(directoryObject.getFiles().length).toEqual(1);
         });
     });
 });

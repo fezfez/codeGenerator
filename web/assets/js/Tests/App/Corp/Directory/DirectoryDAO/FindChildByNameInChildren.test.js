@@ -9,18 +9,17 @@ require(['Corp/Directory/DirectoryDAO', 'Corp/Directory/DirectoryDataObject'], f
             var directoryFound = directoryDAO.findChildByNameInChildren('test', directoryCollection);
             expect(directoryFound.getName()).toEqual('test');
         });
-        
+
         it('Should throw exception cause directory nod found', function() {
             var directoryDAO = new DirectoryDAO(),
                 directoryCollection = new Array(new DirectoryDataObject('test'), new DirectoryDataObject('mydir'));
 
             try {
-            	directoryDAO.findChildByNameInChildren('fail', directoryCollection);
-            	expect('error if pass here').toEqual('test');
+                directoryDAO.findChildByNameInChildren('fail', directoryCollection);
+                expect('error if pass here').toEqual('test');
             } catch(e) {
-            	expect(true).toEqual(e instanceof Error);
+                expect(true).toEqual(e instanceof Error);
             }
         });
-        
     });
 });
