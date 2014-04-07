@@ -14,7 +14,7 @@ for (var file in window.__karma__.files) {
     }
   }
 }
- console.log(tests);
+
 var path = '';
  
 if (typeof window.__karma__ !== 'undefined') {
@@ -24,6 +24,7 @@ if (typeof window.__karma__ !== 'undefined') {
 requirejs.config({
     //By default load any module IDs from js/lib
     baseUrl: 'base/',
+    urlArgs: "t=" + (new Date()).getTime(),
     //except, if the module ID starts with "app",
     //load it from the js/app directory. paths
     //config is relative to the baseUrl, and
@@ -36,6 +37,7 @@ requirejs.config({
         JQuery: "Vendor/jquery-2.1.0.min",
         TwitterBootstrap: "Vendor/bootstrap.min",
         Angular: "Vendor/angular.min",
+        AngularMocks: "Vendor/angular-mocks",
         HighLighterPHP: "Vendor/shBrushPhp",
         shCore: "Vendor/shCore"
     },
@@ -50,6 +52,13 @@ requirejs.config({
         'Angular': {
             //These script dependencies should be loaded before loading
             deps: ['JQuery'],
+            //Once loaded, use the global 'GoogleJSAPI' as the
+            //module value.
+            exports: 'angular'
+        },
+        'AngularMocks': {
+            //These script dependencies should be loaded before loading
+            deps: ['Angular'],
             //Once loaded, use the global 'GoogleJSAPI' as the
             //module value.
             exports: 'angular'
@@ -75,6 +84,5 @@ requirejs.config({
     // this solved it for me.
     callback: function(){
         window.__karma__.start();
-        console.log('i start');
     }
 });
