@@ -7,37 +7,34 @@ module.exports = function(config) {
     // base path, that will be used to resolve files and exclude
     basePath: './web/assets/js/',
 
-
     // frameworks to use
     frameworks: ['requirejs', 'jasmine', 'chai'],
 
-
     // list of files / patterns to load in the browser
     files: [
-            {pattern: 'Vendor/require.js', included: true},
-      	  {pattern: 'Vendor/angular.min.js', included: true},
-    	  {pattern: 'Vendor/angular.min.js.map', included: false},
-	  {pattern: 'Vendor/jquery-2.1.0.min.js', included: true},
-	  {pattern: 'Vendor/bootstrap.min.js', included: true},
-	  {pattern: 'Vendor/shCore.js', included: true},
-	  {pattern: 'Vendor/shBrushPhp.js', included: true},
-	  {pattern: 'App/Services/*.js', included: false},
-	  {pattern: 'App/Controllers/*.js', included: false},
-	  {pattern: 'App/Directives/*.js', included: false},
-	  {pattern: 'App/Corp/Directory/*.js', included: false},
-	  {pattern: 'App/Corp/File/*.js', included: false},
-	  {pattern: 'App/*.js', included: false},
-	  {pattern: 'Tests/App/**/*.test.js', included: true},
-	  {pattern: 'Tests/App/**/**/*.test.js', included: false},
-      'Tests/karma.main.js'
+        {pattern: 'Vendor/require.js', included: true},
+        {pattern: 'Vendor/angular.min.js', included: true},
+        {pattern: 'Vendor/angular.min.js.map', included: false},
+        {pattern: 'Vendor/jquery-2.1.0.min.js', included: true},
+        {pattern: 'Vendor/bootstrap.min.js', included: true},
+        {pattern: 'Vendor/shCore.js', included: true},
+        {pattern: 'Vendor/shBrushPhp.js', included: true},
+        {pattern: 'App/Services/*.js', included: false},
+        {pattern: 'App/Controllers/*.js', included: false},
+        {pattern: 'App/Directives/*.js', included: false},
+        {pattern: 'App/Corp/Directory/*.js', included: false},
+        {pattern: 'App/Corp/File/*.js', included: false},
+        {pattern: 'App/*.js', included: false},
+        {pattern: 'Tests/App/**/*.test.js', included: true},
+        {pattern: 'Tests/App/**/**/*.test.js', included: false},
+        'Tests/karma.main.js'
     ],
-
 
     // list of files to exclude
     exclude: [
       "App/Bootstrap.js"
     ],
-    
+
     plugins:[
      'karma-requirejs',
      'karma-jasmine',
@@ -58,7 +55,7 @@ module.exports = function(config) {
     },
     coverageReporter: {
         type : 'html',
-        dir : 'coverage/'
+        dir  : 'coverage/'
     },
     // enable / disable colors in the output (reporters and logs)
     colors: true,
