@@ -35,12 +35,18 @@ requirejs.config({
         Corp : "App/Corp",
         JQuery: "Vendor/jquery-2.1.0.min",
         TwitterBootstrap: "Vendor/bootstrap.min",
-        Angular: "Vendor/angular.min",
+        Angular: "Vendor/angular",
+        AngularResource: "Vendor/angular-resource",
         AngularMocks: "Vendor/angular-mocks",
         HighLighterPHP: "Vendor/shBrushPhp",
         shCore: "Vendor/shCore"
     },
     shim: {
+        'JQuery': {
+            //Once loaded, use the global 'TwitterBootstrap' as the
+            //module value.
+            exports: 'JQuery'
+        },
         'TwitterBootstrap': {
             //These script dependencies should be loaded before loading
             deps: ['JQuery'],
@@ -58,9 +64,6 @@ requirejs.config({
         'AngularMocks': {
             //These script dependencies should be loaded before loading
             deps: ['Angular'],
-            //Once loaded, use the global 'GoogleJSAPI' as the
-            //module value.
-            exports: 'angular'
         },
         'shCore': {
             //These script dependencies should be loaded before loading
