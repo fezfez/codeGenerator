@@ -1,10 +1,10 @@
 define([
-    "Angular",
     "App/App",
     "JQuery",
     "HighLighterPHP"
     ],
-    function(angular, GeneratorApp) {
+    function(GeneratorApp) {
+
     GeneratorApp.factory('ViewFileService', ['$http', function ($http) {
         "use strict";
 

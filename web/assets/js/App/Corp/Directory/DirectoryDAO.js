@@ -1,4 +1,4 @@
-define(/*["Angular"], */function() {
+define(function() {
     /**
      * DirectoryDAO
      */
@@ -27,13 +27,17 @@ define(/*["Angular"], */function() {
             throw new Error('Cant find child with name "' + directoryName + '"');
         };
 
-        this.viewFile = function (datas, callback) {
+        /*
+         * @param array data
+         * @param callable callback
+         */
+        this.viewFile = function (data, callback) {
             $http(
                 {
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                    method: "POST",
-                    url: "view-file",
-                    data: datas
+                    headers : {'Content-Type': 'application/x-www-form-urlencoded'},
+                    method  : "POST",
+                    url     : "view-file",
+                    data    : data
                 }
             ).success(function (data) {
                 callback(data);

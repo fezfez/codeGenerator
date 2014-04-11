@@ -5,7 +5,8 @@ define(
         "App/Services/GeneratorService",
         "App/Services/ViewFileService",
         "App/Services/WaitModalService",
-        "App/Services/GenerateService"
+        "App/Services/GenerateService",
+        "App/Directives/MetadataSourceConfig"
     ],
     function (angular, GeneratorApp, GeneratorService, ViewFileService, WaitModalService, GenerateService) {
         "use strict";
