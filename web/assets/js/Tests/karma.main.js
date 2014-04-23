@@ -22,7 +22,7 @@ if (typeof window.__karma__ !== 'undefined') {
 
 requirejs.config({
     //By default load any module IDs from js/lib
-    baseUrl: 'base/',
+    baseUrl: '/base/',
     urlArgs: "t=" + (new Date()).getTime(),
     //except, if the module ID starts with "app",
     //load it from the js/app directory. paths
@@ -33,37 +33,22 @@ requirejs.config({
         App : "App",
         Controllers : "./App/Controllers",
         Corp : "App/Corp",
-        JQuery: "Vendor/jquery-2.1.0.min",
+        Services : "App/Services",
+        jquery: "Vendor/jquery-2.1.0.min",
         TwitterBootstrap: "Vendor/bootstrap.min",
-        Angular: "Vendor/angular",
-        AngularResource: "Vendor/angular-resource",
-        AngularMocks: "Vendor/angular-mocks",
         HighLighterPHP: "Vendor/shBrushPhp",
         shCore: "Vendor/shCore"
     },
     shim: {
-        'JQuery': {
-            //Once loaded, use the global 'TwitterBootstrap' as the
-            //module value.
-            exports: 'JQuery'
+        'jquery': {
+            exports: '$'
         },
         'TwitterBootstrap': {
             //These script dependencies should be loaded before loading
-            deps: ['JQuery'],
+            deps: ['jquery'],
             //Once loaded, use the global 'TwitterBootstrap' as the
             //module value.
             exports: 'TwitterBootstrap'
-        },
-        'Angular': {
-            //These script dependencies should be loaded before loading
-            deps: ['JQuery'],
-            //Once loaded, use the global 'GoogleJSAPI' as the
-            //module value.
-            exports: 'angular'
-        },
-        'AngularMocks': {
-            //These script dependencies should be loaded before loading
-            deps: ['Angular'],
         },
         'shCore': {
             //These script dependencies should be loaded before loading
@@ -72,7 +57,7 @@ requirejs.config({
         'HighLighterPHP': {
             //These script dependencies should be loaded before loading
             deps: ['shCore']
-        },
+        }
     },
 
     // ask Require.js to load these files (all our tests)

@@ -1,15 +1,29 @@
-define(["Angular"], function(angular) {
-    var app = angular.module(
-        'GeneratorApp', 
-        []
-    );
+console.log('App/App out');
+define(function() {
+	
+    var App = (function () {
+        "use strict";
 
-    app.init = (function () {
-        angular.bootstrap(
-            document,
-            ['GeneratorApp']
-        );
-    });
+        var instance = null;
 
-    return app;
+        function init() {
+        	console.log('init app');
+            var app = angular.module(
+                'GeneratorApp', 
+                []
+            );
+            angular.bootstrap(
+                document,
+                ['GeneratorApp']
+            );
+            return app;
+        }
+
+        if (instance === null) {
+            instance = init();
+        }
+        return instance;
+    })();
+
+    return App;
 });

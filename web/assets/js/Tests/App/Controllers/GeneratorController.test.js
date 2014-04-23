@@ -1,4 +1,4 @@
-require(["Controllers/GeneratorController", "AngularMocks"], function(ContactController) {
+require(["Controllers/GeneratorController"], function(ContactController) {
 "use strict";
 describe("the contactcontroller", function () {
     var contactController, scope;

@@ -12,9 +12,9 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-        {pattern: 'Vendor/require.js', included: true},
+        {pattern: 'Vendor/require.js', included: false},
         {pattern: 'Vendor/angular.js', included: true},
-        {pattern: 'Vendor/angular-resource.js', included: true},
+        {pattern: 'Vendor/angular-resource.js', included: false},
         {pattern: 'Vendor/angular-mocks.js', included: true},
         {pattern: 'Vendor/jquery-2.1.0.min.js', included: false},
         {pattern: 'Vendor/bootstrap.min.js', included: false},
@@ -42,6 +42,7 @@ module.exports = function(config) {
      'karma-chai',
      'karma-coverage',
      'karma-firefox-launcher',
+     'karma-ng-scenario'
      ],
 
     // test results reporter to use
@@ -64,7 +65,7 @@ module.exports = function(config) {
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
 
-    captureTimeout : 10000,
+    captureTimeout : 60000,
 
     // Start these browsers, currently available:
     // - Chrome

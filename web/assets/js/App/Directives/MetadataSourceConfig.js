@@ -1,4 +1,4 @@
-require(["Angular", "App/App"], function (angular, GeneratorApp) {
+require(["App/App"], function (GeneratorApp) {
     "use strict";
 
     GeneratorApp.directive('metadatasource', ['$compile', '$http', '$templateCache', '$timeout', function($compile, $http, $templateCache, $timeout) {
