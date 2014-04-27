@@ -1,4 +1,4 @@
-define(['App/App'], function(app) {
+define(['App/App'], function (app) {
     "use strict";
 
     var Service = app.service('ViewFileService', ['$http', function ($http) {
@@ -6,8 +6,7 @@ define(['App/App'], function(app) {
          * @param datas Array
          * @param callback callable
          */
-        this.generate = function(datas, callback)
-        {
+        this.generate = function (datas, callback) {
             $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
             $http(
                 {
@@ -18,7 +17,7 @@ define(['App/App'], function(app) {
                 }
             ).success(function (data) {
                 callback(data);
-            }).error(function(data) {
+            }).error(function (data) {
                 callback(data);
             });
         };

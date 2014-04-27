@@ -1,4 +1,4 @@
-define(["App/App", "jquery", "TwitterBootstrap"], function(app) {
+define(["App/App", "TwitterBootstrap"], function(app, $) {
 
     var Service = app.service('WaitModalService', ['$http', function ($http) {
         "use strict";

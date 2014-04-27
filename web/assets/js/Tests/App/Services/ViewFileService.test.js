@@ -1,5 +1,5 @@
 require(['Services/ViewFileService'], function(ViewFileService) {
-    describe('Testing a service', function() {
+    describe('Testing viewFileService', function() {
 
         var service, $httpBackend;
 

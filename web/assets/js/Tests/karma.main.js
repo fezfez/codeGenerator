@@ -48,7 +48,7 @@ requirejs.config({
             deps: ['jquery'],
             //Once loaded, use the global 'TwitterBootstrap' as the
             //module value.
-            exports: 'TwitterBootstrap'
+            exports: '$'
         },
         'shCore': {
             //These script dependencies should be loaded before loading

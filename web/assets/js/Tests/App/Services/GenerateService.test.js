@@ -1,5 +1,5 @@
-require(['Services/WaitModalService'], function(WaitModalService) {
-    describe('Testing waitModalservice', function() {
+require(['Services/GenerateService'], function(GeneratorService) {
+    describe('Testing generateService', function() {
 
         var service, $httpBackend;
 
@@ -8,18 +8,26 @@ require(['Services/WaitModalService'], function(WaitModalService) {
         beforeEach(inject(function($injector) {
             // Set up the mock http service responses
             $httpBackend = $injector.get('$httpBackend');
-            service      = $injector.get('WaitModalService');
+            service      = $injector.get('GenerateService');
         }));
         
-        it('should show wait modal', function() {
+        it('should generate', function() {
 
-            $httpBackend.whenGET("assets/js/App/Template/WaitModal.html").respond('<toto></toto>');
-            service.show();
+            $httpBackend.whenPOST("generate").respond(
+                {
+                    'generationLog' : {}
+                }
+            );
+
+            service.generate(
+                {
+                
+                },
+                function(response) {
+
+                }
+            );
             $httpBackend.flush();
-        });
-
-        it('should hide wait modal', function() {
-        	service.hide();
         });
 
         afterEach(function() {
