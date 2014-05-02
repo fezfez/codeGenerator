@@ -1,5 +1,5 @@
-require(['Services/ViewFileService'], function(ViewFileService) {
-    describe('Testing viewFileService', function() {
+require(['Services/WaitModalService'], function(WaitModalService) {
+    describe('Testing waitModalservice', function() {
 
         var service, $httpBackend;
 
@@ -8,20 +8,18 @@ require(['Services/ViewFileService'], function(ViewFileService) {
         beforeEach(inject(function($injector) {
             // Set up the mock http service responses
             $httpBackend = $injector.get('$httpBackend');
-            service      = $injector.get('ViewFileService');
+            service      = $injector.get('WaitModalService');
         }));
         
-        it('should preview file', function() {
+        it('should show wait modal', function() {
 
-            $httpBackend.whenPOST("view-file").respond([{
-                id: 1,
-                name: "banana"
-              }]);
-            
-            service.generate({'test' : 'test'}, (function(data) {
-
-            }));
+            $httpBackend.whenGET("assets/js/App/Template/WaitModal.html").respond('<toto></toto>');
+            service.show();
             $httpBackend.flush();
+        });
+
+        it('should hide wait modal', function() {
+        	service.hide();
         });
 
         afterEach(function() {

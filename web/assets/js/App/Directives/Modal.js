@@ -1,9 +1,8 @@
 require([
-    "Angular",
     "App/App",
     "JQuery"
     ],
-    function(angular, GeneratorApp) {
+    function(GeneratorApp) {
     "use strict";
 
     GeneratorApp.directive('modal', ['$compile', '$http', '$templateCache', '$timeout', function($compile, $http, $templateCache, $timeout) {

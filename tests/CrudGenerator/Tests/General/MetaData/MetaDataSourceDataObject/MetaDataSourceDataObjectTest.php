@@ -2,23 +2,23 @@
 namespace CrudGenerator\Tests\General\Adapater\MetaDataSource;
 
 use CrudGenerator\MetaData\MetaDataSource;
-use CrudGenerator\MetaData\Sources\PDO\PDOConfig;
+use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
 
 class MetaDataSourceDataObjectTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
-        $pdoConfig = new PDOConfig();
+        $PostgreSQLConfig = new PostgreSQLConfig();
 
         $adapater = new MetaDataSource();
 
-        $adapater->setConfig($pdoConfig)
+        $adapater->setConfig($PostgreSQLConfig)
                  ->setDefinition('definition')
                  ->setFalseDependencie('false')
                  ->setName('name');
 
         $this->assertInstanceOf(
-            'CrudGenerator\MetaData\Sources\PDO\PDOConfig',
+            'CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig',
             $adapater->getConfig()
         );
 

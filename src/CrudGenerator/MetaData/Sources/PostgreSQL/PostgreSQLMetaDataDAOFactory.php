@@ -15,40 +15,34 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\Sources\PDO;
+namespace CrudGenerator\MetaData\Sources\PostgreSQL;
 
-use CrudGenerator\MetaData\Sources\PDO\SqlManager;
+use CrudGenerator\MetaData\Sources\PostgreSQL\SqlManager;
 
 /**
- * Create PDO Metadata DAO instance
+ * Create PostgreSQL Metadata DAO instance
  *
- * @CodeGenerator\Description PDO
+ * @CodeGenerator\Description PostgreSQL
  */
-class PDOMetaDataDAOFactory
+class PostgreSQLMetaDataDAOFactory
 {
     /**
-     * Create PDO Metadata DAO instance
+     * Create PostgreSQL Metadata DAO instance
      *
-     * @param PDOConfig $config
+     * @param PostgreSQLConfig $config
      * @return \CrudGenerator\MetaData\Sources\PDO\PDOMetaDataDAO
      */
-    public static function getInstance(PDOConfig $config)
+    public static function getInstance(PostgreSQLConfig $config)
     {
-        $type = $config->getType();
-
-        if (strpos($type, 'sqlite') !== false) {
-            throw new \InvalidArgumentException('Sqlite not available');
-        } else {
-            $DSN = $config->getType() . ':dbname=' . $config->getDatabaseName() . ';host=' . $config->getHost();
-            $pdo = new \PDO(
-                $DSN,
-                $config->getUser(),
-                $config->getPassword()
-            );
-        }
+        $DSN = 'pgsql:dbname=' . $config->getDatabaseName() . ';host=' . $config->getHost();
+        $pdo = new \PDO(
+            $DSN,
+            $config->getUser(),
+            $config->getPassword()
+        );
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
-        return new PDOMetaDataDAO(
+        return new PostgreSQLMetaDataDAO(
             $pdo,
             $config,
             new SqlManager()

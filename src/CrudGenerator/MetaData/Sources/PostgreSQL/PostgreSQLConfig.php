@@ -15,22 +15,22 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\Sources\PDO;
+namespace CrudGenerator\MetaData\Sources\PostgreSQL;
 
 use CrudGenerator\MetaData\Config\AbstractConfig;
 use CrudGenerator\MetaData\Config\ConfigException;
 
 /**
- * PDO configuration for PDO Metadata adapter
+ * PostgreSQL configuration for PostgreSQL Metadata adapter
  *
  * @author Stéphane Demonchaux
  */
-class PDOConfig extends AbstractConfig
+class PostgreSQLConfig extends AbstractConfig
 {
     /**
      * @var string Config definition
      */
-    protected $definition = 'For use the PDO adapter you need to define the database and how to get the PDO instance';
+    protected $definition = 'For use the PostgreSQL adapter you need to define the database and how to get the PostgreSQL instance';
     /**
      * @var string Database Name
      */
@@ -51,10 +51,6 @@ class PDOConfig extends AbstractConfig
      * @var string Port
      */
     protected $port = null;
-    /**
-     * @var string Database type (pgsql, mysql, sqlite etc...)
-     */
-    protected $type = null;
 
     /**
      * Set database name
@@ -106,16 +102,6 @@ class PDOConfig extends AbstractConfig
         $this->port = $value;
         return $this;
     }
-    /**
-     * Set type
-     * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
-     */
-    public function setType($value)
-    {
-        $this->type = $value;
-        return $this;
-    }
 
     /**
      * Get database name
@@ -157,14 +143,6 @@ class PDOConfig extends AbstractConfig
     {
         return $this->port;
     }
-    /**
-     * Get type
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
 
     /**
      * Test if its well configured
@@ -174,7 +152,7 @@ class PDOConfig extends AbstractConfig
     public function test()
     {
         try {
-            new \PDO($this->type . ':dbname='.$this->databaseName . ';host='.$this->host, $this->user, $this->password);
+            new \PDO('pgsql:dbname='.$this->databaseName . ';host='.$this->host, $this->user, $this->password);
             return $this;
         } catch (\PDOException $e) {
             throw new ConfigException('Connection failed with "' . $e->getMessage() . '"');

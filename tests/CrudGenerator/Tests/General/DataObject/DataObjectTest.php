@@ -1,7 +1,7 @@
 <?php
 namespace CrudGenerator\Tests\General\DataObject\DataObject;
 
-use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
+use CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
 use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
@@ -10,7 +10,7 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstance()
     {
-        $metaData = new MetadataDataObjectPDO(
+        $metaData = new MetadataDataObjectPostgreSQL(
             new MetaDataColumnCollection(),
             new MetaDataRelationCollection()
         );
@@ -27,7 +27,7 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertInstanceOf(
-            'CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO',
+            'CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL',
             $dataObject->getMetadata()
         );
 

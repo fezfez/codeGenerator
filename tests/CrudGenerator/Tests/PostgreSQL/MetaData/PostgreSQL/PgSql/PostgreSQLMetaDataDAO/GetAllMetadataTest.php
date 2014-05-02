@@ -1,15 +1,15 @@
 <?php
-namespace CrudGenerator\Tests\PDO\Sources\MetaData\PDO\PgSql\PDOMetaDataDAO;
+namespace CrudGenerator\Tests\PostgreSQL\Sources\MetaData\PostgreSQL\PgSql\PostgreSQLMetaDataDAO;
 
-use CrudGenerator\MetaData\Sources\PDO\PDOMetaDataDAOFactory;
+use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory;
 
 class GetAllMetadataTest extends \PHPUnit_Framework_TestCase
 {
     public function testTypedzadzdaz()
     {
-        $pdoConfig = include __DIR__ . '/../config.php';
+        $PostgreSQLConfig = include __DIR__ . '/../config.php';
 
-        $suT = PDOMetaDataDAOFactory::getInstance($pdoConfig);
+        $suT = PostgreSQLMetaDataDAOFactory::getInstance($PostgreSQLConfig);
 
         $allMetaData = $suT->getAllMetadata();
         $this->assertInstanceOf(
@@ -19,7 +19,7 @@ class GetAllMetadataTest extends \PHPUnit_Framework_TestCase
 
         foreach ($allMetaData as $metaData) {
             $this->assertInstanceOf(
-                'CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO',
+                'CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL',
                 $metaData
             );
 

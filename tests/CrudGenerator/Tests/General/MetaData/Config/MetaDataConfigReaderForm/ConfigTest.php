@@ -11,7 +11,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $stubFileManager->expects($this->once())
                         ->method('filePutsContent')
                         ->will($this->returnValue(true));
-        $stubConfig = $this->getMock('\CrudGenerator\MetaData\Sources\PDO\PDOConfig');
+        $stubConfig = $this->getMock('\CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig');
 
         $stubFileManager->expects($this->once())
         ->method('fileGetContent')
@@ -25,7 +25,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $stubFileManager
         );
 
-        $stubConfig = $this->getMock('\CrudGenerator\MetaData\Sources\PDO\PDOConfig');
+        $stubConfig = $this->getMock('\CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig');
 
         $suT->config($stubConfig);
     }
@@ -41,7 +41,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $stubFileManager
         );
 
-        $stubConfig = $this->getMock('\CrudGenerator\MetaData\Sources\PDO\PDOConfig');
+        $stubConfig = $this->getMock('\CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig');
 
 		$this->setExpectedException('CrudGenerator\MetaData\Config\ConfigException');
         $suT->config($stubConfig);

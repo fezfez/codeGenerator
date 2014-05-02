@@ -1,5 +1,5 @@
-require(['Services/ViewFileService'], function(ViewFileService) {
-    describe('Testing viewFileService', function() {
+require(['Services/GenerateService'], function(GeneratorService) {
+    describe('Testing generateService', function() {
 
         var service, $httpBackend;
 
@@ -8,19 +8,25 @@ require(['Services/ViewFileService'], function(ViewFileService) {
         beforeEach(inject(function($injector) {
             // Set up the mock http service responses
             $httpBackend = $injector.get('$httpBackend');
-            service      = $injector.get('ViewFileService');
+            service      = $injector.get('GenerateService');
         }));
         
-        it('should preview file', function() {
+        it('should generate', function() {
 
-            $httpBackend.whenPOST("view-file").respond([{
-                id: 1,
-                name: "banana"
-              }]);
-            
-            service.generate({'test' : 'test'}, (function(data) {
+            $httpBackend.whenPOST("generate").respond(
+                {
+                    'generationLog' : {}
+                }
+            );
 
-            }));
+            service.generate(
+                {
+                
+                },
+                function(response) {
+
+                }
+            );
             $httpBackend.flush();
         });
 

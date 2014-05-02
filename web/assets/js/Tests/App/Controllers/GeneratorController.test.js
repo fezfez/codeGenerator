@@ -1,21 +1,28 @@
-require(["Controllers/GeneratorController", "AngularMocks"], function(ContactController) {
-"use strict";
-describe("the contactcontroller", function () {
-    var contactController, scope;
+require(
+	["Controllers/GeneratorController", 'Services/GenerateService', 'Services/ViewFileService', 'Services/WaitModalService', 'Services/GenerateService'], 
+	function(GeneratorController, GeneratorService, ViewFileService, WaitModalService, GenerateService) {
+    "use strict";
+    describe("Test generatorController", function () {
 
-    beforeEach(function () {
-        //module("contact");
+        var GeneratorController, scope, $httpBackend, GeneratorService, ViewFileService, WaitModalService, GenerateService;
 
-        inject(["$rootScope", "$controller", function ($rootScope, $controller) {
-            scope = $rootScope.$new();
-            contactController = $controller(ContactController, {$scope: scope});
-            console.log(contactController);
-        }]);
+        beforeEach(inject(function($injector) {
+            $httpBackend = $injector.get('$httpBackend');
+            $rootScope = $injector.get('$rootScope');
+            $scope = $rootScope.$new();
+
+
+            var $controller = $injector.get('$controller');
+
+            createController = function() {
+                return $controller('GeneratorCtrl', {
+                    '$scope': $scope
+                });
+            };
+        }));
+        
+        it("should give me true", function () {
+            expect(true).toBe(true);
+        });
     });
-    
-    it("should give me true", function () {
-        expect(true).toBe(true);
-    });
-});
-
 });

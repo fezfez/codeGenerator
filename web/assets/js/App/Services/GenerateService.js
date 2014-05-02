@@ -1,14 +1,13 @@
-define([
-    "Angular",
-    "App/App",
-    "JQuery"
-    ],
-    function(angular, GeneratorApp) {
-GeneratorApp.factory('GenerateService', ['$http', function ($http) {
+define(["App/App"], function(app) {
     "use strict";
 
-    return {
-        generate : function (datas, callback) {
+    var Service = app.service('GenerateService', ['$http', function ($http) {
+        /*
+         * Generator service
+         * @param datas array
+         * @param callback callable
+         */
+        this.generate = function (datas, callback) {
             $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
             $http(
                 {
@@ -18,12 +17,13 @@ GeneratorApp.factory('GenerateService', ['$http', function ($http) {
                     data: datas
                 }
             ).success(function (datas) {
-                var firstChar = null,
-                    items = null,
+                var firstChar    = null,
+                    items        = null,
                     conflictList = null,
-                    log = null,
-                    conflictDTO = {},
-                    lineDTO = {};
+                    log          = null,
+                    conflictDTO  = {},
+                    lineDTO      = {};
+
                 if (datas.conflict !== undefined) {
                     conflictList = [];
                     $.each(datas.conflict, function (fileName, data) {
@@ -56,7 +56,8 @@ GeneratorApp.factory('GenerateService', ['$http', function ($http) {
             }).error(function(data) {
                 callback({'error' : data.error});
             });
-        }
-    };
-}]);
+        };
+    }]);
+
+    return Service;
 });
