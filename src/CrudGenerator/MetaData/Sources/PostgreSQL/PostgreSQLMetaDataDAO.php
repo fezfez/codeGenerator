@@ -15,22 +15,22 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\Sources\PDO;
+namespace CrudGenerator\MetaData\Sources\PostgreSQL;
 
 use PDO;
-use CrudGenerator\MetaData\Sources\PDO\PDOConfig;
-use CrudGenerator\MetaData\Sources\PDO\SqlManager;
+use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
+use CrudGenerator\MetaData\Sources\PostgreSQL\SqlManager;
 use CrudGenerator\MetaData\Sources\MetaDataDAOInterface;
-use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
+use CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
 use CrudGenerator\MetaData\DataObject\MetaDataCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 
 /**
- * PDO adapter
+ * PostgreSQL adapter
  */
-class PDOMetaDataDAO implements MetaDataDAOInterface
+class PostgreSQLMetaDataDAO implements MetaDataDAOInterface
 {
     private $typeConversion = array(
         'character varying' => 'text'
@@ -40,7 +40,7 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
      */
     private $pdo       = null;
     /**
-     * @var PDOConfig Pdo configuration
+     * @var PostgreSQLConfig Pdo configuration
      */
     private $pdoConfig = null;
     /**
@@ -49,12 +49,12 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
     private $sqlManager = null;
 
     /**
-     * PDO adapter
+     * PostgreSQL adapter
      * @param PDO $pdo
-     * @param PDOConfig $pdoConfig
+     * @param PostgreSQLConfig $pdoConfig
      * @param SqlManager $sqlManager
      */
-    public function __construct(PDO $pdo, PDOConfig $pdoConfig, SqlManager $sqlManager)
+    public function __construct(PDO $pdo, PostgreSQLConfig $pdoConfig, SqlManager $sqlManager)
     {
         $this->pdo        = $pdo;
         $this->pdoConfig  = $pdoConfig;
@@ -62,7 +62,7 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
     }
 
     /**
-     * Get all metadata from PDO
+     * Get all metadata from PostgreSQL
      *
      * @return \CrudGenerator\MetaData\MetaDataCollection
      */
@@ -85,7 +85,7 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
     }
 
     /**
-     * Convert PDOmapping to CrudGenerator mapping
+     * Convert PostgreSQL mapping to CrudGenerator mapping
      * @param array $metadataCollection
      * @return \CrudGenerator\MetaData\DataObject\MetaDataCollection
      */
@@ -103,13 +103,13 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
     }
 
     /**
-     * Convert PDOmapping to CrudGenerator mapping
+     * Convert PostgreSQL mapping to CrudGenerator mapping
      * @param string $tableName
-     * @return MetadataDataObjectPDO
+     * @return MetadataDataObjectPostgreSQL
      */
     private function hydrateDataObject($tableName)
     {
-        $dataObject = new MetadataDataObjectPDO(
+        $dataObject = new MetadataDataObjectPostgreSQL(
             new MetaDataColumnCollection(),
             new MetaDataRelationCollection()
         );
@@ -174,7 +174,7 @@ class PDOMetaDataDAO implements MetaDataDAOInterface
      * Get particularie metadata from PDO
      *
      * @param string $tableName
-     * @return \CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO
+     * @return \CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL
      */
     public function getMetadataFor($tableName, array $parentName = array())
     {

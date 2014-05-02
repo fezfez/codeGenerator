@@ -1,19 +1,18 @@
 <?php
-namespace CrudGenerator\Tests\PDO\MetaData\Sources\PDO\PgSql\PDOConfig;
+namespace CrudGenerator\Tests\PostgreSQL\MetaData\Sources\PostgreSQL\PgSql\PDOConfig;
 
-use CrudGenerator\MetaData\Sources\PDO\PDOConfig;
+use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
 
 class PDOConfigTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
-        $pdo = new PDOConfig();
+        $pdo = new PostgreSQLConfig();
 
         $pdo->setDatabaseName('db')
             ->setHost('host')
             ->setPassword('password')
             ->setPort('port')
-            ->setType('type')
             ->setUser('user');
 
         $this->assertEquals(
@@ -37,11 +36,6 @@ class PDOConfigTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            'type',
-            $pdo->getType()
-        );
-
-        $this->assertEquals(
             'user',
             $pdo->getUser()
         );
@@ -49,13 +43,12 @@ class PDOConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testFail()
     {
-        $pdo = new PDOConfig();
+        $pdo = new PostgreSQLConfig();
 
         $pdo->setDatabaseName('db')
         ->setHost('host')
         ->setPassword('password')
         ->setPort('port')
-        ->setType('type')
         ->setUser('user');
 
         $stubConsole =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')

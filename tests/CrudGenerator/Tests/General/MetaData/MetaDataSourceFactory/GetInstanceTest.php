@@ -9,19 +9,19 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
     {
         $sUT = new MetaDataSourceFactory();
 
-        $pdoStub = $this->getMockBuilder('CrudGenerator\MetaData\Sources\PDO\PDOConfig')
+        $PostgreSQLStub = $this->getMockBuilder('CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $pdoStub->expects($this->once())
+        $PostgreSQLStub->expects($this->once())
         ->method('getType')
         ->will($this->throwException(new \InvalidArgumentException()));
 
         $this->setExpectedException('InvalidArgumentException');
 
         $this->assertInstanceOf(
-            '\CrudGenerator\MetaData\Sources\PDO\PDOMetaDataDAOFactory',
-            $sUT->create('\CrudGenerator\MetaData\Sources\PDO\PDOMetaDataDAOFactory', $pdoStub)
+            '\CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory',
+            $sUT->create('\CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory', $PostgreSQLStub)
         );
     }
 }

@@ -33,7 +33,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $stubFileManager
         );
 
-        $stubConfig = $this->getMock('\CrudGenerator\MetaData\Sources\PDO\PDOConfig');
+        $stubConfig = $this->getMock('\CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig');
 
         $stubConfig->expects($this->once())
                    ->method('test')
@@ -70,7 +70,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $stubFileManager
         );
 
-        $stubConfig = $this->getMock('\CrudGenerator\MetaData\Sources\PDO\PDOConfig');
+        $stubConfig = $this->getMock('\CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig');
 
         $stubConfig->expects($this->at(0))
                    ->method('test')
@@ -103,7 +103,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                    ->method('ask')
                    ->will($this->returnValue('foo'));
 
-        $stubConfig = $this->getMock('\CrudGenerator\MetaData\Sources\PDO\PDOConfig');
+        $stubConfig = $this->getMock('\CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig');
 
         /*Ne peut pas étre testéjusquau bout car la désérialization alter le mock
         $stubConfig->expects($this->once())

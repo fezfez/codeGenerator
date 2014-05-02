@@ -1,7 +1,7 @@
 <?php
 namespace CrudGenerator\Tests\General\MetaData\DataObject\MetaDataDataObject;
 
-use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
+use CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
@@ -10,7 +10,7 @@ class GetColumnTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
-        $sUT = new MetadataDataObjectPDO(
+        $sUT = new MetadataDataObjectPostgreSQL(
             new MetaDataColumnCollection(),
             new MetaDataRelationCollection()
         );

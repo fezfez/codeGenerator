@@ -11,7 +11,7 @@ class GetFormTest extends \PHPUnit_Framework_TestCase
 
         $suT = new MetaDataConfigReaderForm($stubFileManager);
 
-        $stubConfig = $this->getMock('\CrudGenerator\MetaData\Sources\PDO\PDOConfig');
+        $stubConfig = $this->getMock('\CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig');
 
         $this->assertEquals(
         	array(
@@ -19,8 +19,7 @@ class GetFormTest extends \PHPUnit_Framework_TestCase
         		array('text' => 'host', 'dtoAttribute' => 'host'),
         		array('text' => 'user', 'dtoAttribute' => 'user'),
         		array('text' => 'password', 'dtoAttribute' => 'password'),
-        		array('text' => 'port', 'dtoAttribute' => 'port'),
-        		array('text' => 'type', 'dtoAttribute' => 'type'),
+        		array('text' => 'port', 'dtoAttribute' => 'port')
         	),
         	$suT->getForm($stubConfig)
 		);

@@ -11,7 +11,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
 
         $suT = new MetaDataConfigReaderForm($stubFileManager);
 
-        $stubConfig = new \CrudGenerator\MetaData\Sources\PDO\PDOConfig();
+        $stubConfig = new \CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig();
 
         $this->assertEquals(
         	'test',

@@ -5,7 +5,7 @@ use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
-use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
+use CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 
@@ -46,7 +46,7 @@ class InitTest extends \PHPUnit_Framework_TestCase
 
         $sUT       = new GeneratorParser($fileManager, $yaml, $phpParser, $viewFile, $generatorFinder, $parserCollection);
         $generator = new GeneratorDataObject();
-        $metadata  = new MetadataDataObjectPDO(new MetaDataColumnCollection(), new MetaDataRelationCollection());
+        $metadata  = new MetadataDataObjectPostgreSQL(new MetaDataColumnCollection(), new MetaDataRelationCollection());
 
         $sUT->init($generator, $metadata);
     }
@@ -105,7 +105,7 @@ class InitTest extends \PHPUnit_Framework_TestCase
         ->will($this->returnValue($process));
 
         $sUT       = new GeneratorParser($fileManager, $yaml, $phpParser, $viewFile, $generatorFinder, $parserCollection);
-        $metadata  = new MetadataDataObjectPDO(new MetaDataColumnCollection(), new MetaDataRelationCollection());
+        $metadata  = new MetadataDataObjectPostgreSQL(new MetaDataColumnCollection(), new MetaDataRelationCollection());
 
         $sUT->init($generator, $metadata);
     }

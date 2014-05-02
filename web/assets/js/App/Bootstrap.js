@@ -43,5 +43,5 @@ requirejs.config({
 });
 
 require(['Angular', 'App/App', 'Controllers/GeneratorController', "App/Directives/File", "App/Directives/UnsafeModal", "App/Directives/Modal"], function (angular, app, controller) {
-    app.init();
+	app.init();
 });

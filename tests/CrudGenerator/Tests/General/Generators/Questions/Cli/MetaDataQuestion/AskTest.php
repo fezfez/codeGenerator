@@ -8,7 +8,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataCollection;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
-use CrudGenerator\MetaData\Sources\PDO\PDOConfig;
+use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
 
 
 class AskTest extends \PHPUnit_Framework_TestCase
@@ -88,7 +88,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->will($this->returnValue(0));
 
 
-        $config = new PDOConfig();
+        $config = new PostgreSQLConfig();
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
         ->setName('Name')
