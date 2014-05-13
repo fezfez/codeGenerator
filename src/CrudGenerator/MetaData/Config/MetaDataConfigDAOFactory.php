@@ -15,28 +15,26 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\Questions;
+namespace CrudGenerator\MetaData\Config;
 
-use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
+use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\CliContext;
-use CrudGenerator\Context\WebContext;
+use CrudGenerator\MetaData\MetaDataSourceHydratorFactory;
+use CrudGenerator\Utils\ClassAwake;
 
-class GeneratorQuestionFactory
+class MetaDataConfigDAOFactory
 {
     /**
      * @param ContextInterface $context
-     * @throws \InvalidArgumentException
-     * @return \CrudGenerator\Generators\Questions\Cli\GeneratorQuestion|\CrudGenerator\Generators\Questions\Web\GeneratorQuestion
+     * @return \CrudGenerator\MetaData\Config\MetaDataConfigDAO
      */
     public static function getInstance(ContextInterface $context)
     {
-        $generatorFinder = GeneratorFinderFactory::getInstance();
-
-        if ($context instanceof CliContext || $context instanceof WebContext) {
-        	return new Web\GeneratorQuestion($generatorFinder, $context);
-        } else {
-        	throw new \InvalidArgumentException('Invalid context');
-        }
+        return new MetaDataConfigDAO(
+            new ClassAwake(),
+            new FileManager(),
+            MetaDataSourceHydratorFactory::getInstance(),
+            $context
+        );
     }
 }

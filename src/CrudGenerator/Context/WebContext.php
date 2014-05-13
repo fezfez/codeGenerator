@@ -20,12 +20,16 @@ namespace CrudGenerator\Context;
 
 use Silex\Application;
 
-class WebContext implements ContextInterface
+class WebContext implements ContextInterface, \JsonSerializable
 {
     /**
      * @var Application
      */
     private $application = null;
+    /**
+     * @var array
+     */
+    private $question    = null;
 
     /**
      * @param Application $application
@@ -41,5 +45,39 @@ class WebContext implements ContextInterface
     public function getApplication()
     {
         return $this->application;
+    }
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Context\ContextInterface::ask()
+    */
+    public function ask($text, $key)
+    {
+    	if (!isset($this->question['question'])) {
+    		$this->question['question'] = array();
+    	}
+        $this->question['question'][] = array(
+            'text'         => $text,
+            'dtoAttribute' => $key
+        );
+
+        return $this->application->offsetGet('request')->request->get($key);
+    }
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Context\ContextInterface::ask()
+    */
+    public function askCollection($text, $uniqueKey, array $collection)
+    {
+    	$this->question[$uniqueKey . 'Collection'] = $collection;
+
+    	return $this->application->offsetGet('request')->request->get($uniqueKey);
+    }
+
+    /* (non-PHPdoc)
+     * @see JsonSerializable::jsonSerialize()
+     */
+    public function jsonSerialize()
+    {
+        return $this->question;
     }
 }

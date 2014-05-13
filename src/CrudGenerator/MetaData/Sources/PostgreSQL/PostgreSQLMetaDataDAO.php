@@ -18,9 +18,9 @@
 namespace CrudGenerator\MetaData\Sources\PostgreSQL;
 
 use PDO;
+use CrudGenerator\MetaData\Sources\MetaDataDAO;
 use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
 use CrudGenerator\MetaData\Sources\PostgreSQL\SqlManager;
-use CrudGenerator\MetaData\Sources\MetaDataDAOInterface;
 use CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
 use CrudGenerator\MetaData\DataObject\MetaDataCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
@@ -29,8 +29,12 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 
 /**
  * PostgreSQL adapter
+ *
+ * @CodeGenerator\Description PostgreSQL
+ * @CodeGenerator\Factory CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory
+ * @CodeGenerator\Config CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig
  */
-class PostgreSQLMetaDataDAO implements MetaDataDAOInterface
+class PostgreSQLMetaDataDAO implements MetaDataDAO
 {
     private $typeConversion = array(
         'character varying' => 'text'

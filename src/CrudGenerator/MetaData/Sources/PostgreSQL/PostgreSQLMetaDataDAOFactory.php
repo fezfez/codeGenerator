@@ -22,7 +22,6 @@ use CrudGenerator\MetaData\Sources\PostgreSQL\SqlManager;
 /**
  * Create PostgreSQL Metadata DAO instance
  *
- * @CodeGenerator\Description PostgreSQL
  */
 class PostgreSQLMetaDataDAOFactory
 {

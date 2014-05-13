@@ -5,6 +5,7 @@ namespace CrudGenerator\Tests\General\Generators\Questions\Web\MetaDataSourcesQu
 use CrudGenerator\Generators\Questions\Web\MetaDataSourcesQuestion;
 use CrudGenerator\MetaData\MetaDataSourceCollection;
 use CrudGenerator\MetaData\MetaDataSource;
+use CrudGenerator\Context\WebContext;
 
 
 class AskTestTest extends \PHPUnit_Framework_TestCase
@@ -14,11 +15,11 @@ class AskTestTest extends \PHPUnit_Framework_TestCase
         $metadataSourceCollection = new MetaDataSourceCollection();
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
-               ->setName('My name');
+               ->setMetaDataDAO('My name');
         $metadataSourceCollection->append($source);
         $sourceWithFailedDependencie = new MetaDataSource();
         $sourceWithFailedDependencie->setDefinition('My definition')
-        ->setName('My name')
+        ->setMetaDataDAO('My name')
         ->setFalseDependencie('My false dependencies');
         $metadataSourceCollection->append($sourceWithFailedDependencie);
 
@@ -29,8 +30,13 @@ class AskTestTest extends \PHPUnit_Framework_TestCase
         ->method('getAllAdapters')
         ->will($this->returnValue($metadataSourceCollection));
 
+        $app =  $this->getMockBuilder('Silex\Application')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $context = new WebContext($app);
 
-        $sUT = new MetaDataSourcesQuestion($sourceFinderStub);
+
+        $sUT = new MetaDataSourcesQuestion($sourceFinderStub, $context);
         $this->assertEquals(array(array('id' => 'My nameFactory', 'label' => 'My definition')), $sUT->ask());
     }
 
@@ -40,11 +46,11 @@ class AskTestTest extends \PHPUnit_Framework_TestCase
     	$metadataSourceCollection = new MetaDataSourceCollection();
     	$source = new MetaDataSource();
     	$source->setDefinition('My definition')
-    	->setName('My name');
+    	->setMetaDataDAO('My name');
     	$metadataSourceCollection->append($source);
     	$sourceWithFailedDependencie = new MetaDataSource();
     	$sourceWithFailedDependencie->setDefinition('My definition')
-    	->setName('My named')
+    	->setMetaDataDAO('My named')
     	->setFalseDependencie('My false dependencies');
     	$metadataSourceCollection->append($sourceWithFailedDependencie);
 
@@ -55,8 +61,13 @@ class AskTestTest extends \PHPUnit_Framework_TestCase
     	->method('getAllAdapters')
     	->will($this->returnValue($metadataSourceCollection));
 
+    	$app =  $this->getMockBuilder('Silex\Application')
+    	->disableOriginalConstructor()
+    	->getMock();
+    	$context = new WebContext($app);
 
-    	$sUT = new MetaDataSourcesQuestion($sourceFinderStub);
+
+    	$sUT = new MetaDataSourcesQuestion($sourceFinderStub, $context);
     	$this->assertEquals($source, $sUT->ask('My nameFactory'));
     }
 
@@ -66,11 +77,11 @@ class AskTestTest extends \PHPUnit_Framework_TestCase
         $metadataSourceCollection = new MetaDataSourceCollection();
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
-        ->setName('My name');
+        ->setMetaDataDAO('My name');
         $metadataSourceCollection->append($source);
         $sourceWithFailedDependencie = new MetaDataSource();
         $sourceWithFailedDependencie->setDefinition('My definition')
-        ->setName('My name')
+        ->setMetaDataDAO('My name')
         ->setFalseDependencie('My false dependencies');
         $metadataSourceCollection->append($sourceWithFailedDependencie);
 
@@ -81,8 +92,12 @@ class AskTestTest extends \PHPUnit_Framework_TestCase
         ->method('getAllAdapters')
         ->will($this->returnValue($metadataSourceCollection));
 
+        $app =  $this->getMockBuilder('Silex\Application')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $context = new WebContext($app);
 
-        $sUT = new MetaDataSourcesQuestion($sourceFinderStub);
+        $sUT = new MetaDataSourcesQuestion($sourceFinderStub, $context);
 
         $this->setExpectedException('InvalidArgumentException');
         $sUT->ask('My name');

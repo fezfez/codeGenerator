@@ -6,7 +6,17 @@ define(['App/App'], function (app) {
          * @param datas Array
          * @param callback callable
          */
-        this.generate = function (datas, callback) {
+        this.generate = function (context, file, callback) {
+
+            var datas =  $.param({
+                backend      : context.getBackend(),
+                metadata     : context.getMetadata(),
+                generator    : context.getGenerator(),
+                questions    : context.getQuestion(),
+                skeletonPath : file.getSkeletonPath(),
+                file         : file.getOriginalName(),
+            });
+
             $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
             $http(
                 {

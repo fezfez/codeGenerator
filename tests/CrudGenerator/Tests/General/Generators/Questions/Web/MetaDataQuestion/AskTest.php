@@ -9,6 +9,7 @@ use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
+use CrudGenerator\Context\WebContext;
 
 
 class AskTest extends \PHPUnit_Framework_TestCase
@@ -21,9 +22,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
-               ->setName('Name');
+               ->setMetaDataDAO('Name');
 
-        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigReaderForm')
+        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigDAO')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -50,12 +51,20 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $metaDataSourceFactoryStub
              ->expects($this->once())
              ->method('create')
-             ->with($this->equalTo($source->getName() . 'Factory'),$this->equalTo(null))
+             ->with($this->equalTo($source->getMetaDataDAOFactory()),$this->equalTo(null))
              ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
+        $app =  $this->getMockBuilder('Silex\Application')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $context = new WebContext($app);
 
-        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub);
-        $this->assertEquals(array(array('id' => 'MyName', 'label' => 'MyName')), $sUT->ask($source));
+
+        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub, $context);
+
+        $this->setExpectedException('InvalidArgumentException');
+
+        $sUT->ask($source);
     }
 
     public function testWithConfig()
@@ -63,10 +72,10 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $config = new PostgreSQLConfig();
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
-        ->setName('Name')
+        ->setMetaDataDAO('Name')
         ->setConfig($config);
 
-        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigReaderForm')
+        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigDAO')
         ->disableOriginalConstructor()
         ->getMock();
         $metaDataConfigReaderStub->expects($this->once())
@@ -97,11 +106,16 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $metaDataSourceFactoryStub
         ->expects($this->once())
         ->method('create')
-        ->with($this->equalTo($source->getName() . 'Factory'),$this->equalTo($config))
+        ->with($this->equalTo($source->getMetaDataDAOFactory()),$this->equalTo($config))
         ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
+        $app =  $this->getMockBuilder('Silex\Application')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $context = new WebContext($app);
 
-        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub);
+
+        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub, $context);
         $this->assertEquals(array(array('id' => 'MyName', 'label' => 'MyName')), $sUT->ask($source));
     }
 
@@ -109,9 +123,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
     {
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
-        ->setName('Name');
+        ->setMetaDataDAO('Name');
 
-        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigReaderForm')
+        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigDAO')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -138,11 +152,16 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $metaDataSourceFactoryStub
         ->expects($this->once())
         ->method('create')
-        ->with($this->equalTo($source->getName() . 'Factory'),$this->equalTo(null))
+        ->with($this->equalTo($source->getMetaDataDAOFactory()),$this->equalTo(null))
         ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
+        $app =  $this->getMockBuilder('Silex\Application')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $context = new WebContext($app);
 
-        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub);
+
+        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub, $context);
         $this->assertEquals($metaData, $sUT->ask($source, 'MyName'));
     }
 
@@ -150,9 +169,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
     {
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
-        ->setName('Name');
+        ->setMetaDataDAO('Name');
 
-        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigReaderForm')
+        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigDAO')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -179,11 +198,16 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $metaDataSourceFactoryStub
         ->expects($this->once())
         ->method('create')
-        ->with($this->equalTo($source->getName() . 'Factory'),$this->equalTo(null))
+        ->with($this->equalTo($source->getMetaDataDAOFactory()),$this->equalTo(null))
         ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
+        $app =  $this->getMockBuilder('Silex\Application')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $context = new WebContext($app);
 
-        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub);
+
+        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub, $context);
 
         $this->setExpectedException('InvalidArgumentException');
 

@@ -3,6 +3,7 @@ namespace CrudGenerator\Tests\General\Command\Questions\Web\GeneratorQuestion;
 
 
 use CrudGenerator\Generators\Questions\Web\GeneratorQuestion;
+use CrudGenerator\Context\WebContext;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,8 +23,17 @@ class AskTest extends \PHPUnit_Framework_TestCase
                             )
                         );
 
+    	$app =  $this->getMockBuilder('Silex\Application')
+    	->disableOriginalConstructor()
+    	->getMock();
+    	$context = new WebContext($app);
 
-        $sUT = new GeneratorQuestion($sourceFinderStub);
-        $this->assertEquals(array(array('id' => 'path/ArchitectGenerator.generator.yaml', 'label' => 'ArchitectGenerator')), $sUT->ask());
+
+        $sUT = new GeneratorQuestion($sourceFinderStub, $context);
+
+        $this->setExpectedException('InvalidArgumentException');
+
+        $sUT->ask();
+        //$this->assertEquals(array(array('id' => 'path/ArchitectGenerator.generator.yaml', 'label' => 'ArchitectGenerator')), );
     }
 }

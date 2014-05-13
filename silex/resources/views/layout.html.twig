@@ -49,39 +49,60 @@
         <div class="collapse navbar-collapse">
             <form class="navbar-form navbar-right" role="form">
                 <div class="form-group">
-                    <select ng-class="{hide : (!generatorsList || !metadataName)}"
-                            ng-model="generators"
-                            ng-options="obj.label as obj.label for obj in generatorsList"
-                            class="form-control"
-                            name="generators">
-                        <option value="">Select Generator</option>
-                    </select>
-                    <select ng-model="metadataName"
-                            ng-class="{hide : !metadataList}"
-                            ng-options="obj.id as obj.label for obj in metadataList"
-                            class="form-control">
-                         <option value="">Select Metadata</option>
-                    </select>
-                    <select name="backend"
-                            class="form-control"
-                            ng-model="backEnd"
-                            ng-options="obj.id as obj.label for obj in backendList">
-                        <option value="">Select Backend</option>
-                    </select>
-                </div>
-                <button class="btn btn-success dropdown-toggle" ng-if="generators != undefined" ng-click="generate()">Generate files !</button>
+                <button class="btn btn-success dropdown-toggle" ng-show="fileList" ng-click="generate()">Generate files !</button>
             </form>
         </div><!--/.nav-collapse -->
       </div>
     </div>
-    <div class="container-full row">
-        {% block content %}
-        {% endblock %}
+    <div class="container">
+            {% block content %}
+            {% endblock %}
     </div>
     <!-- Modal -->
     <modal></modal>
     <unsafe-modal></unsafe-modal>
     <waitModal></waitModal>
+    <newSource>
+    {% raw %}
+    <div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">New source</h4>
+            </div>
+            <div class="modal-body">
+            	<form>
+            	  <div ng-if="configFormError != undefined" class="alert alert-danger fade in">
+                       {{ configFormError }}
+                  </div>
+                  <label for="backend">Source</label>
+                  <select name="backend"
+                        class="form-control"
+                        ng-model="adapter"
+                        ng-options="obj.id as obj.label for obj in backendList">
+                    <option value="">Select source</option>
+                </select>
+                </form>
+                <div ng-if="configQuestionsList">
+                    <form ng-submit="backendConfig()">
+                        <div class="form-group" ng-repeat="questions in configQuestionsList">
+                            <label>{{ questions.text }}</label>
+                            <input ng-if="questions.type == undefined"
+                                   class="form-control questions"
+                                   type="text"
+                                   name="{{ questions.dtoAttribute }}"
+                                   placeholder="{{ questions.text }}" ng-model="configQuestion[questions.dtoAttribute]" />
+                        </div>
+                        <input type="submit" class="btn btn-success" value="Configure" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endraw %}
+    </newSource>
     <conflict></conflict>
     <metadatasource></metadatasource>
 </body>

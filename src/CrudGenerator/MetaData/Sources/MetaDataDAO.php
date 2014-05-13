@@ -15,28 +15,27 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\Questions;
+namespace CrudGenerator\MetaData\Sources;
 
-use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
-use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\CliContext;
-use CrudGenerator\Context\WebContext;
-
-class GeneratorQuestionFactory
+/**
+ * Metadata DAO interface
+ *
+ * @author Stéphane Demonchaux
+ */
+interface MetaDataDAO
 {
     /**
-     * @param ContextInterface $context
-     * @throws \InvalidArgumentException
-     * @return \CrudGenerator\Generators\Questions\Cli\GeneratorQuestion|\CrudGenerator\Generators\Questions\Web\GeneratorQuestion
+     * Get all metadata from the concrete metadata DAO
+     *
+     * @return \CrudGenerator\MetaData\DataObject\MetaDataCollection
      */
-    public static function getInstance(ContextInterface $context)
-    {
-        $generatorFinder = GeneratorFinderFactory::getInstance();
+    public function getAllMetadata();
 
-        if ($context instanceof CliContext || $context instanceof WebContext) {
-        	return new Web\GeneratorQuestion($generatorFinder, $context);
-        } else {
-        	throw new \InvalidArgumentException('Invalid context');
-        }
-    }
+    /**
+     * Get particularie metadata from the concrete metadata DAO
+     *
+     * @param string $entityName
+     * @return \CrudGenerator\MetaData\DataObject\MetaData
+     */
+    public function getMetadataFor($entityName, array $parentName = array());
 }

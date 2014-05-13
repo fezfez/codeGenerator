@@ -15,26 +15,29 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\Config;
+namespace CrudGenerator\Generators\Questions;
 
-use CrudGenerator\MetaData\Config\MetaDataConfigReaderForm;
-use CrudGenerator\Utils\FileManager;
+use CrudGenerator\MetaData\MetaDataSourceFinderFactory;
+use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\CliContext;
+use CrudGenerator\Context\WebContext;
+use CrudGenerator\MetaData\Config\MetaDataConfigDAOFactory;
 
-/**
- * Create MetaDataConfigReader instance
- *
- * @author Stéphane Demonchaux
- */
-class MetaDataConfigReaderFormFactory
+class MetaDataSourcesConfiguredQuestionFactory
 {
     /**
-     * Create MetaDataConfigReaderForm instance
-     *
-     * @return \CrudGenerator\MetaData\Config\MetaDataConfigReaderForm
+     * @param ContextInterface $context
+     * @throws \InvalidArgumentException
+     * @return \CrudGenerator\Generators\Questions\Web\MetaDataSourcesQuestion
      */
-    public static function getInstance()
+    public static function getInstance(ContextInterface $context)
     {
-        $fileManager = new FileManager();
-        return new MetaDataConfigReaderForm($fileManager);
+        $metadataSourceConfigDAO = MetaDataConfigDAOFactory::getInstance($context);
+
+        if ($context instanceof CliContext || $context instanceof WebContext) {
+        	return new Web\MetaDataSourcesConfiguredQuestion($metadataSourceConfigDAO, $context);
+        } else {
+        	throw new \InvalidArgumentException('Invalid context given');
+        }
     }
 }

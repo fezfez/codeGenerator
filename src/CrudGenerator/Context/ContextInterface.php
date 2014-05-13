@@ -20,4 +20,19 @@ namespace CrudGenerator\Context;
 
 interface ContextInterface
 {
+    /**
+     * Ask question
+     * @param string $text
+     * @param string $uniqueKey
+     * @return string
+     */
+    public function ask($text, $uniqueKey);
+
+    /**
+     * Ask question in collection
+     * @param string $text
+     * @param string $uniqueKey
+     * @return string
+     */
+    public function askCollection($text, $uniqueKey, array $collection);
 }

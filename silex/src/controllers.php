@@ -5,6 +5,7 @@ use Symfony\Component\HttpFoundation\Response;
 use CrudGenerator\MetaData\MetaDataSourceFactory;
 use CrudGenerator\MetaData\Config\ConfigException;
 use CrudGenerator\Generators\Questions\MetaDataSourcesQuestionFactory;
+use CrudGenerator\Generators\Questions\MetaDataSourcesConfiguredQuestionFactory;
 use CrudGenerator\Generators\Questions\MetaDataQuestionFactory;
 use CrudGenerator\Generators\Questions\GeneratorQuestionFactory;
 use CrudGenerator\Generators\Parser\GeneratorParserFactory;
@@ -13,133 +14,125 @@ use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 use CrudGenerator\Context\WebContext;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\GeneratorWebConflictException;
-
-/**
- * @param string $ressouce
- * @return array
- */
-function urlToArray($ressouce) {
-    parse_str($ressouce, $ressouceParsed);
-
-    if (!is_array($ressouceParsed)) {
-        $ressouceParsed = array();
-    }
-
-    return $ressouceParsed;
-}
+use CrudGenerator\MetaData\MetaDataSourceFinderFactory;
+use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
+use CrudGenerator\MetaData\Config\MetaDataConfigDAOFactory;
 
 $app->match('/', function() use ($app) {
     return $app['twig']->render('index.html.twig');
 })->bind('homepage');
 
-$app->match('/list-backend', function() use ($app) {
-    $context       = new WebContext($app);
-    $backendFinder = MetaDataSourcesQuestionFactory::getInstance($context);
+// on choice metadata
+$app->match('/adapter-form', function (Request $request) use ($app) {
+    $context        = new WebContext($app);
+    $backendFinder  = MetaDataSourcesQuestionFactory::getInstance($context);
 
-    return $app->json(array('backend' => $backendFinder->ask()), 201);
-})->bind('list-backend');
+    try {
+    	$metadataSource = $backendFinder->ask();
+    } catch (InvalidArgumentException $e) {
+    	return $app->json($context);
+    }
 
-$app->match('/list-generator', function() use ($app) {
+    $metaDataConfigDAO = MetaDataConfigDAOFactory::getInstance($context);
+    $metaDataConfigDAO->ask($metadataSource->getConfig());
 
-    $context         = new WebContext($app);
-    $generatorFinder = GeneratorQuestionFactory::getInstance($context);
+    return $app->json($context);
+})->bind('adapter-form');
 
-    return $app->json(array('generators' => $generatorFinder->ask()), 201);
-})->bind('list-generator');
+$app->match('metadata-save', function (Request $request) use ($app) {
+
+    $context               = new WebContext($app);
+    $backendFinder         = MetaDataSourcesQuestionFactory::getInstance($context);
+    $backendSelect         = $backendFinder->retrieve();
+
+    $configReader = MetaDataConfigDAOFactory::getInstance($context);
+    try {
+        $metadataSourceConfigured = $configReader->save($backendSelect->getConfig());
+        return $app->json(array('valid' => true), 201);
+    } catch (ConfigException $e) {
+        return $app->json(array('error' => $e->getMessage()), 201);
+    }
+})->bind('metadata-save');
 
 // on choice metadata
 $app->match('/metadata', function (Request $request) use ($app) {
-    $backendString = $request->request->get('backend');
+    $context         = new WebContext($app);
+    $questionArray   = (array) $request->request->get('questions');
 
-    $context        = new WebContext($app);
-    $backendFinder  = MetaDataSourcesQuestionFactory::getInstance($context);
-    $metadataFinder = MetaDataQuestionFactory::getInstance($context);
-
-    $metadataSource = $backendFinder->ask($backendString);
+    $backendFinder   = MetaDataSourcesConfiguredQuestionFactory::getInstance($context);
+    $metadataFinder  = MetaDataQuestionFactory::getInstance($context);
+    $generatorFinder = GeneratorQuestionFactory::getInstance($context);
+    $generatorParser = GeneratorParserFactory::getInstance($context);
 
     try {
-        return $app->json(array('metadatas' => $metadataFinder->ask($metadataSource)), 201);
-    } catch (\CrudGenerator\MetaData\Config\ConfigException $e) {
-        $formReader = \CrudGenerator\MetaData\Config\MetaDataConfigReaderFormFactory::getInstance();
+        $metadataSource = $backendFinder->ask();
+        $metadata       = $metadataFinder->ask($metadataSource);
+        $generatorPath  = $generatorFinder->ask();
 
-        return $app->json(
-            array(
-                'config' => $formReader->getForm($metadataSource->getConfig())
-            )
-        );
+        $generator = new GeneratorDataObject();
+        $generator->setName($generatorPath);
+
+        $generator = $generatorParser->init($generator, $metadata, $questionArray);
+
+    } catch (InvalidArgumentException $e) {
+        return $app->json($context, 201);
     }
-})->bind('metadata');
-
-$app->match('generator', function (Request $request) use ($app) {
-
-    $questionArray  = urlToArray($request->request->get('questions'));
-    $metadataSource = $request->request->get('backend');
-    $metadata       = $request->request->get('metadata');
-    $context        = new WebContext($app);
-
-    $generatorParser        = GeneratorParserFactory::getInstance($context);
-    $matadataSourceFinder   = MetaDataSourcesQuestionFactory::getInstance($context);
-    $metadataFinder         = MetaDataQuestionFactory::getInstance($context);
-
-    $metadataSourceSelect   = $matadataSourceFinder->ask($metadataSource);
-    $metaData               = $metadataFinder->ask($metadataSourceSelect, $metadata);
-
-    $generator = new GeneratorDataObject();
-    $generator->setName($request->request->get('generator'));
-
-    $generator = $generatorParser->init($generator, $metaData, $questionArray);
 
     return $app->json(array('generator' => $generator), 201);
-});
+})->bind('metadata');
 
 $app->match('view-file', function (Request $request) use ($app) {
 
-	$questionArray  = urlToArray($request->request->get('questions'));
-    $metadataSource = $request->request->get('backend');
-    $metadata       = $request->request->get('metadata');
-    $file           = $request->request->get('file');
-    $context        = new WebContext($app);
+    $context         = new WebContext($app);
+    $questionArray   = (array) $request->request->get('questions');
+    $file            = $request->request->get('file');
 
-    $generatorParser        = GeneratorParserFactory::getInstance($context);
-    $matadataSourceFinder   = MetaDataSourcesQuestionFactory::getInstance($context);
-    $metadataFinder         = MetaDataQuestionFactory::getInstance($context);
-    $generatorStrategy      = GeneratorStrategyFactory::getInstance($context);
-    $generatorEngine        = GeneratorFactory::getInstance($context, $generatorStrategy);
+    $backendFinder     = MetaDataSourcesConfiguredQuestionFactory::getInstance($context);
+    $metadataFinder    = MetaDataQuestionFactory::getInstance($context);
+    $generatorFinder   = GeneratorQuestionFactory::getInstance($context);
+    $generatorParser   = GeneratorParserFactory::getInstance($context);
+    $generatorStrategy = GeneratorStrategyFactory::getInstance($context);
+    $generatorEngine   = GeneratorFactory::getInstance($context, $generatorStrategy);
 
-    $metadataSourceSelect   = $matadataSourceFinder->ask($metadataSource);
-    $metaData               = $metadataFinder->ask($metadataSourceSelect, $metadata);
+    try {
+        $metadataSource = $backendFinder->ask();
+        $metadata       = $metadataFinder->ask($metadataSource);
+        $generatorPath  = $generatorFinder->ask();
 
-    $generator = new GeneratorDataObject();
-    $generator->setName($request->request->get('generator'));
+        $generator = new GeneratorDataObject();
+        $generator->setName($generatorPath);
 
-    $generator    = $generatorParser->init($generator, $metaData, $questionArray);
-    $fileGenerate = $generatorEngine->generate($generator, $file);
+        $generator = $generatorParser->init($generator, $metadata, $questionArray);
+        $fileGenerate = $generatorEngine->generate($generator, $file);
+
+    } catch (InvalidArgumentException $e) {
+        return $app->json($context, 201);
+    }
 
     return $app->json(array('generator' => $fileGenerate), 201);
 });
 
 $app->match('generate', function (Request $request) use ($app) {
 
-	$questionArray  = urlToArray($request->request->get('questions'));
-	$conflictArray  = urlToArray($request->request->get('conflict'));
-    $metadataSource = $request->request->get('backend');
-    $metadata       = $request->request->get('metadata');
-    $file           = $request->request->get('file');
+    $questionArray  = (array) $request->request->get('questions');
+    $conflictArray  = (array) $request->request->get('conflict');
     $context        = new WebContext($app);
 
-    $generatorParser        = GeneratorParserFactory::getInstance($context);
-    $matadataSourceFinder   = MetaDataSourcesQuestionFactory::getInstance($context);
+    $backendFinder          = MetaDataSourcesConfiguredQuestionFactory::getInstance($context);
     $metadataFinder         = MetaDataQuestionFactory::getInstance($context);
+    $generatorFinder        = GeneratorQuestionFactory::getInstance($context);
+    $generatorParser        = GeneratorParserFactory::getInstance($context);
     $generatorStrategy      = GeneratorStrategyFactory::getInstance($context);
     $generatorEngine        = GeneratorFactory::getInstance($context, $generatorStrategy);
 
-    $metadataSourceSelect   = $matadataSourceFinder->ask($metadataSource);
-    $metaData               = $metadataFinder->ask($metadataSourceSelect, $metadata);
+    $metadataSource = $backendFinder->ask();
+    $metadata       = $metadataFinder->ask($metadataSource);
+    $generatorPath  = $generatorFinder->ask();
 
     $generator = new GeneratorDataObject();
-    $generator->setName($request->request->get('generator'));
+    $generator->setName($generatorPath);
 
-    $generator    = $generatorParser->init($generator, $metaData, $questionArray);
+    $generator = $generatorParser->init($generator, $metadata, $questionArray);
 
     try {
         if(!empty($conflictArray)) {
@@ -154,28 +147,6 @@ $app->match('generate', function (Request $request) use ($app) {
 
     return $app->json($toReturn, 201);
 });
-
-$app->match('metadata-save', function (Request $request) use ($app) {
-
-    $formDatas       = $request->request->get('form');
-    $backendString   = isset($formDatas['Backend']) ? $formDatas['Backend'] : null;
-    $context         = new WebContext($app);
-    $backendFinder   = MetaDataSourcesQuestionFactory::getInstance($context);
-    $backendSelect   = $backendFinder->ask($request->request->get('backend'));
-    $metadataSourceFactory = new MetaDataSourceFactory();
-
-    $configReader = CrudGenerator\MetaData\Config\MetaDataConfigReaderFormFactory::getInstance();
-    try {
-        $metadataSourceConfigured = $configReader->write($backendSelect->getConfig(), $formDatas);
-        $configReader->isValid($metadataSourceConfigured);
-        $metadataSourceFactory->create($backendSelect->getFactory(), $metadataSourceConfigured);
-        return $app->json(array('valid' => true), 201);
-    } catch (ConfigException $e) {
-        return $app->json(array('error' => $e->getMessage()), 201);
-    }
-
-
-})->bind('metadata-save');
 
 $app->error(function (\Exception $e, $code) use ($app) {
     $request = $app['request'];

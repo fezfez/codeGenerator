@@ -15,28 +15,15 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\Questions;
+namespace CrudGenerator\MetaData\Sources\MySQL;
 
-use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
-use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\CliContext;
-use CrudGenerator\Context\WebContext;
+use CrudGenerator\MetaData\DataObject\MetaData;
 
-class GeneratorQuestionFactory
+/**
+ * Base representation metadata for template generation
+ *
+ * @author Stéphane Demonchaux
+ */
+class MetadataDataObjectMySQL extends MetaData
 {
-    /**
-     * @param ContextInterface $context
-     * @throws \InvalidArgumentException
-     * @return \CrudGenerator\Generators\Questions\Cli\GeneratorQuestion|\CrudGenerator\Generators\Questions\Web\GeneratorQuestion
-     */
-    public static function getInstance(ContextInterface $context)
-    {
-        $generatorFinder = GeneratorFinderFactory::getInstance();
-
-        if ($context instanceof CliContext || $context instanceof WebContext) {
-        	return new Web\GeneratorQuestion($generatorFinder, $context);
-        } else {
-        	throw new \InvalidArgumentException('Invalid context');
-        }
-    }
 }

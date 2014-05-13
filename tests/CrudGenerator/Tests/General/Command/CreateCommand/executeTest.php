@@ -24,14 +24,14 @@ class executeTest extends \PHPUnit_Framework_TestCase
         $historyStub = $this->getMockBuilder('CrudGenerator\History\HistoryManager')
         ->disableOriginalConstructor()
         ->getMock();
-        $MetaDataSourcesQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\MetaDataSourcesQuestion')
+        $MetaDataSourcesQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\MetaDataSourcesQuestion')
         ->disableOriginalConstructor()
         ->getMock();
         $MetaDataSourcesQuestionStub
         ->expects($this->once())
         ->method('ask')
         ->will($this->returnValue(new MetaDataSource()));
-        $DirectoryQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\DirectoryQuestion')
+        $DirectoryQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\DirectoryQuestion')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -39,7 +39,7 @@ class executeTest extends \PHPUnit_Framework_TestCase
             new MetaDataColumnCollection(),
             new MetaDataRelationCollection()
         );
-        $MetaDataQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\MetaDataQuestion')
+        $MetaDataQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\MetaDataQuestion')
         ->disableOriginalConstructor()
         ->getMock();
         $MetaDataQuestionStub
@@ -47,7 +47,7 @@ class executeTest extends \PHPUnit_Framework_TestCase
         ->method('ask')
         ->will($this->returnValue($metadata));
 
-        $GeneratorQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\GeneratorQuestion')
+        $GeneratorQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\GeneratorQuestion')
         ->disableOriginalConstructor()
         ->getMock();
         $GeneratorQuestionStub
@@ -122,14 +122,14 @@ class executeTest extends \PHPUnit_Framework_TestCase
         ->method('create')
         ->will($this->returnValue(''));
 
-        $MetaDataSourcesQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\MetaDataSourcesQuestion')
+        $MetaDataSourcesQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\MetaDataSourcesQuestion')
         ->disableOriginalConstructor()
         ->getMock();
         $MetaDataSourcesQuestionStub
         ->expects($this->once())
         ->method('ask')
         ->will($this->returnValue(new MetaDataSource()));
-        $DirectoryQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\DirectoryQuestion')
+        $DirectoryQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\DirectoryQuestion')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -137,7 +137,7 @@ class executeTest extends \PHPUnit_Framework_TestCase
             new MetaDataColumnCollection(),
             new MetaDataRelationCollection()
         );
-        $MetaDataQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\MetaDataQuestion')
+        $MetaDataQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\MetaDataQuestion')
         ->disableOriginalConstructor()
         ->getMock();
         $MetaDataQuestionStub
@@ -145,7 +145,7 @@ class executeTest extends \PHPUnit_Framework_TestCase
         ->method('ask')
         ->will($this->returnValue($metadata));
 
-        $GeneratorQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\GeneratorQuestion')
+        $GeneratorQuestionStub = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\GeneratorQuestion')
         ->disableOriginalConstructor()
         ->getMock();
         $GeneratorQuestionStub

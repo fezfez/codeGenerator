@@ -15,27 +15,42 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\Sources;
+namespace CrudGenerator\MetaData\Sources\MySQL;
 
 /**
- * Metadata DAO interface
+ * Create MySQL Metadata DAO instance
  *
- * @author Stéphane Demonchaux
  */
-interface MetaDataDAOInterface
+class MySQLMetaDataDAOFactory
 {
     /**
-     * Get all metadata from the concrete metadata DAO
+     * Create MySQL Metadata DAO instance
      *
-     * @return \CrudGenerator\MetaData\DataObject\MetaDataCollection
+     * @param MySQLConfig $config
+     * @return \CrudGenerator\MetaData\Sources\PDO\PDOMetaDataDAO
      */
-    public function getAllMetadata();
+    public static function getInstance(MySQLConfig $config)
+    {
+        $DSN = 'mysql:dbname=' . $config->getDatabaseName() . ';host=' . $config->getHost();
+        $pdo = new \PDO(
+            $DSN,
+            $config->getUser(),
+            $config->getPassword()
+        );
+        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+        return new MySQLMetaDataDAO(
+            $pdo,
+            $config
+        );
+    }
 
     /**
-     * Get particularie metadata from the concrete metadata DAO
-     *
-     * @param string $entityName
-     * @return \CrudGenerator\MetaData\DataObject\MetaData
+     * Check if dependence are complete
+     * @return boolean
      */
-    public function getMetadataFor($entityName, array $parentName = array());
+    public static function checkDependencies()
+    {
+        return true;
+    }
 }

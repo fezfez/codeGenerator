@@ -15,22 +15,23 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\Config;
+namespace CrudGenerator\MetaData;
 
+use CrudGenerator\Utils\FileManager;
 /**
- * Abstract Metadata config
+ * Find all MetaDataSource allow in project
  *
  * @author Stéphane Demonchaux
  */
-abstract class AbstractConfig
+class MetaDataSourceHydratorFactory
 {
     /**
-     * Get config definition
-     *
-     * @return string
+     * @return \CrudGenerator\MetaData\MetaDataSourceHydrator
      */
-    public function getDefinition()
+    public static function getInstance()
     {
-        return $this->definition;
+        $fileManager = new FileManager();
+
+        return new MetaDataSourceHydrator($fileManager);
     }
 }

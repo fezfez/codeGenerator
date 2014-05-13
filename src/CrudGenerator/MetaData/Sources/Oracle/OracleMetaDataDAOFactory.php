@@ -20,7 +20,6 @@ namespace CrudGenerator\MetaData\Sources\Oracle;
 /**
  * Create PDO Metadata DAO instance
  *
- * @CodeGenerator\Description Oracle
  */
 class OracleMetaDataDAOFactory
 {

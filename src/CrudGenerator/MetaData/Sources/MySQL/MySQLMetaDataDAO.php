@@ -15,69 +15,70 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\Sources\Oracle;
+namespace CrudGenerator\MetaData\Sources\MySQL;
 
 use PDO;
+use CrudGenerator\MetaData\Sources\MySQL\MySQLConfig;
 use CrudGenerator\MetaData\Sources\MetaDataDAO;
+use CrudGenerator\MetaData\Sources\MySQL\MetadataDataObjectMySQL;
 use CrudGenerator\MetaData\DataObject\MetaDataCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 
 /**
- * Oracle adapter
+ * MySQL adapter
  *
- * @CodeGenerator\Description Oracle
- * @CodeGenerator\Factory CrudGenerator\MetaData\Sources\Oracle\OracleMetaDataDAOFactory
- * @CodeGenerator\Config CrudGenerator\MetaData\Sources\Oracle\OracleConfig
+ * @CodeGenerator\Description MySQL
+ * @CodeGenerator\Factory CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory
+ * @CodeGenerator\Config CrudGenerator\MetaData\Sources\MySQL\MySQLConfig
  */
-class OracleMetaDataDAO implements MetaDataDAO
+class MySQLMetaDataDAO implements MetaDataDAO
 {
+    private $typeConversion = array(
+        'character varying' => 'text'
+    );
     /**
      * @var PDO Pdo stmt
      */
     private $pdo       = null;
     /**
-     * @var OracleConfig Pdo configuration
+     * @var MySQLConfig Pdo configuration
      */
-    private $oracleConfig = null;
+    private $pdoConfig = null;
 
     /**
-     * PDO adapter
+     * MySQL adapter
      * @param PDO $pdo
-     * @param PDOConfig $pdoConfig
+     * @param MySQLConfig $pdoConfig
      */
-    public function __construct(PDO $pdo, OracleConfig $pdoConfig)
+    public function __construct(PDO $pdo, MySQLConfig $pdoConfig)
     {
         $this->pdo        = $pdo;
         $this->pdoConfig  = $pdoConfig;
     }
 
     /**
-     * Get all metadata from PDO
+     * Get all metadata from MySQL
      *
      * @return \CrudGenerator\MetaData\MetaDataCollection
      */
     public function getAllMetadata()
     {
-        $sth = $this->pdo->prepare(
-			"select OWNER , TABLE_NAME as TABLE_NAME
-			from SYS.ALL_TABLES
-			where TABLESPACE_NAME = 'TBLSP_DATA' and OWNER not like 'SYS%'
-			order by OWNER, TABLE_NAME"
-        );
+        $sth = $this->pdo->prepare('show tables');
 
         $sth->execute();
 
         return $this->pdoMetadataToGeneratorMetadata(
             $sth->fetchAll(
-                PDO::FETCH_ASSOC
+                PDO::FETCH_COLUMN,
+                0
             )
         );
     }
 
     /**
-     * Convert PDOmapping to CrudGenerator mapping
+     * Convert MySQL mapping to CrudGenerator mapping
      * @param array $metadataCollection
      * @return \CrudGenerator\MetaData\DataObject\MetaDataCollection
      */
@@ -85,9 +86,9 @@ class OracleMetaDataDAO implements MetaDataDAO
     {
         $metaDataCollection = new MetaDataCollection();
 
-        foreach ($metadataCollection as $data) {
+        foreach ($metadataCollection as $tableName) {
             $metaDataCollection->append(
-                $this->hydrateDataObject($data)
+                $this->hydrateDataObject($tableName)
             );
         }
 
@@ -95,47 +96,35 @@ class OracleMetaDataDAO implements MetaDataDAO
     }
 
     /**
-     * Convert PDOmapping to CrudGenerator mapping
+     * Convert MySQL mapping to CrudGenerator mapping
      * @param string $tableName
-     * @return MetadataDataObjectPDO
+     * @return MetadataDataObjectMySQL
      */
-    private function hydrateDataObject($data)
+    private function hydrateDataObject($tableName)
     {
-        $dataObject = new MetadataDataObjectOracle(
+        $dataObject = new MetadataDataObjectMySQL(
             new MetaDataColumnCollection(),
             new MetaDataRelationCollection()
         );
-        $tableName 	= $data['TABLE_NAME'];
-        $owner		= $data['OWNER'];
-        $dataObject->setName($owner . '/' . $tableName);
+        $dataObject->setName($tableName);
         $columnDataObject = new MetaDataColumn();
 
-        $statement = $this->pdo->prepare(sprintf("SELECT COLUMN_NAME as name, NULLABLE as  nullable, DATA_TYPE as type, DATA_LENGTH as length
-												from SYS.ALL_TAB_COLUMNS
-												where TABLE_NAME = '%s' and OWNER= '%s'", $tableName, $owner)
- // @TODO liste des champs
-        );
-        $statement->execute(array());
+        $statement = $this->pdo->prepare('SHOW COLUMNS FROM ' . $tableName);
         $allFields = $statement->fetchAll(PDO::FETCH_ASSOC);
-        $identifiers = $this->getIdentifiers($owner, $tableName);
 
         foreach ($allFields as $metadata) {
             $column = clone $columnDataObject;
 
-            $type = $metadata['type'];
+            $type = $metadata['Type'];
 
             if (isset($this->typeConversion[$type])) {
                 $type = $this->typeConversion[$type];
             }
 
-            $column->setName($metadata['name'])
+            $column->setName($metadata['Field'])
                    ->setType($type)
-                   ->setLength(
-                       isset($metadata['length']) ?
-                       $metadata['length'] :
-                       null
-                   );
-            if (in_array($metadata['name'], $identifiers)) {
+                   ->setLength(null);
+            if ($metadata['key'] === 'PRI') {
                 $column->setPrimaryKey(true);
             }
 
@@ -146,38 +135,10 @@ class OracleMetaDataDAO implements MetaDataDAO
     }
 
     /**
-     * @param string $tableName
-     * @return array
-     */
-    private function getIdentifiers($owner, $tableName)
-    {
-        $identifiers = array();
-
-        $statement = $this->pdo->prepare(
-            printf("select cc.COLUMN_NAME
-		     from USER_CONSTRAINTS c
-		     join ALL_CONS_COLUMNS cc
-            on c.CONSTRAINT_NAME = cc.CONSTRAINT_NAME
-            and  c.OWNER= cc.OWNER
-		     where c.table_name like '%s'
-		     and c.owner like '%s'
-		     and CONSTRAINT_TYPE = '%s'", $owner, $tableName, "P")
-        );
-        $statement->execute(array($tableName));
-
-        $constraintList = $statement->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($constraintList as $containt) {
-            $identifiers[] = $containt['column_name'];
-        }
-
-        return $identifiers;
-    }
-
-    /**
-     * Get particularie metadata from PDO
+     * Get particularie metadata from MySQL
      *
      * @param string $tableName
-     * @return \CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO
+     * @return \CrudGenerator\MetaData\Sources\MySQL\MetadataDataObjectMySQL
      */
     public function getMetadataFor($tableName, array $parentName = array())
     {

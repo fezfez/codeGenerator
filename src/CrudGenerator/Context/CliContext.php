@@ -57,4 +57,22 @@ class CliContext implements ContextInterface
 	{
 		return $this->output;
 	}
+
+	/* (non-PHPdoc)
+	 * @see \CrudGenerator\Context\ContextInterface::ask()
+	 */
+	public function ask($text, $attribute)
+	{
+		return $this->dialog->ask($this->output, '<question>Choose a "' . $propName . '"</question> : ');
+	}
+
+	/* (non-PHPdoc)
+	 * @see \CrudGenerator\Context\ContextInterface::ask()
+	*/
+	public function askCollection($text, $uniqueKey, array $collection)
+	{
+		$this->question[$uniqueKey] = $collection;
+
+		return $this->dialog->select($this->output, '<question>Choose a "' . $text . '"</question> : ', $collection);
+	}
 }

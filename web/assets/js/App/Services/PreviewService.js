@@ -1,13 +1,23 @@
 define(["App/App"], function(app) {
     "use strict";
 
-    var Service = app.service('GenerateService', ['$http', function ($http) {
+    var Service = app.service('PreviewService', ['$http', function ($http) {
         /*
          * Generator service
          * @param datas array
          * @param callback callable
          */
-        this.generate = function (datas, callback) {
+        this.generate = function (context, callback) {
+        	
+            var datas =  $.param({
+                backend   : context.getBackend(),
+                metadata  : context.getMetadata(),
+                generator : context.getGenerator(),
+                questions : context.getQuestion(),
+                conflict  : $('.conflict_handle').serialize()
+            });
+
+            
             $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
             $http(
                 {

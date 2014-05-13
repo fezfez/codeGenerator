@@ -27,16 +27,14 @@ class MetaDataSourcesQuestionFactory
     /**
      * @param ContextInterface $context
      * @throws \InvalidArgumentException
-     * @return \CrudGenerator\Generators\Questions\Cli\MetaDataSourcesQuestion|\CrudGenerator\Generators\Questions\Web\MetaDataSourcesQuestion
+     * @return \CrudGenerator\Generators\Questions\Web\MetaDataSourcesQuestion
      */
     public static function getInstance(ContextInterface $context)
     {
         $metadataSourceFinder = MetaDataSourceFinderFactory::getInstance();
 
-        if ($context instanceof CliContext) {
-        	return new Cli\MetaDataSourcesQuestion($metadataSourceFinder, $context->getOutput(), $context->getDialogHelper());
-        } elseif ($context instanceof WebContext) {
-        	return new Web\MetaDataSourcesQuestion($metadataSourceFinder);
+        if ($context instanceof CliContext || $context instanceof WebContext) {
+        	return new Web\MetaDataSourcesQuestion($metadataSourceFinder, $context);
         } else {
         	throw new \InvalidArgumentException('Invalid context given');
         }

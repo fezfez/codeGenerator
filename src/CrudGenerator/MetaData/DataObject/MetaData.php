@@ -27,7 +27,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
  *
  * @author Stéphane Demonchaux
  */
-abstract class MetaData
+abstract class MetaData implements \JsonSerializable
 {
     /**
      * @var MetaDataColumnCollection Column collection
@@ -86,7 +86,7 @@ abstract class MetaData
      */
     public function getColumn($name)
     {
-		return $this->columnCollection->offsetGet($name);
+        return $this->columnCollection->offsetGet($name);
     }
     /**
      * Get column collection
@@ -169,5 +169,16 @@ abstract class MetaData
     public function getOriginalName()
     {
         return $this->name;
+    }
+
+    /* (non-PHPdoc)
+     * @see JsonSerializable::jsonSerialize()
+     */
+    public function jsonSerialize()
+    {
+        return array(
+            'id'    => $this->getOriginalName(),
+            'label' => $this->getOriginalName()
+        );
     }
 }

@@ -18,9 +18,9 @@
 namespace CrudGenerator\Command;
 
 use CrudGenerator\History\HistoryManager;
-use CrudGenerator\Generators\Questions\Cli\MetaDataSourcesQuestion;
-use CrudGenerator\Generators\Questions\Cli\MetaDataQuestion;
-use CrudGenerator\Generators\Questions\Cli\GeneratorQuestion;
+use CrudGenerator\Generators\Questions\Web\MetaDataSourcesQuestion;
+use CrudGenerator\Generators\Questions\Web\MetaDataQuestion;
+use CrudGenerator\Generators\Questions\Web\GeneratorQuestion;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\GeneratorCli;
 use CrudGenerator\Generators\Parser\GeneratorParser;
@@ -127,7 +127,7 @@ class CreateCommand extends Command
         $generatorDTO = $this->parser->init($generatorDTO, $metadata);
 
         $generatorDTO->getDTO()
-                     ->setAdapter($adapter->getName());
+                     ->setAdapter($adapter->getMetaDataDAO());
 
         $doI = $this->cliContext->getDialogHelper()->askConfirmation(
             $this->cliContext->getOutput(),

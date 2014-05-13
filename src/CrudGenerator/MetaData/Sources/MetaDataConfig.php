@@ -15,28 +15,49 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\Questions;
+namespace CrudGenerator\MetaData\Sources;
 
-use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
-use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\CliContext;
-use CrudGenerator\Context\WebContext;
-
-class GeneratorQuestionFactory
+/**
+ * Metadata DAO interface
+ *
+ * @author Stéphane Demonchaux
+ */
+interface MetaDataConfig
 {
     /**
-     * @param ContextInterface $context
-     * @throws \InvalidArgumentException
-     * @return \CrudGenerator\Generators\Questions\Cli\GeneratorQuestion|\CrudGenerator\Generators\Questions\Web\GeneratorQuestion
+     * Get config definition
+     *
+     * @return string
      */
-    public static function getInstance(ContextInterface $context)
-    {
-        $generatorFinder = GeneratorFinderFactory::getInstance();
-
-        if ($context instanceof CliContext || $context instanceof WebContext) {
-        	return new Web\GeneratorQuestion($generatorFinder, $context);
-        } else {
-        	throw new \InvalidArgumentException('Invalid context');
-        }
-    }
+    public function getDefinition();
+    /**
+     * Get unique configuration name
+     * @return string
+     */
+    public function getUniqueName();
+    /**
+     * @return connection
+     */
+    public function getConnection();
+    /**
+     * @throws ConfigException
+     * @return void
+     */
+    public function test();
+    /**
+     * @return array
+     */
+    public function jsonSerialize();
+    /**
+     * Get MetaDataDAOFactory
+     *
+     * @return string
+     */
+    public function getMetaDataDAOFactory();
+    /**
+     * Set MetaDataDAOFactory
+     *
+     * @return MetaDataConfig
+     */
+    public function setMetaDataDAOFactory($value);
 }

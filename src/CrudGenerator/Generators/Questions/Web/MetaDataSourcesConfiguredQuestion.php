@@ -17,28 +17,27 @@
  */
 namespace CrudGenerator\Generators\Questions\Web;
 
-use CrudGenerator\MetaData\MetaDataSourceFinder;
+use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
 use CrudGenerator\Context\ContextInterface;
 
-class MetaDataSourcesQuestion
+class MetaDataSourcesConfiguredQuestion
 {
     /**
-     * @var MetaDataSourceFinder
+     * @var MetaDataConfigDAO
      */
-    private $metadataSourceFinder = null;
+    private $metadataSourceConfigDAO = null;
     /**
      * @var ContextInterface
      */
     private $context = null;
 
     /**
-     * @param MetaDataSourceFinder $metadataSourceFinder
-     * @param ContextInterface $context
+     * @param MetaDataConfigDAO $metadataSourceConfigDAO
      */
-    public function __construct(MetaDataSourceFinder $metadataSourceFinder, ContextInterface $context)
+    public function __construct(MetaDataConfigDAO $metadataSourceConfigDAO, ContextInterface $context)
     {
-        $this->metadataSourceFinder = $metadataSourceFinder;
-        $this->context              = $context;
+        $this->metadataSourceConfigDAO = $metadataSourceConfigDAO;
+        $this->context                 = $context;
     }
 
     /**
@@ -50,18 +49,18 @@ class MetaDataSourcesQuestion
     public function ask()
     {
         $backendArray = array();
-        foreach ($this->metadataSourceFinder->getAllAdapters() as $backend) {
+        foreach ($this->metadataSourceConfigDAO->retrieveAll() as $backend) {
         	/* @var $backend \CrudGenerator\MetaData\MetaDataSource */
             if(!$backend->getFalseDependencies()) {
                 $backendArray[] = array(
-                    'id'    => $backend->getMetaDataDAOFactory(),
-                    'label' => $backend->getDefinition()
+                    'id'    => $backend->getConfig()->getUniqueName(),
+                    'label' => $backend->getConfig()->getUniqueName()
                 );
             }
         }
 
         return $this->retrieve(
-        	$this->context->askCollection("Witch meta data source ", 'metadatasource', $backendArray)
+        	$this->context->askCollection("Witch meta data source ", 'backend', $backendArray)
         );
     }
 
@@ -72,9 +71,9 @@ class MetaDataSourcesQuestion
      */
     private function retrieve($choice)
     {
-    	foreach ($this->metadataSourceFinder->getAllAdapters() as $backend) {
+    	foreach ($this->metadataSourceConfigDAO->retrieveAll() as $backend) {
     		/* @var $backend \CrudGenerator\MetaData\MetaDataSource */
-    		if ($backend->getMetaDataDAOFactory() === $choice) {
+    		if ($backend->getConfig()->getUniqueName() === $choice) {
     			return $backend;
     		}
     	}

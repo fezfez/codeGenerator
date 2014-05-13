@@ -15,47 +15,47 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\Sources\Oracle;
+namespace CrudGenerator\MetaData\Sources\MySQL;
 
 use CrudGenerator\MetaData\Sources\MetaDataConfig;
 use CrudGenerator\MetaData\Config\ConfigException;
 
 /**
- * Oracle configuration for Oracle Metadata adapter
+ * MySQL configuration for MySQL Metadata adapter
  *
  * @author Stéphane Demonchaux
  */
-class OracleConfig implements MetaDataConfig
+class MySQLConfig implements MetaDataConfig
 {
     /**
      * @var string Config definition
      */
-    protected $definition = 'For use the Oracle adapter you need to define the database and how to get the PDO instance';
+    private $definition = 'For use the MySQL adapter you need to define the database and how to get the MySQL instance';
     /**
      * @var string Database Name
      */
-    protected $databaseName = null;
+    private $databaseName = null;
     /**
      * @var string Host
      */
-    protected $host = null;
+    private $host = null;
     /**
      * @var string User
      */
-    protected $user = null;
+    private $user = null;
     /**
      * @var string Password
      */
-    protected $password = null;
+    private $password = null;
     /**
      * @var string Port
      */
-    protected $port = null;
+    private $port = null;
 
     /**
      * Set database name
      * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\Oracle\OracleConfig
+     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
      */
     public function setDatabaseName($value)
     {
@@ -65,7 +65,7 @@ class OracleConfig implements MetaDataConfig
     /**
      * Set host
      * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\Oracle\OracleConfig
+     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
      */
     public function setHost($value)
     {
@@ -75,7 +75,7 @@ class OracleConfig implements MetaDataConfig
     /**
      * Set user
      * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\Oracle\OracleConfig
+     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
      */
     public function setUser($value)
     {
@@ -85,7 +85,7 @@ class OracleConfig implements MetaDataConfig
     /**
      * Set password
      * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\Oracle\OracleConfig
+     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
      */
     public function setPassword($value)
     {
@@ -95,7 +95,7 @@ class OracleConfig implements MetaDataConfig
     /**
      * Set port
      * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\Oracle\OracleConfig
+     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
      */
     public function setPort($value)
     {
@@ -146,29 +146,28 @@ class OracleConfig implements MetaDataConfig
 
     /* (non-PHPdoc)
      * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getConnection()
-    */
+     */
     public function getConnection()
     {
-    	$db = '//' . $this->host . '/' . $this->databaseName;
-    	return new \PDO($db,$this->user,$this->password);
+        return new \PDO('mysql:dbname='.$this->databaseName . ';host='.$this->host, $this->user, $this->password);
     }
     /* (non-PHPdoc)
      * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::test()
-    */
+     */
     public function test()
     {
-    	try {
-    		$this->getConnection();
-    	} catch (\PDOException $e) {
-    		throw new ConfigException('Connection failed with "' . $e->getMessage() . '"');
-    	}
+        try {
+            $this->getConnection();
+        } catch (\PDOException $e) {
+            throw new ConfigException('Connection failed with "' . $e->getMessage() . '"');
+        }
     }
     /* (non-PHPdoc)
      * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getUniqueName()
-    */
+     */
     public function getUniqueName()
     {
-    	return 'Oracle ' . $this->host . ' ' . $this->user;
+    	return 'MySQL ' . $this->host . ' ' . $this->user;
     }
     /* (non-PHPdoc)
      * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getDefinition()
@@ -187,7 +186,8 @@ class OracleConfig implements MetaDataConfig
     		'host'         => $this->host,
     		'user'         => $this->user,
     		'password'     => $this->password,
-    		'port'         => $this->port
+    		'port'         => $this->port,
+    		'metaDataDAO'  => $this->getMetaDataDAOFactory()
     	);
     }
 

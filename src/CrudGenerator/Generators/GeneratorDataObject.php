@@ -249,11 +249,11 @@ class GeneratorDataObject implements \JsonSerializable
     {
         return array(
             'templateVariable' => $this->templateVariable,
-            'files' => $this->getFiles(),
-            'directories' => $this->directories,
-            'name' => $this->name,
-            'questions' => $this->questions,
-            'environnement' => $this->environnement
+            'files'            => $this->getFiles(),
+            'directories'      => $this->directories,
+            'name'             => $this->name,
+            'questions'        => $this->questions,
+            'environnement'    => $this->environnement
         );
     }
 }

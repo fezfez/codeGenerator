@@ -23,8 +23,6 @@ use CrudGenerator\Utils\FileManager;
 /**
  * Doctrine2 Metadata DAO in Zend Framework 2 Environnement
  *
- * @CodeGenerator\Environnement ZendFramework2Environnement
- * @CodeGenerator\Description Doctrine2
  * @author Stéphane Demonchaux
  */
 class Doctrine2MetaDataDAOFactory
