@@ -36,7 +36,7 @@ class AskTestT extends \PHPUnit_Framework_TestCase
         $HistoryStub =  $this->getMockBuilder('CrudGenerator\History\HistoryManager')
         ->disableOriginalConstructor()
         ->getMock();
-        $HistoryStub->expects($this->once())
+        $HistoryStub->expects($this->exactly(2))
         ->method('findAll')
         ->will($this->returnValue($HistoryCollection));
 
@@ -62,7 +62,7 @@ class AskTestT extends \PHPUnit_Framework_TestCase
         $HistoryStub =  $this->getMockBuilder('CrudGenerator\History\HistoryManager')
         ->disableOriginalConstructor()
         ->getMock();
-        $HistoryStub->expects($this->once())
+        $HistoryStub->expects($this->exactly(2))
         ->method('findAll')
         ->will($this->returnValue($HistoryCollection));
 

@@ -1,7 +1,6 @@
 <?php
 namespace CrudGenerator\Tests\General\Command\Questions\Web\GeneratorQuestion;
 
-
 use CrudGenerator\Generators\Questions\Web\GeneratorQuestion;
 use CrudGenerator\Context\WebContext;
 
@@ -13,7 +12,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sourceFinderStub->expects($this->once())
+        $sourceFinderStub->expects($this->exactly(2))
                          ->method('getAllClasses')
                          ->will(
                             $this->returnValue(
@@ -23,11 +22,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
                             )
                         );
 
-    	$app =  $this->getMockBuilder('Silex\Application')
+    	$context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
     	->disableOriginalConstructor()
     	->getMock();
-    	$context = new WebContext($app);
-
 
         $sUT = new GeneratorQuestion($sourceFinderStub, $context);
 

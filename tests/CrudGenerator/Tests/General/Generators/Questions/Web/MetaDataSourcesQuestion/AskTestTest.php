@@ -1,12 +1,10 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Questions\Web\MetaDataSourcesQuestion;
 
-
 use CrudGenerator\Generators\Questions\Web\MetaDataSourcesQuestion;
 use CrudGenerator\MetaData\MetaDataSourceCollection;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\Context\WebContext;
-
 
 class AskTestTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,18 +24,19 @@ class AskTestTest extends \PHPUnit_Framework_TestCase
         $sourceFinderStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFinder', array('select'))
         ->disableOriginalConstructor()
         ->getMock();
-        $sourceFinderStub->expects($this->once())
+        $sourceFinderStub->expects($this->exactly(2))
         ->method('getAllAdapters')
         ->will($this->returnValue($metadataSourceCollection));
 
-        $app =  $this->getMockBuilder('Silex\Application')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $context = new WebContext($app);
+    	$context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+    	->disableOriginalConstructor()
+    	->getMock();
 
 
         $sUT = new MetaDataSourcesQuestion($sourceFinderStub, $context);
-        $this->assertEquals(array(array('id' => 'My nameFactory', 'label' => 'My definition')), $sUT->ask());
+
+        $this->setExpectedException('InvalidArgumentException');
+        $sUT->ask();
     }
 
     public function testWithPreselected()
@@ -46,7 +45,8 @@ class AskTestTest extends \PHPUnit_Framework_TestCase
     	$metadataSourceCollection = new MetaDataSourceCollection();
     	$source = new MetaDataSource();
     	$source->setDefinition('My definition')
-    	->setMetaDataDAO('My name');
+    	->setMetaDataDAO('My name')
+    	->setMetaDataDAOFactory('my name factory');
     	$metadataSourceCollection->append($source);
     	$sourceWithFailedDependencie = new MetaDataSource();
     	$sourceWithFailedDependencie->setDefinition('My definition')
@@ -57,18 +57,21 @@ class AskTestTest extends \PHPUnit_Framework_TestCase
     	$sourceFinderStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFinder', array('select'))
     	->disableOriginalConstructor()
     	->getMock();
-    	$sourceFinderStub->expects($this->once())
+    	$sourceFinderStub->expects($this->exactly(2))
     	->method('getAllAdapters')
     	->will($this->returnValue($metadataSourceCollection));
 
-    	$app =  $this->getMockBuilder('Silex\Application')
-    	->disableOriginalConstructor()
-    	->getMock();
-    	$context = new WebContext($app);
+        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        ->disableOriginalConstructor()
+        ->getMock();
 
+        $context
+        ->expects($this->once())
+        ->method('askCollection')
+        ->will($this->returnValue('my name factory'));
 
     	$sUT = new MetaDataSourcesQuestion($sourceFinderStub, $context);
-    	$this->assertEquals($source, $sUT->ask('My nameFactory'));
+    	$this->assertEquals($source, $sUT->ask());
     }
 
     public function testWithPreselectedFail()
@@ -88,18 +91,22 @@ class AskTestTest extends \PHPUnit_Framework_TestCase
         $sourceFinderStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFinder', array('select'))
         ->disableOriginalConstructor()
         ->getMock();
-        $sourceFinderStub->expects($this->once())
+        $sourceFinderStub->expects($this->exactly(2))
         ->method('getAllAdapters')
         ->will($this->returnValue($metadataSourceCollection));
 
-        $app =  $this->getMockBuilder('Silex\Application')
+        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()
         ->getMock();
-        $context = new WebContext($app);
+
+        $context
+        ->expects($this->once())
+        ->method('askCollection')
+        ->will($this->returnValue('My name'));
 
         $sUT = new MetaDataSourcesQuestion($sourceFinderStub, $context);
 
         $this->setExpectedException('InvalidArgumentException');
-        $sUT->ask('My name');
+        $sUT->ask();
     }
 }
