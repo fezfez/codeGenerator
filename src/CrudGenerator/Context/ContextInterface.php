@@ -24,9 +24,11 @@ interface ContextInterface
      * Ask question
      * @param string $text
      * @param string $uniqueKey
+     * @param string $defaultResponse
+     * @param boolean $required
      * @return string
      */
-    public function ask($text, $uniqueKey);
+    public function ask($text, $uniqueKey, $defaultResponse = null, $required = false, $helpMessage = null);
 
     /**
      * Ask question in collection
@@ -34,5 +36,5 @@ interface ContextInterface
      * @param string $uniqueKey
      * @return string
      */
-    public function askCollection($text, $uniqueKey, array $collection);
+    public function askCollection($text, $uniqueKey, array $collection, $defaultResponse = null, $required = false, $helpMessage = null);
 }

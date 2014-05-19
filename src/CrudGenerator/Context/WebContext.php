@@ -39,25 +39,19 @@ class WebContext implements ContextInterface, \JsonSerializable
         $this->application = $application;
     }
 
-    /**
-     * @return \Silex\Application
-     */
-    public function getApplication()
-    {
-        return $this->application;
-    }
-
     /* (non-PHPdoc)
      * @see \CrudGenerator\Context\ContextInterface::ask()
     */
-    public function ask($text, $key)
+    public function ask($text, $key, $defaultResponse = null, $required = false, $helpMessage = null)
     {
-    	if (!isset($this->question['question'])) {
-    		$this->question['question'] = array();
-    	}
+        if (!isset($this->question['question'])) {
+            $this->question['question'] = array();
+        }
         $this->question['question'][] = array(
-            'text'         => $text,
-            'dtoAttribute' => $key
+            'text'            => $text,
+            'dtoAttribute'    => $key,
+            'defaultResponse' => $defaultResponse,
+            'required'        => $required
         );
 
         return $this->application->offsetGet('request')->request->get($key);
@@ -66,11 +60,11 @@ class WebContext implements ContextInterface, \JsonSerializable
     /* (non-PHPdoc)
      * @see \CrudGenerator\Context\ContextInterface::ask()
     */
-    public function askCollection($text, $uniqueKey, array $collection)
+    public function askCollection($text, $uniqueKey, array $collection, $defaultResponse = null, $required = false, $helpMessage = null)
     {
-    	$this->question[$uniqueKey . 'Collection'] = $collection;
+        $this->question[$uniqueKey . 'Collection'] = $collection;
 
-    	return $this->application->offsetGet('request')->request->get($uniqueKey);
+        return $this->application->offsetGet('request')->request->get($uniqueKey);
     }
 
     /* (non-PHPdoc)

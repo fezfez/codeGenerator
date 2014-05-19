@@ -1,14 +1,18 @@
-define(["App/App"], function(app) {
+define(["App/App", "Corp/Context/Context"], function(app, Context) {
     "use strict";
 
     var Service = app.service('PreviewService', ['$http', function ($http) {
         /*
-         * Generator service
-         * @param datas array
+         * Generate files
+         * @param context Context
          * @param callback callable
          */
         this.generate = function (context, callback) {
-        	
+
+            if ((context instanceof Context) === false) {
+            	throw new Error("Context muse be instance of Context");
+            }
+
             var datas =  $.param({
                 backend   : context.getBackend(),
                 metadata  : context.getMetadata(),
@@ -17,7 +21,6 @@ define(["App/App"], function(app) {
                 conflict  : $('.conflict_handle').serialize()
             });
 
-            
             $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
             $http(
                 {

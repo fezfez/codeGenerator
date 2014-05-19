@@ -1,5 +1,5 @@
-require(['Services/GenerateService'], function(GeneratorService) {
-    describe('Testing generateService', function() {
+require(['Services/PreviewService', 'Corp/Context/Context'], function(GeneratorService, Context) {
+    describe('Testing PreviewService', function() {
 
         var service, $httpBackend;
 
@@ -20,9 +20,7 @@ require(['Services/GenerateService'], function(GeneratorService) {
             );
 
             service.generate(
-                {
-                
-                },
+                new Context(),
                 function(response) {
 
                 }

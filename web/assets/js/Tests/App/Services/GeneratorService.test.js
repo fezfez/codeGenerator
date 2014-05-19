@@ -1,4 +1,4 @@
-require(['Services/GeneratorService', "Corp/Directory/DirectoryDataObject"], function(GeneratorService, DirectoryDataObject) {
+require(['Services/GeneratorService', "Corp/Directory/DirectoryDataObject", 'Corp/Context/Context'], function(GeneratorService, DirectoryDataObject, Context) {
     describe('Testing a service', function() {
 
         var service, $httpBackend;
@@ -28,9 +28,7 @@ require(['Services/GeneratorService', "Corp/Directory/DirectoryDataObject"], fun
             );
 
             service.build(
-                {
-                
-                },
+                new Context(),
                 function(directories, questions) {
                     assert.instanceOf(directories, DirectoryDataObject, 'directories is an instance of DirectoryDataObject');
                 }

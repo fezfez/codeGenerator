@@ -57,7 +57,6 @@ $app->match('metadata-save', function (Request $request) use ($app) {
 // on choice metadata
 $app->match('/metadata', function (Request $request) use ($app) {
     $context         = new WebContext($app);
-    $questionArray   = (array) $request->request->get('questions');
 
     $backendFinder   = MetaDataSourcesConfiguredQuestionFactory::getInstance($context);
     $metadataFinder  = MetaDataQuestionFactory::getInstance($context);
@@ -72,19 +71,18 @@ $app->match('/metadata', function (Request $request) use ($app) {
         $generator = new GeneratorDataObject();
         $generator->setName($generatorPath);
 
-        $generator = $generatorParser->init($generator, $metadata, $questionArray);
+        $generator = $generatorParser->init($generator, $metadata);
 
     } catch (InvalidArgumentException $e) {
         return $app->json($context, 201);
     }
 
-    return $app->json(array('generator' => $generator), 201);
+    return $app->json(array('generator' => $context), 201);
 })->bind('metadata');
 
 $app->match('view-file', function (Request $request) use ($app) {
 
     $context         = new WebContext($app);
-    $questionArray   = (array) $request->request->get('questions');
     $file            = $request->request->get('file');
 
     $backendFinder     = MetaDataSourcesConfiguredQuestionFactory::getInstance($context);
@@ -102,7 +100,7 @@ $app->match('view-file', function (Request $request) use ($app) {
         $generator = new GeneratorDataObject();
         $generator->setName($generatorPath);
 
-        $generator = $generatorParser->init($generator, $metadata, $questionArray);
+        $generator = $generatorParser->init($generator, $metadata);
         $fileGenerate = $generatorEngine->generate($generator, $file);
 
     } catch (InvalidArgumentException $e) {
@@ -114,7 +112,6 @@ $app->match('view-file', function (Request $request) use ($app) {
 
 $app->match('generate', function (Request $request) use ($app) {
 
-    $questionArray  = (array) $request->request->get('questions');
     $conflictArray  = (array) $request->request->get('conflict');
     $context        = new WebContext($app);
 
@@ -132,7 +129,7 @@ $app->match('generate', function (Request $request) use ($app) {
     $generator = new GeneratorDataObject();
     $generator->setName($generatorPath);
 
-    $generator = $generatorParser->init($generator, $metadata, $questionArray);
+    $generator = $generatorParser->init($generator, $metadata);
 
     try {
         if(!empty($conflictArray)) {

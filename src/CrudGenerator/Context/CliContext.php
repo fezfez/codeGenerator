@@ -42,26 +42,10 @@ class CliContext implements ContextInterface
 		$this->output  = $output;
 	}
 
-	/**
-	 * @return \Symfony\Component\Console\Helper\DialogHelper
-	 */
-	public function getDialogHelper()
-	{
-		return $this->dialogHelper;
-	}
-
-	/**
-	 * @return \Symfony\Component\Console\Output\OutputInterface
-	 */
-	public function getOutput()
-	{
-		return $this->output;
-	}
-
 	/* (non-PHPdoc)
 	 * @see \CrudGenerator\Context\ContextInterface::ask()
 	 */
-	public function ask($text, $attribute)
+	public function ask($text, $attribute, $defaultResponse = null, $required = false, $helpMessage = null)
 	{
 		return $this->dialog->ask($this->output, '<question>Choose a "' . $propName . '"</question> : ');
 	}
@@ -69,7 +53,7 @@ class CliContext implements ContextInterface
 	/* (non-PHPdoc)
 	 * @see \CrudGenerator\Context\ContextInterface::ask()
 	*/
-	public function askCollection($text, $uniqueKey, array $collection)
+	public function askCollection($text, $uniqueKey, array $collection, $defaultResponse = null, $required = false, $helpMessage = null)
 	{
 		$this->question[$uniqueKey] = $collection;
 

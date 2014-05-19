@@ -15,41 +15,41 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\Parser\Lexical\Web;
+namespace CrudGenerator\Generators\Parser\Lexical;
 
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
-use CrudGenerator\Context\WebContext;
+use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 
 class EnvironnementParser implements ParserInterface
 {
     /**
-     * @var WebContext
+     * @var ContextInterface
      */
-    private $webContext = null;
+    private $context = null;
 
     /**
-     * @param WebContext $webContext
+     * @param ContextInterface $context
      */
-    public function __construct(WebContext $webContext)
+    public function __construct(ContextInterface $context)
     {
-        $this->webContext = $webContext;
+        $this->context = $context;
     }
 
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
      */
-     public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
+     public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
      {
-         if (isset($process['environnement'])) {
-            foreach ($process['environnement'] as $key => $question) {
+         if (isset($process['environnement']) && is_array($process['environnement'])) {
+            foreach ($process['environnement'] as $environnementName => $question) {
                 if (!is_array($question)) {
                     throw new MalformedGeneratorException('Questions excepts to be an array "' . gettype($question) . "' given");
                 }
 
-                $generator = $this->evaluateQuestions($key, $question, $parser, $generator, $questions, $firstIteration);
+                $generator = $this->evaluateQuestions($environnementName, $question, $parser, $generator, $firstIteration);
             }
          }
 
@@ -57,48 +57,47 @@ class EnvironnementParser implements ParserInterface
     }
 
     /**
-     * @param array $question
+     * @param string $environnementName
+     * @param array $environnements
      * @param PhpStringParser $parser
      * @param GeneratorDataObject $generator
-     * @param array $questions
-     * @param unknown $firstIteration
+     * @param boolean $firstIteration
      * @return GeneratorDataObject
      */
-    private function evaluateQuestions($key, array $environnements, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
+    private function evaluateQuestions($environnementName, array $environnements, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
     {
         $possibleValues = array();
-        $value = null;
+        $toRecurse      = array();
         foreach ($environnements as $framework => $environnement) {
-
             if (is_array($environnement)) {
-                $possibleValues[] = array('label' => $framework, 'id' => $framework);
-                if (isset($questions['environnement_' . $key]) && $questions['environnement_' . $key] === $framework) {
-                    $value = $framework;
-                    $generator->addEnvironnementValue($key, $framework);
-                    foreach ($environnement as $test => $test2) {
-                        $generator = $this->evaluateQuestions($test, $test2, $parser, $generator, $questions, $firstIteration);
-                    }
-                }
+                $possibleValues[]      = array('label' => $framework, 'id' => $framework);
+                $toRecurse[$framework] = $environnement;
             } else {
-                if (isset($questions['environnement_' . $key]) && $questions['environnement_' . $key] === $environnement) {
-                    $value = $environnement;
-                    $generator->addEnvironnementValue($key, $environnement);
-                }
                 $possibleValues[] = array('label' => $environnement, 'id' => $environnement);
             }
         }
 
+        $response = $this->context->askCollection(
+            $environnementName . ' environnement',
+            'environnement_' . $environnementName,
+            $possibleValues
+        );
+
         $generator->addQuestion(
             array(
-                'dtoAttribute'    => 'environnement_' . $key,
-                'text'            => $key . ' environnement',
+                'dtoAttribute'    => 'environnement_' . $environnementName,
+                'text'            => $environnementName . ' environnement',
                 'type'            => 'select',
                 'values'          => $possibleValues,
-                'value'           => $value,
-                'placeholder'     => $value,
+                'value'           => $response,
+                'placeholder'     => $response,
                 'required'        => true
             )
         );
+
+        if ($response !== null && isset($toRecurse[$response])) {
+            $this->evaluateQuestions($response, $toRecurse[$response], $parser, $generator, $firstIteration);
+        }
 
         return $generator;
     }

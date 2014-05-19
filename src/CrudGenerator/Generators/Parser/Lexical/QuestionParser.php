@@ -36,27 +36,21 @@ class QuestionParser implements ParserInterface
      * @var DependencyCondition
      */
     private $dependencyCondition = null;
-    /**
-     * @var QuestionInterface
-     */
-    private $strategy = null;
 
     /**
      * @param ContextInterface $context
      * @param DependencyCondition $dependencyCondition
-     * @param QuestionInterface $strategy
      */
-    public function __construct(ContextInterface $context, DependencyCondition $dependencyCondition, QuestionInterface $strategy)
+    public function __construct(ContextInterface $context, DependencyCondition $dependencyCondition)
     {
         $this->context             = $context;
         $this->dependencyCondition = $dependencyCondition;
-        $this->strategy            = $strategy;
     }
 
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
      */
-    public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
+    public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
     {
         if (isset($process['questions'])) {
             foreach ($process['questions'] as $question) {
@@ -64,8 +58,32 @@ class QuestionParser implements ParserInterface
                     throw new MalformedGeneratorException('Questions excepts to be an array "' . gettype($question) . "' given");
                 }
 
-                $generator = $this->evaluateQuestions($question, $parser, $generator, $questions, $firstIteration);
+                $generator = $this->evaluateQuestions($question, $parser, $generator, $firstIteration);
             }
+        }
+exit;
+        return $generator;
+    }
+
+    /**
+     * @param array $question
+     * @param PhpStringParser $parser
+     * @param GeneratorDataObject $generator
+     * @param boolean $firstIteration
+     * @return GeneratorDataObject
+     */
+    public function evaluateQuestions(array $question, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
+    {
+        if(isset($question[GeneratorParser::DEPENDENCY_CONDITION])) {
+            $matches = $this->dependencyCondition->evaluate($question[GeneratorParser::DEPENDENCY_CONDITION], $parser, $generator, $firstIteration);
+            foreach ($matches as $questionsMatchs) {
+                $generator = $this->evaluateQuestions($questionsMatchs, $parser, $generator, $firstIteration);
+            }
+        } elseif (isset($question['type']) && $question['type'] === GeneratorParser::COMPLEX_QUESTION) {
+        	$complex = $question['factory']::getInstance($this->context);
+            $generator = $complex->ask($generator, $question);
+        } else {
+            $generator = $this->evaluateGeneriqueQuestion($question, $parser, $generator, $firstIteration);
         }
 
         return $generator;
@@ -75,22 +93,30 @@ class QuestionParser implements ParserInterface
      * @param array $question
      * @param PhpStringParser $parser
      * @param GeneratorDataObject $generator
-     * @param array $questions
-     * @param unknown $firstIteration
+     * @param boolean $firstIteration
      * @return GeneratorDataObject
      */
-    public function evaluateQuestions(array $question, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
+    public function evaluateGeneriqueQuestion(array $question, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
     {
-        if(isset($question[GeneratorParser::DEPENDENCY_CONDITION])) {
-            $matches = $this->dependencyCondition->evaluate($question[GeneratorParser::DEPENDENCY_CONDITION], $parser, $generator, $questions, $firstIteration);
-            foreach ($matches as $questionsMatchs) {
-                $generator = $this->evaluateQuestions($questionsMatchs, $parser, $generator, $questions, $firstIteration);
-            }
-        } elseif (isset($question['type']) && $question['type'] === GeneratorParser::COMPLEX_QUESTION) {
-            $complex = $question['factory']::getInstance($this->context);
-            $generator = $complex->ask($generator, $question);
-        } else {
-            $generator = $this->strategy->evaluateQuestions($question, $parser, $generator, $questions, $firstIteration);
+        $response = $this->context->ask(
+            $question['text'],
+            'set' . ucfirst($question['dtoAttribute'])
+        );
+
+        $generator->addQuestion(
+            array(
+                'dtoAttribute'    => 'set' . ucfirst($question['dtoAttribute']),
+                'text'            => $question['text'],
+                'value'           => ($response !== null) ? $response : '',
+                'defaultResponse' => (isset($question['defaultResponse'])) ? $parser->parse($question['defaultResponse']) : null,
+                'required'        => (isset($question['required'])) ? $question['required'] : false,
+                'type'            => (isset($question['type'])) ? $question['type'] : 'text',
+            )
+        );
+
+        $questionName = 'set' . ucfirst($question['dtoAttribute']);
+        if (method_exists($generator->getDTO(), $questionName) && $response !== null) {
+            $generator->getDTO()->$questionName($response);
         }
 
         return $generator;

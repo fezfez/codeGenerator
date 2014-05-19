@@ -97,24 +97,23 @@ class GeneratorParser
      * @throws \InvalidArgumentException
      * @return Generator
      */
-    public function init(GeneratorDataObject $generator, MetaData $metadata, array $questions = array())
+    public function init(GeneratorDataObject $generator, MetaData $metadata)
     {
         $generator = clone $generator;
         $phpParser = clone $this->phpStringParser;
 
-        return $this->analyse($generator->getName(), $phpParser, $generator, $questions, $metadata, true);
+        return $this->analyse($generator->getName(), $phpParser, $generator, $metadata, true);
     }
 
     /**
      * @param string $name
      * @param PhpStringParser $phpParser
      * @param GeneratorDataObject $generator
-     * @param array $questions
      * @param MetaData $metadata
      * @param boolean $firstIteration
      * @return GeneratorDataObject
      */
-    private function analyse($name, PhpStringParser $phpParser, GeneratorDataObject $generator, array $questions, MetaData $metadata, $firstIteration = false)
+    private function analyse($name, PhpStringParser $phpParser, GeneratorDataObject $generator, MetaData $metadata, $firstIteration = false)
     {
         $generatorFilePath = $this->generatorFinder->findByName($name);
         $yaml              = $this->yaml;
@@ -127,7 +126,7 @@ class GeneratorParser
 
         if (isset($process['dependencies'])) {
             foreach ($process['dependencies'] as $dependencieName) {
-                $generator = $this->analyse($dependencieName, $phpParser, $generator, $questions, $metadata);
+                $generator = $this->analyse($dependencieName, $phpParser, $generator,  $metadata);
             }
         }
 
@@ -136,7 +135,7 @@ class GeneratorParser
 
         if ($this->parserCollection->getPreParse()->count() > 0) {
             foreach ($this->parserCollection->getPreParse() as $parser) {
-                $generator = $parser->evaluate($process, $phpParser, $generator, $questions, $firstIteration);
+                $generator = $parser->evaluate($process, $phpParser, $generator, $firstIteration);
             }
         }
 
@@ -145,7 +144,7 @@ class GeneratorParser
 
         if ($this->parserCollection->getPostParse()->count() > 0) {
             foreach ($this->parserCollection->getPostParse() as $parser) {
-                $generator = $parser->evaluate($process, $phpParser, $generator, $questions, $firstIteration);
+                $generator = $parser->evaluate($process, $phpParser, $generator, $firstIteration);
             }
         }
 

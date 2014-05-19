@@ -27,7 +27,7 @@ class DependencyCondition implements ParserInterface
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
      */
-    public function evaluate(array $dependencyNode, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
+    public function evaluate(array $dependencyNode, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
     {
         $matches = array();
 

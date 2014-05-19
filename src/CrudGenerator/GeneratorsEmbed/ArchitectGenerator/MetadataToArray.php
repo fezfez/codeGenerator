@@ -18,24 +18,40 @@
 namespace CrudGenerator\GeneratorsEmbed\ArchitectGenerator;
 
 use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Context\ContextInterface;
 
-class MetadataToArrayWeb
+class MetadataToArray
 {
     /**
-     * @param GeneratorDataObject $generator
-     * @return GeneratorDataObject
+     * @var ContextInterface
      */
-    public function ask(GeneratorDataObject $generator, $questions)
+    private $context = null;
+
+    /**
+     * @param ContextInterface $context
+     */
+    public function __construct(ContextInterface $context)
+    {
+        $this->context = $context;
+    }
+
+    /**
+     * @param Architect $DTO
+     * @return Architect
+     */
+    public function ask(GeneratorDataObject $generator)
     {
         foreach ($generator->getDTO()->getMetadata()->getColumnCollection() as $column) {
-            $generator->addQuestion(
-                array(
-                    'dtoAttribute'    => 'setAttributeName[' . $column->getName() . ']',
-                    'text'            => 'Attribute name for "' . $column->getName() . '"',
-                    'defaultResponse' => (null === $generator->getDTO()->getAttributeName($column->getName())) ? $column->getName() : $generator->getDTO()->getAttributeName($column->getName()),
-                	'required' => true
-                )
+            $response = $this->context->ask(
+                'Attribute name for "' . $column->getName() . '"',
+                'metadataToArray' . $column->getName(),
+                (null === $generator->getDTO()->getAttributeName($column->getName())) ? $column->getName() : $generator->getDTO()->getAttributeName($column->getName()),
+                true
             );
+
+            if ($response !== null) {
+                $generator->getDTO()->setAttributeName($column->getName(), $response);
+            }
         }
 
         return $generator;

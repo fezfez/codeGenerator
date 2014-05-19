@@ -53,7 +53,7 @@ class FileParser implements ParserInterface
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\ParserInterface::evaluate()
      */
-    public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
+    public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
     {
         $skeletonPath = dirname($generator->getPath()) . '/Skeleton/';
 
@@ -66,7 +66,7 @@ class FileParser implements ParserInterface
                 throw new MalformedGeneratorException('File excepts to be an array "' . gettype($files) . "' given");
             }
 
-            $this->evaluateFile($files, $parser, $generator, $questions, (bool) $firstIteration, $skeletonPath);
+            $this->evaluateFile($files, $parser, $generator, (bool) $firstIteration, $skeletonPath);
         }
 
         return $generator;
@@ -76,25 +76,24 @@ class FileParser implements ParserInterface
      * @param array $files
      * @param PhpStringParser $parser
      * @param GeneratorDataObject $generator
-     * @param array $questions
      * @param boolean $firstIteration
      * @param string $skeletonPath
      * @return GeneratorDataObject
      */
-    private function evaluateFile(array $files, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration, $skeletonPath)
+    private function evaluateFile(array $files, PhpStringParser $parser, GeneratorDataObject $generator,  $firstIteration, $skeletonPath)
     {
         foreach ($files as $templateName => $tragetFile) {
             if($templateName === GeneratorParser::ENVIRONNEMENT_CONDITION) {
 
-                $matches = $this->environnementCondition->evaluate($tragetFile, $parser, $generator, $questions, $firstIteration);
+                $matches = $this->environnementCondition->evaluate($tragetFile, $parser, $generator, $firstIteration);
                 foreach ($matches as $matchesEnvironnement) {
-                    $generator = $this->evaluateFile($matchesEnvironnement, $parser, $generator, $questions, $firstIteration, $skeletonPath);
+                    $generator = $this->evaluateFile($matchesEnvironnement, $parser, $generator, $firstIteration, $skeletonPath);
                 }
             } elseif($templateName === GeneratorParser::DEPENDENCY_CONDITION) {
-                $matches = $this->dependencyCondition->evaluate($tragetFile, $parser, $generator, $questions, $firstIteration);
+                $matches = $this->dependencyCondition->evaluate($tragetFile, $parser, $generator, $firstIteration);
 
                 foreach ($matches as $matchesDependency) {
-                    $generator = $this->evaluateFile($matchesDependency, $parser, $generator, $questions, $firstIteration, $skeletonPath);
+                    $generator = $this->evaluateFile($matchesDependency, $parser, $generator, $firstIteration, $skeletonPath);
                 }
             } else {
                 $generator->addFile($skeletonPath, $templateName, $parser->parse($tragetFile));

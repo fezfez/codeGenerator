@@ -29,8 +29,7 @@ questions :
     - 
         dtoAttribute : ControllerDirectory
         text : Chose the controller directory
-        type : complex
-        factory : CrudGenerator\Generators\Questions\DirectoryQuestionFactory
+        type : directory
 directories :
     - <?php $crudGenerator->getControllerDirectory(); ?>
     - <?php $crudGenerator->getViewDirectory(); ?>

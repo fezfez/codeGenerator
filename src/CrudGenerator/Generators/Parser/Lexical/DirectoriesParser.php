@@ -26,17 +26,17 @@ class DirectoriesParser implements ParserInterface
    /* (non-PHPdoc)
     * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
     */
-   public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
+   public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
    {
-   	    if (isset($process['directories'])) {
-	        foreach ($process['directories'] as $directory) {
-	        	if (!is_string($directory)) {
-	        		throw new MalformedGeneratorException('Directory excepts to be an string "' . gettype($directory) . "' given");
-	        	}
+       if (isset($process['directories']) && is_array($process['directories'])) {
+            foreach ($process['directories'] as $directory) {
+                if (!is_string($directory)) {
+                    throw new MalformedGeneratorException('Directory excepts to be an string "' . gettype($directory) . "' given");
+                }
 
-	            $generator->addDirectories($directory, $parser->parse($directory));
-	        }
-   	    }
+                $generator->addDirectories($directory, $parser->parse($directory));
+            }
+        }
 
         return $generator;
    }

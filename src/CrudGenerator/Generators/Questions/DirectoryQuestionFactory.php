@@ -34,7 +34,7 @@ class DirectoryQuestionFactory
         if ($context instanceof CliContext) {
 	        return new Cli\DirectoryQuestion($fileManager, $context->getOutput(), $context->getDialogHelper());
         } elseif ($context instanceof WebContext) {
-        	return new Web\DirectoryQuestion($fileManager);
+        	return new Web\DirectoryQuestion($fileManager, $context);
         } else {
         	throw new \InvalidArgumentException('Invalid context given');
         }

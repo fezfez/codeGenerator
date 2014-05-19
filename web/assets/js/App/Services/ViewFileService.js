@@ -1,12 +1,21 @@
-define(['App/App'], function (app) {
+define(['App/App', 'Corp/Context/Context', 'Corp/File/FileDataObject'], function (app, Context, FileDataObject) {
     "use strict";
 
     var Service = app.service('ViewFileService', ['$http', function ($http) {
         /*
-         * @param datas Array
+         * @param context Corp/Context/Context
+         * @param file Corp/File/FileDataObject
          * @param callback callable
          */
         this.generate = function (context, file, callback) {
+
+            if ((context instanceof Context) === false) {
+            	throw new Error("Context muse be instance of Context");
+            }
+
+            if ((file instanceof FileDataObject) === false) {
+            	throw new Error("file muse be instance of FileDataObject");
+            }
 
             var datas =  $.param({
                 backend      : context.getBackend(),

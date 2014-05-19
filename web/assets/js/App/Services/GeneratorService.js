@@ -1,9 +1,10 @@
 define([
     "App/App",
     "Corp/Directory/DirectoryDataObject",
-    "Corp/Directory/DirectoryBuilderFactory"
+    "Corp/Directory/DirectoryBuilderFactory",
+    "Corp/Context/Context"
     ],
-    function(app, DirectoryDataObject, DirectoryBuilderFactory) {
+    function(app, DirectoryDataObject, DirectoryBuilderFactory, Context) {
     "use strict";
 
     var Service = app.service('GeneratorService', ['$http', '$q', function ($http, $q) {
@@ -12,11 +13,15 @@ define([
 
         /*
          * Generate a preview
-         * @param data array
+         * @param context Corp/Context/Context
          * @param callbackAfterAjax callable
          */
         this.build = function (context, callbackAfterAjax) {
             var canceler = $q.defer();
+
+            if ((context instanceof Context) === false) {
+            	throw new Error("Context muse be instance of Context");
+            }
 
             if (http === true) {
                 //canceler.resolve();

@@ -26,9 +26,8 @@ interface ParserInterface
      * @param array $process
      * @param PhpStringParser $parser
      * @param Generator $generator
-     * @param array $questions
      * @param boolean $firstIteration
      * @return Generator
      */
-    public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration);
+    public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration);
 }

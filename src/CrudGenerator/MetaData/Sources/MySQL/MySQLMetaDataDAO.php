@@ -109,22 +109,27 @@ class MySQLMetaDataDAO implements MetaDataDAO
         $dataObject->setName($tableName);
         $columnDataObject = new MetaDataColumn();
 
-        $statement = $this->pdo->prepare('SHOW COLUMNS FROM ' . $tableName);
+        $statement = $this->pdo->prepare(
+            "SELECT column_name, data_type, column_key, is_nullable
+            FROM information_schema.columns
+            WHERE table_name = '" . $tableName . "' AND table_schema = '" . $this->pdoConfig->getDatabaseName() . "'"
+        );
+        $statement->execute();
         $allFields = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($allFields as $metadata) {
             $column = clone $columnDataObject;
 
-            $type = $metadata['Type'];
+            $type = $metadata['data_type'];
 
-            if (isset($this->typeConversion[$type])) {
-                $type = $this->typeConversion[$type];
+            if (isset($this->typeConversion['data_type'])) {
+                $type = $this->typeConversion['data_type'];
             }
 
-            $column->setName($metadata['Field'])
+            $column->setName($metadata['column_name'])
                    ->setType($type)
                    ->setLength(null);
-            if ($metadata['key'] === 'PRI') {
+            if ($metadata['column_key'] === 'PRI') {
                 $column->setPrimaryKey(true);
             }
 
