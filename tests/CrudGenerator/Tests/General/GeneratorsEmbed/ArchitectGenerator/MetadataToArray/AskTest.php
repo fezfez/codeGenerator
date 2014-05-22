@@ -2,8 +2,9 @@
 namespace CrudGenerator\Tests\General\GeneratorsEmbed\ArchitectGenerator\MetadataToArrayWeb;
 
 use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
-use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArrayWeb;
+use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArray;
 use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Context\WebContext;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {
@@ -13,7 +14,13 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $DTO->setMetadata($this->getMetadata())
         ->setNamespace('namespace');
 
-        $sUT = new MetadataToArrayWeb();
+        $web =  $this->getMockBuilder('Silex\Application')
+        ->disableOriginalConstructor()
+        ->getMock();
+
+        $context = new WebContext($web);
+
+        $sUT = new MetadataToArray($context);
 
         $generator = new GeneratorDataObject();
         $generator->setDTO($DTO);

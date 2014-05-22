@@ -1,7 +1,7 @@
 <?php
-namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\Web\EnvironnementParser;
+namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\EnvironnementParser;
 
-use CrudGenerator\Generators\Parser\Lexical\Web\EnvironnementParser;
+use CrudGenerator\Generators\Parser\Lexical\EnvironnementParser;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Context\WebContext;

@@ -37,4 +37,16 @@ interface ContextInterface
      * @return string
      */
     public function askCollection($text, $uniqueKey, array $collection, $defaultResponse = null, $required = false, $helpMessage = null);
+
+    /**
+     * @param string $text
+     * @param string $uniqueKey
+     * @return boolean
+     */
+    public function confirm($text, $uniqueKey);
+
+    /**
+     * @param string $text
+     */
+    public function log($text);
 }

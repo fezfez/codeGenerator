@@ -67,6 +67,24 @@ class WebContext implements ContextInterface, \JsonSerializable
         return $this->application->offsetGet('request')->request->get($uniqueKey);
     }
 
+    /**
+     * @param string $text
+     * @param string $uniqueKey
+     * @return boolean
+     */
+    public function confirm($text, $uniqueKey)
+    {
+
+    }
+
+    /**
+     * @param string $text
+     */
+    public function log($text)
+    {
+
+    }
+
     /* (non-PHPdoc)
      * @see JsonSerializable::jsonSerialize()
      */

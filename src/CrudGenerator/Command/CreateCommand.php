@@ -129,9 +129,9 @@ class CreateCommand extends Command
         $generatorDTO->getDTO()
                      ->setAdapter($adapter->getMetaDataDAO());
 
-        $doI = $this->cliContext->getDialogHelper()->askConfirmation(
-            $this->cliContext->getOutput(),
-            "\n<question>Do you confirm generation ?</question> "
+        $doI = $this->cliContext->confirm(
+            "\n<question>Do you confirm generation ?</question>",
+            'generate'
         );
 
         if ($doI === true) {

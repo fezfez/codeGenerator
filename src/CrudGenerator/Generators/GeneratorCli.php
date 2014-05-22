@@ -88,7 +88,7 @@ class GeneratorCli
 	            	$this->fileConflict->handle($file['fileName'], $result);
 	            } else {
 	            	$this->fileManager->filePutsContent($file['fileName'], $result);
-	            	$this->context->getOutput()->writeln('--> Create file ' . $file['fileName']);
+	            	$this->context->log('--> Create file ' . $file['fileName']);
 	            }
 	        }
     	}

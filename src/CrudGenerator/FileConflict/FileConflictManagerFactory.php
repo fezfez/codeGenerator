@@ -24,8 +24,7 @@ class FileConflictManagerFactory
             );
         } elseif ($context instanceof CliContext) {
             return new FileConflictManagerCli(
-                $context->getOutput(),
-                $context->getDialogHelper(),
+                $context,
                 new FileManager(),
                 new Differ()
             );

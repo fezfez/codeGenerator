@@ -61,7 +61,7 @@ class QuestionParser implements ParserInterface
                 $generator = $this->evaluateQuestions($question, $parser, $generator, $firstIteration);
             }
         }
-exit;
+
         return $generator;
     }
 

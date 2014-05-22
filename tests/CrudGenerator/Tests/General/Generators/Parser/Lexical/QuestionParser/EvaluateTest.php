@@ -1,7 +1,6 @@
 <?php
-namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\Web\QuestionParser;
+namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\QuestionParser;
 
-use CrudGenerator\Generators\Parser\Lexical\Web\QuestionParser as WebQuestionParser;
 use CrudGenerator\Generators\Parser\Lexical\QuestionParser;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
@@ -31,7 +30,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
     	->disableOriginalConstructor()
     	->getMock();
 
-    	$sUT = new QuestionParser($context, $dependencyCondition, new WebQuestionParser());
+    	$sUT = new QuestionParser($context, $dependencyCondition);
 
     	$generator = new GeneratorDataObject();
 
@@ -65,7 +64,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
     	->disableOriginalConstructor()
     	->getMock();
 
-    	$sUT = new QuestionParser($context, $dependencyCondition, new WebQuestionParser());
+    	$sUT = new QuestionParser($context, $dependencyCondition);
 
     	$generator = new GeneratorDataObject();
 
@@ -128,7 +127,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
     		)
     	));
 
-    	$sUT = new QuestionParser($context, $dependencyCondition, new WebQuestionParser());
+    	$sUT = new QuestionParser($context, $dependencyCondition);
 
     	$generator = new GeneratorDataObject();
 
