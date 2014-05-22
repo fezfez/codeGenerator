@@ -29,7 +29,7 @@ class WebContext implements ContextInterface, \JsonSerializable
     /**
      * @var array
      */
-    private $question    = null;
+    private $question    = array();
 
     /**
      * @param Application $application

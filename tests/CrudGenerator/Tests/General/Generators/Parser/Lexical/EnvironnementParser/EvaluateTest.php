@@ -12,11 +12,9 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
 	public function testEnvironnementMalFormed()
 	{
-		$app = $this->getMockBuilder('Silex\Application')
-		->disableOriginalConstructor()
-		->getMock();
-
-		$context = new WebContext($app);
+    	$context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+    	->disableOriginalConstructor()
+    	->getMock();
 
 		$phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
 		->disableOriginalConstructor()
@@ -39,12 +37,12 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testEnvironnement()
     {
-    	$app = $this->getMockBuilder('Silex\Application')
+    	$context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
     	->disableOriginalConstructor()
     	->getMock();
-
-    	$context = new WebContext($app);
-
+    	$context->expects($this->exactly(2))
+    	->method('askCollection')
+    	->will($this->onConsecutiveCalls('zend_framework_2', 'pdo'));
     	$phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
     	->disableOriginalConstructor()
     	->getMock();
@@ -64,12 +62,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
             template : [twig]';
     	$process = Yaml::parse($string, true);
 
-
-    	$questions = array(
-    	    'environnement_framework' => 'zend_framework_2',
-    	    'environnement_backend' => 'pdo'
-    	);
-        $generator = $sUT->evaluate($process, $phpParser, $generator, $questions, true);
+        $generator = $sUT->evaluate($process, $phpParser, $generator, true);
 
         $this->assertEquals(
             array('framework' => 'zend_framework_2', 'backend' => 'pdo'),

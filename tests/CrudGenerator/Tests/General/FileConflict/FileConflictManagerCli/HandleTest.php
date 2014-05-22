@@ -6,16 +6,12 @@ use CrudGenerator\FileConflict\FileConflictManagerCli;
 class HandleTest extends \PHPUnit_Framework_TestCase
 {
    public function testShowDiff()
-    {
-        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+   {
+        $contextStub =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
-
-        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $dialog->expects($this->exactly(2))
-        ->method('select')
+        $contextStub->expects($this->exactly(2))
+        ->method('askCollection')
         ->will($this->onConsecutiveCalls(FileConflictManagerCli::SHOW_DIFF, FileConflictManagerCli::CANCEL));
 
         $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
@@ -26,22 +22,18 @@ class HandleTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new FileConflictManagerCli($ConsoleOutputStub, $dialog, $fileManager, $diffPHP);
+        $sUT = new FileConflictManagerCli($contextStub, $fileManager, $diffPHP);
 
         $sUT->handle('test', '0');
     }
 
     public function testPostPone()
     {
-        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+        $contextStub =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
-
-        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $dialog->expects($this->once())
-        ->method('select')
+        $contextStub->expects($this->once())
+        ->method('askCollection')
         ->will($this->returnValue(FileConflictManagerCli::POSTPONE));
 
         $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
@@ -60,22 +52,18 @@ class HandleTest extends \PHPUnit_Framework_TestCase
         ->method('diff')
         ->will($this->returnValue('test'));
 
-        $sUT = new FileConflictManagerCli($ConsoleOutputStub, $dialog, $fileManager, $diffPHP);
+        $sUT = new FileConflictManagerCli($contextStub, $fileManager, $diffPHP);
 
         $sUT->handle('test', '0');
     }
 
     public function testErase()
     {
-        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+        $contextStub =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
-
-        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $dialog->expects($this->once())
-        ->method('select')
+        $contextStub->expects($this->once())
+        ->method('askCollection')
         ->will($this->returnValue(FileConflictManagerCli::ERASE));
 
         $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
@@ -91,7 +79,7 @@ class HandleTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new FileConflictManagerCli($ConsoleOutputStub, $dialog, $fileManager, $diffPHP);
+        $sUT = new FileConflictManagerCli($contextStub, $fileManager, $diffPHP);
 
         $sUT->handle('test', '0');
     }

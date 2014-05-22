@@ -84,15 +84,7 @@ class InitTest extends \PHPUnit_Framework_TestCase
         ->method('evaluate')
         ->will($this->returnValue($generator));
 
-        $questionResponseParser =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Web\QuestionResponseParser')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $questionResponseParser->expects($this->once())
-        ->method('evaluate')
-        ->will($this->returnValue($generator));
-
-        $parserCollection->addPreParse($questionResponse)->addPostParse($questionResponseParser);
+        $parserCollection->addPreParse($questionResponse);
 
 
         $process = array(

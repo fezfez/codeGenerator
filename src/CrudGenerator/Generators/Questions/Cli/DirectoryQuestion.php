@@ -79,7 +79,7 @@ class DirectoryQuestion
                 ' -> Create directory'
             );
 
-            $this->output->writeLn($directory);
+            $this->context->log($directory);
             $choice = $this->context->askCollection(
                 "<question>Choose a target directory</question> \n> ",
             	'directory',
@@ -111,9 +111,9 @@ class DirectoryQuestion
     {
         while (true) {
             try {
-                $directory = $this->dialog->ask(
-                    $this->output,
-                    'Directory name '
+                $directory = $this->context->ask(
+                    'Directory name ',
+                    'directory_name'
                 );
 
                 if (false === $this->fileManager->ifDirDoesNotExistCreate($directory)) {
@@ -122,7 +122,7 @@ class DirectoryQuestion
                     break;
                 }
             } catch (\Exception $e) {
-                $this->output->log('<error>' . $e->getMessage() . '</error>');
+                $this->context->log('<error>' . $e->getMessage() . '</error>');
             }
         }
 

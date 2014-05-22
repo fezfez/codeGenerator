@@ -36,10 +36,10 @@ class CliContext implements ContextInterface
      * @param DialogHelper $dialogHelper
      * @param OutputInterface $output
      */
-    public function __construct(DialogHelper $dialogHelper, OutputInterface $output)
+    public function __construct(DialogHelper $dialog, OutputInterface $output)
     {
-        $this->dialogHelper = $dialogHelper;
-        $this->output  = $output;
+        $this->dialog = $dialog;
+        $this->output = $output;
     }
 
     /* (non-PHPdoc)
@@ -47,17 +47,28 @@ class CliContext implements ContextInterface
      */
     public function ask($text, $attribute, $defaultResponse = null, $required = false, $helpMessage = null)
     {
-        return $this->dialog->ask($this->output, '<question>Choose a "' . $propName . '"</question> : ');
+        return $this->dialog->ask(
+            $this->output,
+            '<question>Choose a "' . $propName . '"</question> : '
+        );
     }
 
     /* (non-PHPdoc)
      * @see \CrudGenerator\Context\ContextInterface::ask()
     */
-    public function askCollection($text, $uniqueKey, array $collection, $defaultResponse = null, $required = false, $helpMessage = null)
-    {
+    public function askCollection(
+        $text, $uniqueKey,
+        array $collection,
+        $defaultResponse = null,
+        $required = false,
+        $helpMessage = null
+    ) {
         $this->question[$uniqueKey] = $collection;
 
-        return $this->dialog->select($this->output, '<question>Choose a "' . $text . '"</question> : ', $collection);
+        return $this->dialog->select(
+            $this->output,
+            '<question>Choose a "' . $text . '"</question> : ', $collection
+        );
     }
 
     /**

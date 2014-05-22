@@ -63,7 +63,6 @@ class HistoryQuestion
 
         $historyKeysChoices = array_keys($historyChoices);
         $choice = $this->context->askCollection(
-            $this->output,
             "<question>History to regenerate</question> \n> ",
         	'history',
             $historyKeysChoices

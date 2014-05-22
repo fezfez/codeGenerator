@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\General\GeneratorsEmbed\ArchitectGenerator\MetadataToArrayWeb;
+namespace CrudGenerator\Tests\General\GeneratorsEmbed\ArchitectGenerator\MetadataToArray;
 
 use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArray;
@@ -14,11 +14,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $DTO->setMetadata($this->getMetadata())
         ->setNamespace('namespace');
 
-        $web =  $this->getMockBuilder('Silex\Application')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $context = new WebContext($web);
+    	$context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+    	->disableOriginalConstructor()
+    	->getMock();
 
         $sUT = new MetadataToArray($context);
 

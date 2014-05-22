@@ -89,7 +89,7 @@ class FileConflictManagerCli
 
             if ($response === self::SHOW_DIFF) {
                 // write to output the diff
-                $this->output->writeln(
+                $this->context->log(
                     '<info>' . $this->diffPHP->diff($results, $this->fileManager->fileGetContent($filePath)) . '</info>'
                 );
             } else {
@@ -106,10 +106,10 @@ class FileConflictManagerCli
                     $this->fileManager->fileGetContent($filePath)
                 )
             );
-            $this->output->writeln('--> Generate diff and new file ' . $filePath . '.diff');
+            $this->context->log('--> Generate diff and new file ' . $filePath . '.diff');
         } elseif ($response === self::ERASE) {
             $this->fileManager->filePutsContent($filePath, $results);
-            $this->output->writeln('--> Create ' . $filePath);
+            $this->context->log('--> Create ' . $filePath);
         }
     }
 }

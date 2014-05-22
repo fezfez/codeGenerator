@@ -6,19 +6,21 @@ use CrudGenerator\MetaData\MetaDataSourceCollection;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\Context\WebContext;
 
-class AskTestTest extends \PHPUnit_Framework_TestCase
+class AskTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {
         $metadataSourceCollection = new MetaDataSourceCollection();
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
-               ->setMetaDataDAO('My name');
+               ->setMetaDataDAO('My name')
+               ->setMetaDataDAOFactory('My nameFactory');
         $metadataSourceCollection->append($source);
         $sourceWithFailedDependencie = new MetaDataSource();
         $sourceWithFailedDependencie->setDefinition('My definition')
         ->setMetaDataDAO('My name')
-        ->setFalseDependencie('My false dependencies');
+        ->setFalseDependencie('My false dependencies')
+        ->setMetaDataDAOFactory('My nameFactory');
         $metadataSourceCollection->append($sourceWithFailedDependencie);
 
         $sourceFinderStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFinder', array('select'))

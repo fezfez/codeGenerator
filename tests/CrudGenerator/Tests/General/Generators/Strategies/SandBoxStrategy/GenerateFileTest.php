@@ -12,12 +12,10 @@ class GenerateFileTest extends \PHPUnit_Framework_TestCase
         $view = $this->getMockBuilder('CrudGenerator\View\View')
         ->disableOriginalConstructor()
         ->getMock();
-        $output =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $dialog =  $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
-        ->disableOriginalConstructor()
-        ->getMock();
+    	$context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+    	->disableOriginalConstructor()
+    	->getMock();
+
 
         $templateResult = 'MyResults';
         $dataObject     = new Architect();
@@ -38,11 +36,11 @@ class GenerateFileTest extends \PHPUnit_Framework_TestCase
         )
         ->will($this->returnValue($templateResult));
 
-        $dialog->expects($this->exactly(2))
-        ->method('askConfirmation')
+        $context->expects($this->exactly(2))
+        ->method('confirm')
         ->will($this->onConsecutiveCalls($this->returnValue(true), $this->returnValue(false)));
 
-        $sUT = new SandBoxStrategy($view, $output, $dialog);
+        $sUT = new SandBoxStrategy($view, $context);
 
         $sUT->generateFile(array('dataObject' => $dataObject), $skeletonDir, $pathTemplate, $pathTo);
     }
@@ -52,12 +50,10 @@ class GenerateFileTest extends \PHPUnit_Framework_TestCase
     	$view = $this->getMockBuilder('CrudGenerator\View\View')
     	->disableOriginalConstructor()
     	->getMock();
-    	$output =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+    	$context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
     	->disableOriginalConstructor()
     	->getMock();
-    	$dialog =  $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
-    	->disableOriginalConstructor()
-    	->getMock();
+
 
     	$templateResult = 'MyResults';
     	$dataObject     = new Architect();
@@ -68,10 +64,10 @@ class GenerateFileTest extends \PHPUnit_Framework_TestCase
     	$view->expects($this->never())
     	->method('render');
 
-    	$dialog->expects($this->never())
-    	->method('askConfirmation');
+    	$context->expects($this->never())
+    	->method('confirm');
 
-    	$sUT = new SandBoxStrategy($view, $output, $dialog, 'path');
+    	$sUT = new SandBoxStrategy($view, $context, 'path');
 
     	$sUT->generateFile(array('dataObject' => $dataObject), $skeletonDir, $pathTemplate, $pathTo);
     }

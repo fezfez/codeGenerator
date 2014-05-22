@@ -19,6 +19,8 @@ namespace CrudGenerator\Generators\Parser;
 
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\CliContext;
+use CrudGenerator\Context\WebContext;
 use CrudGenerator\Generators\Parser\Lexical\DirectoriesParser;
 use CrudGenerator\Generators\Parser\Lexical\FileParser;
 use CrudGenerator\Generators\Parser\Lexical\TemplateVariableParser;
@@ -36,17 +38,21 @@ class ParserCollectionFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-        $fileManager           = new FileManager();
-        $collection            = new ParserCollection();
-        $environnemetCondition = new EnvironnementCondition();
-        $dependencyCondition   = new DependencyCondition();
+        if ($context instanceof CliContext || $context instanceof WebContext) {
+            $fileManager           = new FileManager();
+            $collection            = new ParserCollection();
+            $environnemetCondition = new EnvironnementCondition();
+            $dependencyCondition   = new DependencyCondition();
 
-        $collection->addPreParse(new EnvironnementParser($context))
-                   ->addPostParse(new QuestionParser($context, $dependencyCondition))
-                   ->addPostParse(new TemplateVariableParser($fileManager, $environnemetCondition, $dependencyCondition))
-                   ->addPostParse(new DirectoriesParser())
-                   ->addPostParse(new FileParser($fileManager, $dependencyCondition, $environnemetCondition));
+            $collection->addPreParse(new EnvironnementParser($context))
+                       ->addPostParse(new QuestionParser($context, $dependencyCondition))
+                       ->addPostParse(new TemplateVariableParser($fileManager, $environnemetCondition, $dependencyCondition))
+                       ->addPostParse(new DirectoriesParser())
+                       ->addPostParse(new FileParser($fileManager, $dependencyCondition, $environnemetCondition));
 
-        return $collection;
+            return $collection;
+        } else {
+            throw new \InvalidArgumentException('Invalid context');
+        }
     }
 }

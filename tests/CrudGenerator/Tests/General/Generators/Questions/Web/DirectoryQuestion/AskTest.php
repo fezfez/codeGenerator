@@ -9,6 +9,10 @@ class AskTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {
+    	$context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+    	->disableOriginalConstructor()
+    	->getMock();
+
         $generatorDTO = new GeneratorDataObject();
         $dto = new Architect();
         $dto->setModelDirectory('src');
@@ -45,7 +49,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->with($dto->getModelDirectory() . '*', GLOB_ONLYDIR|GLOB_MARK)
         ->will($this->returnValue($directories));
 
-        $sUT = new DirectoryQuestion($fileManagerStub);
+        $sUT = new DirectoryQuestion($fileManagerStub, $context);
 
         $this->assertEquals($generatorToTest, $sUT->ask($generatorDTO, array('dtoAttribute' => 'ModelDirectory', 'text' => 'Select a Directory')));
     }
