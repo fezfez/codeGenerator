@@ -33,16 +33,8 @@ class PostgreSQLMetaDataDAOFactory
      */
     public static function getInstance(PostgreSQLConfig $config)
     {
-        $DSN = 'pgsql:dbname=' . $config->getDatabaseName() . ';host=' . $config->getHost();
-        $pdo = new \PDO(
-            $DSN,
-            $config->getUser(),
-            $config->getPassword()
-        );
-        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-
         return new PostgreSQLMetaDataDAO(
-            $pdo,
+            $config->getConnection(),
             $config,
             new SqlManager()
         );
@@ -54,6 +46,6 @@ class PostgreSQLMetaDataDAOFactory
      */
     public static function checkDependencies()
     {
-        return true;
+        return extension_loaded('pdo_pgsql');
     }
 }

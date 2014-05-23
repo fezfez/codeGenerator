@@ -1,7 +1,7 @@
 <?php
-namespace CrudGenerator\Tests\PDO\MetaData\Sources\PDO\SqlManager;
+namespace CrudGenerator\Tests\PostgreSQL\MetaData\Sources\PostgreSQL\SqlManager;
 
-use CrudGenerator\MetaData\Sources\PDO\SqlManager;
+use CrudGenerator\MetaData\Sources\PostgreSQL\SqlManager;
 
 class ListFieldsQueryTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,16 +11,7 @@ class ListFieldsQueryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInternalType(
             'string',
-            $sUT->listFieldsQuery('pgsql')
+            $sUT->listFieldsQuery()
         );
-    }
-
-    public function testFail()
-    {
-        $sUT = new SqlManager();
-
-        $this->setExpectedException('RuntimeException');
-
-        $sUT->listFieldsQuery('dazdazd');
     }
 }

@@ -72,11 +72,7 @@ class PostgreSQLMetaDataDAO implements MetaDataDAO
      */
     public function getAllMetadata()
     {
-        $sth = $this->pdo->prepare(
-            $this->sqlManager->getAllMetadata(
-                $this->pdoConfig->getType()
-            )
-        );
+        $sth = $this->pdo->prepare($this->sqlManager->getAllMetadata());
 
         $sth->execute();
 
@@ -120,11 +116,7 @@ class PostgreSQLMetaDataDAO implements MetaDataDAO
         $dataObject->setName($tableName);
         $columnDataObject = new MetaDataColumn();
 
-        $statement = $this->pdo->prepare(
-            $this->sqlManager->listFieldsQuery(
-                $this->pdoConfig->getType()
-            )
-        );
+        $statement = $this->pdo->prepare($this->sqlManager->listFieldsQuery());
         $statement->execute(array($tableName));
         $allFields = $statement->fetchAll(PDO::FETCH_ASSOC);
         $identifiers = $this->getIdentifiers($tableName);
@@ -159,11 +151,7 @@ class PostgreSQLMetaDataDAO implements MetaDataDAO
     {
         $identifiers = array();
 
-        $statement = $this->pdo->prepare(
-            $this->sqlManager->getAllPrimaryKeys(
-                $this->pdoConfig->getType()
-            )
-        );
+        $statement = $this->pdo->prepare($this->sqlManager->getAllPrimaryKeys());
         $statement->execute(array($tableName));
 
         $constraintList = $statement->fetchAll(PDO::FETCH_ASSOC);

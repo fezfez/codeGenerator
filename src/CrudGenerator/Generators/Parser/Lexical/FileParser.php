@@ -55,7 +55,11 @@ class FileParser implements ParserInterface
      */
     public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
     {
-        $skeletonPath = dirname($generator->getPath()) . '/Skeleton/';
+        $skeletonPath = $generator->getPath() . '/Skeleton/';
+
+        if (false === $this->fileManager->isDir($skeletonPath)) {
+            throw new MalformedGeneratorException(sprintf('The Skeleton path "%s" is not a valid directory', $skeletonPath));
+        }
 
         if (!isset($process['filesList'])) {
             throw new MalformedGeneratorException('No file given');

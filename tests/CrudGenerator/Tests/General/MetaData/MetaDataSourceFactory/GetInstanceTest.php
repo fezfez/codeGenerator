@@ -5,7 +5,7 @@ use CrudGenerator\MetaData\MetaDataSourceFactory;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
-    public function testTypdzadaze()
+    public function testCreateInstance()
     {
         $sUT = new MetaDataSourceFactory();
 
@@ -13,14 +13,14 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $PostgreSQLStub->expects($this->once())
-        ->method('getType')
-        ->will($this->throwException(new \InvalidArgumentException()));
+        $pdoStub = $this->getMock('CrudGenerator\Tests\General\MetaData\MetaDataSourceFactory\MockPDO');
 
-        $this->setExpectedException('InvalidArgumentException');
+        $PostgreSQLStub->expects($this->once())
+        ->method('getConnection')
+        ->will($this->returnValue($pdoStub));
 
         $this->assertInstanceOf(
-            '\CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory',
+            '\CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAO',
             $sUT->create('\CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory', $PostgreSQLStub)
         );
     }

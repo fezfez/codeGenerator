@@ -102,36 +102,94 @@ class GeneratorParser
         $generator = clone $generator;
         $phpParser = clone $this->phpStringParser;
 
-        return $this->analyse($generator->getName(), $phpParser, $generator, $metadata, true);
+        return $this->analyze($generator->getName(), $phpParser, $generator, $metadata, true);
     }
 
     /**
-     * @param string $name
+     * @param string $name Generator name
      * @param PhpStringParser $phpParser
      * @param GeneratorDataObject $generator
      * @param MetaData $metadata
      * @param boolean $firstIteration
      * @return GeneratorDataObject
      */
-    private function analyse($name, PhpStringParser $phpParser, GeneratorDataObject $generator, MetaData $metadata, $firstIteration = false)
+    private function analyze($name, PhpStringParser $phpParser, GeneratorDataObject $generator, MetaData $metadata, $firstIteration = false)
     {
+        $generator         = clone $generator;
         $generatorFilePath = $this->generatorFinder->findByName($name);
         $yaml              = $this->yaml;
         $process           = $yaml::parse($this->fileManager->fileGetContent($generatorFilePath), true);
 
+        /* @var $dto \CrudGenerator\DataObject */
         $dto = new $process['dto']();
         $dto->setMetadata($metadata);
 
-        $generator->addDependency($name);
+        $generator->setDTO($dto)
+                  ->setPath($generatorFilePath);
 
-        if (isset($process['dependencies'])) {
+        $generator = $this->analyzeDependencies($process, $phpParser, $generator);
+        $generator = $this->analyzePreParser($process, $phpParser, $generator, $firstIteration);
+        $phpParser->addVariable(lcfirst($process['name']), $generator->getDTO());
+        $generator->addTemplateVariable(lcfirst($process['name']), $generator->getDTO());
+        $generator = $this->analyzePostParser($process, $phpParser, $generator, $firstIteration);
+
+        return $generator;
+    }
+
+    /**
+     * Analyze the dependencies generator
+     *
+     * @param array $process
+     * @param PhpStringParser $phpParser
+     * @param GeneratorDataObject $generator
+     * @return \CrudGenerator\Generators\GeneratorDataObject
+     */
+    private function analyzeDependencies(array $process, PhpStringParser $phpParser, GeneratorDataObject $generator)
+    {
+        $generator = clone $generator;
+
+        if (isset($process['dependencies']) && is_array($process['dependencies'])) {
             foreach ($process['dependencies'] as $dependencieName) {
-                $generator = $this->analyse($dependencieName, $phpParser, $generator,  $metadata);
+                $generator->addDependency(
+                    $this->analyze($dependencieName, $phpParser, $generator, $generator->getDTO()->getMetadata())
+                );
+                //@TODO has to populate the main generator dataoject with depencies attributes
+            }
+            $generator = $this->addDependenciesVariablesToMainGenerator($generator);
+        }
+
+        return $generator;
+    }
+
+    /**
+     * @param GeneratorDataObject $generator
+     * @return GeneratorDataObject
+     */
+    private function addDependenciesVariablesToMainGenerator(GeneratorDataObject $generator)
+    {
+        $generator = clone $generator;
+
+        foreach ($generator->getDependencies() as $dependencies) {
+            foreach ($dependencies->getTemplateVariables() as $templateVariableName => $templateVariableValue) {
+                $generator->addTemplateVariable($templateVariableName, $templateVariableValue);
             }
         }
 
-        $generator->setDTO($dto)
-                  ->setPath($generatorFilePath);
+        return $generator;
+    }
+
+    /**
+     * Analyze pre parser
+     *
+     * @param array $process
+     * @param PhpStringParser $phpParser
+     * @param GeneratorDataObject $generator
+     * @param boolean $firstIteration
+     * @return \CrudGenerator\Generators\GeneratorDataObject
+     */
+    private function analyzePreParser(array $process, PhpStringParser $phpParser, GeneratorDataObject $generator, $firstIteration)
+    {
+        $generator = clone $generator;
 
         if ($this->parserCollection->getPreParse()->count() > 0) {
             foreach ($this->parserCollection->getPreParse() as $parser) {
@@ -139,8 +197,21 @@ class GeneratorParser
             }
         }
 
-        $phpParser->addVariable(lcfirst($process['name']), $generator->getDTO());
-        $generator->addTemplateVariable(lcfirst($process['name']), $generator->getDTO());
+        return $generator;
+    }
+
+    /**
+     * Analyze post parser
+     *
+     * @param array $process
+     * @param PhpStringParser $phpParser
+     * @param GeneratorDataObject $generator
+     * @param boolean $firstIteration
+     * @return \CrudGenerator\Generators\GeneratorDataObject
+     */
+    private function analyzePostParser(array $process, PhpStringParser $phpParser, GeneratorDataObject $generator, $firstIteration)
+    {
+        $generator = clone $generator;
 
         if ($this->parserCollection->getPostParse()->count() > 0) {
             foreach ($this->parserCollection->getPostParse() as $parser) {

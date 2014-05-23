@@ -8,7 +8,7 @@ use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 
 class AnalyseTest extends \PHPUnit_Framework_TestCase
 {
-    public function testOk()
+    public function testOkddddddddd()
     {
          $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()
@@ -29,7 +29,6 @@ class AnalyseTest extends \PHPUnit_Framework_TestCase
                   ->setAttributeName('myDate', 'madata')
                   ->addEnvironnementValue('backend', 'PDO')
                   ->addEnvironnementValue('framework', 'zend_framework_2');
-
 
         $fileGenerator = GeneratorStrategyFactory::getInstance($context);
 

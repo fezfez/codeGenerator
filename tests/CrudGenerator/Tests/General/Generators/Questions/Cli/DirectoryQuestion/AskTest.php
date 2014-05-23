@@ -14,32 +14,14 @@ class AskTest extends \PHPUnit_Framework_TestCase
     	->getMock();
 
         // First choice bin
-        $context->expects($this->at(1))
+        $context->expects($this->exactly(3))
         ->method('askCollection')
         ->with(
             $this->isType('string'),
             $this->isType('string'),
             $this->isType('array')
         )
-        ->will($this->returnValue(4));
-        // then choice back
-        $context->expects($this->at(2))
-        ->method('askCollection')
-        ->with(
-            $this->isType('string'),
-            $this->isType('string'),
-            $this->isType('array')
-        )
-        ->will($this->returnValue(DirectoryQuestion::BACK));
-        // then choice actual directory
-        $context->expects($this->at(3))
-        ->method('askCollection')
-        ->with(
-            $this->isType('string'),
-            $this->isType('string'),
-            $this->isType('array')
-        )
-        ->will($this->returnValue(DirectoryQuestion::CURRENT_DIRECTORY));
+        ->will($this->onConsecutiveCalls($this->returnValue(4), $this->returnValue(DirectoryQuestion::BACK), $this->returnValue(DirectoryQuestion::CURRENT_DIRECTORY)));
 
         $fileManagerStub =  $this->getMockBuilder('\CrudGenerator\Utils\FileManager')
         ->disableOriginalConstructor()
@@ -49,9 +31,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->will(
         	$this->returnValue(
         		array(
-        			'mmydir',
-        			'myFile',
-        			'myFile2'
+        			'mmydir/',
+        			'myFile/',
+        			'myFile2/'
         		)
         	)
         );

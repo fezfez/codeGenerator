@@ -80,7 +80,7 @@ class QuestionParser implements ParserInterface
                 $generator = $this->evaluateQuestions($questionsMatchs, $parser, $generator, $firstIteration);
             }
         } elseif (isset($question['type']) && $question['type'] === GeneratorParser::COMPLEX_QUESTION) {
-        	$complex = $question['factory']::getInstance($this->context);
+            $complex = $question['factory']::getInstance($this->context);
             $generator = $complex->ask($generator, $question);
         } else {
             $generator = $this->evaluateGeneriqueQuestion($question, $parser, $generator, $firstIteration);

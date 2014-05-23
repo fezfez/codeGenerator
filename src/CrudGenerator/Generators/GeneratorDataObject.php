@@ -88,7 +88,7 @@ class GeneratorDataObject implements \JsonSerializable
      */
     public function setPath($name)
     {
-        $this->path = $name;
+        $this->path = realpath(dirname($name));
         return $this;
     }
     /**

@@ -95,8 +95,14 @@ class EnvironnementParser implements ParserInterface
             )
         );
 
-        if ($response !== null && isset($toRecurse[$response])) {
-            $this->evaluateQuestions($response, $toRecurse[$response], $parser, $generator, $firstIteration);
+        if ($response !== null) {
+            $generator->addEnvironnementValue($environnementName, $response);
+
+            if (isset($toRecurse[$response])) {
+                foreach ($toRecurse[$response] as $recurseEnvironnementName => $questionToRecurse) {
+                    $this->evaluateQuestions($recurseEnvironnementName, $questionToRecurse, $parser, $generator, $firstIteration);
+                }
+            }
         }
 
         return $generator;

@@ -150,7 +150,7 @@ class PostgreSQLConfig implements MetaDataConfig
     public function test()
     {
         try {
-			$this->getConnection();
+            $this->getConnection();
         } catch (\PDOException $e) {
             throw new ConfigException('Connection failed with "' . $e->getMessage() . '"');
         }
@@ -160,34 +160,37 @@ class PostgreSQLConfig implements MetaDataConfig
      */
     public function getDefinition()
     {
-    	return $this->definition;
+        return $this->definition;
     }
     /* (non-PHPdoc)
      * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getUniqueName()
      */
     public function getUniqueName()
     {
-    	return 'PostgreSQL ' . $this->host . ' ' . $this->user;
+        return 'PostgreSQL ' . $this->host . ' ' . $this->user;
     }
     /* (non-PHPdoc)
      * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getConnection()
      */
     public function getConnection()
     {
-    	return new \PDO('pgsql:dbname='.$this->databaseName . ';host='.$this->host, $this->user, $this->password);
+        $pdo = new \PDO('pgsql:dbname='.$this->databaseName . ';host='.$this->host, $this->user, $this->password);
+        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+        return $pdo;
     }
     /* (non-PHPdoc)
      * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::jsonSerialize()
      */
     public function jsonSerialize()
     {
-    	return array(
-    		'databaseName' => $this->databaseName,
-    		'host'         => $this->host,
-    		'user'         => $this->user,
-    		'password'     => $this->password,
-    		'port'         => $this->port
-    	);
+        return array(
+            'databaseName' => $this->databaseName,
+            'host'         => $this->host,
+            'user'         => $this->user,
+            'password'     => $this->password,
+            'port'         => $this->port
+        );
     }
 
     /**
