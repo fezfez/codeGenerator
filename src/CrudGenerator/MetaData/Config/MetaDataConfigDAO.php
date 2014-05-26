@@ -25,7 +25,6 @@ use ReflectionProperty;
 use CrudGenerator\Utils\ClassAwake;
 use CrudGenerator\MetaData\MetaDataSourceHydrator;
 use CrudGenerator\MetaData\MetaDataSourceCollection;
-use CrudGenerator\MetaData\MetaDataSource;
 
 class MetaDataConfigDAO
 {
