@@ -105,6 +105,11 @@ class DirectoryQuestion
         return $generator;
     }
 
+    /**
+     * @param string $baseDirectory
+     * @throws \Exception
+     * @return string
+     */
     private function createDirectory($baseDirectory)
     {
         while (true) {
@@ -114,7 +119,7 @@ class DirectoryQuestion
                     'directory_name'
                 );
 
-                if (false === $this->fileManager->ifDirDoesNotExistCreate($directory)) {
+                if (false === $this->fileManager->ifDirDoesNotExistCreate($baseDirectory . $directory)) {
                     throw new \Exception('Directory already exist');
                 } else {
                     break;

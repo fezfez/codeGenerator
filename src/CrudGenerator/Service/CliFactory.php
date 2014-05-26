@@ -19,7 +19,6 @@ namespace CrudGenerator\Service;
 
 use CrudGenerator\Command\CreateCommandFactory;
 use CrudGenerator\Context\CliContext;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\DialogHelper;
@@ -34,11 +33,11 @@ class CliFactory
 {
     /**
      * Create CLI instance
-     * @param InputInterface $input
+     *
      * @param OutputInterface $output
      * @return \Symfony\Component\Console\Application
      */
-    public static function getInstance(InputInterface $input, OutputInterface $output)
+    public static function getInstance(OutputInterface $output)
     {
         $dialogHelper   = new DialogHelper();
         $application    = new Application('Code Generator Command Line Interface', 'Alpha');

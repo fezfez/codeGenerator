@@ -49,7 +49,7 @@ class GeneratorFinder
     public function getAllClasses()
     {
         $directories = array(
-            __DIR__ . '/../../' // @TODO fix path
+            __DIR__ . '/../../'
         );
 
         $generators = array();
