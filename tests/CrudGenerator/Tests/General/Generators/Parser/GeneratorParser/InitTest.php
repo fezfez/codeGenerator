@@ -17,7 +17,7 @@ class InitTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $yaml =  $this->getMockBuilder('Symfony\Component\Yaml\Yaml')
+        $yaml =  $this->getMockBuilder('Symfony\Component\Yaml\Parser')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -40,7 +40,7 @@ class InitTest extends \PHPUnit_Framework_TestCase
             'name' => 'test'
         );
 
-        $yaml::staticExpects($this->once())
+        $yaml->expects($this->once())
         ->method('parse')
         ->will($this->returnValue($process));
 
@@ -57,7 +57,7 @@ class InitTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $yaml =  $this->getMockBuilder('Symfony\Component\Yaml\Yaml')
+        $yaml =  $this->getMockBuilder('Symfony\Component\Yaml\Parser')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -92,7 +92,7 @@ class InitTest extends \PHPUnit_Framework_TestCase
             'name' => 'test'
         );
 
-        $yaml::staticExpects($this->once())
+        $yaml->expects($this->once())
         ->method('parse')
         ->will($this->returnValue($process));
 

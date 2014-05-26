@@ -17,7 +17,7 @@
  */
 namespace CrudGenerator\Generators\Parser;
 
-use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml\Parser;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
@@ -43,7 +43,7 @@ class GeneratorParserFactory
 
         return new GeneratorParser(
             new FileManager(),
-            new Yaml(),
+            new Parser(),
             new PhpStringParser(),
             GeneratorStrategyFactory::getInstance($context),
             $generatorFinder,
