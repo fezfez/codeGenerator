@@ -6,12 +6,12 @@
     {% raw %}
          <div class="row">
               <div class="col-sm-12 col-md-2 sidebar sidebar-left arrow_box">
-                  <h3>1) Source</h3>
+                  <h3>1) {{ backendCollection.text }}</h3>
                 <span ng-click="newSource()">Create new source</span>
                 <div class="list-group">
                     <a href="#"
                        class="list-group-item"
-                       ng-repeat="backend in backendCollection"
+                       ng-repeat="backend in backendCollection.values"
                        ng-click="setBackend(backend.label)"
                        ng-class="{'active': backend.label === backendSelected}">
                         {{  backend.label }}
@@ -19,11 +19,11 @@
                 </div>
              </div>
              <div class="col-sm-12 col-md-2 col-md-offset-2 sidebar sidebar-left arrow_box" ng-show="metadataCollection">
-                  <h3>2) MetaData</h3>
+                  <h3>2) {{ metadataCollection.text }}</h3>
                 <div class="list-group">
                     <a href="#"
                        class="list-group-item"
-                       ng-repeat="metadata in metadataCollection"
+                       ng-repeat="metadata in metadataCollection.values"
                        ng-click="setMetadata(metadata.label)"
                        ng-class="{'active': metadata.label === metadataSelected}">
                         {{  metadata.label }}
@@ -31,11 +31,11 @@
                 </div>
              </div>
              <div class="col-sm-12 col-md-2 col-md-offset-4 sidebar sidebar-left arrow_box" ng-show="generatorCollection">
-                  <h3>3) Generator</h3>
+                  <h3>3) {{ generatorCollection.text }}</h3>
                 <div>
                     <a href="#"
                        class="list-group-item"
-                       ng-repeat="generator in generatorCollection"
+                       ng-repeat="generator in generatorCollection.values"
                        ng-click="setGenerator(generator.label)"
                        ng-class="{'active': generator.label === generatorSelected}">
                         {{  generator.label }}
@@ -45,34 +45,34 @@
              <div class="col-sm-12 col-md-2 col-md-offset-6 sidebar sidebar-left arrow_box" ng-show="questionList">
                 <h3>4) Questions</h3>
                     <div>
-                        <div class="form-group" ng-repeat="questions in questionList">
-                            <label for="{{ name.dtoAttribute }}">{{ questions.text }}</label>
-                            <input ng-if="questions.type == 'text'"
-                                   ng-blur="setQuestion(questions.dtoAttribute)"
-                                   ng-model="answers[questions.dtoAttribute]"
-                                   id="{{ questions.dtoAttribute }}"
-                                   class="form-control questions"
+                        <div class="form-group" ng-repeat="question in questionList">
+                            <label for="{{ name.dtoAttribute }}">{{ question.text }}</label>
+                            <input ng-if="question.type == 'text'"
+                                   ng-blur="setQuestion(question.dtoAttribute)"
+                                   ng-model="answers[question.dtoAttribute]"
+                                   id="{{ question.dtoAttribute }}"
+                                   class="form-control question"
                                    type="text"
-                                   name="{{ questions.dtoAttribute }}"
-                                   value="{{ (questions.value) ? questions.value : questions.defaultResponse }}"
-                                   placeholder="{{ questions.text }}" />
-                            <select ng-if="questions.type == 'directory'"
-                                    id="{{ questions.dtoAttribute }}"
-                                    class="form-control questions"
-                                    ng-model="answers[questions.dtoAttribute]"
-                                    name="{{ questions.dtoAttribute }}">
-                                    <option selected="selected" value="{{ questions.value }}">{{ questions.placeholder }}</option>
-                                    <option ng-repeat="value in questions.values" ng-click="setQuestion(questions.dtoAttribute)" value="{{ value.id }}">
+                                   name="{{ question.dtoAttribute }}"
+                                   value="{{ (question.value) ? question.value : question.defaultResponse }}"
+                                   placeholder="{{ question.text }}" />
+                            <select ng-if="question.type == 'directory'"
+                                    id="{{ question.dtoAttribute }}"
+                                    class="form-control question"
+                                    ng-model="answers[question.dtoAttribute]"
+                                    name="{{ question.dtoAttribute }}">
+                                    <option selected="selected" value="{{ question.value }}">{{ question.placeholder }}</option>
+                                    <option ng-repeat="value in question.values" ng-click="setQuestion(question.dtoAttribute)" value="{{ value.id }}">
                                         {{ value.label }}
                                     </option>
                             </select>
-                            <select ng-if="questions.type == 'select'"
-                                    id="{{ questions.dtoAttribute }}"
-                                    class="form-control questions"
-                                    ng-model="answers[questions.dtoAttribute]"
-                                    name="{{ questions.dtoAttribute }}">
-                                    <option selected="selected" value="{{ questions.value }}">{{ questions.placeholder }}</option>
-                                    <option ng-repeat="value in questions.values" ng-click="setQuestion(questions.dtoAttribute)" value="{{ value.id }}">
+                            <select ng-if="question.type == 'select'"
+                                    id="{{ question.dtoAttribute }}"
+                                    class="form-control question"
+                                    ng-model="answers[question.dtoAttribute]"
+                                    name="{{ question.dtoAttribute }}">
+                                    <option selected="selected" value="{{ question.value }}">{{ question.placeholder }}</option>
+                                    <option ng-repeat="value in question.values" ng-click="setQuestion(question.dtoAttribute)" value="{{ value.id }}">
                                         {{ value.label }}
                                     </option>
                             </select>

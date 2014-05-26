@@ -18,7 +18,6 @@
 namespace CrudGenerator\MetaData;
 
 use CrudGenerator\MetaData\MetaDataSourceFinder;
-use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\ClassAwake;
 
 /**
@@ -36,7 +35,7 @@ class MetaDataSourceFinderFactory
     public static function getInstance()
     {
         $metaDataSourceHydrator = MetaDataSourceHydratorFactory::getInstance();
-        $classAwake              = new ClassAwake();
+        $classAwake             = new ClassAwake();
 
         return new MetaDataSourceFinder($classAwake, $metaDataSourceHydrator);
     }

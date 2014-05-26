@@ -18,8 +18,6 @@
 namespace CrudGenerator\Generators\Strategies;
 
 use CrudGenerator\View\View;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
 use CrudGenerator\Context\ContextInterface;
 
 /**

@@ -18,12 +18,16 @@
 namespace CrudGenerator\MetaData\Sources\PostgreSQL;
 
 use CrudGenerator\MetaData\Sources\PostgreSQL\SqlManager;
+use CrudGenerator\MetaData\Sources\MetaDataDAOFactory;
+use CrudGenerator\MetaData\MetaDataSource;
+use CrudGenerator\MetaData\Sources\MetaDataConfig;
+use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
 
 /**
  * Create PostgreSQL Metadata DAO instance
  *
  */
-class PostgreSQLMetaDataDAOFactory
+class PostgreSQLMetaDataDAOFactory implements MetaDataDAOFactory
 {
     /**
      * Create PostgreSQL Metadata DAO instance
@@ -31,7 +35,7 @@ class PostgreSQLMetaDataDAOFactory
      * @param PostgreSQLConfig $config
      * @return \CrudGenerator\MetaData\Sources\PDO\PDOMetaDataDAO
      */
-    public static function getInstance(PostgreSQLConfig $config)
+    public static function getInstance(MetaDataConfig $config = null)
     {
         return new PostgreSQLMetaDataDAO(
             $config->getConnection(),
@@ -41,11 +45,30 @@ class PostgreSQLMetaDataDAOFactory
     }
 
     /**
-     * Check if dependence are complete
+     * @param MetaDataSource $metadataSource
      * @return boolean
      */
-    public static function checkDependencies()
+    public static function checkDependencies(MetaDataSource $metadataSource)
     {
-        return extension_loaded('pdo_pgsql');
+        $isLoaded = extension_loaded('pdo_pgsql');
+        if (false === $isLoaded) {
+            $metadataSource->setFalseDependencie('The extension "pdo_pgsql" is not loaded');
+        }
+
+        return $isLoaded;
+    }
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\Sources\MetaDataDAO::getDataObject()
+    */
+    public static function getDescription()
+    {
+        $dataObject = new MetaDataSource();
+        $dataObject->setDefinition("PostgreSQL")
+                   ->setMetaDataDAOFactory('CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory')
+                   ->setMetaDataDAO("CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAO")
+                   ->setConfig(new PostgreSQLConfig());
+
+        return $dataObject;
     }
 }

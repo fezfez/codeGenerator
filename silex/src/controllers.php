@@ -2,7 +2,6 @@
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use CrudGenerator\MetaData\MetaDataSourceFactory;
 use CrudGenerator\MetaData\Config\ConfigException;
 use CrudGenerator\Generators\Questions\MetaDataSourcesQuestionFactory;
 use CrudGenerator\Generators\Questions\MetaDataSourcesConfiguredQuestionFactory;
@@ -14,9 +13,10 @@ use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 use CrudGenerator\Context\WebContext;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\GeneratorWebConflictException;
-use CrudGenerator\MetaData\MetaDataSourceFinderFactory;
 use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
 use CrudGenerator\MetaData\Config\MetaDataConfigDAOFactory;
+use CrudGenerator\Backbone\PreapreForGenerationBackboneFactory;
+use CrudGenerator\Generators\ResponseExpectedException;
 
 $app->match('/', function() use ($app) {
     return $app['twig']->render('index.html.twig');
@@ -28,13 +28,13 @@ $app->match('/adapter-form', function (Request $request) use ($app) {
     $backendFinder  = MetaDataSourcesQuestionFactory::getInstance($context);
 
     try {
-    	$metadataSource = $backendFinder->ask();
-    } catch (InvalidArgumentException $e) {
-    	return $app->json($context);
-    }
+        $metadataSource = $backendFinder->ask();
 
-    $metaDataConfigDAO = MetaDataConfigDAOFactory::getInstance($context);
-    $metaDataConfigDAO->ask($metadataSource->getConfig());
+        $metaDataConfigDAO = MetaDataConfigDAOFactory::getInstance($context);
+        $metaDataConfigDAO->ask($metadataSource->getConfig());
+    } catch (ResponseExpectedException $e) {
+        return $app->json($context);
+    }
 
     return $app->json($context);
 })->bind('adapter-form');
@@ -43,7 +43,7 @@ $app->match('metadata-save', function (Request $request) use ($app) {
 
     $context               = new WebContext($app);
     $backendFinder         = MetaDataSourcesQuestionFactory::getInstance($context);
-    $backendSelect         = $backendFinder->retrieve();
+    $backendSelect         = $backendFinder->ask();
 
     $configReader = MetaDataConfigDAOFactory::getInstance($context);
     try {
@@ -54,56 +54,38 @@ $app->match('metadata-save', function (Request $request) use ($app) {
     }
 })->bind('metadata-save');
 
-// on choice metadata
-$app->match('/metadata', function (Request $request) use ($app) {
-    $context         = new WebContext($app);
+$mergeJsonSerealise = function($one, $two) {
+    $oneArray = (array) json_decode(json_encode($one));
+    $twoArray = (array) json_decode(json_encode($two));
 
-    $backendFinder   = MetaDataSourcesConfiguredQuestionFactory::getInstance($context);
-    $metadataFinder  = MetaDataQuestionFactory::getInstance($context);
-    $generatorFinder = GeneratorQuestionFactory::getInstance($context);
-    $generatorParser = GeneratorParserFactory::getInstance($context);
+    return array_merge($oneArray, $twoArray);
+};
+
+// on choice metadata
+$app->match('/metadata', function (Request $request) use ($app, $mergeJsonSerealise) {
+    $context           = new WebContext($app);
+    $prepareGeneration = PreapreForGenerationBackboneFactory::getInstance($context);
 
     try {
-        $metadataSource = $backendFinder->ask();
-        $metadata       = $metadataFinder->ask($metadataSource);
-        $generatorPath  = $generatorFinder->ask();
-
-        $generator = new GeneratorDataObject();
-        $generator->setName($generatorPath);
-
-        $generator = $generatorParser->init($generator, $metadata);
-
-    } catch (InvalidArgumentException $e) {
+        $generator = $prepareGeneration->run();
+    } catch (ResponseExpectedException $e) {
         return $app->json($context, 201);
     }
 
-    return $app->json(array('generator' => $context), 201);
+    return $app->json($mergeJsonSerealise($context, $generator), 201);
 })->bind('metadata');
 
 $app->match('view-file', function (Request $request) use ($app) {
 
-    $context         = new WebContext($app);
-    $file            = $request->request->get('file');
-
-    $backendFinder     = MetaDataSourcesConfiguredQuestionFactory::getInstance($context);
-    $metadataFinder    = MetaDataQuestionFactory::getInstance($context);
-    $generatorFinder   = GeneratorQuestionFactory::getInstance($context);
-    $generatorParser   = GeneratorParserFactory::getInstance($context);
-    $generatorStrategy = GeneratorStrategyFactory::getInstance($context);
-    $generatorEngine   = GeneratorFactory::getInstance($context, $generatorStrategy);
+    $context           = new WebContext($app);
+    $file              = $request->request->get('file');
+    $prepareGeneration = PreapreForGenerationBackboneFactory::getInstance($context);
+    $generatorEngine   = GeneratorFactory::getInstance($context, GeneratorStrategyFactory::getInstance($context));
 
     try {
-        $metadataSource = $backendFinder->ask();
-        $metadata       = $metadataFinder->ask($metadataSource);
-        $generatorPath  = $generatorFinder->ask();
-
-        $generator = new GeneratorDataObject();
-        $generator->setName($generatorPath);
-
-        $generator = $generatorParser->init($generator, $metadata);
+        $generator    = $prepareGeneration->run();
         $fileGenerate = $generatorEngine->generate($generator, $file);
-
-    } catch (InvalidArgumentException $e) {
+    } catch (ResponseExpectedException $e) {
         return $app->json($context, 201);
     }
 
@@ -115,23 +97,11 @@ $app->match('generate', function (Request $request) use ($app) {
     $conflictArray  = (array) $request->request->get('conflict');
     $context        = new WebContext($app);
 
-    $backendFinder          = MetaDataSourcesConfiguredQuestionFactory::getInstance($context);
-    $metadataFinder         = MetaDataQuestionFactory::getInstance($context);
-    $generatorFinder        = GeneratorQuestionFactory::getInstance($context);
-    $generatorParser        = GeneratorParserFactory::getInstance($context);
-    $generatorStrategy      = GeneratorStrategyFactory::getInstance($context);
-    $generatorEngine        = GeneratorFactory::getInstance($context, $generatorStrategy);
-
-    $metadataSource = $backendFinder->ask();
-    $metadata       = $metadataFinder->ask($metadataSource);
-    $generatorPath  = $generatorFinder->ask();
-
-    $generator = new GeneratorDataObject();
-    $generator->setName($generatorPath);
-
-    $generator = $generatorParser->init($generator, $metadata);
+    $prepareGeneration = PreapreForGenerationBackboneFactory::getInstance($context);
+    $generatorEngine   = GeneratorFactory::getInstance($context, GeneratorStrategyFactory::getInstance($context));
 
     try {
+        $generator = $prepareGeneration->run();
         if(!empty($conflictArray)) {
             $generator = $generatorEngine->handleConflict($generator, $conflictArray);
         }
@@ -140,6 +110,8 @@ $app->match('generate', function (Request $request) use ($app) {
     } catch (\CrudGenerator\Generators\GeneratorWebConflictException $e) {
         $conflict = $generatorEngine->checkConflict($generator);
         $toReturn = array('conflict' => $conflict);
+    } catch (ResponseExpectedException $e) {
+        return $app->json($context, 201);
     }
 
     return $app->json($toReturn, 201);

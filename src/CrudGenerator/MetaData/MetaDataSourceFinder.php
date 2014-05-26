@@ -19,10 +19,7 @@ namespace CrudGenerator\MetaData;
 
 use CrudGenerator\MetaData\MetaDataSourceCollection;
 use CrudGenerator\MetaData\MetaDataSource;
-use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
-use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\ClassAwake;
-use ReflectionClass;
 
 /**
  * Find all MetaDataSource allow in project
@@ -62,12 +59,11 @@ class MetaDataSourceFinder
             array(
                 __DIR__ . '/Sources/'
             ),
-            'CrudGenerator\MetaData\Sources\MetaDataDAO'
+            'CrudGenerator\MetaData\Sources\MetaDataDAOFactory'
         );
 
         $adapterCollection = new MetaDataSourceCollection();
         $adapterDataObject = new MetaDataSource();
-
 
         foreach ($classCollection as $className) {
             $adapterCollection->append(

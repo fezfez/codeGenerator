@@ -17,12 +17,11 @@
  */
 namespace CrudGenerator\Generators\Parser\Lexical;
 
+use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
-use CrudGenerator\Generators\Parser\Lexical\QuestionInterface;
-use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 
@@ -100,18 +99,9 @@ class QuestionParser implements ParserInterface
     {
         $response = $this->context->ask(
             $question['text'],
-            'set' . ucfirst($question['dtoAttribute'])
-        );
-
-        $generator->addQuestion(
-            array(
-                'dtoAttribute'    => 'set' . ucfirst($question['dtoAttribute']),
-                'text'            => $question['text'],
-                'value'           => ($response !== null) ? $response : '',
-                'defaultResponse' => (isset($question['defaultResponse'])) ? $parser->parse($question['defaultResponse']) : null,
-                'required'        => (isset($question['required'])) ? $question['required'] : false,
-                'type'            => (isset($question['type'])) ? $question['type'] : 'text',
-            )
+            'set' . ucfirst($question['dtoAttribute']),
+            (isset($question['defaultResponse'])) ? $parser->parse($question['defaultResponse']) : null,
+            (isset($question['required'])) ? $question['required'] : false
         );
 
         $questionName = 'set' . ucfirst($question['dtoAttribute']);

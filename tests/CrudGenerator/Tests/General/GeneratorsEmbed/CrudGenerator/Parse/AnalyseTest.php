@@ -24,11 +24,11 @@ class AnalyseTest extends \PHPUnit_Framework_TestCase
             $this->getMetadata()
         );
 
-        $generator->getDTO()
+        $generator->addEnvironnementValue('backend', 'PDO')
+                  ->addEnvironnementValue('framework', 'zend_framework_2')
+                  ->getDTO()
                   ->setAttributeName('tetze', 'myName')
-                  ->setAttributeName('myDate', 'madata')
-                  ->addEnvironnementValue('backend', 'PDO')
-                  ->addEnvironnementValue('framework', 'zend_framework_2');
+                  ->setAttributeName('myDate', 'madata');
 
         $fileGenerator = GeneratorStrategyFactory::getInstance($context);
 

@@ -51,7 +51,8 @@ class WebContext implements ContextInterface, \JsonSerializable
             'text'            => $text,
             'dtoAttribute'    => $key,
             'defaultResponse' => $defaultResponse,
-            'required'        => $required
+            'required'        => $required,
+            'type'            => 'text'
         );
 
         return $this->application->offsetGet('request')->request->get($key);
@@ -62,7 +63,14 @@ class WebContext implements ContextInterface, \JsonSerializable
     */
     public function askCollection($text, $uniqueKey, array $collection, $defaultResponse = null, $required = false, $helpMessage = null)
     {
-        $this->question[$uniqueKey . 'Collection'] = $collection;
+        $this->question['question'][] = array(
+        	'text'            => $text,
+        	'dtoAttribute'    => $uniqueKey,
+        	'defaultResponse' => $defaultResponse,
+        	'required'        => $required,
+        	'values'          => $collection,
+        	'type'            => 'select'
+        );
 
         return $this->application->offsetGet('request')->request->get($uniqueKey);
     }

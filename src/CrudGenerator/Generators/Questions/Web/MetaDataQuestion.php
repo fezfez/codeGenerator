@@ -21,6 +21,7 @@ use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\MetaDataSourceFactory;
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Generators\ResponseExpectedException;
 
 class MetaDataQuestion
 {
@@ -61,9 +62,9 @@ class MetaDataQuestion
 
     /**
      * Ask wich metadata you want to use
-     * @param MetaDataSource $adapter
-     * @param string $metaDataNamePreselected
-     * @return array
+     * @param MetaDataSource $metadataSource
+     * @throws ResponseExpectedException
+     * @return \CrudGenerator\MetaData\DataObject\MetaData
      */
     public function ask(MetaDataSource $metadataSource)
     {
@@ -78,14 +79,14 @@ class MetaDataQuestion
 
         return $this->retrieve(
             $metadataSource,
-            $this->context->askCollection("Witch meta data", 'metadata', $metaDataArray)
+            $this->context->askCollection("Select Metadata", 'metadata', $metaDataArray)
         );
     }
 
     /**
      * @param MetaDataSource $metadataSource
      * @param string $metaDataNamePreselected
-     * @throws \InvalidArgumentException
+     * @throws ResponseExpectedException
      * @return \CrudGenerator\MetaData\DataObject\MetaData
      */
     public function retrieve(MetaDataSource $metadataSource, $metaDataNamePreselected)
@@ -96,7 +97,7 @@ class MetaDataQuestion
             }
         }
 
-        throw new \InvalidArgumentException(
+        throw new ResponseExpectedException(
             sprintf(
                 "Metadata %s does not exist",
                 $metaDataNamePreselected

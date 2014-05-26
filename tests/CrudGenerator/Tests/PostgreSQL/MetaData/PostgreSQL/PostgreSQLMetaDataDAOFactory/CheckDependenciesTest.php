@@ -2,6 +2,7 @@
 namespace CrudGenerator\Tests\PostgreSQL\MetaData\Sources\PostgreSQL\PgSql\PostgreSQLMetaDataDAOFactory;
 
 use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory;
+use CrudGenerator\MetaData\MetaDataSource;
 
 class CheckDependenciesTest extends \PHPUnit_Framework_TestCase
 {
@@ -9,7 +10,7 @@ class CheckDependenciesTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             true,
-            PostgreSQLMetaDataDAOFactory::checkDependencies()
+            PostgreSQLMetaDataDAOFactory::checkDependencies(new MetaDataSource())
         );
     }
 }

@@ -5,95 +5,98 @@ use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use Symfony\Component\Yaml\Yaml;
+use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 
 
 class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
     public function testDifferent()
     {
-    	$phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$sUT = new DependencyCondition();
+        $sUT = new DependencyCondition();
 
-    	$generator = new GeneratorDataObject();
+        $generator = new GeneratorDataObject();
 
-    	$string = '
+        $string = '
 questions :
     - dependencyCondition :
         - !ArchitectGenerator :
             - /form/DataObject.phtml        : <?php $formGenerator->getFormPath(); ?>DataObject.phtml';
 
-    	$result = Yaml::parse($string, true);
-    	foreach ($result['questions'] as  $files) {
-			foreach ($files as $templateName => $tragetFile) {
-	    		if ($templateName === 'dependencyCondition') {
-			        $this->assertEquals(
-			            array(array('/form/DataObject.phtml' => '<?php $formGenerator->getFormPath(); ?>DataObject.phtml')),
-			            $sUT->evaluate($tragetFile, $phpParser, $generator, array(), true)
-			        );
-	    		}
-			}
-    	}
+        $result = Yaml::parse($string, true);
+        foreach ($result['questions'] as  $files) {
+            foreach ($files as $templateName => $tragetFile) {
+                if ($templateName === 'dependencyCondition') {
+                    $this->assertEquals(
+                        array(array('/form/DataObject.phtml' => '<?php $formGenerator->getFormPath(); ?>DataObject.phtml')),
+                        $sUT->evaluate($tragetFile, $phpParser, $generator, array(), true)
+                    );
+                }
+            }
+        }
     }
 
-    public function testIn()
+    public function testInd()
     {
-    	$phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$sUT = new DependencyCondition();
+        $sUT = new DependencyCondition();
 
-    	$generator = new GeneratorDataObject();
-    	$generator->addDependency('ArchitectGenerator');
+        $generator = new GeneratorDataObject();
+        $generatorDependency = new GeneratorDataObject();
+        $generatorDependency->setName('ArchitectGenerator');
+        $generator->addDependency($generatorDependency);
 
-    	$string = '
+        $string = '
 questions :
     - dependencyCondition :
         - ArchitectGenerator :
             - /form/DataObject.phtml        : <?php $formGenerator->getFormPath(); ?>DataObject.phtml';
 
-    	$result = Yaml::parse($string, true);
-    	foreach ($result['questions'] as  $files) {
-    		foreach ($files as $templateName => $tragetFile) {
-    			if ($templateName === 'dependencyCondition') {
-    				$this->assertEquals(
-    						array(array('/form/DataObject.phtml' => '<?php $formGenerator->getFormPath(); ?>DataObject.phtml')),
-    						$sUT->evaluate($tragetFile, $phpParser, $generator, array(), true)
-    				);
-    			}
-    		}
-    	}
+        $result = Yaml::parse($string, true);
+        foreach ($result['questions'] as  $files) {
+            foreach ($files as $templateName => $tragetFile) {
+                if ($templateName === 'dependencyCondition') {
+                    $this->assertEquals(
+                            array(array('/form/DataObject.phtml' => '<?php $formGenerator->getFormPath(); ?>DataObject.phtml')),
+                            $sUT->evaluate($tragetFile, $phpParser, $generator, array(), true)
+                    );
+                }
+            }
+        }
     }
 
     public function testWithout()
     {
-    	$phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$sUT = new DependencyCondition();
+        $sUT = new DependencyCondition();
 
-    	$generator = new GeneratorDataObject();
+        $generator = new GeneratorDataObject();
 
-    	$string = '
+        $string = '
 questions :
     - dependencyCondition :
         - ArchitectGenerator :
             - /form/DataObject.phtml        : <?php $formGenerator->getFormPath(); ?>DataObject.phtml';
 
-    	$result = Yaml::parse($string, true);
-    	foreach ($result['questions'] as  $files) {
-    		foreach ($files as $templateName => $tragetFile) {
-    			if ($templateName === 'dependencyCondition') {
-    				$this->assertEquals(
-    						array(),
-    						$sUT->evaluate($tragetFile, $phpParser, $generator, array(), true)
-    				);
-    			}
-    		}
-    	}
+        $result = Yaml::parse($string, true);
+        foreach ($result['questions'] as  $files) {
+            foreach ($files as $templateName => $tragetFile) {
+                if ($templateName === 'dependencyCondition') {
+                    $this->assertEquals(
+                            array(),
+                            $sUT->evaluate($tragetFile, $phpParser, $generator, array(), true)
+                    );
+                }
+            }
+        }
     }
 }

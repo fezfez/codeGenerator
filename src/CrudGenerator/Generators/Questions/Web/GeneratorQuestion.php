@@ -19,6 +19,7 @@ namespace CrudGenerator\Generators\Questions\Web;
 
 use CrudGenerator\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Generators\ResponseExpectedException;
 
 class GeneratorQuestion
 {
@@ -48,33 +49,32 @@ class GeneratorQuestion
     {
         $generatorArray = array();
         foreach ($this->generatorFinder->getAllClasses() as $path => $name) {
-        	$generatorArray[] = array('id' => $name, 'label' => $name);
+            $generatorArray[] = array('id' => $name, 'label' => $name);
         }
 
         return $this->retrieve(
-        	$this->context->askCollection("Witch generator", 'generator', $generatorArray)
+            $this->context->askCollection("Select generator", 'generator', $generatorArray)
         );
     }
 
     /**
      * @param string $preSelected
-     * @throws \InvalidArgumentException
-     * @return unknown
+     * @throws ResponseExpectedException
+     * @return string
      */
     private function retrieve($preSelected)
     {
-    	$generatorArray = array();
-    	foreach ($this->generatorFinder->getAllClasses() as $path => $name) {
-    		if ($name === $preSelected) {
-    			return $name;
-    		}
-    	}
+        foreach ($this->generatorFinder->getAllClasses() as $path => $name) {
+            if ($name === $preSelected) {
+                return $name;
+            }
+        }
 
-    	throw new \InvalidArgumentException(
-    		sprintf(
-    			"Generator %s does not exist",
-    			$preSelected
-    		)
-    	);
+        throw new ResponseExpectedException(
+            sprintf(
+                "Generator %s does not exist",
+                $preSelected
+            )
+        );
     }
 }

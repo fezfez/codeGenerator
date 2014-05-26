@@ -17,11 +17,16 @@
  */
 namespace CrudGenerator\MetaData\Sources\MySQL;
 
+use CrudGenerator\MetaData\Sources\MetaDataDAOFactory;
+use CrudGenerator\MetaData\MetaDataSource;
+use CrudGenerator\MetaData\Sources\MetaDataConfig;
+use CrudGenerator\MetaData\Sources\MySQL\MySQLConfig;
+
 /**
  * Create MySQL Metadata DAO instance
  *
  */
-class MySQLMetaDataDAOFactory
+class MySQLMetaDataDAOFactory implements MetaDataDAOFactory
 {
     /**
      * Create MySQL Metadata DAO instance
@@ -29,28 +34,39 @@ class MySQLMetaDataDAOFactory
      * @param MySQLConfig $config
      * @return \CrudGenerator\MetaData\Sources\PDO\PDOMetaDataDAO
      */
-    public static function getInstance(MySQLConfig $config)
+    public static function getInstance(MetaDataConfig $config = null)
     {
-        $DSN = 'mysql:dbname=' . $config->getDatabaseName() . ';host=' . $config->getHost();
-        $pdo = new \PDO(
-            $DSN,
-            $config->getUser(),
-            $config->getPassword()
-        );
-        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-
         return new MySQLMetaDataDAO(
-            $pdo,
+            $config->getConnection(),
             $config
         );
     }
 
     /**
-     * Check if dependence are complete
+     * @param MetaDataSource $metadataSource
      * @return boolean
      */
-    public static function checkDependencies()
+    public static function checkDependencies(MetaDataSource $metadataSource)
     {
-        return true;
+        $isLoaded = extension_loaded('pdo_mysql');
+        if (false === $isLoaded) {
+            $metadataSource->setFalseDependencie('The extension "pdo_mysql" is not loaded');
+        }
+
+        return $isLoaded;
+    }
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\Sources\MetaDataDAO::getDataObject()
+    */
+    public static function getDescription()
+    {
+        $dataObject = new MetaDataSource();
+        $dataObject->setDefinition("MySQL")
+                   ->setMetaDataDAOFactory('CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory')
+                   ->setMetaDataDAO("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAO")
+                   ->setConfig(new MySQLConfig());
+
+        return $dataObject;
     }
 }

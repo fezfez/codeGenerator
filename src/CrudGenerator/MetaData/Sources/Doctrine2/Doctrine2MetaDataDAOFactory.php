@@ -18,25 +18,57 @@
 namespace CrudGenerator\MetaData\Sources\Doctrine2;
 
 use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
+use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 use CrudGenerator\Utils\FileManager;
+use CrudGenerator\MetaData\MetaDataSource;
+use CrudGenerator\MetaData\Sources\MetaDataDAOFactory;
+use CrudGenerator\MetaData\Sources\MetaDataConfig;
 
 /**
  * Doctrine2 Metadata DAO in Zend Framework 2 Environnement
  *
  * @author Stéphane Demonchaux
  */
-class Doctrine2MetaDataDAOFactory
+class Doctrine2MetaDataDAOFactory implements MetaDataDAOFactory
 {
     /**
      * Create Doctrine2MetaDataDAO instance
      * @return \CrudGenerator\MetaData\MetaDataDAO
      */
-    public static function getInstance()
+    public static function getInstance(MetaDataConfig $config = null)
     {
         $fileManager    = new FileManager();
         $serviceManager = ZendFramework2Environnement::getDependence($fileManager);
         $entityManager  = $serviceManager->get('doctrine.entitymanager.orm_default');
 
         return new Doctrine2MetaDataDAO($entityManager);
+    }
+
+    /**
+     * @param MetaDataSource $metadataSource
+     * @return boolean
+     */
+    public static function checkDependencies(MetaDataSource $metadataSource)
+    {
+        try {
+            ZendFramework2Environnement::getDependence(new FileManager());
+            return true;
+        } catch (EnvironnementResolverException $e) {
+            $metadataSource->setFalseDependencie($e->getMessage());
+            return false;
+        }
+    }
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\Sources\MetaDataDAO::getDataObject()
+    */
+    public static function getDescription()
+    {
+        $dataObject = new MetaDataSource();
+        $dataObject->setDefinition("Doctrine2")
+                   ->setMetaDataDAOFactory('CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAOFactory')
+                   ->setMetaDataDAO('CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO');
+
+        return $dataObject;
     }
 }

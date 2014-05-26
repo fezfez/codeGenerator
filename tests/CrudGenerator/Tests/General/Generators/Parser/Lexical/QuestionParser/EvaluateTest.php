@@ -67,23 +67,17 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $generator = new GeneratorDataObject();
 
         $process = array(
-            'questions' => array(
-                array(
-                    'dtoAttribute'    => 'test',
-                    'text'            => 'test',
-                    'defaultResponse' => 'myDefaultResponse'
-                )
-            )
+        		'questions' => array(
+        				array(
+        						'dtoAttribute'    => 'test',
+        						'text'            => 'test',
+        						'defaultResponse' => 'myDefaultResponse'
+        				)
+        		)
         );
+
         $this->assertEquals(
-            $generator->addQuestion(
-                array(
-                    'dtoAttribute'    => 'setTest',
-                    'text'            => 'test',
-                    'value'           => '',
-                    'defaultResponse' => 'myDefaultResponse'
-                )
-            ),
+        		$generator,
             $sUT->evaluate($process, $phpParser, $generator, false)
         );
     }
@@ -98,7 +92,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-           $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -148,16 +142,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $generatorToTest = clone $generator;
 
         $this->assertEquals(
-            $generatorToTest->addQuestion(
-                array(
-                    'dtoAttribute'    => 'setTest',
-                    'text'            => 'test',
-                    'value'           => '',
-                    'defaultResponse' => 'myDefaultResponse',
-                    'required'        => false,
-                    'type'            => 'text'
-                )
-            ),
+            $generator,
             $sUT->evaluate($process, $phpParser, $generator, false)
         );
     }

@@ -149,46 +149,48 @@ class OracleConfig implements MetaDataConfig
     */
     public function getConnection()
     {
-    	$db = '//' . $this->host . '/' . $this->databaseName;
-    	return new \PDO($db,$this->user,$this->password);
+        $pdo = new \PDO('//' . $this->host . '/' . $this->databaseName, $this->user, $this->password);
+        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+        return $pdo;
     }
     /* (non-PHPdoc)
      * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::test()
     */
     public function test()
     {
-    	try {
-    		$this->getConnection();
-    	} catch (\PDOException $e) {
-    		throw new ConfigException('Connection failed with "' . $e->getMessage() . '"');
-    	}
+        try {
+            $this->getConnection();
+        } catch (\PDOException $e) {
+            throw new ConfigException('Connection failed with "' . $e->getMessage() . '"');
+        }
     }
     /* (non-PHPdoc)
      * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getUniqueName()
     */
     public function getUniqueName()
     {
-    	return 'Oracle ' . $this->host . ' ' . $this->user;
+        return 'Oracle ' . $this->host . ' ' . $this->user;
     }
     /* (non-PHPdoc)
      * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getDefinition()
     */
     public function getDefinition()
     {
-    	return $this->definition;
+        return $this->definition;
     }
     /* (non-PHPdoc)
      * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::jsonSerialize()
     */
     public function jsonSerialize()
     {
-    	return array(
-    		'databaseName' => $this->databaseName,
-    		'host'         => $this->host,
-    		'user'         => $this->user,
-    		'password'     => $this->password,
-    		'port'         => $this->port
-    	);
+        return array(
+            'databaseName' => $this->databaseName,
+            'host'         => $this->host,
+            'user'         => $this->user,
+            'password'     => $this->password,
+            'port'         => $this->port
+        );
     }
 
 

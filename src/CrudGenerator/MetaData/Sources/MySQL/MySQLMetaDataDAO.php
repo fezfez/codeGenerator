@@ -18,6 +18,7 @@
 namespace CrudGenerator\MetaData\Sources\MySQL;
 
 use PDO;
+use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Sources\MySQL\MySQLConfig;
 use CrudGenerator\MetaData\Sources\MetaDataDAO;
 use CrudGenerator\MetaData\Sources\MySQL\MetadataDataObjectMySQL;
@@ -28,10 +29,6 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 
 /**
  * MySQL adapter
- *
- * @CodeGenerator\Description MySQL
- * @CodeGenerator\Factory CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory
- * @CodeGenerator\Config CrudGenerator\MetaData\Sources\MySQL\MySQLConfig
  */
 class MySQLMetaDataDAO implements MetaDataDAO
 {
@@ -75,6 +72,17 @@ class MySQLMetaDataDAO implements MetaDataDAO
                 0
             )
         );
+    }
+
+    /**
+     * Get particularie metadata from MySQL
+     *
+     * @param string $tableName
+     * @return \CrudGenerator\MetaData\Sources\MySQL\MetadataDataObjectMySQL
+     */
+    public function getMetadataFor($tableName, array $parentName = array())
+    {
+    	return $this->hydrateDataObject($tableName);
     }
 
     /**
@@ -137,16 +145,5 @@ class MySQLMetaDataDAO implements MetaDataDAO
         }
 
         return $dataObject;
-    }
-
-    /**
-     * Get particularie metadata from MySQL
-     *
-     * @param string $tableName
-     * @return \CrudGenerator\MetaData\Sources\MySQL\MetadataDataObjectMySQL
-     */
-    public function getMetadataFor($tableName, array $parentName = array())
-    {
-        return $this->hydrateDataObject($tableName);
     }
 }

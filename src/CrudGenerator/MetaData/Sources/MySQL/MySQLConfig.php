@@ -149,7 +149,10 @@ class MySQLConfig implements MetaDataConfig
      */
     public function getConnection()
     {
-        return new \PDO('mysql:dbname='.$this->databaseName . ';host='.$this->host, $this->user, $this->password);
+        $pdo = new \PDO('mysql:dbname='.$this->databaseName . ';host='.$this->host, $this->user, $this->password);
+        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+        return $pdo;
     }
     /* (non-PHPdoc)
      * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::test()

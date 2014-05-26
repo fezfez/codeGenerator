@@ -17,7 +17,6 @@
  */
 namespace CrudGenerator\Generators\Questions;
 
-use CrudGenerator\MetaData\MetaDataSourceFinderFactory;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\CliContext;
 use CrudGenerator\Context\WebContext;
@@ -35,9 +34,9 @@ class MetaDataSourcesConfiguredQuestionFactory
         $metadataSourceConfigDAO = MetaDataConfigDAOFactory::getInstance($context);
 
         if ($context instanceof CliContext || $context instanceof WebContext) {
-        	return new Web\MetaDataSourcesConfiguredQuestion($metadataSourceConfigDAO, $context);
+            return new Web\MetaDataSourcesConfiguredQuestion($metadataSourceConfigDAO, $context);
         } else {
-        	throw new \InvalidArgumentException('Invalid context given');
+            throw new \InvalidArgumentException('Invalid context given');
         }
     }
 }

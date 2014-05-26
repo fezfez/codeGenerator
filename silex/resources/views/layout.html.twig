@@ -72,31 +72,30 @@
                 <h4 class="modal-title">New source</h4>
             </div>
             <div class="modal-body">
-            	<form>
             	  <div ng-if="configFormError != undefined" class="alert alert-danger fade in">
                        {{ configFormError }}
                   </div>
-                  <label for="backend">Source</label>
-                  <select name="backend"
-                        class="form-control"
-                        ng-model="adapter"
-                        ng-options="obj.id as obj.label for obj in backendList">
-                    <option value="">Select source</option>
-                </select>
-                </form>
-                <div ng-if="configQuestionsList">
                     <form ng-submit="backendConfig()">
-                        <div class="form-group" ng-repeat="questions in configQuestionsList">
-                            <label>{{ questions.text }}</label>
-                            <input ng-if="questions.type == undefined"
+                        <div class="form-group" ng-repeat="question in configQuestionsList">
+                            <label>{{ question.text }}</label>
+                            <select ng-if="question.type == 'select'"
+                                    id="{{ question.dtoAttribute }}"
+                                    class="form-control question"
+                                    ng-model="adapter"
+                                    name="{{ question.dtoAttribute }}">
+                                    <option selected="selected" value="{{ question.value }}">{{ question.placeholder }}</option>
+                                    <option ng-repeat="value in question.values" ng-click="setConfigQuestion(question.dtoAttribute)" value="{{ value.id }}">
+                                        {{ value.label }}
+                                    </option>
+                            </select>
+                            <input ng-if="questions.type == 'text'"
                                    class="form-control questions"
                                    type="text"
-                                   name="{{ questions.dtoAttribute }}"
-                                   placeholder="{{ questions.text }}" ng-model="configQuestion[questions.dtoAttribute]" />
+                                   name="{{ question.dtoAttribute }}"
+                                   placeholder="{{ question.text }}" ng-model="configQuestion[questions.dtoAttribute]" />
                         </div>
                         <input type="submit" class="btn btn-success" value="Configure" />
                     </form>
-                </div>
             </div>
         </div>
     </div>

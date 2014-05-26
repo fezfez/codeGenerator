@@ -51,6 +51,10 @@ define(
             	config.setAdapter(adapter);
                 newSource(config);
             });
+            
+            $scope.setConfigQuestion = function(attribute) {
+            	$scope.backendConfig();
+            };
 
             $scope.backendConfig = function() {
                 $sourceService.config($scope.adapter, $scope.configQuestion, function(data) {
@@ -82,8 +86,8 @@ define(
                             $scope.generatorCollection = data.generatorCollection;
                         if (data.directories)
                             $scope.fileList = data.directories;
-                        if (data.questionList)
-                            $scope.questionList = data.questionList;
+                        if (data.question)
+                            $scope.questionList = data.question;
                         $WaitModalService.hide();
                         $('body').tooltip({
                             selector: "[rel=tooltip]"

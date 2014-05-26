@@ -83,18 +83,6 @@ class EnvironnementParser implements ParserInterface
             $possibleValues
         );
 
-        $generator->addQuestion(
-            array(
-                'dtoAttribute'    => 'environnement_' . $environnementName,
-                'text'            => $environnementName . ' environnement',
-                'type'            => 'select',
-                'values'          => $possibleValues,
-                'value'           => $response,
-                'placeholder'     => $response,
-                'required'        => true
-            )
-        );
-
         if ($response !== null) {
             $generator->addEnvironnementValue($environnementName, $response);
 

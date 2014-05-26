@@ -56,10 +56,14 @@ class MetaDataSource implements \JsonSerializable
         $this->metaDataDAO = $value;
         return $this;
     }
+    /**
+     * @param string $value
+     * @return \CrudGenerator\MetaData\MetaDataSource
+     */
     public function setMetaDataDAOFactory($value)
     {
-    	$this->metaDataDAOFactory = $value;
-    	return $this;
+        $this->metaDataDAOFactory = $value;
+        return $this;
     }
     /**
      * Set definition

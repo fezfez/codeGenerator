@@ -15,15 +15,9 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\Sources\Oracle;
+namespace CrudGenerator\Generators;
 
-use CrudGenerator\MetaData\DataObject\MetaData;
-
-/**
- * Base representation metadata for template generation
- *
- * @author Stéphane Demonchaux
- */
-class MetadataDataObjectOracle extends MetaData
+class ResponseExpectedException extends \Exception
 {
+
 }

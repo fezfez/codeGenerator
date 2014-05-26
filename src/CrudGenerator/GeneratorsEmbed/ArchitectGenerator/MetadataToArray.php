@@ -36,8 +36,8 @@ class MetadataToArray
     }
 
     /**
-     * @param Architect $DTO
-     * @return Architect
+     * @param GeneratorDataObject $generator
+     * @return GeneratorDataObject
      */
     public function ask(GeneratorDataObject $generator)
     {
@@ -49,9 +49,7 @@ class MetadataToArray
                 true
             );
 
-            if ($response !== null) {
-                $generator->getDTO()->setAttributeName($column->getName(), $response);
-            }
+            $generator->getDTO()->setAttributeName($column->getName(), ($response !== null) ? $response : $column->getName());
         }
 
         return $generator;

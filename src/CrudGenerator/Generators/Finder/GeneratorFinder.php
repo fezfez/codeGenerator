@@ -63,7 +63,6 @@ class GeneratorFinder
                 \RecursiveRegexIterator::GET_MATCH
             );
 
-
             foreach ($iterator as $file) {
                 $yaml = Yaml::parse(file_get_contents($file[0]), true);
                 $generators[$file[0]] = $yaml['name'];

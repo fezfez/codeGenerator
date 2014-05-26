@@ -17,8 +17,6 @@
  */
 namespace CrudGenerator\MetaData\Sources\PostgreSQL;
 
-use RuntimeException;
-
 /**
  * Manager SQL in differente database environnement
  *

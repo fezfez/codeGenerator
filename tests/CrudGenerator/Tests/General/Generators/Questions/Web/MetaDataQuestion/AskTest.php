@@ -55,7 +55,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub, $context);
 
-        $this->setExpectedException('InvalidArgumentException');
+        $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
 
         $sUT->ask($source);
     }
@@ -104,7 +104,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub, $context);
 
-        $this->setExpectedException('InvalidArgumentException');
+        $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
 
         $sUT->ask($source);
     }
@@ -206,7 +206,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub, $context);
 
-        $this->setExpectedException('InvalidArgumentException');
+        $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
 
         $sUT->ask($source, 'fail');
     }

@@ -18,8 +18,6 @@
 namespace CrudGenerator\Generators\Questions\Cli;
 
 use CrudGenerator\Utils\FileManager;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Context\ContextInterface;
 

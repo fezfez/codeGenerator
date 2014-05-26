@@ -15,15 +15,32 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\Sources\Oracle;
+namespace CrudGenerator\MetaData\Sources;
 
-use CrudGenerator\MetaData\DataObject\MetaData;
-
+use CrudGenerator\MetaData\MetaDataSource;
 /**
- * Base representation metadata for template generation
+ * Metadata DAO Factory interface
  *
  * @author Stéphane Demonchaux
  */
-class MetadataDataObjectOracle extends MetaData
+interface MetaDataDAOFactory
 {
+    /**
+     * Get instance of metadataDAO
+     *
+     * @param MetaDataConfig $config
+     */
+    public static function getInstance(MetaDataConfig $config = null);
+
+    /**
+     * Check if dependencies are complete
+     * @param MetaDataSource $metadataSource
+     * return boolean
+     */
+    public static function checkDependencies(MetaDataSource $metadataSource);
+
+    /**
+     * @return \CrudGenerator\MetaData\MetaDataSource
+     */
+    public static function getDescription();
 }

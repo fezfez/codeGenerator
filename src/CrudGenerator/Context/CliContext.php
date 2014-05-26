@@ -30,7 +30,7 @@ class CliContext implements ContextInterface
     /**
      * @var DialogHelper
      */
-    private $dialogHelper = null;
+    private $dialog = null;
 
     /**
      * @param DialogHelper $dialogHelper
@@ -78,7 +78,7 @@ class CliContext implements ContextInterface
      */
     public function confirm($text, $uniqueKey)
     {
-        $doI = $this->dialog->askConfirmation(
+        return $this->dialog->askConfirmation(
             $this->output,
             $text
         );

@@ -20,7 +20,7 @@ define([
             var canceler = $q.defer();
 
             if ((context instanceof Context) === false) {
-            	throw new Error("Context muse be instance of Context");
+                throw new Error("Context muse be instance of Context");
             }
 
             if (http === true) {
@@ -32,9 +32,9 @@ define([
             var datas =  $.param({
                 backend   : context.getBackend(),
                 metadata  : context.getMetadata(),
-                generator : context.getGenerator(),
-                questions : context.getQuestion()
-            });
+                generator : context.getGenerator()
+            }) + '&' + $.param(context.getQuestion());
+
 
             $http(
                 {
@@ -45,18 +45,37 @@ define([
                     timeout : canceler.promise
                 }
             ).success(function (data) {
-                if (data.generator) {
+                var dataToReturn = data;
+                
+                var findByDtoAttributAndDeleteFromQuestion = function (dtoAttribute) {
+                    var foundedElement = null;
+                    angular.forEach(data.question, function(question, index) {
+                        if (question.dtoAttribute === dtoAttribute) {
+                            foundedElement = question;
+                            delete data.question[index];
+                            data.question = data.question.filter(function(n){ return n != undefined });
+                        }
+                    });
+                    
+                    return foundedElement;
+                };
+
+                dataToReturn.backendCollection = findByDtoAttributAndDeleteFromQuestion('backend');
+                dataToReturn.metadataCollection = findByDtoAttributAndDeleteFromQuestion('metadata');
+                dataToReturn.generatorCollection = findByDtoAttributAndDeleteFromQuestion('generator');
+
+                if (data.files) {
                     var directories      = new DirectoryDataObject(''),
                         DirectoryBuilder = DirectoryBuilderFactory.getInstance();
-    
-                    angular.forEach(data.generator.files, function (file, id) {
+
+                    angular.forEach(data.files, function (file, id) {
                         directories = DirectoryBuilder.build(file, directories);
                     });
-    
-                    callbackAfterAjax({ "directories" : directories, "questionList" : data.generator.questions});
-                } else {
-                    callbackAfterAjax(data);
+
+                    dataToReturn.directories = directories;
                 }
+
+                callbackAfterAjax(dataToReturn);
                 http = false;
             }).error(function(data) {
                 alert(data.error);

@@ -153,7 +153,6 @@ class GeneratorParser
                 $generator->addDependency(
                     $this->analyze($dependencieName, $phpParser, $generator, $generator->getDTO()->getMetadata())
                 );
-                //@TODO has to populate the main generator dataoject with depencies attributes
             }
             $generator = $this->addDependenciesVariablesToMainGenerator($generator);
         }
@@ -170,8 +169,12 @@ class GeneratorParser
         $generator = clone $generator;
 
         foreach ($generator->getDependencies() as $dependencies) {
+            /* @var $dependencies GeneratorDataObject */
             foreach ($dependencies->getTemplateVariables() as $templateVariableName => $templateVariableValue) {
                 $generator->addTemplateVariable($templateVariableName, $templateVariableValue);
+            }
+            foreach ($dependencies->getFiles() as $file) {
+                $generator->addFile($file['skeletonPath'], $file['name'], $file['fileName']);
             }
         }
 

@@ -19,6 +19,7 @@ namespace CrudGenerator\Generators\Questions\Web;
 
 use CrudGenerator\MetaData\MetaDataSourceFinder;
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Generators\ResponseExpectedException;
 
 class MetaDataSourcesQuestion
 {
@@ -44,14 +45,14 @@ class MetaDataSourcesQuestion
     /**
      * Ask witch MetaData Source you want to use
      * @param string $choice
-     * @throws \InvalidArgumentException
+     * @throws ResponseExpectedException
      * @return array
      */
     public function ask()
     {
         $backendArray = array();
         foreach ($this->metadataSourceFinder->getAllAdapters() as $backend) {
-        	/* @var $backend \CrudGenerator\MetaData\MetaDataSource */
+            /* @var $backend \CrudGenerator\MetaData\MetaDataSource */
             if(!$backend->getFalseDependencies()) {
                 $backendArray[] = array(
                     'id'    => $backend->getMetaDataDAOFactory(),
@@ -61,24 +62,24 @@ class MetaDataSourcesQuestion
         }
 
         return $this->retrieve(
-        	$this->context->askCollection("Witch meta data source ", 'metadatasource', $backendArray)
+            $this->context->askCollection("Select source ", 'metadatasource', $backendArray)
         );
     }
 
     /**
      * @param string $choice
-     * @throws \InvalidArgumentException
+     * @throws ResponseExpectedException
      * @return \CrudGenerator\MetaData\MetaDataSource
      */
     private function retrieve($choice)
     {
-    	foreach ($this->metadataSourceFinder->getAllAdapters() as $backend) {
-    		/* @var $backend \CrudGenerator\MetaData\MetaDataSource */
-    		if ($backend->getMetaDataDAOFactory() === $choice) {
-    			return $backend;
-    		}
-    	}
+        foreach ($this->metadataSourceFinder->getAllAdapters() as $backend) {
+            /* @var $backend \CrudGenerator\MetaData\MetaDataSource */
+            if ($backend->getMetaDataDAOFactory() === $choice) {
+                return $backend;
+            }
+        }
 
-    	throw new \InvalidArgumentException(sprintf('Invalid metadata "%s"', $choice));
+        throw new ResponseExpectedException(sprintf('Invalid source "%s"', $choice));
     }
 }

@@ -18,6 +18,7 @@
 namespace CrudGenerator\MetaData\Sources\PostgreSQL;
 
 use PDO;
+use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Sources\MetaDataDAO;
 use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
 use CrudGenerator\MetaData\Sources\PostgreSQL\SqlManager;
@@ -29,10 +30,6 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 
 /**
  * PostgreSQL adapter
- *
- * @CodeGenerator\Description PostgreSQL
- * @CodeGenerator\Factory CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory
- * @CodeGenerator\Config CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig
  */
 class PostgreSQLMetaDataDAO implements MetaDataDAO
 {
@@ -82,6 +79,17 @@ class PostgreSQLMetaDataDAO implements MetaDataDAO
                 0
             )
         );
+    }
+
+    /**
+     * Get particularie metadata from PDO
+     *
+     * @param string $tableName
+     * @return \CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL
+     */
+    public function getMetadataFor($tableName, array $parentName = array())
+    {
+        return $this->hydrateDataObject($tableName);
     }
 
     /**
@@ -160,16 +168,5 @@ class PostgreSQLMetaDataDAO implements MetaDataDAO
         }
 
         return $identifiers;
-    }
-
-    /**
-     * Get particularie metadata from PDO
-     *
-     * @param string $tableName
-     * @return \CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL
-     */
-    public function getMetadataFor($tableName, array $parentName = array())
-    {
-        return $this->hydrateDataObject($tableName);
     }
 }

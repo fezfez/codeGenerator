@@ -17,7 +17,6 @@
  */
 namespace CrudGenerator\MetaData;
 
-use CrudGenerator\MetaData\MetaDataSourceCollection;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 use CrudGenerator\Utils\FileManager;
@@ -54,78 +53,10 @@ class MetaDataSourceHydrator
     {
         $adapter = clone $adapterDataObject;
 
-        $adapter->setMetaDataDAO($adapterClassName);
-        $doc = $this->getDocBlockFromFactory($adapter, '@CodeGenerator\Description');
-        $env = $this->getDocBlockFromFactory($adapter, '@CodeGenerator\Environnement');
-        $adapter->setDefinition($doc . (($env !== null) ? ' in ' . $env : ''));
+        /* @var $metaDataSource CrudGenerator\MetaData\MetaDataSource */
+        $metaDataSource = $adapterClassName::getDescription();
+        $adapterClassName::checkDependencies($metaDataSource);
 
-        $configName  = $this->getDocBlockFromFactory($adapter, '@CodeGenerator\Config');
-        $factoryName = $this->getDocBlockFromFactory($adapter, '@CodeGenerator\Factory');
-
-        if (!empty($configName)) {
-        	if (!class_exists($configName)) {
-        		throw new \InvalidArgumentException(sprintf('The config class "%s" does not exist', $configName));
-        	}
-        	$config = new $configName();
-        	$config->setMetaDataDAOFactory($factoryName);
-            $adapter->setConfig($config);
-        }
-
-        $adapter->setMetaDataDAOFactory($factoryName);
-
-        try {
-            foreach ($this->getDocBlockFromFactory($adapter, '@CodeGenerator\Environnement', false) as $environnementString) {
-                $environementClass = 'CrudGenerator\EnvironnementResolver\\' . $environnementString;
-                $environementClass::getDependence($this->fileManager);
-            }
-        } catch (EnvironnementResolverException $e) {
-            $adapter->setFalseDependencie($e->getMessage());
-        }
-
-        return $adapter;
-    }
-
-    /**
-     * Find a particularie string in docblock and parse it
-     *
-     * @param MetaDataSource $adapter
-     * @param string $string
-     * @return array
-     */
-    private function getDocBlockFromFactory(MetaDataSource $adapter, $string, $one = true)
-    {
-        $reflectionClass = new ReflectionClass($adapter->getMetaDataDAO());
-
-        $sDocComment = $reflectionClass->getDocComment();
-        $sDocComment = trim(
-                preg_replace(
-                        "/(^[\\s]*\\/\\*\\*)
-                |(^[\\s]\\*\\/)
-                |(^[\\s]*\\*?\\s)
-                |(^[\\s]*)
-                |(^[\\t]*)/ixm",
-                        "",
-                        $sDocComment
-                )
-        );
-
-        $sDocComment = str_replace("\r", "", $sDocComment);
-        $sDocComment = preg_replace("/([\\t])+/", "\t", $sDocComment);
-        $aDocCommentLines = explode("\n", $sDocComment);
-        $factoryEnv = array();
-
-        foreach ($aDocCommentLines as $commentLine) {
-            if (substr($commentLine, 0, strlen($string)) === $string) {
-                $factoryEnv[] = trim(str_replace($string, '', $commentLine));
-            }
-        }
-
-        if (empty($factoryEnv) && $one === true) {
-        	return null;
-        } elseif($one === true) {
-			return $factoryEnv[0];
-        }
-
-        return $factoryEnv;
+        return $metaDataSource;
     }
 }

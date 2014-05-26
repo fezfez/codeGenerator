@@ -18,8 +18,6 @@
 namespace CrudGenerator\Generators\Questions\Cli;
 
 use CrudGenerator\History\HistoryManager;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
 use CrudGenerator\Context\ContextInterface;
 
 class HistoryQuestion

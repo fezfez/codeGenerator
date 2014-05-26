@@ -37,7 +37,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $sUT = new MetaDataSourcesQuestion($sourceFinderStub, $context);
 
-        $this->setExpectedException('InvalidArgumentException');
+        $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
         $sUT->ask();
     }
 
@@ -108,7 +108,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $sUT = new MetaDataSourcesQuestion($sourceFinderStub, $context);
 
-        $this->setExpectedException('InvalidArgumentException');
+        $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
         $sUT->ask();
     }
 }

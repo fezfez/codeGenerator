@@ -63,7 +63,7 @@ class MetaDataConfigDAO
      */
     public function __construct(ClassAwake $classAwake, FileManager $fileManager, MetaDataSourceHydrator $metaDataSourceHydrator, ContextInterface $context)
     {
-    	$this->classAwake             = $classAwake;
+        $this->classAwake             = $classAwake;
         $this->fileManager            = $fileManager;
         $this->metaDataSourceHydrator = $metaDataSourceHydrator;
         $this->context                = $context;
@@ -74,7 +74,7 @@ class MetaDataConfigDAO
      */
     public function retrieveAll()
     {
-        $classCollection = $this->classAwake->wakeByInterfaces(
+        $this->classAwake->wakeByInterfaces(
             array(
                 __DIR__ . '/../Sources/'
             ),
@@ -94,10 +94,10 @@ class MetaDataConfigDAO
             $config = $adapter->getConfig();
             $configMethods = get_class_methods($config);
             foreach ($configFile as $configAttribute => $configValue) {
-            	$configAttr = 'set' . ucfirst($configAttribute);
-            	if (in_array($configAttr, $configMethods)) {
-            		$config->$configAttr($configValue);
-            	}
+                $configAttr = 'set' . ucfirst($configAttribute);
+                if (in_array($configAttr, $configMethods)) {
+                    $config->$configAttr($configValue);
+                }
             }
 
             $adapter->setConfig($config);

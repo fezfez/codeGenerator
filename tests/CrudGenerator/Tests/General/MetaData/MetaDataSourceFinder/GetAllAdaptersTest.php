@@ -12,10 +12,7 @@ class GetAllAdaptersTest extends \PHPUnit_Framework_TestCase
         chdir(__DIR__);
         $classAwake = new ClassAwake();
 
-        $metaDataSourceHydrator = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceHydrator')
-        ->disableOriginalConstructor()
-        ->getMock();
-
+        $metaDataSourceHydrator = new \CrudGenerator\MetaData\MetaDataSourceHydrator(new FileManager());
         $suT = new MetaDataSourceFinder($classAwake, $metaDataSourceHydrator);
 
         $adapterCollection = $suT->getAllAdapters();

@@ -42,10 +42,6 @@ class GeneratorDataObject implements \JsonSerializable
     /**
      * @var array
      */
-    private $questions = array();
-    /**
-     * @var array
-     */
     private $environnement = array();
     /**
      * @var array
@@ -91,15 +87,6 @@ class GeneratorDataObject implements \JsonSerializable
         $this->path = realpath(dirname($name));
         return $this;
     }
-    /**
-     * @param string $name
-     * @return \CrudGenerator\Generators\Generator
-     */
-    public function addQuestion(array $question)
-    {
-        $this->questions[] = $question;
-        return $this;
-    }
 
     /**
      * @param string $name
@@ -111,18 +98,20 @@ class GeneratorDataObject implements \JsonSerializable
             throw new \LogicException('DTO cant be empty');
         }
 
-        // @FIXME has to be propaged in dependencies
         $this->dto->addEnvironnementValue($environnement, $value);
+        foreach ($this->dependecies as $dependency) {
+            $dependency->addEnvironnementValue($environnement, $value);
+        }
         $this->environnement[$environnement] = $value;
         return $this;
     }
     /**
-     * @param string $name
+     * @param GeneratorDataObject $generator
      * @return \CrudGenerator\Generators\Generator
      */
-    public function addDependency($value)
+    public function addDependency(GeneratorDataObject $generator)
     {
-        $this->dependecies[] = $value;
+        $this->dependecies[] = $generator;
         return $this;
     }
     /**
@@ -136,9 +125,9 @@ class GeneratorDataObject implements \JsonSerializable
     {
         $this->files[$value] = array(
             'skeletonPath' => $skeletonPath,
-            'fileName' => $value,
-            'name' => $name,
-            'isWritable' => is_writable(dirname($value))
+            'fileName'     => $value,
+            'name'         => $name,
+            'isWritable'   => is_writable(dirname($value))
         );
 
         if (null !== $result) {
@@ -185,13 +174,6 @@ class GeneratorDataObject implements \JsonSerializable
     public function getPath()
     {
         return $this->path;
-    }
-    /**
-     * @return array
-     */
-    public function getQuestion()
-    {
-        return $this->questions;
     }
     /**
      * @return null|string
@@ -252,7 +234,6 @@ class GeneratorDataObject implements \JsonSerializable
             'files'            => $this->getFiles(),
             'directories'      => $this->directories,
             'name'             => $this->name,
-            'questions'        => $this->questions,
             'environnement'    => $this->environnement
         );
     }
