@@ -142,9 +142,8 @@ class MetaDataSource implements \JsonSerializable
         return array(
             'config'            => $this->getConfig(),
             'definition'        => $this->getDefinition(),
-            'factory'           => $this->getFactory(),
-            'falseDependencies' => $this->getFalseDependencies(),
-            'name'              => $this->getName()
+            'factory'           => $this->getMetaDataDAOFactory(),
+            'falseDependencies' => $this->getFalseDependencies()
         );
     }
 }

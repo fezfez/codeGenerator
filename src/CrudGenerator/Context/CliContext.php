@@ -49,7 +49,7 @@ class CliContext implements ContextInterface
     {
         return $this->dialog->ask(
             $this->output,
-            '<question>Choose a "' . $propName . '"</question> : '
+            '<question>Choose a "' . $text . '"</question> : '
         );
     }
 

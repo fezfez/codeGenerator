@@ -13,19 +13,19 @@ define(function() {
             question    = {};
 
         this.setBackend = function (value) {
-        	backend = value;
+            backend = value;
             return this;
         };
         this.setMetadata = function (value) {
-        	metadata = value;
+            metadata = value;
             return this;
         };
         this.setGenerator = function (value) {
-        	generator = value;
+            generator = value;
             return this;
         };
         this.setQuestion = function (attribute, value) {
-        	question[attribute] = value;
+            question[attribute] = value;
             return this;
         };
         this.getBackend = function () {

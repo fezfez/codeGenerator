@@ -37,6 +37,10 @@ class PostgreSQLMetaDataDAOFactory implements MetaDataDAOFactory
      */
     public static function getInstance(MetaDataConfig $config = null)
     {
+        if (false === ($config instanceof PostgreSQLConfig)) {
+            throw new \InvalidArgumentException('Config must be an instance of PostgreConfig');
+        }
+
         return new PostgreSQLMetaDataDAO(
             $config->getConnection(),
             $config,

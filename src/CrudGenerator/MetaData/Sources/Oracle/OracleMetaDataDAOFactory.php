@@ -36,6 +36,10 @@ class OracleMetaDataDAOFactory implements MetaDataDAOFactory
      */
     public static function getInstance(MetaDataConfig $config = null)
     {
+        if (false === ($config instanceof OracleConfig)) {
+            throw new \InvalidArgumentException('Config must be an instance of OracleConfig');
+        }
+
         return new OracleMetaDataDAO(
             $config->getConnection()
         );

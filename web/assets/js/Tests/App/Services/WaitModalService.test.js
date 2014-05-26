@@ -19,7 +19,7 @@ require(['Services/WaitModalService'], function(WaitModalService) {
         });
 
         it('should hide wait modal', function() {
-        	service.hide();
+            service.hide();
         });
 
         afterEach(function() {

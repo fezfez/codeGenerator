@@ -19,20 +19,20 @@ define(
 
             var config = new Config();
             $scope.newSource = function() {
-            	$scope.configQuestion = {};
-            	newSource(config);
+                $scope.configQuestion = {};
+                newSource(config);
             };
 
             var newSource = (function(config) {
                 $sourceService.retrieveAdapters(
-                	config,
+                    config,
                     function(data) {
-                    	if (data.metadatasourceCollection) {
-                    		$scope.backendList = data.metadatasourceCollection;
-                    	}
-                    	if (data.question) {
-                    		$scope.configQuestionsList = data.question;
-                    	}
+                        if (data.metadatasourceCollection) {
+                            $scope.backendList = data.metadatasourceCollection;
+                        }
+                        if (data.question) {
+                            $scope.configQuestionsList = data.question;
+                        }
                         $('newSource > div').modal('show');
                     },
                     function(data) {
@@ -48,12 +48,13 @@ define(
             });
 
             $scope.$watch('adapter', function (adapter) {
-            	config.setAdapter(adapter);
+                console.log(adapter);
+                config.setAdapter(adapter);
                 newSource(config);
             });
-            
+
             $scope.setConfigQuestion = function(attribute) {
-            	$scope.backendConfig();
+                $scope.backendConfig();
             };
 
             $scope.backendConfig = function() {
@@ -102,21 +103,21 @@ define(
                 $scope.metadataSelected = name;
                 generate(context);
             };
-            
+
             $scope.setGenerator = function(name) {
                 context.setGenerator(name);
                 $scope.generatorSelected = name;
                 generate(context);
             };
-            
+
             $scope.setBackend = function(name) {
                 context.setBackend(name);
                 $scope.backendSelected = name;
                 generate(context);
             };
             $scope.setQuestion = function(attribute) {
-            	context.setQuestion(attribute, $scope.answers[attribute]);
-            	generate(context);
+                context.setQuestion(attribute, $scope.answers[attribute]);
+                generate(context);
             };
             generate(context);
 

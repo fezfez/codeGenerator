@@ -36,6 +36,10 @@ class MySQLMetaDataDAOFactory implements MetaDataDAOFactory
      */
     public static function getInstance(MetaDataConfig $config = null)
     {
+        if (false === ($config instanceof MySQLConfig)) {
+            throw new \InvalidArgumentException('Config must be an instance of MySQLConfig');
+        }
+
         return new MySQLMetaDataDAO(
             $config->getConnection(),
             $config

@@ -116,7 +116,7 @@ class MetaDataConfigDAO
      */
     public function save(MetaDataConfig $adapterConfig)
     {
-        $adapterConfig = $this->contextToDto($adapterConfig);
+        $adapterConfig = $this->ask($adapterConfig);
         $this->isValid($adapterConfig);
 
         $configPath = self::PATH . $adapterConfig->getUniqueName() . self::EXTENSION;

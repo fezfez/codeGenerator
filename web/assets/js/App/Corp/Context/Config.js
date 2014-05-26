@@ -11,15 +11,15 @@ define(function() {
             question    = {};
 
         this.setAdapter = function (value) {
-        	adapter = value;
+            adapter = value;
             return this;
         };
         this.setMetadata = function (value) {
-        	metadata = value;
+            metadata = value;
             return this;
         };
         this.setQuestion = function (attribute, value) {
-        	question[attribute] = value;
+            question[attribute] = value;
             return this;
         };
         this.getAdapter = function () {
