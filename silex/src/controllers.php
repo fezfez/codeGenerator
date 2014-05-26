@@ -8,7 +8,6 @@ use CrudGenerator\Generators\GeneratorFactory;
 use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 use CrudGenerator\Context\WebContext;
 use CrudGenerator\Generators\GeneratorWebConflictException;
-use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
 use CrudGenerator\MetaData\Config\MetaDataConfigDAOFactory;
 use CrudGenerator\Backbone\PreapreForGenerationBackboneFactory;
 use CrudGenerator\Generators\ResponseExpectedException;
