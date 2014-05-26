@@ -3,7 +3,6 @@ namespace CrudGenerator\Tests\General\Generators\Strategies\SandBoxStrategy;
 
 use CrudGenerator\Generators\Strategies\SandBoxStrategy;
 use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
-use Symfony\Component\Console\Helper\DialogHelper;
 
 class GenerateFileTest extends \PHPUnit_Framework_TestCase
 {

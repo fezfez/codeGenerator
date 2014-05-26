@@ -5,7 +5,6 @@ use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use Symfony\Component\Yaml\Yaml;
-use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 
 
 class EvaluateTest extends \PHPUnit_Framework_TestCase
