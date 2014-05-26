@@ -18,7 +18,6 @@
 namespace CrudGenerator\MetaData;
 
 use CrudGenerator\MetaData\MetaDataSourceCollection;
-use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\Utils\ClassAwake;
 
 /**
@@ -63,13 +62,11 @@ class MetaDataSourceFinder
         );
 
         $adapterCollection = new MetaDataSourceCollection();
-        $adapterDataObject = new MetaDataSource();
 
         foreach ($classCollection as $className) {
             $adapterCollection->append(
                 $this->metaDataSourceHydrator->adapterNameToMetaDataSource(
-                    $className,
-                    $adapterDataObject
+                    $className
                 )
             );
         }

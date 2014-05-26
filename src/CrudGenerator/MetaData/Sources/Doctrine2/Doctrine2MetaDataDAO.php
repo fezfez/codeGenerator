@@ -17,7 +17,6 @@
  */
 namespace CrudGenerator\MetaData\Sources\Doctrine2;
 
-use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Sources\MetaDataDAO;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;

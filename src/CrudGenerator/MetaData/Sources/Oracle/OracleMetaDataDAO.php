@@ -18,7 +18,6 @@
 namespace CrudGenerator\MetaData\Sources\Oracle;
 
 use PDO;
-use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Sources\MetaDataDAO;
 use CrudGenerator\MetaData\DataObject\MetaDataCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;

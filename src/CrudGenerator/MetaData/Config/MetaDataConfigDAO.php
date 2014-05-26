@@ -88,8 +88,7 @@ class MetaDataConfigDAO
             $configFile = (array) json_decode($this->fileManager->fileGetContent($file));
 
             $adapter = $this->metaDataSourceHydrator->adapterNameToMetaDataSource(
-                $configFile['metaDataDAO'],
-                $adapterDataObject
+                $configFile['metaDataDAO']
             );
             $config = $adapter->getConfig();
             $configMethods = get_class_methods($config);

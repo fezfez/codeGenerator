@@ -65,9 +65,6 @@ class YamlConfigMetadata
 
             foreach ($packageDatas['module'] as $moduleName => $moduleDatas) {
                 $metaData->setName($moduleName);
-                if (isset($moduleDatas['options'])) {
-                    //$metaData->setOptions($moduleDatas['options']);
-                }
 
                 foreach ($moduleDatas['properties'] as $propertyName => $propertyDatas) {
                     $column = clone $metaDataColumn;

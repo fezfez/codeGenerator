@@ -18,10 +18,7 @@
 namespace CrudGenerator\MetaData;
 
 use CrudGenerator\MetaData\MetaDataSource;
-use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Utils\ClassAwake;
-use ReflectionClass;
 
 /**
  * Find all MetaDataSource allow in project
@@ -49,10 +46,8 @@ class MetaDataSourceHydrator
      * @param MetaDataSource $adapterDataObject
      * @return MetaDataSource
      */
-    public function adapterNameToMetaDataSource($adapterClassName, MetaDataSource $adapterDataObject)
+    public function adapterNameToMetaDataSource($adapterClassName)
     {
-        $adapter = clone $adapterDataObject;
-
         /* @var $metaDataSource CrudGenerator\MetaData\MetaDataSource */
         $metaDataSource = $adapterClassName::getDescription();
         $adapterClassName::checkDependencies($metaDataSource);

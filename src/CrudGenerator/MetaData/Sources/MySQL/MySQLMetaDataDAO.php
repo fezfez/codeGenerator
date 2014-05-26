@@ -18,7 +18,6 @@
 namespace CrudGenerator\MetaData\Sources\MySQL;
 
 use PDO;
-use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Sources\MySQL\MySQLConfig;
 use CrudGenerator\MetaData\Sources\MetaDataDAO;
 use CrudGenerator\MetaData\Sources\MySQL\MetadataDataObjectMySQL;
@@ -120,9 +119,9 @@ class MySQLMetaDataDAO implements MetaDataDAO
         $statement = $this->pdo->prepare(
             "SELECT column_name, data_type, column_key, is_nullable
             FROM information_schema.columns
-            WHERE table_name = '" . $tableName . "' AND table_schema = '" . $this->pdoConfig->getDatabaseName() . "'"
+            WHERE table_name = :tableName AND table_schema = :databaseName"
         );
-        $statement->execute();
+        $statement->execute(array(':tableName' => $tableName, ':databaseName' => $this->pdoConfig->getDatabaseName()));
         $allFields = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($allFields as $metadata) {
