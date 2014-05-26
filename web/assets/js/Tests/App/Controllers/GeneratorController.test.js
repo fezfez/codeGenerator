@@ -1,5 +1,5 @@
 require(
-	["Controllers/GeneratorController", 'Services/GenerateService', 'Services/ViewFileService', 'Services/WaitModalService', 'Services/GenerateService'], 
+	["Controllers/GeneratorController", 'Services/GeneratorService', 'Services/ViewFileService', 'Services/WaitModalService'], 
 	function(GeneratorController, GeneratorService, ViewFileService, WaitModalService, GenerateService) {
     "use strict";
     describe("Test generatorController", function () {

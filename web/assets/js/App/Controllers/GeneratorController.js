@@ -1,165 +1,130 @@
 define(
     [
         "App/App",
+        "App/Services/SourceService",
         "App/Services/GeneratorService",
         "App/Services/ViewFileService",
         "App/Services/WaitModalService",
-        "App/Services/GenerateService",
-        "App/Directives/MetadataSourceConfig"
+        "App/Services/PreviewService",
+        "Corp/Context/Context",
+        "Corp/Context/Config",
+        "HighLighterPHP"
     ],
-    function (GeneratorApp, GeneratorService, ViewFileService, WaitModalService, GenerateService) {
+    function (GeneratorApp, SourceService, GeneratorService, ViewFileService, WaitModalService, PreviewService, Context, Config) {
         "use strict";
 
         GeneratorApp.controller("GeneratorCtrl",
-                ['$scope', '$http', 'GeneratorService', 'ViewFileService', 'WaitModalService', 'GenerateService',
-                function ($scope, $http, $generatorService, $viewFileService, $WaitModalService, $generateService) {
+                ['$scope', '$http', 'SourceService', 'GeneratorService', 'ViewFileService', 'WaitModalService', 'PreviewService',
+                function ($scope, $http, $sourceService, $generatorService, $viewFileService, $WaitModalService, $previewService) {
 
-            $scope.Answers = {};
-            $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
-            $http.defaults.headers.post['X-Requested-With'] = 'XMLHttpRequest';
+            var config = new Config();
+            $scope.newSource = function() {
+            	$scope.configQuestion = {};
+            	newSource(config);
+            };
 
-            $http.get(__BASEPATH__ + 'list-backend').success(function (data) {
-                $scope.backendList = data.backend;
-            }).error(function(data) {
-                $scope.modal = {
-                    'title' : 'Error',
-                    'body' : '',
-                    'callback' : function () {
-                        $('modal .modal-body').empty().append(data.error);
-                    }
-                };
-            });
-
-            $scope.$watch('backEnd', function (backEnd, oldValue) {
-
-                if (undefined === backEnd || null === backEnd) {
-                    $scope.metadataList  = undefined;
-                    $scope.generators    = null;
-                    $scope.metadataName  = null;
-                    $scope.fileList      = null;
-                    $scope.questionsList = null;
-                    return;
-                }
-
-                var datas =  $.param({backend: backEnd});
-                $http(
-                    {
-                        headers : {'Content-Type': 'application/x-www-form-urlencoded'},
-                        method  : 'POST',
-                        url     : __BASEPATH__ + 'metadata',
-                        data    : datas
-                    }
-                ).success(function (data) {
-                    if (data.config !== undefined) {
-                        $scope.metadataSourceConfig = {};
-                        $scope.metadataSourceConfigForm = {
-                            'title' : $scope.backEnd + ' configuration',
-                            'questionsList' : data.config
+            var newSource = (function(config) {
+                $sourceService.retrieveAdapters(
+                	config,
+                    function(data) {
+                    	if (data.metadatasourceCollection) {
+                    		$scope.backendList = data.metadatasourceCollection;
+                    	}
+                    	if (data.question) {
+                    		$scope.configQuestionsList = data.question;
+                    	}
+                        $('newSource > div').modal('show');
+                    },
+                    function(data) {
+                        $scope.newSource = {
+                            'title' : 'Error',
+                            'body' : '',
+                            'callback' : function () {
+                                $('modal .modal-body').empty().append(data.error);
+                            }
                         };
-                    } else if (data.metadatas !== undefined) {
-                        $scope.metadataList = data.metadatas;
-
-                        $http.get(__BASEPATH__ + 'list-generator').success(function (data) {
-                            $scope.generatorsList = data.generators;
-                        }).error(function(data) {
-                            $scope.modal = {
-                                'title' : 'Error',
-                                'body' : '',
-                                'callback' : function () {
-                                    $('modal .modal-body').empty().append(data);
-                                }
-                            };
-                        });
                     }
-                });
+                );
             });
+
+            $scope.$watch('adapter', function (adapter) {
+            	config.setAdapter(adapter);
+                newSource(config);
+            });
+            
+            $scope.setConfigQuestion = function(attribute) {
+            	$scope.backendConfig();
+            };
 
             $scope.backendConfig = function() {
-                var datas =  $.param({backend: $scope.backEnd, form : $scope.metadataSourceConfig});
-                $http(
-                    {
-                        headers : {'Content-Type': 'application/x-www-form-urlencoded'},
-                        method  : 'POST',
-                        url     : __BASEPATH__ + 'metadata-save',
-                        data    : datas
-                    }
-                ).success(function (data) {
+                $sourceService.config($scope.adapter, $scope.configQuestion, function(data) {
                     if (data.error !== undefined) {
-                        $scope.metadataSourceConfigForm.error = data.error;
+                        $scope.configFormError = data.error;
                     } else {
                         delete $scope.metadataSourceConfigForm;
-                        $scope.backendChange();
+                        $('newSource > div').modal('hide');
                     }
                 });
                 return false;
             };
 
-            $scope.handleGenerator = function (generatorName) {
+            $scope.answers = {};
+            $scope.metadataSelected = null;
+            $scope.generatorSelected = null;
+            $scope.backendSelected = null;
+
+            var generate = function(context) {
                 $WaitModalService.show();
-                var datas =  $.param({
-                    backend   : $scope.backEnd,
-                    generator : generatorName,
-                    metadata  : $scope.metadataName,
-                    questions : $('.questions').serialize()
-                });
-
-                $generatorService.build(datas, function (directories, questionList) {
-                    $scope.fileList = directories;
-                    $scope.questionsList = questionList;
-                    $WaitModalService.hide();
-                });
-            };
-
-            $scope.$watch('metadataName', function (metadataName, oldMetadataName) {
-                if (metadataName !== undefined && metadataName !== null && 
-                        $scope.generators !== undefined && $scope.generators !== null) {
-                    $scope.handleGenerator($scope.generators);
-                }
-            });
-
-            $scope.$watch('generators', function (generatorName, oldGeneratorName) {
-                if (generatorName !== undefined && generatorName !== null) {
-                    $scope.handleGenerator(generatorName);
-                }
-            });
-
-            $scope.generate = function() {
-                var datas = $.param({
-                    generator    : $scope.generators,
-                    backend      : $scope.backEnd,
-                    metadata     : $scope.metadataName,
-                    questions    : $('.questions').serialize(),
-                    conflict     : $('.conflict_handle').serialize()
-                });
-
-                $generateService.generate(datas, function (results) {
-                    if (undefined !== results.error) {
-                        $scope.unsafeModal = {
-                            'title' : 'Error',
-                            'body' : results.error
-                        };
-                    } else if (null !== results.conflictList) {
-                        $scope.conflictList = results.conflictList;
-                    } else if (null !== results.log) {
-                        $scope.unsafeModal = {
-                            'title' : 'Generated succefuly',
-                            'body' : results.log.join('<br/>'),
-                        };
+                $generatorService.build(
+                    context,
+                    function(data) {
+                        if (data.backendCollection)
+                            $scope.backendCollection = data.backendCollection;
+                        if (data.metadataCollection)
+                            $scope.metadataCollection = data.metadataCollection;
+                        if (data.generatorCollection)
+                            $scope.generatorCollection = data.generatorCollection;
+                        if (data.directories)
+                            $scope.fileList = data.directories;
+                        if (data.question)
+                            $scope.questionList = data.question;
+                        $WaitModalService.hide();
+                        $('body').tooltip({
+                            selector: "[rel=tooltip]"
+                        });
                     }
-                });
+                );
             };
+            var context = new Context();
+            
+            $scope.setMetadata = function(name) {
+                context.setMetadata(name);
+                $scope.metadataSelected = name;
+                generate(context);
+            };
+            
+            $scope.setGenerator = function(name) {
+                context.setGenerator(name);
+                $scope.generatorSelected = name;
+                generate(context);
+            };
+            
+            $scope.setBackend = function(name) {
+                context.setBackend(name);
+                $scope.backendSelected = name;
+                generate(context);
+            };
+            $scope.setQuestion = function(attribute) {
+            	context.setQuestion(attribute, $scope.answers[attribute]);
+            	generate(context);
+            };
+            generate(context);
 
+            /*
+             * Preview file
+             */
             $scope.viewFile = function (file) {
-                var datas = $.param({
-                    generator    : $scope.generators,
-                    skeletonPath : file.getSkeletonPath(),
-                    file         : file.getOriginalName(),
-                    backend      : $scope.backEnd,
-                    metadata     : $scope.metadataName,
-                    questions    : $('.questions').serialize(),
-                });
-
-                $viewFileService.generate(datas, function (results) {
+                $viewFileService.generate(context, file, function (results) {
 
                     if (results.error !== undefined) {
                         $scope.unsafeModal = {
@@ -172,7 +137,28 @@ define(
                             'body' : '<pre class="brush: php;">' + results.generator + '</pre>',
                             'callback' : function () {
                                 SyntaxHighlighter.highlight();
-                            },
+                            }
+                        };
+                    }
+                });
+            };
+
+            /*
+             * Generate
+             */
+            $scope.generate = function() {
+                $previewService.generate(context, function (results) {
+                    if (undefined !== results.error) {
+                        $scope.unsafeModal = {
+                            'title' : 'Error',
+                            'body' : results.error
+                        };
+                    } else if (null !== results.conflictList) {
+                        $scope.conflictList = results.conflictList;
+                    } else if (null !== results.log) {
+                        $scope.unsafeModal = {
+                            'title' : 'Generated succefuly',
+                            'body' : results.log.join('<br/>'),
                         };
                     }
                 });

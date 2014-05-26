@@ -55,14 +55,14 @@ class TemplateVariableParser implements ParserInterface
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
      */
-    public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
+    public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
     {
         if (isset($process['templateVariables'])) {
             foreach ($process['templateVariables'] as $variables) {
                 if (!is_array($variables)) {
                     throw new MalformedGeneratorException('Variable excepts to be an array "' . gettype($variables) . "' given");
                 }
-                $this->evaluateVariable($variables, $parser, $generator, $questions, (bool) $firstIteration);
+                $this->evaluateVariable($variables, $parser, $generator, (bool) $firstIteration);
             }
         }
 
@@ -73,22 +73,21 @@ class TemplateVariableParser implements ParserInterface
      * @param array $variables
      * @param PhpStringParser $parser
      * @param GeneratorDataObject $generator
-     * @param array $questions
      * @param boolean $firstIteration
      * @return GeneratorDataObject
      */
-    private function evaluateVariable(array $variables, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
+    private function evaluateVariable(array $variables, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
     {
         foreach ($variables as $varName => $value) {
             if ($varName === GeneratorParser::DEPENDENCY_CONDITION) {
-                $matches = $this->dependencyCondition->evaluate($value, $parser, $generator, $questions, $firstIteration);
+                $matches = $this->dependencyCondition->evaluate($value, $parser, $generator, $firstIteration);
                 foreach ($matches as $matchesDependency) {
-                    $generator = $this->evaluateVariable($matchesDependency, $parser, $generator, $questions, $firstIteration);
+                    $generator = $this->evaluateVariable($matchesDependency, $parser, $generator, $firstIteration);
                 }
             } elseif ($varName === GeneratorParser::ENVIRONNEMENT_CONDITION) {
-                $matches = $this->environnementCondition->evaluate($value, $parser, $generator, $questions, $firstIteration);
+                $matches = $this->environnementCondition->evaluate($value, $parser, $generator, $firstIteration);
                 foreach ($matches as $matchesEnvironnement) {
-                    $generator = $this->evaluateVariable($matchesEnvironnement, $parser, $generator, $questions, $firstIteration);
+                    $generator = $this->evaluateVariable($matchesEnvironnement, $parser, $generator, $firstIteration);
                 }
             } else {
                 $variableValue = $parser->parse($value);

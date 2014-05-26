@@ -17,8 +17,6 @@
  */
 namespace CrudGenerator\MetaData\Sources\PostgreSQL;
 
-use RuntimeException;
-
 /**
  * Manager SQL in differente database environnement
  *
@@ -27,82 +25,41 @@ use RuntimeException;
 class SqlManager
 {
     /**
-     * @var array Database type supported
-     */
-    private static $type = array(
-        'pgsql'
-    );
-    /**
-     * @var array Sql query to get all tables in database
-     */
-    private static $allMetadataSql = array(
-        'pgsql'   => "SELECT table_name
-                      FROM information_schema.tables
-                      WHERE table_schema = 'public'"
-    );
-    /**
-     * @var array Sql query to get all column in particular table
-     */
-    private static $listFieldsQuery = array(
-        'pgsql'   => "SELECT column_name as name, is_nullable, data_type as type, character_maximum_length
-                      FROM information_schema.columns
-                      WHERE table_name = ?;"
-    );
-
-    private static $primaryKeyList = array(
-        'pgsql' => "SELECT c.column_name
-                    FROM information_schema.table_constraints tc
-                    JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_name)
-                    JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema
-                        AND tc.table_name = c.table_name AND ccu.column_name = c.column_name
-                    WHERE constraint_type = 'PRIMARY KEY' and tc.table_name = ?"
-    );
-
-    /**
      * Get all tables in database
      *
-     * @param string $type Database type
-     * @throws RuntimeException
      * @return string
      */
-    public function getAllMetadata($type)
+    public function getAllMetadata()
     {
-        if (!in_array($type, self::$type)) {
-            throw new RuntimeException('Sql type not allowed ' . $type);
-        }
-
-        return self::$allMetadataSql[$type];
+        return "SELECT table_name
+                FROM information_schema.tables
+                WHERE table_schema = 'public'";
     }
 
     /**
      * Get all column in particular table
      *
-     * @param string $type Database type
-     * @throws RuntimeException
      * @return string
      */
-    public function listFieldsQuery($type)
+    public function listFieldsQuery()
     {
-        if (!in_array($type, self::$type)) {
-            throw new RuntimeException('Sql type not allowed ' . $type);
-        }
-
-        return self::$listFieldsQuery[$type];
+        return "SELECT column_name as name, is_nullable, data_type as type, character_maximum_length
+                      FROM information_schema.columns
+                      WHERE table_name = ?;";
     }
 
     /**
      * Get all primary keys in particular table
      *
-     * @param string $type Database type
-     * @throws RuntimeException
      * @return string
      */
-    public function getAllPrimaryKeys($type)
+    public function getAllPrimaryKeys()
     {
-        if (!in_array($type, self::$type)) {
-            throw new RuntimeException('Sql type not allowed ' . $type);
-        }
-
-        return self::$primaryKeyList[$type];
+        return "SELECT c.column_name
+                FROM information_schema.table_constraints tc
+                    JOIN information_schema.constraint_column_usage AS ccu USING (constraint_schema, constraint_name)
+                    JOIN information_schema.columns AS c ON c.table_schema = tc.constraint_schema
+                        AND tc.table_name = c.table_name AND ccu.column_name = c.column_name
+                WHERE constraint_type = 'PRIMARY KEY' and tc.table_name = ?";
     }
 }

@@ -7,11 +7,7 @@ class TestTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstance()
     {
-        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
+        $contextStub =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -31,7 +27,7 @@ class TestTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new FileConflictManagerCli($ConsoleOutputStub, $dialog, $fileManager, $diffPHP);
+        $sUT = new FileConflictManagerCli($contextStub, $fileManager, $diffPHP);
 
         $this->assertEquals(
             true,

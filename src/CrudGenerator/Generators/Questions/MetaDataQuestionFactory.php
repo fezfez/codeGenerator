@@ -17,8 +17,7 @@
  */
 namespace CrudGenerator\Generators\Questions;
 
-use CrudGenerator\MetaData\Config\MetaDataConfigReaderFactory;
-use CrudGenerator\MetaData\Config\MetaDataConfigReaderFormFactory;
+use CrudGenerator\MetaData\Config\MetaDataConfigDAOFactory;
 use CrudGenerator\MetaData\MetaDataSourceFactory;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\CliContext;
@@ -35,12 +34,9 @@ class MetaDataQuestionFactory
     {
         $metadataSourceFactory = new MetaDataSourceFactory();
 
-        if ($context instanceof CliContext) {
-        	$metaDataConfigReader  = MetaDataConfigReaderFactory::getInstance($context->getOutput(), $context->getDialogHelper());
-        	return new Cli\MetaDataQuestion($metaDataConfigReader, $metadataSourceFactory, $context->getOutput(), $context->getDialogHelper());
-        } elseif ($context instanceof WebContext) {
-        	$metaDataConfigReader = MetaDataConfigReaderFormFactory::getInstance();
-        	return new Web\MetaDataQuestion($metaDataConfigReader, $metadataSourceFactory);
+        if ($context instanceof WebContext || $context instanceof CliContext) {
+        	$metaDataConfigDAO = MetaDataConfigDAOFactory::getInstance($context);
+        	return new Web\MetaDataQuestion($metaDataConfigDAO, $metadataSourceFactory, $context);
         } else {
         	throw new \InvalidArgumentException('Invalid context given');
         }

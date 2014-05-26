@@ -8,37 +8,40 @@ use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 
 class AnalyseTest extends \PHPUnit_Framework_TestCase
 {
-    public function testOkfezfez()
+    public function testOkddddddddd()
     {
-    	$app = $this->getMockBuilder('Silex\Application')
-		->disableOriginalConstructor()
-		->getMock();
+         $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-		$context = new WebContext($app);
-
-		$generator = new GeneratorDataObject();
-		$generator->setName('CrudGenerator');
+        $generator = new GeneratorDataObject();
+        $generator->setName('CrudGenerator');
 
         $generatorParser = GeneratorParserFactory::getInstance($context);
 
         $generator = $generatorParser->init(
             $generator,
-            $this->getMetadata(),
-            array('environnement_backend' => 'PDO', 'environnement_framework' => 'zend_framework_2')
+            $this->getMetadata()
         );
+
+        $generator->addEnvironnementValue('backend', 'PDO')
+                  ->addEnvironnementValue('framework', 'zend_framework_2')
+                  ->getDTO()
+                  ->setAttributeName('tetze', 'myName')
+                  ->setAttributeName('myDate', 'madata');
 
         $fileGenerator = GeneratorStrategyFactory::getInstance($context);
 
         foreach ($generator->getFiles() as $file) {
-        	$this->assertInternalType(
-				'string',
-	             $fileGenerator->generateFile(
-	                 $generator->getTemplateVariables(),
-	                 $file['skeletonPath'],
-	                 $file['name'],
-	                 $file['fileName']
-	             )
-        	);
+            $this->assertInternalType(
+                'string',
+                 $fileGenerator->generateFile(
+                     $generator->getTemplateVariables(),
+                     $file['skeletonPath'],
+                     $file['name'],
+                     $file['fileName']
+                 )
+            );
         }
     }
 

@@ -17,70 +17,91 @@
  */
 namespace CrudGenerator\Generators\Questions\Web;
 
-use CrudGenerator\MetaData\Config\MetaDataConfigReaderForm;
+use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\MetaDataSourceFactory;
+use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Generators\ResponseExpectedException;
 
 class MetaDataQuestion
 {
     /**
-     * @var MetaDataConfigReaderForm
+     * @var MetaDataConfigDAO
      */
-    private $metaDataConfigReaderForm = null;
+    private $metaDataConfigDAO = null;
     /**
      * @var MetaDataSourceFactory
      */
     private $metaDataSourceFactory = null;
+    /**
+     * @var ContextInterface
+     */
+    private $context = null;
 
     /**
      * @param MetaDataConfigReaderForm $metaDataConfigReader
      * @param MetaDataSourceFactory $metaDataSourceFactory
      */
     public function __construct(
-        MetaDataConfigReaderForm $metaDataConfigReaderForm,
-        MetaDataSourceFactory $metaDataSourceFactory
+        MetaDataConfigDAO $metaDataConfigDAO,
+        MetaDataSourceFactory $metaDataSourceFactory,
+        ContextInterface $context
     ) {
-        $this->metaDataConfigReaderForm = $metaDataConfigReaderForm;
+        $this->metaDataConfigDAO     = $metaDataConfigDAO;
         $this->metaDataSourceFactory = $metaDataSourceFactory;
+        $this->context               = $context;
+    }
+
+    private function getMetaDataDAO(MetaDataSource $metadataSource)
+    {
+        $metadataSourceFactoryName = $metadataSource->getMetaDataDAOFactory();
+        $metadataSourceConfig      = $metadataSource->getConfig();
+
+        return $this->metaDataSourceFactory->create($metadataSourceFactoryName, $metadataSourceConfig);
     }
 
     /**
      * Ask wich metadata you want to use
-     * @param MetaDataSource $adapter
-     * @param string $metaDataNamePreselected
-     * @return array|\CrudGenerator\MetaData\DataObject\MetaData
+     * @param MetaDataSource $metadataSource
+     * @throws ResponseExpectedException
+     * @return \CrudGenerator\MetaData\DataObject\MetaData
      */
-    public function ask(MetaDataSource $metadataSource, $metaDataNamePreselected = null)
+    public function ask(MetaDataSource $metadataSource)
     {
-        $metadataSourceFactoryName = $metadataSource->getFactory();
-        $metadataSourceConfig      = $metadataSource->getConfig();
-
-        if (null !== $metadataSourceConfig) {
-            $metadataSourceConfig = $this->metaDataConfigReaderForm->config($metadataSourceConfig);
-        }
-
-        $metaDataDAO = $this->metaDataSourceFactory->create($metadataSourceFactoryName, $metadataSourceConfig);
-
-        if (null === $metaDataNamePreselected) {
-            $metaDataChoices = array();
-            foreach ($metaDataDAO->getAllMetadata() as $metadata) {
-                $metaDataChoices[] = array('id' => $metadata->getOriginalName(), 'label' => $metadata->getOriginalName());
-            }
-        } else {
-            foreach ($metaDataDAO->getAllMetadata() as $metadata) {
-                if ($metadata->getOriginalName() === $metaDataNamePreselected) {
-                    return $metadata;
-                }
-            }
-
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Metadata %s does not exist",
-                    $metaDataNamePreselected
-                )
+        $metaDataCollection = $this->getMetaDataDAO($metadataSource)->getAllMetadata();
+        $metaDataArray = array();
+        foreach ($metaDataCollection as $metaData) {
+            $metaDataArray[] = array(
+                'id'    => $metaData->getOriginalName(),
+                'label' => $metaData->getOriginalName()
             );
         }
 
-        return $metaDataChoices;
+        return $this->retrieve(
+            $metadataSource,
+            $this->context->askCollection("Select Metadata", 'metadata', $metaDataArray)
+        );
+    }
+
+    /**
+     * @param MetaDataSource $metadataSource
+     * @param string $metaDataNamePreselected
+     * @throws ResponseExpectedException
+     * @return \CrudGenerator\MetaData\DataObject\MetaData
+     */
+    public function retrieve(MetaDataSource $metadataSource, $metaDataNamePreselected)
+    {
+        foreach ($this->getMetaDataDAO($metadataSource)->getAllMetadata() as $metadata) {
+            if ($metadata->getOriginalName() === $metaDataNamePreselected) {
+                return $metadata;
+            }
+        }
+
+        throw new ResponseExpectedException(
+            sprintf(
+                "Metadata %s does not exist",
+                $metaDataNamePreselected
+            )
+        );
     }
 }

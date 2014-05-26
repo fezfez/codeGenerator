@@ -17,7 +17,7 @@
  */
 namespace CrudGenerator\MetaData\Sources\PostgreSQL;
 
-use CrudGenerator\MetaData\Config\AbstractConfig;
+use CrudGenerator\MetaData\Sources\MetaDataConfig;
 use CrudGenerator\MetaData\Config\ConfigException;
 
 /**
@@ -25,32 +25,32 @@ use CrudGenerator\MetaData\Config\ConfigException;
  *
  * @author Stéphane Demonchaux
  */
-class PostgreSQLConfig extends AbstractConfig
+class PostgreSQLConfig implements MetaDataConfig
 {
     /**
      * @var string Config definition
      */
-    protected $definition = 'For use the PostgreSQL adapter you need to define the database and how to get the PostgreSQL instance';
+    private $definition = 'For use the PostgreSQL adapter you need to define the database and how to get the PostgreSQL instance';
     /**
      * @var string Database Name
      */
-    protected $databaseName = null;
+    private $databaseName = null;
     /**
      * @var string Host
      */
-    protected $host = null;
+    private $host = null;
     /**
      * @var string User
      */
-    protected $user = null;
+    private $user = null;
     /**
      * @var string Password
      */
-    protected $password = null;
+    private $password = null;
     /**
      * @var string Port
      */
-    protected $port = null;
+    private $port = null;
 
     /**
      * Set database name
@@ -144,18 +144,71 @@ class PostgreSQLConfig extends AbstractConfig
         return $this->port;
     }
 
-    /**
-     * Test if its well configured
-     * @throws ConfigException
-     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::test()
      */
     public function test()
     {
         try {
-            new \PDO('pgsql:dbname='.$this->databaseName . ';host='.$this->host, $this->user, $this->password);
-            return $this;
+            $this->getConnection();
         } catch (\PDOException $e) {
             throw new ConfigException('Connection failed with "' . $e->getMessage() . '"');
         }
+    }
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getDefinition()
+     */
+    public function getDefinition()
+    {
+        return $this->definition;
+    }
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getUniqueName()
+     */
+    public function getUniqueName()
+    {
+        return 'PostgreSQL ' . $this->host . ' ' . $this->user;
+    }
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getConnection()
+     */
+    public function getConnection()
+    {
+        $pdo = new \PDO('pgsql:dbname='.$this->databaseName . ';host='.$this->host, $this->user, $this->password);
+        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+        return $pdo;
+    }
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::jsonSerialize()
+     */
+    public function jsonSerialize()
+    {
+        return array(
+            'databaseName' => $this->databaseName,
+            'host'         => $this->host,
+            'user'         => $this->user,
+            'password'     => $this->password,
+            'port'         => $this->port
+        );
+    }
+
+    /**
+     * Get MetaDataDAOFactory
+     *
+     * @return string
+     */
+    public function getMetaDataDAOFactory()
+    {
+
+    }
+    /**
+     * Set MetaDataDAOFactory
+     *
+     * @return MetaDataConfig
+    */
+    public function setMetaDataDAOFactory($value)
+    {
+
     }
 }

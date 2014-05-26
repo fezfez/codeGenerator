@@ -1,8 +1,8 @@
 <?php
 namespace CrudGenerator\Tests\General\Command\Questions\Web\GeneratorQuestion;
 
-
 use CrudGenerator\Generators\Questions\Web\GeneratorQuestion;
+use CrudGenerator\Context\WebContext;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,7 +12,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sourceFinderStub->expects($this->once())
+        $sourceFinderStub->expects($this->exactly(2))
                          ->method('getAllClasses')
                          ->will(
                             $this->returnValue(
@@ -22,8 +22,15 @@ class AskTest extends \PHPUnit_Framework_TestCase
                             )
                         );
 
+    	$context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+    	->disableOriginalConstructor()
+    	->getMock();
 
-        $sUT = new GeneratorQuestion($sourceFinderStub);
-        $this->assertEquals(array(array('id' => 'path/ArchitectGenerator.generator.yaml', 'label' => 'ArchitectGenerator')), $sUT->ask());
+        $sUT = new GeneratorQuestion($sourceFinderStub, $context);
+
+        $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
+
+        $sUT->ask();
+        //$this->assertEquals(array(array('id' => 'path/ArchitectGenerator.generator.yaml', 'label' => 'ArchitectGenerator')), );
     }
 }

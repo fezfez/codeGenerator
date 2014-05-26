@@ -20,7 +20,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
         $context = new CliContext($dialog, $ConsoleOutputStub);
 
         $this->assertInstanceOf(
-            'CrudGenerator\Generators\Questions\Cli\MetaDataSourcesQuestion',
+            'CrudGenerator\Generators\Questions\Web\MetaDataSourcesQuestion',
             MetaDataSourcesQuestionFactory::getInstance($context)
         );
     }

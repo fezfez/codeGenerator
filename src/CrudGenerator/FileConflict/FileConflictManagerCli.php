@@ -3,8 +3,7 @@ namespace CrudGenerator\FileConflict;
 
 use CrudGenerator\Utils\FileManager;
 use SebastianBergmann\Diff\Differ;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
+use CrudGenerator\Context\ContextInterface;
 
 class FileConflictManagerCli
 {
@@ -26,38 +25,31 @@ class FileConflictManagerCli
     const CANCEL = 3;
 
     /**
-     * @var OutputInterface Output
+     * @var ContextInterface Output
      */
-    private $output      = null;
+    private $context      = null;
     /**
      * @var FileManager File Manager
      */
     private $fileManager = null;
-    /**
-     * @var DialogHelper Dialog
-     */
-    private $dialog      = null;
     /**
      * @var Differ Diff php
      */
     private $diffPHP     = null;
 
     /**
-     * @param OutputInterface $output
-     * @param DialogHelper $dialog
+     * @param ContextInterface $context
      * @param FileManager $fileManager
      * @param DiffPHP $diffPHP
      */
     public function __construct(
-        OutputInterface $output,
-        DialogHelper $dialog,
+        ContextInterface $context,
         FileManager $fileManager,
         Differ $diffPHP
     ) {
-        $this->output            = $output;
-        $this->fileManager       = $fileManager;
-        $this->dialog            = $dialog;
-        $this->diffPHP           = $diffPHP;
+        $this->context     = $context;
+        $this->fileManager = $fileManager;
+        $this->diffPHP     = $diffPHP;
     }
 
     /**
@@ -80,9 +72,9 @@ class FileConflictManagerCli
     public function handle($filePath, $results)
     {
         while (true) {
-            $response = $this->dialog->select(
-                $this->output,
-                '<error>File "' . $filePath . '" already exist, erase it with the new</error>',
+            $response = $this->context->askCollection(
+                'File "' . $filePath . '" already exist, erase it with the new',
+                'conflict' . $filePath,
                 array(
                     'postpone',
                     'show diff',
@@ -95,7 +87,7 @@ class FileConflictManagerCli
 
             if ($response === self::SHOW_DIFF) {
                 // write to output the diff
-                $this->output->writeln(
+                $this->context->log(
                     '<info>' . $this->diffPHP->diff($results, $this->fileManager->fileGetContent($filePath)) . '</info>'
                 );
             } else {
@@ -108,14 +100,14 @@ class FileConflictManagerCli
             $this->fileManager->filePutsContent(
                 $filePath . '.diff',
                 $this->diffPHP->diff(
-                	$results,
+                    $results,
                     $this->fileManager->fileGetContent($filePath)
                 )
             );
-            $this->output->writeln('--> Generate diff and new file ' . $filePath . '.diff');
+            $this->context->log('--> Generate diff and new file ' . $filePath . '.diff');
         } elseif ($response === self::ERASE) {
             $this->fileManager->filePutsContent($filePath, $results);
-            $this->output->writeln('--> Create ' . $filePath);
+            $this->context->log('--> Create ' . $filePath);
         }
     }
 }

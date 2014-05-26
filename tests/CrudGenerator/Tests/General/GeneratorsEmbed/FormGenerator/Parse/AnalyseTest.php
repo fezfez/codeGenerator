@@ -10,11 +10,10 @@ class AnalyseTest extends \PHPUnit_Framework_TestCase
 {
     public function testOkfezfez()
     {
-    	$app = $this->getMockBuilder('Silex\Application')
-		->disableOriginalConstructor()
-		->getMock();
+         $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-		$context = new WebContext($app);
 
 		$generator = new GeneratorDataObject();
 		$generator->setName('FormGenerator');

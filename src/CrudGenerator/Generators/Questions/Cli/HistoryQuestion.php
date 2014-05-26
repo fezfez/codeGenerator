@@ -18,8 +18,7 @@
 namespace CrudGenerator\Generators\Questions\Cli;
 
 use CrudGenerator\History\HistoryManager;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
+use CrudGenerator\Context\ContextInterface;
 
 class HistoryQuestion
 {
@@ -28,23 +27,18 @@ class HistoryQuestion
      */
     private $historyManager = null;
     /**
-     * @var OutputInterface
+     * @var ContextInterface
      */
-    private $output = null;
-    /**
-     * @var DialogHelper
-     */
-    private $dialog = null;
+    private $context = null;
+
     /**
      * @param HistoryManager $historyManager
-     * @param OutputInterface $output
-     * @param DialogHelper $dialog
+     * @param OutputInterface $context
      */
-    public function __construct(HistoryManager $historyManager, OutputInterface $output, DialogHelper $dialog)
+    public function __construct(HistoryManager $historyManager, ContextInterface $context)
     {
         $this->historyManager = $historyManager;
-        $this->output         = $output;
-        $this->dialog         = $dialog;
+        $this->context         = $context;
     }
 
     /**
@@ -66,9 +60,9 @@ class HistoryQuestion
         }
 
         $historyKeysChoices = array_keys($historyChoices);
-        $choice = $this->dialog->select(
-            $this->output,
+        $choice = $this->context->askCollection(
             "<question>History to regenerate</question> \n> ",
+        	'history',
             $historyKeysChoices
         );
 

@@ -18,8 +18,8 @@
         <testsuite name="General">
             <directory>./tests/CrudGenerator/Tests/General/</directory>
         </testsuite>
-        <testsuite name="PDOs">
-            <directory>./tests/CrudGenerator/Tests/PDO/</directory>
+        <testsuite name="PostgreSQL">
+            <directory>./tests/CrudGenerator/Tests/PostgreSQL/</directory>
         </testsuite>
         <testsuite name="ZF2">
             <directory>./tests/CrudGenerator/Tests/ZF2/</directory>

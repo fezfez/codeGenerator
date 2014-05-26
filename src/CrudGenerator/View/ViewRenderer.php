@@ -56,7 +56,7 @@ class ViewRenderer
         } catch (\Exception $ex) {
             ob_end_clean();
             throw new ViewRendererException(
-                'In : "' . $path . $templateName . '" ' . $ex->getMessage() . ' Line ' . $ex->getLine()
+                'In : "' . realpath($path . $templateName) . '" ' . $ex->getMessage() . ' Line ' . $ex->getLine()
             );
         }
 
@@ -80,7 +80,7 @@ class ViewRenderer
         } catch (\Exception $ex) {
             ob_end_clean();
             throw new ViewRendererException(
-                'In : "' . $path . '" ' . $ex->getMessage() . ' Line ' . $ex->getLine()
+                'In : "' . realpath($path) . '" ' . $ex->getMessage() . ' Line ' . $ex->getLine()
             );
         }
 

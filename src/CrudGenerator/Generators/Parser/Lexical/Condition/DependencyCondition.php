@@ -27,17 +27,22 @@ class DependencyCondition implements ParserInterface
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
      */
-    public function evaluate(array $dependencyNode, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
+    public function evaluate(array $dependencyNode, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
     {
-        $matches = array();
+        $matches               = array();
+        $generatorDependencies = array();
+
+        foreach ($generator->getDependencies() as $dependency) {
+            $generatorDependencies[] = $dependency->getName();
+        }
 
         foreach ($dependencyNode as $dependencyNodes) {
              foreach ($dependencyNodes as $dependencyName => $dependencyList) {
-                 if (substr($dependencyName, 0, 1) === GeneratorParser::DIFFERENT && !in_array(substr($dependencyName, 1), $generator->getDependencies())) {
+                 if (substr($dependencyName, 0, 1) === GeneratorParser::DIFFERENT && !in_array(substr($dependencyName, 1), $generatorDependencies)) {
                      foreach ($dependencyList as $key => $dependency) {
                          $matches[] = $dependency;
                      }
-                 } elseif (in_array($dependencyName, $generator->getDependencies())) {
+                 } elseif (in_array($dependencyName, $generatorDependencies)) {
                      foreach ($dependencyList as $key => $dependency) {
                          $matches[] = $dependency;
                      }

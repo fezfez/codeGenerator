@@ -16,7 +16,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
         $context = new WebContext($web);
 
         $this->assertInstanceOf(
-            'CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArrayWeb',
+            'CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArray',
             MetadataToArrayFactory::getInstance($context)
         );
     }
@@ -34,7 +34,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
         $context = new CliContext($dialog, $ConsoleOutputStub);
 
         $this->assertInstanceOf(
-            'CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArrayCli',
+            'CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArray',
             MetadataToArrayFactory::getInstance($context)
         );
     }

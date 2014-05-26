@@ -27,7 +27,7 @@ class EnvironnementCondition implements ParserInterface
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
      */
-    public function evaluate(array $environnementNode, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration)
+    public function evaluate(array $environnementNode, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
     {
         $matches = array();
 

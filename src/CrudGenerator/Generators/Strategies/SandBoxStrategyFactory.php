@@ -47,7 +47,7 @@ class SandBoxStrategyFactory
                 $filter = null;
             }
 
-            return new SandBoxStrategy($view, $context->getOutput(), $context->getDialogHelper(), $filter);
+            return new SandBoxStrategy($view, $context, $filter);
         } else {
             throw new \InvalidArgumentException('Context "' . get_class($context) . '" not allowed');
         }

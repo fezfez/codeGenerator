@@ -114,7 +114,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $generatorToTest = clone $generator;
 
         $this->assertEquals(
-            $generatorToTest->addFile(dirname($generator->getPath()) . '/Skeleton/', 'MyFileTemplate', 'MyFileParser'),
+            $generatorToTest->addFile($generator->getPath() . '/Skeleton/', 'MyFileTemplate', 'MyFileParser'),
             $sUT->evaluate($process, $phpParser, $generator, array(), true)
         );
     }
@@ -166,7 +166,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $generatorToTest = clone $generator;
 
         $this->assertEquals(
-            $generatorToTest->addFile(dirname($generator->getPath()) . '/Skeleton/', 'MyFileTemplate', 'MyFileParser'),
+            $generatorToTest->addFile($generator->getPath() . '/Skeleton/', 'MyFileTemplate', 'MyFileParser'),
             $sUT->evaluate($process, $phpParser, $generator, array(), true)
         );
     }
@@ -220,7 +220,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $generatorToTest = clone $generator;
 
         $this->assertEquals(
-            $generatorToTest->addFile(dirname($generator->getPath()) . '/Skeleton/', 'MyFileTemplate', 'MyFileParsed'),
+            $generatorToTest->addFile($generator->getPath() . '/Skeleton/', 'MyFileTemplate', 'MyFileParsed'),
             $sUT->evaluate($process, $phpParser, $generator, array(), true)
         );
     }

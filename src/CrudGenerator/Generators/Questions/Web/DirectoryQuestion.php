@@ -19,6 +19,7 @@ namespace CrudGenerator\Generators\Questions\Web;
 
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Context\ContextInterface;
 
 class DirectoryQuestion
 {
@@ -26,13 +27,18 @@ class DirectoryQuestion
      * @var FileManager $fileManager
      */
     private $fileManager = null;
+    /**
+     * @var ContextInterface $fileManager
+     */
+    private $context = null;
 
     /**
      * @param FileManager $fileManager
      */
-    public function __construct(FileManager $fileManager)
+    public function __construct(FileManager $fileManager, ContextInterface $context)
     {
         $this->fileManager = $fileManager;
+        $this->context     = $context;
     }
 
     /**
@@ -41,7 +47,7 @@ class DirectoryQuestion
      */
     public function ask(GeneratorDataObject $generator, array $question)
     {
-    	$attribute = 'get' . $question['dtoAttribute'];
+        $attribute = 'get' . $question['dtoAttribute'];
         $module = $generator->getDTO()->$attribute();
         $directoriesRaw = $this->fileManager->glob(
             $module . '*',
@@ -58,17 +64,19 @@ class DirectoryQuestion
             $directories[] = array('label' => $directory, 'id' => $directory);
         }
 
-        $generator->addQuestion(
-            array(
-                'dtoAttribute'    => 'set' . $question['dtoAttribute'],
-                'text'            => $question['text'],
-                'placeholder'     => 'Actual directory "' . $module . '"',
-                'value'           => $module,
-                'type'            => 'select',
-                'values'          => $directories,
-            	'required'        => (isset($question['required'])) ? $question['required'] : false
-            )
+        $response = $this->context->askCollection(
+            $question['text'],
+            'set' . $question['dtoAttribute'],
+            $directories,
+            $module,
+            (isset($question['required'])) ? $question['required'] : false,
+            'Actual directory "' . $module . '"'
         );
+
+        if ($response !== null) {
+        	$setter = 'set' . $question['dtoAttribute'];
+        	$generator->getDTO()->$setter($response);
+        }
 
         return $generator;
     }

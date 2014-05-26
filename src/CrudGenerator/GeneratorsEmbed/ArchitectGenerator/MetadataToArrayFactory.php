@@ -30,10 +30,8 @@ class MetadataToArrayFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-        if ($context instanceof WebContext) {
-            return new MetadataToArrayWeb();
-        } elseif ($context instanceof CliContext) {
-            return new MetadataToArrayCli($context->getDialogHelper(), $context->getOutput());
+        if ($context instanceof WebContext || $context instanceof CliContext) {
+            return new MetadataToArray($context);
         } else {
             throw new \InvalidArgumentException('Invalid context');
         }

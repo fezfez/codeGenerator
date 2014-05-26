@@ -36,4 +36,4 @@ filesList :
     - /form/FormFilter.phtml   : <?php $formGenerator->getFormDirectory() . $ucFirstModelName; ?>FormFilter.php
     - dependencyCondition :
         - !ArchitectGenerator :
-            - /form/DataObject.phtml        : <?php $formGenerator->getFormDirectory(); ?>DataObject.phtml
+            - /form/DataObject.phtml        : <?php $formGenerator->getFormDirectory() . $ucFirstModelName; ?>DataObject.php

@@ -18,6 +18,8 @@
 namespace CrudGenerator\Generators\Questions\Web;
 
 use CrudGenerator\MetaData\MetaDataSourceFinder;
+use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Generators\ResponseExpectedException;
 
 class MetaDataSourcesQuestion
 {
@@ -25,42 +27,59 @@ class MetaDataSourcesQuestion
      * @var MetaDataSourceFinder
      */
     private $metadataSourceFinder = null;
+    /**
+     * @var ContextInterface
+     */
+    private $context = null;
 
     /**
      * @param MetaDataSourceFinder $metadataSourceFinder
+     * @param ContextInterface $context
      */
-    public function __construct(MetaDataSourceFinder $metadataSourceFinder)
+    public function __construct(MetaDataSourceFinder $metadataSourceFinder, ContextInterface $context)
     {
         $this->metadataSourceFinder = $metadataSourceFinder;
+        $this->context              = $context;
     }
 
     /**
      * Ask witch MetaData Source you want to use
      * @param string $choice
-     * @throws \InvalidArgumentException
-     * @return \CrudGenerator\MetaData\MetaDataSource|array
+     * @throws ResponseExpectedException
+     * @return array
      */
-    public function ask($choice = null)
+    public function ask()
     {
-        if ($choice !== null) {
-            foreach ($this->metadataSourceFinder->getAllAdapters() as $backend) {
-                if ($backend->getFactory() === $choice) {
-                    return $backend;
-                }
-            }
-
-            throw new \InvalidArgumentException(sprintf('Invalid metadata %s', $choice));
-        }
-
         $backendArray = array();
         foreach ($this->metadataSourceFinder->getAllAdapters() as $backend) {
+            /* @var $backend \CrudGenerator\MetaData\MetaDataSource */
             if(!$backend->getFalseDependencies()) {
                 $backendArray[] = array(
-                    'id'    => $backend->getFactory(),
+                    'id'    => $backend->getMetaDataDAOFactory(),
                     'label' => $backend->getDefinition()
                 );
             }
         }
-        return $backendArray;
+
+        return $this->retrieve(
+            $this->context->askCollection("Select source ", 'metadatasource', $backendArray)
+        );
+    }
+
+    /**
+     * @param string $choice
+     * @throws ResponseExpectedException
+     * @return \CrudGenerator\MetaData\MetaDataSource
+     */
+    private function retrieve($choice)
+    {
+        foreach ($this->metadataSourceFinder->getAllAdapters() as $backend) {
+            /* @var $backend \CrudGenerator\MetaData\MetaDataSource */
+            if ($backend->getMetaDataDAOFactory() === $choice) {
+                return $backend;
+            }
+        }
+
+        throw new ResponseExpectedException(sprintf('Invalid source "%s"', $choice));
     }
 }

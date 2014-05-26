@@ -174,7 +174,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             'myGenerateFile',
-            $sUt->generate($generator, 'MyValue')
+            $sUt->generate($generator, 'myName')
         );
     }
 

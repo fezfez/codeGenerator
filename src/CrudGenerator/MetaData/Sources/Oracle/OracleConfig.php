@@ -17,15 +17,15 @@
  */
 namespace CrudGenerator\MetaData\Sources\Oracle;
 
-use CrudGenerator\MetaData\Config\AbstractConfig;
+use CrudGenerator\MetaData\Sources\MetaDataConfig;
 use CrudGenerator\MetaData\Config\ConfigException;
 
 /**
- * PDO configuration for PDO Metadata adapter
+ * Oracle configuration for Oracle Metadata adapter
  *
  * @author Stéphane Demonchaux
  */
-class OracleConfig extends AbstractConfig
+class OracleConfig implements MetaDataConfig
 {
     /**
      * @var string Config definition
@@ -55,7 +55,7 @@ class OracleConfig extends AbstractConfig
     /**
      * Set database name
      * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
+     * @return \CrudGenerator\MetaData\Sources\Oracle\OracleConfig
      */
     public function setDatabaseName($value)
     {
@@ -65,7 +65,7 @@ class OracleConfig extends AbstractConfig
     /**
      * Set host
      * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
+     * @return \CrudGenerator\MetaData\Sources\Oracle\OracleConfig
      */
     public function setHost($value)
     {
@@ -75,7 +75,7 @@ class OracleConfig extends AbstractConfig
     /**
      * Set user
      * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
+     * @return \CrudGenerator\MetaData\Sources\Oracle\OracleConfig
      */
     public function setUser($value)
     {
@@ -85,7 +85,7 @@ class OracleConfig extends AbstractConfig
     /**
      * Set password
      * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
+     * @return \CrudGenerator\MetaData\Sources\Oracle\OracleConfig
      */
     public function setPassword($value)
     {
@@ -95,7 +95,7 @@ class OracleConfig extends AbstractConfig
     /**
      * Set port
      * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
+     * @return \CrudGenerator\MetaData\Sources\Oracle\OracleConfig
      */
     public function setPort($value)
     {
@@ -144,28 +144,72 @@ class OracleConfig extends AbstractConfig
         return $this->port;
     }
 
-    /**
-     * Test if its well configured
-     * @throws ConfigException
-     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
-     */
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getConnection()
+    */
+    public function getConnection()
+    {
+        $pdo = new \PDO('//' . $this->host . '/' . $this->databaseName, $this->user, $this->password);
+        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+        return $pdo;
+    }
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::test()
+    */
     public function test()
     {
-    	$db = '//' . $this->host . '/' . $this->databaseName; //e.g. '//192.168.1.1/orcl'
-    	
-    	try {
-    		new PDO($db,$this->user,$this->password);
-    		return $this;
-    	} catch (\PDOException $e) {
-    		throw new ConfigException('Connection failed with "' . $e->getMessage() . '"');
-    	}
-    	
-    	//$conn = oci_connect($this->user, $this->password, $this->host . '/' . $this->databaseName);
-    	/*if (!$conn) {
-    		$e = oci_error();
-    		throw new ConfigException('Connection failed with "' . $e->getMessage() . '"');
-    	} else {
-    		return $this;
-    	}*/
+        try {
+            $this->getConnection();
+        } catch (\PDOException $e) {
+            throw new ConfigException('Connection failed with "' . $e->getMessage() . '"');
+        }
+    }
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getUniqueName()
+    */
+    public function getUniqueName()
+    {
+        return 'Oracle ' . $this->host . ' ' . $this->user;
+    }
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getDefinition()
+    */
+    public function getDefinition()
+    {
+        return $this->definition;
+    }
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::jsonSerialize()
+    */
+    public function jsonSerialize()
+    {
+        return array(
+            'databaseName' => $this->databaseName,
+            'host'         => $this->host,
+            'user'         => $this->user,
+            'password'     => $this->password,
+            'port'         => $this->port
+        );
+    }
+
+
+    /**
+     * Get MetaDataDAOFactory
+     *
+     * @return string
+     */
+    public function getMetaDataDAOFactory()
+    {
+
+    }
+    /**
+     * Set MetaDataDAOFactory
+     *
+     * @return MetaDataConfig
+     */
+    public function setMetaDataDAOFactory($value)
+    {
+
     }
 }

@@ -9,6 +9,13 @@ class AskTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {
+        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        ->disableOriginalConstructor()
+        ->getMock();
+
+        $context->expects($this->once())
+        ->method('askCollection');
+
         $generatorDTO = new GeneratorDataObject();
         $dto = new Architect();
         $dto->setModelDirectory('src');
@@ -17,23 +24,8 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $generatorToTest = clone $generatorDTO;
 
         $directories = array(
-        	'dirOne',
-        	'dirTwo'
-        );
-        $generatorToTest->addQuestion(
-        	array(
-        		'dtoAttribute'    => 'setModelDirectory',
-        		'text'            => 'Select a Directory',
-        		'placeholder'     => 'Actual directory "' . $dto->getModelDirectory() . '"',
-        		'value'           => $dto->getModelDirectory(),
-        		'type'            => 'select',
-        		'required'        => false,
-        		'values'          => array(
-        			array('label' => 'Back', 'id' => ''),
-        			array('label' => 'dirOne', 'id' => 'dirOne'),
-        			array('label' => 'dirTwo', 'id' => 'dirTwo')
-        		)
-        	)
+            'dirOne',
+            'dirTwo'
         );
 
         $fileManagerStub =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
@@ -45,8 +37,8 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->with($dto->getModelDirectory() . '*', GLOB_ONLYDIR|GLOB_MARK)
         ->will($this->returnValue($directories));
 
-        $sUT = new DirectoryQuestion($fileManagerStub);
+        $sUT = new DirectoryQuestion($fileManagerStub, $context);
 
-        $this->assertEquals($generatorToTest, $sUT->ask($generatorDTO, array('dtoAttribute' => 'ModelDirectory', 'text' => 'Select a Directory')));
+        $this->assertEquals($generatorDTO, $sUT->ask($generatorDTO, array('dtoAttribute' => 'ModelDirectory', 'text' => 'Select a Directory')));
     }
 }

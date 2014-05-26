@@ -33,10 +33,8 @@ class GeneratorQuestionFactory
     {
         $generatorFinder = GeneratorFinderFactory::getInstance();
 
-        if ($context instanceof CliContext) {
-            return new Cli\GeneratorQuestion($generatorFinder, $context->getOutput(), $context->getDialogHelper());
-        } elseif ($context instanceof WebContext) {
-        	return new Web\GeneratorQuestion($generatorFinder);
+        if ($context instanceof CliContext || $context instanceof WebContext) {
+        	return new Web\GeneratorQuestion($generatorFinder, $context);
         } else {
         	throw new \InvalidArgumentException('Invalid context');
         }

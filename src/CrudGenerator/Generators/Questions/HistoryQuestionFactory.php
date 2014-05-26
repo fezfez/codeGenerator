@@ -32,7 +32,7 @@ class HistoryQuestionFactory
     {
         if ($context instanceof CliContext) {
             $historyManager = HistoryFactory::getInstance($context);
-            return new Cli\HistoryQuestion($historyManager, $context->getOutput(), $context->getDialogHelper());
+            return new Cli\HistoryQuestion($historyManager, $context);
         } else {
             throw new \InvalidArgumentException('Context "' . get_class($context) . '" not supported');
         }

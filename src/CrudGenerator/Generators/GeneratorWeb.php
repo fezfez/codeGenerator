@@ -60,20 +60,20 @@ class GeneratorWeb
         $files = $generator->getFiles();
 
         if (null !== $fileName) {
-            if (!isset($files[$fileName])) {
-                throw new \InvalidArgumentException(
-                    sprintf(
-                        'File "%s" does not exist in %s',
-                        $fileName,
-                        implode(", \n", array_keys($files))
-                    )
-                );
+            $fileToGenerate = null;
+            foreach ($files as $file) {
+                if ($file['name'] === $fileName) {
+                    $fileToGenerate = $file;
+                }
+            }
+            if (null === $fileToGenerate) {
+                throw new \InvalidArgumentException('File does not exist');
             }
             return $this->strategy->generateFile(
                 $generator->getTemplateVariables(),
-                $files[$fileName]['skeletonPath'],
-                $files[$fileName]['name'],
-                $files[$fileName]['fileName']
+                $fileToGenerate['skeletonPath'],
+                $fileToGenerate['name'],
+                $fileToGenerate['fileName']
             );
         } else {
             $generationResult = array();
@@ -147,7 +147,6 @@ class GeneratorWeb
                     )
                     ->deleteFile($fileName);
                 } elseif ($responseToHandle['handle_' . str_replace('.', '_', $fileName)] === 'erase') {
-                    $file = $files[$fileName];
                     $this->fileManager->unlink($files[$fileName]['fileName']);
                 }
             }

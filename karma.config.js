@@ -14,7 +14,7 @@ module.exports = function(config) {
     files: [
         {pattern: 'Vendor/require.js', included: false},
         {pattern: 'Vendor/angular.js', included: true},
-        {pattern: 'Vendor/angular-resource.js', included: false},
+        {pattern: 'Vendor/angular-resource.js', included: true},
         {pattern: 'Vendor/angular-mocks.js', included: true},
         {pattern: 'Vendor/jquery-2.1.0.min.js', included: true},
         {pattern: 'Vendor/bootstrap.min.js', included: true},
@@ -25,6 +25,7 @@ module.exports = function(config) {
         {pattern: 'App/Directives/*.js', included: false},
         {pattern: 'App/Corp/Directory/*.js', included: false},
         {pattern: 'App/Corp/File/*.js', included: false},
+        {pattern: 'App/Corp/Context/*.js', included: false},
         {pattern: 'App/*.js', included: false},
         {pattern: 'Tests/App/**/*.test.js', included: true},
         {pattern: 'Tests/App/**/**/*.test.js', included: false},

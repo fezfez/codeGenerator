@@ -17,18 +17,22 @@
  */
 namespace CrudGenerator\MetaData;
 
-use CrudGenerator\MetaData\Config\AbstractConfig;
+use CrudGenerator\MetaData\Sources\MetaDataConfig;
 
 /**
  * Adapter representation
  * @author Stéphane Demonchaux
  */
-class MetaDataSource
+class MetaDataSource implements \JsonSerializable
 {
     /**
      * @var string name of adapater
      */
-    private $name = null;
+    private $metaDataDAO = null;
+    /**
+     * @var string name of adapater
+     */
+    private $metaDataDAOFactory = null;
     /**
      * @var string true if dependencies of adapater are complete
      */
@@ -38,7 +42,7 @@ class MetaDataSource
      */
     private $definition = null;
     /**
-     * @var AbstractConfig adapter configuration
+     * @var MetaDataConfig adapter configuration
      */
     private $config = null;
 
@@ -47,9 +51,18 @@ class MetaDataSource
      * @param string $value
      * @return \CrudGenerator\MetaData\MetaDataSource
      */
-    public function setName($value)
+    public function setMetaDataDAO($value)
     {
-        $this->name = $value;
+        $this->metaDataDAO = $value;
+        return $this;
+    }
+    /**
+     * @param string $value
+     * @return \CrudGenerator\MetaData\MetaDataSource
+     */
+    public function setMetaDataDAOFactory($value)
+    {
+        $this->metaDataDAOFactory = $value;
         return $this;
     }
     /**
@@ -74,10 +87,10 @@ class MetaDataSource
     }
     /**
      * Set config
-     * @param AbstractConfig $value
+     * @param MetaDataConfig $value
      * @return \CrudGenerator\MetaData\MetaDataSource
      */
-    public function setConfig(AbstractConfig $value)
+    public function setConfig(MetaDataConfig $value)
     {
         $this->config = $value;
         return $this;
@@ -87,9 +100,9 @@ class MetaDataSource
      * Get name
      * @return string
      */
-    public function getName()
+    public function getMetaDataDAO()
     {
-        return $this->name;
+        return $this->metaDataDAO;
     }
     /**
      * Get definition
@@ -103,9 +116,9 @@ class MetaDataSource
      * Get factory name
      * @return string
      */
-    public function getFactory()
+    public function getMetaDataDAOFactory()
     {
-        return $this->name . 'Factory';
+        return $this->metaDataDAOFactory;
     }
     /**
      * Get false dependencies
@@ -117,10 +130,21 @@ class MetaDataSource
     }
     /**
      * Get config
-     * @return AbstractConfig
+     * @return MetaDataConfig
      */
     public function getConfig()
     {
         return $this->config;
+    }
+
+    public function jsonSerialize()
+    {
+        return array(
+            'config'            => $this->getConfig(),
+            'definition'        => $this->getDefinition(),
+            'factory'           => $this->getFactory(),
+            'falseDependencies' => $this->getFalseDependencies(),
+            'name'              => $this->getName()
+        );
     }
 }

@@ -19,14 +19,13 @@ namespace CrudGenerator\Generators\Parser;
 
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\WebContext;
 use CrudGenerator\Context\CliContext;
+use CrudGenerator\Context\WebContext;
 use CrudGenerator\Generators\Parser\Lexical\DirectoriesParser;
 use CrudGenerator\Generators\Parser\Lexical\FileParser;
 use CrudGenerator\Generators\Parser\Lexical\TemplateVariableParser;
-use CrudGenerator\Generators\Parser\Lexical\QuestionParserFactory;
-use CrudGenerator\Generators\Parser\Lexical\Web\QuestionResponseParser;
-use CrudGenerator\Generators\Parser\Lexical\Web\EnvironnementParser;
+use CrudGenerator\Generators\Parser\Lexical\QuestionParser;
+use CrudGenerator\Generators\Parser\Lexical\EnvironnementParser;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
 
@@ -39,25 +38,21 @@ class ParserCollectionFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-        $fileManager           = new FileManager();
-        $collection            = new ParserCollection();
-        $environnemetCondition = new EnvironnementCondition();
-        $dependencyCondition   = new DependencyCondition();
+        if ($context instanceof CliContext || $context instanceof WebContext) {
+            $fileManager           = new FileManager();
+            $collection            = new ParserCollection();
+            $environnemetCondition = new EnvironnementCondition();
+            $dependencyCondition   = new DependencyCondition();
 
-        if ($context instanceof WebContext) {
-            $collection->addPreParse(new QuestionResponseParser())
-                       ->addPreParse(new EnvironnementParser($context))
-                       ->addPostParse(QuestionParserFactory::getInstance($context));
-        } elseif ($context instanceof CliContext) {
-            $collection->addPreParse(QuestionParserFactory::getInstance($context));
+            $collection->addPreParse(new EnvironnementParser($context))
+                       ->addPostParse(new QuestionParser($context, $dependencyCondition))
+                       ->addPostParse(new TemplateVariableParser($fileManager, $environnemetCondition, $dependencyCondition))
+                       ->addPostParse(new DirectoriesParser())
+                       ->addPostParse(new FileParser($fileManager, $dependencyCondition, $environnemetCondition));
+
+            return $collection;
         } else {
-            throw new \InvalidArgumentException("Context not allowed");
+            throw new \InvalidArgumentException('Invalid context');
         }
-
-        $collection->addPostParse(new TemplateVariableParser($fileManager, $environnemetCondition, $dependencyCondition))
-                   ->addPostParse(new DirectoriesParser())
-                   ->addPostParse(new FileParser($fileManager, $dependencyCondition, $environnemetCondition));
-
-        return $collection;
     }
 }

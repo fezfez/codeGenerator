@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\PostgreSQL\MetaData\Sources\PostgreSQL\PgSql\PDOConfig;
+namespace CrudGenerator\Tests\PostgreSQL\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
 
 use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
 
@@ -51,22 +51,15 @@ class PDOConfigTest extends \PHPUnit_Framework_TestCase
         ->setPort('port')
         ->setUser('user');
 
-        $stubConsole =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
-        ->disableOriginalConstructor()
-        ->getMock();
 
         $this->setExpectedException('CrudGenerator\MetaData\Config\ConfigException');
-        $pdo->test($stubConsole);
+        $pdo->test();
     }
 
     public function testOk()
     {
         $pdoConfig = include __DIR__ . '/../PgSql/config.php';
 
-        $stubConsole =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $pdoConfig->test($stubConsole);
+        $pdoConfig->test();
     }
 }

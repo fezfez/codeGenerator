@@ -18,9 +18,9 @@
 namespace CrudGenerator\MetaData\Sources\PostgreSQL;
 
 use PDO;
+use CrudGenerator\MetaData\Sources\MetaDataDAO;
 use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
 use CrudGenerator\MetaData\Sources\PostgreSQL\SqlManager;
-use CrudGenerator\MetaData\Sources\MetaDataDAOInterface;
 use CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
 use CrudGenerator\MetaData\DataObject\MetaDataCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
@@ -30,7 +30,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 /**
  * PostgreSQL adapter
  */
-class PostgreSQLMetaDataDAO implements MetaDataDAOInterface
+class PostgreSQLMetaDataDAO implements MetaDataDAO
 {
     private $typeConversion = array(
         'character varying' => 'text'
@@ -68,11 +68,7 @@ class PostgreSQLMetaDataDAO implements MetaDataDAOInterface
      */
     public function getAllMetadata()
     {
-        $sth = $this->pdo->prepare(
-            $this->sqlManager->getAllMetadata(
-                $this->pdoConfig->getType()
-            )
-        );
+        $sth = $this->pdo->prepare($this->sqlManager->getAllMetadata());
 
         $sth->execute();
 
@@ -82,6 +78,17 @@ class PostgreSQLMetaDataDAO implements MetaDataDAOInterface
                 0
             )
         );
+    }
+
+    /**
+     * Get particularie metadata from PDO
+     *
+     * @param string $tableName
+     * @return \CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL
+     */
+    public function getMetadataFor($tableName, array $parentName = array())
+    {
+        return $this->hydrateDataObject($tableName);
     }
 
     /**
@@ -116,11 +123,7 @@ class PostgreSQLMetaDataDAO implements MetaDataDAOInterface
         $dataObject->setName($tableName);
         $columnDataObject = new MetaDataColumn();
 
-        $statement = $this->pdo->prepare(
-            $this->sqlManager->listFieldsQuery(
-                $this->pdoConfig->getType()
-            )
-        );
+        $statement = $this->pdo->prepare($this->sqlManager->listFieldsQuery());
         $statement->execute(array($tableName));
         $allFields = $statement->fetchAll(PDO::FETCH_ASSOC);
         $identifiers = $this->getIdentifiers($tableName);
@@ -155,11 +158,7 @@ class PostgreSQLMetaDataDAO implements MetaDataDAOInterface
     {
         $identifiers = array();
 
-        $statement = $this->pdo->prepare(
-            $this->sqlManager->getAllPrimaryKeys(
-                $this->pdoConfig->getType()
-            )
-        );
+        $statement = $this->pdo->prepare($this->sqlManager->getAllPrimaryKeys());
         $statement->execute(array($tableName));
 
         $constraintList = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -168,16 +167,5 @@ class PostgreSQLMetaDataDAO implements MetaDataDAOInterface
         }
 
         return $identifiers;
-    }
-
-    /**
-     * Get particularie metadata from PDO
-     *
-     * @param string $tableName
-     * @return \CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL
-     */
-    public function getMetadataFor($tableName, array $parentName = array())
-    {
-        return $this->hydrateDataObject($tableName);
     }
 }

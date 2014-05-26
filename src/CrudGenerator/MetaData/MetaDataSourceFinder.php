@@ -18,11 +18,7 @@
 namespace CrudGenerator\MetaData;
 
 use CrudGenerator\MetaData\MetaDataSourceCollection;
-use CrudGenerator\MetaData\MetaDataSource;
-use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
-use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\ClassAwake;
-use ReflectionClass;
 
 /**
  * Find all MetaDataSource allow in project
@@ -32,23 +28,23 @@ use ReflectionClass;
 class MetaDataSourceFinder
 {
     /**
-     * @var FileManager File manager
-     */
-    private $fileManager = null;
-    /**
      * @var ClassAwake Class awake
      */
     private $classAwake = null;
+    /**
+     * @var MetaDataSourceHydrator
+     */
+    private $metaDataSourceHydrator = null;
 
     /**
      * Find all adapters allow in project
-     * @param FileManager $fileManager
      * @param ClassAwake $classAwake
+     * @param MetaDataSourceHydrator $metaDataSourceHydrator
      */
-    public function __construct(FileManager $fileManager, ClassAwake $classAwake)
+    public function __construct(ClassAwake $classAwake, MetaDataSourceHydrator $metaDataSourceHydrator)
     {
-        $this->fileManager = $fileManager;
-        $this->classAwake  = $classAwake;
+        $this->classAwake             = $classAwake;
+        $this->metaDataSourceHydrator = $metaDataSourceHydrator;
     }
 
     /**
@@ -62,92 +58,19 @@ class MetaDataSourceFinder
             array(
                 __DIR__ . '/Sources/'
             ),
-            'CrudGenerator\MetaData\Sources\MetaDataDAOInterface'
+            'CrudGenerator\MetaData\Sources\MetaDataDAOFactory'
         );
 
         $adapterCollection = new MetaDataSourceCollection();
-        $adapterDataObject = new MetaDataSource();
 
         foreach ($classCollection as $className) {
             $adapterCollection->append(
-                $this->buildMetaDataSource(
-                    $className,
-                    $adapterDataObject
+                $this->metaDataSourceHydrator->adapterNameToMetaDataSource(
+                    $className
                 )
             );
         }
 
         return $adapterCollection;
-    }
-
-    /**
-     * Build a MetaDataSourceDataobject with all his dependencies
-     *
-     * @param string $adapterClassName
-     * @param MetaDataSource $adapterDataObject
-     * @return MetaDataSource
-     */
-    private function buildMetaDataSource($adapterClassName, MetaDataSource $adapterDataObject)
-    {
-        $adapter = clone $adapterDataObject;
-
-        $adapter->setName($adapterClassName);
-        $doc = $this->getDocBlockFromFactory($adapter, '@CodeGenerator\Description');
-        $env = $this->getDocBlockFromFactory($adapter, '@CodeGenerator\Environnement');
-        $adapter->setDefinition((isset($doc[0]) ? $doc[0] : '') . (isset($env[0]) ? ' in ' . $env[0] : ''));
-        $configName = str_replace('MetaDataDAO', '', $adapterClassName) . 'Config';
-
-        if (class_exists($configName)) {
-            $adapter->setConfig(new $configName());
-        }
-
-        try {
-            foreach ($this->getDocBlockFromFactory($adapter, '@CodeGenerator\Environnement') as $environnementString) {
-                $environementClass = 'CrudGenerator\EnvironnementResolver\\' . $environnementString;
-                $environementClass::getDependence($this->fileManager);
-            }
-        } catch (EnvironnementResolverException $e) {
-            $adapter->setFalseDependencie($e->getMessage());
-        }
-
-        return $adapter;
-    }
-
-    /**
-     * Find a particularie string in docblock and parse it
-     *
-     * @param MetaDataSource $adapter
-     * @param string $string
-     * @return array
-     */
-    private function getDocBlockFromFactory(MetaDataSource $adapter, $string)
-    {
-        $reflectionClass = new ReflectionClass($adapter->getFactory());
-
-        $sDocComment = $reflectionClass->getDocComment();
-        $sDocComment = trim(
-            preg_replace(
-                "/(^[\\s]*\\/\\*\\*)
-                |(^[\\s]\\*\\/)
-                |(^[\\s]*\\*?\\s)
-                |(^[\\s]*)
-                |(^[\\t]*)/ixm",
-                "",
-                $sDocComment
-            )
-        );
-
-        $sDocComment = str_replace("\r", "", $sDocComment);
-        $sDocComment = preg_replace("/([\\t])+/", "\t", $sDocComment);
-        $aDocCommentLines = explode("\n", $sDocComment);
-        $factoryEnv = array();
-
-        foreach ($aDocCommentLines as $commentLine) {
-            if (substr($commentLine, 0, strlen($string)) === $string) {
-                $factoryEnv[] = trim(str_replace($string, '', $commentLine));
-            }
-        }
-
-        return $factoryEnv;
     }
 }

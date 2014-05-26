@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\General\History\HistoryManager;
+namespace CrudGenerator\Tests\General\History\HistoryHydrator;
 
 use CrudGenerator\History\HistoryHydrator;
 use Symfony\Component\Yaml\Dumper;
@@ -20,11 +20,11 @@ class YamlToDtoTest extends \PHPUnit_Framework_TestCase
 
         $stubParser = new Parser;
 
-        $stubMetadataSourceQuestion = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\MetaDataSourcesQuestion')
+        $stubMetadataSourceQuestion = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\MetaDataSourcesQuestion')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $stubMetadataSource = $this->getMockBuilder('CrudGenerator\Generators\Questions\Cli\MetaDataQuestion')
+        $stubMetadataSource = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\MetaDataQuestion')
         ->disableOriginalConstructor()
         ->getMock();
 

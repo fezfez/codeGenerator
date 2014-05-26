@@ -1,7 +1,7 @@
 <?php
-namespace CrudGenerator\Tests\PDO\MetaData\Sources\PDO\SqlManager;
+namespace CrudGenerator\Tests\PostgreSQL\MetaData\Sources\PostgreSQL\SqlManager;
 
-use CrudGenerator\MetaData\Sources\PDO\SqlManager;
+use CrudGenerator\MetaData\Sources\PostgreSQL\SqlManager;
 
 class GetAllMetadataTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,16 +11,7 @@ class GetAllMetadataTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInternalType(
             'string',
-            $sUT->getAllMetadata('pgsql')
+            $sUT->getAllMetadata()
         );
-    }
-
-    public function testFail()
-    {
-        $sUT = new SqlManager();
-
-        $this->setExpectedException('RuntimeException');
-
-        $sUT->getAllMetadata('dazdazd');
     }
 }

@@ -1,5 +1,5 @@
-<li ng-repeat="file in fileList.getFiles()">
-    <span ng-click="fileView({fileObject : file})">{{file.getName()}} </span>
+<li ng-repeat="file in fileList.getFiles()" class="file">
+    <a ng-click="viewFile(file)" data-toggle="tooltip" data-placement="right" rel="tooltip" title="Preview '{{file.getName()}}'">{{file.getName()}}</a>
     <span ng-if="!file.isWritable()" class="cannot-write-text">Cannot write file</span>
 </li>
 <ng-switch on="fileList.getChildren() != null">

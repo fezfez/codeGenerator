@@ -17,7 +17,7 @@
  */
 namespace CrudGenerator\MetaData;
 
-use CrudGenerator\MetaData\Config\AbstractConfig;
+use CrudGenerator\MetaData\Sources\MetaDataConfig;
 
 /**
  * MetaData source factory
@@ -27,10 +27,10 @@ class MetaDataSourceFactory
 {
     /**
      * @param string $metadataSourceFactoryName
-     * @param AbstractConfig $config
+     * @param MetaDataConfig $config
      * @return \CrudGenerator\MetaData\Sources\MetaDataDAOInterface
      */
-    public function create($metadataSourceFactoryName, AbstractConfig $config = null)
+    public function create($metadataSourceFactoryName, MetaDataConfig $config = null)
     {
         if (null !== $config) {
             return $metadataSourceFactoryName::getInstance($config);

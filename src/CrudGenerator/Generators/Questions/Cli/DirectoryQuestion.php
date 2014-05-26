@@ -18,9 +18,8 @@
 namespace CrudGenerator\Generators\Questions\Cli;
 
 use CrudGenerator\Utils\FileManager;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
 use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Context\ContextInterface;
 
 class DirectoryQuestion
 {
@@ -41,24 +40,18 @@ class DirectoryQuestion
      */
     private $fileManager = null;
     /**
-     * @var OutputInterface
+     * @var ContextInterface
      */
-    private $output = null;
-    /**
-     * @var DialogHelper
-     */
-    private $dialog = null;
+    private $context = null;
 
     /**
      * @param FileManager $fileManager
-     * @param OutputInterface $output
-     * @param DialogHelper $dialog
+     * @param ContextInterface $context
      */
-    public function __construct(FileManager $fileManager, OutputInterface $output, DialogHelper $dialog)
+    public function __construct(FileManager $fileManager, ContextInterface $context)
     {
         $this->fileManager = $fileManager;
-        $this->output = $output;
-        $this->dialog = $dialog;
+        $this->context = $context;
     }
 
     /**
@@ -84,10 +77,10 @@ class DirectoryQuestion
                 ' -> Create directory'
             );
 
-            $this->output->writeLn($directory);
-            $choice = $this->dialog->select(
-                $this->output,
+            $this->context->log($directory);
+            $choice = $this->context->askCollection(
                 "<question>Choose a target directory</question> \n> ",
+            	'directory',
                 $directories
             );
 
@@ -116,9 +109,9 @@ class DirectoryQuestion
     {
         while (true) {
             try {
-                $directory = $this->dialog->ask(
-                    $this->output,
-                    'Directory name '
+                $directory = $this->context->ask(
+                    'Directory name ',
+                    'directory_name'
                 );
 
                 if (false === $this->fileManager->ifDirDoesNotExistCreate($directory)) {
@@ -127,7 +120,7 @@ class DirectoryQuestion
                     break;
                 }
             } catch (\Exception $e) {
-                $this->output->writeLn('<error>' . $e->getMessage() . '</error>');
+                $this->context->log('<error>' . $e->getMessage() . '</error>');
             }
         }
 

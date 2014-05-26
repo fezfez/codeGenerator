@@ -9,76 +9,60 @@ class AskTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {
-        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $ConsoleOutputStub->expects($this->any())
-        ->method('writeln')
-        ->will($this->returnValue(''));
-
-        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper', array('select'))
-        ->disableOriginalConstructor()
-        ->getMock();
+        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+    	->disableOriginalConstructor()
+    	->getMock();
 
         // First choice bin
-        $dialog->expects($this->at(0))
-        ->method('select')
+        $context->expects($this->exactly(3))
+        ->method('askCollection')
         ->with(
-            $this->equalTo($ConsoleOutputStub),
+            $this->isType('string'),
             $this->isType('string'),
             $this->isType('array')
         )
-        ->will($this->returnValue(4));
-        // then choice back
-        $dialog->expects($this->at(1))
-        ->method('select')
-        ->with(
-            $this->equalTo($ConsoleOutputStub),
-            $this->isType('string'),
-            $this->isType('array')
-        )
-        ->will($this->returnValue(0));
-        // then choice actual directory
-        $dialog->expects($this->at(2))
-        ->method('select')
-        ->with(
-            $this->equalTo($ConsoleOutputStub),
-            $this->isType('string'),
-            $this->isType('array')
-        )
-        ->will($this->returnValue(1));
+        ->will($this->onConsecutiveCalls($this->returnValue(4), $this->returnValue(DirectoryQuestion::BACK), $this->returnValue(DirectoryQuestion::CURRENT_DIRECTORY)));
 
+        $fileManagerStub =  $this->getMockBuilder('\CrudGenerator\Utils\FileManager')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $fileManagerStub->expects($this->any())
+        ->method('glob')
+        ->will(
+        	$this->returnValue(
+        		array(
+        			'mmydir/',
+        			'myFile/',
+        			'myFile2/'
+        		)
+        	)
+        );
 
-        $fileManagerStub =  new \CrudGenerator\Utils\FileManager();
-
-        $sUT = new DirectoryQuestion($fileManagerStub, $ConsoleOutputStub, $dialog);
+        $sUT = new DirectoryQuestion($fileManagerStub, $context);
 
         $generatorDTO = new GeneratorDataObject();
         $generatorDTO->setDTO(new Architect());
 
-        $this->assertEquals('./', $sUT->ask($generatorDTO, array('attribute' => 'ModelDirectory'))->getDTO()->getModelDirectory());
+        $this->assertEquals('myFile', $sUT->ask($generatorDTO, array('attribute' => 'ModelDirectory'))->getDTO()->getModelDirectory());
     }
 
     public function testOkWithCreateFile()
     {
-        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+    	->disableOriginalConstructor()
+    	->getMock();
         $fileManagerStub =  $this->getMockBuilder('\CrudGenerator\Utils\FileManager')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $ConsoleOutputStub->expects($this->any())
-        ->method('writeln')
+        $context->expects($this->any())
+        ->method('log')
         ->will($this->returnValue(''));
 
-        $dialog->expects($this->exactly(2))
-        ->method('select')
+        $context->expects($this->exactly(2))
+        ->method('askCollection')
         ->with(
-            $this->equalTo($ConsoleOutputStub),
+            $this->isType('string'),
             $this->isType('string'),
             $this->isType('array')
         )
@@ -93,10 +77,10 @@ class AskTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $dialog->expects($this->exactly(2))
+        $context->expects($this->exactly(2))
         ->method('ask')
         ->with(
-            $this->equalTo($ConsoleOutputStub),
+            $this->isType('string'),
             $this->isType('string')
         )
         ->will(
@@ -140,7 +124,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $sUT = new DirectoryQuestion($fileManagerStub, $ConsoleOutputStub, $dialog);
+        $sUT = new DirectoryQuestion($fileManagerStub, $context);
 
         $generatorDTO = new GeneratorDataObject();
         $generatorDTO->setDTO(new Architect());

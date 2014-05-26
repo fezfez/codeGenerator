@@ -10,74 +10,78 @@ class AnalyseTest extends \PHPUnit_Framework_TestCase
 {
     public function testPDOWithZend2()
     {
-    	$app = $this->getMockBuilder('Silex\Application')
-		->disableOriginalConstructor()
-		->getMock();
+        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-		$context = new WebContext($app);
 
-		$generator = new GeneratorDataObject();
-		$generator->setName('ArchitectGenerator');
+        $generator = new GeneratorDataObject();
+        $generator->setName('ArchitectGenerator');
 
         $generatorParser = GeneratorParserFactory::getInstance($context);
 
         $generator = $generatorParser->init(
             $generator,
-            $this->getMetadata(),
-            array('environnement_backend' => 'PDO', 'environnement_framework' => 'zend_framework_2')
+            $this->getMetadata()
         );
 
-        $generator->getDTO()->setAttributeName('tetze', 'myName')->setAttributeName('myDate', 'madata');
+        $generator->getDTO()
+                  ->setAttributeName('tetze', 'myName')
+                  ->setAttributeName('myDate', 'madata')
+                  ->addEnvironnementValue('backend', 'PDO')
+                  ->addEnvironnementValue('framework', 'zend_framework_2');
+
 
         $fileGenerator = GeneratorStrategyFactory::getInstance($context);
 
         foreach ($generator->getFiles() as $file) {
-        	$this->assertInternalType(
-				'string',
-	             $fileGenerator->generateFile(
-	                 $generator->getTemplateVariables(),
-	                 $file['skeletonPath'],
-	                 $file['name'],
-	                 $file['fileName']
-	             )
-        	);
+            $this->assertInternalType(
+                'string',
+                 $fileGenerator->generateFile(
+                     $generator->getTemplateVariables(),
+                     $file['skeletonPath'],
+                     $file['name'],
+                     $file['fileName']
+                 )
+            );
         }
     }
 
     public function testOkDoctrine2WithZend2()
     {
-    	$app = $this->getMockBuilder('Silex\Application')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$context = new WebContext($app);
+        $generator = new GeneratorDataObject();
+        $generator->setName('ArchitectGenerator');
 
-    	$generator = new GeneratorDataObject();
-    	$generator->setName('ArchitectGenerator');
+        $generatorParser = GeneratorParserFactory::getInstance($context);
 
-    	$generatorParser = GeneratorParserFactory::getInstance($context);
+        $generator = $generatorParser->init(
+            $generator,
+            $this->getMetadata()
+        );
 
-    	$generator = $generatorParser->init(
-    			$generator,
-    			$this->getMetadata(),
-    			array('environnement_backend' => 'doctrine2', 'environnement_framework' => 'zend_framework_2')
-    	);
+        $generator->getDTO()
+                  ->setAttributeName('tetze', 'myName')
+                  ->setAttributeName('myDate', 'madata')
+                  ->addEnvironnementValue('backend', 'doctrine2')
+                  ->addEnvironnementValue('framework', 'zend_framework_2');
 
-    	$generator->getDTO()->setAttributeName('tetze', 'myName')->setAttributeName('myDate', 'madata');
+        $fileGenerator = GeneratorStrategyFactory::getInstance($context);
 
-    	$fileGenerator = GeneratorStrategyFactory::getInstance($context);
-
-    	foreach ($generator->getFiles() as $file) {
-    		$this->assertInternalType(
-    				'string',
-    				$fileGenerator->generateFile(
-    						$generator->getTemplateVariables(),
-    						$file['skeletonPath'],
-    						$file['name'],
-    						$file['fileName']
-    				)
-    		);
-    	}
+        foreach ($generator->getFiles() as $file) {
+            $this->assertInternalType(
+                'string',
+                $fileGenerator->generateFile(
+                    $generator->getTemplateVariables(),
+                    $file['skeletonPath'],
+                    $file['name'],
+                    $file['fileName']
+                )
+            );
+        }
     }
 
     private function getMetadata()

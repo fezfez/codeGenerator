@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\General\Command\Questions\Cli\HistoryQuestion;
+namespace CrudGenerator\Tests\General\Generators\Questions\Cli\HistoryQuestion;
 
 use CrudGenerator\Generators\Questions\Cli\HistoryQuestion;
 use CrudGenerator\History\HistoryCollection;
@@ -14,19 +14,14 @@ class AskTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {
-        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $ConsoleOutputStub->expects($this->any())
-        ->method('writeln')
+        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+    	->disableOriginalConstructor()
+    	->getMock();
+        $context->expects($this->any())
+        ->method('log')
         ->will($this->returnValue(''));
-
-        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper', array('select'))
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $dialog->expects($this->once())
-        ->method('select')
+        $context->expects($this->once())
+        ->method('askCollection')
         ->will($this->returnValue(0));
 
         $metaData = new MetadataDataObjectDoctrine2(
@@ -51,22 +46,18 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->method('findAll')
         ->will($this->returnValue($HistoryCollection));
 
-        $sUT = new HistoryQuestion($HistoryStub, $ConsoleOutputStub, $dialog);
+        $sUT = new HistoryQuestion($HistoryStub, $context);
         $this->assertEquals($dto, $sUT->ask());
     }
 
     public function testEmptyHistory()
     {
-        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $ConsoleOutputStub->expects($this->any())
-        ->method('writeln')
+        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+    	->disableOriginalConstructor()
+    	->getMock();
+        $context->expects($this->any())
+        ->method('log')
         ->will($this->returnValue(''));
-
-        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper', array('select'))
-        ->disableOriginalConstructor()
-        ->getMock();
 
         $HistoryCollection = new HistoryCollection();
 
@@ -77,7 +68,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->method('findAll')
         ->will($this->returnValue($HistoryCollection));
 
-        $sUT = new HistoryQuestion($HistoryStub, $ConsoleOutputStub, $dialog);
+        $sUT = new HistoryQuestion($HistoryStub, $context);
         $this->setExpectedException('RuntimeException');
         $sUT->ask();
     }

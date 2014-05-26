@@ -27,7 +27,7 @@ foreach($this->formGenerator->getAttributeName() as $originalName => $name):
 ?>
     /**
      * @param <?php echo $type; ?> $value
-     * @return \<?php echo $this->formGenerator->getNamespace(); ?>\DataObject\<?php echo $this->dataObjectName; ?>
+     * @return \<?php echo $this->formGenerator->getNamespace(); ?>\DataObject\<?php echo $this->dataObjectName . "\n"; ?>
      */
     public function set<?php echo $this->getHelper('Text')->toCamelCase($name, true); ?>($value)
     {

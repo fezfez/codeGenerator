@@ -18,8 +18,7 @@
 namespace CrudGenerator\Generators\Strategies;
 
 use CrudGenerator\View\View;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
+use CrudGenerator\Context\ContextInterface;
 
 /**
  * Base code generator, extends it and implement doGenerate method
@@ -34,13 +33,9 @@ class SandBoxStrategy implements StrategyInterface
      */
     protected $view                = null;
     /**
-     * @var OutputInterface Output
+     * @var ContextInterface Output
      */
-    protected $clientResponse      = null;
-    /**
-     * @var DialogHelper Dialog
-     */
-    protected $dialog              = null;
+    protected $context      = null;
     /**
      * @var string Template filter
      */
@@ -49,19 +44,17 @@ class SandBoxStrategy implements StrategyInterface
     /**
      * Base code generator
      * @param View $view
-     * @param OutputInterface $output
-     * @param DialogHelper $dialog
+     * @param ContextInterface $context
+     * @param unknow $filter
      */
     public function __construct(
         View $view,
-        OutputInterface $output,
-        DialogHelper $dialog,
+        ContextInterface $context,
         $filter = null
     ) {
-        $this->view   = $view;
-        $this->output = $output;
-        $this->dialog = $dialog;
-        $this->filter = $filter;
+        $this->view    = $view;
+        $this->context = $context;
+        $this->filter  = $filter;
     }
 
     /* (non-PHPdoc)
@@ -81,12 +74,12 @@ class SandBoxStrategy implements StrategyInterface
                 $datas
             );
 
-            $this->output->writeln("<info>[LOG] Generate $pathTo \nfrom $skeletonDir$pathTemplate</info>");
-            $this->output->writeln($results);
+            $this->context->log("<info>[LOG] Generate $pathTo \nfrom $skeletonDir$pathTemplate</info>");
+            $this->context->log($results);
 
-            $continue = $this->dialog->askConfirmation(
-                $this->output,
-                "\n<question>Regenerate ?</question> "
+            $continue = $this->context->confirm(
+                "\n<question>Regenerate ?</question> ",
+            	'sanbox_regenerate'
             );
         }
     }

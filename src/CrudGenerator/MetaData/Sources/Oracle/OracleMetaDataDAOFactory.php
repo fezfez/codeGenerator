@@ -17,12 +17,16 @@
  */
 namespace CrudGenerator\MetaData\Sources\Oracle;
 
+use CrudGenerator\MetaData\Sources\MetaDataDAOFactory;
+use CrudGenerator\MetaData\MetaDataSource;
+use CrudGenerator\MetaData\Sources\MetaDataConfig;
+use CrudGenerator\MetaData\Sources\Oracle\OracleConfig;
+
 /**
  * Create PDO Metadata DAO instance
  *
- * @CodeGenerator\Description Oracle
  */
-class OracleMetaDataDAOFactory
+class OracleMetaDataDAOFactory implements MetaDataDAOFactory
 {
     /**
      * Create PDO Metadata DAO instance
@@ -30,29 +34,38 @@ class OracleMetaDataDAOFactory
      * @param PDOConfig $config
      * @return \CrudGenerator\MetaData\Sources\PDO\PDOMetaDataDAO
      */
-    public static function getInstance(OracleConfig $config)
+    public static function getInstance(MetaDataConfig $config = null)
     {
-        $type = $config->getType();
-
-        $pdo = new \PDO(
-            '//' . $config->getHost() . '/' . $config->getDatabaseName(),
-            $config->getUser(),
-            $config->getPassword()
-        );
-        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-
         return new OracleMetaDataDAO(
-            $pdo,
-            $config
+            $config->getConnection()
         );
     }
 
     /**
-     * Check if dependence are complete
+     * @param MetaDataSource $metadataSource
      * @return boolean
      */
-    public static function checkDependencies()
+    public static function checkDependencies(MetaDataSource $metadataSource)
     {
-        return true;
+        $isLoaded = extension_loaded('pdo_oci');
+        if (false === $isLoaded) {
+            $metadataSource->setFalseDependencie('The extension "pdo_oci" is not loaded');
+        }
+
+        return $isLoaded;
+    }
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\Sources\MetaDataDAO::getDataObject()
+    */
+    public static function getDescription()
+    {
+        $dataObject = new MetaDataSource();
+        $dataObject->setDefinition("Oracle")
+                   ->setMetaDataDAOFactory('CrudGenerator\MetaData\Sources\Oracle\OracleMetaDataDAOFactory')
+                   ->setMetaDataDAO('CrudGenerator\MetaData\Sources\Oracle\OracleMetaDataDAO')
+                   ->setConfig(new OracleConfig());
+
+        return $dataObject;
     }
 }

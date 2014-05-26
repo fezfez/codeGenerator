@@ -20,12 +20,16 @@ namespace CrudGenerator\Context;
 
 use Silex\Application;
 
-class WebContext implements ContextInterface
+class WebContext implements ContextInterface, \JsonSerializable
 {
     /**
      * @var Application
      */
     private $application = null;
+    /**
+     * @var array
+     */
+    private $question    = array();
 
     /**
      * @param Application $application
@@ -35,11 +39,65 @@ class WebContext implements ContextInterface
         $this->application = $application;
     }
 
-    /**
-     * @return \Silex\Application
-     */
-    public function getApplication()
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Context\ContextInterface::ask()
+    */
+    public function ask($text, $key, $defaultResponse = null, $required = false, $helpMessage = null)
     {
-        return $this->application;
+        if (!isset($this->question['question'])) {
+            $this->question['question'] = array();
+        }
+        $this->question['question'][] = array(
+            'text'            => $text,
+            'dtoAttribute'    => $key,
+            'defaultResponse' => $defaultResponse,
+            'required'        => $required,
+            'type'            => 'text'
+        );
+
+        return $this->application->offsetGet('request')->request->get($key);
+    }
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Context\ContextInterface::ask()
+    */
+    public function askCollection($text, $uniqueKey, array $collection, $defaultResponse = null, $required = false, $helpMessage = null)
+    {
+        $this->question['question'][] = array(
+        	'text'            => $text,
+        	'dtoAttribute'    => $uniqueKey,
+        	'defaultResponse' => $defaultResponse,
+        	'required'        => $required,
+        	'values'          => $collection,
+        	'type'            => 'select'
+        );
+
+        return $this->application->offsetGet('request')->request->get($uniqueKey);
+    }
+
+    /**
+     * @param string $text
+     * @param string $uniqueKey
+     * @return boolean
+     */
+    public function confirm($text, $uniqueKey)
+    {
+
+    }
+
+    /**
+     * @param string $text
+     */
+    public function log($text)
+    {
+
+    }
+
+    /* (non-PHPdoc)
+     * @see JsonSerializable::jsonSerialize()
+     */
+    public function jsonSerialize()
+    {
+        return $this->question;
     }
 }

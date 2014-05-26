@@ -37,7 +37,8 @@ requirejs.config({
         jquery: "Vendor/jquery-2.1.0.min",
         TwitterBootstrap: "Vendor/bootstrap.min",
         HighLighterPHP: "Vendor/shBrushPhp",
-        shCore: "Vendor/shCore"
+        shCore: "Vendor/shCore",
+        Angular: "Vendor/angular"
     },
     shim: {
         'jquery': {

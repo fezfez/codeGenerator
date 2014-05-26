@@ -1,7 +1,6 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Questions\Web\MetaDataQuestion;
 
-
 use CrudGenerator\Generators\Questions\Web\MetaDataQuestion;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\DataObject\MetaDataCollection;
@@ -9,21 +8,18 @@ use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
-
+use CrudGenerator\Context\WebContext;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {
-        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
-               ->setName('Name');
+               ->setMetaDataDAO('Name')
+               ->setMetaDataDAOFactory('test');
 
-        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigReaderForm')
+        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigDAO')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -40,7 +36,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $doctrine2MetaDataDAOStub
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('getAllMetadata')
             ->will($this->returnValue($metaDataCollection));
 
@@ -48,14 +44,20 @@ class AskTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $metaDataSourceFactoryStub
-             ->expects($this->once())
+             ->expects($this->exactly(2))
              ->method('create')
-             ->with($this->equalTo($source->getName() . 'Factory'),$this->equalTo(null))
+             ->with($this->equalTo($source->getMetaDataDAOFactory()),$this->equalTo(null))
              ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
+    	$context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+    	->disableOriginalConstructor()
+    	->getMock();
 
-        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub);
-        $this->assertEquals(array(array('id' => 'MyName', 'label' => 'MyName')), $sUT->ask($source));
+        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub, $context);
+
+        $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
+
+        $sUT->ask($source);
     }
 
     public function testWithConfig()
@@ -63,16 +65,12 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $config = new PostgreSQLConfig();
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
-        ->setName('Name')
+        ->setMetaDataDAO('Name')
         ->setConfig($config);
 
-        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigReaderForm')
+        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigDAO')
         ->disableOriginalConstructor()
         ->getMock();
-        $metaDataConfigReaderStub->expects($this->once())
-        ->method('config')
-        ->with($this->equalTo($config))
-        ->will($this->returnValue($config));
 
         $metaData = new MetadataDataObjectDoctrine2(
             new MetaDataColumnCollection(),
@@ -87,7 +85,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
         $doctrine2MetaDataDAOStub
-        ->expects($this->once())
+        ->expects($this->exactly(2))
         ->method('getAllMetadata')
         ->will($this->returnValue($metaDataCollection));
 
@@ -95,23 +93,29 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
         $metaDataSourceFactoryStub
-        ->expects($this->once())
+        ->expects($this->exactly(2))
         ->method('create')
-        ->with($this->equalTo($source->getName() . 'Factory'),$this->equalTo($config))
+        ->with($this->equalTo($source->getMetaDataDAOFactory()),$this->equalTo($config))
         ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
+    	$context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+    	->disableOriginalConstructor()
+    	->getMock();
 
-        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub);
-        $this->assertEquals(array(array('id' => 'MyName', 'label' => 'MyName')), $sUT->ask($source));
+        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub, $context);
+
+        $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
+
+        $sUT->ask($source);
     }
 
     public function testOkWithPreselected()
     {
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
-        ->setName('Name');
+        ->setMetaDataDAO('Name');
 
-        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigReaderForm')
+        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigDAO')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -128,7 +132,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
         $doctrine2MetaDataDAOStub
-        ->expects($this->once())
+        ->expects($this->exactly(2))
         ->method('getAllMetadata')
         ->will($this->returnValue($metaDataCollection));
 
@@ -136,23 +140,32 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
         $metaDataSourceFactoryStub
-        ->expects($this->once())
+        ->expects($this->exactly(2))
         ->method('create')
-        ->with($this->equalTo($source->getName() . 'Factory'),$this->equalTo(null))
+        ->with($this->equalTo($source->getMetaDataDAOFactory()),$this->equalTo(null))
         ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
+        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub);
-        $this->assertEquals($metaData, $sUT->ask($source, 'MyName'));
+        $context
+        ->expects($this->once())
+        ->method('askCollection')
+        ->will($this->returnValue('MyName'));
+
+
+        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub, $context);
+        $this->assertEquals($metaData, $sUT->ask($source));
     }
 
     public function testFailWithPreselected()
     {
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
-        ->setName('Name');
+        ->setMetaDataDAO('Name');
 
-        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigReaderForm')
+        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigDAO')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -169,7 +182,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
         $doctrine2MetaDataDAOStub
-        ->expects($this->once())
+        ->expects($this->exactly(2))
         ->method('getAllMetadata')
         ->will($this->returnValue($metaDataCollection));
 
@@ -177,15 +190,23 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
         $metaDataSourceFactoryStub
-        ->expects($this->once())
+        ->expects($this->exactly(2))
         ->method('create')
-        ->with($this->equalTo($source->getName() . 'Factory'),$this->equalTo(null))
+        ->with($this->equalTo($source->getMetaDataDAOFactory()),$this->equalTo(null))
         ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
+        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub);
+        $context
+        ->expects($this->once())
+        ->method('askCollection')
+        ->will($this->returnValue('fakename'));
 
-        $this->setExpectedException('InvalidArgumentException');
+        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub, $context);
+
+        $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
 
         $sUT->ask($source, 'fail');
     }

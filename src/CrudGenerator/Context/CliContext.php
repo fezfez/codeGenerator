@@ -23,38 +23,72 @@ use Symfony\Component\Console\Helper\DialogHelper;
 
 class CliContext implements ContextInterface
 {
-	/**
-	 * @var OutputInterface
-	 */
-	private $output       = null;
-	/**
-	 * @var DialogHelper
-	 */
-	private $dialogHelper = null;
+    /**
+     * @var OutputInterface
+     */
+    private $output       = null;
+    /**
+     * @var DialogHelper
+     */
+    private $dialog = null;
 
-	/**
-	 * @param DialogHelper $dialogHelper
-	 * @param OutputInterface $output
-	 */
-	public function __construct(DialogHelper $dialogHelper, OutputInterface $output)
-	{
-		$this->dialogHelper = $dialogHelper;
-		$this->output  = $output;
-	}
+    /**
+     * @param DialogHelper $dialogHelper
+     * @param OutputInterface $output
+     */
+    public function __construct(DialogHelper $dialog, OutputInterface $output)
+    {
+        $this->dialog = $dialog;
+        $this->output = $output;
+    }
 
-	/**
-	 * @return \Symfony\Component\Console\Helper\DialogHelper
-	 */
-	public function getDialogHelper()
-	{
-		return $this->dialogHelper;
-	}
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Context\ContextInterface::ask()
+     */
+    public function ask($text, $attribute, $defaultResponse = null, $required = false, $helpMessage = null)
+    {
+        return $this->dialog->ask(
+            $this->output,
+            '<question>Choose a "' . $propName . '"</question> : '
+        );
+    }
 
-	/**
-	 * @return \Symfony\Component\Console\Output\OutputInterface
-	 */
-	public function getOutput()
-	{
-		return $this->output;
-	}
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Context\ContextInterface::ask()
+    */
+    public function askCollection(
+        $text, $uniqueKey,
+        array $collection,
+        $defaultResponse = null,
+        $required = false,
+        $helpMessage = null
+    ) {
+        $this->question[$uniqueKey] = $collection;
+
+        return $this->dialog->select(
+            $this->output,
+            '<question>Choose a "' . $text . '"</question> : ', $collection
+        );
+    }
+
+    /**
+     * @param string $text
+     * @param string $uniqueKey
+     * @return boolean
+     */
+    public function confirm($text, $uniqueKey)
+    {
+        return $this->dialog->askConfirmation(
+            $this->output,
+            $text
+        );
+    }
+
+    /**
+     * @param string $text
+     */
+    public function log($text)
+    {
+        $this->output->writeln($text);
+    }
 }

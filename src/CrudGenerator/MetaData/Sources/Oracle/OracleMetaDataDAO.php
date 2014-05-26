@@ -18,10 +18,7 @@
 namespace CrudGenerator\MetaData\Sources\Oracle;
 
 use PDO;
-use CrudGenerator\MetaData\Sources\PDO\PDOConfig;
-use CrudGenerator\MetaData\Sources\PDO\SqlManager;
-use CrudGenerator\MetaData\Sources\MetaDataDAOInterface;
-use CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO;
+use CrudGenerator\MetaData\Sources\MetaDataDAO;
 use CrudGenerator\MetaData\DataObject\MetaDataCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumn;
@@ -30,26 +27,20 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 /**
  * Oracle adapter
  */
-class OracleMetaDataDAO implements MetaDataDAOInterface
+class OracleMetaDataDAO implements MetaDataDAO
 {
     /**
      * @var PDO Pdo stmt
      */
     private $pdo       = null;
-    /**
-     * @var OracleConfig Pdo configuration
-     */
-    private $oracleConfig = null;
 
     /**
      * PDO adapter
      * @param PDO $pdo
-     * @param PDOConfig $pdoConfig
      */
-    public function __construct(PDO $pdo, OracleConfig $pdoConfig)
+    public function __construct(PDO $pdo)
     {
         $this->pdo        = $pdo;
-        $this->pdoConfig  = $pdoConfig;
     }
 
     /**
@@ -60,10 +51,10 @@ class OracleMetaDataDAO implements MetaDataDAOInterface
     public function getAllMetadata()
     {
         $sth = $this->pdo->prepare(
-			"select OWNER , TABLE_NAME as TABLE_NAME
-			from SYS.ALL_TABLES
-			where TABLESPACE_NAME = 'TBLSP_DATA' and OWNER not like 'SYS%'
-			order by OWNER, TABLE_NAME"
+            "select OWNER , TABLE_NAME as TABLE_NAME
+            from SYS.ALL_TABLES
+            where TABLESPACE_NAME = 'TBLSP_DATA' and OWNER not like 'SYS%'
+            order by OWNER, TABLE_NAME"
         );
 
         $sth->execute();
@@ -73,6 +64,17 @@ class OracleMetaDataDAO implements MetaDataDAOInterface
                 PDO::FETCH_ASSOC
             )
         );
+    }
+
+    /**
+     * Get particularie metadata from PDO
+     *
+     * @param string $tableName
+     * @return \CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO
+     */
+    public function getMetadataFor($tableName, array $parentName = array())
+    {
+        return $this->hydrateDataObject($tableName);
     }
 
     /**
@@ -104,15 +106,14 @@ class OracleMetaDataDAO implements MetaDataDAOInterface
             new MetaDataColumnCollection(),
             new MetaDataRelationCollection()
         );
-        $tableName 	= $data['TABLE_NAME'];
-        $owner		= $data['OWNER'];
+        $tableName     = $data['TABLE_NAME'];
+        $owner        = $data['OWNER'];
         $dataObject->setName($owner . '/' . $tableName);
         $columnDataObject = new MetaDataColumn();
 
         $statement = $this->pdo->prepare(sprintf("SELECT COLUMN_NAME as name, NULLABLE as  nullable, DATA_TYPE as type, DATA_LENGTH as length
-												from SYS.ALL_TAB_COLUMNS
-												where TABLE_NAME = '%s' and OWNER= '%s'", $tableName, $owner)
- // @TODO liste des champs
+                                                from SYS.ALL_TAB_COLUMNS
+                                                where TABLE_NAME = '%s' and OWNER= '%s'", $tableName, $owner)
         );
         $statement->execute(array());
         $allFields = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -154,13 +155,13 @@ class OracleMetaDataDAO implements MetaDataDAOInterface
 
         $statement = $this->pdo->prepare(
             printf("select cc.COLUMN_NAME
-		     from USER_CONSTRAINTS c
-		     join ALL_CONS_COLUMNS cc 
-            on c.CONSTRAINT_NAME = cc.CONSTRAINT_NAME 
+             from USER_CONSTRAINTS c
+             join ALL_CONS_COLUMNS cc
+            on c.CONSTRAINT_NAME = cc.CONSTRAINT_NAME
             and  c.OWNER= cc.OWNER
-		     where c.table_name like '%s'
-		     and c.owner like '%s'
-		     and CONSTRAINT_TYPE = '%s'", $owner, $tableName, "P")
+             where c.table_name like '%s'
+             and c.owner like '%s'
+             and CONSTRAINT_TYPE = '%s'", $owner, $tableName, "P")
         );
         $statement->execute(array($tableName));
 
@@ -170,16 +171,5 @@ class OracleMetaDataDAO implements MetaDataDAOInterface
         }
 
         return $identifiers;
-    }
-
-    /**
-     * Get particularie metadata from PDO
-     *
-     * @param string $tableName
-     * @return \CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO
-     */
-    public function getMetadataFor($tableName, array $parentName = array())
-    {
-        return $this->hydrateDataObject($tableName);
     }
 }

@@ -18,6 +18,8 @@
 namespace CrudGenerator\Generators\Questions\Web;
 
 use CrudGenerator\Generators\Finder\GeneratorFinder;
+use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Generators\ResponseExpectedException;
 
 class GeneratorQuestion
 {
@@ -25,26 +27,54 @@ class GeneratorQuestion
      * @var GeneratorFinder
      */
     private $generatorFinder = null;
+    /**
+     * @var ContextInterface
+     */
+    private $context = null;
 
     /**
      * @param GeneratorFinder $generatorFinder
+     * @param ContextInterface $context
      */
-    public function __construct(GeneratorFinder $generatorFinder)
+    public function __construct(GeneratorFinder $generatorFinder, ContextInterface $context)
     {
         $this->generatorFinder = $generatorFinder;
+        $this->context         = $context;
     }
 
     /**
-     * Return generator list
-     * @return array
+     * @return string
      */
     public function ask()
     {
         $generatorArray = array();
         foreach ($this->generatorFinder->getAllClasses() as $path => $name) {
-        	$generatorArray[] = array('id' => $path, 'label' => $name);
+            $generatorArray[] = array('id' => $name, 'label' => $name);
         }
 
-        return $generatorArray;
+        return $this->retrieve(
+            $this->context->askCollection("Select generator", 'generator', $generatorArray)
+        );
+    }
+
+    /**
+     * @param string $preSelected
+     * @throws ResponseExpectedException
+     * @return string
+     */
+    private function retrieve($preSelected)
+    {
+        foreach ($this->generatorFinder->getAllClasses() as $path => $name) {
+            if ($name === $preSelected) {
+                return $name;
+            }
+        }
+
+        throw new ResponseExpectedException(
+            sprintf(
+                "Generator %s does not exist",
+                $preSelected
+            )
+        );
     }
 }
