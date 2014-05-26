@@ -38,18 +38,47 @@ class DependencyCondition implements ParserInterface
 
         foreach ($dependencyNode as $dependencyNodes) {
              foreach ($dependencyNodes as $dependencyName => $dependencyList) {
-                 if (substr($dependencyName, 0, 1) === GeneratorParser::DIFFERENT && !in_array(substr($dependencyName, 1), $generatorDependencies)) {
-                     foreach ($dependencyList as $key => $dependency) {
-                         $matches[] = $dependency;
-                     }
-                 } elseif (in_array($dependencyName, $generatorDependencies)) {
-                     foreach ($dependencyList as $key => $dependency) {
-                         $matches[] = $dependency;
-                     }
-                 }
+                  $matches = $this->checkDifferentCondition($matches, $generatorDependencies, $dependencyList, $dependencyName);
+                  $matches = $this->checkEqualCondition($matches, $generatorDependencies, $dependencyList, $dependencyName);
              }
          }
 
          return $matches;
+    }
+
+    /**
+     * @param array $matches
+     * @param array $generatorDependencies
+     * @param array $dependencyList
+     * @param string $dependencyName
+     * @return array
+     */
+    private function checkDifferentCondition(array $matches, array $generatorDependencies, array $dependencyList, $dependencyName)
+    {
+        if (substr($dependencyName, 0, 1) === GeneratorParser::DIFFERENT && !in_array(substr($dependencyName, 1), $generatorDependencies)) {
+            foreach ($dependencyList as $key => $dependency) {
+                $matches[] = $dependency;
+            }
+        }
+
+        return $matches;
+    }
+
+    /**
+     * @param array $matches
+     * @param array $generatorDependencies
+     * @param array $dependencyList
+     * @param string $dependencyName
+     * @return array
+     */
+    private function checkEqualCondition(array $matches, array $generatorDependencies, array $dependencyList, $dependencyName)
+    {
+        if (in_array($dependencyName, $generatorDependencies)) {
+            foreach ($dependencyList as $key => $dependency) {
+                $matches[] = $dependency;
+            }
+        }
+
+        return $matches;
     }
 }
