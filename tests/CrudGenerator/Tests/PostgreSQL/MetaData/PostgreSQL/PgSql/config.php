@@ -5,8 +5,8 @@ use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
 
 $pdoConfig = new PostgreSQLConfig();
 $pdoConfig->setDatabaseName('code_generator')
-->setPassword('fezfez')
-->setUser('steph')
+->setPassword('')
+->setUser('postgres')
 ->setPort('5432')
 ->setHost('localhost');
 
