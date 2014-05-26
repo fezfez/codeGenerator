@@ -18,7 +18,7 @@ class PhpStringParser
 
     /**
      * @param string $name
-     * @param string $value
+     * @param mixed $value
      * @return PhpStringParser
      */
     public function addVariable($name, $value)

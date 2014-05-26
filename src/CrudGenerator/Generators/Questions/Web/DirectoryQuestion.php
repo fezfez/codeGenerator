@@ -28,12 +28,13 @@ class DirectoryQuestion
      */
     private $fileManager = null;
     /**
-     * @var ContextInterface $fileManager
+     * @var ContextInterface $context
      */
     private $context = null;
 
     /**
      * @param FileManager $fileManager
+     * @param ContextInterface $context
      */
     public function __construct(FileManager $fileManager, ContextInterface $context)
     {
@@ -47,37 +48,69 @@ class DirectoryQuestion
      */
     public function ask(GeneratorDataObject $generator, array $question)
     {
-        $attribute = 'get' . $question['dtoAttribute'];
-        $module = $generator->getDTO()->$attribute();
-        $directoriesRaw = $this->fileManager->glob(
-            $module . '*',
-            GLOB_ONLYDIR|GLOB_MARK
-        );
+        $attribute       = 'get' . $question['dtoAttribute'];
+        $actualDirectory = $generator->getDTO()->$attribute();
 
         $directories = array();
-        if ('' !== $module && null !== $module) {
-            $back = str_replace(array(getcwd() . '/', getcwd()), array('', ''), realpath($module . '../'));
-            $directories[] = array('label' => 'Back', 'id' => ($back !== '') ? $back . '/' : '');
-        }
-
-        foreach ($directoriesRaw as $directory) {
-            $directories[] = array('label' => $directory, 'id' => $directory);
-        }
+        $directories = $this->checkAdditionalChoices($actualDirectory, $directories);
+        $directories = $this->buildDirectoryList($actualDirectory, $directories);
 
         $response = $this->context->askCollection(
             $question['text'],
             'set' . $question['dtoAttribute'],
             $directories,
-            $module,
+            $actualDirectory,
             (isset($question['required'])) ? $question['required'] : false,
-            'Actual directory "' . $module . '"'
+            'Actual directory "' . $actualDirectory . '"'
         );
 
         if ($response !== null) {
-        	$setter = 'set' . $question['dtoAttribute'];
-        	$generator->getDTO()->$setter($response);
+            $setter = 'set' . $question['dtoAttribute'];
+            $generator->getDTO()->$setter($response);
         }
 
         return $generator;
+    }
+
+    /**
+     * @param string|null $actualDirectory
+     * @param array $directories
+     * @return array
+     */
+    private function checkAdditionalChoices($actualDirectory, array $directories)
+    {
+        // if we are in base directory, add back button
+        if ('' !== $actualDirectory && null !== $actualDirectory) {
+            $back = str_replace(
+                array(getcwd() . '/', getcwd()),
+                array('', ''),
+                realpath($actualDirectory . '../')
+            );
+            $directories[] = array(
+                'label' => 'Back',
+                'id' => ($back !== '') ? $back . '/' : ''
+            );
+        }
+
+        return $directories;
+    }
+
+    /**
+     * @param string|null $actualDirectory
+     * @param array $directories
+     * @return array
+     */
+    private function buildDirectoryList($actualDirectory, array $directories)
+    {
+        $directoriesRaw  = $this->fileManager->glob(
+            $actualDirectory . '*',
+            GLOB_ONLYDIR|GLOB_MARK
+        );
+
+        foreach ($directoriesRaw as $directory) {
+            $directories[] = array('label' => $directory, 'id' => $directory);
+        }
+
+        return $directories;
     }
 }
