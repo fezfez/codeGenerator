@@ -82,7 +82,6 @@ class MetaDataConfigDAO
         );
 
         $adapterCollection = new MetaDataSourceCollection();
-        $adapterDataObject = new MetaDataSource();
 
         foreach ($this->fileManager->glob(self::PATH . '*' . self::EXTENSION) as $file) {
             $configFile = (array) json_decode($this->fileManager->fileGetContent($file));
