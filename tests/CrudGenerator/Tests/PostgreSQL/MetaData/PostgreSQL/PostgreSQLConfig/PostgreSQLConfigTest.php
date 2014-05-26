@@ -3,7 +3,7 @@ namespace CrudGenerator\Tests\PostgreSQL\MetaData\Sources\PostgreSQL\PostgreSQLC
 
 use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
 
-class PDOConfigTest extends \PHPUnit_Framework_TestCase
+class PostgreSQLConfigTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
