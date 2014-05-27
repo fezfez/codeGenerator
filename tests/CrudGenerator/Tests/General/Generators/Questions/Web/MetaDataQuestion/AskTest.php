@@ -208,6 +208,6 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
 
-        $sUT->ask($source, 'fail');
+        $sUT->ask($source);
     }
 }

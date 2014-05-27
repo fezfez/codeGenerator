@@ -23,7 +23,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->setMetaDataDAOFactory('My nameFactory');
         $metadataSourceCollection->append($sourceWithFailedDependencie);
 
-        $sourceFinderStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFinder', array('select'))
+        $sourceFinderStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFinder')
         ->disableOriginalConstructor()
         ->getMock();
         $sourceFinderStub->expects($this->exactly(2))
@@ -56,7 +56,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
     	->setFalseDependencie('My false dependencies');
     	$metadataSourceCollection->append($sourceWithFailedDependencie);
 
-    	$sourceFinderStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFinder', array('select'))
+    	$sourceFinderStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFinder')
     	->disableOriginalConstructor()
     	->getMock();
     	$sourceFinderStub->expects($this->exactly(2))
@@ -90,7 +90,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->setFalseDependencie('My false dependencies');
         $metadataSourceCollection->append($sourceWithFailedDependencie);
 
-        $sourceFinderStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFinder', array('select'))
+        $sourceFinderStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFinder')
         ->disableOriginalConstructor()
         ->getMock();
         $sourceFinderStub->expects($this->exactly(2))

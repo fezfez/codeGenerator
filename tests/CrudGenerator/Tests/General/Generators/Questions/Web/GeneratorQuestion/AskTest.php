@@ -8,7 +8,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {
-        $sourceFinderStub = $this->getMockBuilder('CrudGenerator\Generators\Finder\GeneratorFinder', array('select'))
+        $sourceFinderStub = $this->getMockBuilder('CrudGenerator\Generators\Finder\GeneratorFinder')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -22,9 +22,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
                             )
                         );
 
-    	$context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        ->disableOriginalConstructor()
+        ->getMock();
 
         $sUT = new GeneratorQuestion($sourceFinderStub, $context);
 
