@@ -8,7 +8,7 @@ Code Generator
 What is "Code Generator" ?
 ------------------------
 
-"Code generator" is simply a tools suite who gonna help you to generate code.
+"Code generator" is tool who gonna help you to generate code.
 
 
 Compatibility
@@ -31,7 +31,7 @@ Installation
 Installation of CodeGenerator uses composer. For composer documentation, please refer to [getcomposer.org](http://getcomposer.org/).
 
 ```sh
-php composer.phar require fezfez/code-generator
+composer require fezfez/code-generator
 ```
 
 
