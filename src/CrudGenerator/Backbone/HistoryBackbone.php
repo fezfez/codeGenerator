@@ -18,7 +18,6 @@
 namespace CrudGenerator\Backbone;
 
 use CrudGenerator\Generators\Questions\Cli\HistoryQuestion;
-use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\History\EmptyHistoryException;
 use CrudGenerator\Context\ContextInterface;
 
@@ -42,10 +41,6 @@ class HistoryBackbone
         $this->context         = $context;
     }
 
-    /**
-     * @throws \InvalidArgumentException
-     * @return CrudGenerator\Generators\GeneratorDataObject
-     */
     public function run()
     {
         try {

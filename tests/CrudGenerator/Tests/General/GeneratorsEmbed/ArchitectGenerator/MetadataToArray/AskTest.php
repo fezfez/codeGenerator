@@ -14,16 +14,16 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $DTO->setMetadata($this->getMetadata())
         ->setNamespace('namespace');
 
-    	$context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        ->disableOriginalConstructor()
+        ->getMock();
 
         $sUT = new MetadataToArray($context);
 
         $generator = new GeneratorDataObject();
         $generator->setDTO($DTO);
 
-        $DTO = $sUT->ask($generator, array());
+        $DTO = $sUT->ask($generator);
     }
 
     private function getMetadata()
