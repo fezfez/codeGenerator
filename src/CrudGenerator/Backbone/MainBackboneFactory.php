@@ -15,38 +15,25 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\Strategies;
+namespace CrudGenerator\Backbone;
 
-use CrudGenerator\View\ViewFactory;
-use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\CliContext;
-use CrudGenerator\Context\WebContext;
 
-/**
- * Base code generator, extends it and implement doGenerate method
- * to make you own Generator
- *
- * @author Stéphane Demonchaux
- */
-class GeneratorStrategyFactory
+class MainBackboneFactory
 {
     /**
      * @param ContextInterface $context
-     * @throws \InvalidArgumentException
-     * @return \CrudGenerator\Generators\Strategies\GeneratorStrategy
+     * @return \CrudGenerator\Backbone\MainBackbone
      */
     public static function getInstance(ContextInterface $context)
     {
-        if ($context instanceof CliContext || $context instanceof WebContext) {
-            return new GeneratorStrategy(ViewFactory::getInstance(), new FileManager());
-        } else {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Context "%s" not supported',
-                    get_class($context)
-                )
-            );
-        }
+        return new MainBackbone(
+            HistoryBackboneFactory::getInstance($context),
+            PreapreForGenerationBackboneFactory::getInstance($context),
+            GenerateFileBackboneFactory::getInstance($context),
+            GenerateBackboneFactory::getInstance($context),
+            CreateSourceBackboneFactory::getInstance($context),
+            $context
+        );
     }
 }

@@ -22,7 +22,8 @@ define(['App/App', 'Corp/Context/Context', 'Corp/File/FileDataObject'], function
                 metadata     : context.getMetadata(),
                 generator    : context.getGenerator(),
                 skeletonPath : file.getSkeletonPath(),
-                file         : file.getTemplate(),
+                file_to_generate         : file.getTemplate(),
+                view_file    : true,
             }); + '&' + $.param(context.getQuestion());
 
             $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
@@ -30,7 +31,7 @@ define(['App/App', 'Corp/Context/Context', 'Corp/File/FileDataObject'], function
                 {
                     headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'},
                     method  : "POST",
-                    url     : __BASEPATH__ + "view-file",
+                    url     : __BASEPATH__ + "generator",
                     data    : datas
                 }
             ).success(function (data) {

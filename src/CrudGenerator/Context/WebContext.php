@@ -63,16 +63,18 @@ class WebContext implements ContextInterface, \JsonSerializable
     */
     public function askCollection($text, $uniqueKey, array $collection, $defaultResponse = null, $required = false, $helpMessage = null)
     {
+        $response = $this->application->offsetGet('request')->request->get($uniqueKey);
+
         $this->question['question'][] = array(
-        	'text'            => $text,
-        	'dtoAttribute'    => $uniqueKey,
-        	'defaultResponse' => $defaultResponse,
-        	'required'        => $required,
-        	'values'          => $collection,
-        	'type'            => 'select'
+            'text'            => $text,
+            'dtoAttribute'    => $uniqueKey,
+            'defaultResponse' => ($response !== null) ? $response : $defaultResponse,
+            'required'        => $required,
+            'values'          => $collection,
+            'type'            => 'select'
         );
 
-        return $this->application->offsetGet('request')->request->get($uniqueKey);
+        return $response;
     }
 
     /**
@@ -82,15 +84,23 @@ class WebContext implements ContextInterface, \JsonSerializable
      */
     public function confirm($text, $uniqueKey)
     {
-
+        return $this->application->offsetGet('request')->request->get($uniqueKey);
     }
 
     /**
      * @param string $text
+     * @param string|null $name
      */
-    public function log($text)
+    public function log($text, $name = null)
     {
-
+        if (isset($this->question[$name]) && !is_array($this->question[$name])) {
+            $this->question[$name] = array($this->question[$name]);
+        }
+        if (isset($this->question[$name])) {
+            $this->question[$name][] = $text;
+        } else {
+            $this->question[$name] = $text;
+        }
     }
 
     /* (non-PHPdoc)

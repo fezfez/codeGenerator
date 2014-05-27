@@ -18,55 +18,37 @@ define(
                 function ($scope, $http, $sourceService, $generatorService, $viewFileService, $WaitModalService, $previewService) {
 
             var config = new Config();
-            $scope.newSource = function() {
-                $scope.configQuestion = {};
-                newSource(config);
-            };
-
-            var newSource = (function(config) {
-                $sourceService.retrieveAdapters(
-                    config,
-                    function(data) {
-                        if (data.metadatasourceCollection) {
-                            $scope.backendList = data.metadatasourceCollection;
-                        }
-                        if (data.question) {
-                            $scope.configQuestionsList = data.question;
-                        }
-                        $('newSource > div').modal('show');
-                    },
-                    function(data) {
-                        $scope.newSource = {
-                            'title' : 'Error',
-                            'body' : '',
-                            'callback' : function () {
-                                $('modal .modal-body').empty().append(data.error);
-                            }
-                        };
-                    }
-                );
-            });
-
-            $scope.$watch('adapter', function (adapter) {
-                console.log(adapter);
-                config.setAdapter(adapter);
-                newSource(config);
-            });
+            $scope.configQuestion = {};
 
             $scope.setConfigQuestion = function(attribute) {
                 $scope.backendConfig();
             };
 
             $scope.backendConfig = function() {
-                $sourceService.config($scope.adapter, $scope.configQuestion, function(data) {
-                    if (data.error !== undefined) {
-                        $scope.configFormError = data.error;
-                    } else {
-                        delete $scope.metadataSourceConfigForm;
-                        $('newSource > div').modal('hide');
-                    }
+                $sourceService.config(
+                    $scope.configQuestion,
+                    function(data) {
+	                    if (data.question) {
+	                        $scope.configQuestionsList = data.question;
+	                    }
+	                    var modal = $('newSource > div');
+	                    if (!modal.hasClass( "show" )) {
+	                    	modal.modal('show');
+	                    }
+	                    
+	                    if (data.error !== undefined) {
+	                        $scope.configFormError = data.error;
+	                    } else if (data.valid === true) {
+	                        delete $scope.metadataSourceConfigForm;
+	                        $('newSource > div').modal('hide');
+	                    }
+                },
+                function(data) {
+                    $scope.unsafeModal = {
+                        'title' : 'Error on config',
+                        'body' : data.error,
+                    };
                 });
-                return false;
             };
 
             $scope.answers = {};
@@ -135,7 +117,7 @@ define(
                     } else {
                         $scope.unsafeModal = {
                             'title' : file.getName(),
-                            'body' : '<pre class="brush: php;">' + results.generator + '</pre>',
+                            'body' : '<pre class="brush: php;">' + results.previewfile + '</pre>',
                             'callback' : function () {
                                 SyntaxHighlighter.highlight();
                             }

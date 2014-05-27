@@ -23,6 +23,7 @@ use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\CliContext;
 use CrudGenerator\Context\WebContext;
 use CrudGenerator\Utils\FileManager;
+use CrudGenerator\History\HistoryFactory;
 
 /**
  * @author Stéphane Demonchaux
@@ -39,10 +40,14 @@ class GeneratorFactory
     {
         $fileManager = new FileManager();
 
-        if ($context instanceof CliContext) {
-            return new GeneratorCli($strategy, FileConflictManagerFactory::getInstance($context), $fileManager, $context);
-        } elseif ($context instanceof WebContext) {
-            return new GeneratorWeb($strategy, FileConflictManagerFactory::getInstance($context), $fileManager);
+        if ($context instanceof CliContext || $context instanceof WebContext) {
+            return new GeneratorCli(
+                $strategy,
+                FileConflictManagerFactory::getInstance($context),
+                $fileManager,
+                HistoryFactory::getInstance($context),
+                $context
+            );
         } else {
             throw new \InvalidArgumentException('Context "' . get_class($context) . '" not supported');
         }

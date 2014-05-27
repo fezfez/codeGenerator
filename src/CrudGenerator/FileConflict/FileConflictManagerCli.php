@@ -4,6 +4,7 @@ namespace CrudGenerator\FileConflict;
 use CrudGenerator\Utils\FileManager;
 use SebastianBergmann\Diff\Differ;
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Generators\ResponseExpectedException;
 
 class FileConflictManagerCli
 {
@@ -66,13 +67,14 @@ class FileConflictManagerCli
 
     /**
      * Handle the file conflict
-     * @param string $filePath File location
+     *
+     * @param string $filePath
      * @param string $results
+     * @throws ResponseExpectedException
      */
     public function handle($filePath, $results)
     {
-        while (true) {
-            $response = $this->context->askCollection(
+        while (($response = $this->context->askCollection(
                 'File "' . $filePath . '" already exist, erase it with the new',
                 'conflict' . $filePath,
                 array(
@@ -81,7 +83,7 @@ class FileConflictManagerCli
                     'erase',
                     'cancel'
                 )
-            );
+            )) !== null) {
 
             $response = intval($response);
 
@@ -104,10 +106,12 @@ class FileConflictManagerCli
                     $this->fileManager->fileGetContent($filePath)
                 )
             );
-            $this->context->log('--> Generate diff and new file ' . $filePath . '.diff');
+            $this->context->log('--> Generate diff and new file ' . $filePath . '.diff', 'generationLog');
         } elseif ($response === self::ERASE) {
             $this->fileManager->filePutsContent($filePath, $results);
-            $this->context->log('--> Create ' . $filePath);
+            $this->context->log('--> Replace file ' . $filePath, 'generationLog');
+        } else {
+            throw new ResponseExpectedException(sprintf('Conflict with file "%s" not resolved', $filePath));
         }
     }
 }

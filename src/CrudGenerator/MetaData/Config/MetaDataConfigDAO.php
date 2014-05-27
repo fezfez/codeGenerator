@@ -73,17 +73,25 @@ class MetaDataConfigDAO
      */
     public function retrieveAll()
     {
-        $this->classAwake->wakeByInterfaces(
+        $allowedMetadataDAO = $this->classAwake->wakeByInterfaces(
             array(
                 __DIR__ . '/../Sources/'
             ),
-            'CrudGenerator\MetaData\Sources\MetaDataDAO'
+            'CrudGenerator\MetaData\Sources\MetaDataDAOFactory'
         );
 
         $adapterCollection = new MetaDataSourceCollection();
 
         foreach ($this->fileManager->glob(self::PATH . '*' . self::EXTENSION) as $file) {
             $configFile = (array) json_decode($this->fileManager->fileGetContent($file));
+
+            if (!isset($configFile['metaDataDAO'])) {
+            	continue;
+            }
+
+            if (!in_array($configFile['metaDataDAO'], $allowedMetadataDAO)) {
+            	continue;
+            }
 
             $adapter = $this->metaDataSourceHydrator->adapterNameToMetaDataSource(
                 $configFile['metaDataDAO']

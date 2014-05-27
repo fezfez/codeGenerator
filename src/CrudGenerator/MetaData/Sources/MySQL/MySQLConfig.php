@@ -149,8 +149,12 @@ class MySQLConfig implements MetaDataConfig
      */
     public function getConnection()
     {
-        $pdo = new \PDO('mysql:dbname='.$this->databaseName . ';host='.$this->host, $this->user, $this->password);
-        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+    	if ($this->host === null || $this->databaseName === null) {
+    		throw new ConfigException('Empty connection');
+    	}
+        $pdo = new \PDO('mysql:host='.$this->host . ';dbname='.$this->databaseName, $this->user, $this->password, array(
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+        ));
 
         return $pdo;
     }
@@ -161,7 +165,7 @@ class MySQLConfig implements MetaDataConfig
     {
         try {
             $this->getConnection();
-        } catch (\PDOException $e) {
+        } catch (\Exception $e) {
             throw new ConfigException('Connection failed with "' . $e->getMessage() . '"');
         }
     }
@@ -202,7 +206,7 @@ class MySQLConfig implements MetaDataConfig
      */
     public function getMetaDataDAOFactory()
     {
-
+		return 'CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory';
     }
     /**
      * Set MetaDataDAOFactory

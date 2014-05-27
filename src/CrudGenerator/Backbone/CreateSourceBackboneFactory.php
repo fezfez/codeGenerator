@@ -15,38 +15,31 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\Strategies;
+namespace CrudGenerator\Backbone;
 
-use CrudGenerator\View\ViewFactory;
-use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\CliContext;
-use CrudGenerator\Context\WebContext;
+use CrudGenerator\Generators\Questions\MetaDataSourcesConfiguredQuestionFactory;
+use CrudGenerator\Generators\Questions\MetaDataQuestionFactory;
+use CrudGenerator\Generators\Questions\GeneratorQuestionFactory;
+use CrudGenerator\Generators\Parser\GeneratorParserFactory;
+use CrudGenerator\Generators\Questions\HistoryQuestionFactory;
+use CrudGenerator\Generators\GeneratorFactory;
+use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
+use CrudGenerator\Generators\Questions\MetaDataSourcesQuestionFactory;
+use CrudGenerator\MetaData\Config\MetaDataConfigDAOFactory;
 
-/**
- * Base code generator, extends it and implement doGenerate method
- * to make you own Generator
- *
- * @author Stéphane Demonchaux
- */
-class GeneratorStrategyFactory
+class CreateSourceBackboneFactory
 {
     /**
      * @param ContextInterface $context
-     * @throws \InvalidArgumentException
-     * @return \CrudGenerator\Generators\Strategies\GeneratorStrategy
+     * @return \CrudGenerator\Backbone\CreateSourceBackbone
      */
     public static function getInstance(ContextInterface $context)
     {
-        if ($context instanceof CliContext || $context instanceof WebContext) {
-            return new GeneratorStrategy(ViewFactory::getInstance(), new FileManager());
-        } else {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Context "%s" not supported',
-                    get_class($context)
-                )
-            );
-        }
+        return new CreateSourceBackbone(
+            MetaDataSourcesQuestionFactory::getInstance($context),
+            MetaDataConfigDAOFactory::getInstance($context),
+            $context
+        );
     }
 }

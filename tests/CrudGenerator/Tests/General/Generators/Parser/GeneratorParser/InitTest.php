@@ -11,7 +11,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 
 class InitTest extends \PHPUnit_Framework_TestCase
 {
-    public function testEmpty()
+    public function testEmptydddd()
     {
         $fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
         ->disableOriginalConstructor()

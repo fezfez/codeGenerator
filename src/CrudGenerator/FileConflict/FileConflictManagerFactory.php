@@ -17,12 +17,7 @@ class FileConflictManagerFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-        if ($context instanceof WebContext) {
-            return new FileConflictManagerWeb(
-                new FileManager(),
-                new Differ()
-            );
-        } elseif ($context instanceof CliContext) {
+        if ($context instanceof CliContext || $context instanceof WebContext) {
             return new FileConflictManagerCli(
                 $context,
                 new FileManager(),

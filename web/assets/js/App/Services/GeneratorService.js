@@ -40,7 +40,7 @@ define([
                 {
                     headers : {'Content-Type': 'application/x-www-form-urlencoded'},
                     method  : "POST",
-                    url     : __BASEPATH__ + "metadata",
+                    url     : __BASEPATH__ + "generator",
                     data    : datas,
                     timeout : canceler.promise
                 }

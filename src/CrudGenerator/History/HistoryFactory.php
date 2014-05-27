@@ -23,6 +23,7 @@ use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\CliContext;
+use CrudGenerator\Context\WebContext;
 
 /**
  * Create HistoryManager instance
@@ -38,7 +39,7 @@ class HistoryFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-        if ($context instanceof CliContext) {
+        if ($context instanceof CliContext || $context instanceof WebContext) {
             // wakeup classes
             $generatorFinder = GeneratorFinderFactory::getInstance();
             $generatorFinder->getAllClasses();

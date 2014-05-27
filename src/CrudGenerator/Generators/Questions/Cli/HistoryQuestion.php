@@ -19,6 +19,7 @@ namespace CrudGenerator\Generators\Questions\Cli;
 
 use CrudGenerator\History\HistoryManager;
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\History\EmptyHistoryException;
 
 class HistoryQuestion
 {
@@ -49,7 +50,7 @@ class HistoryQuestion
         $historyCollection = $this->historyManager->findAll();
 
         if ($historyCollection->count() === 0) {
-            throw new \RuntimeException('Empty history');
+            throw new EmptyHistoryException('Empty history');
         }
 
         $historyChoices = array();

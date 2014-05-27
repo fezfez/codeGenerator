@@ -15,38 +15,45 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\Strategies;
+namespace CrudGenerator\Backbone;
 
-use CrudGenerator\View\ViewFactory;
-use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\CliContext;
-use CrudGenerator\Context\WebContext;
+use CrudGenerator\Generators\Questions\Cli\HistoryQuestion;
+use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Generators\GeneratorCli;
 
-/**
- * Base code generator, extends it and implement doGenerate method
- * to make you own Generator
- *
- * @author Stéphane Demonchaux
- */
-class GeneratorStrategyFactory
+class GenerateFileBackbone
 {
     /**
-     * @param ContextInterface $context
-     * @throws \InvalidArgumentException
-     * @return \CrudGenerator\Generators\Strategies\GeneratorStrategy
+     * @var GeneratorCli
      */
-    public static function getInstance(ContextInterface $context)
+    private $generator = null;
+    /**
+     * @var ContextInterface
+     */
+    private $context = null;
+
+    /**
+     * @param GeneratorCli $generator
+     * @param ContextInterface $context
+     */
+    public function __construct(GeneratorCli $generator, ContextInterface $context)
     {
-        if ($context instanceof CliContext || $context instanceof WebContext) {
-            return new GeneratorStrategy(ViewFactory::getInstance(), new FileManager());
-        } else {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Context "%s" not supported',
-                    get_class($context)
-                )
-            );
+        $this->generator = $generator;
+        $this->context   = $context;
+    }
+
+    /**
+     * @param GeneratorDataObject $generator
+     * @param string $fileName
+     */
+    public function run(GeneratorDataObject $generator)
+    {
+        $files = array();
+        foreach ($generator->getFiles() as $file) {
+            $files[] = $file['name'];
         }
+        $fileName = $this->context->askCollection("Select a file to generate", "file_to_generate", $files);
+        $this->generator->generateFile($generator, $fileName);
     }
 }

@@ -15,38 +15,37 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\Strategies;
+namespace CrudGenerator\Backbone;
 
-use CrudGenerator\View\ViewFactory;
-use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\CliContext;
-use CrudGenerator\Context\WebContext;
+use CrudGenerator\Generators\Questions\Cli\HistoryQuestion;
+use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\History\EmptyHistoryException;
 
-/**
- * Base code generator, extends it and implement doGenerate method
- * to make you own Generator
- *
- * @author Stéphane Demonchaux
- */
-class GeneratorStrategyFactory
+class HistoryBackbone
 {
     /**
-     * @param ContextInterface $context
-     * @throws \InvalidArgumentException
-     * @return \CrudGenerator\Generators\Strategies\GeneratorStrategy
+     * @var HistoryQuestion
      */
-    public static function getInstance(ContextInterface $context)
+    private $historyQuestion = null;
+
+    /**
+     * @param HistoryQuestion $historyQuestion
+     */
+    public function __construct(HistoryQuestion $historyQuestion)
     {
-        if ($context instanceof CliContext || $context instanceof WebContext) {
-            return new GeneratorStrategy(ViewFactory::getInstance(), new FileManager());
-        } else {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Context "%s" not supported',
-                    get_class($context)
-                )
-            );
+        $this->historyQuestion = $historyQuestion;
+    }
+
+    /**
+     * @throws \InvalidArgumentException
+     * @return CrudGenerator\Generators\GeneratorDataObject
+     */
+    public function run()
+    {
+        try {
+            $this->historyQuestion->ask();
+        } catch (EmptyHistoryException $e) {
         }
     }
 }

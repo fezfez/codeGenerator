@@ -86,8 +86,9 @@ class CliContext implements ContextInterface
 
     /**
      * @param string $text
+     * @param string|null $name
      */
-    public function log($text)
+    public function log($text, $name = null)
     {
         $this->output->writeln($text);
     }

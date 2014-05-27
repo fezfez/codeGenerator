@@ -15,38 +15,33 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\Strategies;
+namespace CrudGenerator\Backbone;
 
-use CrudGenerator\View\ViewFactory;
-use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\CliContext;
-use CrudGenerator\Context\WebContext;
+use CrudGenerator\Generators\Questions\Cli\HistoryQuestion;
+use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Generators\GeneratorCli;
 
-/**
- * Base code generator, extends it and implement doGenerate method
- * to make you own Generator
- *
- * @author Stéphane Demonchaux
- */
-class GeneratorStrategyFactory
+class GenerateBackbone
 {
     /**
-     * @param ContextInterface $context
-     * @throws \InvalidArgumentException
-     * @return \CrudGenerator\Generators\Strategies\GeneratorStrategy
+     * @var GeneratorCli
      */
-    public static function getInstance(ContextInterface $context)
+    private $generator = null;
+
+    /**
+     * @param GeneratorCli $generator
+     */
+    public function __construct(GeneratorCli $generator)
     {
-        if ($context instanceof CliContext || $context instanceof WebContext) {
-            return new GeneratorStrategy(ViewFactory::getInstance(), new FileManager());
-        } else {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Context "%s" not supported',
-                    get_class($context)
-                )
-            );
-        }
+        $this->generator = $generator;
+    }
+
+    /**
+     * @param GeneratorDataObject $generator
+     */
+    public function run(GeneratorDataObject $generator)
+    {
+        $this->generator->generate($generator);
     }
 }

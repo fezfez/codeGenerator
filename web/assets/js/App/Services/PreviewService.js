@@ -18,7 +18,8 @@ define(["App/App", "Corp/Context/Context"], function(app, Context) {
                 metadata  : context.getMetadata(),
                 generator : context.getGenerator(),
                 questions : context.getQuestion(),
-                conflict  : $('.conflict_handle').serialize()
+                conflict  : $('.conflict_handle').serialize(),
+                generate_files : true
             });
 
             $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
@@ -26,7 +27,7 @@ define(["App/App", "Corp/Context/Context"], function(app, Context) {
                 {
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'},
                     method: "POST",
-                    url: __BASEPATH__ + "generate",
+                    url: __BASEPATH__ + "generator",
                     data: datas
                 }
             ).success(function (datas) {

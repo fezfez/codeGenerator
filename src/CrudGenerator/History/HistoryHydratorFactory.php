@@ -23,6 +23,7 @@ use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\CliContext;
 use CrudGenerator\Generators\Questions\MetaDataSourcesQuestionFactory;
 use CrudGenerator\Generators\Questions\MetaDataQuestionFactory;
+use CrudGenerator\Context\WebContext;
 
 /**
  * HistoryManager instance
@@ -37,7 +38,7 @@ class HistoryHydratorFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-        if ($context instanceof CliContext) {
+        if ($context instanceof CliContext || $context instanceof WebContext) {
             $metaDataSourceQuestion = MetaDataSourcesQuestionFactory::getInstance($context);
             $metaDataQuestion       = MetaDataQuestionFactory::getInstance($context);
 

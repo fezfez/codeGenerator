@@ -66,17 +66,17 @@ class HistoryManager
         $metadata = $dataObject->getMetadata();
 
         if (empty($metadata)) {
-			throw new \InvalidArgumentException('Metadata cant be empty');
+            throw new \InvalidArgumentException('Metadata cant be empty');
         }
 
-        $fileName = $metadata->getName();
+        $fileName = $metadata->getName(). '.history.yaml';
 
         if ($this->fileManager->isFile(self::HISTORY_PATH . $fileName)) {
             $this->fileManager->unlink(self::HISTORY_PATH . $fileName);
         }
 
         $this->fileManager->filePutsContent(
-            self::HISTORY_PATH . $fileName . '.history.yaml',
+            self::HISTORY_PATH . $fileName,
             $this->historyHydrator->dtoToYaml($dataObject)
         );
     }

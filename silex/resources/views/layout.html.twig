@@ -81,18 +81,20 @@
                             <select ng-if="question.type == 'select'"
                                     id="{{ question.dtoAttribute }}"
                                     class="form-control question"
-                                    ng-model="adapter"
+                                    ng-model="configQuestion[question.dtoAttribute]"
                                     name="{{ question.dtoAttribute }}">
-                                    <option selected="selected" value="{{ question.value }}">{{ question.placeholder }}</option>
-                                    <option ng-repeat="value in question.values" ng-click="setConfigQuestion(question.dtoAttribute)" value="{{ value.id }}">
+                                    <option ng-repeat="value in question.values"
+                                            ng-click="setConfigQuestion(question.dtoAttribute)"
+                                            ng-selected="(value.id === question.defaultResponse) ? 'selected' : null"
+                                            value="{{ value.id }}" >
                                         {{ value.label }}
                                     </option>
                             </select>
-                            <input ng-if="questions.type == 'text'"
+                            <input ng-if="question.type == 'text'"
                                    class="form-control questions"
                                    type="text"
                                    name="{{ question.dtoAttribute }}"
-                                   placeholder="{{ question.text }}" ng-model="configQuestion[questions.dtoAttribute]" />
+                                   placeholder="{{ question.text }}" ng-model="configQuestion[question.dtoAttribute]" />
                         </div>
                         <input type="submit" class="btn btn-success" value="Configure" />
                     </form>

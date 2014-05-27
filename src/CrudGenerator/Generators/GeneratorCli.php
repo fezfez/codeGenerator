@@ -21,6 +21,8 @@ use CrudGenerator\Generators\Strategies\StrategyInterface;
 use CrudGenerator\FileConflict\FileConflictManagerCli;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Context\CliContext;
+use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\History\HistoryManager;
 
 /**
  * @author Stéphane Demonchaux
@@ -40,19 +42,33 @@ class GeneratorCli
      */
     private $fileManager = null;
     /**
+     * @var HistoryManager
+     */
+    private $historyManager = null;
+    /**
      * @var CliContext
      */
     private $context = null;
 
     /**
      * @param StrategyInterface $strategy
+     * @param FileConflictManagerCli $fileConflict
+     * @param FileManager $fileManager
+     * @param HistoryManager $historyManager
+     * @param ContextInterface $context
      */
-    public function __construct(StrategyInterface $strategy, FileConflictManagerCli $fileConflict, FileManager $fileManager, CliContext $context)
-    {
-        $this->strategy = $strategy;
-        $this->fileConflict = $fileConflict;
-        $this->fileManager = $fileManager;
-        $this->context = $context;
+    public function __construct(
+    	StrategyInterface $strategy,
+    	FileConflictManagerCli $fileConflict,
+    	FileManager $fileManager,
+    	HistoryManager $historyManager,
+    	ContextInterface $context
+	) {
+        $this->strategy       = $strategy;
+        $this->fileConflict   = $fileConflict;
+        $this->fileManager    = $fileManager;
+        $this->historyManager = $historyManager;
+        $this->context        = $context;
     }
 
     /**
@@ -61,44 +77,64 @@ class GeneratorCli
      * @throws \Exception
      * @return string
      */
-    public function generate(GeneratorDataObject $generator, $fileName = null)
+    public function generate(GeneratorDataObject $generator)
     {
-        $files = $generator->getFiles();
-
-        if (null !== $fileName) {
-            $fileToGenerate = null;
-            foreach ($files as $file) {
-                if ($file['name'] === $fileName) {
-                    $fileToGenerate = $file;
-                }
-            }
-            if (null === $fileToGenerate) {
-                throw new \InvalidArgumentException('File does not exist');
-            }
-            return $this->strategy->generateFile(
-                $generator->getTemplateVariables(),
-                $fileToGenerate['skeletonPath'],
-                $fileToGenerate['name'],
-                $fileToGenerate['fileName']
-            );
-        } else {
-            foreach ($files as $file) {
-                $result = $this->strategy->generateFile(
+        foreach ($generator->getFiles() as $file) {
+            $result = $this->strategy->generateFile(
                     $generator->getTemplateVariables(),
                     $file['skeletonPath'],
                     $file['name'],
                     $file['fileName']
-                );
+            );
 
-                if ($this->fileConflict->test($file['fileName'], $result)) {
-                    $this->fileConflict->handle($file['fileName'], $result);
-                } else {
-                    $this->fileManager->filePutsContent($file['fileName'], $result);
-                    $this->context->log('--> Create file ' . $file['fileName']);
-                }
+            if ($this->fileConflict->test($file['fileName'], $result)) {
+                $this->fileConflict->handle($file['fileName'], $result);
             }
         }
 
+        foreach ($generator->getFiles() as $file) {
+            $result = $this->strategy->generateFile(
+                $generator->getTemplateVariables(),
+                $file['skeletonPath'],
+                $file['name'],
+                $file['fileName']
+            );
+
+            $this->fileManager->filePutsContent($file['fileName'], $result);
+            $this->context->log('--> Create file ' . $file['fileName'], 'generationLog');
+        }
+
+        $this->historyManager->create($generator->getDTO());
+
         return $generator;
+    }
+
+    /**
+     * @param GeneratorDataObject $generator
+     * @param string $fileName
+     * @throws \InvalidArgumentException
+     */
+    public function generateFile(GeneratorDataObject $generator, $fileName)
+    {
+        $fileToGenerate = null;
+        foreach ($generator->getFiles() as $file) {
+            if ($file['name'] === $fileName) {
+                $fileToGenerate = $file;
+            }
+        }
+
+        if (null === $fileToGenerate) {
+            throw new \InvalidArgumentException('File does not exist');
+        }
+
+        $this->context->log(
+            $this->strategy->generateFile(
+                $generator->getTemplateVariables(),
+                $fileToGenerate['skeletonPath'],
+                $fileToGenerate['name'],
+                $fileToGenerate['fileName']
+            ),
+            'previewfile'
+        );
     }
 }

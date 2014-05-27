@@ -20,6 +20,7 @@ namespace CrudGenerator\Generators\Questions;
 use CrudGenerator\History\HistoryFactory;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\CliContext;
+use CrudGenerator\Context\WebContext;
 
 class HistoryQuestionFactory
 {
@@ -30,7 +31,7 @@ class HistoryQuestionFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-        if ($context instanceof CliContext) {
+        if ($context instanceof CliContext || $context instanceof WebContext) {
             $historyManager = HistoryFactory::getInstance($context);
             return new Cli\HistoryQuestion($historyManager, $context);
         } else {
