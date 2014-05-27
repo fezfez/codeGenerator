@@ -18,7 +18,6 @@
 namespace CrudGenerator\Backbone;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Generators\Questions\Cli\HistoryQuestion;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Generator;
 

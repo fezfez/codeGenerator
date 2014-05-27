@@ -1,6 +1,5 @@
 <?php
 
-use CrudGenerator\Backbone\MainBackbone;
 use CrudGenerator\Backbone\MainBackboneFactory;
 use CrudGenerator\Context\WebContext;
 use CrudGenerator\Generators\ResponseExpectedException;
