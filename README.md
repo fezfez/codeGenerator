@@ -17,7 +17,9 @@ PHP : 5.4
 
 Database driver : 
 
- - PDO PgSQL
+ - PostgreSQL
+ - MySQL
+ - Oracle
  - Doctrine2 in Zend Framework 2 environment
 
 How to use
