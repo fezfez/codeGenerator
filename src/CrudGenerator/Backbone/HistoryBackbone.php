@@ -20,6 +20,7 @@ namespace CrudGenerator\Backbone;
 use CrudGenerator\Generators\Questions\Cli\HistoryQuestion;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\History\EmptyHistoryException;
+use CrudGenerator\Context\ContextInterface;
 
 class HistoryBackbone
 {
@@ -27,13 +28,18 @@ class HistoryBackbone
      * @var HistoryQuestion
      */
     private $historyQuestion = null;
+    /**
+     * @var ContextInterface
+     */
+    private $context = null;
 
     /**
      * @param HistoryQuestion $historyQuestion
      */
-    public function __construct(HistoryQuestion $historyQuestion)
+    public function __construct(HistoryQuestion $historyQuestion, ContextInterface $context)
     {
         $this->historyQuestion = $historyQuestion;
+        $this->context         = $context;
     }
 
     /**
@@ -45,6 +51,7 @@ class HistoryBackbone
         try {
             $this->historyQuestion->ask();
         } catch (EmptyHistoryException $e) {
+            $this->context->log("Generation history empty", "history_empty");
         }
     }
 }

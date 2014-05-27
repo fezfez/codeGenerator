@@ -28,20 +28,20 @@ define(
                 $sourceService.config(
                     $scope.configQuestion,
                     function(data) {
-	                    if (data.question) {
-	                        $scope.configQuestionsList = data.question;
-	                    }
-	                    var modal = $('newSource > div');
-	                    if (!modal.hasClass( "show" )) {
-	                    	modal.modal('show');
-	                    }
-	                    
-	                    if (data.error !== undefined) {
-	                        $scope.configFormError = data.error;
-	                    } else if (data.valid === true) {
-	                        delete $scope.metadataSourceConfigForm;
-	                        $('newSource > div').modal('hide');
-	                    }
+                        if (data.question) {
+                            $scope.configQuestionsList = data.question;
+                        }
+                        var modal = $('newSource > div');
+                        if (!modal.hasClass( "show" )) {
+                            modal.modal('show');
+                        }
+                        
+                        if (data.error !== undefined) {
+                            $scope.configFormError = data.error;
+                        } else if (data.valid === true) {
+                            delete $scope.metadataSourceConfigForm;
+                            $('newSource > div').modal('hide');
+                        }
                 },
                 function(data) {
                     $scope.unsafeModal = {

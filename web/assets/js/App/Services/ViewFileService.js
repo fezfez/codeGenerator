@@ -18,13 +18,13 @@ define(['App/App', 'Corp/Context/Context', 'Corp/File/FileDataObject'], function
             }
 
             var datas =  $.param({
-                backend      : context.getBackend(),
-                metadata     : context.getMetadata(),
-                generator    : context.getGenerator(),
-                skeletonPath : file.getSkeletonPath(),
-                file_to_generate         : file.getTemplate(),
-                view_file    : true,
-            }); + '&' + $.param(context.getQuestion());
+                backend          : context.getBackend(),
+                metadata         : context.getMetadata(),
+                generator        : context.getGenerator(),
+                skeletonPath     : file.getSkeletonPath(),
+                file_to_generate : file.getTemplate(),
+                view_file        : true,
+            }) + '&' + $.param(context.getQuestion());
 
             $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
             $http(

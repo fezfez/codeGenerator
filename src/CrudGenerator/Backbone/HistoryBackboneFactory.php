@@ -29,7 +29,8 @@ class HistoryBackboneFactory
     public static function getInstance(ContextInterface $context)
     {
         return new HistoryBackbone(
-            HistoryQuestionFactory::getInstance($context)
+            HistoryQuestionFactory::getInstance($context),
+            $context
         );
     }
 }

@@ -18,7 +18,7 @@ $app->match('/generator', function (Request $request) use ($app) {
     try {
         $main->run();
     } catch (ResponseExpectedException $e) {
-
+        $context->log("You may answer the question", "generator_question");
     }
 
     return $app->json($context, 201);

@@ -1,57 +1,57 @@
 {
-	"name" : "fezfez/code-generator",
-	"description" : "Code Generator",
-	"type" : "library",
-	"authors" : [{
-			"name" : "Stéphane Demonchaux",
-			"email" : "demonchaux.stephane@gmail.com"
-		}
-	],
-	"keywords" : [
-		"crud",
-		"zf2",
-		"doctrine2",
-		"pdo",
-		"code generator",
-		"form generator",
-		"SOLID principles"
-	],
-	"homepage" : "https://github.com/fezfez/codeGenerator",
-	"license" : "MIT",
-	"require" : {
-		"php" : ">=5.4",
-		"fzaninotto/faker" : "v1.3.0",
-		"silex/silex" : "~1.1",
-		"twig/twig" : "1.15.0",
-		"symfony/console" : "2.4.*",
-		"symfony/twig-bridge" : "2.4.*",
-		"symfony/yaml" : "2.4.*",
-		"sebastian/diff" : "1.1.0",
-		"psr/log" : "1.0.0 as 1.0.x-dev"
-	},
-	"require-dev" : {
-		"zendframework/zendframework" : "2.2.*",
-		"doctrine/doctrine-orm-module" : "0.*"
-	},
-	"autoload" : {
-		"psr-0" : {
-			"CrudGenerator" : "src/"
-		}
-	},
-	"support" : {
-		"source" : "https://github.com/fezfez/codeGenerator",
-		"email" : "demonchaux.stephane@gmail.com",
-		"issues" : "https://github.com/fezfez/codeGenerator/issues",
-		"wiki" : "https://github.com/fezfez/codeGenerator/blob/master/README.md"
-	},
-	"minimum-stability" : "stable",
-	"extra" : {
-		"branch-alias" : {
-			"alpha-1" : "0.1.x-dev"
-		}
-	},
-	"bin" : [
-		"bin/code-generator",
-		"bin/code-generator-web.php"
-	]
+    "name" : "fezfez/code-generator",
+    "description" : "Code Generator",
+    "type" : "library",
+    "authors" : [{
+            "name" : "Stéphane Demonchaux",
+            "email" : "demonchaux.stephane@gmail.com"
+        }
+    ],
+    "keywords" : [
+        "crud",
+        "zf2",
+        "doctrine2",
+        "pdo",
+        "code generator",
+        "form generator",
+        "SOLID principles"
+    ],
+    "homepage" : "https://github.com/fezfez/codeGenerator",
+    "license" : "MIT",
+    "require" : {
+        "php" : ">=5.4",
+        "fzaninotto/faker" : "1.3.*",
+        "silex/silex" : "1.2.*",
+        "twig/twig" : "1.15.*",
+        "symfony/console" : "2.4.*",
+        "symfony/twig-bridge" : "2.4.*",
+        "symfony/yaml" : "2.4.*",
+        "sebastian/diff" : "1.1.*",
+        "psr/log" : "1.0.0 as 1.0.x-dev"
+    },
+    "require-dev" : {
+        "zendframework/zendframework" : "2.2.*",
+        "doctrine/doctrine-orm-module" : "0.*"
+    },
+    "autoload" : {
+        "psr-0" : {
+            "CrudGenerator" : "src/"
+        }
+    },
+    "support" : {
+        "source" : "https://github.com/fezfez/codeGenerator",
+        "email" : "demonchaux.stephane@gmail.com",
+        "issues" : "https://github.com/fezfez/codeGenerator/issues",
+        "wiki" : "https://github.com/fezfez/codeGenerator/blob/master/README.md"
+    },
+    "minimum-stability" : "stable",
+    "extra" : {
+        "branch-alias" : {
+            "alpha-1" : "0.1.x-dev"
+        }
+    },
+    "bin" : [
+        "bin/code-generator",
+        "bin/code-generator-web.php"
+    ]
 }

@@ -20,7 +20,6 @@ namespace CrudGenerator\Generators\Strategies;
 use CrudGenerator\View\ViewFactory;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\CliContext;
-use Symfony\Component\Console\Input\ArrayInput;
 
 /**
  * Base code generator, extends it and implement doGenerate method
@@ -36,18 +35,12 @@ class SandBoxStrategyFactory
      * @throws \InvalidArgumentException
      * @return \CrudGenerator\Generators\Strategies\SandBoxStrategy
      */
-    public static function getInstance(ContextInterface $context, ArrayInput $input = null)
+    public static function getInstance(ContextInterface $context)
     {
         if ($context instanceof CliContext) {
             $view   = ViewFactory::getInstance();
 
-            if ($input !== null) {
-                $filter = $input->getArgument('filter');
-            } else {
-                $filter = null;
-            }
-
-            return new SandBoxStrategy($view, $context, $filter);
+            return new SandBoxStrategy($view, $context);
         } else {
             throw new \InvalidArgumentException('Context "' . get_class($context) . '" not allowed');
         }

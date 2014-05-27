@@ -36,10 +36,6 @@ class SandBoxStrategy implements StrategyInterface
      * @var ContextInterface Output
      */
     protected $context      = null;
-    /**
-     * @var string Template filter
-     */
-    private $filter                = null;
 
     /**
      * Base code generator
@@ -49,12 +45,10 @@ class SandBoxStrategy implements StrategyInterface
      */
     public function __construct(
         View $view,
-        ContextInterface $context,
-        $filter = null
+        ContextInterface $context
     ) {
         $this->view    = $view;
         $this->context = $context;
-        $this->filter  = $filter;
     }
 
     /* (non-PHPdoc)
@@ -62,10 +56,6 @@ class SandBoxStrategy implements StrategyInterface
      */
     public function generateFile(array $datas, $skeletonDir, $pathTemplate, $pathTo)
     {
-        if ($this->filter !== null && stristr($this->filter, $pathTemplate) === false) {
-            return;
-        }
-
         $continue = true;
         while ($continue) {
             $results = $this->view->render(

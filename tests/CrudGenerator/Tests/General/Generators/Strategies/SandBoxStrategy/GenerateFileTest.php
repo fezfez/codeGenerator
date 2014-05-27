@@ -43,31 +43,4 @@ class GenerateFileTest extends \PHPUnit_Framework_TestCase
 
         $sUT->generateFile(array('dataObject' => $dataObject), $skeletonDir, $pathTemplate, $pathTo);
     }
-
-    public function testFilter()
-    {
-    	$view = $this->getMockBuilder('CrudGenerator\View\View')
-    	->disableOriginalConstructor()
-    	->getMock();
-    	$context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
-    	->disableOriginalConstructor()
-    	->getMock();
-
-
-    	$templateResult = 'MyResults';
-    	$dataObject     = new Architect();
-    	$skeletonDir    = 'MySkeletonDir';
-    	$pathTemplate   = 'myPathTemplate';
-    	$pathTo         = 'MyPathTo';
-
-    	$view->expects($this->never())
-    	->method('render');
-
-    	$context->expects($this->never())
-    	->method('confirm');
-
-    	$sUT = new SandBoxStrategy($view, $context, 'path');
-
-    	$sUT->generateFile(array('dataObject' => $dataObject), $skeletonDir, $pathTemplate, $pathTo);
-    }
 }

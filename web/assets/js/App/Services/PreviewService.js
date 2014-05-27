@@ -10,7 +10,7 @@ define(["App/App", "Corp/Context/Context"], function(app, Context) {
         this.generate = function (context, callback) {
 
             if ((context instanceof Context) === false) {
-            	throw new Error("Context muse be instance of Context");
+                throw new Error("Context must be instance of Context");
             }
 
             var datas =  $.param({
