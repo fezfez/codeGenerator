@@ -2,7 +2,9 @@
 
 namespace TestZf2\Entities;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use TestZf2\Entities\NewsEntity;
 
 /**
  * SuiviNews
@@ -25,19 +27,59 @@ class CommentEntity
      *
      * @ORM\Column(name="dt_creat", type="string")
      */
-    private $dtCreat;
+    private $dateCreate;
     /**
      * @var string
      *
      * @ORM\Column(name="titre_new", type="string", length=50, nullable=false)
      */
-    private $titreComment;
+    private $title;
     /**
-     * @var string
+     * @var ArrayCollection
      *
      * @ORM\ManyToOne(targetEntity="\TestZf2\Entities\NewsEntity", inversedBy="commentInOneToMany")
      */
     private $commentInOneToMany;
+
+    public function __construct()
+    {
+    	$this->commentInOneToMany  = new ArrayCollection();
+    	$this->commentInManyToMany = new ArrayCollection();
+    }
+
+    /**
+     * Set DateCreate
+     *
+     * @param \DateTime $value
+     * @return CommentEntity
+     */
+    public function setDateCreate(\DateTime $value)
+    {
+        $this->dateCreate = $value;
+        return $this;
+    }
+    /**
+     * Set title
+     *
+     * @param string $value
+     * @return CommentEntity
+     */
+    public function setTitle($value)
+    {
+        $this->title = $value;
+        return $this;
+    }
+    /**
+     * Set CommentInOneToMany
+     *
+     * @param NewsEntity $value
+     * @return CommentEntity
+     */
+    public function setCommentInOneToMany(NewsEntity $value)
+    {
+        $this->commentInOneToMany = $value;
+        return $this;
+    }
 
     /**
      * Get id
@@ -48,152 +90,31 @@ class CommentEntity
     {
         return $this->id;
     }
-
     /**
-     * Set dtCreat
-     *
-     * @param \DateTime $dtCreat
-     * @return NewsEntity
-     */
-    public function setDtCreat($dtCreat)
-    {
-        $this->dtCreat = $dtCreat;
-
-        return $this;
-    }
-
-    /**
-     * Get dtCreat
+     * Get dateCreate
      *
      * @return \DateTime
      */
-    public function getDtCreat()
+    public function getDateCreate()
     {
-        return $this->dtCreat;
+        return $this->dateCreate;
     }
-
     /**
-     * Set nomLog
-     *
-     * @param string $nomLog
-     * @return NewsEntity
-     */
-    public function setNomLog($nomLog)
-    {
-        $this->nomLog = $nomLog;
-
-        return $this;
-    }
-
-    /**
-     * Get nomLog
+     * Get title
      *
      * @return string
      */
-    public function getNomLog()
+    public function getTitle()
     {
-        return $this->nomLog;
+        return $this->title;
     }
-
     /**
-     * Set verLog
+     * Get comment
      *
-     * @param string $verLog
-     * @return NewsEntity
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function setVerLog($verLog)
+    public function getCommentInOneToMany()
     {
-        $this->verLog = $verLog;
-
-        return $this;
-    }
-
-    /**
-     * Get verLog
-     *
-     * @return string
-     */
-    public function getVerLog()
-    {
-        return $this->verLog;
-    }
-
-    /**
-     * Set titreNew
-     *
-     * @param string $titreNew
-     * @return NewsEntity
-     */
-    public function setTitreNew($titreNew)
-    {
-        $this->titreNew = $titreNew;
-
-        return $this;
-    }
-
-    /**
-     * Get titreNew
-     *
-     * @return string
-     */
-    public function getTitreNew()
-    {
-        return $this->titreNew;
-    }
-
-    /**
-     * Set url
-     *
-     * @param string $url
-     * @return NewsEntity
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-
-        return $this;
-    }
-
-    /**
-     * Get url
-     *
-     * @return string
-     */
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    /**
-     * Set nivutil
-     *
-     * @param string $nivutil
-     * @return NewsEntity
-     */
-    public function setNivutil($nivutil)
-    {
-        $this->nivutil = $nivutil;
-
-        return $this;
-    }
-
-    /**
-     * Get nivutil
-     *
-     * @return string
-     */
-    public function getNivutil()
-    {
-        return $this->nivutil;
-    }
-
-    /**
-     * Get idNew
-     *
-     * @return integer
-     */
-    public function getIdNew()
-    {
-        return $this->idNew;
+    	return $this->commentInOneToMany;
     }
 }

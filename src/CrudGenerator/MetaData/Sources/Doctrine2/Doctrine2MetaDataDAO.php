@@ -113,7 +113,8 @@ class Doctrine2MetaDataDAO implements MetaDataDAO
             new MetaDataColumnCollection(),
             new MetaDataRelationCollection()
         );
-        $columnDataObject   = new MetaDataColumn();
+
+        $columnDataObject = new MetaDataColumn();
 
         foreach ($metadata->fieldMappings as $field => $columnMetadata) {
             $column = clone $columnDataObject;

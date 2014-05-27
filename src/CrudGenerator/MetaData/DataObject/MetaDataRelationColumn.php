@@ -17,6 +17,8 @@
  */
 namespace CrudGenerator\MetaData\DataObject;
 
+use CrudGenerator\MetaData\DataObject\MetaData;
+
 /**
  * Represent relation between Metadata
  *
@@ -41,7 +43,9 @@ class MetaDataRelationColumn
      * @var string Relation association type (ex manyToMany, oneToOne etc...)
      */
     private $associationType = null;
-
+    /**
+     * @var MetaData
+     */
     private $metadata = null;
 
     /**
@@ -75,11 +79,11 @@ class MetaDataRelationColumn
         return $this;
     }
     /**
-     * Set association type
-     * @param string $value
+     * Set metadata
+     * @param MetaData $value
      * @return \CrudGenerator\MetaData\DataObject\MetaDataRelationColumn
      */
-    public function setMetadata($value)
+    public function setMetadata(MetaData $value)
     {
         $this->metadata = $value;
         return $this;

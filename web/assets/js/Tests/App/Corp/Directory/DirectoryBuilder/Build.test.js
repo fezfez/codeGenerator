@@ -24,7 +24,6 @@ require(['Corp/Directory/DirectoryBuilderFactory', 'Corp/Directory/DirectoryData
                 fileName : 'test/test',
                 originalName : 'test2',
                 skeletonPath :'test',
-                originalName : 'test',
                 isWritable : false,
             }, new DirectoryDataObject(''));
         });

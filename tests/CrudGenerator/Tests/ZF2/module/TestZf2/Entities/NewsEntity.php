@@ -2,6 +2,8 @@
 
 namespace TestZf2\Entities;
 
+use TestZf2\Entities\CommentEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,202 +23,92 @@ class NewsEntity
      */
     private $id;
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dt_creat", type="string")
-     */
-    private $dtCreat;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nom_log", type="string", length=10, nullable=false)
-     */
-    private $nomLog;
-
-    /**
-     * @var string
+     * @var CommentEntity
      *
      * @ORM\ManyToOne(targetEntity="\TestZf2\Entities\CommentEntity")
      */
     private $comment;
-
     /**
-     * @var string
+     * @var CommentEntity
      *
      * @ORM\OneToOne(targetEntity="\TestZf2\Entities\CommentEntity")
      */
     private $commentInOneToOne;
-
     /**
-     * @var string
+     * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="\TestZf2\Entities\CommentEntity", mappedBy="commentInOneToMany")
      */
     private $commentInOneToMany;
-
     /**
-     * @var string
+     * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="\TestZf2\Entities\CommentEntity")
      */
     private $commentInManyToMany;
 
+    public function __construct()
+    {
+        $this->commentInOneToMany  = new ArrayCollection();
+        $this->commentInManyToMany = new ArrayCollection();
+    }
+
     /**
-     * Get id
+     * Set comment
      *
-     * @return integer
+     * @param CommentEntity $value
+     * @return NewsEntity
+     */
+    public function setComment(CommentEntity $value)
+    {
+        $this->comment = $dtCreat;
+        return $this;
+    }
+    /**
+     * Set comment
+     *
+     * @param CommentEntity $dtCreat
+     * @return NewsEntity
+     */
+    public function setCommentInOneToOne(CommentEntity $value)
+    {
+        $this->comment = $dtCreat;
+        return $this;
+    }
+
+    /**
+     * @return number
      */
     public function getId()
     {
         return $this->id;
     }
-
     /**
-     * Set dtCreat
-     *
-     * @param \DateTime $dtCreat
-     * @return NewsEntity
+     * @return \TestZf2\Entities\CommentEntity
      */
-    public function setDtCreat($dtCreat)
+    public function getComment()
     {
-        $this->dtCreat = $dtCreat;
-
-        return $this;
+        return $this->comment;
     }
-
     /**
-     * Get dtCreat
-     *
-     * @return \DateTime
+     * @return \TestZf2\Entities\CommentEntity
      */
-    public function getDtCreat()
+    public function getCommentInOneToOne()
     {
-        return $this->dtCreat;
+        return $this->commentInOneToOne;
     }
-
     /**
-     * Set nomLog
-     *
-     * @param string $nomLog
-     * @return NewsEntity
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function setNomLog($nomLog)
+    public function getCommentInOneToMany()
     {
-        $this->nomLog = $nomLog;
-
-        return $this;
+        return $this->commentInOneToMany;
     }
-
     /**
-     * Get nomLog
-     *
-     * @return string
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function getNomLog()
+    public function getCommentInManyToMany()
     {
-        return $this->nomLog;
-    }
-
-    /**
-     * Set verLog
-     *
-     * @param string $verLog
-     * @return NewsEntity
-     */
-    public function setVerLog($verLog)
-    {
-        $this->verLog = $verLog;
-
-        return $this;
-    }
-
-    /**
-     * Get verLog
-     *
-     * @return string
-     */
-    public function getVerLog()
-    {
-        return $this->verLog;
-    }
-
-    /**
-     * Set titreNew
-     *
-     * @param string $titreNew
-     * @return NewsEntity
-     */
-    public function setTitreNew($titreNew)
-    {
-        $this->titreNew = $titreNew;
-
-        return $this;
-    }
-
-    /**
-     * Get titreNew
-     *
-     * @return string
-     */
-    public function getTitreNew()
-    {
-        return $this->titreNew;
-    }
-
-    /**
-     * Set url
-     *
-     * @param string $url
-     * @return NewsEntity
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-
-        return $this;
-    }
-
-    /**
-     * Get url
-     *
-     * @return string
-     */
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    /**
-     * Set nivutil
-     *
-     * @param string $nivutil
-     * @return NewsEntity
-     */
-    public function setNivutil($nivutil)
-    {
-        $this->nivutil = $nivutil;
-
-        return $this;
-    }
-
-    /**
-     * Get nivutil
-     *
-     * @return string
-     */
-    public function getNivutil()
-    {
-        return $this->nivutil;
-    }
-
-    /**
-     * Get idNew
-     *
-     * @return integer
-     */
-    public function getIdNew()
-    {
-        return $this->idNew;
+        return $this->commentInManyToMany;
     }
 }

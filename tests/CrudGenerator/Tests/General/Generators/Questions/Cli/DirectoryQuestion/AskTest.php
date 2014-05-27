@@ -10,8 +10,8 @@ class AskTest extends \PHPUnit_Framework_TestCase
     public function testOk()
     {
         $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
-    	->disableOriginalConstructor()
-    	->getMock();
+        ->disableOriginalConstructor()
+        ->getMock();
 
         // First choice bin
         $context->expects($this->exactly(3))
@@ -29,13 +29,13 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $fileManagerStub->expects($this->any())
         ->method('glob')
         ->will(
-        	$this->returnValue(
-        		array(
-        			'mmydir/',
-        			'myFile/',
-        			'myFile2/'
-        		)
-        	)
+            $this->returnValue(
+                array(
+                    'mmydir/',
+                    'myFile/',
+                    'myFile2/'
+                )
+            )
         );
 
         $sUT = new DirectoryQuestion($fileManagerStub, $context);
@@ -43,14 +43,20 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $generatorDTO = new GeneratorDataObject();
         $generatorDTO->setDTO(new Architect());
 
-        $this->assertEquals('myFile', $sUT->ask($generatorDTO, array('attribute' => 'ModelDirectory'))->getDTO()->getModelDirectory());
+        $dto = $sUT->ask($generatorDTO, array('attribute' => 'ModelDirectory'))->getDTO();
+        // or alternatively
+        if ( ! $dto instanceof Architect) {
+            throw new \LogicException('The instance must be "Architect"');
+        }
+
+        $this->assertEquals('myFile', $dto->getModelDirectory());
     }
 
     public function testOkWithCreateFile()
     {
         $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
-    	->disableOriginalConstructor()
-    	->getMock();
+        ->disableOriginalConstructor()
+        ->getMock();
         $fileManagerStub =  $this->getMockBuilder('\CrudGenerator\Utils\FileManager')
         ->disableOriginalConstructor()
         ->getMock();
@@ -129,6 +135,12 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $generatorDTO = new GeneratorDataObject();
         $generatorDTO->setDTO(new Architect());
 
-        $this->assertEquals('./MyTrueDir/',  $sUT->ask($generatorDTO, array('attribute' => 'ModelDirectory'))->getDTO()->getModelDirectory());
+        $dto = $sUT->ask($generatorDTO, array('attribute' => 'ModelDirectory'))->getDTO();
+        // or alternatively
+        if (!$dto instanceof Architect) {
+            throw new \LogicException('The instance must be "Architect"');
+        }
+
+        $this->assertEquals('./MyTrueDir/', $dto->getModelDirectory());
     }
 }

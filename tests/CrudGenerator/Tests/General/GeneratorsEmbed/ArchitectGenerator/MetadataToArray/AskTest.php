@@ -11,8 +11,8 @@ class AskTest extends \PHPUnit_Framework_TestCase
     public function testOk()
     {
         $DTO = new Architect();
-        $DTO->setMetadata($this->getMetadata())
-        ->setNamespace('namespace');
+        $DTO->setNamespace('namespace')
+            ->setMetadata($this->getMetadata());
 
         $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()

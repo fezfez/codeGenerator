@@ -16,9 +16,9 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
         );
 
         $dataObject = new Architect();
-        $dataObject->setGenerator('generator')
+        $dataObject->setNamespace('my\namespace')
+                   ->setGenerator('generator')
                    ->setMetadata($metaData)
-                   ->setNamespace('my\namespace')
                    ->addEnvironnementValue('framework', 'zend2');
 
         $this->assertEquals(
