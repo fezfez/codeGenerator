@@ -7,8 +7,6 @@ php:
 
 before_script:
   - composer self-update
-  - composer require 'phpunit/phpunit=4.1.*'
-  - alias phpunit='hhvm -v Eval.Jit=false ./vendor/bin/phpunit'
   - composer install --dev
   - psql -c 'DROP DATABASE IF EXISTS code_generator;' -U postgres
   - psql -c 'create database code_generator; ' -U postgres
@@ -17,11 +15,11 @@ before_script:
 script: 
   - mkdir -p build
   - mkdir -p build/logs
-  - phpunit --coverage-clover coverage.clover
+  - if [[ 'php --version' == *Hip* ]]; then phpunit; else  phpunit --coverage-clover coverage.clover; fi;
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+  - if [[ 'php --version' != *Hip* ]]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi;
 
 matrix:
   allow_failures:
