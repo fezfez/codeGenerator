@@ -32,9 +32,9 @@ class ConfigGenerator
     private $yamlDatas  = array();
 
     /**
-     * @param string $yamlDatas
+     * @param array $yamlDatas
      */
-    public function __construct($yamlDatas)
+    public function __construct(array $yamlDatas)
     {
         $this->yamlDatas = $yamlDatas;
     }

@@ -61,7 +61,7 @@ class NewsEntity
      */
     public function setComment(CommentEntity $value)
     {
-        $this->comment = $dtCreat;
+        $this->comment = $value;
         return $this;
     }
     /**
@@ -72,7 +72,7 @@ class NewsEntity
      */
     public function setCommentInOneToOne(CommentEntity $value)
     {
-        $this->comment = $dtCreat;
+        $this->comment = $value;
         return $this;
     }
 

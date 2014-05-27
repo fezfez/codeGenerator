@@ -12,7 +12,7 @@ class HydrationTest extends \PHPUnit_Framework_TestCase
         $sUT->setGenerators(array('lorem'))
             ->setName('ipsum')
             ->setOptions(array('dolor'))
-            ->setPackageEnabled('si')
+            ->setPackageEnabled(true)
             ->setPackageName('amet')
             ->addOptions('et')
             ->addGeneratorsOptions('MyGenerator', 'MyQuestion', 'MyValue');
@@ -31,7 +31,7 @@ class HydrationTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals(
             $sUT->getPackageEnabled(),
-            'si'
+            true
         );
         $this->assertEquals(
             $sUT->getPackageName(),

@@ -5,7 +5,15 @@ namespace MyNamespace;
 class RightFile
 {
     /**
-     * @var string
+     * @var boolean
      */
     private $myVar = true;
+
+    /**
+     * @param boolean $value
+     */
+    public function setMyVar($value)
+    {
+        $this->myVar = $value;
+    }
 }
