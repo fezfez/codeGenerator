@@ -17,7 +17,6 @@
  */
 namespace CrudGenerator\Backbone;
 
-use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion;
 use CrudGenerator\Generators\Questions\Web\MetaDataQuestion;
 use CrudGenerator\Generators\Questions\Web\GeneratorQuestion;

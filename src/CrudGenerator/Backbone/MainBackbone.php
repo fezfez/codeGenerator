@@ -18,7 +18,6 @@
 namespace CrudGenerator\Backbone;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\MetaData\Config\ConfigException;
 use CrudGenerator\Generators\ResponseExpectedException;
 
 class MainBackbone

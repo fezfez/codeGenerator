@@ -18,13 +18,6 @@
 namespace CrudGenerator\Backbone;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Generators\Questions\MetaDataSourcesConfiguredQuestionFactory;
-use CrudGenerator\Generators\Questions\MetaDataQuestionFactory;
-use CrudGenerator\Generators\Questions\GeneratorQuestionFactory;
-use CrudGenerator\Generators\Parser\GeneratorParserFactory;
-use CrudGenerator\Generators\Questions\HistoryQuestionFactory;
-use CrudGenerator\Generators\GeneratorFactory;
-use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 use CrudGenerator\Generators\Questions\MetaDataSourcesQuestionFactory;
 use CrudGenerator\MetaData\Config\MetaDataConfigDAOFactory;
 
