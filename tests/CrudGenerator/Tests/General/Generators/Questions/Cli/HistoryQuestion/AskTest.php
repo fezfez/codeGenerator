@@ -69,7 +69,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->will($this->returnValue($HistoryCollection));
 
         $sUT = new HistoryQuestion($HistoryStub, $context);
-        $this->setExpectedException('RuntimeException');
+        $this->setExpectedException('CrudGenerator\History\EmptyHistoryException');
         $sUT->ask();
     }
 }

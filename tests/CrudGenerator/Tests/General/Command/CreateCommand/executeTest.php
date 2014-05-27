@@ -84,7 +84,7 @@ class executeTest extends \PHPUnit_Framework_TestCase
         ->method('init')
         ->will($this->returnValue($generatorDTO));
 
-        $generatorStub = $this->getMockBuilder('CrudGenerator\Generators\GeneratorCli')
+        $generatorStub = $this->getMockBuilder('CrudGenerator\Generators\Generator')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -177,7 +177,7 @@ class executeTest extends \PHPUnit_Framework_TestCase
         ->method('init')
         ->will($this->returnValue($generatorDTO));
 
-        $generatorStub = $this->getMockBuilder('CrudGenerator\Generators\GeneratorCli')
+        $generatorStub = $this->getMockBuilder('CrudGenerator\Generators\Generator')
         ->disableOriginalConstructor()
         ->getMock();
 

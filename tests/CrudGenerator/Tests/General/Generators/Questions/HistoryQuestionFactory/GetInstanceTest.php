@@ -25,7 +25,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testFailInstanceWeb()
+    public function testInstanceWeb()
     {
         $app =  $this->getMockBuilder('Silex\Application')
         ->disableOriginalConstructor()
@@ -33,7 +33,9 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 
         $context = new WebContext($app);
 
-        $this->setExpectedException('InvalidArgumentException');
-        HistoryQuestionFactory::getInstance($context);
+        $this->assertInstanceOf(
+            'CrudGenerator\Generators\Questions\Cli\HistoryQuestion',
+            HistoryQuestionFactory::getInstance($context)
+        );
     }
 }

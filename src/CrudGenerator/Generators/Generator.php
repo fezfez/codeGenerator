@@ -18,7 +18,7 @@
 namespace CrudGenerator\Generators;
 
 use CrudGenerator\Generators\Strategies\StrategyInterface;
-use CrudGenerator\FileConflict\FileConflictManagerCli;
+use CrudGenerator\FileConflict\FileConflictManager;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Context\CliContext;
 use CrudGenerator\Context\ContextInterface;
@@ -27,14 +27,14 @@ use CrudGenerator\History\HistoryManager;
 /**
  * @author Stéphane Demonchaux
  */
-class GeneratorCli
+class Generator
 {
     /**
      * @var StrategyInterface
      */
     private $strategy = null;
     /**
-     * @var FileConflictManagerCli
+     * @var FileConflictManager
      */
     private $fileConflict = null;
     /**
@@ -52,18 +52,18 @@ class GeneratorCli
 
     /**
      * @param StrategyInterface $strategy
-     * @param FileConflictManagerCli $fileConflict
+     * @param FileConflictManager $fileConflict
      * @param FileManager $fileManager
      * @param HistoryManager $historyManager
      * @param ContextInterface $context
      */
     public function __construct(
-    	StrategyInterface $strategy,
-    	FileConflictManagerCli $fileConflict,
-    	FileManager $fileManager,
-    	HistoryManager $historyManager,
-    	ContextInterface $context
-	) {
+        StrategyInterface $strategy,
+        FileConflictManager $fileConflict,
+        FileManager $fileManager,
+        HistoryManager $historyManager,
+        ContextInterface $context
+    ) {
         $this->strategy       = $strategy;
         $this->fileConflict   = $fileConflict;
         $this->fileManager    = $fileManager;

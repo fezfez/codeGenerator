@@ -6,7 +6,7 @@ use SebastianBergmann\Diff\Differ;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\ResponseExpectedException;
 
-class FileConflictManagerCli
+class FileConflictManager
 {
     /**
      * @var integer Post pone choise
@@ -110,7 +110,7 @@ class FileConflictManagerCli
         } elseif ($response === self::ERASE) {
             $this->fileManager->filePutsContent($filePath, $results);
             $this->context->log('--> Replace file ' . $filePath, 'generationLog');
-        } else {
+        } elseif (null === $response) {
             throw new ResponseExpectedException(sprintf('Conflict with file "%s" not resolved', $filePath));
         }
     }

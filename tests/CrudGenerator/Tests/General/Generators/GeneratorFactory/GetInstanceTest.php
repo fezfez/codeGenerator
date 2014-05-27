@@ -24,7 +24,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
         ->getMock();
 
         $this->assertInstanceOf(
-            'CrudGenerator\Generators\GeneratorCli',
+            'CrudGenerator\Generators\Generator',
             GeneratorFactory::getInstance($context, $stategy)
         );
     }
@@ -42,7 +42,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
     	->getMock();
 
     	$this->assertInstanceOf(
-    		'CrudGenerator\Generators\GeneratorWeb',
+    		'CrudGenerator\Generators\Generator',
     		GeneratorFactory::getInstance($context, $stategy)
     	);
     }

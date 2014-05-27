@@ -20,19 +20,19 @@ namespace CrudGenerator\Backbone;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\Questions\Cli\HistoryQuestion;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\GeneratorCli;
+use CrudGenerator\Generators\Generator;
 
 class GenerateBackbone
 {
     /**
-     * @var GeneratorCli
+     * @var Generator
      */
     private $generator = null;
 
     /**
-     * @param GeneratorCli $generator
+     * @param Generator $generator
      */
-    public function __construct(GeneratorCli $generator)
+    public function __construct(Generator $generator)
     {
         $this->generator = $generator;
     }

@@ -20,31 +20,31 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
         $context = new CliContext($dialog, $ConsoleOutputStub);
 
         $this->assertInstanceOf(
-            'CrudGenerator\FileConflict\FileConflictManagerCli',
+            'CrudGenerator\FileConflict\FileConflictManager',
             FileConflictManagerFactory::getInstance($context)
         );
     }
 
     public function testInstanceWeb()
     {
-    	$web =  $this->getMockBuilder('Silex\Application')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $web =  $this->getMockBuilder('Silex\Application')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$context = new WebContext($web);
+        $context = new WebContext($web);
 
-    	$this->assertInstanceOf(
-    		'CrudGenerator\FileConflict\FileConflictManagerWeb',
-    		FileConflictManagerFactory::getInstance($context)
-    	);
+        $this->assertInstanceOf(
+            'CrudGenerator\FileConflict\FileConflictManager',
+            FileConflictManagerFactory::getInstance($context)
+        );
     }
 
     public function testInstanceErrror()
     {
-    	$context = $this->getMock('CrudGenerator\Context\ContextInterface');
+        $context = $this->getMock('CrudGenerator\Context\ContextInterface');
 
-    	$this->setExpectedException('InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
 
-    	FileConflictManagerFactory::getInstance($context);
+        FileConflictManagerFactory::getInstance($context);
     }
 }

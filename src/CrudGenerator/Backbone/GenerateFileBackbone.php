@@ -20,12 +20,12 @@ namespace CrudGenerator\Backbone;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\Questions\Cli\HistoryQuestion;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\GeneratorCli;
+use CrudGenerator\Generators\Generator;
 
 class GenerateFileBackbone
 {
     /**
-     * @var GeneratorCli
+     * @var Generator
      */
     private $generator = null;
     /**
@@ -34,10 +34,10 @@ class GenerateFileBackbone
     private $context = null;
 
     /**
-     * @param GeneratorCli $generator
+     * @param Generator $generator
      * @param ContextInterface $context
      */
-    public function __construct(GeneratorCli $generator, ContextInterface $context)
+    public function __construct(Generator $generator, ContextInterface $context)
     {
         $this->generator = $generator;
         $this->context   = $context;

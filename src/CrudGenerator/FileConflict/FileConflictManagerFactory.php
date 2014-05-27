@@ -13,12 +13,12 @@ class FileConflictManagerFactory
     /**
      * @param ContextInterface $context
      * @throws \InvalidArgumentException
-     * @return \CrudGenerator\FileConflict\FileConflictManagerWeb|\CrudGenerator\FileConflict\FileConflictManagerCli
+     * @return \CrudGenerator\FileConflict\FileConflictManagerWeb|\CrudGenerator\FileConflict\FileConflictManager
      */
     public static function getInstance(ContextInterface $context)
     {
         if ($context instanceof CliContext || $context instanceof WebContext) {
-            return new FileConflictManagerCli(
+            return new FileConflictManager(
                 $context,
                 new FileManager(),
                 new Differ()

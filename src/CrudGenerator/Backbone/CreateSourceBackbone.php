@@ -20,7 +20,7 @@ namespace CrudGenerator\Backbone;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\Questions\Cli\HistoryQuestion;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\GeneratorCli;
+use CrudGenerator\Generators\Generator;
 use CrudGenerator\Generators\Questions\Web\MetaDataSourcesQuestion;
 use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
 use CrudGenerator\MetaData\Config\ConfigException;

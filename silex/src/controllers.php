@@ -1,24 +1,17 @@
 <?php
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use CrudGenerator\MetaData\Config\ConfigException;
-use CrudGenerator\Generators\Questions\MetaDataSourcesQuestionFactory;
-use CrudGenerator\Generators\GeneratorFactory;
-use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
-use CrudGenerator\Context\WebContext;
-use CrudGenerator\Generators\GeneratorWebConflictException;
-use CrudGenerator\MetaData\Config\MetaDataConfigDAOFactory;
-use CrudGenerator\Backbone\PreapreForGenerationBackboneFactory;
-use CrudGenerator\Generators\ResponseExpectedException;
 use CrudGenerator\Backbone\MainBackbone;
 use CrudGenerator\Backbone\MainBackboneFactory;
+use CrudGenerator\Context\WebContext;
+use CrudGenerator\Generators\ResponseExpectedException;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 $app->match('/', function() use ($app) {
     return $app['twig']->render('index.html.twig');
 })->bind('homepage');
 
-// on choice metadata
+
 $app->match('/generator', function (Request $request) use ($app) {
     $context = new WebContext($app);
     $main    = MainBackboneFactory::getInstance($context);

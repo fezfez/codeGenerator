@@ -1,7 +1,7 @@
 <?php
 namespace CrudGenerator\Tests\General\FileConflict\FileConflictManager;
 
-use CrudGenerator\FileConflict\FileConflictManagerCli;
+use CrudGenerator\FileConflict\FileConflictManager;
 
 class HandleTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,7 +12,7 @@ class HandleTest extends \PHPUnit_Framework_TestCase
         ->getMock();
         $contextStub->expects($this->exactly(2))
         ->method('askCollection')
-        ->will($this->onConsecutiveCalls(FileConflictManagerCli::SHOW_DIFF, FileConflictManagerCli::CANCEL));
+        ->will($this->onConsecutiveCalls(FileConflictManager::SHOW_DIFF, FileConflictManager::CANCEL));
 
         $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
         ->disableOriginalConstructor()
@@ -22,7 +22,7 @@ class HandleTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new FileConflictManagerCli($contextStub, $fileManager, $diffPHP);
+        $sUT = new FileConflictManager($contextStub, $fileManager, $diffPHP);
 
         $sUT->handle('test', '0');
     }
@@ -34,7 +34,7 @@ class HandleTest extends \PHPUnit_Framework_TestCase
         ->getMock();
         $contextStub->expects($this->once())
         ->method('askCollection')
-        ->will($this->returnValue(FileConflictManagerCli::POSTPONE));
+        ->will($this->returnValue(FileConflictManager::POSTPONE));
 
         $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
         ->disableOriginalConstructor()
@@ -52,7 +52,7 @@ class HandleTest extends \PHPUnit_Framework_TestCase
         ->method('diff')
         ->will($this->returnValue('test'));
 
-        $sUT = new FileConflictManagerCli($contextStub, $fileManager, $diffPHP);
+        $sUT = new FileConflictManager($contextStub, $fileManager, $diffPHP);
 
         $sUT->handle('test', '0');
     }
@@ -64,7 +64,7 @@ class HandleTest extends \PHPUnit_Framework_TestCase
         ->getMock();
         $contextStub->expects($this->once())
         ->method('askCollection')
-        ->will($this->returnValue(FileConflictManagerCli::ERASE));
+        ->will($this->returnValue(FileConflictManager::ERASE));
 
         $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
         ->disableOriginalConstructor()
@@ -79,7 +79,7 @@ class HandleTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new FileConflictManagerCli($contextStub, $fileManager, $diffPHP);
+        $sUT = new FileConflictManager($contextStub, $fileManager, $diffPHP);
 
         $sUT->handle('test', '0');
     }
