@@ -40,7 +40,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $this->setexpectedexception('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
         $this->assertEquals(
             $generator,
-            $sUT->evaluate($process, $phpParser, $generator, array(), true)
+            $sUT->evaluate($process, $phpParser, $generator, true)
         );
     }
 
@@ -74,7 +74,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->setexpectedexception('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
-        $sUT->evaluate($process, $phpParser, $generator, array(), true);
+        $sUT->evaluate($process, $phpParser, $generator, true);
     }
 
     public function testWithFiles()
@@ -115,7 +115,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $generatorToTest->addFile($generator->getPath() . '/Skeleton/', 'MyFileTemplate', 'MyFileParser'),
-            $sUT->evaluate($process, $phpParser, $generator, array(), true)
+            $sUT->evaluate($process, $phpParser, $generator, true)
         );
     }
 
@@ -167,7 +167,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $generatorToTest->addFile($generator->getPath() . '/Skeleton/', 'MyFileTemplate', 'MyFileParser'),
-            $sUT->evaluate($process, $phpParser, $generator, array(), true)
+            $sUT->evaluate($process, $phpParser, $generator, true)
         );
     }
 
@@ -221,7 +221,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $generatorToTest->addFile($generator->getPath() . '/Skeleton/', 'MyFileTemplate', 'MyFileParsed'),
-            $sUT->evaluate($process, $phpParser, $generator, array(), true)
+            $sUT->evaluate($process, $phpParser, $generator, true)
         );
     }
 }

@@ -38,7 +38,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $generator,
-            $sUT->evaluate($process, $phpParser, $generator, array(), true)
+            $sUT->evaluate($process, $phpParser, $generator, true)
         );
     }
 
@@ -72,7 +72,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->setexpectedexception('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
-        $sUT->evaluate($process, $phpParser, $generator, array(), true);
+        $sUT->evaluate($process, $phpParser, $generator, true);
     }
 
     public function testWithVar()
@@ -113,7 +113,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $generatorToTest->addTemplateVariable('MyVar', 'MyValueParser'),
-            $sUT->evaluate($process, $phpParser, $generator, array(), true)
+            $sUT->evaluate($process, $phpParser, $generator, true)
         );
     }
 
@@ -165,7 +165,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $generatorToTest->addTemplateVariable('MyVar', 'MyValueParser'),
-            $sUT->evaluate($process, $phpParser, $generator, array(), true)
+            $sUT->evaluate($process, $phpParser, $generator, true)
         );
     }
 
@@ -218,7 +218,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $generatorToTest->addTemplateVariable('MyVar', 'MyValueParser'),
-            $sUT->evaluate($process, $phpParser, $generator, array(), true)
+            $sUT->evaluate($process, $phpParser, $generator, true)
         );
     }
 }

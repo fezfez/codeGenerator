@@ -32,7 +32,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
 		$this->setExpectedException('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
 
-		$sUT->evaluate($process, $phpParser, $generator, array(), true);
+		$sUT->evaluate($process, $phpParser, $generator, true);
 	}
 
     public function testEnvironnementfzefzefzef()

@@ -188,7 +188,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
                 $generator->addTemplateVariable('MyVar', 'MyValue'),
-                $sUT->evaluate($process, $phpParser, $generator, array(), true)
+                $sUT->evaluate($process, $phpParser, $generator, true)
         );
     }*/
 }

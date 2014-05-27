@@ -9,15 +9,15 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testCliInstance()
     {
-    	$ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$context = new CliContext($dialog, $ConsoleOutputStub);
+        $context = new CliContext($dialog, $ConsoleOutputStub);
 
         $this->assertInstanceOf(
             'CrudGenerator\Generators\Parser\ParserCollection',
@@ -27,24 +27,24 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 
     public function testWebInstance()
     {
-    	$app = $this->getMockBuilder('Silex\Application')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $app = $this->getMockBuilder('Silex\Application')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$context = new WebContext($app);
+        $context = new WebContext($app);
 
-    	$this->assertInstanceOf(
-    		'CrudGenerator\Generators\Parser\ParserCollection',
-    		ParserCollectionFactory::getInstance($context)
-    	);
+        $this->assertInstanceOf(
+            'CrudGenerator\Generators\Parser\ParserCollection',
+            ParserCollectionFactory::getInstance($context)
+        );
     }
 
     public function testFail()
     {
-    	$context = $this->getMockForAbstractClass('CrudGenerator\Context\ContextInterface');
+        $context = $this->getMockForAbstractClass('CrudGenerator\Context\ContextInterface');
 
-    	$this->setExpectedException('InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
 
-    	ParserCollectionFactory::getInstance($context);
+        ParserCollectionFactory::getInstance($context);
     }
 }

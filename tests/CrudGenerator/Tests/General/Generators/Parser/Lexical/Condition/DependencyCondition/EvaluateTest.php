@@ -31,7 +31,7 @@ questions :
                 if ($templateName === 'dependencyCondition') {
                     $this->assertEquals(
                         array(array('/form/DataObject.phtml' => '<?php $formGenerator->getFormPath(); ?>DataObject.phtml')),
-                        $sUT->evaluate($tragetFile, $phpParser, $generator, array(), true)
+                        $sUT->evaluate($tragetFile, $phpParser, $generator, true)
                     );
                 }
             }
@@ -63,7 +63,7 @@ questions :
                 if ($templateName === 'dependencyCondition') {
                     $this->assertEquals(
                             array(array('/form/DataObject.phtml' => '<?php $formGenerator->getFormPath(); ?>DataObject.phtml')),
-                            $sUT->evaluate($tragetFile, $phpParser, $generator, array(), true)
+                            $sUT->evaluate($tragetFile, $phpParser, $generator, true)
                     );
                 }
             }
@@ -92,7 +92,7 @@ questions :
                 if ($templateName === 'dependencyCondition') {
                     $this->assertEquals(
                             array(),
-                            $sUT->evaluate($tragetFile, $phpParser, $generator, array(), true)
+                            $sUT->evaluate($tragetFile, $phpParser, $generator, true)
                     );
                 }
             }
