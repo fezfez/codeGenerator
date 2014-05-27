@@ -6,6 +6,7 @@ php:
   - hhvm
 
 before_script:
+  - hhvm -v Http.SlowQueryThreshold=30000
   - composer self-update
   - composer install --dev
   - psql -c 'DROP DATABASE IF EXISTS code_generator;' -U postgres
