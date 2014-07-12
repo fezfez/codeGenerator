@@ -1,15 +1,10 @@
 Roadmap
 =======
 
-Historic
--------
-* Add in web
-
 Generator
 ---------
 * Add mandatory question (lock generation until answer)
-* On generating the user does not have permission to write, add chown to user.
-* Add Tooltips on question element
+* Add generator search engine
 * Lexical
     * Add history condition and wake up
 
