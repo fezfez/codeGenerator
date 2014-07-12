@@ -18,7 +18,7 @@
 namespace CrudGenerator\Generators\Finder;
 
 use CrudGenerator\Utils\FileManager;
-use Symfony\Component\Yaml\Yaml;
+use CrudGenerator\Utils\Yaml;
 
 /**
  * Find all generator allow in project
@@ -31,14 +31,21 @@ class GeneratorFinder
      * @var FileManager File manager
      */
     private $fileManager = null;
+    /**
+     * @var Yaml Yaml parser
+     */
+    private $yaml = null;
 
     /**
      * Find all generator allow in project
+     *
      * @param FileManager $fileManager
+     * @param Yaml $yaml
      */
-    public function __construct(FileManager $fileManager)
+    public function __construct(FileManager $fileManager, Yaml $yaml)
     {
         $this->fileManager = $fileManager;
+        $this->yaml        = $yaml;
     }
 
     /**
@@ -64,7 +71,7 @@ class GeneratorFinder
             );
 
             foreach ($iterator as $file) {
-                $yaml = yaml_parse(file_get_contents($file[0]));
+                $yaml = $this->yaml->parse(file_get_contents($file[0]));
                 $generators[$file[0]] = $yaml['name'];
             }
         }

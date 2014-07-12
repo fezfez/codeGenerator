@@ -19,6 +19,7 @@ namespace CrudGenerator\Generators\Finder;
 
 use CrudGenerator\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Utils\FileManager;
+use CrudGenerator\Utils\YamlFactory;
 
 /**
  * Create GeneratorFinder instance
@@ -34,8 +35,6 @@ class GeneratorFinderFactory
      */
     public static function getInstance()
     {
-        $fileManager = new FileManager();
-
-        return new GeneratorFinder($fileManager);
+        return new GeneratorFinder(new FileManager(), YamlFactory::getInstance());
     }
 }
