@@ -26,10 +26,9 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 
     public function testFailInstance()
     {
-        $app =  $this->getMockBuilder('Silex\Application')
+        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()
         ->getMock();
-        $context = new WebContext($app);
 
         $this->setExpectedException('InvalidArgumentException');
         SandBoxStrategyFactory::getInstance($context);

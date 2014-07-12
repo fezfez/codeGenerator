@@ -1,7 +1,7 @@
 define(["App/App", "Corp/Context/Context"], function(app, Context) {
     "use strict";
 
-    var Service = app.service('PreviewService', ['$http', function ($http) {
+    var Service = app.service('GenerateService', ['$http', function ($http) {
         /*
          * Generate files
          * @param context Context

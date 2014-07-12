@@ -17,7 +17,7 @@
  */
 namespace CrudGenerator\Generators\Parser;
 
-use Symfony\Component\Yaml\Parser;
+use CrudGenerator\Utils\Yaml;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\MetaData\DataObject\MetaData;
@@ -38,11 +38,12 @@ class GeneratorParser
     const DEPENDENCY_CONDITION = 'dependencyCondition';
     const CONDITION_ELSE = 'else';
     const DIFFERENT = '!';
+    const UNDEFINED = ' == undefined';
     const EQUAL = '==';
     const DIFFERENT_EQUAL = '!=';
 
     /**
-     * @var Parser YamlParser
+     * @var Yaml YamlParser
      */
     private $yaml = null;
     /**
@@ -68,7 +69,7 @@ class GeneratorParser
 
     /**
      * @param FileManager $fileManager
-     * @param Parser $yaml
+     * @param Yaml $yaml
      * @param PhpStringParser $phpStringParser
      * @param GeneratorStrategy $viewFile
      * @param GeneratorFinder $generatorFinder
@@ -76,7 +77,7 @@ class GeneratorParser
      */
     public function __construct(
         FileManager $fileManager,
-        Parser $yaml,
+        Yaml $yaml,
         PhpStringParser $phpStringParser,
         GeneratorStrategy $viewFile,
         GeneratorFinder $generatorFinder,
@@ -117,7 +118,7 @@ class GeneratorParser
     {
         $generator         = clone $generator;
         $generatorFilePath = $this->generatorFinder->findByName($name);
-        $process           = $this->yaml->parse($this->fileManager->fileGetContent($generatorFilePath), true);
+        $process           = $this->yaml->parse($this->fileManager->fileGetContent($generatorFilePath));
 
         /* @var $dto \CrudGenerator\DataObject */
         $dto = new $process['dto']();

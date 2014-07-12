@@ -73,12 +73,7 @@ class MainBackbone
     public function run()
     {
         if ($this->context->confirm('Create new metadataSource', 'create_metadatasource')) {
-            try {
-                $this->createSourceBackbone->run();
-                $this->context->log('New source created', 'valid');
-            } catch (ResponseExpectedException $e) { // only web throw this exception
-                return $this->context;
-            }
+            $this->createSourceBackbone->run();
         }
         if ($this->context->confirm('Wake history', 'select_history')) {
             $this->historyBackbone->run();

@@ -4,6 +4,7 @@ namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\Condition\Depend
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
+use CrudGenerator\Generators\Parser\GeneratorParser;
 use Symfony\Component\Yaml\Yaml;
 
 
@@ -22,7 +23,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $string = '
 questions :
     - dependencyCondition :
-        - !ArchitectGenerator :
+        - ArchitectGenerator ' . GeneratorParser::UNDEFINED . ' :
             - /form/DataObject.phtml        : <?php $formGenerator->getFormPath(); ?>DataObject.phtml';
 
         $result = Yaml::parse($string, true);

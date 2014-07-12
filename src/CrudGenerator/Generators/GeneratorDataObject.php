@@ -18,6 +18,7 @@
 namespace CrudGenerator\Generators;
 
 use CrudGenerator\DataObject;
+use CrudGenerator\MetaData\MetaDataSource;
 
 /**
  * Find all generator allow in project
@@ -35,6 +36,10 @@ class GeneratorDataObject implements \JsonSerializable
      * @var string
      */
     private $name = null;
+    /**
+     * @var MetaDataSource
+     */
+    private $metaDataSource = null;
     /**
      * @var string
      */
@@ -62,7 +67,7 @@ class GeneratorDataObject implements \JsonSerializable
 
     /**
      * @param DataObject $name
-     * @return \CrudGenerator\Generators\Generator
+     * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     public function setDTO(DataObject $value)
     {
@@ -71,7 +76,7 @@ class GeneratorDataObject implements \JsonSerializable
     }
     /**
      * @param string $name
-     * @return \CrudGenerator\Generators\Generator
+     * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     public function setName($name)
     {
@@ -79,8 +84,17 @@ class GeneratorDataObject implements \JsonSerializable
         return $this;
     }
     /**
+     * @param MetaDataSource $metaDataSource
+     * @return \CrudGenerator\Generators\GeneratorDataObject
+     */
+    public function setMetadataSource(MetaDataSource $metaDataSource)
+    {
+        $this->metaDataSource = $metaDataSource;
+        return $this;
+    }
+    /**
      * @param string $name
-     * @return \CrudGenerator\Generators\Generator
+     * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     public function setPath($name)
     {
@@ -90,7 +104,7 @@ class GeneratorDataObject implements \JsonSerializable
 
     /**
      * @param string $name
-     * @return \CrudGenerator\Generators\Generator
+     * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     public function addEnvironnementValue($environnement, $value)
     {
@@ -107,7 +121,7 @@ class GeneratorDataObject implements \JsonSerializable
     }
     /**
      * @param GeneratorDataObject $generator
-     * @return \CrudGenerator\Generators\Generator
+     * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     public function addDependency(GeneratorDataObject $generator)
     {
@@ -138,7 +152,7 @@ class GeneratorDataObject implements \JsonSerializable
     }
     /**
      * @param string $name
-     * @return \CrudGenerator\Generators\Generator
+     * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     public function addDirectories($name, $value)
     {
@@ -147,7 +161,7 @@ class GeneratorDataObject implements \JsonSerializable
     }
     /**
      * @param string $name
-     * @return \CrudGenerator\Generators\Generator
+     * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     public function addTemplateVariable($name, $value)
     {
@@ -169,6 +183,13 @@ class GeneratorDataObject implements \JsonSerializable
         return $this->name;
     }
     /**
+     * @return \CrudGenerator\MetaData\MetaDataSource
+     */
+    public function getMetadataSource()
+    {
+        return $this->metaDataSource;
+    }
+    /**
      * @return string
      */
     public function getPath()
@@ -187,7 +208,7 @@ class GeneratorDataObject implements \JsonSerializable
      */
     public function getEnvironnementCollection()
     {
-    	return $this->environnement;
+        return $this->environnement;
     }
     /**
      * @return array
@@ -227,14 +248,21 @@ class GeneratorDataObject implements \JsonSerializable
         return $this;
     }
 
+    /* (non-PHPdoc)
+     * @see JsonSerializable::jsonSerialize()
+     */
     public function jsonSerialize()
     {
         return array(
+            'metaDataSource'   => $this->metaDataSource,
             'templateVariable' => $this->templateVariable,
             'files'            => $this->getFiles(),
             'directories'      => $this->directories,
             'name'             => $this->name,
-            'environnement'    => $this->environnement
+            'environnement'    => $this->environnement,
+            'dependencies'     => $this->dependecies,
+            'dto'              => $this->dto,
+            'dtoClass'         => get_class($this->dto)
         );
     }
 }

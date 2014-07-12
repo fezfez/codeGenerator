@@ -23,6 +23,7 @@ use CrudGenerator\Generators\ResponseExpectedException;
 
 class MetaDataSourcesConfiguredQuestion
 {
+    const QUESTION_KEY = 'backend';
     /**
      * @var MetaDataConfigDAO
      */
@@ -47,7 +48,7 @@ class MetaDataSourcesConfiguredQuestion
      * @throws ResponseExpectedException
      * @return array
      */
-    public function ask()
+    public function ask($choice = null)
     {
         $backendArray = array();
         foreach ($this->metadataSourceConfigDAO->retrieveAll() as $backend) {
@@ -60,9 +61,11 @@ class MetaDataSourcesConfiguredQuestion
             }
         }
 
-        return $this->retrieve(
-            $this->context->askCollection("Select source ", 'backend', $backendArray)
-        );
+        if (null === $choice) {
+            $choice = $this->context->askCollection("Select source ", self::QUESTION_KEY, $backendArray);
+        }
+
+        return $this->retrieve($choice);
     }
 
     /**

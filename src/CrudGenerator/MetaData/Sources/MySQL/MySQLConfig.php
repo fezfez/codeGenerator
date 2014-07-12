@@ -25,7 +25,7 @@ use CrudGenerator\MetaData\Config\ConfigException;
  *
  * @author Stéphane Demonchaux
  */
-class MySQLConfig implements MetaDataConfig
+class MySQLConfig implements MetaDataConfig, \JsonSerializable
 {
     /**
      * @var string Config definition
@@ -51,6 +51,10 @@ class MySQLConfig implements MetaDataConfig
      * @var string Port
      */
     private $port = null;
+    /**
+     * @var string
+     */
+    private $metaDataDAOFactory = 'CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory';
 
     /**
      * Set database name
@@ -149,9 +153,9 @@ class MySQLConfig implements MetaDataConfig
      */
     public function getConnection()
     {
-    	if ($this->host === null || $this->databaseName === null) {
-    		throw new ConfigException('Empty connection');
-    	}
+        if ($this->host === null || $this->databaseName === null) {
+            throw new ConfigException('Empty connection');
+        }
         $pdo = new \PDO('mysql:host='.$this->host . ';dbname='.$this->databaseName, $this->user, $this->password, array(
             \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
         ));
@@ -174,30 +178,30 @@ class MySQLConfig implements MetaDataConfig
      */
     public function getUniqueName()
     {
-    	return 'MySQL ' . $this->host . ' ' . $this->user;
+        return 'MySQL ' . $this->host . ' ' . $this->user;
     }
     /* (non-PHPdoc)
      * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getDefinition()
     */
     public function getDefinition()
     {
-    	return $this->definition;
+        return $this->definition;
     }
     /* (non-PHPdoc)
      * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::jsonSerialize()
     */
     public function jsonSerialize()
     {
-    	return array(
-    		'databaseName' => $this->databaseName,
-    		'host'         => $this->host,
-    		'user'         => $this->user,
-    		'password'     => $this->password,
-    		'port'         => $this->port,
-    		'metaDataDAO'  => $this->getMetaDataDAOFactory()
-    	);
+        return array(
+            'databaseName'       => $this->databaseName,
+            'host'               => $this->host,
+            'user'               => $this->user,
+            'password'           => $this->password,
+            'port'               => $this->port,
+            'metaDataDAOFactory' => $this->metaDataDAOFactory,
+            'uniqueName'         => $this->getUniqueName()
+        );
     }
-
 
     /**
      * Get MetaDataDAOFactory
@@ -206,7 +210,7 @@ class MySQLConfig implements MetaDataConfig
      */
     public function getMetaDataDAOFactory()
     {
-		return 'CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory';
+        return $this->metaDataDAOFactory;
     }
     /**
      * Set MetaDataDAOFactory

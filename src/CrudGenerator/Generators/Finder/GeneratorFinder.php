@@ -64,7 +64,7 @@ class GeneratorFinder
             );
 
             foreach ($iterator as $file) {
-                $yaml = Yaml::parse(file_get_contents($file[0]), true);
+                $yaml = yaml_parse(file_get_contents($file[0]));
                 $generators[$file[0]] = $yaml['name'];
             }
         }

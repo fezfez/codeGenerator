@@ -2,9 +2,10 @@ define([
     "App/App",
     "Corp/Directory/DirectoryDataObject",
     "Corp/Directory/DirectoryBuilderFactory",
-    "Corp/Context/Context"
+    "Corp/Context/Context",
+    "Corp/Context/ContextHydrator"
     ],
-    function(app, DirectoryDataObject, DirectoryBuilderFactory, Context) {
+    function(app, DirectoryDataObject, DirectoryBuilderFactory, Context, ContextHydrator) {
     "use strict";
 
     var Service = app.service('GeneratorService', ['$http', '$q', function ($http, $q) {
@@ -20,7 +21,7 @@ define([
             var canceler = $q.defer();
 
             if ((context instanceof Context) === false) {
-                throw new Error("Context muse be instance of Context");
+                throw new Error("Context must be instance of Context");
             }
 
             if (http === true) {
@@ -45,37 +46,9 @@ define([
                     timeout : canceler.promise
                 }
             ).success(function (data) {
-                var dataToReturn = data;
-                
-                var findByDtoAttributAndDeleteFromQuestion = function (dtoAttribute) {
-                    var foundedElement = null;
-                    angular.forEach(data.question, function(question, index) {
-                        if (question.dtoAttribute === dtoAttribute) {
-                            foundedElement = question;
-                            delete data.question[index];
-                            data.question = data.question.filter(function(n){ return n !== undefined; });
-                        }
-                    });
+                var contextHydrator = new ContextHydrator();
 
-                    return foundedElement;
-                };
-
-                dataToReturn.backendCollection = findByDtoAttributAndDeleteFromQuestion('backend');
-                dataToReturn.metadataCollection = findByDtoAttributAndDeleteFromQuestion('metadata');
-                dataToReturn.generatorCollection = findByDtoAttributAndDeleteFromQuestion('generator');
-
-                if (data.files) {
-                    var directories      = new DirectoryDataObject(''),
-                        DirectoryBuilder = DirectoryBuilderFactory.getInstance();
-
-                    angular.forEach(data.files, function (file, id) {
-                        directories = DirectoryBuilder.build(file, directories);
-                    });
-
-                    dataToReturn.directories = directories;
-                }
-
-                callbackAfterAjax(dataToReturn);
+                callbackAfterAjax(contextHydrator.hydrate(data, new Context()));
                 http = false;
             }).error(function(data) {
                 alert(data.error);

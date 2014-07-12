@@ -45,8 +45,8 @@ class Form extends DataObject
     */
     public function setAttributeName($attribute, $name)
     {
-    	$this->attributesDisplayName[$attribute] = $name;
-    	return $this;
+        $this->attributesDisplayName[$attribute] = $name;
+        return $this;
     }
     /**
      * @param string $attribute
@@ -54,11 +54,11 @@ class Form extends DataObject
      */
     public function getAttributeName($attribute = null)
     {
-    	if ($attribute === null) {
-    		return $this->attributesDisplayName;
-    	} else {
-    		return (isset($this->attributesDisplayName[$attribute])) ? $this->attributesDisplayName[$attribute] : null;
-    	}
+        if ($attribute === null) {
+            return $this->attributesDisplayName;
+        } else {
+            return (isset($this->attributesDisplayName[$attribute])) ? $this->attributesDisplayName[$attribute] : null;
+        }
     }
 
     /**
@@ -115,5 +115,21 @@ class Form extends DataObject
     public function getFormDirectory()
     {
         return $this->formDirectory;
+    }
+
+    /* (non-PHPdoc)
+     * @see JsonSerializable::jsonSerialize()
+    */
+    public function jsonSerialize()
+    {
+        return array_merge(
+            parent::jsonSerialize(),
+            array(
+                'formDirectory'         => $this->formDirectory,
+                'namespace'             => $this->namespace,
+                'modelName'             => $this->modelName,
+                'attributesDisplayName' => $this->attributesDisplayName
+            )
+        );
     }
 }

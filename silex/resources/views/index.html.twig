@@ -7,7 +7,12 @@
          <div class="row">
               <div class="col-sm-12 col-md-2 sidebar sidebar-left arrow_box">
                   <h3>1) {{ backendCollection.text }}</h3>
-                <span ng-click="backendConfig()">Create new source</span>
+                <a ng-click="showHistory()" data-toggle="tooltip" data-placement="right" rel="tooltip" title="Open history" class="pointer">
+                    Open history
+                </a>
+                <a ng-click="backendConfig()" data-toggle="tooltip" data-placement="right" rel="tooltip" title="Create a new metadata source" class="pointer">
+                    Create new source
+                </a>
                 <div class="list-group">
                     <a href="#"
                        class="list-group-item"

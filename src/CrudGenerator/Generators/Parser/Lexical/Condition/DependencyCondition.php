@@ -55,7 +55,8 @@ class DependencyCondition implements ParserInterface
      */
     private function checkDifferentCondition(array $matches, array $generatorDependencies, array $dependencyList, $dependencyName)
     {
-        if (substr($dependencyName, 0, 1) === GeneratorParser::DIFFERENT && !in_array(substr($dependencyName, 1), $generatorDependencies)) {
+        if (substr($dependencyName, -strlen(GeneratorParser::UNDEFINED)) === GeneratorParser::UNDEFINED &&
+            !in_array(substr($dependencyName, 0, -count(GeneratorParser::UNDEFINED)), $generatorDependencies)) {
             foreach ($dependencyList as $key => $dependency) {
                 $matches[] = $dependency;
             }

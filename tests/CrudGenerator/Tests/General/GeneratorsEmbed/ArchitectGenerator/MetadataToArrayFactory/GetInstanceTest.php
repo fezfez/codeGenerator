@@ -9,11 +9,9 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testWeb()
     {
-        $web =  $this->getMockBuilder('Silex\Application')
+        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()
         ->getMock();
-
-        $context = new WebContext($web);
 
         $this->assertInstanceOf(
             'CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArray',

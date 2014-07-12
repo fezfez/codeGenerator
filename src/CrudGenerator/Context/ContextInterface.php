@@ -18,6 +18,8 @@
 
 namespace CrudGenerator\Context;
 
+use CrudGenerator\Generators\GeneratorDataObject;
+
 interface ContextInterface
 {
     /**
@@ -49,4 +51,9 @@ interface ContextInterface
      * @param string $text
      */
     public function log($text, $name = null);
+
+   /**
+     * @param GeneratorDataObject $generator
+     */
+    public function publishGenerator(GeneratorDataObject $generator);
 }

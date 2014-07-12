@@ -19,7 +19,7 @@ namespace CrudGenerator\GeneratorsEmbed\ArchitectGenerator;
 
 use CrudGenerator\DataObject;
 
-class Architect extends DataObject
+class Architect extends DataObject implements \JsonSerializable
 {
     /**
      * @var string Target directory
@@ -49,8 +49,8 @@ class Architect extends DataObject
      */
     public function setModelDirectory($value)
     {
-    	$this->modelDirectory = $value;
-    	return $this;
+        $this->modelDirectory = $value;
+        return $this;
     }
     /**
      * Set model directory
@@ -59,8 +59,8 @@ class Architect extends DataObject
      */
     public function setUnitTestDirectory($value)
     {
-    	$this->unitTestDirectory = $value;
-    	return $this;
+        $this->unitTestDirectory = $value;
+        return $this;
     }
     /**
      * @param string $attribute
@@ -99,7 +99,7 @@ class Architect extends DataObject
      */
     public function getModelDirectory()
     {
-    	return $this->modelDirectory;
+        return $this->modelDirectory;
     }
     /**
      * Get unit test directory
@@ -107,7 +107,7 @@ class Architect extends DataObject
      */
     public function getUnitTestDirectory()
     {
-    	return $this->unitTestDirectory;
+        return $this->unitTestDirectory;
     }
     /**
      * @param string $attribute
@@ -137,12 +137,21 @@ class Architect extends DataObject
     {
         return $this->modelName;
     }
-    /**
-     * Get namespace path
-     * @return string
+
+    /* (non-PHPdoc)
+     * @see JsonSerializable::jsonSerialize()
      */
-    public function getNamespacePath()
+    public function jsonSerialize()
     {
-        return str_replace('\\', '/', $this->namespace);
+        return array_merge(
+            parent::jsonSerialize(),
+            array(
+                'modelDirectory'        => $this->modelDirectory,
+                'unitTestDirectory'     => $this->unitTestDirectory,
+                'namespace'             => $this->namespace,
+                'modelName'             => $this->modelName,
+                'attributesDisplayName' => $this->attributesDisplayName,
+            )
+        );
     }
 }

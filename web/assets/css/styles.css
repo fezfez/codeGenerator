@@ -97,7 +97,7 @@ html, body {
     pointer-events: none;
 }
 
-.file {
+.pointer {
     cursor:pointer;
 }
 

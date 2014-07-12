@@ -21,7 +21,7 @@ $app->match('/generator', function (Request $request) use ($app) {
         $context->log("You may answer the question", "generator_question");
     }
 
-    return $app->json($context, 201);
+    return $app->json($context, 200);
 })->bind('generator');
 
 $app->error(function (\Exception $e, $code) use ($app) {

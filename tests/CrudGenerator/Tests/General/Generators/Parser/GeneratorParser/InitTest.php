@@ -17,7 +17,7 @@ class InitTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $yaml =  $this->getMockBuilder('Symfony\Component\Yaml\Parser')
+        $yaml =  $this->getMockBuilder('CrudGenerator\Utils\Yaml')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -57,7 +57,7 @@ class InitTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $yaml =  $this->getMockBuilder('Symfony\Component\Yaml\Parser')
+        $yaml =  $this->getMockBuilder('CrudGenerator\Utils\Yaml')
         ->disableOriginalConstructor()
         ->getMock();
 

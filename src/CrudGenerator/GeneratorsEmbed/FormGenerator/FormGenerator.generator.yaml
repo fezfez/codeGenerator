@@ -8,7 +8,7 @@ questions :
         type : complex
         factory : CrudGenerator\Generators\Questions\DirectoryQuestionFactory
     - dependencyCondition :
-        - !ArchitectGenerator :
+        - ArchitectGenerator == undefined :
             - 
                 dtoAttribute : Namespace
                 text : Choose a target namespace
@@ -24,7 +24,7 @@ directories :
     
 templateVariables : 
     - dependencyCondition :
-        - !ArchitectGenerator :
+        - ArchitectGenerator == undefined :
             - ucFirstModelName         : <?php ucfirst($formGenerator->getModelName()); ?>
             - dataObjectName           : <?php $ucFirstModelName; ?>DataObject
             - dtoNamespace             : <?php $formGenerator->getNamespace(); ?>\Form\<?php $dataObjectName; ?>

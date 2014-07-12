@@ -23,6 +23,7 @@ use CrudGenerator\Generators\ResponseExpectedException;
 
 class GeneratorQuestion
 {
+	const QUESTION_KEY = 'generator';
     /**
      * @var GeneratorFinder
      */
@@ -53,7 +54,7 @@ class GeneratorQuestion
         }
 
         return $this->retrieve(
-            $this->context->askCollection("Select generator", 'generator', $generatorArray)
+            $this->context->askCollection("Select generator", self::QUESTION_KEY, $generatorArray)
         );
     }
 

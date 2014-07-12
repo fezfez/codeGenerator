@@ -27,23 +27,22 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 
     public function testInstanceWeb()
     {
-    	$app =  $this->getMockBuilder('Silex\Application')
-    	->disableOriginalConstructor()
-    	->getMock();
-    	$context = new WebContext($app);
+        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$this->assertInstanceOf(
-    		'CrudGenerator\Generators\Questions\Web\MetaDataQuestion',
-    		MetaDataQuestionFactory::getInstance($context)
-    	);
+        $this->assertInstanceOf(
+            'CrudGenerator\Generators\Questions\Web\MetaDataQuestion',
+            MetaDataQuestionFactory::getInstance($context)
+        );
     }
 
     public function testFail()
     {
-    	$context = $this->getMockForAbstractClass('CrudGenerator\Context\ContextInterface');
+        $context = $this->getMockForAbstractClass('CrudGenerator\Context\ContextInterface');
 
-    	$this->setExpectedException('InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
 
-    	MetaDataQuestionFactory::getInstance($context);
+        MetaDataQuestionFactory::getInstance($context);
     }
 }

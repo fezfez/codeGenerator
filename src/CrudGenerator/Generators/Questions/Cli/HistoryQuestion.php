@@ -20,6 +20,7 @@ namespace CrudGenerator\Generators\Questions\Cli;
 use CrudGenerator\History\HistoryManager;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\History\EmptyHistoryException;
+use CrudGenerator\Generators\ResponseExpectedException;
 
 class HistoryQuestion
 {
@@ -43,7 +44,8 @@ class HistoryQuestion
     }
 
     /**
-     * @return \CrudGenerator\History\History
+     * @throws EmptyHistoryException
+     * @return string
      */
     public function ask()
     {
@@ -56,17 +58,39 @@ class HistoryQuestion
         $historyChoices = array();
         foreach ($historyCollection as $history) {
             foreach ($history->getDataObjects() as $dto) {
-                $historyChoices[$dto->getMetadata()->getName() . ' ' . $dto->getGenerator()] = $dto;
+                $historyChoices[] = array(
+                    'id'    => $dto->getDTO()->getMetadata()->getName(),
+                    'label' => $dto->getDTO()->getMetadata()->getName()
+                );
             }
         }
 
-        $historyKeysChoices = array_keys($historyChoices);
-        $choice = $this->context->askCollection(
-            "<question>History to regenerate</question> \n> ",
-        	'history',
-            $historyKeysChoices
+        return $this->retrieve(
+            $this->context->askCollection("Select history", 'history', $historyChoices)
         );
+    }
 
-        return $historyChoices[$historyKeysChoices[$choice]];
+    /**
+     * @param string $preSelected
+     * @throws ResponseExpectedException
+     * @return \CrudGenerator\DataObject
+     */
+    private function retrieve($preSelected)
+    {
+        foreach ($this->historyManager->findAll() as $history) {
+            /* @var $history \CrudGenerator\History\History */
+            foreach ($history->getDataObjects() as $dto) {
+                if ($dto->getDTO()->getMetadata()->getName() === $preSelected) {
+                    return $dto;
+                }
+            }
+        }
+
+        throw new ResponseExpectedException(
+            sprintf(
+                "History %s does not exist",
+                $preSelected
+            )
+        );
     }
 }

@@ -20,7 +20,7 @@ class YamlToDtoTest extends \PHPUnit_Framework_TestCase
 
         $stubParser = new Parser;
 
-        $stubMetadataSourceQuestion = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\MetaDataSourcesQuestion')
+        $stubMetadataSourceQuestion = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -71,6 +71,6 @@ Generators:
             ControllerName: News
             ControllerNamespace: Application";
 
-        $this->assertInstanceOf('CrudGenerator\History\History', $sUT->yamlToDto($yaml));
+        $this->assertInstanceOf('CrudGenerator\History\History', $sUT->jsonToDto($yaml));
     }
 }

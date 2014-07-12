@@ -1,4 +1,4 @@
-<li ng-repeat="file in fileList.getFiles()" class="file">
+<li ng-repeat="file in fileList.getFiles()" class="pointer">
     <a ng-click="viewFile(file)" data-toggle="tooltip" data-placement="right" rel="tooltip" title="Preview '{{file.getName()}}'">{{file.getName()}}</a>
     <span ng-if="!file.isWritable()" class="cannot-write-text">Cannot write file</span>
 </li>

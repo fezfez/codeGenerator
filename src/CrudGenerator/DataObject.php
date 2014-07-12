@@ -24,20 +24,12 @@ use CrudGenerator\MetaData\DataObject\MetaData;
  *
  * @author Stéphane Demonchaux
  */
-abstract class DataObject
+abstract class DataObject implements \JsonSerializable
 {
     /**
      * @var MetaData Metadata object
      */
     private $metadata        = null;
-    /**
-     * @var string
-     */
-    private $adapter         = null;
-    /**
-     * @var string
-     */
-    private $generator       = null;
     /**
      * @var array
      */
@@ -51,26 +43,6 @@ abstract class DataObject
     public function setMetadata(MetaData $value)
     {
         $this->metadata = $value;
-        return $this;
-    }
-    /**
-     * Set Generator
-     * @param string $value
-     * @return \CrudGenerator\DataObject
-     */
-    public function setAdapter($value)
-    {
-    	$this->adapter = $value;
-    	return $this;
-    }
-    /**
-     * Set Generator
-     * @param string $value
-     * @return \CrudGenerator\DataObject
-     */
-    public function setGenerator($value)
-    {
-        $this->generator = $value;
         return $this;
     }
     /**
@@ -94,24 +66,6 @@ abstract class DataObject
         return $this->metadata;
     }
     /**
-     * Get Adapter
-     *
-     * @return string
-     */
-    public function getAdapter()
-    {
-    	return $this->adapter;
-    }
-    /**
-     * Get generator
-     *
-     * @return string
-     */
-    public function getGenerator()
-    {
-        return $this->generator;
-    }
-    /**
      * Get environnement
      *
      * @param string $environnement
@@ -130,5 +84,12 @@ abstract class DataObject
         } else {
             return $this->environnement[$environnement];
         }
+    }
+
+    public function jsonSerialize()
+    {
+        return array(
+        	'metadata' => $this->metadata
+        );
     }
 }

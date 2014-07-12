@@ -104,7 +104,7 @@ class Generator
             $this->context->log('--> Create file ' . $file['fileName'], 'generationLog');
         }
 
-        $this->historyManager->create($generator->getDTO());
+        $this->historyManager->create($generator);
 
         return $generator;
     }

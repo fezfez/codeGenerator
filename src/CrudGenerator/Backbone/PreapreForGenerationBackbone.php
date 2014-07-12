@@ -68,10 +68,11 @@ class PreapreForGenerationBackbone
     {
         $metadataSource = $this->metaDataSourcesConfiguredQuestion->ask();
         $metadata       = $this->metaDataQuestion->ask($metadataSource);
-        $generatorPath  = $this->generatorQuestion->ask();
+        $generatorName  = $this->generatorQuestion->ask();
 
         $generator = new GeneratorDataObject();
-        $generator->setName($generatorPath);
+        $generator->setName($generatorName)
+                  ->setMetadataSource($metadataSource);
 
         return $this->generatorParser->init($generator, $metadata);
     }

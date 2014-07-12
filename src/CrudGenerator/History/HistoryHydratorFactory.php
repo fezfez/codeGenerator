@@ -21,9 +21,9 @@ use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\CliContext;
-use CrudGenerator\Generators\Questions\MetaDataSourcesQuestionFactory;
-use CrudGenerator\Generators\Questions\MetaDataQuestionFactory;
 use CrudGenerator\Context\WebContext;
+use CrudGenerator\Generators\Questions\MetaDataSourcesConfiguredQuestionFactory;
+use CrudGenerator\Generators\Questions\MetaDataQuestionFactory;
 
 /**
  * HistoryManager instance
@@ -39,7 +39,7 @@ class HistoryHydratorFactory
     public static function getInstance(ContextInterface $context)
     {
         if ($context instanceof CliContext || $context instanceof WebContext) {
-            $metaDataSourceQuestion = MetaDataSourcesQuestionFactory::getInstance($context);
+            $metaDataSourceQuestion = MetaDataSourcesConfiguredQuestionFactory::getInstance($context);
             $metaDataQuestion       = MetaDataQuestionFactory::getInstance($context);
 
             $yampDump   = new Dumper();

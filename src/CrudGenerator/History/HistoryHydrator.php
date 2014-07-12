@@ -20,8 +20,10 @@ namespace CrudGenerator\History;
 use CrudGenerator\DataObject;
 use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
-use CrudGenerator\Generators\Questions\Web\MetaDataSourcesQuestion;
+use CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion;
 use CrudGenerator\Generators\Questions\Web\MetaDataQuestion;
+use CrudGenerator\Generators\ResponseExpectedException;
+use CrudGenerator\Generators\GeneratorDataObject;
 
 /**
  * HistoryManager instance
@@ -39,9 +41,9 @@ class HistoryHydrator
      */
     private $yamlParser = null;
     /**
-     * @var MetaDataSourcesQuestion
+     * @var MetaDataSourcesConfiguredQuestion
      */
-    private $metaDataSourceQuestion = null;
+    private $metaDataSourcesConfiguredQuestion = null;
     /**
      * @var MetaDataQuestion
      */
@@ -50,117 +52,130 @@ class HistoryHydrator
     /**
      * @param Dump $yampDump
      * @param Parser $yampParser
-     * @param MetaDataSourcesQuestion $metaDataSourceQuestion
+     * @param MetaDataSourcesConfiguredQuestion $metaDataSourcesConfiguredQuestion
      * @param MetaDataQuestion $metaDataQuestion
      */
     public function __construct(
         Dumper $yamlDump,
         Parser $yamlParser,
-        MetaDataSourcesQuestion $metaDataSourceQuestion,
+        MetaDataSourcesConfiguredQuestion $metaDataSourcesConfiguredQuestion,
         MetaDataQuestion $metaDataQuestion
     ) {
         $this->yamlDumper = $yamlDump;
         $this->yamlParser = $yamlParser;
-        $this->metaDataSourceQuestion = $metaDataSourceQuestion;
+        $this->metaDataSourcesConfiguredQuestion = $metaDataSourcesConfiguredQuestion;
         $this->metaDataQuestion = $metaDataQuestion;
     }
 
     /**
      * @param DataObject $dataObject
      */
-    public function dtoToYaml(DataObject $dataObject)
+    public function dtoToJson(GeneratorDataObject $dataObject)
     {
-        $metadata = $dataObject->getMetadata();
+        $jsonRepresentation = json_encode($dataObject, JSON_PRETTY_PRINT);
+        $this->checkIntegrity(json_decode($jsonRepresentation, true));
 
-        if (empty($metadata)) {
+        return $jsonRepresentation;
+    }
+
+    /**
+     * @param array $data
+     * @throws InvalidHistoryException
+     * @return array
+     */
+    private function checkIntegrity(array $data)
+    {
+        if (!isset($data['dto']) || null === $data['dto']) {
+            throw new InvalidHistoryException(
+                "DataObject doesn't have DTO"
+            );
+        }
+
+        $dto = $data['dto'];
+
+        if (!isset($data['dtoClass']) || null === $data['dtoClass']) {
+            throw new InvalidHistoryException(
+                "DataObject doesn't have DTO"
+            );
+        }
+
+        if (!isset($dto['metadata']) || null === $dto['metadata']) {
             throw new InvalidHistoryException(
                 "DataObject doesn't have metadata"
             );
         }
 
-        $dumpArray = array(
-            'metaDataSource' => $dataObject->getAdapter(),
-            'metaData'       => $metadata->getOriginalName(),
-            'Generators'     => $this->dumpToArray($dataObject)
-        );
+        $metadata = $dto['metadata'];
 
-        return $this->yamlDumper->dump($dumpArray, 50);
+        if (!isset($data['metaDataSource']) || null === $data['metaDataSource']) {
+            throw new InvalidHistoryException(
+                "DataObject doesn't have metadataSource"
+            );
+        }
+
+        $metadataSource = $data['metaDataSource'];
+
+        if (null === $metadataSource['metaDataDAO'] || null === $metadataSource['metaDataDAOFactory']) {
+            throw new InvalidHistoryException(
+                "MetadataSource is not well configured"
+            );
+        }
+
+        return $data;
     }
 
     /**
      * @param string $content
      */
-    public function yamlToDto($content)
+    public function jsonToDto($content)
     {
-        $arrayRepresentation = $this->yamlParser->parse($content);
-        $history = new History();
-        $history->setName($arrayRepresentation['metaData']);
-
-        foreach ($arrayRepresentation['Generators'] as $dtoName => $generatorInformation) {
-
-            $metadataSource = $this->metaDataSourceQuestion->ask($arrayRepresentation['metaDataSource']);
-            $metaData       = $this->metaDataQuestion->ask($metadataSource, $arrayRepresentation['metaData']);
-
-            $dto = new $dtoName();
-            $dto->setMetadata($metaData);
-
-            $dto = $this->writeAbstractOptions($arrayRepresentation['Generators'][$dtoName], $dto);
-
-            $history->addDataObject($dto);
+        $jsonRepresentation  = json_decode($content, true);
+        if (null === $jsonRepresentation) {
+            throw new InvalidHistoryException(
+                "Is not a json string"
+            );
         }
+        $arrayRepresentation = $this->checkIntegrity($jsonRepresentation);
+
+        $dto = $arrayRepresentation['dto'];
+
+        $history = new History();
+        $history->setName($dto['metadata']['name']);
+
+        try {
+            $metadataSource = $this->metaDataSourcesConfiguredQuestion->ask($arrayRepresentation['metaDataSource']['config']['uniqueName']);
+        } catch (ResponseExpectedException $e) {
+            throw new InvalidHistoryException(
+                sprintf(
+                    'Metadatasource "%s" does not exist anymore',
+                    $arrayRepresentation['metaDataSource']['config']['uniqueName']
+                )
+            );
+        }
+
+        try {
+            $metaData = $this->metaDataQuestion->ask($metadataSource, $dto['metadata']['name']);
+        } catch (ResponseExpectedException $e) {
+            throw new InvalidHistoryException(
+                sprintf(
+                    'Metadata "%s" does not exist anymore',
+                    $arrayRepresentation['metaData']
+                )
+            );
+        }
+
+
+        $dtoClass = $arrayRepresentation['dtoClass'];
+        $dto = new $dtoClass();
+        $dto->setMetadata($metaData);
+
+        $generator = new GeneratorDataObject();
+        $generator->setMetadataSource($metadataSource)
+                  ->setDTO($dto)
+                  ->setName($arrayRepresentation['name']);
+
+        $history->addDataObject($generator);
 
         return $history;
-    }
-
-    /**
-     * @param string $generatorName
-     * @param DataObject $dataObject
-     * @return DataObject
-     */
-    private function writeAbstractOptions($generatorName, DataObject $dataObject)
-    {
-        $dataObject = clone $dataObject;
-
-        $generatorName['options'] = (array) $generatorName['options'];
-
-        if (!empty($generatorName['options'])) {
-            foreach ($generatorName['options'] as $optionName => $optionValue) {
-                $methodName = 'set' . ucfirst($optionName);
-                if (method_exists($dataObject, $methodName)) {
-                    if (is_array($optionValue)) {
-                        foreach ($optionValue as $optionAttributeName => $optionAttributeValue) {
-                            $dataObject->$methodName($optionAttributeName, $optionAttributeValue);
-                        }
-                    } else {
-                        $dataObject->$methodName($optionValue);
-                    }
-                }
-            }
-        }
-
-        return $dataObject;
-    }
-
-    /**
-     * @param DataObject $dataObject
-     * @param array $array
-     * @return array
-     */
-    private function dumpToArray($dataObject, array $array = array())
-    {
-        $class = new \ReflectionClass($dataObject);
-        $methods = $class->getMethods();
-
-        foreach ($methods as $method) {
-            if ($method->getDeclaringClass()->getName() === get_class($dataObject)) {
-                $methodName = $method->getName();
-                if (substr($methodName, 0, 3) === 'get') {
-                    $result = $dataObject->$methodName();
-                    $array[get_class($dataObject)]['options'][substr($methodName, 3)] = $result;
-                }
-            }
-        }
-
-        return $array;
     }
 }

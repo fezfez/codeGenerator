@@ -97,12 +97,20 @@ class MetaDataSource implements \JsonSerializable
     }
 
     /**
-     * Get name
+     * Get MetadataDAO class as string
      * @return string
      */
     public function getMetaDataDAO()
     {
         return $this->metaDataDAO;
+    }
+    /**
+     * Get MetadataDAOFactory class as string
+     * @return string
+     */
+    public function getMetaDataDAOFactory()
+    {
+    	return $this->metaDataDAOFactory;
     }
     /**
      * Get definition
@@ -111,14 +119,6 @@ class MetaDataSource implements \JsonSerializable
     public function getDefinition()
     {
         return $this->definition;
-    }
-    /**
-     * Get factory name
-     * @return string
-     */
-    public function getMetaDataDAOFactory()
-    {
-        return $this->metaDataDAOFactory;
     }
     /**
      * Get false dependencies
@@ -140,10 +140,11 @@ class MetaDataSource implements \JsonSerializable
     public function jsonSerialize()
     {
         return array(
-            'config'            => $this->getConfig(),
-            'definition'        => $this->getDefinition(),
-            'factory'           => $this->getMetaDataDAOFactory(),
-            'falseDependencies' => $this->getFalseDependencies()
+            'config'             => $this->config,
+            'definition'         => $this->definition,
+            'metaDataDAO'        => $this->metaDataDAO,
+            'metaDataDAOFactory' => $this->metaDataDAOFactory,
+            'falseDependencies'  => $this->falseDependencies
         );
     }
 }

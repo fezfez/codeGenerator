@@ -20,11 +20,9 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $app = $this->getMockBuilder('Silex\Application')
+        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()
         ->getMock();
-
-        $context = new WebContext($app);
 
         $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()

@@ -21,6 +21,7 @@ use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\Questions\Web\MetaDataSourcesQuestion;
 use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
 use CrudGenerator\MetaData\Config\ConfigException;
+use CrudGenerator\Generators\ResponseExpectedException;
 
 class CreateSourceBackbone
 {
@@ -54,8 +55,10 @@ class CreateSourceBackbone
         $source = $this->metaDataSourcesQuestion->ask()->getConfig();
         try {
             $this->metaDataConfigDAO->save($source);
+            $this->context->log('New source created', 'valid');
         } catch (ConfigException $e) {
             $this->context->log($e->getMessage(), 'error');
+            throw new ResponseExpectedException("Response expected");
         }
     }
 }

@@ -23,6 +23,7 @@ use CrudGenerator\History\HistoryCollection;
 use CrudGenerator\History\History;
 use CrudGenerator\History\HistoryHydrator;
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
+use CrudGenerator\Generators\GeneratorDataObject;
 
 /**
  * HistoryManager instance
@@ -57,16 +58,22 @@ class HistoryManager
      * Create history
      * @param DataObject $dataObject
      */
-    public function create(DataObject $dataObject)
+    public function create(GeneratorDataObject $dataObject)
     {
         if (!$this->fileManager->isDir(self::HISTORY_PATH)) {
             $this->fileManager->mkdir(self::HISTORY_PATH);
         }
 
-        $metadata = $dataObject->getMetadata();
+        $dto = $dataObject->getDTO();
 
-        if (empty($metadata)) {
-            throw new \InvalidArgumentException('Metadata cant be empty');
+        if (null === $dto) {
+            throw new \InvalidArgumentException('DTO cant be empty');
+        }
+
+        $metadata = $dto->getMetaData();
+
+        if (null === $metadata) {
+        	throw new \InvalidArgumentException('Metadata cant be empty');
         }
 
         $fileName = $metadata->getName(). '.history.yaml';
@@ -77,7 +84,7 @@ class HistoryManager
 
         $this->fileManager->filePutsContent(
             self::HISTORY_PATH . $fileName,
-            $this->historyHydrator->dtoToYaml($dataObject)
+            $this->historyHydrator->dtoToJson($dataObject)
         );
     }
 
@@ -102,7 +109,7 @@ class HistoryManager
         foreach ($this->fileManager->glob(self::HISTORY_PATH . '*.history.yaml') as $file) {
             $content = $this->fileManager->fileGetContent($file);
 
-            $historyCollection->append($this->historyHydrator->yamlToDTO($content));
+            $historyCollection->append($this->historyHydrator->jsonToDTO($content));
         }
 
         return $historyCollection;
@@ -126,7 +133,7 @@ class HistoryManager
             );
         }
 
-        return $this->historyHydrator->yamlToDTO(
+        return $this->historyHydrator->jsonToDTO(
             $this->fileManager->fileGetContent($filePath)
         );
     }

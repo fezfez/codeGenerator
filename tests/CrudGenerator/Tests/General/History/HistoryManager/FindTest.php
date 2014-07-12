@@ -19,7 +19,7 @@ class FindTest extends \PHPUnit_Framework_TestCase
         ->getMock();
 
         $stubHistoryHydrator->expects($this->once())
-        				    ->method('yamlToDTO');
+        				    ->method('jsonToDTO');
 
         $historyName = 'toto';
         $stubFileManager->expects($this->once())

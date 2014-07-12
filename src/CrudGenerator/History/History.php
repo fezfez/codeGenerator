@@ -18,6 +18,7 @@
 namespace CrudGenerator\History;
 
 use CrudGenerator\DataObject;
+use CrudGenerator\Generators\GeneratorDataObject;
 
 /**
  * History representation
@@ -49,10 +50,10 @@ class History
     /**
      * Set DataObject
      *
-     * @param DataObject $value
+     * @param GeneratorDataObject $value
      * @return \CrudGenerator\History\History
      */
-    public function addDataObject(DataObject $value)
+    public function addDataObject(GeneratorDataObject $value)
     {
         $this->dataObjects[] = $value;
         return $this;
@@ -70,7 +71,7 @@ class History
     /**
      * Get DataObject
      *
-     * @return DataObject
+     * @return array
      */
     public function getDataObjects()
     {

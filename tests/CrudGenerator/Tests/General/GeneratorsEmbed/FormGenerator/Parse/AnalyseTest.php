@@ -15,8 +15,8 @@ class AnalyseTest extends \PHPUnit_Framework_TestCase
         ->getMock();
 
 
-		$generator = new GeneratorDataObject();
-		$generator->setName('FormGenerator');
+        $generator = new GeneratorDataObject();
+        $generator->setName('FormGenerator');
 
         $generatorParser = GeneratorParserFactory::getInstance($context);
 
@@ -29,15 +29,15 @@ class AnalyseTest extends \PHPUnit_Framework_TestCase
         $fileGenerator = GeneratorStrategyFactory::getInstance($context);
 
         foreach ($generator->getFiles() as $file) {
-        	$this->assertInternalType(
-				'string',
-	             $fileGenerator->generateFile(
-	                 $generator->getTemplateVariables(),
-	                 $file['skeletonPath'],
-	                 $file['name'],
-	                 $file['fileName']
-	             )
-        	);
+            $this->assertInternalType(
+                'string',
+                 $fileGenerator->generateFile(
+                     $generator->getTemplateVariables(),
+                     $file['skeletonPath'],
+                     $file['name'],
+                     $file['fileName']
+                 )
+            );
         }
     }
 

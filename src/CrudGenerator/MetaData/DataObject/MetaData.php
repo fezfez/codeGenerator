@@ -178,7 +178,8 @@ abstract class MetaData implements \JsonSerializable
     {
         return array(
             'id'    => $this->getOriginalName(),
-            'label' => $this->getOriginalName()
+            'label' => $this->getOriginalName(),
+            'name'  => $this->getOriginalName()
         );
     }
 }

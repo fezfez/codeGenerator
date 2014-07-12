@@ -20,31 +20,29 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
         $context = new CliContext($dialog, $output);
 
         $this->assertInstanceOf(
-        	'CrudGenerator\Generators\Strategies\GeneratorStrategy',
-        	GeneratorStrategyFactory::getInstance($context)
-		);
+            'CrudGenerator\Generators\Strategies\GeneratorStrategy',
+            GeneratorStrategyFactory::getInstance($context)
+        );
     }
 
     public function testInstanceWeb()
     {
-    	$app =  $this->getMockBuilder('Silex\Application')
-    	->disableOriginalConstructor()
-    	->getMock();
-    	$context = new WebContext($app);
-
+        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        ->disableOriginalConstructor()
+        ->getMock();
         $this->assertInstanceOf(
-        	'CrudGenerator\Generators\Strategies\GeneratorStrategy',
-        	GeneratorStrategyFactory::getInstance($context)
-		);
+            'CrudGenerator\Generators\Strategies\GeneratorStrategy',
+            GeneratorStrategyFactory::getInstance($context)
+        );
     }
 
 
     public function testFail()
     {
-    	$context = $this->getMockForAbstractClass('CrudGenerator\Context\ContextInterface');
+        $context = $this->getMockForAbstractClass('CrudGenerator\Context\ContextInterface');
 
-    	$this->setExpectedException('InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
 
-    	GeneratorStrategyFactory::getInstance($context);
+        GeneratorStrategyFactory::getInstance($context);
     }
 }

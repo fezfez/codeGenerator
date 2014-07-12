@@ -121,12 +121,10 @@ class CreateCommand extends Command
         $generator  = $this->generatorQuestion->ask();
 
         $generatorDTO = new GeneratorDataObject();
-        $generatorDTO->setName($generator);
+        $generatorDTO->setName($generator)
+                     ->setMetadataSource($adapter);
 
         $generatorDTO = $this->parser->init($generatorDTO, $metadata);
-
-        $generatorDTO->getDTO()
-                     ->setAdapter($adapter->getMetaDataDAO());
 
         $doI = $this->cliContext->confirm(
             "\n<question>Do you confirm generation ?</question>",
@@ -135,7 +133,6 @@ class CreateCommand extends Command
 
         if ($doI === true) {
             $this->generator->generate($generatorDTO);
-            $this->historyManager->create($generatorDTO->getDTO());
 
             return $generatorDTO;
         } else {

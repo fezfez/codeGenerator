@@ -25,6 +25,7 @@ use CrudGenerator\Generators\ResponseExpectedException;
 
 class MetaDataQuestion
 {
+    const QUESTION_KEY = 'metadata';
     /**
      * @var MetaDataConfigDAO
      */
@@ -63,10 +64,11 @@ class MetaDataQuestion
     /**
      * Ask wich metadata you want to use
      * @param MetaDataSource $metadataSource
+     * @param string|null $choice
      * @throws ResponseExpectedException
      * @return \CrudGenerator\MetaData\DataObject\MetaData
      */
-    public function ask(MetaDataSource $metadataSource)
+    public function ask(MetaDataSource $metadataSource, $choice = null)
     {
         $metaDataCollection = $this->getMetaDataDAO($metadataSource)->getAllMetadata();
         $metaDataArray = array();
@@ -77,10 +79,11 @@ class MetaDataQuestion
             );
         }
 
-        return $this->retrieve(
-            $metadataSource,
-            $this->context->askCollection("Select Metadata", 'metadata', $metaDataArray)
-        );
+        if (null === $choice) {
+            $choice = $this->context->askCollection("Select Metadata", self::QUESTION_KEY, $metaDataArray);
+        }
+
+        return $this->retrieve($metadataSource, $choice);
     }
 
     /**

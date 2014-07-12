@@ -46,9 +46,9 @@ class MetaDataSourcesQuestion
      * Ask witch MetaData Source you want to use
      * @param string $choice
      * @throws ResponseExpectedException
-     * @return array
+     * @return \CrudGenerator\MetaData\MetaDataSource
      */
-    public function ask()
+    public function ask($choice = null)
     {
         $backendArray = array();
         foreach ($this->metadataSourceFinder->getAllAdapters() as $backend) {
@@ -61,9 +61,11 @@ class MetaDataSourcesQuestion
             }
         }
 
-        return $this->retrieve(
-            $this->context->askCollection("Select source ", 'metadatasource', $backendArray)
-        );
+        if (null === $choice) {
+            $choice = $this->context->askCollection("Select source ", 'metadatasource', $backendArray);
+        }
+
+        return $this->retrieve($choice);
     }
 
     /**

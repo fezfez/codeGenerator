@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\Debug\Debug;
+
 error_reporting(-1);
 
 $cacheDir = __DIR__ . '/../silex/resources/cache';
@@ -17,6 +19,8 @@ if (is_file(__DIR__ . '/../vendor/autoload.php')) {
 } else {
     chdir(__DIR__ . '/../../../../'); // install with composer
 }
+
+Debug::enable();
 
 $app = new Silex\Application();
 

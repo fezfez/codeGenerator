@@ -17,14 +17,8 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
 
         $dataObject = new Architect();
         $dataObject->setNamespace('my\namespace')
-                   ->setGenerator('generator')
                    ->setMetadata($metaData)
                    ->addEnvironnementValue('framework', 'zend2');
-
-        $this->assertEquals(
-            'generator',
-            $dataObject->getGenerator()
-        );
 
         $this->assertInstanceOf(
             'CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL',

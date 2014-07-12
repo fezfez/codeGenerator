@@ -7,15 +7,19 @@ class CreateInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstance()
     {
-		$application = $this->getMockBuilder('Silex\Application')
-		->disableOriginalConstructor()
-		->getMock();
+        $application = $this->getMockBuilder('Silex\Application')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-		$sUT = new WebContext($application);
+        $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-		/*$this->assertInstanceOf(
-			'Silex\Application',
-			$sUT->getApplication()
-		);*/
+        $application->expects($this->once())
+        ->method('offsetGet')
+        ->with('request')
+        ->will($this->returnValue($request));
+
+        $sUT = new WebContext($application);
     }
 }

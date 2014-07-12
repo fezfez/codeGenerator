@@ -5,20 +5,28 @@ define(
         "App/Services/GeneratorService",
         "App/Services/ViewFileService",
         "App/Services/WaitModalService",
-        "App/Services/PreviewService",
+        "App/Services/GenerateService",
+        "App/Services/HistoryService",
         "Corp/Context/Context",
         "Corp/Context/Config",
         "HighLighterPHP"
     ],
-    function (GeneratorApp, SourceService, GeneratorService, ViewFileService, WaitModalService, PreviewService, Context, Config) {
+    function (GeneratorApp, SourceService, GeneratorService, ViewFileService, WaitModalService, GenerateService, HistoryService, Context, Config) {
         "use strict";
 
         GeneratorApp.controller("GeneratorCtrl",
-                ['$scope', '$http', 'SourceService', 'GeneratorService', 'ViewFileService', 'WaitModalService', 'PreviewService',
-                function ($scope, $http, $sourceService, $generatorService, $viewFileService, $WaitModalService, $previewService) {
+                ['$scope', '$http', 'SourceService', 'GeneratorService', 'ViewFileService', 'WaitModalService', 'GenerateService', 'HistoryService',
+                function ($scope, $http, $sourceService, $generatorService, $viewFileService, $WaitModalService, $generateService, $historyService) {
 
-            var config = new Config();
-            $scope.configQuestion = {};
+            var context = new Context(),
+                config = new Config();
+
+            $scope.configQuestion    = {};
+            $scope.answers           = {};
+            $scope.metadataSelected  = null;
+            $scope.generatorSelected = null;
+            $scope.backendSelected   = null;
+            $scope.historyQuestion   = {};
 
             $scope.setConfigQuestion = function(attribute) {
                 $scope.backendConfig();
@@ -51,26 +59,27 @@ define(
                 });
             };
 
-            $scope.answers = {};
-            $scope.metadataSelected = null;
-            $scope.generatorSelected = null;
-            $scope.backendSelected = null;
+            var loadContext = function(context) {
+                if (context.getBackendCollection() !== null)
+                    $scope.backendCollection = context.getBackendCollection();
+                if (context.getMetadataCollection() !== null)
+                    $scope.metadataCollection = context.getMetadataCollection();
+                if (context.getGeneratorCollection() !== null)
+                    $scope.generatorCollection = context.getGeneratorCollection();
+                if (context.getDirectories() !== null)
+                    $scope.fileList = context.getDirectories();
+                if (context.getQuestionCollection() !== null)
+                    $scope.questionList = context.getQuestionCollection();
+                if (context.getHistoryCollection() !== null)
+                    $scope.historyCollection = context.getHistoryCollection();
+            };
 
             var generate = function(context) {
                 $WaitModalService.show();
                 $generatorService.build(
                     context,
-                    function(data) {
-                        if (data.backendCollection)
-                            $scope.backendCollection = data.backendCollection;
-                        if (data.metadataCollection)
-                            $scope.metadataCollection = data.metadataCollection;
-                        if (data.generatorCollection)
-                            $scope.generatorCollection = data.generatorCollection;
-                        if (data.directories)
-                            $scope.fileList = data.directories;
-                        if (data.question)
-                            $scope.questionList = data.question;
+                    function(context) {
+                        loadContext(context);
                         $WaitModalService.hide();
                         $('body').tooltip({
                             selector: "[rel=tooltip]"
@@ -78,8 +87,7 @@ define(
                     }
                 );
             };
-            var context = new Context();
-            
+
             $scope.setMetadata = function(name) {
                 context.setMetadata(name);
                 $scope.metadataSelected = name;
@@ -130,7 +138,7 @@ define(
              * Generate
              */
             $scope.generate = function() {
-                $previewService.generate(context, function (results) {
+                $generateService.generate(context, function (results) {
                     if (undefined !== results.error) {
                         $scope.unsafeModal = {
                             'title' : 'Error',
@@ -145,6 +153,54 @@ define(
                         };
                     }
                 });
+            };
+            
+            $scope.showHistory = function() {
+                $historyService.generate(
+                    $scope.historyQuestion,
+                    function(context) {
+                        var modal = $('history > div');
+                        if (!modal.hasClass( "show" )) {
+                            modal.modal('show');
+                        }
+                        if (context.getHistoryCollection() !== null)
+                            $scope.historyCollection = context.getHistoryCollection();
+                    },
+                    function(results) {
+                        $scope.unsafeModal = {
+                            'title' : 'Error on history ',
+                            'body'  : results.error,
+                        };
+                    }
+                );
+            };
+            
+            /*
+             * History
+             */
+            $scope.history = function() {
+                $historyService.generate(
+                    $scope.historyQuestion,
+                    function(historyContext) {
+
+                        loadContext(historyContext);
+                        context = historyContext;
+                        $scope.metadataSelected = context.getMetadata();
+                        $scope.generatorSelected = context.getGenerator();
+                        $scope.backendSelected = context.getBackend();
+                        angular.forEach(context.getQuestionCollection(), function (question, id) {
+                            $scope.answers[question.dtoAttribute] = question.defaultResponse;
+                        });
+
+                        $('history > div').modal('hide');
+                    },
+                    function(results) {
+                        $scope.unsafeModal = {
+                            'title' : 'Error on history ',
+                            'body'  : results.error,
+                        };
+                    }
+                );
             };
         }]);
 });

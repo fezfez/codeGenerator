@@ -20,6 +20,7 @@ namespace CrudGenerator\Context;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
+use CrudGenerator\Generators\GeneratorDataObject;
 
 class CliContext implements ContextInterface
 {
@@ -91,5 +92,13 @@ class CliContext implements ContextInterface
     public function log($text, $name = null)
     {
         $this->output->writeln($text);
+    }
+
+    /**
+     * @param GeneratorDataObject $generator
+     */
+    public function publishGenerator(GeneratorDataObject $generator)
+    {
+
     }
 }

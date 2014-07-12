@@ -44,7 +44,7 @@ class HistoryBackbone
     public function run()
     {
         try {
-            $this->historyQuestion->ask();
+            $this->context->publishGenerator($this->historyQuestion->ask());
         } catch (EmptyHistoryException $e) {
             $this->context->log("Generation history empty", "history_empty");
         }

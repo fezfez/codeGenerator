@@ -101,9 +101,38 @@
             </div>
         </div>
     </div>
-</div>
-{% endraw %}
+    </div>
     </newSource>
+    <history>
+     <div class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">History</h4>
+            </div>
+            <div class="modal-body">
+                    <form ng-submit="history()">
+                        <div class="form-group" ng-if="historyCollection != null">
+                            <label>{{ historyCollection.text }}</label>
+                            <select id="{{ historyCollection.dtoAttribute }}"
+                                    class="form-control question"
+                                    ng-model="historyQuestion[historyCollection.dtoAttribute]">
+                                    <option ng-repeat="value in historyCollection.values"
+                                            ng-selected="(value.id === historyCollection.defaultResponse) ? 'selected' : null"
+                                            value="{{ value.id }}" >
+                                        {{ value.label }}
+                                    </option>
+                            </select>
+                        </div>
+                        <input type="submit" class="btn btn-success" value="Awake" />
+                    </form>
+            </div>
+        </div>
+    </div>
+    </div>
+</history>
+{% endraw %}
     <conflict></conflict>
     <metadatasource></metadatasource>
 </body>
