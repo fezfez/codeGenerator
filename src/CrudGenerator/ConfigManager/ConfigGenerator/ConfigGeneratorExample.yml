@@ -1,5 +1,0 @@
-configs:
-  baseNamespace: Corp
-  pathToModels: Application/models/Corp
-  metadatasBackend: yamlConf
-  pathToMetadatas: Application/models/Corp
