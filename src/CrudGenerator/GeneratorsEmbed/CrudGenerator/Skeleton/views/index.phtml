@@ -20,8 +20,10 @@
         <tr>
 <?php
             $fieldsCollection = $this->crudGenerator->getMetadata()->getColumnCollection();
+            $columnIndex                    = array_values($this->crudGenerator->getMetadata()->getColumnCollection()->getArrayCopy());
+            $firstColumnCollection          = $columnIndex[0];
             foreach($this->crudGenerator->getMetadata()->getColumnCollection() as $metadata):
-                if($metadata == reset($fieldsCollection)): ?>
+                if($metadata == $firstColumnCollection): ?>
             <td>
                 <a href="<?php echo '<?php echo $this->url("' . $this->showRoute . '", array("id" => $' . $this->modelName . '->getId())); ?>'; ?>">
                     <?php echo '<?php echo $' . $this->modelName . '->get' . $metadata->getName(true) . '(); ?>' . "\n"; ?>
