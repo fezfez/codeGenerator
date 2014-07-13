@@ -26,4 +26,21 @@ use ArrayObject;
  */
 class MetaDataColumnCollection extends ArrayObject
 {
+    /**
+     * @return MetaDataColumn
+     */
+    public function end()
+    {
+    	$columns = array_values($this->getArrayCopy());
+    	return array_pop($columns);
+    }
+
+    /**
+     * @return MetaDataColumn
+     */
+    public function first()
+    {
+        $columns = array_values($this->getArrayCopy());
+        return $columns[0];
+    }
 }

@@ -54,9 +54,9 @@ class <?php echo $this->fixtureName . "\n"; ?>
 $columnCollection = $this->architectGenerator->getMetadata()->getColumnCollection(true);
 foreach($columnCollection as $field => $metadata):
 if($metadata == reset($columnCollection)): ?>
-->set<?php echo $this->getHelper('Text')->toCamelCase($this->architectGenerator->getAttributeName($metadata->getName()), true); ?>(<?php echo $this->getHelper('FixtureRenderer')->render($metadata); ?>)<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
+->set<?php echo $this->getHelper('Text')->toCamelCase($this->architectGenerator->getAttributeName($metadata->getName()), true); ?>(<?php echo $this->getHelper('FixtureRenderer')->render($metadata); ?>)<?php if($metadata == $columnCollection->end()): ?>;<?php endif; ?><?php echo "\n"; ?>
 <?php else: ?>
-                   ->set<?php echo $this->getHelper('Text')->toCamelCase($this->architectGenerator->getAttributeName($metadata->getName()), true); ?>(<?php echo $this->getHelper('FixtureRenderer')->render($metadata); ?>)<?php if($metadata == end($columnCollection)): ?>;<?php endif; ?><?php echo "\n"; ?>
+                   ->set<?php echo $this->getHelper('Text')->toCamelCase($this->architectGenerator->getAttributeName($metadata->getName()), true); ?>(<?php echo $this->getHelper('FixtureRenderer')->render($metadata); ?>)<?php if($metadata == $columnCollection->end()): ?>;<?php endif; ?><?php echo "\n"; ?>
 <?php endif; ?>
 <?php endforeach; ?>
 

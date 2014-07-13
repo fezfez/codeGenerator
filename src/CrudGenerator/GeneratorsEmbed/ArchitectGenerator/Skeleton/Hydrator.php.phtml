@@ -4,9 +4,7 @@ $databaseConnectorClassName     = $this->renderFile(__DIR__ . '/environnement/' 
 $databaseConnectionVariableName = $this->renderFile(__DIR__ . '/environnement/' . $this->architectGenerator->getEnvironnement('backend') . '/variableName.phtml');
 $typeReturnedByDatabase         = $this->renderFile(__DIR__ . '/environnement/' . $this->architectGenerator->getEnvironnement('backend') . '/typeReturnedByDatabase.phtml');
 $concreteTypeReturnedByDatabase = $this->renderFile(__DIR__ . '/environnement/' . $this->architectGenerator->getEnvironnement('backend') . '/concreteTypeReturnedByDatabase.phtml');
-$columnIndex                    = array_values($this->architectGenerator->getMetadata()->getColumnCollection()->getArrayCopy());
-$firstColumnCollection          = $columnIndex[0];
-$lastColumnCollection           = array_pop($columnIndex);
+
 ?>
 namespace <?php echo $this->architectGenerator->getNamespace(); ?>\Hydrator;
 
@@ -34,10 +32,10 @@ class <?php echo $this->hydratorName . "\n"; ?>
 <?php
 $columnCollection = $this->architectGenerator->getMetadata()->getColumnCollection();
 foreach($columnCollection as $field => $metadata): ?>
-<?php if($metadata == $firstColumnCollection): ?>
+<?php if($metadata == $this->architectGenerator->getMetadata()->getColumnCollection()->first()): ?>
         $<?php echo $this->modelName; ?>->set<?php echo $metadata->getName(true); ?>($entity->get<?php echo $metadata->getName(true); ?>())<?php echo "\n"; ?>
 <?php else: ?>
-        <?php echo $length; ?>->set<?php echo $metadata->getName(true); ?>($entity->get<?php echo $metadata->getName(true); ?>())<?php if($metadata == $lastColumnCollection): ?>;<?php endif; ?><?php echo "\n"; ?>
+        <?php echo $length; ?>->set<?php echo $metadata->getName(true); ?>($entity->get<?php echo $metadata->getName(true); ?>())<?php if($metadata == $this->architectGenerator->getMetadata()->getColumnCollection()->end()): ?>;<?php endif; ?><?php echo "\n"; ?>
 <?php endif; ?>
 <?php endforeach; ?>
 <?php else:?>
@@ -45,10 +43,10 @@ foreach($columnCollection as $field => $metadata): ?>
 <?php
 $columnCollection = $this->architectGenerator->getMetadata()->getColumnCollection();
 foreach($columnCollection as $field => $metadata): ?>
-<?php if($metadata == $firstColumnCollection): ?>
+<?php if($metadata == $this->architectGenerator->getMetadata()->getColumnCollection()->first()): ?>
         $<?php echo $this->modelName; ?>->set<?php echo $metadata->getName(true); ?>($entity['<?php echo $metadata->getName(); ?>'])<?php echo "\n"; ?>
 <?php else: ?>
-        <?php echo $length; ?>->set<?php echo $this->architectGenerator->getAttributeName($metadata->getName()); ?>($entity['<?php echo $metadata->getOrininalName(); ?>'])<?php if($metadata == $lastColumnCollection): ?>;<?php endif; ?><?php echo "\n"; ?>
+        <?php echo $length; ?>->set<?php echo $this->architectGenerator->getAttributeName($metadata->getName()); ?>($entity['<?php echo $metadata->getOrininalName(); ?>'])<?php if($metadata == $this->architectGenerator->getMetadata()->getColumnCollection()->end()): ?>;<?php endif; ?><?php echo "\n"; ?>
 <?php endif; ?>
 <?php endforeach; ?>
 <?php endif; ?>
@@ -66,7 +64,7 @@ foreach($columnCollection as $field => $metadata): ?>
 <?php
 $columnCollection = $this->architectGenerator->getMetadata()->getColumnCollection();
 foreach($columnCollection as $field => $metadata): ?>
-<?php if($metadata == $firstColumnCollection) continue; ?>
+<?php if($metadata == $this->architectGenerator->getMetadata()->getColumnCollection()->first()) continue; ?>
 <?php if ($typeReturnedByDatabase == 'entity'): ?>
         $entity->set<?php echo $metadata->getName(true); ?>($<?php echo $this->modelName; ?>->get<?php echo $this->architectGenerator->getAttributeName($metadata->getName()); ?>());<?php echo "\n"; ?>
 <?php else: ?>
