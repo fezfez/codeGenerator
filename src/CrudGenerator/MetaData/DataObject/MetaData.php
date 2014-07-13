@@ -95,12 +95,12 @@ abstract class MetaData implements \JsonSerializable
     public function getColumnCollection($withoutIdentifier = false)
     {
         if ($withoutIdentifier === true) {
-            $tmpColumnCollection = array();
+            $tmpColumnCollection = new MetaDataColumnCollection();
 
             foreach ($this->columnCollection as $column) {
                 $isPk = $column->isPrimaryKey();
                 if ($isPk === false) {
-                    $tmpColumnCollection[] = $column;
+                    $tmpColumnCollection->append($column);
                 }
             }
 
