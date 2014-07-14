@@ -15,7 +15,7 @@ before_script:
 script: 
   - mkdir -p build
   - mkdir -p build/logs
-  - if [[ 'php --version' == *Hip* ]]; then phpunit; else  phpunit --coverage-clover coverage.clover; fi;
+  - if [[ 'php --version' == *Hip* ]]; then ./vendor/bin/phpunit ; else  ./vendor/bin/phpunit --coverage-clover coverage.clover; fi;
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
