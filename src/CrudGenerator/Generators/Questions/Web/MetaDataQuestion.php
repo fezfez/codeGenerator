@@ -53,6 +53,10 @@ class MetaDataQuestion
         $this->context               = $context;
     }
 
+    /**
+     * @param MetaDataSource $metadataSource
+     * @return \CrudGenerator\MetaData\Sources\MetaDataDAOInterface
+     */
     private function getMetaDataDAO(MetaDataSource $metadataSource)
     {
         $metadataSourceFactoryName = $metadataSource->getMetaDataDAOFactory();
