@@ -43,8 +43,8 @@ class CommentEntity
 
     public function __construct()
     {
-    	$this->commentInOneToMany  = new ArrayCollection();
-    	$this->commentInManyToMany = new ArrayCollection();
+        $this->commentInOneToMany  = new ArrayCollection();
+        $this->commentInManyToMany = new ArrayCollection();
     }
 
     /**
@@ -115,6 +115,6 @@ class CommentEntity
      */
     public function getCommentInOneToMany()
     {
-    	return $this->commentInOneToMany;
+        return $this->commentInOneToMany;
     }
 }

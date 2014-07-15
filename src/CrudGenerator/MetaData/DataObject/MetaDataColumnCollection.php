@@ -31,8 +31,8 @@ class MetaDataColumnCollection extends ArrayObject
      */
     public function end()
     {
-    	$columns = array_values($this->getArrayCopy());
-    	return array_pop($columns);
+        $columns = array_values($this->getArrayCopy());
+        return array_pop($columns);
     }
 
     /**

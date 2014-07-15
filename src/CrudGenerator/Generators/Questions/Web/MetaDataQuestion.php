@@ -40,7 +40,7 @@ class MetaDataQuestion
     private $context = null;
 
     /**
-     * @param MetaDataConfigReaderForm $metaDataConfigDAO
+     * @param MetaDataConfigDAO $metaDataConfigDAO
      * @param MetaDataSourceFactory $metaDataSourceFactory
      */
     public function __construct(

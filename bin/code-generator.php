@@ -16,7 +16,6 @@
  * and is licensed under the MIT license
  */
 
-
 chdir(realpath('./'));
 
 if (!(@include_once __DIR__ . '/../vendor/autoload.php') && !(@include_once __DIR__ . '/../../../autoload.php')) {

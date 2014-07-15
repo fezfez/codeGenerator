@@ -10,5 +10,4 @@ $pdoConfig->setDatabaseName('code_generator')
 ->setPort('5432')
 ->setHost('localhost');
 
-
 return $pdoConfig;

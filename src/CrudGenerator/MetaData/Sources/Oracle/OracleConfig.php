@@ -193,7 +193,6 @@ class OracleConfig implements MetaDataConfig
         );
     }
 
-
     /**
      * Get MetaDataDAOFactory
      *

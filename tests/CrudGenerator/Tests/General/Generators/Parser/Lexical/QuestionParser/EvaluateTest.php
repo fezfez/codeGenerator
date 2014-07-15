@@ -65,17 +65,17 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $generator = new GeneratorDataObject();
 
         $process = array(
-        		'questions' => array(
-        				array(
-        						'dtoAttribute'    => 'test',
-        						'text'            => 'test',
-        						'defaultResponse' => 'myDefaultResponse'
-        				)
-        		)
+                'questions' => array(
+                        array(
+                                'dtoAttribute'    => 'test',
+                                'text'            => 'test',
+                                'defaultResponse' => 'myDefaultResponse'
+                        )
+                )
         );
 
         $this->assertEquals(
-        		$generator,
+                $generator,
             $sUT->evaluate($process, $phpParser, $generator, false)
         );
     }
@@ -166,7 +166,6 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
-
 
         $sUT = new TemplateVariableParser($fileManager, $environnementCondition, $dependencyCondition);
 

@@ -10,7 +10,6 @@ use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\Generators\GeneratorDataObject;
 
-
 class AskTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()

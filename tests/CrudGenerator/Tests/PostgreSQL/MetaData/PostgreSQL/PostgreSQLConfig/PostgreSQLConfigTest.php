@@ -54,7 +54,6 @@ class PostgreSQLConfigTest extends \PHPUnit_Framework_TestCase
         ->setPort('port')
         ->setUser('user');
 
-
         $this->setExpectedException('CrudGenerator\MetaData\Config\ConfigException');
         $pdo->test();
     }

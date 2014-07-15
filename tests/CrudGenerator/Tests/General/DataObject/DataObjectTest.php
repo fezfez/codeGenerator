@@ -31,8 +31,8 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-        	'zend2',
-        	$dataObject->getEnvironnement('framework')
+            'zend2',
+            $dataObject->getEnvironnement('framework')
         );
 
         $this->setExpectedException('InvalidArgumentException');

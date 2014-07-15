@@ -15,16 +15,16 @@ class CreateInstanceTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-		$sUT = new CliContext($dialog, $ConsoleOutputStub);
+        $sUT = new CliContext($dialog, $ConsoleOutputStub);
 
-		/*$this->assertInstanceOf(
-			'Symfony\Component\Console\Helper\DialogHelper',
-			$sUT->getDialogHelper()
-		);
+        /*$this->assertInstanceOf(
+            'Symfony\Component\Console\Helper\DialogHelper',
+            $sUT->getDialogHelper()
+        );
 
-		$this->assertInstanceOf(
-			'Symfony\Component\Console\Output\ConsoleOutput',
-			$sUT->getOutput()
-		);*/
+        $this->assertInstanceOf(
+            'Symfony\Component\Console\Output\ConsoleOutput',
+            $sUT->getOutput()
+        );*/
     }
 }

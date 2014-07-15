@@ -44,7 +44,6 @@ class HandleTest extends \PHPUnit_Framework_TestCase
         ->method('filePutsContent')
         ->will($this->returnValue('test'));
 
-
         $diffPHP = $this->getMockBuilder('SebastianBergmann\Diff\Differ')
         ->disableOriginalConstructor()
         ->getMock();
@@ -73,7 +72,6 @@ class HandleTest extends \PHPUnit_Framework_TestCase
         $fileManager->expects($this->once())
         ->method('filePutsContent')
         ->will($this->returnValue('test'));
-
 
         $diffPHP = $this->getMockBuilder('SebastianBergmann\Diff\Differ')
         ->disableOriginalConstructor()

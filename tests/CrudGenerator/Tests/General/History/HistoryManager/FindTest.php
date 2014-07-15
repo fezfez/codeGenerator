@@ -19,7 +19,7 @@ class FindTest extends \PHPUnit_Framework_TestCase
         ->getMock();
 
         $stubHistoryHydrator->expects($this->once())
-        				    ->method('jsonToDTO');
+                            ->method('jsonToDTO');
 
         $historyName = 'toto';
         $stubFileManager->expects($this->once())
@@ -34,25 +34,25 @@ class FindTest extends \PHPUnit_Framework_TestCase
 
     public function testError()
     {
-    	// wakeup classes
-    	$generatorFinder = GeneratorFinderFactory::getInstance();
-    	$generatorFinder->getAllClasses();
+        // wakeup classes
+        $generatorFinder = GeneratorFinderFactory::getInstance();
+        $generatorFinder->getAllClasses();
 
-    	$stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
-    	$stubHistoryHydrator = $this->getMockBuilder('\CrudGenerator\History\HistoryHydrator')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
+        $stubHistoryHydrator = $this->getMockBuilder('\CrudGenerator\History\HistoryHydrator')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$historyName = 'toto';
-    	$stubFileManager->expects($this->once())
-    	->method('isFile')
-    	->with(HistoryManager::HISTORY_PATH . $historyName . '.history.yaml')
-    	->will($this->returnValue(false));
+        $historyName = 'toto';
+        $stubFileManager->expects($this->once())
+        ->method('isFile')
+        ->with(HistoryManager::HISTORY_PATH . $historyName . '.history.yaml')
+        ->will($this->returnValue(false));
 
-    	$sUT = new HistoryManager($stubFileManager, $stubHistoryHydrator);
+        $sUT = new HistoryManager($stubFileManager, $stubHistoryHydrator);
 
-    	$this->setExpectedException('CrudGenerator\History\HistoryNotFoundException');
+        $this->setExpectedException('CrudGenerator\History\HistoryNotFoundException');
 
-    	$sUT->find($historyName);
+        $sUT->find($historyName);
     }
 }

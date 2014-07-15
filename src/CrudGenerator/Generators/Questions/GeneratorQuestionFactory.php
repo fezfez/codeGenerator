@@ -34,9 +34,9 @@ class GeneratorQuestionFactory
         $generatorFinder = GeneratorFinderFactory::getInstance();
 
         if ($context instanceof CliContext || $context instanceof WebContext) {
-        	return new Web\GeneratorQuestion($generatorFinder, $context);
+            return new Web\GeneratorQuestion($generatorFinder, $context);
         } else {
-        	throw new \InvalidArgumentException('Invalid context');
+            throw new \InvalidArgumentException('Invalid context');
         }
     }
 }

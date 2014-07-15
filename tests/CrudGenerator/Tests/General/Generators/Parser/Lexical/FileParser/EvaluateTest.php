@@ -30,7 +30,6 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-
         $sUT = new FileParser($fileManager, $dependencyCondition, $environnementCondition);
 
         $generator = new GeneratorDataObject();
@@ -61,7 +60,6 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
-
 
         $sUT = new FileParser($fileManager, $dependencyCondition, $environnementCondition);
 
@@ -98,7 +96,6 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $phpParser->expects($this->once())
         ->method('parse')
         ->will($this->returnValue('MyFileParser'));
-
 
         $sUT = new FileParser($fileManager, $dependencyCondition, $environnementCondition);
 
@@ -144,7 +141,6 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $phpParser->expects($this->once())
         ->method('parse')
         ->will($this->returnValue('MyFileParser'));
-
 
         $sUT = new FileParser($fileManager, $dependencyCondition, $environnementCondition);
 
@@ -197,7 +193,6 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->method('parse')
         ->with('MyFile')
         ->will($this->returnValue('MyFileParsed'));
-
 
         $sUT = new FileParser($fileManager, $dependencyCondition, $environnementCondition);
 

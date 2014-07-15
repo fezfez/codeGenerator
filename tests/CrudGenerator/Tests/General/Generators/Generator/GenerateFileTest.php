@@ -46,7 +46,6 @@ class GenerateFileTest extends \PHPUnit_Framework_TestCase
 
         $generator->addFile('test', 'myName', 'MyValue', 'myResult');
 
-
         $sUt->generateFile($generator, 'myName');
     }
 

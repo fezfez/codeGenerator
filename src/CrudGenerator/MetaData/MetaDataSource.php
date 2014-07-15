@@ -110,7 +110,7 @@ class MetaDataSource implements \JsonSerializable
      */
     public function getMetaDataDAOFactory()
     {
-    	return $this->metaDataDAOFactory;
+        return $this->metaDataDAOFactory;
     }
     /**
      * Get definition

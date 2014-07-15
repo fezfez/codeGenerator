@@ -89,7 +89,7 @@ abstract class DataObject implements \JsonSerializable
     public function jsonSerialize()
     {
         return array(
-        	'metadata' => $this->metadata
+            'metadata' => $this->metadata
         );
     }
 }

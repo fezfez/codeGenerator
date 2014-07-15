@@ -81,7 +81,7 @@ class MainBackbone
         $this->context->log($generator->getFiles(), 'files');
 
         if (true === $this->context->confirm('view file', 'view_file')) {
-        	$this->generateFileBackbone->run($generator);
+            $this->generateFileBackbone->run($generator);
         }
         if (true === $this->context->confirm('Generate file', 'generate_files')) {
             $this->generateBackbone->run($generator);

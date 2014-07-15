@@ -50,7 +50,7 @@ class ClassAwake
 
     /**
      * Find classes on directory
-     * @param array $directories Target directory
+     * @param string[] $directories Target directory
      * @return array
      */
     private function awake(array $directories)
@@ -65,7 +65,6 @@ class ClassAwake
                 '/^.+' . preg_quote('.php') . '$/i',
                 \RecursiveRegexIterator::GET_MATCH
             );
-
 
             foreach ($iterator as $file) {
                 $sourceFile = realpath($file[0]);
@@ -86,7 +85,6 @@ class ClassAwake
                 $classes[] = $className;
             }
         }
-
 
         return $classes;
     }
