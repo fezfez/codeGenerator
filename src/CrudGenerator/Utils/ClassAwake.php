@@ -55,7 +55,7 @@ class ClassAwake
      */
     private function awake(array $directories)
     {
-    	$includedFiles = array();
+        $includedFiles = array();
         foreach ($directories as $directorie) {
             $iterator = new \RegexIterator(
                 new \RecursiveIteratorIterator(
@@ -76,6 +76,7 @@ class ClassAwake
             }
         }
 
+        $classes  = array();
         $declared = get_declared_classes();
 
         foreach ($declared as $className) {

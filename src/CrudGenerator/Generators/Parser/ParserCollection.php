@@ -22,11 +22,11 @@ use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
 class ParserCollection
 {
     /**
-     * @var ArrayObject
+     * @var \ArrayObject
      */
     private $preParser = null;
     /**
-     * @var ArrayObject
+     * @var \ArrayObject
      */
     private $postParser = null;
 

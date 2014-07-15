@@ -55,7 +55,7 @@ class GeneratorParser
      */
     private $phpStringParser = null;
     /**
-     * @var ViewFileStategy
+     * @var GeneratorStrategy
      */
     private $viewFile = null;
     /**

@@ -28,7 +28,7 @@ use CrudGenerator\Utils\FileManager;
 class ZendFramework2Environnement
 {
     /**
-     * @var Zend\ServiceManager\ServiceManager Service manager
+     * @var \Zend\ServiceManager\ServiceManager Service manager
      */
     private static $serviceManager = null;
 

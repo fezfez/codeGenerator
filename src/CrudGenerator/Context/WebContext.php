@@ -98,19 +98,16 @@ class WebContext implements ContextInterface, \JsonSerializable
         return $response;
     }
 
-    /**
-     * @param string $text
-     * @param string $uniqueKey
-     * @return string
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Context\ContextInterface::confirm()
      */
     public function confirm($text, $uniqueKey)
     {
         return $this->getResponse($uniqueKey);
     }
 
-    /**
-     * @param string $text
-     * @param string|null $name
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Context\ContextInterface::log()
      */
     public function log($text, $name = null)
     {
@@ -132,8 +129,8 @@ class WebContext implements ContextInterface, \JsonSerializable
         return $this->question;
     }
 
-    /**
-     * @param GeneratorDataObject $generator
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Context\ContextInterface::publishGenerator()
      */
     public function publishGenerator(GeneratorDataObject $generator)
     {

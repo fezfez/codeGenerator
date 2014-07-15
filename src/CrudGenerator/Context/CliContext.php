@@ -32,6 +32,10 @@ class CliContext implements ContextInterface
      * @var DialogHelper
      */
     private $dialog = null;
+    /**
+     * @var array
+     */
+    private $question = array();
 
     /**
      * @param OutputInterface $output
@@ -71,10 +75,8 @@ class CliContext implements ContextInterface
         );
     }
 
-    /**
-     * @param string $text
-     * @param string $uniqueKey
-     * @return boolean
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Context\ContextInterface::confirm()
      */
     public function confirm($text, $uniqueKey)
     {
@@ -84,17 +86,16 @@ class CliContext implements ContextInterface
         );
     }
 
-    /**
-     * @param string $text
-     * @param string|null $name
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Context\ContextInterface::log()
      */
     public function log($text, $name = null)
     {
         $this->output->writeln($text);
     }
 
-    /**
-     * @param GeneratorDataObject $generator
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Context\ContextInterface::publishGenerator()
      */
     public function publishGenerator(GeneratorDataObject $generator)
     {
