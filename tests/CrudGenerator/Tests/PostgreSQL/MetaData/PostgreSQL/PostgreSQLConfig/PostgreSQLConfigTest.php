@@ -3,6 +3,9 @@ namespace CrudGenerator\Tests\PostgreSQL\MetaData\Sources\PostgreSQL\PostgreSQLC
 
 use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
 
+/**
+ * @requires extension pdo_pgsql
+ */
 class PostgreSQLConfigTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()

@@ -85,37 +85,31 @@ class HistoryHydrator
      */
     private function checkIntegrity(array $data)
     {
-        if (!isset($data['dto']) || null === $data['dto']) {
+        if (false === $this->isAttributeIsSet($data, 'dto')) {
             throw new InvalidHistoryException(
                 "DataObject doesn't have DTO"
             );
         }
 
-        $dto = $data['dto'];
-
-        if (!isset($data['dtoClass']) || null === $data['dtoClass']) {
+        if (false === $this->isAttributeIsSet($data, 'dtoClass')) {
             throw new InvalidHistoryException(
                 "DataObject doesn't have DTO"
             );
         }
 
-        if (!isset($dto['metadata']) || null === $dto['metadata']) {
+        if (false === $this->isAttributeIsSet($data['dto'], 'metadata')) {
             throw new InvalidHistoryException(
                 "DataObject doesn't have metadata"
             );
         }
 
-        $metadata = $dto['metadata'];
-
-        if (!isset($data['metaDataSource']) || null === $data['metaDataSource']) {
+        if (false === $this->isAttributeIsSet($data, 'metaDataSource')) {
             throw new InvalidHistoryException(
                 "DataObject doesn't have metadataSource"
             );
         }
 
-        $metadataSource = $data['metaDataSource'];
-
-        if (null === $metadataSource['metaDataDAO'] || null === $metadataSource['metaDataDAOFactory']) {
+        if (false === $this->isAttributeIsSet($data['metaDataSource'], 'metaDataDAO')) {
             throw new InvalidHistoryException(
                 "MetadataSource is not well configured"
             );
@@ -125,7 +119,18 @@ class HistoryHydrator
     }
 
     /**
+     * @param array $data
+     * @param string $attribute
+     * @return boolean
+     */
+    private function isAttributeIsSet(array $data, $attribute)
+    {
+        return (false === array_key_exists($attribute, $data) || null === $data[$attribute]) ? false : true;
+    }
+
+    /**
      * @param string $content
+     * @return History
      */
     public function jsonToDto($content)
     {

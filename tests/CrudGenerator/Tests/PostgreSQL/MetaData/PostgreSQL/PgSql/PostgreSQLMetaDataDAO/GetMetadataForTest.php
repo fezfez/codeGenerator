@@ -3,6 +3,9 @@ namespace CrudGenerator\Tests\PostgreSQL\MetaData\Sources\PostgreSQL\PgSql\Postg
 
 use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory;
 
+/**
+ * @requires extension pdo_pgsql
+ */
 class GetMetadataForTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
