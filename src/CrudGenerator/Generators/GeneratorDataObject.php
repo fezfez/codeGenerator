@@ -108,7 +108,7 @@ class GeneratorDataObject implements \JsonSerializable
      */
     public function addEnvironnementValue($environnement, $value)
     {
-        if (empty($this->dto)) {
+        if (empty($this->dto) === true) {
             throw new \LogicException('DTO cant be empty');
         }
 
@@ -202,7 +202,7 @@ class GeneratorDataObject implements \JsonSerializable
      */
     public function getEnvironnement($name)
     {
-        return (isset($this->environnement[$name])) ? $this->environnement[$name] : null;
+        return (isset($this->environnement[$name]) === true) ? $this->environnement[$name] : null;
     }
     /**
      * @return array

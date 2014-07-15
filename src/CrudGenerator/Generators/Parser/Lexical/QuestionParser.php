@@ -51,9 +51,9 @@ class QuestionParser implements ParserInterface
      */
     public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
     {
-        if (isset($process['questions'])) {
+        if (isset($process['questions']) === true) {
             foreach ($process['questions'] as $question) {
-                if (!is_array($question)) {
+                if (is_array($question) === false) {
                     throw new MalformedGeneratorException('Questions excepts to be an array "' . gettype($question) . "' given");
                 }
 
@@ -73,12 +73,12 @@ class QuestionParser implements ParserInterface
      */
     public function evaluateQuestions(array $question, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
     {
-        if(isset($question[GeneratorParser::DEPENDENCY_CONDITION])) {
+        if(isset($question[GeneratorParser::DEPENDENCY_CONDITION]) === true) {
             $matches = $this->dependencyCondition->evaluate($question[GeneratorParser::DEPENDENCY_CONDITION], $parser, $generator, $firstIteration);
             foreach ($matches as $questionsMatchs) {
                 $generator = $this->evaluateQuestions($questionsMatchs, $parser, $generator, $firstIteration);
             }
-        } elseif (isset($question['type']) && $question['type'] === GeneratorParser::COMPLEX_QUESTION) {
+        } elseif (isset($question['type']) === true && $question['type'] === GeneratorParser::COMPLEX_QUESTION) {
             $complex = $question['factory']::getInstance($this->context);
             $generator = $complex->ask($generator, $question);
         } else {
@@ -100,8 +100,8 @@ class QuestionParser implements ParserInterface
         $response = $this->context->ask(
             $question['text'],
             'set' . ucfirst($question['dtoAttribute']),
-            (isset($question['defaultResponse'])) ? $parser->parse($question['defaultResponse']) : null,
-            (isset($question['required'])) ? $question['required'] : false
+            (isset($question['defaultResponse']) === true) ? $parser->parse($question['defaultResponse']) : null,
+            (isset($question['required']) === true) ? $question['required'] : false
         );
 
         $questionName = 'set' . ucfirst($question['dtoAttribute']);

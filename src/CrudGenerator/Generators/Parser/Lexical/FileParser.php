@@ -66,7 +66,7 @@ class FileParser implements ParserInterface
         }
 
         foreach ($process['filesList'] as $files) {
-            if (!is_array($files)) {
+            if (false === is_array($files)) {
                 throw new MalformedGeneratorException('File excepts to be an array "' . gettype($files) . "' given");
             }
 

@@ -32,11 +32,11 @@ class DirectoryQuestionFactory
         $fileManager = new FileManager();
 
         if ($context instanceof CliContext) {
-	        return new Cli\DirectoryQuestion($fileManager, $context);
+            return new Cli\DirectoryQuestion($fileManager, $context);
         } elseif ($context instanceof WebContext) {
-        	return new Web\DirectoryQuestion($fileManager, $context);
+            return new Web\DirectoryQuestion($fileManager, $context);
         } else {
-        	throw new \InvalidArgumentException('Invalid context given');
+            throw new \InvalidArgumentException('Invalid context given');
         }
     }
 }

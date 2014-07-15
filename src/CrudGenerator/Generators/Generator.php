@@ -86,7 +86,7 @@ class Generator
                     $file['fileName']
             );
 
-            if ($this->fileConflict->test($file['fileName'], $result)) {
+            if ($this->fileConflict->test($file['fileName'], $result) === true) {
                 $this->fileConflict->handle($file['fileName'], $result);
             }
         }

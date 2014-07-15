@@ -57,9 +57,9 @@ class TemplateVariableParser implements ParserInterface
      */
     public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
     {
-        if (isset($process['templateVariables'])) {
+        if (isset($process['templateVariables']) === true) {
             foreach ($process['templateVariables'] as $variables) {
-                if (!is_array($variables)) {
+                if (is_array($variables) === false) {
                     throw new MalformedGeneratorException('Variable excepts to be an array "' . gettype($variables) . "' given");
                 }
                 $this->evaluateVariable($variables, $parser, $generator, (bool) $firstIteration);

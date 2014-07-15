@@ -147,7 +147,7 @@ class GeneratorParser
     {
         $generator = clone $generator;
 
-        if (isset($process['dependencies']) && is_array($process['dependencies'])) {
+        if (isset($process['dependencies']) === true && is_array($process['dependencies']) === true) {
             foreach ($process['dependencies'] as $dependencieName) {
                 $generator->addDependency(
                     $this->analyze($dependencieName, $phpParser, $generator, $generator->getDTO()->getMetadata())

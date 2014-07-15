@@ -43,9 +43,9 @@ class EnvironnementParser implements ParserInterface
      */
      public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
      {
-         if (isset($process['environnement']) && is_array($process['environnement'])) {
+         if (isset($process['environnement']) === true && is_array($process['environnement']) === true) {
             foreach ($process['environnement'] as $environnementName => $question) {
-                if (!is_array($question)) {
+                if (is_array($question) === false) {
                     throw new MalformedGeneratorException('Questions excepts to be an array "' . gettype($question) . "' given");
                 }
 
@@ -69,7 +69,7 @@ class EnvironnementParser implements ParserInterface
         $possibleValues = array();
         $toRecurse      = array();
         foreach ($environnements as $framework => $environnement) {
-            if (is_array($environnement)) {
+            if (is_array($environnement) === true) {
                 $possibleValues[]      = array('label' => $framework, 'id' => $framework);
                 $toRecurse[$framework] = $environnement;
             } else {
@@ -86,7 +86,7 @@ class EnvironnementParser implements ParserInterface
         if ($response !== null) {
             $generator->addEnvironnementValue($environnementName, $response);
 
-            if (isset($toRecurse[$response])) {
+            if (isset($toRecurse[$response]) === true) {
                 foreach ($toRecurse[$response] as $recurseEnvironnementName => $questionToRecurse) {
                     $this->evaluateQuestions($recurseEnvironnementName, $questionToRecurse, $parser, $generator, $firstIteration);
                 }

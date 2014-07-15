@@ -45,7 +45,7 @@ class HistoryQuestion
 
     /**
      * @throws EmptyHistoryException
-     * @return \CrudGenerator\DataObject
+     * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     public function ask()
     {
@@ -73,13 +73,14 @@ class HistoryQuestion
     /**
      * @param string $preSelected
      * @throws ResponseExpectedException
-     * @return \CrudGenerator\DataObject
+     * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     private function retrieve($preSelected)
     {
         foreach ($this->historyManager->findAll() as $history) {
             /* @var $history \CrudGenerator\History\History */
             foreach ($history->getDataObjects() as $dto) {
+                /* @var $dto \CrudGenerator\Generators\GeneratorDataObject */
                 if ($dto->getDTO()->getMetadata()->getName() === $preSelected) {
                     return $dto;
                 }

@@ -28,9 +28,9 @@ class DirectoriesParser implements ParserInterface
     */
    public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
    {
-       if (isset($process['directories']) && is_array($process['directories'])) {
+       if (isset($process['directories']) === true && is_array($process['directories']) === true) {
             foreach ($process['directories'] as $directory) {
-                if (!is_string($directory)) {
+                if (is_string($directory) === false) {
                     throw new MalformedGeneratorException('Directory excepts to be an string "' . gettype($directory) . "' given");
                 }
 
