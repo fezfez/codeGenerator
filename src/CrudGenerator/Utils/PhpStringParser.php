@@ -38,7 +38,7 @@ class PhpStringParser
 
     /**
      * @param string $string
-     * @return mixed
+     * @return string
      */
     public function parse($string)
     {

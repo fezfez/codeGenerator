@@ -49,7 +49,6 @@ class Doctrine2MetaDataDAO implements MetaDataDAO
 
     /**
      * Doctrine2 adapter in ZF2 environnement
-     * @param EntityManager $em
      */
     public function __construct(EntityManager $entityManager)
     {

@@ -33,7 +33,7 @@ class Doctrine2MetaDataDAOFactory implements MetaDataDAOFactory
 {
     /**
      * Create Doctrine2MetaDataDAO instance
-     * @return \CrudGenerator\MetaData\MetaDataDAO
+     * @return Doctrine2MetaDataDAO
      */
     public static function getInstance(MetaDataConfig $config = null)
     {

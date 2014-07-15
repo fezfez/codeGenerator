@@ -44,7 +44,6 @@ class GenerateFileBackbone
 
     /**
      * @param GeneratorDataObject $generator
-     * @param string $fileName
      */
     public function run(GeneratorDataObject $generator)
     {

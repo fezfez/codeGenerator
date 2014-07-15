@@ -25,7 +25,7 @@ interface ParserInterface
     /**
      * @param array $process
      * @param PhpStringParser $parser
-     * @param Generator $generator
+     * @param GeneratorDataObject $generator
      * @param boolean $firstIteration
      * @return Generator
      */

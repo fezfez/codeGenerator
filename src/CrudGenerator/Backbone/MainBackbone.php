@@ -47,7 +47,6 @@ class MainBackbone
     private $context = null;
 
     /**
-     * @param MetaDataSourcesConfiguredQuestion $historyQuestion
      * @param PreapreForGenerationBackbone $preapreForGenerationBackbone
      */
     public function __construct(

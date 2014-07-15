@@ -55,7 +55,7 @@ class PostgreSQLConfig implements MetaDataConfig
     /**
      * Set database name
      * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
+     * @return PostgreSQLConfig
      */
     public function setDatabaseName($value)
     {
@@ -65,7 +65,7 @@ class PostgreSQLConfig implements MetaDataConfig
     /**
      * Set host
      * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
+     * @return PostgreSQLConfig
      */
     public function setHost($value)
     {
@@ -75,7 +75,7 @@ class PostgreSQLConfig implements MetaDataConfig
     /**
      * Set user
      * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
+     * @return PostgreSQLConfig
      */
     public function setUser($value)
     {
@@ -85,7 +85,7 @@ class PostgreSQLConfig implements MetaDataConfig
     /**
      * Set password
      * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
+     * @return PostgreSQLConfig
      */
     public function setPassword($value)
     {
@@ -95,7 +95,7 @@ class PostgreSQLConfig implements MetaDataConfig
     /**
      * Set port
      * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
+     * @return PostgreSQLConfig
      */
     public function setPort($value)
     {

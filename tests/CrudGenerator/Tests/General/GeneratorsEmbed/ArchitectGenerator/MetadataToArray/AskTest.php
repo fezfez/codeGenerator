@@ -26,6 +26,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $DTO = $sUT->ask($generator);
     }
 
+    /**
+     * @return \CrudGenerator\MetaData\DataObject\MetaData
+     */
     private function getMetadata()
     {
         return include __DIR__ . '/../../FakeMetaData.php';

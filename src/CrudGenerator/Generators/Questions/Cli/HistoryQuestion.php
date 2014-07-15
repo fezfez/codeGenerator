@@ -35,7 +35,7 @@ class HistoryQuestion
 
     /**
      * @param HistoryManager $historyManager
-     * @param OutputInterface $context
+     * @param ContextInterface $context
      */
     public function __construct(HistoryManager $historyManager, ContextInterface $context)
     {
@@ -45,7 +45,7 @@ class HistoryQuestion
 
     /**
      * @throws EmptyHistoryException
-     * @return string
+     * @return \CrudGenerator\DataObject
      */
     public function ask()
     {

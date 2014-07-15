@@ -26,8 +26,8 @@ class ClassAwake
 {
     /**
      * Awake classes by interface
-     * @param array $directories Target directory
-     * @param string $interfaceName Interface name
+     * @param string[] $directories Target directory
+     * @param string $interfaceNames Interface name
      * @return array
      */
     public function wakeByInterfaces(array $directories, $interfaceNames)

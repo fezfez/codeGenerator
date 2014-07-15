@@ -127,7 +127,7 @@ class MetaDataRelationColumn
     }
     /**
      * Get fields name
-     * @return string
+     * @return MetaData
      */
     public function getMetadata()
     {

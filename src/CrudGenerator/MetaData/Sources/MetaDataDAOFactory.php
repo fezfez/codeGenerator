@@ -36,6 +36,7 @@ interface MetaDataDAOFactory
      * Check if dependencies are complete
      * @param MetaDataSource $metadataSource
      * return boolean
+     * @return boolean
      */
     public static function checkDependencies(MetaDataSource $metadataSource);
 

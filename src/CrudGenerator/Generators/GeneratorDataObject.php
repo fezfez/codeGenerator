@@ -66,7 +66,6 @@ class GeneratorDataObject implements \JsonSerializable
     private $dependecies = array();
 
     /**
-     * @param DataObject $name
      * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     public function setDTO(DataObject $value)
@@ -103,7 +102,8 @@ class GeneratorDataObject implements \JsonSerializable
     }
 
     /**
-     * @param string $name
+     * @param string $environnement
+     * @param string $value
      * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     public function addEnvironnementValue($environnement, $value)
@@ -152,6 +152,7 @@ class GeneratorDataObject implements \JsonSerializable
     }
     /**
      * @param string $name
+     * @param string $value
      * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     public function addDirectories($name, $value)
@@ -211,7 +212,7 @@ class GeneratorDataObject implements \JsonSerializable
         return $this->environnement;
     }
     /**
-     * @return array
+     * @return string
      */
     public function getFiles()
     {

@@ -45,6 +45,9 @@ class AnalyseTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @return \CrudGenerator\MetaData\DataObject\MetaData
+     */
     private function getMetadata()
     {
         return include __DIR__ . '/../../FakeMetaData.php';

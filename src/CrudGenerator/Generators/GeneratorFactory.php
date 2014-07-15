@@ -34,7 +34,7 @@ class GeneratorFactory
      * @param ContextInterface $context
      * @param StrategyInterface $strategy
      * @throws \InvalidArgumentException
-     * @return \CrudGenerator\Generators\Generator|\CrudGenerator\Generators\GeneratorWeb
+     * @return Generator
      */
     public static function getInstance(ContextInterface $context, StrategyInterface $strategy)
     {

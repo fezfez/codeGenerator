@@ -34,7 +34,6 @@ class CliContext implements ContextInterface
     private $dialog = null;
 
     /**
-     * @param DialogHelper $dialogHelper
      * @param OutputInterface $output
      */
     public function __construct(DialogHelper $dialog, OutputInterface $output)

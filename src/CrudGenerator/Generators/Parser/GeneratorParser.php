@@ -92,11 +92,10 @@ class GeneratorParser
     }
 
     /**
-     * @param Generator $generator
+     * @param GeneratorDataObject $generator
      * @param MetaData $metadata
-     * @param array $questions
      * @throws \InvalidArgumentException
-     * @return Generator
+     * @return GeneratorDataObject
      */
     public function init(GeneratorDataObject $generator, MetaData $metadata)
     {

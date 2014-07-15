@@ -26,7 +26,7 @@ class MetadataToArrayFactory
     /**
      * @param ContextInterface $context
      * @throws \InvalidArgumentException
-     * @return \CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArrayWeb|\CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataToArrayCli
+     * @return MetadataToArray
      */
     public static function getInstance(ContextInterface $context)
     {

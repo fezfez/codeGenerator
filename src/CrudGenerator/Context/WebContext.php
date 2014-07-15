@@ -101,7 +101,7 @@ class WebContext implements ContextInterface, \JsonSerializable
     /**
      * @param string $text
      * @param string $uniqueKey
-     * @return boolean
+     * @return string
      */
     public function confirm($text, $uniqueKey)
     {

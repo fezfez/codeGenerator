@@ -13,7 +13,7 @@ class FileConflictManagerFactory
     /**
      * @param ContextInterface $context
      * @throws \InvalidArgumentException
-     * @return \CrudGenerator\FileConflict\FileConflictManagerWeb|\CrudGenerator\FileConflict\FileConflictManager
+     * @return FileConflictManager
      */
     public static function getInstance(ContextInterface $context)
     {
