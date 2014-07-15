@@ -85,7 +85,7 @@ class MetaDataConfigDAO
         foreach ($this->fileManager->glob(self::PATH . '*' . self::EXTENSION) as $file) {
             $configFile = (array) json_decode($this->fileManager->fileGetContent($file));
 
-            if (!isset($configFile['metaDataDAO'])) {
+            if (false === isset($configFile['metaDataDAO'])) {
             	continue;
             }
 

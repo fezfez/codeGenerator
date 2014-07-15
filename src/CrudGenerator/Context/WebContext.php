@@ -65,7 +65,7 @@ class WebContext implements ContextInterface, \JsonSerializable
     */
     public function ask($text, $key, $defaultResponse = null, $required = false, $helpMessage = null)
     {
-        if (!isset($this->question['question'])) {
+        if (false === isset($this->question['question'])) {
             $this->question['question'] = array();
         }
         $this->question['question'][] = array(

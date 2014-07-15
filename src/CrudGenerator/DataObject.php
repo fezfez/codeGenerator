@@ -74,7 +74,7 @@ abstract class DataObject implements \JsonSerializable
      */
     public function getEnvironnement($environnement)
     {
-        if (!isset($this->environnement[$environnement])) {
+        if (false === isset($this->environnement[$environnement])) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'Environnement "%s" not defined',

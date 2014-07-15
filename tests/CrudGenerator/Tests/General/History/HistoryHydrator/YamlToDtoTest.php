@@ -12,7 +12,7 @@ use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 
 class YamlToDtoTest extends \PHPUnit_Framework_TestCase
 {
-    public function testOk()
+    public function testOkddd()
     {
         $stubDumper = $this->getMockBuilder('Symfony\Component\Yaml\Dumper')
         ->disableOriginalConstructor()
@@ -53,24 +53,51 @@ class YamlToDtoTest extends \PHPUnit_Framework_TestCase
         ->with($this->equalTo($stubMetadataSourceClass), $this->equalTo($metaDataName))
         ->will($this->returnValue($metaData));
 
-        $yaml = "module: ./module/Application/
-metaDataSource: " . $metaDataSource . "
-metaData: " . $metaDataName . "
-Generators:
-    CrudGenerator\GeneratorsEmbed\CrudGenerator\Crud:
-        options:
-            AttributeName:
-                id: Id
-                dtCreat: 'Date de création'
-                nomLog: 'Nom log'
-            WriteAction: NewsEntity
-            PrefixRouteName: news
-            DisplayName: news
-            DisplayNames: news
-            ModelNamespace: Corp
-            ControllerName: News
-            ControllerNamespace: Application";
+        $json = '{
+                "dto": {
+                    "metadata": {
+                        "id": "CategorieEntity",
+                        "dtCreat": "CategorieEntity",
+                        "nomLog": "CategorieEntity",
+        				"name" : "CategorieEntity"
+                    },
+                    "formDirectory": null,
+                    "namespace": null,
+                    "modelName": null,
+                    "attributesDisplayName": {
+                        "id": "id",
+                        "dtCreat": "Date de ",
+                        "nomLog": "Nom log"
+                    }
+                },
+                "metaDataSource": {
+                    "definition": "Doctrine2",
+                    "metaDataDAO": "CrudGenerator\\\\MetaData\\\\Sources\\\\Doctrine2\\\\Doctrine2MetaDataDAO",
+                    "metaDataDAOFactory": "CrudGenerator\\\\MetaData\\\\Sources\\\\Doctrine2\\\\Doctrine2MetaDataDAOFactory",
+                    "falseDependencies": null
+                },
+                "dtoClass": "CrudGenerator\\\\GeneratorsEmbed\\\\CrudGenerator\\\\Crud",
+                "Generators":{
+                    "CrudGenerator\\\\GeneratorsEmbed\\\\CrudGenerator\\\\Crud":{
+                        "options":{
+                            "AttributeName":{
+                                "id":"Id",
+                                "dtCreat":"Date de cr\\u00e9ation",
+                                "nomLog":"Nom log"
+                            },
+                            "WriteAction":"NewsEntity",
+                            "PrefixRouteName":"news",
+                            "DisplayName":"news",
+                            "DisplayNames":"news",
+                            "ModelNamespace":"Corp",
+                            "ControllerName":"News",
+                            "ControllerNamespace":"Application"
+                        }
+                    }
+                }
+            }';
 
-        $this->assertInstanceOf('CrudGenerator\History\History', $sUT->jsonToDto($yaml));
+
+        $this->assertInstanceOf('CrudGenerator\History\History', $sUT->jsonToDto($json));
     }
 }

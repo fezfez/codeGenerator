@@ -61,7 +61,7 @@ class FileParser implements ParserInterface
             throw new MalformedGeneratorException(sprintf('The Skeleton path "%s" is not a valid directory', $skeletonPath));
         }
 
-        if (!isset($process['filesList'])) {
+        if (false === isset($process['filesList'])) {
             throw new MalformedGeneratorException('No file given');
         }
 
