@@ -4,6 +4,7 @@ php:
   - 5.4
   - 5.5
   - hhvm
+  - hhvm-nightly
 
 before_script:
   - composer self-update
@@ -15,7 +16,7 @@ before_script:
 script: 
   - mkdir -p build
   - mkdir -p build/logs
-  - if [[ 'php --version' == *Hip* ]]; then phpunit; else  phpunit --coverage-clover coverage.clover; fi;
+  - if [[ 'php --version' == *Hip* ]]; then ./vendor/bin/phpunit ; else  ./vendor/bin/phpunit --coverage-clover coverage.clover; fi;
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
@@ -24,6 +25,7 @@ after_script:
 matrix:
   allow_failures:
     - php: hhvm
+    - php: hhvm-nightly
 
 notifications:
   email:
