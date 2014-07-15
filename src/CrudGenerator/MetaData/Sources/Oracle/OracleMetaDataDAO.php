@@ -46,7 +46,7 @@ class OracleMetaDataDAO implements MetaDataDAO
     /**
      * Get all metadata from PDO
      *
-     * @return \CrudGenerator\MetaData\MetaDataCollection
+     * @return MetaDataCollection
      */
     public function getAllMetadata()
     {
@@ -70,7 +70,7 @@ class OracleMetaDataDAO implements MetaDataDAO
      * Get particularie metadata from PDO
      *
      * @param string $tableName
-     * @return \CrudGenerator\MetaData\Sources\PDO\MetadataDataObjectPDO
+     * @return MetadataDataObjectOracle
      */
     public function getMetadataFor($tableName, array $parentName = array())
     {
@@ -97,8 +97,7 @@ class OracleMetaDataDAO implements MetaDataDAO
 
     /**
      * Convert PDOmapping to CrudGenerator mapping
-     * @param string $tableName
-     * @return MetadataDataObjectPDO
+     * @return MetadataDataObjectOracle
      */
     private function hydrateDataObject($data)
     {

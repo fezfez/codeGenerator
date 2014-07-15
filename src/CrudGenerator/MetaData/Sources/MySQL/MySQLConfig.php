@@ -59,7 +59,7 @@ class MySQLConfig implements MetaDataConfig, \JsonSerializable
     /**
      * Set database name
      * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
+     * @return MySQLConfig
      */
     public function setDatabaseName($value)
     {
@@ -69,7 +69,7 @@ class MySQLConfig implements MetaDataConfig, \JsonSerializable
     /**
      * Set host
      * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
+     * @return MySQLConfig
      */
     public function setHost($value)
     {
@@ -79,7 +79,7 @@ class MySQLConfig implements MetaDataConfig, \JsonSerializable
     /**
      * Set user
      * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
+     * @return MySQLConfig
      */
     public function setUser($value)
     {
@@ -89,7 +89,7 @@ class MySQLConfig implements MetaDataConfig, \JsonSerializable
     /**
      * Set password
      * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
+     * @return MySQLConfig
      */
     public function setPassword($value)
     {
@@ -99,7 +99,7 @@ class MySQLConfig implements MetaDataConfig, \JsonSerializable
     /**
      * Set port
      * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\PDO\PDOConfig
+     * @return MySQLConfig
      */
     public function setPort($value)
     {

@@ -32,7 +32,7 @@ class MySQLMetaDataDAOFactory implements MetaDataDAOFactory
      * Create MySQL Metadata DAO instance
      *
      * @param MySQLConfig $config
-     * @return \CrudGenerator\MetaData\Sources\PDO\PDOMetaDataDAO
+     * @return MySQLMetaDataDAO
      */
     public static function getInstance(MetaDataConfig $config = null)
     {

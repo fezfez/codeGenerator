@@ -31,7 +31,6 @@ class SandBoxStrategyFactory
 {
     /**
      * @param ContextInterface $context
-     * @param InputArgument $input
      * @throws \InvalidArgumentException
      * @return \CrudGenerator\Generators\Strategies\SandBoxStrategy
      */

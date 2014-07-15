@@ -41,7 +41,7 @@ class Form extends DataObject
     /**
      * @param string $attribute
      * @param string $name
-     * @return \CrudGenerator\Generators\CrudGenerator\Crud
+     * @return Form
     */
     public function setAttributeName($attribute, $name)
     {
@@ -73,7 +73,7 @@ class Form extends DataObject
     }
     /**
      * @param string $value
-     * @return \CrudGenerator\GeneratorsEmbed\CrudGenerator\Crud
+     * @return Form
      */
     public function setFormDirectory($value)
     {

@@ -46,7 +46,7 @@ class MetaDataSourcesConfiguredQuestion
      * Ask witch MetaData Source you want to use
      * @param string $choice
      * @throws ResponseExpectedException
-     * @return array
+     * @return \CrudGenerator\MetaData\MetaDataSource
      */
     public function ask($choice = null)
     {

@@ -27,7 +27,7 @@ class GeneratorQuestionFactory
     /**
      * @param ContextInterface $context
      * @throws \InvalidArgumentException
-     * @return \CrudGenerator\Generators\Questions\Cli\GeneratorQuestion|\CrudGenerator\Generators\Questions\Web\GeneratorQuestion
+     * @return Web\GeneratorQuestion
      */
     public static function getInstance(ContextInterface $context)
     {

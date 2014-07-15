@@ -33,7 +33,7 @@ class PostgreSQLMetaDataDAOFactory implements MetaDataDAOFactory
      * Create PostgreSQL Metadata DAO instance
      *
      * @param PostgreSQLConfig $config
-     * @return \CrudGenerator\MetaData\Sources\PDO\PDOMetaDataDAO
+     * @return PostgreSQLMetaDataDAO
      */
     public static function getInstance(MetaDataConfig $config = null)
     {

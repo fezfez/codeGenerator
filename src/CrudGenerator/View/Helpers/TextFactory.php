@@ -17,14 +17,12 @@
  */
 namespace CrudGenerator\View\Helpers;
 
-use CrudGenerator\DataObject;
 use CrudGenerator\View\ViewHelperFactoryInterface;
 
 class TextFactory implements ViewHelperFactoryInterface
 {
     /**
-     * @param DataObject $dataObject
-     * @return \CrudGenerator\View\Helpers\FixtureRenderer
+     * @return Text
      */
     public static function getInstance()
     {

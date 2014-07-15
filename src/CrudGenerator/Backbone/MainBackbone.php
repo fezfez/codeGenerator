@@ -18,7 +18,6 @@
 namespace CrudGenerator\Backbone;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Generators\ResponseExpectedException;
 
 class MainBackbone
 {
@@ -48,7 +47,6 @@ class MainBackbone
     private $context = null;
 
     /**
-     * @param MetaDataSourcesConfiguredQuestion $historyQuestion
      * @param PreapreForGenerationBackbone $preapreForGenerationBackbone
      */
     public function __construct(

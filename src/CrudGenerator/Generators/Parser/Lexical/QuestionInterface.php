@@ -25,7 +25,7 @@ interface QuestionInterface
     /**
      * @param array $process
      * @param PhpStringParser $parser
-     * @param Generator $generator
+     * @param GeneratorDataObject $generator
      * @param array $questions
      * @param boolean $firstIteration
      * @return Generator

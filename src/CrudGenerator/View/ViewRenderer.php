@@ -67,7 +67,6 @@ class ViewRenderer
      * Interprete the file
      *
      * @param string $path
-     * @param string $templateName
      * @throws Exception
      * @return string
      */

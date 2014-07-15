@@ -30,6 +30,7 @@ interface StrategyInterface
      * @param string $skeletonDir
      * @param string $pathTemplate
      * @param string $pathTo
+     * @return string|null
      */
     public function generateFile(array $datas, $skeletonDir, $pathTemplate, $pathTo);
 }

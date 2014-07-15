@@ -17,17 +17,10 @@
  */
 namespace CrudGenerator\Command;
 
-use CrudGenerator\History\HistoryManager;
-use CrudGenerator\Generators\Questions\Web\MetaDataSourcesQuestion;
-use CrudGenerator\Generators\Questions\Web\MetaDataQuestion;
-use CrudGenerator\Generators\Questions\Web\GeneratorQuestion;
-use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Generator;
-use CrudGenerator\Generators\Parser\GeneratorParser;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputInterface;
-use CrudGenerator\Context\CliContext;
 use CrudGenerator\Backbone\MainBackbone;
 
 /**

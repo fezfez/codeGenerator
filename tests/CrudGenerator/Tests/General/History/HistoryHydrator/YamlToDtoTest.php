@@ -4,7 +4,6 @@ namespace CrudGenerator\Tests\General\History\HistoryHydrator;
 use CrudGenerator\History\HistoryHydrator;
 use Symfony\Component\Yaml\Dumper;
 use Symfony\Component\Yaml\Parser;
-use CrudGenerator\Command\Questions\MetaDataSourcesQuestion;
 use CrudGenerator\Command\Questions\MetaDataQuestion;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;

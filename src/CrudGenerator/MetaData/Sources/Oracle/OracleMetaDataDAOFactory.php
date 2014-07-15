@@ -31,8 +31,8 @@ class OracleMetaDataDAOFactory implements MetaDataDAOFactory
     /**
      * Create PDO Metadata DAO instance
      *
-     * @param PDOConfig $config
-     * @return \CrudGenerator\MetaData\Sources\PDO\PDOMetaDataDAO
+     * @param MetaDataConfig $config
+     * @return OracleMetaDataDAO
      */
     public static function getInstance(MetaDataConfig $config = null)
     {

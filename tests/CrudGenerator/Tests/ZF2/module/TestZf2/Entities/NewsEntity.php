@@ -67,7 +67,6 @@ class NewsEntity
     /**
      * Set comment
      *
-     * @param CommentEntity $dtCreat
      * @return NewsEntity
      */
     public function setCommentInOneToOne(CommentEntity $value)
@@ -77,7 +76,7 @@ class NewsEntity
     }
 
     /**
-     * @return number
+     * @return integer
      */
     public function getId()
     {

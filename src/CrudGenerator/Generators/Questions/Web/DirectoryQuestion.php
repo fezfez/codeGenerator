@@ -43,7 +43,6 @@ class DirectoryQuestion
     }
 
     /**
-     * @param GeneratorDataObject $DTO
      * @return GeneratorDataObject
      */
     public function ask(GeneratorDataObject $generator, array $question)

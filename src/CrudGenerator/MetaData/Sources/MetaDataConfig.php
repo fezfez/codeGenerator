@@ -36,7 +36,7 @@ interface MetaDataConfig
      */
     public function getUniqueName();
     /**
-     * @return connection
+     * @return \PDO
      */
     public function getConnection();
     /**

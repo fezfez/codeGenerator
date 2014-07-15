@@ -36,6 +36,7 @@ interface ContextInterface
      * Ask question in collection
      * @param string $text
      * @param string $uniqueKey
+     * @param string $helpMessage
      * @return string
      */
     public function askCollection($text, $uniqueKey, array $collection, $defaultResponse = null, $required = false, $helpMessage = null);
@@ -49,11 +50,14 @@ interface ContextInterface
 
     /**
      * @param string $text
+     * @param string $name
+     * @return void
      */
     public function log($text, $name = null);
 
    /**
      * @param GeneratorDataObject $generator
+     * @return void
      */
     public function publishGenerator(GeneratorDataObject $generator);
 }
