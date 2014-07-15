@@ -33,14 +33,6 @@ use CrudGenerator\Generators\GeneratorDataObject;
 class HistoryHydrator
 {
     /**
-     * @var Dumper
-     */
-    private $yamlDumper = null;
-    /**
-     * @var Parser
-     */
-    private $yamlParser = null;
-    /**
      * @var MetaDataSourcesConfiguredQuestion
      */
     private $metaDataSourcesConfiguredQuestion = null;
@@ -50,19 +42,13 @@ class HistoryHydrator
     private $metaDataQuestion = null;
 
     /**
-     * @param Dump $yamlDump
-     * @param Parser $yamlParser
      * @param MetaDataSourcesConfiguredQuestion $metaDataSourcesConfiguredQuestion
      * @param MetaDataQuestion $metaDataQuestion
      */
     public function __construct(
-        Dumper $yamlDump,
-        Parser $yamlParser,
         MetaDataSourcesConfiguredQuestion $metaDataSourcesConfiguredQuestion,
         MetaDataQuestion $metaDataQuestion
     ) {
-        $this->yamlDumper = $yamlDump;
-        $this->yamlParser = $yamlParser;
         $this->metaDataSourcesConfiguredQuestion = $metaDataSourcesConfiguredQuestion;
         $this->metaDataQuestion = $metaDataQuestion;
     }

@@ -57,7 +57,7 @@ class ParserCollection
     }
 
     /**
-     * @return ArrayObject
+     * @return \ArrayObject
      */
     public function getPreParse()
     {
@@ -65,7 +65,7 @@ class ParserCollection
     }
 
     /**
-     * @return ArrayObject
+     * @return \ArrayObject
      */
     public function getPostParse()
     {

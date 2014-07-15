@@ -13,12 +13,6 @@ class YamlToDtoTest extends \PHPUnit_Framework_TestCase
 {
     public function testOkddd()
     {
-        $stubDumper = $this->getMockBuilder('Symfony\Component\Yaml\Dumper')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $stubParser = new Parser;
-
         $stubMetadataSourceQuestion = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion')
         ->disableOriginalConstructor()
         ->getMock();
@@ -27,7 +21,7 @@ class YamlToDtoTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new HistoryHydrator($stubDumper, $stubParser, $stubMetadataSourceQuestion, $stubMetadataSource);
+        $sUT = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource);
 
         $metaDataSource = 'CrudGenerator\MetaData\MetaDataSource';
         $metaDataName = 'Corp\NewsEntity';

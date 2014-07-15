@@ -17,14 +17,6 @@ class DtoToYamlTest extends \PHPUnit_Framework_TestCase
 {
     public function testWithInvalidHistory()
     {
-        $stubDumper = $this->getMockBuilder('Symfony\Component\Yaml\Dumper')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $stubParser = $this->getMockBuilder('Symfony\Component\Yaml\Parser')
-        ->disableOriginalConstructor()
-        ->getMock();
-
         $stubMetadataSourceQuestion = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion')
         ->disableOriginalConstructor()
         ->getMock();
@@ -33,7 +25,7 @@ class DtoToYamlTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new HistoryHydrator($stubDumper, $stubParser, $stubMetadataSourceQuestion, $stubMetadataSource);
+        $sUT = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource);
 
         $dataObject = new Architect();
         $generator = new GeneratorDataObject();
@@ -45,14 +37,6 @@ class DtoToYamlTest extends \PHPUnit_Framework_TestCase
 
     public function testOk()
     {
-        $stubDumper = $this->getMockBuilder('Symfony\Component\Yaml\Dumper')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $stubParser = $this->getMockBuilder('Symfony\Component\Yaml\Parser')
-        ->disableOriginalConstructor()
-        ->getMock();
-
         $stubMetadataSourceQuestion = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion')
         ->disableOriginalConstructor()
         ->getMock();
@@ -61,7 +45,7 @@ class DtoToYamlTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new HistoryHydrator($stubDumper, $stubParser, $stubMetadataSourceQuestion, $stubMetadataSource);
+        $sUT = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource);
 
         $source = new MetaDataSource();
         $source->setConfig(new MySQLConfig())
@@ -86,14 +70,6 @@ class DtoToYamlTest extends \PHPUnit_Framework_TestCase
 
     public function testBoth()
     {
-        $stubDumper = $this->getMockBuilder('Symfony\Component\Yaml\Dumper')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $stubParser = $this->getMockBuilder('Symfony\Component\Yaml\Parser')
-        ->disableOriginalConstructor()
-        ->getMock();
-
         $stubMetadataSourceQuestion = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion')
         ->disableOriginalConstructor()
         ->getMock();
@@ -102,7 +78,7 @@ class DtoToYamlTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new HistoryHydrator($stubDumper, $stubParser, $stubMetadataSourceQuestion, $stubMetadataSource);
+        $sUT = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource);
 
         $metaData = new MetadataDataObjectDoctrine2(
                 new MetaDataColumnCollection(),

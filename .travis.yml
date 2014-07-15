@@ -3,6 +3,7 @@ language: php
 php:
   - 5.4
   - 5.5
+  - 5.6
   - hhvm
   - hhvm-nightly
 
@@ -16,11 +17,11 @@ before_script:
 script: 
   - mkdir -p build
   - mkdir -p build/logs
-  - if [[ 'php --version' == *Hip* ]]; then ./vendor/bin/phpunit ; else  ./vendor/bin/phpunit --coverage-clover coverage.clover; fi;
+  - ./vendor/bin/phpunit --coverage-clover coverage.clover
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
-  - if [[ 'php --version' != *Hip* ]]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi;
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 
 matrix:
   allow_failures:

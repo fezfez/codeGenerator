@@ -42,10 +42,7 @@ class HistoryHydratorFactory
             $metaDataSourceQuestion = MetaDataSourcesConfiguredQuestionFactory::getInstance($context);
             $metaDataQuestion       = MetaDataQuestionFactory::getInstance($context);
 
-            $yampDump   = new Dumper();
-            $yampParser = new Parser();
-
-            return new HistoryHydrator($yampDump, $yampParser, $metaDataSourceQuestion, $metaDataQuestion);
+            return new HistoryHydrator($metaDataSourceQuestion, $metaDataQuestion);
         } else {
             throw new \InvalidArgumentException('Context web not supported');
         }
