@@ -4,6 +4,7 @@ php:
   - 5.4
   - 5.5
   - hhvm
+  - hhvm-nightly
 
 before_script:
   - composer self-update
@@ -24,6 +25,7 @@ after_script:
 matrix:
   allow_failures:
     - php: hhvm
+    - php: hhvm-nightly
 
 notifications:
   email:
