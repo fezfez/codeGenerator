@@ -59,7 +59,7 @@ class DirectoryQuestion
             'set' . $question['dtoAttribute'],
             $directories,
             $actualDirectory,
-            (isset($question['required'])) ? $question['required'] : false,
+            (isset($question['required']) === true) ? $question['required'] : false,
             'Actual directory "' . $actualDirectory . '"'
         );
 
@@ -101,7 +101,7 @@ class DirectoryQuestion
      */
     private function buildDirectoryList($actualDirectory, array $directories)
     {
-        $directoriesRaw  = $this->fileManager->glob(
+        $directoriesRaw = $this->fileManager->glob(
             $actualDirectory . '*',
             GLOB_ONLYDIR|GLOB_MARK
         );

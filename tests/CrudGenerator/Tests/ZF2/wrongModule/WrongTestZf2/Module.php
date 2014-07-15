@@ -22,8 +22,6 @@ class Module
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
 
-        $sharedEventManager = $eventManager->getSharedManager();
-
         self::$serviceManager = $e->getApplication()->getServiceManager();
     }
 

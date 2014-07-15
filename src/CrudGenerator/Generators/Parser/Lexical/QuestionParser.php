@@ -73,12 +73,12 @@ class QuestionParser implements ParserInterface
      */
     public function evaluateQuestions(array $question, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
     {
-        if(isset($question[GeneratorParser::DEPENDENCY_CONDITION]) === true) {
+        if (isset($question[GeneratorParser::DEPENDENCY_CONDITION]) === true) {
             $matches = $this->dependencyCondition->evaluate($question[GeneratorParser::DEPENDENCY_CONDITION], $parser, $generator, $firstIteration);
             foreach ($matches as $questionsMatchs) {
                 $generator = $this->evaluateQuestions($questionsMatchs, $parser, $generator, $firstIteration);
             }
-        } elseif (isset($question['type']) === true && $question['type'] === GeneratorParser::COMPLEX_QUESTION) {
+        } else if (isset($question['type']) === true && $question['type'] === GeneratorParser::COMPLEX_QUESTION) {
             $complex = $question['factory']::getInstance($this->context);
             $generator = $complex->ask($generator, $question);
         } else {
@@ -105,7 +105,7 @@ class QuestionParser implements ParserInterface
         );
 
         $questionName = 'set' . ucfirst($question['dtoAttribute']);
-        if (method_exists($generator->getDTO(), $questionName) && $response !== null) {
+        if (method_exists($generator->getDTO(), $questionName) === true && $response !== null) {
             $generator->getDTO()->$questionName($response);
         }
 

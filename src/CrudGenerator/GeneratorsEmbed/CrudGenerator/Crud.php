@@ -24,7 +24,7 @@ class Crud extends DataObject
     /**
      * @var boolean
      */
-    protected $writeAction    = null;
+    protected $writeAction = null;
     /**
      * @var string Prefix for routes
      */
@@ -141,7 +141,7 @@ class Crud extends DataObject
         if ($attribute === null) {
             return $this->attributesDisplayName;
         } else {
-            return (isset($this->attributesDisplayName[$attribute])) ? $this->attributesDisplayName[$attribute] : null;
+            return (isset($this->attributesDisplayName[$attribute]) === true) ? $this->attributesDisplayName[$attribute] : null;
         }
     }
     /**

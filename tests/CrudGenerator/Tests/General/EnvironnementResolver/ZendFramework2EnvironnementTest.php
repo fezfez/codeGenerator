@@ -20,8 +20,8 @@ class ZendFramework2EnvironnementTest extends \PHPUnit_Framework_TestCase
                         ->method('includeFile')
                         ->will($this->returnValue(include __DIR__ . '/../../ZF2/config/application.config.php'));
 
-        $sUt = ZendFramework2Environnement::getDependence($stubFileManager);
-        $sUt = ZendFramework2Environnement::getDependence($stubFileManager);
+        ZendFramework2Environnement::getDependence($stubFileManager);
+        ZendFramework2Environnement::getDependence($stubFileManager);
     }
 
     /**
@@ -53,6 +53,6 @@ class ZendFramework2EnvironnementTest extends \PHPUnit_Framework_TestCase
         )));
 
         $this->setExpectedException('CrudGenerator\EnvironnementResolver\EnvironnementResolverException');
-        $sUt = ZendFramework2Environnement::getDependence($stubFileManager);
+        ZendFramework2Environnement::getDependence($stubFileManager);
     }
 }

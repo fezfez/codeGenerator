@@ -78,7 +78,7 @@ class HistoryManager
 
         $fileName = $metadata->getName(). '.history.yaml';
 
-        if ($this->fileManager->isFile(self::HISTORY_PATH . $fileName)) {
+        if ($this->fileManager->isFile(self::HISTORY_PATH . $fileName) === true) {
             $this->fileManager->unlink(self::HISTORY_PATH . $fileName);
         }
 
@@ -95,7 +95,7 @@ class HistoryManager
      */
     public function findAll()
     {
-        if (!$this->fileManager->isDir(self::HISTORY_PATH)) {
+        if ($this->fileManager->isDir(self::HISTORY_PATH) === false) {
             throw new EnvironnementResolverException(
                 sprintf(
                     'Unable to locate "%d"',
@@ -124,7 +124,7 @@ class HistoryManager
     {
         $filePath = self::HISTORY_PATH . $historyName . '.history.yaml';
 
-        if (!$this->fileManager->isFile($filePath)) {
+        if ($this->fileManager->isFile($filePath) === false) {
             throw new HistoryNotFoundException(
                 sprintf(
                     'History with name "%d" not found',

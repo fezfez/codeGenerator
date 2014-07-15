@@ -16,10 +16,6 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $directoryQuestion =  $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\DirectoryQuestion')
-        ->disableOriginalConstructor()
-        ->getMock();
-
         $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()
         ->getMock();
@@ -45,10 +41,6 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
     public function testWithFiles()
     {
         $dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $directoryQuestion =  $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\DirectoryQuestion')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -83,10 +75,6 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
     public function testWithDependencyCondiction()
     {
         $dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $directoryQuestion =  $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\DirectoryQuestion')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -137,55 +125,9 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $generatorToTest = clone $generator;
-
         $this->assertEquals(
             $generator,
             $sUT->evaluate($process, $phpParser, $generator, false)
         );
     }
-
-    /*public function testWithEnvironnemetnCondiction()
-    {
-        $fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $dependencyCondition->expects($this->once())
-        ->method('evaluate')
-        ->will($this->returnValue(array(array('MyVar' => 'MyValue'))));
-
-        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $sUT = new TemplateVariableParser($fileManager, $environnementCondition, $dependencyCondition);
-
-        $generator = new GeneratorDataObject();
-
-        $process = array(
-            'templateVariables' => array(
-                array(
-                    GeneratorParser::ENVIRONNEMENT_CONDITION => array(
-                        '!ArchitedGenerator' => array(
-                            array('MyVar' => 'MyValue')
-                        )
-                    )
-                )
-            )
-        );
-
-        $this->assertEquals(
-                $generator->addTemplateVariable('MyVar', 'MyValue'),
-                $sUT->evaluate($process, $phpParser, $generator, true)
-        );
-    }*/
 }

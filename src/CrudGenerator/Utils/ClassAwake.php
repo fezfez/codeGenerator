@@ -39,7 +39,7 @@ class ClassAwake
             $reflectionClass = new ReflectionClass($className);
             $interfaces      = $reflectionClass->getInterfaces();
 
-            if (is_array($interfaces) && isset($interfaces[$interfaceNames])) {
+            if (is_array($interfaces) === true && isset($interfaces[$interfaceNames]) === true) {
                 $class = str_replace('\\', '', strrchr($className, '\\'));
                 $classes[$class] = $className;
             }
@@ -79,9 +79,10 @@ class ClassAwake
         $declared = get_declared_classes();
 
         foreach ($declared as $className) {
-            $rc = new \ReflectionClass($className);
+            $rc         = new \ReflectionClass($className);
             $sourceFile = $rc->getFileName();
-            if (in_array($sourceFile, $includedFiles)) {
+
+            if (in_array($sourceFile, $includedFiles) === true) {
                 $classes[] = $className;
             }
         }
