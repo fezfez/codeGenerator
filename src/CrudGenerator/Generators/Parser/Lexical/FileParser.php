@@ -42,10 +42,15 @@ class FileParser implements ParserInterface
 
     /**
      * @param FileManager $fileManager
+     * @param DependencyCondition $dependencyCondition
+     * @param EnvironnementCondition $environnementCondition
      */
-    public function __construct(FileManager $fileManager, DependencyCondition $dependencyCondition, EnvironnementCondition $environnementCondition)
-    {
-        $this->fileManager             = $fileManager;
+    public function __construct(
+        FileManager $fileManager,
+        DependencyCondition $dependencyCondition,
+        EnvironnementCondition $environnementCondition
+    ) {
+        $this->fileManager            = $fileManager;
         $this->dependencyCondition    = $dependencyCondition;
         $this->environnementCondition = $environnementCondition;
     }

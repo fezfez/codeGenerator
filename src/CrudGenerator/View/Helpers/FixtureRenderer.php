@@ -42,13 +42,13 @@ class FixtureRenderer
     public function render(MetaDataColumn $metadata)
     {
         $data = '';
-        if (in_array($metadata->getType(), array('integer', 'float'))) {
+        if (in_array($metadata->getType(), array('integer', 'float')) === true) {
             $data = $this->faker->randomNumber();
-        } elseif (in_array($metadata->getType(), array('string', 'text'))) {
+        } elseif (in_array($metadata->getType(), array('string', 'text')) === true) {
             $data = (!$metadata->getLength()) ? '"' . $this->faker->text(50) . '"' : '"' . ($metadata->getLength() <=  5) ? '"test"' : $this->faker->text($metadata->getLength()) . '"';
-        } elseif ($metadata->getType() == 'date') {
+        } elseif ($metadata->getType() === 'date') {
             $data = 'new DateTime()';
-        } elseif (in_array($metadata->getType(), array('bool', 'boolean'))) {
+        } elseif (in_array($metadata->getType(), array('bool', 'boolean')) === true) {
             $data = 'true';
         }
 

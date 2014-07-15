@@ -13,6 +13,9 @@ class executeTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
+        $mainBackboneStub->expects($this->once())
+        ->method('run');
+
         $commandTmp = new CreateCommand($mainBackboneStub);
         $application = new App();
         $application->add($commandTmp);

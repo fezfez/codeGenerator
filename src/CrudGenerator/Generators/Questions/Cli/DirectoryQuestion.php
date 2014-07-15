@@ -51,7 +51,7 @@ class DirectoryQuestion
     public function __construct(FileManager $fileManager, ContextInterface $context)
     {
         $this->fileManager = $fileManager;
-        $this->context = $context;
+        $this->context     = $context;
     }
 
     /**
@@ -62,7 +62,7 @@ class DirectoryQuestion
     public function ask(GeneratorDataObject $generator, $question)
     {
         $directory = './';
-        $choice = null;
+        $choice    = null;
 
         while ($choice != self::CURRENT_DIRECTORY) {
             $directories = $this->fileManager->glob(
@@ -80,20 +80,20 @@ class DirectoryQuestion
             $this->context->log($directory);
             $choice = $this->context->askCollection(
                 "<question>Choose a target directory</question> \n> ",
-            	'directory',
+                'directory',
                 $directories
             );
 
-            if ($choice == self::CREATE_DIRECTORY) {
+            if ($choice === self::CREATE_DIRECTORY) {
                 $directory .= $this->createDirectory($directory);
-            } elseif ($choice == self::BACK) {
+            } elseif ($choice === self::BACK) {
                 $directory = substr($directory, 0, -1);
                 $directory = str_replace(
                     substr(strrchr($directory, "/"), 1),
                     '',
                     $directory
                 );
-            } elseif ($choice != self::CURRENT_DIRECTORY) {
+            } elseif ($choice !== self::CURRENT_DIRECTORY) {
                 $directory = $directories[$choice];
             }
         }

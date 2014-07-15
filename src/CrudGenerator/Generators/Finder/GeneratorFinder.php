@@ -71,7 +71,7 @@ class GeneratorFinder
             );
 
             foreach ($iterator as $file) {
-                $yaml = $this->yaml->parse(file_get_contents($file[0]));
+                $yaml                 = $this->yaml->parse(file_get_contents($file[0]));
                 $generators[$file[0]] = $yaml['name'];
             }
         }

@@ -44,7 +44,7 @@ class Yaml
      */
     public function parse($string)
     {
-        if (function_exists('yaml_parse')) {
+        if (function_exists('yaml_parse') === true) {
             $yaml = yaml_parse($string);
         } else {
             $yaml = $this->parser->parse($string);

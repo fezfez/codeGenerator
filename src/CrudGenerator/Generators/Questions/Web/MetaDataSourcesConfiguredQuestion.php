@@ -53,7 +53,7 @@ class MetaDataSourcesConfiguredQuestion
         $backendArray = array();
         foreach ($this->metadataSourceConfigDAO->retrieveAll() as $backend) {
             /* @var $backend \CrudGenerator\MetaData\MetaDataSource */
-            if(!$backend->getFalseDependencies()) {
+            if(null === $backend->getFalseDependencies()) {
                 $backendArray[] = array(
                     'id'    => $backend->getConfig()->getUniqueName(),
                     'label' => $backend->getConfig()->getUniqueName()

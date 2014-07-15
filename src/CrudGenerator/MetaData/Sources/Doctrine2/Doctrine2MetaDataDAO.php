@@ -119,9 +119,9 @@ class Doctrine2MetaDataDAO implements MetaDataDAO
             $column = clone $columnDataObject;
             $column->setName($field)
                    ->setType($columnMetadata['type'])
-                   ->setLength(isset($columnMetadata['length']) ? $columnMetadata['length'] : null)
+                   ->setLength(isset($columnMetadata['length']) === true ? $columnMetadata['length'] : null)
                    ->setNullable($columnMetadata['nullable'])
-                   ->setPrimaryKey((in_array($field, $metadata->identifier)) ? true : false);
+                   ->setPrimaryKey((in_array($field, $metadata->identifier) === true ? true : false));
 
             $dataObject->appendColumn($column);
         }
@@ -143,7 +143,7 @@ class Doctrine2MetaDataDAO implements MetaDataDAO
         $relationDataObject = new MetaDataRelationColumn();
 
         foreach ($metadata->getAssociationMappings() as $association) {
-            if (in_array($association['targetEntity'], $parentName)) {
+            if (in_array($association['targetEntity'], $parentName) === true) {
                 continue;
             }
 
@@ -154,7 +154,7 @@ class Doctrine2MetaDataDAO implements MetaDataDAO
                      ->setFieldName($association['fieldName'])
                      ->setMetadata($this->getMetadataFor($association['targetEntity'], $parentName));
 
-            if (isset($this->relationConverter[$association['type']])) {
+            if (isset($this->relationConverter[$association['type']]) === true) {
                 $relation->setAssociationType($this->relationConverter[$association['type']]);
             }
 

@@ -46,10 +46,11 @@ class HistoryManager
 
     /**
      * @param FileManager $fileManager
+     * @param HistoryHydrator $historyHydrator
      */
     public function __construct(FileManager $fileManager, HistoryHydrator $historyHydrator)
     {
-        $this->fileManager = $fileManager;
+        $this->fileManager     = $fileManager;
         $this->historyHydrator = $historyHydrator;
     }
 
@@ -59,7 +60,7 @@ class HistoryManager
      */
     public function create(GeneratorDataObject $dataObject)
     {
-        if (!$this->fileManager->isDir(self::HISTORY_PATH)) {
+        if ($this->fileManager->isDir(self::HISTORY_PATH) === false) {
             $this->fileManager->mkdir(self::HISTORY_PATH);
         }
 

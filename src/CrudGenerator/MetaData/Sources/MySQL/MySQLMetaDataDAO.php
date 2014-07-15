@@ -31,13 +31,16 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
  */
 class MySQLMetaDataDAO implements MetaDataDAO
 {
+    /**
+     * @var array
+     */
     private $typeConversion = array(
         'character varying' => 'text'
     );
     /**
      * @var PDO Pdo stmt
      */
-    private $pdo       = null;
+    private $pdo = null;
     /**
      * @var MySQLConfig Pdo configuration
      */
@@ -50,8 +53,8 @@ class MySQLMetaDataDAO implements MetaDataDAO
      */
     public function __construct(PDO $pdo, MySQLConfig $pdoConfig)
     {
-        $this->pdo        = $pdo;
-        $this->pdoConfig  = $pdoConfig;
+        $this->pdo       = $pdo;
+        $this->pdoConfig = $pdoConfig;
     }
 
     /**
@@ -129,7 +132,7 @@ class MySQLMetaDataDAO implements MetaDataDAO
 
             $type = $metadata['data_type'];
 
-            if (isset($this->typeConversion['data_type'])) {
+            if (isset($this->typeConversion['data_type']) === true) {
                 $type = $this->typeConversion['data_type'];
             }
 

@@ -32,13 +32,16 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
  */
 class PostgreSQLMetaDataDAO implements MetaDataDAO
 {
+    /**
+     * @var array
+     */
     private $typeConversion = array(
         'character varying' => 'text'
     );
     /**
      * @var PDO Pdo stmt
      */
-    private $pdo       = null;
+    private $pdo = null;
     /**
      * @var PostgreSQLConfig Pdo configuration
      */
@@ -125,7 +128,8 @@ class PostgreSQLMetaDataDAO implements MetaDataDAO
 
         $statement = $this->pdo->prepare($this->sqlManager->listFieldsQuery());
         $statement->execute(array($tableName));
-        $allFields = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        $allFields   = $statement->fetchAll(PDO::FETCH_ASSOC);
         $identifiers = $this->getIdentifiers($tableName);
 
         foreach ($allFields as $metadata) {
@@ -133,14 +137,14 @@ class PostgreSQLMetaDataDAO implements MetaDataDAO
 
             $type = $metadata['type'];
 
-            if (isset($this->typeConversion[$type])) {
+            if (isset($this->typeConversion[$type]) === true) {
                 $type = $this->typeConversion[$type];
             }
 
             $column->setName($metadata['name'])
                    ->setType($type)
                    ->setLength(
-                       isset($metadata['character_maximum_length']) ?
+                       isset($metadata['character_maximum_length']) === true ?
                        $metadata['character_maximum_length'] :
                        null
                    );

@@ -103,7 +103,7 @@ class MetaDataRelationColumn
      */
     public function getName()
     {
-        if (!strrchr($this->fullName, '\\')) {
+        if (strrchr($this->fullName, '\\') === false) {
             return $this->fullName;
         } else {
             return str_replace('\\', '', strrchr($this->fullName, '\\'));

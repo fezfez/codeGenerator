@@ -37,7 +37,7 @@ class SandBoxStrategyFactory
     public static function getInstance(ContextInterface $context)
     {
         if ($context instanceof CliContext) {
-            $view   = ViewFactory::getInstance();
+            $view = ViewFactory::getInstance();
 
             return new SandBoxStrategy($view, $context);
         } else {

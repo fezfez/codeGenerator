@@ -17,21 +17,21 @@
  */
 namespace CrudGenerator\MetaData\Config;
 
-use CrudGenerator\MetaData\Sources\MetaDataConfig;
-use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Context\ContextInterface;
-use ReflectionClass;
-use ReflectionProperty;
+use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\ClassAwake;
+use CrudGenerator\MetaData\Sources\MetaDataConfig;
 use CrudGenerator\MetaData\MetaDataSourceHydrator;
 use CrudGenerator\MetaData\MetaDataSourceCollection;
+use ReflectionClass;
+use ReflectionProperty;
 
 class MetaDataConfigDAO
 {
     /**
      * @var string Config path
      */
-    const PATH      = 'data/crudGenerator/Config/';
+    const PATH = 'data/crudGenerator/Config/';
     /**
      * @var string config file extension
      */
@@ -60,8 +60,12 @@ class MetaDataConfigDAO
      * @param MetaDataSourceHydrator $metaDataSourceHydrator
      * @param ContextInterface $context
      */
-    public function __construct(ClassAwake $classAwake, FileManager $fileManager, MetaDataSourceHydrator $metaDataSourceHydrator, ContextInterface $context)
-    {
+    public function __construct(
+        ClassAwake $classAwake,
+        FileManager $fileManager,
+        MetaDataSourceHydrator $metaDataSourceHydrator,
+        ContextInterface $context
+    ) {
         $this->classAwake             = $classAwake;
         $this->fileManager            = $fileManager;
         $this->metaDataSourceHydrator = $metaDataSourceHydrator;
@@ -86,11 +90,11 @@ class MetaDataConfigDAO
             $configFile = (array) json_decode($this->fileManager->fileGetContent($file));
 
             if (false === isset($configFile['metaDataDAO'])) {
-            	continue;
+                continue;
             }
 
-            if (!in_array($configFile['metaDataDAO'], $allowedMetadataDAO)) {
-            	continue;
+            if (false === in_array($configFile['metaDataDAO'], $allowedMetadataDAO)) {
+                continue;
             }
 
             $adapter = $this->metaDataSourceHydrator->adapterNameToMetaDataSource(
@@ -100,7 +104,7 @@ class MetaDataConfigDAO
             $configMethods = get_class_methods($config);
             foreach ($configFile as $configAttribute => $configValue) {
                 $configAttr = 'set' . ucfirst($configAttribute);
-                if (in_array($configAttr, $configMethods)) {
+                if (true === in_array($configAttr, $configMethods)) {
                     $config->$configAttr($configValue);
                 }
             }
@@ -139,8 +143,8 @@ class MetaDataConfigDAO
     public function ask(MetaDataConfig $adapterConfig)
     {
         $adapterConfig = clone $adapterConfig;
-        $reflect = new ReflectionClass($adapterConfig);
-        $props   = $reflect->getProperties(ReflectionProperty::IS_PRIVATE);
+        $reflect       = new ReflectionClass($adapterConfig);
+        $props         = $reflect->getProperties(ReflectionProperty::IS_PRIVATE);
 
         foreach ($props as $prop) {
             $propName = $prop->getName();

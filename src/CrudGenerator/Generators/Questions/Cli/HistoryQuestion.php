@@ -40,7 +40,7 @@ class HistoryQuestion
     public function __construct(HistoryManager $historyManager, ContextInterface $context)
     {
         $this->historyManager = $historyManager;
-        $this->context         = $context;
+        $this->context        = $context;
     }
 
     /**

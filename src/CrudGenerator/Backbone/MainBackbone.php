@@ -70,18 +70,20 @@ class MainBackbone
      */
     public function run()
     {
-        if ($this->context->confirm('Create new metadataSource', 'create_metadatasource')) {
+        if (true === $this->context->confirm('Create new metadataSource', 'create_metadatasource')) {
             $this->createSourceBackbone->run();
         }
-        if ($this->context->confirm('Wake history', 'select_history')) {
+        if (true === $this->context->confirm('Wake history', 'select_history')) {
             $this->historyBackbone->run();
         }
+
         $generator = $this->preapreForGenerationBackbone->run();
         $this->context->log($generator->getFiles(), 'files');
-        if ($this->context->confirm('view file', 'view_file')) {
+
+        if (true === $this->context->confirm('view file', 'view_file')) {
         	$this->generateFileBackbone->run($generator);
         }
-        if ($this->context->confirm('Generate file', 'generate_files')) {
+        if (true === $this->context->confirm('Generate file', 'generate_files')) {
             $this->generateBackbone->run($generator);
         }
     }

@@ -53,7 +53,7 @@ class WebContext implements ContextInterface, \JsonSerializable
      */
     private function getResponse($key)
     {
-        if (isset($this->preResponse[$key])) {
+        if (isset($this->preResponse[$key]) === true) {
             return $this->preResponse[$key];
         } else {
             return $this->request->get($key);
@@ -111,10 +111,10 @@ class WebContext implements ContextInterface, \JsonSerializable
      */
     public function log($text, $name = null)
     {
-        if (isset($this->question[$name]) && !is_array($this->question[$name])) {
+        if (isset($this->question[$name]) === true && is_array($this->question[$name]) === false) {
             $this->question[$name] = array($this->question[$name]);
         }
-        if (isset($this->question[$name])) {
+        if (isset($this->question[$name]) === true) {
             $this->question[$name][] = $text;
         } else {
             $this->question[$name] = $text;
@@ -134,7 +134,7 @@ class WebContext implements ContextInterface, \JsonSerializable
      */
     public function publishGenerator(GeneratorDataObject $generator)
     {
-        $this->preResponse[MetaDataSourcesConfiguredQuestion::QUESTION_KEY] = $generator->getMetadataSource()->getConfig()->getUniqueName();
+        $this->preResponse[MetaDataSourcesConfiguredQuestion::QUESTION_KEY] = $generator->getMetadataSource()->getUniqueName();
         $this->preResponse[MetaDataQuestion::QUESTION_KEY]                  = $generator->getDTO()->getMetadata()->getOriginalName();
         $this->preResponse[GeneratorQuestion::QUESTION_KEY]                 = $generator->getName();
     }

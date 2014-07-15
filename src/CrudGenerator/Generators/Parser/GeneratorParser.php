@@ -33,14 +33,14 @@ use CrudGenerator\Generators\Parser\ParserCollection;
  */
 class GeneratorParser
 {
-    const COMPLEX_QUESTION = 'complex';
+    const COMPLEX_QUESTION        = 'complex';
     const ENVIRONNEMENT_CONDITION = 'environnementCondition';
-    const DEPENDENCY_CONDITION = 'dependencyCondition';
-    const CONDITION_ELSE = 'else';
-    const DIFFERENT = '!';
-    const UNDEFINED = ' == undefined';
-    const EQUAL = '==';
-    const DIFFERENT_EQUAL = '!=';
+    const DEPENDENCY_CONDITION    = 'dependencyCondition';
+    const CONDITION_ELSE          = 'else';
+    const DIFFERENT               = '!';
+    const UNDEFINED               = ' == undefined';
+    const EQUAL                   = '==';
+    const DIFFERENT_EQUAL         = '!=';
 
     /**
      * @var Yaml YamlParser

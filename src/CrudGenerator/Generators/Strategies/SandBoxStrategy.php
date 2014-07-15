@@ -31,11 +31,11 @@ class SandBoxStrategy implements StrategyInterface
     /**
      * @var View View manager
      */
-    protected $view                = null;
+    protected $view = null;
     /**
      * @var ContextInterface Output
      */
-    protected $context      = null;
+    protected $context = null;
 
     /**
      * Base code generator

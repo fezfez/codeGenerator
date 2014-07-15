@@ -136,6 +136,17 @@ class MetaDataSource implements \JsonSerializable
     {
         return $this->config;
     }
+    /**
+     * @return string
+     */
+    public function getUniqueName()
+    {
+        if ($this->config === null) {
+            return $this->definition;
+        } else {
+            $this->config->getUniqueName();
+        }
+    }
 
     public function jsonSerialize()
     {

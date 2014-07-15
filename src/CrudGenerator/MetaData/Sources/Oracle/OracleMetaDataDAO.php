@@ -32,7 +32,7 @@ class OracleMetaDataDAO implements MetaDataDAO
     /**
      * @var PDO Pdo stmt
      */
-    private $pdo       = null;
+    private $pdo = null;
 
     /**
      * PDO adapter
@@ -40,7 +40,7 @@ class OracleMetaDataDAO implements MetaDataDAO
      */
     public function __construct(PDO $pdo)
     {
-        $this->pdo        = $pdo;
+        $this->pdo = $pdo;
     }
 
     /**
@@ -105,17 +105,25 @@ class OracleMetaDataDAO implements MetaDataDAO
             new MetaDataColumnCollection(),
             new MetaDataRelationCollection()
         );
-        $tableName     = $data['TABLE_NAME'];
-        $owner        = $data['OWNER'];
+
+        $tableName = $data['TABLE_NAME'];
+        $owner     = $data['OWNER'];
+
         $dataObject->setName($owner . '/' . $tableName);
         $columnDataObject = new MetaDataColumn();
 
-        $statement = $this->pdo->prepare(sprintf("SELECT COLUMN_NAME as name, NULLABLE as  nullable, DATA_TYPE as type, DATA_LENGTH as length
-                                                from SYS.ALL_TAB_COLUMNS
-                                                where TABLE_NAME = '%s' and OWNER= '%s'", $tableName, $owner)
+        $statement = $this->pdo->prepare(
+            sprintf(
+                "SELECT COLUMN_NAME as name, NULLABLE as  nullable, DATA_TYPE as type, DATA_LENGTH as length
+                FROM SYS.ALL_TAB_COLUMNS
+                WHERE TABLE_NAME = '%s' and OWNER= '%s'",
+                $tableName,
+                $owner
+            )
         );
         $statement->execute(array());
-        $allFields = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        $allFields   = $statement->fetchAll(PDO::FETCH_ASSOC);
         $identifiers = $this->getIdentifiers($owner, $tableName);
 
         foreach ($allFields as $metadata) {
@@ -123,7 +131,7 @@ class OracleMetaDataDAO implements MetaDataDAO
 
             $type = $metadata['type'];
 
-            if (isset($this->typeConversion[$type])) {
+            if (isset($this->typeConversion[$type]) === true) {
                 $type = $this->typeConversion[$type];
             }
 
@@ -134,7 +142,7 @@ class OracleMetaDataDAO implements MetaDataDAO
                        $metadata['length'] :
                        null
                    );
-            if (in_array($metadata['name'], $identifiers)) {
+            if (in_array($metadata['name'], $identifiers) === true) {
                 $column->setPrimaryKey(true);
             }
 

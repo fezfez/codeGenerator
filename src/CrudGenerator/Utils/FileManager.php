@@ -33,7 +33,7 @@ class FileManager
      */
     public function mkdir($pathname)
     {
-        if (!@mkdir($pathname, 0777)) {
+        if (@mkdir($pathname, 0777) === false) {
             throw new RuntimeException(sprintf("Could't create %s", realpath(getcwd()) . $pathname));
         }
     }
@@ -128,7 +128,7 @@ class FileManager
      */
     public function ifDirDoesNotExistCreate($directory)
     {
-        if (!$this->isDir($directory)) {
+        if ($this->isDir($directory) === false) {
             $this->mkdir($directory);
             return true;
         } else {
