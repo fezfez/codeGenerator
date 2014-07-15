@@ -5,10 +5,10 @@ $app['debug'] = false;
 $app['locale'] = 'fr';
 $app['session.default_locale'] = $app['locale'];
 
-if (strstr($_SERVER['SCRIPT_FILENAME'], 'code-generator-web.php')) {
-	$app['base_path'] = './../fezfez/code-generator/web/';
+if (strstr($_SERVER['SCRIPT_FILENAME'], 'code-generator-web.php') !== false) {
+    $app['base_path'] = './../fezfez/code-generator/web/';
 } else {
-	$app['base_path'] = './';
+    $app['base_path'] = './';
 }
 
 // Cache

@@ -23,29 +23,28 @@ if (!(@include_once __DIR__ . '/../vendor/autoload.php') && !(@include_once __DI
     throw new RuntimeException('Error: vendor/autoload.php could not be found. Did you run php composer.phar install?');
 }
 
-if(!is_dir('data')) {
+if(is_dir('data') === false) {
     mkdir('data/');
 }
-if(!is_dir('data/crudGenerator')) {
+if(is_dir('data/crudGenerator') === false) {
     mkdir('data/crudGenerator');
 }
-if(!is_dir('data/crudGenerator/History')) {
+if(is_dir('data/crudGenerator/History') === false) {
     mkdir('data/crudGenerator/History');
 }
-if(!is_dir('data/crudGenerator/Config')) {
+if(is_dir('data/crudGenerator/Config') === false) {
     mkdir('data/crudGenerator/Config');
 }
 
-if(!is_writable('data/crudGenerator')) {
+if(is_writable('data/crudGenerator') === false) {
     throw new Exception('data/crudGenerator is not writable');
 }
-if(!is_writable('data/crudGenerator/History')) {
+if(is_writable('data/crudGenerator/History') === false) {
     throw new Exception('data/crudGenerator/History is not writable');
 }
-if(!is_writable('data/crudGenerator/Config')) {
+if(is_writable('data/crudGenerator/Config') === false) {
     throw new Exception('data/crudGenerator/Config is not writable');
 }
-
 
 $output = new Symfony\Component\Console\Output\ConsoleOutput();
 $cli    = CrudGenerator\Service\CliFactory::getInstance($output);
