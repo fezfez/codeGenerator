@@ -10,5 +10,7 @@ class AddVariableTest extends \PHPUnit_Framework_TestCase
         $sUT = new PhpStringParser();
 
         $sUT->addVariable('myVariable', 'myValue');
+
+        $this->assertEquals(true, $sUT->issetVariable('myVariable'));
     }
 }

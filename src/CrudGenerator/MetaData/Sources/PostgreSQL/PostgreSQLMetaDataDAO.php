@@ -148,7 +148,7 @@ class PostgreSQLMetaDataDAO implements MetaDataDAO
                        $metadata['character_maximum_length'] :
                        null
                    );
-            if (in_array($metadata['name'], $identifiers)) {
+            if (in_array($metadata['name'], $identifiers) === true) {
                 $column->setPrimaryKey(true);
             }
 

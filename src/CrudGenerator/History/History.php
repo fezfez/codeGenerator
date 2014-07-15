@@ -30,7 +30,7 @@ class History
     /**
      * @var string Column name
      */
-    private $name       = null;
+    private $name = null;
     /**
      * @var array
      */

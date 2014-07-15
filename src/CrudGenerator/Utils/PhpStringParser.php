@@ -58,7 +58,7 @@ class PhpStringParser
      */
     private function evalBlock($matches)
     {
-        if (is_array($this->variables) && count($this->variables)) {
+        if (is_array($this->variables) === true && count($this->variables) > 0) {
             foreach ($this->variables as $var_name => $var_value) {
                 $$var_name = $var_value;
             }

@@ -18,6 +18,7 @@
 namespace CrudGenerator\MetaData;
 
 use CrudGenerator\Utils\FileManager;
+
 /**
  * Find all MetaDataSource allow in project
  *
@@ -30,8 +31,6 @@ class MetaDataSourceHydratorFactory
      */
     public static function getInstance()
     {
-        $fileManager = new FileManager();
-
-        return new MetaDataSourceHydrator($fileManager);
+        return new MetaDataSourceHydrator(new FileManager());
     }
 }

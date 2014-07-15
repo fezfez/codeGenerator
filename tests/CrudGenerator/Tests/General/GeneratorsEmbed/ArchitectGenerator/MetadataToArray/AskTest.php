@@ -23,7 +23,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $generator = new GeneratorDataObject();
         $generator->setDTO($DTO);
 
-        $DTO = $sUT->ask($generator);
+        $this->assertInstanceOf('CrudGenerator\Generators\GeneratorDataObject', $sUT->ask($generator));
     }
 
     /**

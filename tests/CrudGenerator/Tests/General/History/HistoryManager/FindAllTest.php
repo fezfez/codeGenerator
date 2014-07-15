@@ -53,6 +53,6 @@ class FindAllTest extends \PHPUnit_Framework_TestCase
 
         $sUT = new HistoryManager($stubFileManager, $stubHistoryHydrator);
 
-        $sUT->findAll();
+        $this->assertInstanceOf('CrudGenerator\History\HistoryCollection', $sUT->findAll());
     }
 }

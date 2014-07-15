@@ -53,7 +53,7 @@ class MetaDataSourcesQuestion
         $backendArray = array();
         foreach ($this->metadataSourceFinder->getAllAdapters() as $backend) {
             /* @var $backend \CrudGenerator\MetaData\MetaDataSource */
-            if(!$backend->getFalseDependencies()) {
+            if(null === $backend->getFalseDependencies()) {
                 $backendArray[] = array(
                     'id'    => $backend->getMetaDataDAOFactory(),
                     'label' => $backend->getDefinition()

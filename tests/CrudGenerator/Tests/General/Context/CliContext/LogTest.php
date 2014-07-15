@@ -3,7 +3,7 @@ namespace CrudGenerator\Tests\General\Context\CliContext;
 
 use CrudGenerator\Context\CliContext;
 
-class CreateInstanceTest extends \PHPUnit_Framework_TestCase
+class LogTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstance()
     {
@@ -15,16 +15,13 @@ class CreateInstanceTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
+        $logged = 'test';
+        $ConsoleOutputStub->expects($this->once())
+        ->method('writeln')
+        ->with($logged);
+
         $sUT = new CliContext($dialog, $ConsoleOutputStub);
 
-        /*$this->assertInstanceOf(
-            'Symfony\Component\Console\Helper\DialogHelper',
-            $sUT->getDialogHelper()
-        );
-
-        $this->assertInstanceOf(
-            'Symfony\Component\Console\Output\ConsoleOutput',
-            $sUT->getOutput()
-        );*/
+        $sUT->log($logged, 'my_key');
     }
 }

@@ -29,11 +29,11 @@ abstract class DataObject implements \JsonSerializable
     /**
      * @var MetaData Metadata object
      */
-    private $metadata        = null;
+    private $metadata = null;
     /**
      * @var array
      */
-    private $environnement   = array();
+    private $environnement = array();
 
     /**
      * Set MetaData

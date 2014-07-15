@@ -75,7 +75,8 @@ class MetaDataQuestion
     public function ask(MetaDataSource $metadataSource, $choice = null)
     {
         $metaDataCollection = $this->getMetaDataDAO($metadataSource)->getAllMetadata();
-        $metaDataArray = array();
+        $metaDataArray      = array();
+
         foreach ($metaDataCollection as $metaData) {
             $metaDataArray[] = array(
                 'id'    => $metaData->getOriginalName(),

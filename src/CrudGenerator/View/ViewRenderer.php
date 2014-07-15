@@ -93,7 +93,7 @@ class ViewRenderer
     public function getHelper($name)
     {
         $name = $name . 'Factory';
-        if (isset($this->helpers[$name])) {
+        if (isset($this->helpers[$name]) === true) {
             $className = $this->helpers[$name];
             return $className::getInstance();
         } else {

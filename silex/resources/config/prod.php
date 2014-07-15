@@ -1,8 +1,7 @@
 <?php
 
-$app['debug'] = false;
-// Local
-$app['locale'] = 'fr';
+$app['debug']                  = false;
+$app['locale']                 = 'fr';
 $app['session.default_locale'] = $app['locale'];
 
 if (strstr($_SERVER['SCRIPT_FILENAME'], 'code-generator-web.php') !== false) {
@@ -11,11 +10,7 @@ if (strstr($_SERVER['SCRIPT_FILENAME'], 'code-generator-web.php') !== false) {
     $app['base_path'] = './';
 }
 
-// Cache
-$app['cache.path'] = __DIR__ . '/../cache';
 
-// Http cache
-$app['http_cache.cache_dir'] = $app['cache.path'] . '/http';
-
-// Twig cache
-$app['twig.options.cache'] = $app['cache.path'] . '/twig';
+$app['cache.path']           = __DIR__ . '/../cache'; // Cache
+$app['http_cache.cache_dir'] = $app['cache.path'] . '/http'; // Http cache
+$app['twig.options.cache']   = $app['cache.path'] . '/twig'; // Twig cache

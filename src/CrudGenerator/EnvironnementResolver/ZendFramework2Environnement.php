@@ -52,8 +52,8 @@ class ZendFramework2Environnement
                 if ($previousDir === $dir) {
                     chdir($actualDir);
                     throw new EnvironnementResolverException(
-                        'Unable to locate "config/application.config.php": ' .
-                        'is CodeGenerator in a subdir of your application skeleton?'
+                        'Unable to locate "config/application.config.php":
+                        is CodeGenerator in a subdir of your application skeleton?'
                     );
                 }
 

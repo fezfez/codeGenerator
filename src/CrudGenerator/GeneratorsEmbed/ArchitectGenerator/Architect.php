@@ -118,7 +118,7 @@ class Architect extends DataObject implements \JsonSerializable
         if ($attribute === null) {
             return $this->attributesDisplayName;
         } else {
-            return (isset($this->attributesDisplayName[$attribute])) ? $this->attributesDisplayName[$attribute] : null;
+            return (isset($this->attributesDisplayName[$attribute]) === true) ? $this->attributesDisplayName[$attribute] : null;
         }
     }
     /**

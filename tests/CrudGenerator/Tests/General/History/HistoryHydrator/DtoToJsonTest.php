@@ -11,7 +11,7 @@ use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Sources\MySQL\MySQLConfig;
 use CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAO;
 
-class DtoToYamlTest extends \PHPUnit_Framework_TestCase
+class DtoToJsonTest extends \PHPUnit_Framework_TestCase
 {
     public function testWithInvalidHistory()
     {
@@ -63,7 +63,7 @@ class DtoToYamlTest extends \PHPUnit_Framework_TestCase
         $generator->setDTO($dataObject)
                   ->setMetadataSource($source);
 
-        $sUT->dtoToJson($generator);
+        $this->assertInternalType('string', $sUT->dtoToJson($generator));
     }
 
     public function testBoth()

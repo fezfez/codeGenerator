@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\General\FileManager;
+namespace CrudGenerator\Tests\General\Utils\FileManager;
 
 use CrudGenerator\Utils\FileManager;
 
@@ -7,9 +7,11 @@ class GlobTest extends \PHPUnit_Framework_TestCase
 {
     public function testGlob()
     {
-        $filePath = __DIR__;
+        $dirPath  = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'File' . DIRECTORY_SEPARATOR;
+        $sUT      = new FileManager();
+        $files    = $sUT->glob($dirPath . '*');
 
-        $sUT = new FileManager();
-        $sUT->glob($filePath);
+        $this->assertInternalType('array', $files);
+        $this->assertEquals(2, count($files));
     }
 }
