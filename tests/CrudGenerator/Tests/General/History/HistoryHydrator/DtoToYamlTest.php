@@ -12,7 +12,6 @@ use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Sources\MySQL\MySQLConfig;
 use CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAO;
-use CrudGenerator\MetaData\Sources\MySQL\MetadataDataObjectMySQL;
 
 class DtoToYamlTest extends \PHPUnit_Framework_TestCase
 {

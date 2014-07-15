@@ -1,6 +1,5 @@
 <?php
 
-use Silex\Provider\HttpCacheServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Silex\Provider\ValidatorServiceProvider;
@@ -10,8 +9,6 @@ use Silex\Provider\WebProfilerServiceProvider;
 /*
  * @var $app Silex\Application
  */
-
-use Silex\Provider;
 
 
 
