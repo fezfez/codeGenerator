@@ -46,7 +46,7 @@ class Generator
      */
     private $historyManager = null;
     /**
-     * @var CliContext
+     * @var ContextInterface
      */
     private $context = null;
 

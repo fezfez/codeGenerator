@@ -34,7 +34,7 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
 class Doctrine2MetaDataDAO implements MetaDataDAO
 {
     /**
-     * @var Doctrine\ORM\EntityManager Entity manager
+     * @var EntityManager Entity manager
      */
     private $entityManager = null;
     /**
@@ -49,6 +49,8 @@ class Doctrine2MetaDataDAO implements MetaDataDAO
 
     /**
      * Doctrine2 adapter in ZF2 environnement
+     *
+     * @param EntityManager $entityManager
      */
     public function __construct(EntityManager $entityManager)
     {

@@ -112,6 +112,7 @@ class DirectoryQuestion
      */
     private function createDirectory($baseDirectory)
     {
+        $directory = '';
         while (true) {
             try {
                 $directory = $this->context->ask(
