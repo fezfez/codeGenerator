@@ -32,7 +32,6 @@ class MetaDataSourceHydrator
     /**
      * Find all adapters allow in project
      * @param FileManager $fileManager
-     * @param ClassAwake $classAwake
      */
     public function __construct(FileManager $fileManager)
     {
@@ -43,7 +42,6 @@ class MetaDataSourceHydrator
      * Build a MetaDataSourceDataobject with all his dependencies
      *
      * @param string $adapterClassName
-     * @param MetaDataSource $adapterDataObject
      * @return MetaDataSource
      */
     public function adapterNameToMetaDataSource($adapterClassName)

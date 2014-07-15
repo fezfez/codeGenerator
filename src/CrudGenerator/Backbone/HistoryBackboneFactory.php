@@ -24,7 +24,7 @@ class HistoryBackboneFactory
 {
     /**
      * @param ContextInterface $context
-     * @return \CrudGenerator\Backbone\PreapreForGenerationBackbone
+     * @return HistoryBackbone
      */
     public static function getInstance(ContextInterface $context)
     {

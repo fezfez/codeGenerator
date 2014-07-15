@@ -64,7 +64,7 @@ class PostgreSQLMetaDataDAO implements MetaDataDAO
     /**
      * Get all metadata from PostgreSQL
      *
-     * @return \CrudGenerator\MetaData\MetaDataCollection
+     * @return MetaDataCollection
      */
     public function getAllMetadata()
     {
@@ -154,6 +154,9 @@ class PostgreSQLMetaDataDAO implements MetaDataDAO
         return $dataObject;
     }
 
+    /**
+     * @param string $tableName
+     */
     private function getIdentifiers($tableName)
     {
         $identifiers = array();

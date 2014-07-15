@@ -57,7 +57,7 @@ class MySQLMetaDataDAO implements MetaDataDAO
     /**
      * Get all metadata from MySQL
      *
-     * @return \CrudGenerator\MetaData\MetaDataCollection
+     * @return MetaDataCollection
      */
     public function getAllMetadata()
     {

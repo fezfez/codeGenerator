@@ -50,8 +50,8 @@ class HistoryHydrator
     private $metaDataQuestion = null;
 
     /**
-     * @param Dump $yampDump
-     * @param Parser $yampParser
+     * @param Dump $yamlDump
+     * @param Parser $yamlParser
      * @param MetaDataSourcesConfiguredQuestion $metaDataSourcesConfiguredQuestion
      * @param MetaDataQuestion $metaDataQuestion
      */
@@ -68,7 +68,7 @@ class HistoryHydrator
     }
 
     /**
-     * @param DataObject $dataObject
+     * @param GeneratorDataObject $dataObject
      */
     public function dtoToJson(GeneratorDataObject $dataObject)
     {

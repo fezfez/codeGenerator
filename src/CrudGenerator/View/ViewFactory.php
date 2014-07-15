@@ -32,7 +32,7 @@ class ViewFactory
     /**
      * Build a View manager
      *
-     * @return \CrudGenerator\View\ZendView
+     * @return View
      */
     public static function getInstance()
     {

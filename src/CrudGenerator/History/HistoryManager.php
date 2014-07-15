@@ -17,7 +17,6 @@
  */
 namespace CrudGenerator\History;
 
-use CrudGenerator\DataObject;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\History\HistoryCollection;
 use CrudGenerator\History\History;
@@ -56,7 +55,7 @@ class HistoryManager
 
     /**
      * Create history
-     * @param DataObject $dataObject
+     * @param GeneratorDataObject $dataObject
      */
     public function create(GeneratorDataObject $dataObject)
     {

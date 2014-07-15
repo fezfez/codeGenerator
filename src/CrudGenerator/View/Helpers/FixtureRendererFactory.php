@@ -17,14 +17,12 @@
  */
 namespace CrudGenerator\View\Helpers;
 
-use CrudGenerator\DataObject;
 use CrudGenerator\View\ViewHelperFactoryInterface;
 use Faker\Factory;
 
 class FixtureRendererFactory implements ViewHelperFactoryInterface
 {
     /**
-     * @param DataObject $dataObject
      * @return \CrudGenerator\View\Helpers\FixtureRenderer
      */
     public static function getInstance()

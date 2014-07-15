@@ -25,7 +25,7 @@ class GenerateFileBackboneFactory
 {
     /**
      * @param ContextInterface $context
-     * @return \CrudGenerator\Backbone\PreapreForGenerationBackbone
+     * @return GenerateFileBackbone
      */
     public static function getInstance(ContextInterface $context)
     {

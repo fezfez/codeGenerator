@@ -62,7 +62,7 @@ class PreapreForGenerationBackbone
 
     /**
      * @throws \InvalidArgumentException
-     * @return CrudGenerator\Generators\GeneratorDataObject
+     * @return GeneratorDataObject
      */
     public function run()
     {

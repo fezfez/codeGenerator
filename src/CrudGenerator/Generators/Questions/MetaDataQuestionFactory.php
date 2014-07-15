@@ -28,7 +28,7 @@ class MetaDataQuestionFactory
     /**
      * @param ContextInterface $context
      * @throws \InvalidArgumentException
-     * @return \CrudGenerator\Generators\Questions\Cli\MetaDataQuestion|\CrudGenerator\Generators\Questions\Web\MetaDataQuestion
+     * @return Web\MetaDataQuestion
      */
     public static function getInstance(ContextInterface $context)
     {

@@ -41,7 +41,7 @@ class FileConflictManager
     /**
      * @param ContextInterface $context
      * @param FileManager $fileManager
-     * @param DiffPHP $diffPHP
+     * @param Differ $diffPHP
      */
     public function __construct(
         ContextInterface $context,

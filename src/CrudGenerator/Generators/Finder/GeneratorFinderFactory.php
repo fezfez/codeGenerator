@@ -31,7 +31,7 @@ class GeneratorFinderFactory
     /**
      * Create GeneratorFinder instance
      *
-     * @return \CrudGenerator\Generators\GeneratorFinder
+     * @return GeneratorFinder
      */
     public static function getInstance()
     {

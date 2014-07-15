@@ -34,7 +34,7 @@ class GeneratorParserFactory
 {
     /**
      * @param ContextInterface $context
-     * @return \CrudGenerator\Generators\GeneratorParser
+     * @return GeneratorParser
      */
     public static function getInstance(ContextInterface $context)
     {

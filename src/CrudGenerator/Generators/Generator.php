@@ -72,10 +72,9 @@ class Generator
     }
 
     /**
-     * @param Generator $generator
-     * @param string $fileName
+     * @param GeneratorDataObject $generator
      * @throws \Exception
-     * @return string
+     * @return GeneratorDataObject
      */
     public function generate(GeneratorDataObject $generator)
     {
