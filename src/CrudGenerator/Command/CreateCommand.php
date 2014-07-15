@@ -28,6 +28,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use CrudGenerator\Context\CliContext;
+use CrudGenerator\Backbone\MainBackbone;
 
 /**
  * Generator command
@@ -37,60 +38,18 @@ use CrudGenerator\Context\CliContext;
 class CreateCommand extends Command
 {
     /**
-     * @var GeneratorParser
+     * @var MainBackbone
      */
-    private $parser = null;
-    /**
-     * @var Generator
-     */
-    private $generator = null;
-    /**
-     * @var HistoryManager
-     */
-    private $historyManager = null;
-    /**
-     * @var MetaDataSourcesQuestion
-     */
-    private $metaDataSourcesQuestion = null;
-    /**
-     * @var MetaDataQuestion
-     */
-    private $metaDataQuestion = null;
-    /**
-     * @var GeneratorQuestion
-     */
-    private $generatorQuestion = null;
-    /**
-     * @var CliContext
-     */
-    private $cliContext = null;
+    private $mainBakbone = null;
 
     /**
-     * @param GeneratorParser $parser
-     * @param Generator $generator
-     * @param HistoryManager $historyManager
-     * @param MetaDataSourcesQuestion $metaDataSourcesQuestion
-     * @param MetaDataQuestion $metaDataQuestion
-     * @param GeneratorQuestion $generatorQuestion
-     * @param CliContext $cliContext
+     * @param MainBackbone $mainBakbone
      */
     public function __construct(
-        GeneratorParser $parser,
-        Generator $generator,
-        HistoryManager $historyManager,
-        MetaDataSourcesQuestion $metaDataSourcesQuestion,
-        MetaDataQuestion $metaDataQuestion,
-        GeneratorQuestion $generatorQuestion,
-        CliContext $cliContext
+        MainBackbone $mainBakbone
     ) {
         parent::__construct('create');
-        $this->parser                  = $parser;
-        $this->generator               = $generator;
-        $this->historyManager          = $historyManager;
-        $this->metaDataSourcesQuestion = $metaDataSourcesQuestion;
-        $this->metaDataQuestion        = $metaDataQuestion;
-        $this->generatorQuestion       = $generatorQuestion;
-        $this->cliContext              = $cliContext;
+        $this->mainBakbone = $mainBakbone;
     }
     /**
      * (non-PHPdoc)
@@ -110,33 +69,8 @@ class CreateCommand extends Command
         $this->create();
     }
 
-    /**
-     * @throws \RuntimeException
-     * @return \CrudGenerator\DataObject
-     */
     public function create()
     {
-        $adapter    = $this->metaDataSourcesQuestion->ask();
-        $metadata   = $this->metaDataQuestion->ask($adapter);
-        $generator  = $this->generatorQuestion->ask();
-
-        $generatorDTO = new GeneratorDataObject();
-        $generatorDTO->setName($generator)
-                     ->setMetadataSource($adapter);
-
-        $generatorDTO = $this->parser->init($generatorDTO, $metadata);
-
-        $doI = $this->cliContext->confirm(
-            "\n<question>Do you confirm generation ?</question>",
-            'generate'
-        );
-
-        if ($doI === true) {
-            $this->generator->generate($generatorDTO);
-
-            return $generatorDTO;
-        } else {
-            throw new \RuntimeException('Command aborted');
-        }
+        $this->mainBakbone->run();
     }
 }

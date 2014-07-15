@@ -25,6 +25,7 @@ use CrudGenerator\Generators\Parser\GeneratorParserFactory;
 use CrudGenerator\Generators\GeneratorFactory;
 use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 use CrudGenerator\Context\CliContext;
+use CrudGenerator\Backbone\MainBackboneFactory;
 
 /**
  * Generator command
@@ -39,22 +40,6 @@ class CreateCommandFactory
      */
     public static function getInstance(CliContext $context)
     {
-        $historyManager         = HistoryFactory::getInstance($context);
-        $metaDataSourceQuestion = MetaDataSourcesQuestionFactory::getInstance($context);
-        $metaDataQuestion       = MetaDataQuestionFactory::getInstance($context);
-        $generatorQuestion      = GeneratorQuestionFactory::getInstance($context);
-        $parser                 = GeneratorParserFactory::getInstance($context);
-        $generatorStrategy      = GeneratorStrategyFactory::getInstance($context);
-        $generator              = GeneratorFactory::getInstance($context, $generatorStrategy);
-
-        return new CreateCommand(
-            $parser,
-            $generator,
-            $historyManager,
-            $metaDataSourceQuestion,
-            $metaDataQuestion,
-            $generatorQuestion,
-            $context
-        );
+        return new CreateCommand(MainBackboneFactory::getInstance($context));
     }
 }
