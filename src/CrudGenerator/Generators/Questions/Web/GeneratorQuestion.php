@@ -23,7 +23,7 @@ use CrudGenerator\Generators\ResponseExpectedException;
 
 class GeneratorQuestion
 {
-	const QUESTION_KEY = 'generator';
+    const QUESTION_KEY = 'generator';
     /**
      * @var GeneratorFinder
      */

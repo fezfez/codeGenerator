@@ -20,7 +20,6 @@ namespace CrudGenerator\Generators;
 use CrudGenerator\Generators\Strategies\StrategyInterface;
 use CrudGenerator\FileConflict\FileConflictManager;
 use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Context\CliContext;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\History\HistoryManager;
 

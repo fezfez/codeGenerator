@@ -35,10 +35,10 @@ class MetaDataQuestionFactory
         $metadataSourceFactory = new MetaDataSourceFactory();
 
         if ($context instanceof WebContext || $context instanceof CliContext) {
-        	$metaDataConfigDAO = MetaDataConfigDAOFactory::getInstance($context);
-        	return new Web\MetaDataQuestion($metaDataConfigDAO, $metadataSourceFactory, $context);
+            $metaDataConfigDAO = MetaDataConfigDAOFactory::getInstance($context);
+            return new Web\MetaDataQuestion($metaDataConfigDAO, $metadataSourceFactory, $context);
         } else {
-        	throw new \InvalidArgumentException('Invalid context given');
+            throw new \InvalidArgumentException('Invalid context given');
         }
     }
 }

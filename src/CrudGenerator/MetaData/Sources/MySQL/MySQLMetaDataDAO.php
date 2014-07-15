@@ -84,7 +84,7 @@ class MySQLMetaDataDAO implements MetaDataDAO
      */
     public function getMetadataFor($tableName, array $parentName = array())
     {
-    	return $this->hydrateDataObject($tableName);
+        return $this->hydrateDataObject($tableName);
     }
 
     /**

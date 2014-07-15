@@ -30,10 +30,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->method('getAllAdapters')
         ->will($this->returnValue($metadataSourceCollection));
 
-    	$context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
-    	->disableOriginalConstructor()
-    	->getMock();
-
+        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        ->disableOriginalConstructor()
+        ->getMock();
 
         $sUT = new MetaDataSourcesQuestion($sourceFinderStub, $context);
 
@@ -44,24 +43,24 @@ class AskTest extends \PHPUnit_Framework_TestCase
     public function testWithPreselected()
     {
 
-    	$metadataSourceCollection = new MetaDataSourceCollection();
-    	$source = new MetaDataSource();
-    	$source->setDefinition('My definition')
-    	->setMetaDataDAO('My name')
-    	->setMetaDataDAOFactory('my name factory');
-    	$metadataSourceCollection->append($source);
-    	$sourceWithFailedDependencie = new MetaDataSource();
-    	$sourceWithFailedDependencie->setDefinition('My definition')
-    	->setMetaDataDAO('My named')
-    	->setFalseDependencie('My false dependencies');
-    	$metadataSourceCollection->append($sourceWithFailedDependencie);
+        $metadataSourceCollection = new MetaDataSourceCollection();
+        $source = new MetaDataSource();
+        $source->setDefinition('My definition')
+        ->setMetaDataDAO('My name')
+        ->setMetaDataDAOFactory('my name factory');
+        $metadataSourceCollection->append($source);
+        $sourceWithFailedDependencie = new MetaDataSource();
+        $sourceWithFailedDependencie->setDefinition('My definition')
+        ->setMetaDataDAO('My named')
+        ->setFalseDependencie('My false dependencies');
+        $metadataSourceCollection->append($sourceWithFailedDependencie);
 
-    	$sourceFinderStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFinder')
-    	->disableOriginalConstructor()
-    	->getMock();
-    	$sourceFinderStub->expects($this->exactly(2))
-    	->method('getAllAdapters')
-    	->will($this->returnValue($metadataSourceCollection));
+        $sourceFinderStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFinder')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $sourceFinderStub->expects($this->exactly(2))
+        ->method('getAllAdapters')
+        ->will($this->returnValue($metadataSourceCollection));
 
         $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()
@@ -72,8 +71,8 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->method('askCollection')
         ->will($this->returnValue('my name factory'));
 
-    	$sUT = new MetaDataSourcesQuestion($sourceFinderStub, $context);
-    	$this->assertEquals($source, $sUT->ask());
+        $sUT = new MetaDataSourcesQuestion($sourceFinderStub, $context);
+        $this->assertEquals($source, $sUT->ask());
     }
 
     public function testWithPreselectedFail()

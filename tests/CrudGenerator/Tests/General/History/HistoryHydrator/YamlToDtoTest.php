@@ -2,8 +2,6 @@
 namespace CrudGenerator\Tests\General\History\HistoryHydrator;
 
 use CrudGenerator\History\HistoryHydrator;
-use Symfony\Component\Yaml\Dumper;
-use Symfony\Component\Yaml\Parser;
 use CrudGenerator\Command\Questions\MetaDataQuestion;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
@@ -52,7 +50,7 @@ class YamlToDtoTest extends \PHPUnit_Framework_TestCase
                         "id": "CategorieEntity",
                         "dtCreat": "CategorieEntity",
                         "nomLog": "CategorieEntity",
-        				"name" : "CategorieEntity"
+                        "name" : "CategorieEntity"
                     },
                     "formDirectory": null,
                     "namespace": null,
@@ -89,7 +87,6 @@ class YamlToDtoTest extends \PHPUnit_Framework_TestCase
                     }
                 }
             }';
-
 
         $this->assertInstanceOf('CrudGenerator\History\History', $sUT->jsonToDto($json));
     }

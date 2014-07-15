@@ -6,7 +6,6 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 
-
 $metadata = new MetadataDataObjectDoctrine2(
     new MetaDataColumnCollection(),
     new MetaDataRelationCollection()

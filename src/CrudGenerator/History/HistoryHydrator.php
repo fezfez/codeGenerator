@@ -18,8 +18,6 @@
 namespace CrudGenerator\History;
 
 use CrudGenerator\DataObject;
-use Symfony\Component\Yaml\Dumper;
-use Symfony\Component\Yaml\Parser;
 use CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion;
 use CrudGenerator\Generators\Questions\Web\MetaDataQuestion;
 use CrudGenerator\Generators\ResponseExpectedException;
@@ -154,7 +152,6 @@ class HistoryHydrator
                 )
             );
         }
-
 
         $dtoClass = $arrayRepresentation['dtoClass'];
         $dto      = new $dtoClass();

@@ -29,7 +29,6 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-
         $sUT = new TemplateVariableParser($fileManager, $environnementCondition, $dependencyCondition);
 
         $generator = new GeneratorDataObject();
@@ -59,7 +58,6 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
-
 
         $sUT = new TemplateVariableParser($fileManager, $environnementCondition, $dependencyCondition);
 
@@ -97,7 +95,6 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->method('parse')
         ->with('MyValue')
         ->will($this->returnValue('MyValueParser'));
-
 
         $sUT = new TemplateVariableParser($fileManager, $environnementCondition, $dependencyCondition);
 
@@ -143,7 +140,6 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->method('parse')
         ->with('MyValue')
         ->will($this->returnValue('MyValueParser'));
-
 
         $sUT = new TemplateVariableParser($fileManager, $environnementCondition, $dependencyCondition);
 
@@ -196,11 +192,9 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->with('MyValue')
         ->will($this->returnValue('MyValueParser'));
 
-
         $sUT = new TemplateVariableParser($fileManager, $environnementCondition, $dependencyCondition);
 
         $generator = new GeneratorDataObject();
-
 
         $process = array(
             'templateVariables' => array(

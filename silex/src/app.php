@@ -10,14 +10,10 @@ use Silex\Provider\WebProfilerServiceProvider;
  * @var $app Silex\Application
  */
 
-
-
-
 $app->register(new UrlGeneratorServiceProvider());
 $app->register(new ValidatorServiceProvider());
 $app->register(new ServiceControllerServiceProvider());
 $app->register(new TwigServiceProvider());
-
 
 $app->register(new TwigServiceProvider(), array(
     'twig.options'        => array(
@@ -28,9 +24,9 @@ $app->register(new TwigServiceProvider(), array(
 ));
 
 if ($app['debug'] === true) {
-	$app->register(new WebProfilerServiceProvider(), array(
-	    'profiler.cache_dir' => __DIR__.'/../var/cache/profiler',
-	));
+    $app->register(new WebProfilerServiceProvider(), array(
+        'profiler.cache_dir' => __DIR__.'/../var/cache/profiler',
+    ));
 }
 
 return $app;

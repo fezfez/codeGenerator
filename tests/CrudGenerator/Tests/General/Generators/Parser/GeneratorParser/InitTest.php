@@ -86,7 +86,6 @@ class InitTest extends \PHPUnit_Framework_TestCase
 
         $parserCollection->addPreParse($questionResponse);
 
-
         $process = array(
             'dto' => 'CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect',
             'name' => 'test'

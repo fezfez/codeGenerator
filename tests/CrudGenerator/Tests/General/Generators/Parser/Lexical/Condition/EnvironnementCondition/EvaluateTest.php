@@ -7,7 +7,6 @@ use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
 use Symfony\Component\Yaml\Yaml;
 use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 
-
 class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
     public function testEquals()

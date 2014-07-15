@@ -17,7 +17,6 @@
  */
 namespace CrudGenerator\Generators\Strategies;
 
-
 use CrudGenerator\View\View;
 use CrudGenerator\Utils\FileManager;
 

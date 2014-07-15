@@ -68,7 +68,7 @@ class SandBoxStrategy implements StrategyInterface
 
             $continue = $this->context->confirm(
                 "\n<question>Regenerate ?</question> ",
-            	'sanbox_regenerate'
+                'sanbox_regenerate'
             );
         }
     }

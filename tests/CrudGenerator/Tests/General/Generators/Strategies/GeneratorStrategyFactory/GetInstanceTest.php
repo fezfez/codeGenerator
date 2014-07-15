@@ -5,7 +5,6 @@ use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 use CrudGenerator\Context\CliContext;
 use CrudGenerator\Context\WebContext;
 
-
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstanceCli()
@@ -35,7 +34,6 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
             GeneratorStrategyFactory::getInstance($context)
         );
     }
-
 
     public function testFail()
     {

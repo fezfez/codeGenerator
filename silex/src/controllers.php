@@ -10,7 +10,6 @@ $app->match('/', function() use ($app) {
     return $app['twig']->render('index.html.twig');
 })->bind('homepage');
 
-
 $app->match('/generator', function (Request $request) use ($app) {
     $context = new WebContext($app);
     $main    = MainBackboneFactory::getInstance($context);

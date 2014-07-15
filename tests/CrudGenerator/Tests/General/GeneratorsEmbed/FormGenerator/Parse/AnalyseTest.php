@@ -14,7 +14,6 @@ class AnalyseTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-
         $generator = new GeneratorDataObject();
         $generator->setName('FormGenerator');
 

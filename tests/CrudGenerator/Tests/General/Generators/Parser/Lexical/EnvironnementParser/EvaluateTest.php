@@ -10,49 +10,49 @@ use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 
 class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
-	public function testEnvironnementMalFormed()
-	{
-    	$context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
-    	->disableOriginalConstructor()
-    	->getMock();
+    public function testEnvironnementMalFormed()
+    {
+        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-		$phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-		->disableOriginalConstructor()
-		->getMock();
+        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-		$generator = new GeneratorDataObject();
-		$generator->setDTO(new Architect());
+        $generator = new GeneratorDataObject();
+        $generator->setDTO(new Architect());
 
-		$sUT = new EnvironnementParser($context);
+        $sUT = new EnvironnementParser($context);
 
-		$string = 'environnement :
+        $string = 'environnement :
     framework :
         "zend_framework_2"';
-		$process = Yaml::parse($string, true);
+        $process = Yaml::parse($string, true);
 
-		$this->setExpectedException('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
+        $this->setExpectedException('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
 
-		$sUT->evaluate($process, $phpParser, $generator, true);
-	}
+        $sUT->evaluate($process, $phpParser, $generator, true);
+    }
 
     public function testEnvironnementfzefzefzef()
     {
-    	$context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
-    	->disableOriginalConstructor()
-    	->getMock();
-    	$context->expects($this->exactly(3))
-    	->method('askCollection')
-    	->will($this->onConsecutiveCalls('zend_framework_2', 'pdo'));
-    	$phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $context->expects($this->exactly(3))
+        ->method('askCollection')
+        ->will($this->onConsecutiveCalls('zend_framework_2', 'pdo'));
+        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        ->disableOriginalConstructor()
+        ->getMock();
 
-    	$generator = new GeneratorDataObject();
-    	$generator->setDTO(new Architect());
+        $generator = new GeneratorDataObject();
+        $generator->setDTO(new Architect());
 
-    	$sUT = new EnvironnementParser($context);
+        $sUT = new EnvironnementParser($context);
 
-    	$string = 'environnement :
+        $string = 'environnement :
     framework :
         "zend_framework_2" :
             backend : [pdo, doctrine2]
@@ -60,7 +60,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         symfony2 :
             backend : [doctrine2]
             template : [twig]';
-    	$process = Yaml::parse($string, true);
+        $process = Yaml::parse($string, true);
 
         $generator = $sUT->evaluate($process, $phpParser, $generator, true);
 

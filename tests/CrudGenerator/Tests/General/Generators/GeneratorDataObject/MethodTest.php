@@ -11,21 +11,20 @@ class MethodTest extends \PHPUnit_Framework_TestCase
         $sUT = new GeneratorDataObject();
         $sUT->setDTO(new Architect());
 
-
         $sUT->addEnvironnementValue('backend', 'doctrine2');
 
         $this->assertEquals(
-        	array('backend' => 'doctrine2'),
-        	$sUT->getEnvironnementCollection()
+            array('backend' => 'doctrine2'),
+            $sUT->getEnvironnementCollection()
         );
     }
 
     public function testFailAddEnvOnEmptyDTO()
     {
-    	$sUT = new GeneratorDataObject();
+        $sUT = new GeneratorDataObject();
 
-    	$this->setExpectedException('LogicException');
+        $this->setExpectedException('LogicException');
 
-    	$sUT->addEnvironnementValue('backend', 'doctrine2');
+        $sUT->addEnvironnementValue('backend', 'doctrine2');
     }
 }

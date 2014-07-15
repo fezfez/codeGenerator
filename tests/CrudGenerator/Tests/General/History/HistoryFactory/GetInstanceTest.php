@@ -26,10 +26,10 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 
     public function testFail()
     {
-    	$context = $this->getMockForAbstractClass('CrudGenerator\Context\ContextInterface');
+        $context = $this->getMockForAbstractClass('CrudGenerator\Context\ContextInterface');
 
-    	$this->setExpectedException('InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
 
-    	HistoryFactory::getInstance($context);
+        HistoryFactory::getInstance($context);
     }
 }

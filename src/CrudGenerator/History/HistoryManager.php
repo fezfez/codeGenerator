@@ -73,7 +73,7 @@ class HistoryManager
         $metadata = $dto->getMetaData();
 
         if (null === $metadata) {
-        	throw new \InvalidArgumentException('Metadata cant be empty');
+            throw new \InvalidArgumentException('Metadata cant be empty');
         }
 
         $fileName = $metadata->getName(). '.history.yaml';

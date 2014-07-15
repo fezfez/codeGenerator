@@ -49,9 +49,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
              ->with($this->equalTo($source->getMetaDataDAOFactory()),$this->equalTo(null))
              ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
-    	$context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        ->disableOriginalConstructor()
+        ->getMock();
 
         $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub, $context);
 
@@ -98,9 +98,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->with($this->equalTo($source->getMetaDataDAOFactory()),$this->equalTo($config))
         ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
-    	$context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
-    	->disableOriginalConstructor()
-    	->getMock();
+        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        ->disableOriginalConstructor()
+        ->getMock();
 
         $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub, $context);
 
@@ -153,7 +153,6 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->expects($this->once())
         ->method('askCollection')
         ->will($this->returnValue('MyName'));
-
 
         $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub, $context);
         $this->assertEquals($metaData, $sUT->ask($source));

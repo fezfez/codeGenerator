@@ -14,7 +14,6 @@ class AnalyseTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-
         $generator = new GeneratorDataObject();
         $generator->setName('ArchitectGenerator');
 
@@ -30,7 +29,6 @@ class AnalyseTest extends \PHPUnit_Framework_TestCase
                   ->setAttributeName('myDate', 'madata')
                   ->addEnvironnementValue('backend', 'PDO')
                   ->addEnvironnementValue('framework', 'zend_framework_2');
-
 
         $fileGenerator = GeneratorStrategyFactory::getInstance($context);
 

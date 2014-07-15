@@ -17,8 +17,6 @@
  */
 namespace CrudGenerator\History;
 
-use Symfony\Component\Yaml\Dumper;
-use Symfony\Component\Yaml\Parser;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\CliContext;
 use CrudGenerator\Context\WebContext;

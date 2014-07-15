@@ -11,10 +11,9 @@ class GenerateFileTest extends \PHPUnit_Framework_TestCase
         $view = $this->getMockBuilder('CrudGenerator\View\View')
         ->disableOriginalConstructor()
         ->getMock();
-    	$context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
-    	->disableOriginalConstructor()
-    	->getMock();
-
+        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        ->disableOriginalConstructor()
+        ->getMock();
 
         $templateResult = 'MyResults';
         $dataObject     = new Architect();

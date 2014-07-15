@@ -10,25 +10,25 @@ class IssetVariableTest extends \PHPUnit_Framework_TestCase
         $sUT = new PhpStringParser();
 
         $this->assertEquals(
-        	false,
-        	$sUT->issetVariable('test')
+            false,
+            $sUT->issetVariable('test')
         );
 
         $sUT->addVariable('test', 'myValue');
 
         $this->assertEquals(
-        	true,
-        	$sUT->issetVariable('test')
+            true,
+            $sUT->issetVariable('test')
         );
     }
 
     public function testWithPredefine()
     {
-    	$sUT = new PhpStringParser(array('test' => 'myValue'));
+        $sUT = new PhpStringParser(array('test' => 'myValue'));
 
-    	$this->assertEquals(
-    		true,
-    		$sUT->issetVariable('test')
-    	);
+        $this->assertEquals(
+            true,
+            $sUT->issetVariable('test')
+        );
     }
 }

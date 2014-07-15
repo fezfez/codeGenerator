@@ -43,7 +43,6 @@ class FindAllTest extends \PHPUnit_Framework_TestCase
         ->method('isDir')
         ->will($this->returnValue(true));
 
-
         $glob = array(
             serialize(new History())
         );
