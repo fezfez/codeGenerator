@@ -32,11 +32,11 @@ class GeneratorStrategy implements StrategyInterface
     /**
      * @var View View manager
      */
-    private $view                = null;
+    private $view = null;
     /**
      * @var FileManager File Manager
      */
-    private $fileManager         = null;
+    private $fileManager = null;
 
     /**
      * Base code generator

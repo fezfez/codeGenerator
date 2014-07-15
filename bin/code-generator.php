@@ -48,5 +48,5 @@ if(!is_writable('data/crudGenerator/Config')) {
 
 
 $output = new Symfony\Component\Console\Output\ConsoleOutput();
-$cli = CrudGenerator\Service\CliFactory::getInstance($output);
+$cli    = CrudGenerator\Service\CliFactory::getInstance($output);
 $cli->run($input, $output);

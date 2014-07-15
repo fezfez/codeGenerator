@@ -27,7 +27,7 @@ class CliContext implements ContextInterface
     /**
      * @var OutputInterface
      */
-    private $output       = null;
+    private $output = null;
     /**
      * @var DialogHelper
      */

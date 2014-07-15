@@ -34,6 +34,7 @@ class HistoryBackbone
 
     /**
      * @param HistoryQuestion $historyQuestion
+     * @param ContextInterface $context
      */
     public function __construct(HistoryQuestion $historyQuestion, ContextInterface $context)
     {

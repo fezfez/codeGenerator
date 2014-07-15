@@ -50,7 +50,7 @@ class HistoryHydrator
         MetaDataQuestion $metaDataQuestion
     ) {
         $this->metaDataSourcesConfiguredQuestion = $metaDataSourcesConfiguredQuestion;
-        $this->metaDataQuestion = $metaDataQuestion;
+        $this->metaDataQuestion                  = $metaDataQuestion;
     }
 
     /**
@@ -120,7 +120,7 @@ class HistoryHydrator
      */
     public function jsonToDto($content)
     {
-        $jsonRepresentation  = json_decode($content, true);
+        $jsonRepresentation = json_decode($content, true);
         if (null === $jsonRepresentation) {
             throw new InvalidHistoryException(
                 "Is not a json string"
@@ -157,7 +157,7 @@ class HistoryHydrator
 
 
         $dtoClass = $arrayRepresentation['dtoClass'];
-        $dto = new $dtoClass();
+        $dto      = new $dtoClass();
         $dto->setMetadata($metaData);
 
         $generator = new GeneratorDataObject();

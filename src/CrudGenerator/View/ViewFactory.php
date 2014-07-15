@@ -36,8 +36,8 @@ class ViewFactory
      */
     public static function getInstance()
     {
-        $classAwake   = new ClassAwake();
-        $viewHelpers  = $classAwake->wakeByInterfaces(
+        $classAwake  = new ClassAwake();
+        $viewHelpers = $classAwake->wakeByInterfaces(
             array(
                 __DIR__ . '/../'
             ),

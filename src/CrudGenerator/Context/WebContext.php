@@ -29,7 +29,7 @@ class WebContext implements ContextInterface, \JsonSerializable
     /**
      * @var array
      */
-    private $question    = array();
+    private $question = array();
     /**
      * @var array
      */
@@ -135,7 +135,7 @@ class WebContext implements ContextInterface, \JsonSerializable
     public function publishGenerator(GeneratorDataObject $generator)
     {
         $this->preResponse[MetaDataSourcesConfiguredQuestion::QUESTION_KEY] = $generator->getMetadataSource()->getConfig()->getUniqueName();
-        $this->preResponse[MetaDataQuestion::QUESTION_KEY]  = $generator->getDTO()->getMetadata()->getOriginalName();
-        $this->preResponse[GeneratorQuestion::QUESTION_KEY] = $generator->getName();
+        $this->preResponse[MetaDataQuestion::QUESTION_KEY]                  = $generator->getDTO()->getMetadata()->getOriginalName();
+        $this->preResponse[GeneratorQuestion::QUESTION_KEY]                 = $generator->getName();
     }
 }

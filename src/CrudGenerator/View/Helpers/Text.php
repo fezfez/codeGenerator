@@ -35,7 +35,7 @@ class Text
         );
 
         if (true === $ucFirst) {
-        	$value = ucfirst($value);
+            $value = ucfirst($value);
         }
 
         return $value;

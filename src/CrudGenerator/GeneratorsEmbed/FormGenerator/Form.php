@@ -24,11 +24,11 @@ class Form extends DataObject
     /**
      * @var string Target directory
      */
-    private $modelName       = null;
+    private $modelName = null;
     /**
      * @var string Target namespace
      */
-    private $namespace       = null;
+    private $namespace = null;
     /**
      * @var array
      */

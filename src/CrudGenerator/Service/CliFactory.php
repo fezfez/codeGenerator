@@ -39,8 +39,8 @@ class CliFactory
      */
     public static function getInstance(OutputInterface $output)
     {
-        $dialogHelper   = new DialogHelper();
-        $application    = new Application('Code Generator Command Line Interface', 'Alpha');
+        $dialogHelper = new DialogHelper();
+        $application  = new Application('Code Generator Command Line Interface', 'Alpha');
         $application->getHelperSet()->set(new FormatterHelper(), 'formatter');
         $application->getHelperSet()->set($dialogHelper, 'dialog');
 
@@ -48,10 +48,7 @@ class CliFactory
 
         $application->addCommands(
             array(
-                CreateCommandFactory::getInstance($context),
-                //CreateByConfigCommandFactory::getInstance($context),
-                //CreateByYamlCommandFactory::getInstance($context),
-                //GeneratorSandBoxCommandFactory::getInstance($context)
+                CreateCommandFactory::getInstance($context)
             )
         );
 

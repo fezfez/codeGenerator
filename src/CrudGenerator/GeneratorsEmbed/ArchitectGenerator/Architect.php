@@ -24,19 +24,19 @@ class Architect extends DataObject implements \JsonSerializable
     /**
      * @var string Target directory
      */
-    private $modelDirectory  = null;
+    private $modelDirectory = null;
     /**
      * @var string Target directory
      */
-    private $unitTestDirectory  = null;
+    private $unitTestDirectory = null;
     /**
      * @var string Target namespace
      */
-    private $namespace       = null;
+    private $namespace = null;
     /**
      * @var string Model name
      */
-    private $modelName       = null;
+    private $modelName = null;
     /**
      * @var array
      */

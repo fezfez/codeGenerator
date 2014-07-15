@@ -26,10 +26,10 @@ use CrudGenerator\MetaData\DataObject\MetaData;
  */
 class MetaDataRelationColumn
 {
-    const ONE_TO_MANY = 3;
-    const ONE_TO_ONE = 4;
+    const ONE_TO_MANY  = 3;
+    const ONE_TO_ONE   = 4;
     const MANY_TO_MANY = 5;
-    const MANY_TO_ONE = 6;
+    const MANY_TO_ONE  = 6;
 
     /**
      * @var string Full name (ex: Test\My\Metadata)

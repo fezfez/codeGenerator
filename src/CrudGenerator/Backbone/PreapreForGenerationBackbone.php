@@ -54,9 +54,9 @@ class PreapreForGenerationBackbone
         GeneratorQuestion $generatorQuestion,
         GeneratorParser $generatorParser
     ) {
-        $this->metaDataQuestion = $metaDataQuestion;
-        $this->generatorParser = $generatorParser;
-        $this->generatorQuestion = $generatorQuestion;
+        $this->metaDataQuestion                  = $metaDataQuestion;
+        $this->generatorParser                   = $generatorParser;
+        $this->generatorQuestion                 = $generatorQuestion;
         $this->metaDataSourcesConfiguredQuestion = $metaDataSourcesConfiguredQuestion;
     }
 
