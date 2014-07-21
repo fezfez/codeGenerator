@@ -49,7 +49,7 @@ interface ContextInterface
     public function confirm($text, $uniqueKey);
 
     /**
-     * @param string $text
+     * @param string|array $text
      * @param string $name
      * @return void
      */

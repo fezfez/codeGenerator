@@ -25,7 +25,7 @@ use CrudGenerator\MetaData\Config\ConfigException;
  *
  * @author Stéphane Demonchaux
  */
-class PostgreSQLConfig implements MetaDataConfig
+class PostgreSQLConfig implements MetaDataConfig, \JsonSerializable
 {
     /**
      * @var string Config definition
@@ -51,6 +51,10 @@ class PostgreSQLConfig implements MetaDataConfig
      * @var string Port
      */
     private $port = null;
+    /**
+     * @var string
+     */
+    private $metaDataDAOFactory = 'CrudGenerator\MetaData\Sources\PgSQL\PgSQLMetaDataDAOFactory';
 
     /**
      * Set database name
@@ -185,11 +189,12 @@ class PostgreSQLConfig implements MetaDataConfig
     public function jsonSerialize()
     {
         return array(
-            'databaseName' => $this->databaseName,
-            'host'         => $this->host,
-            'user'         => $this->user,
-            'password'     => $this->password,
-            'port'         => $this->port
+            'databaseName'       => $this->databaseName,
+            'host'               => $this->host,
+            'user'               => $this->user,
+            'password'           => $this->password,
+            'port'               => $this->port,
+            'metaDataDAOFactory' => $this->metaDataDAOFactory,
         );
     }
 

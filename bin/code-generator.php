@@ -1,4 +1,6 @@
 <?php
+use Symfony\Component\Console\Input\Input;
+use Symfony\Component\Console\Input\InputOption;
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -46,5 +48,6 @@ if(is_writable('data/crudGenerator/Config') === false) {
 }
 
 $output = new Symfony\Component\Console\Output\ConsoleOutput();
+$input  = new Symfony\Component\Console\Input\ArrayInput(array());
 $cli    = CrudGenerator\Service\CliFactory::getInstance($output);
 $cli->run($input, $output);

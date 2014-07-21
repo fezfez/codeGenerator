@@ -31,6 +31,5 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
 
         $sUT->ask();
-        //$this->assertEquals(array(array('id' => 'path/ArchitectGenerator.generator.yaml', 'label' => 'ArchitectGenerator')), );
     }
 }

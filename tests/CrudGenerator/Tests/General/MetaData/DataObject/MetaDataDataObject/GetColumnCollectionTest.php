@@ -24,10 +24,13 @@ class GetColumnCollectionTest extends \PHPUnit_Framework_TestCase
         $sUT->appendColumn($column);
 
         $columnCollection = $sUT->getColumnCollection();
+        $this->assertInstanceOf('CrudGenerator\MetaData\DataObject\MetaDataColumnCollection', $columnCollection);
 
         $columnCollectionWithoutIdentifier = $sUT->getColumnCollection();
+        $this->assertInstanceOf('CrudGenerator\MetaData\DataObject\MetaDataColumnCollection', $columnCollectionWithoutIdentifier);
 
         foreach ($columnCollectionWithoutIdentifier as $column) {
+        	$this->assertInstanceOf('CrudGenerator\MetaData\DataObject\MetaDataColumn', $column);
             $this->assertEquals(
                 false,
                 $column->isPrimaryKey()

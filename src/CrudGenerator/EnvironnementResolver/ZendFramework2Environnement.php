@@ -46,7 +46,7 @@ class ZendFramework2Environnement
             $previousDir = '.';
 
             $actualDir = getcwd();
-            while (!$fileManager->fileExists('config/application.config.php')) {
+            while ($fileManager->fileExists('config/application.config.php') === false) {
                 $dir = dirname(getcwd());
 
                 if ($previousDir === $dir) {

@@ -10,7 +10,6 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
     public function testInstance()
     {
         $generator  = new GeneratorDataObject();
-        $dataObject = new Architect();
         $history    = new History();
 
         $history->addDataObject($generator)

@@ -32,7 +32,7 @@ class ParserCollection
 
     public function __construct()
     {
-        $this->preParser = new \ArrayObject();
+        $this->preParser  = new \ArrayObject();
         $this->postParser = new \ArrayObject();
     }
 

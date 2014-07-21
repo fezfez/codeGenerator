@@ -21,8 +21,6 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $dto->setModelDirectory('src');
         $generatorDTO->setDTO($dto);
 
-        $generatorToTest = clone $generatorDTO;
-
         $directories = array(
             'dirOne',
             'dirTwo'
