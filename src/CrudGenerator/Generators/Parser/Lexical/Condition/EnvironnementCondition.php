@@ -49,27 +49,14 @@ class EnvironnementCondition implements ParserInterface
      */
     private function analyseExpression($expression, $toDoIfValidExpression, $generator)
     {
-        $matches                    = array();
-        $comparaisonDifferentEquals = array_map('trim', explode(GeneratorParser::DIFFERENT_EQUAL, $expression));
-        $comparaisonEquals          = array_map('trim', explode(GeneratorParser::EQUAL, $expression));
+        $matches = array();
 
-        if (count($comparaisonDifferentEquals) !== 1) {
-            $environnementName          = $comparaisonDifferentEquals[0];
-            $environnementValue         = $comparaisonDifferentEquals[1];
-            $addEnvironnementExpression = ($environnementValue !== $generator->getEnvironnement($environnementName)) ? true : false;
-
-        } elseif (count($comparaisonEquals) !== 1) {
-            $environnementName          = $comparaisonEquals[0];
-            $environnementValue         = $comparaisonEquals[1];
-            $addEnvironnementExpression = ($environnementValue === $generator->getEnvironnement($environnementName)) ? true : false;
-
-        } else {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Unknown expression %s',
-                    $expression
-                )
-            );
+        try {
+            $comparaisonDifferentEquals = $this->analyseExpressionType($expression, GeneratorParser::DIFFERENT_EQUAL);
+            $addEnvironnementExpression = ($comparaisonDifferentEquals['environnementValue'] !== $generator->getEnvironnement($comparaisonDifferentEquals['environnementName']));
+        } catch (\InvalidArgumentException $e) {
+            $comparaisonEquals = $this->analyseExpressionType($expression, GeneratorParser::EQUAL);
+            $addEnvironnementExpression = ($comparaisonEquals['environnementValue'] === $generator->getEnvironnement($comparaisonEquals['environnementName']));
         }
 
         if (true === $addEnvironnementExpression) {
@@ -79,5 +66,30 @@ class EnvironnementCondition implements ParserInterface
         }
 
         return $matches;
+    }
+
+    /**
+     * @param string $expression
+     * @param string $type
+     * @throws \InvalidArgumentException
+     * @return array
+     */
+    private function analyseExpressionType($expression, $type)
+    {
+        $expressionExplode = array_map('trim', explode($type, $expression));
+
+        if (count($expressionExplode) === 2) {
+            return array(
+                'environnementName'  => $expressionExplode[0],
+                'environnementValue' => $expressionExplode[1]
+            );
+        }
+
+        throw new \InvalidArgumentException(
+            sprintf(
+                'Unknown expression %s',
+                $expression
+            )
+        );
     }
 }
