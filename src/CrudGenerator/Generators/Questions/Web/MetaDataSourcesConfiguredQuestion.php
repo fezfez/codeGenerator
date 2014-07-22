@@ -55,8 +55,8 @@ class MetaDataSourcesConfiguredQuestion
             /* @var $backend \CrudGenerator\MetaData\MetaDataSource */
             if(null === $backend->getFalseDependencies()) {
                 $backendArray[] = array(
-                    'id'    => $backend->getConfig()->getUniqueName(),
-                    'label' => $backend->getConfig()->getUniqueName()
+                    'id'    => $backend->getUniqueName(),
+                    'label' => $backend->getUniqueName()
                 );
             }
         }
@@ -77,7 +77,7 @@ class MetaDataSourcesConfiguredQuestion
     {
         foreach ($this->metadataSourceConfigDAO->retrieveAll() as $backend) {
             /* @var $backend \CrudGenerator\MetaData\MetaDataSource */
-            if ($backend->getConfig()->getUniqueName() === $choice) {
+            if ($backend->getUniqueName() === $choice) {
                 return $backend;
             }
         }

@@ -155,7 +155,8 @@ class MetaDataSource implements \JsonSerializable
             'definition'         => $this->definition,
             'metaDataDAO'        => $this->metaDataDAO,
             'metaDataDAOFactory' => $this->metaDataDAOFactory,
-            'falseDependencies'  => $this->falseDependencies
+            'falseDependencies'  => $this->falseDependencies,
+            'uniqueName'         => $this->getUniqueName()
         );
     }
 }

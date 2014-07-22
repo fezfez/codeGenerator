@@ -132,12 +132,12 @@ class HistoryHydrator
         $history->setName($dto['metadata']['name']);
 
         try {
-            $metadataSource = $this->metaDataSourcesConfiguredQuestion->ask($arrayRepresentation['metaDataSource']['config']['uniqueName']);
+            $metadataSource = $this->metaDataSourcesConfiguredQuestion->ask($arrayRepresentation['metaDataSource']['uniqueName']);
         } catch (ResponseExpectedException $e) {
             throw new InvalidHistoryException(
                 sprintf(
                     'Metadatasource "%s" does not exist anymore',
-                    $arrayRepresentation['metaDataSource']['config']['uniqueName']
+                    $arrayRepresentation['metaDataSource']['uniqueName']
                 )
             );
         }

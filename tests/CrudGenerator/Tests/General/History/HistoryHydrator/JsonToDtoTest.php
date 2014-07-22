@@ -9,8 +9,9 @@ use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 
 class JsonToDtoTest extends \PHPUnit_Framework_TestCase
 {
-    public function testOkddd()
+    public function testOk()
     {
+        // @TODO improve unit test
         $stubMetadataSourceQuestion = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion')
         ->disableOriginalConstructor()
         ->getMock();
@@ -21,6 +22,7 @@ class JsonToDtoTest extends \PHPUnit_Framework_TestCase
 
         $sUT = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource);
 
+        $metaDataSourceName = 'Doctrine2';
         $metaDataSource = 'CrudGenerator\MetaData\MetaDataSource';
         $metaDataName = 'Corp\NewsEntity';
 
@@ -29,14 +31,14 @@ class JsonToDtoTest extends \PHPUnit_Framework_TestCase
         ->getMock();
 
         $metaData = new MetadataDataObjectDoctrine2(
-                        new MetaDataColumnCollection(),
-                        new MetaDataRelationCollection()
+            new MetaDataColumnCollection(),
+            new MetaDataRelationCollection()
         );
         $metaData->setName('MyName');
 
         $stubMetadataSourceQuestion->expects($this->once())
         ->method('ask')
-        ->with($this->equalTo($metaDataSource))
+        ->with($this->equalTo($metaDataSourceName))
         ->will($this->returnValue($stubMetadataSourceClass));
 
         $stubMetadataSource->expects($this->once())
@@ -45,12 +47,13 @@ class JsonToDtoTest extends \PHPUnit_Framework_TestCase
         ->will($this->returnValue($metaData));
 
         $json = '{
+                "name" : "toto",
                 "dto": {
                     "metadata": {
                         "id": "CategorieEntity",
                         "dtCreat": "CategorieEntity",
                         "nomLog": "CategorieEntity",
-                        "name" : "CategorieEntity"
+                        "name" : "Corp\\\NewsEntity"
                     },
                     "formDirectory": null,
                     "namespace": null,
@@ -65,7 +68,8 @@ class JsonToDtoTest extends \PHPUnit_Framework_TestCase
                     "definition": "Doctrine2",
                     "metaDataDAO": "CrudGenerator\\\\MetaData\\\\Sources\\\\Doctrine2\\\\Doctrine2MetaDataDAO",
                     "metaDataDAOFactory": "CrudGenerator\\\\MetaData\\\\Sources\\\\Doctrine2\\\\Doctrine2MetaDataDAOFactory",
-                    "falseDependencies": null
+                    "falseDependencies": null,
+                    "uniqueName" : "Doctrine2"
                 },
                 "dtoClass": "CrudGenerator\\\\GeneratorsEmbed\\\\CrudGenerator\\\\Crud",
                 "Generators":{
