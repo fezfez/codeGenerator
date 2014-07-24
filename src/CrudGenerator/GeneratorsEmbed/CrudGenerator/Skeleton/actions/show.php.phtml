@@ -1,7 +1,9 @@
     public function showAction()
     {
         $sm = $this->getServiceLocator();
-        $sm->get('viewHelperManager')->get('headTitle')->append('Show "<?php echo $this->crudGenerator->getDisplayName(); ?>" with id "' . $this->params('id') . '"');
+        $sm->get('viewHelperManager')->get('headTitle')->append('Show "<?php
+        echo $this->crudGenerator->getDisplayName();
+        ?>" with id "' . $this->params('id') . '"');
 
         $DAO = <?php echo $this->daoFactoryName; ?>::getInstance($sm);
 

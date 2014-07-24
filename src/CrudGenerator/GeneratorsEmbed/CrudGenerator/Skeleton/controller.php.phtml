@@ -1,4 +1,6 @@
-<?php echo '<?php'; ?>
+<?php
+echo '<?php';
+?>
 
 namespace <?php echo $this->crudGenerator->getControllerNamespace(); ?>\Controller;
 
@@ -17,14 +19,24 @@ class <?php echo $this->crudGenerator->getControllerName(); ?>Controller extends
         }
     }
 
-<?php echo $this->render(__DIR__ . '/actions/', 'index.php.phtml'); ?>
+<?php
+echo $this->render(__DIR__ . '/actions/', 'index.php.phtml');
+?>
 
-<?php echo $this->render(__DIR__ . '/actions/', 'show.php.phtml'); ?>
+<?php
+echo $this->render(__DIR__ . '/actions/', 'show.php.phtml');
+?>
 
-<?php echo $this->render(__DIR__ . '/actions/', 'new.php.phtml'); ?>
+<?php
+echo $this->render(__DIR__ . '/actions/', 'new.php.phtml');
+?>
 
-<?php echo $this->render(__DIR__ . '/actions/', 'edit.php.phtml'); ?>
+<?php
+echo $this->render(__DIR__ . '/actions/', 'edit.php.phtml');
+?>
 
-<?php echo $this->render(__DIR__ . '/actions/', 'delete.php.phtml'); ?>
+<?php
+echo $this->render(__DIR__ . '/actions/', 'delete.php.phtml');
+?>
 
 }

@@ -1,3 +1,9 @@
-$this-><?php echo $this->renderFile(__DIR__ . '/variableName.phtml'); ?>->exec(
-            "DELETE FROM <?php echo $this->architectGenerator->getMetaData()->getOriginalName(); ?> WHERE id = " . $<?php echo $this->modelName; ?>->getId()
+$this-><?php
+echo $this->renderFile(__DIR__ . '/variableName.phtml');
+?>->exec(
+            "DELETE FROM <?php echo
+            $this->architectGenerator->getMetaData()->getOriginalName();
+            ?> WHERE id = " . $<?php
+            echo $this->modelName;
+            ?>->getId()
         );

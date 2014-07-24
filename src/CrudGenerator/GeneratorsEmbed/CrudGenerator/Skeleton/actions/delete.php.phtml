@@ -8,7 +8,9 @@
 
         $<?php echo $this->modelName; ?>DAO->remove($<?php echo $this->modelName; ?>);
 
-        $this->flashMessenger()->addSuccessMessage('Delete "<?php echo $this->crudGenerator->getDisplayName(); ?>" with id "' . $<?php echo $this->modelName; ?>->getId() . '" done');
+        $this->flashMessenger()->addSuccessMessage('Delete "<?php
+        echo $this->crudGenerator->getDisplayName();
+        ?>" with id "' . $<?php echo $this->modelName; ?>->getId() . '" done');
 
         return $this->redirect()->toRoute('<?php echo $this->homeRoute; ?>');
     }

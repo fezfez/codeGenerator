@@ -1,2 +1,6 @@
-$query = $this-><?php echo $this->renderFile(__DIR__ . '/variableName.phtml'); ?>->createQuery('DELETE <?php echo $this->architectGenerator->getMetadata()->getOriginalName(); ?> e');
+$query = $this-><?php
+echo $this->renderFile(__DIR__ . '/variableName.phtml');
+?>->createQuery('DELETE <?php
+echo $this->architectGenerator->getMetadata()->getOriginalName();
+?> e');
         $query->execute();

@@ -24,7 +24,9 @@
 
             $<?php echo $this->modelName; ?>DAO->update($<?php echo $this->modelName; ?>);
 
-            $this->flashMessenger()->addSuccessMessage('Update "<?php echo $this->crudGenerator->getDisplayName(); ?>" with id "' . $<?php echo $this->modelName; ?>->getId() . '" successfully done');
+            $this->flashMessenger()->addSuccessMessage('Update "<?php
+            echo $this->crudGenerator->getDisplayName();
+            ?>" with id "' . $<?php echo $this->modelName; ?>->getId() . '" successfully done');
 
             return $this->redirect()->toRoute('<?php echo $this->homeRoute; ?>');
         }
