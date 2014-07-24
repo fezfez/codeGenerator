@@ -13,6 +13,9 @@ before_script:
   - psql -c 'DROP DATABASE IF EXISTS code_generator;' -U postgres
   - psql -c 'create database code_generator; ' -U postgres
   - psql -U postgres -d code_generator -a -f ./tests/pg-table.sql
+  - mysql -e 'DROP DATABASE IF EXISTS code_generator'
+  - mysql -e 'create database code_generator;'
+  - mysql code_generator < ./tests/mysql-table.sql
 
 script: 
   - mkdir -p build

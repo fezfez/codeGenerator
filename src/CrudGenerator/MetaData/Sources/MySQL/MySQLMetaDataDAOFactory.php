@@ -60,9 +60,9 @@ class MySQLMetaDataDAOFactory implements MetaDataDAOFactory
         return $isLoaded;
     }
 
-    /* (non-PHPdoc)
-     * @see \CrudGenerator\MetaData\Sources\MetaDataDAO::getDataObject()
-    */
+    /**
+     * @return \CrudGenerator\MetaData\MetaDataSource
+     */
     public static function getDescription()
     {
         $dataObject = new MetaDataSource();

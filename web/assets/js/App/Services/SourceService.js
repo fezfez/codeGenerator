@@ -9,7 +9,7 @@ define(['App/App'], function (app) {
          * @param callable successCallback
          */
         this.config = function(data, successCallback, callbackError) {
-            data.create_metadatasource = true;
+            data.create_metadatasource = 1;
             var stringifiedParams = $.param(data);
 
             $http(
