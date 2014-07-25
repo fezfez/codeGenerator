@@ -103,13 +103,7 @@ class WebContext implements ContextInterface, \JsonSerializable
      */
     public function confirm($text, $uniqueKey)
     {
-        $response = $this->getResponse($uniqueKey);
-
-        if ($response !== null && is_numeric($response) === false) {
-        	throw new \Exception(sprintf('%s', $response));
-        } else {
-        	return (boolean) $response;
-        }
+        return (bool) $this->getResponse($uniqueKey);
     }
 
     /* (non-PHPdoc)

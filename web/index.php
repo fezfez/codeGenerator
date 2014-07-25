@@ -6,7 +6,11 @@ error_reporting(-1);
 
 $cacheDir = __DIR__ . '/../silex/resources/cache';
 
-if (!is_dir($cacheDir) || !is_writable($cacheDir)) {
+if (!is_dir($cacheDir)) {
+    mkdir($cacheDir);
+}
+
+if (!is_writable($cacheDir)) {
     throw new Exception(sprintf('Cache directory "%s" is not writable', $cacheDir));
 }
 

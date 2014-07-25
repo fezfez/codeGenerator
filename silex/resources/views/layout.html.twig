@@ -72,7 +72,7 @@
                 <h4 class="modal-title">New source</h4>
             </div>
             <div class="modal-body">
-            	  <div ng-if="configFormError != undefined" class="alert alert-danger fade in">
+                  <div ng-if="configFormError != undefined" class="alert alert-danger fade in">
                        {{ configFormError }}
                   </div>
                     <form ng-submit="backendConfig()">
@@ -112,8 +112,8 @@
                 <h4 class="modal-title">History</h4>
             </div>
             <div class="modal-body">
-                    <form ng-submit="history()">
-                        <div class="form-group" ng-if="historyCollection != null">
+                    <form ng-submit="history()" ng-if="historyCollection != null">
+                        <div class="form-group">
                             <label>{{ historyCollection.text }}</label>
                             <select id="{{ historyCollection.dtoAttribute }}"
                                     class="form-control question"
@@ -127,6 +127,7 @@
                         </div>
                         <input type="submit" class="btn btn-success" value="Awake" />
                     </form>
+                    <p ng-if="historyCollection == null">Empty history</p>
             </div>
         </div>
     </div>
