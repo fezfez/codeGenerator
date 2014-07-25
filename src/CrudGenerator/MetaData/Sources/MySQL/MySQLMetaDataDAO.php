@@ -124,7 +124,7 @@ class MySQLMetaDataDAO implements MetaDataDAO
             FROM information_schema.columns
             WHERE table_name = :tableName AND table_schema = :databaseName"
         );
-        $statement->execute(array(':tableName' => $tableName, ':databaseName' => $this->pdoConfig->getDatabaseName()));
+        $statement->execute(array(':tableName' => $tableName, ':databaseName' => $this->pdoConfig->getConfigDatabaseName()));
         $allFields = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($allFields as $metadata) {
