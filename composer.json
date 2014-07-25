@@ -27,10 +27,11 @@
 		"symfony/twig-bridge" : "2.5.*",
 		"symfony/yaml" : "2.5.*",
 		"sebastian/diff" : "1.1.*",
-		"psr/log" : "1.0.0 as 1.0.x-dev"
+		"psr/log" : "1.0.*",
+		"phpdocumentor/reflection-docblock": "2.0.*"
 	},
 	"require-dev" : {
-		"zendframework/zendframework" : "2.2.*",
+		"zendframework/zendframework" : "2.3.*",
 		"doctrine/doctrine-orm-module" : "0.*",
 		"silex/web-profiler" : "1.0.*",
 		"phpunit/phpunit" : "4.1.*"
