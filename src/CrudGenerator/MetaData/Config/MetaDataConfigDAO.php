@@ -25,6 +25,7 @@ use CrudGenerator\MetaData\MetaDataSourceHydrator;
 use CrudGenerator\MetaData\MetaDataSourceCollection;
 use ReflectionClass;
 use ReflectionProperty;
+use phpDocumentor\Reflection\DocBlock;
 
 class MetaDataConfigDAO
 {
@@ -36,6 +37,10 @@ class MetaDataConfigDAO
      * @var string config file extension
      */
     const EXTENSION = '.source';
+    /**
+     * @var string
+     */
+    const SOURCE_FACTORY_KEY = 'metaDataDAOFactory';
 
     /**
      * @var FileManager File manager
@@ -53,22 +58,29 @@ class MetaDataConfigDAO
      * @var ClassAwake Class awake
      */
     private $classAwake = null;
+    /**
+     * @var DocBlock
+     */
+    private $docBlock = null;
 
     /**
      * @param ClassAwake $classAwake
      * @param FileManager $fileManager
      * @param MetaDataSourceHydrator $metaDataSourceHydrator
+     * @param DocBlock $docBlock
      * @param ContextInterface $context
      */
     public function __construct(
         ClassAwake $classAwake,
         FileManager $fileManager,
         MetaDataSourceHydrator $metaDataSourceHydrator,
+        DocBlock $docBlock,
         ContextInterface $context
     ) {
         $this->classAwake             = $classAwake;
         $this->fileManager            = $fileManager;
         $this->metaDataSourceHydrator = $metaDataSourceHydrator;
+        $this->docBlock               = $docBlock;
         $this->context                = $context;
     }
 
@@ -89,16 +101,16 @@ class MetaDataConfigDAO
         foreach ($this->fileManager->glob(self::PATH . '*' . self::EXTENSION) as $file) {
             $configFile = (array) json_decode($this->fileManager->fileGetContent($file));
 
-            if (false === isset($configFile['metaDataDAO'])) {
+            if (false === isset($configFile[self::SOURCE_FACTORY_KEY])) {
                 continue;
             }
 
-            if (false === in_array($configFile['metaDataDAO'], $allowedMetadataDAO)) {
+            if (false === in_array($configFile[self::SOURCE_FACTORY_KEY], $allowedMetadataDAO)) {
                 continue;
             }
 
             $adapter = $this->metaDataSourceHydrator->adapterNameToMetaDataSource(
-                $configFile['metaDataDAO']
+                $configFile[self::SOURCE_FACTORY_KEY]
             );
             $config = $adapter->getConfig();
             $configMethods = get_class_methods($config);
@@ -148,13 +160,14 @@ class MetaDataConfigDAO
 
         foreach ($props as $prop) {
             $propName = $prop->getName();
-            if ($propName === 'definition') {
+            if (substr($propName, 0, 6) !== 'config') {
                 continue;
             }
 
-            $value = $this->context->ask('Choose a "' . $propName . '"', $propName);
-
+            $docBlock  = new DocBlock($prop->getDocComment());
+            $value     = $this->context->ask($docBlock->getText(), $propName);
             $attribute = 'set' . ucfirst($propName);
+
             $adapterConfig->$attribute($value);
         }
 

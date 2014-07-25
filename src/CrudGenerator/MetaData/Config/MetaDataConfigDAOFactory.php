@@ -21,6 +21,7 @@ use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\MetaData\MetaDataSourceHydratorFactory;
 use CrudGenerator\Utils\ClassAwake;
+use phpDocumentor\Reflection\DocBlock;
 
 class MetaDataConfigDAOFactory
 {
@@ -34,6 +35,7 @@ class MetaDataConfigDAOFactory
             new ClassAwake(),
             new FileManager(),
             MetaDataSourceHydratorFactory::getInstance(),
+            new DocBlock(''),
             $context
         );
     }

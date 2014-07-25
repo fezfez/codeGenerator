@@ -12,35 +12,35 @@ class PostgreSQLConfigTest extends \PHPUnit_Framework_TestCase
     {
         $pdo = new PostgreSQLConfig();
 
-        $pdo->setDatabaseName('db')
-            ->setHost('host')
-            ->setPassword('password')
-            ->setPort('port')
-            ->setUser('user');
+        $pdo->setConfigDatabaseName('db')
+            ->setConfigHost('host')
+            ->setConfigPassword('password')
+            ->setConfigPort('port')
+            ->setConfigUser('user');
 
         $this->assertEquals(
             'db',
-            $pdo->getDatabaseName()
+            $pdo->getConfigDatabaseName()
         );
 
         $this->assertEquals(
             'host',
-            $pdo->getHost()
+            $pdo->getConfigHost()
         );
 
         $this->assertEquals(
             'password',
-            $pdo->getPassword()
+            $pdo->getConfigPassword()
         );
 
         $this->assertEquals(
             'port',
-            $pdo->getPort()
+            $pdo->getConfigPort()
         );
 
         $this->assertEquals(
             'user',
-            $pdo->getUser()
+            $pdo->getConfigUser()
         );
     }
 
@@ -48,11 +48,11 @@ class PostgreSQLConfigTest extends \PHPUnit_Framework_TestCase
     {
         $pdo = new PostgreSQLConfig();
 
-        $pdo->setDatabaseName('db')
-        ->setHost('host')
-        ->setPassword('password')
-        ->setPort('port')
-        ->setUser('user');
+        $pdo->setConfigDatabaseName('db')
+        ->setConfigHost('host')
+        ->setConfigPassword('password')
+        ->setConfigPort('port')
+        ->setConfigUser('user');
 
         $this->setExpectedException('CrudGenerator\MetaData\Config\ConfigException');
         $pdo->test();

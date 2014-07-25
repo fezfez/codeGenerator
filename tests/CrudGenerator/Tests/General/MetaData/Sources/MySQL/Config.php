@@ -4,10 +4,10 @@ namespace CrudGenerator\Tests\General\MetaData\Sources\MySQL;
 use CrudGenerator\MetaData\Sources\MySQL\MySQLConfig;
 
 $pdoConfig = new MySQLConfig();
-$pdoConfig->setDatabaseName('code_generator')
-->setPassword('')
-->setUser('travis')
-->setPort('3302')
-->setHost('localhost');
+$pdoConfig->setConfigDatabaseName('code_generator')
+->setConfigPassword('')
+->setConfigUser('travis')
+->setConfigPort('3302')
+->setConfigHost('localhost');
 
 return $pdoConfig;

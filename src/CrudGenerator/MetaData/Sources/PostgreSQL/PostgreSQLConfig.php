@@ -32,25 +32,30 @@ class PostgreSQLConfig implements MetaDataConfig, \JsonSerializable
      */
     private $definition = 'For use the PostgreSQL adapter you need to define the database and how to get the PostgreSQL instance';
     /**
-     * @var string Database Name
+     * Database Name
+     * @var string
      */
-    private $databaseName = null;
+    private $configDatabaseName = null;
     /**
-     * @var string Host
+     * Host
+     * @var string
      */
-    private $host = null;
+    private $configHost = null;
     /**
-     * @var string User
+     * User
+     * @var string
      */
-    private $user = null;
+    private $configUser = null;
     /**
-     * @var string Password
+     * Password
+     * @var string
      */
-    private $password = null;
+    private $configPassword = null;
     /**
-     * @var string Port
+     * Port
+     * @var string
      */
-    private $port = null;
+    private $configPort = null;
     /**
      * @var string
      */
@@ -61,9 +66,9 @@ class PostgreSQLConfig implements MetaDataConfig, \JsonSerializable
      * @param string $value
      * @return PostgreSQLConfig
      */
-    public function setDatabaseName($value)
+    public function setConfigDatabaseName($value)
     {
-        $this->databaseName = $value;
+        $this->configDatabaseName = $value;
         return $this;
     }
     /**
@@ -71,9 +76,9 @@ class PostgreSQLConfig implements MetaDataConfig, \JsonSerializable
      * @param string $value
      * @return PostgreSQLConfig
      */
-    public function setHost($value)
+    public function setConfigHost($value)
     {
-        $this->host = $value;
+        $this->configHost = $value;
         return $this;
     }
     /**
@@ -81,9 +86,9 @@ class PostgreSQLConfig implements MetaDataConfig, \JsonSerializable
      * @param string $value
      * @return PostgreSQLConfig
      */
-    public function setUser($value)
+    public function setConfigUser($value)
     {
-        $this->user = $value;
+        $this->configUser = $value;
         return $this;
     }
     /**
@@ -91,9 +96,9 @@ class PostgreSQLConfig implements MetaDataConfig, \JsonSerializable
      * @param string $value
      * @return PostgreSQLConfig
      */
-    public function setPassword($value)
+    public function setConfigPassword($value)
     {
-        $this->password = $value;
+        $this->configPassword = $value;
         return $this;
     }
     /**
@@ -101,9 +106,9 @@ class PostgreSQLConfig implements MetaDataConfig, \JsonSerializable
      * @param string $value
      * @return PostgreSQLConfig
      */
-    public function setPort($value)
+    public function setConfigPort($value)
     {
-        $this->port = $value;
+        $this->configPort = $value;
         return $this;
     }
 
@@ -111,41 +116,41 @@ class PostgreSQLConfig implements MetaDataConfig, \JsonSerializable
      * Get database name
      * @return string
      */
-    public function getDatabaseName()
+    public function getConfigDatabaseName()
     {
-        return $this->databaseName;
+        return $this->configDatabaseName;
     }
     /**
      * Get host
      * @return string
      */
-    public function getHost()
+    public function getConfigHost()
     {
-        return $this->host;
+        return $this->configHost;
     }
     /**
      * Get user
      * @return string
      */
-    public function getUser()
+    public function getConfigUser()
     {
-        return $this->user;
+        return $this->configUser;
     }
     /**
      * Get password
      * @return string
      */
-    public function getPassword()
+    public function getConfigPassword()
     {
-        return $this->password;
+        return $this->configPassword;
     }
     /**
      * Get port
      * @return string
      */
-    public function getPort()
+    public function getConfigPort()
     {
-        return $this->port;
+        return $this->configPort;
     }
 
     /* (non-PHPdoc)
@@ -171,14 +176,14 @@ class PostgreSQLConfig implements MetaDataConfig, \JsonSerializable
      */
     public function getUniqueName()
     {
-        return 'PostgreSQL ' . $this->host . ' ' . $this->user;
+        return 'PostgreSQL ' . $this->confighost . ' ' . $this->configuser;
     }
     /* (non-PHPdoc)
      * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getConnection()
      */
     public function getConnection()
     {
-        $pdo = new \PDO('pgsql:dbname='.$this->databaseName . ';host='.$this->host, $this->user, $this->password);
+        $pdo = new \PDO('pgsql:dbname='.$this->configDatabaseName . ';host='.$this->configHost, $this->configUser, $this->configPassword);
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
         return $pdo;
@@ -189,11 +194,11 @@ class PostgreSQLConfig implements MetaDataConfig, \JsonSerializable
     public function jsonSerialize()
     {
         return array(
-            'databaseName'       => $this->databaseName,
-            'host'               => $this->host,
-            'user'               => $this->user,
-            'password'           => $this->password,
-            'port'               => $this->port,
+            'databaseName'       => $this->configDatabaseName,
+            'host'               => $this->configHost,
+            'user'               => $this->configUser,
+            'password'           => $this->configPassword,
+            'port'               => $this->configPort,
             'metaDataDAOFactory' => $this->metaDataDAOFactory,
         );
     }
