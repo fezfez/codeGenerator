@@ -112,20 +112,30 @@ class MetaDataConfigDAO
             $adapter = $this->metaDataSourceHydrator->adapterNameToMetaDataSource(
                 $configFile[self::SOURCE_FACTORY_KEY]
             );
-            $config = $adapter->getConfig();
-            $configMethods = get_class_methods($config);
-            foreach ($configFile as $configAttribute => $configValue) {
-                $configAttr = 'set' . ucfirst($configAttribute);
-                if (true === in_array($configAttr, $configMethods)) {
-                    $config->$configAttr($configValue);
-                }
-            }
 
-            $adapter->setConfig($config);
+            $adapter->setConfig($this->arrayToDto($configFile, $adapter->getConfig()));
             $adapterCollection->append($adapter);
         }
 
         return $adapterCollection;
+    }
+
+    /**
+     * @param array $configFile
+     * @param MetaDataConfig $config
+     * @return MetaDataConfig
+     */
+    private function arrayToDto(array $configFile, MetaDataConfig $config)
+    {
+        $configMethods = get_class_methods($config);
+        foreach ($configFile as $configAttribute => $configValue) {
+            $configAttr = 'set' . ucfirst($configAttribute);
+            if (true === in_array($configAttr, $configMethods)) {
+                $config->$configAttr($configValue);
+            }
+        }
+
+        return $config;
     }
 
     public function retrieve()

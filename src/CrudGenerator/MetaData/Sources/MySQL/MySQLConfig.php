@@ -183,6 +183,7 @@ class MySQLConfig implements MetaDataConfig, \JsonSerializable
             throw new ConfigException('Connection failed with "' . $e->getMessage() . '"');
         }
     }
+
     /* (non-PHPdoc)
      * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getUniqueName()
      */
@@ -203,11 +204,11 @@ class MySQLConfig implements MetaDataConfig, \JsonSerializable
     public function jsonSerialize()
     {
         return array(
-            'databaseName'       => $this->configDatabaseName,
-            'host'               => $this->configHost,
-            'user'               => $this->configUser,
-            'password'           => $this->configPassword,
-            'port'               => $this->configPort,
+            'configDatabaseName' => $this->configDatabaseName,
+            'configHost'         => $this->configHost,
+            'configUser'         => $this->configUser,
+            'configPassword'     => $this->configPassword,
+            'configPort'         => $this->configPort,
             'metaDataDAOFactory' => $this->metaDataDAOFactory,
             'uniqueName'         => $this->getUniqueName()
         );

@@ -144,7 +144,7 @@ class MetaDataSource implements \JsonSerializable
         if ($this->config === null) {
             return $this->definition;
         } else {
-            $this->config->getUniqueName();
+            return $this->config->getUniqueName();
         }
     }
 

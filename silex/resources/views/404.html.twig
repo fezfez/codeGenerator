@@ -5,6 +5,9 @@
 	{{ error.getMessage() }}<br/>
 	in {{ error.getFile() }} on line {{ error.getLine() }}
 </p>
+<p class="text-left">
+{{ error.getTraceAsString()|nl2br }}
+</p>
 <a href="https://github.com/fezfez/codeGenerator/issues/new?title=[Error {{ code }}] {{ error.getMessage() }}&body={{ error.getMessage() }} in {{ error.getFile() }} on line {{ error.getLine() }}" class="btn btn-default btn-lg">
 	<span class="glyphicon glyphicon-envelope"></span>
 	Open new issue

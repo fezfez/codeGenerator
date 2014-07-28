@@ -194,11 +194,11 @@ class PostgreSQLConfig implements MetaDataConfig, \JsonSerializable
     public function jsonSerialize()
     {
         return array(
-            'databaseName'       => $this->configDatabaseName,
-            'host'               => $this->configHost,
-            'user'               => $this->configUser,
-            'password'           => $this->configPassword,
-            'port'               => $this->configPort,
+            'configDatabaseName' => $this->configDatabaseName,
+            'configHost'         => $this->configHost,
+            'configUser'         => $this->configUser,
+            'configPassword'     => $this->configPassword,
+            'configPassword'     => $this->configPort,
             'metaDataDAOFactory' => $this->metaDataDAOFactory,
         );
     }
