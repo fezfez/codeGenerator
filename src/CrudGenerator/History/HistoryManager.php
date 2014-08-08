@@ -109,7 +109,11 @@ class HistoryManager
         foreach ($this->fileManager->glob(self::HISTORY_PATH . '*.history.yaml') as $file) {
             $content = $this->fileManager->fileGetContent($file);
 
-            $historyCollection->append($this->historyHydrator->jsonToDTO($content));
+            try {
+                $historyCollection->append($this->historyHydrator->jsonToDTO($content));
+            } catch (InvalidHistoryException $e) {
+                continue;
+            }
         }
 
         return $historyCollection;

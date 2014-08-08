@@ -61,6 +61,8 @@ class QuestionParser implements ParserInterface
             }
         }
 
+        //exit;
+
         return $generator;
     }
 
@@ -103,6 +105,8 @@ class QuestionParser implements ParserInterface
             (isset($question['defaultResponse']) === true) ? $parser->parse($question['defaultResponse']) : null,
             (isset($question['required']) === true) ? $question['required'] : false
         );
+
+        //var_dump($question, $response);
 
         $questionName = 'set' . ucfirst($question['dtoAttribute']);
         if (method_exists($generator->getDTO(), $questionName) === true && $response !== null) {

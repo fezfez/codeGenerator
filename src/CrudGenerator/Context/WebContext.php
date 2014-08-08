@@ -45,6 +45,7 @@ class WebContext implements ContextInterface, \JsonSerializable
     public function __construct(Application $application)
     {
         $this->request = $application->offsetGet('request')->request;
+        //var_dump($this->request);
     }
 
     /**
@@ -56,6 +57,7 @@ class WebContext implements ContextInterface, \JsonSerializable
         if (isset($this->preResponse[$key]) === true) {
             return $this->preResponse[$key];
         } else {
+        	//var_dump($key);
             return $this->request->get($key);
         }
     }

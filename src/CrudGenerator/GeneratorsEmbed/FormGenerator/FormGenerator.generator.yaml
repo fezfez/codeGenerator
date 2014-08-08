@@ -35,5 +35,5 @@ filesList :
     - /form/Form.phtml         : <?php $formGenerator->getFormDirectory() . $ucFirstModelName; ?>Form.php
     - /form/FormFilter.phtml   : <?php $formGenerator->getFormDirectory() . $ucFirstModelName; ?>FormFilter.php
     - dependencyCondition :
-        - !ArchitectGenerator :
+        - ArchitectGenerator == undefined :
             - /form/DataObject.phtml        : <?php $formGenerator->getFormDirectory() . $ucFirstModelName; ?>DataObject.php

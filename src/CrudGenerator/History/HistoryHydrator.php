@@ -131,6 +131,10 @@ class HistoryHydrator
         $history = new History();
         $history->setName($dto['metadata']['name']);
 
+        if (false === isset($arrayRepresentation['metaDataSource']['uniqueName'])) {
+             throw new InvalidHistoryException('Unique name not set');
+        }
+
         try {
             $metadataSource = $this->metaDataSourcesConfiguredQuestion->ask($arrayRepresentation['metaDataSource']['uniqueName']);
         } catch (ResponseExpectedException $e) {
