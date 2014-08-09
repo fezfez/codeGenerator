@@ -60,6 +60,9 @@
 	"scripts": {
         "post-package-install": [
             "CrudGenerator\\Utils\\Installer::postPackageInstall"
+        ],
+        "post-package-update" : [
+            "CrudGenerator\\Utils\\Installer::postPackageInstall"
         ]
     }
 }

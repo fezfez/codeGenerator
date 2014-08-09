@@ -53,19 +53,28 @@ class Installer
         $directoriestoCreate = self::getDirectories();
 
         foreach ($directoriestoCreate as $directoryName => $directoryPath) {
-            if (!is_dir($directoryPath)) {
+            if (is_dir($directoryPath) !== true) {
                 mkdir($directoryPath, 0777, true);
             }
         }
     }
 
+    /**
+     * @throws RuntimeException
+     */
     public static function checkInstall()
     {
         $directoriestoCreate = self::getDirectories();
 
         foreach ($directoriestoCreate as $directoryName => $directoryPath) {
-            if (!is_writable($directoryPath)) {
-                throw new RuntimeException(sprintf('%s directory "%s" is not writable', $directoryName, $directoryPath));
+            if (is_writable($directoryPath) !== true) {
+                throw new RuntimeException(
+                    sprintf(
+                        '%s directory "%s" is not writable',
+                        $directoryName,
+                        $directoryPath
+                    )
+                );
             }
         }
     }
