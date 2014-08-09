@@ -18,7 +18,7 @@
 namespace CrudGenerator\Utils;
 
 use RuntimeException;
-use Composer\Script\PackageEvent;
+use Composer\Script\Event;
 
 /**
  * Installer
@@ -48,7 +48,7 @@ class Installer
     /**
      * @param PackageEvent $event
      */
-    public static function postPackageInstall(PackageEvent $event)
+    public static function postPackageInstall(Event $event)
     {
         $directoriestoCreate = self::getDirectories();
 

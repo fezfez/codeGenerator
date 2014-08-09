@@ -58,10 +58,10 @@
 		"bin/code-generator-web.php"
 	],
 	"scripts": {
-        "post-package-install": [
+        "post-install-cmd": [
             "CrudGenerator\\Utils\\Installer::postPackageInstall"
         ],
-        "post-package-update" : [
+        "post-update-cmd" : [
             "CrudGenerator\\Utils\\Installer::postPackageInstall"
         ]
     }
