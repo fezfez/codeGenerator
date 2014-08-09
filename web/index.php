@@ -18,6 +18,6 @@ require __DIR__.'/../silex/resources/config/prod.php';
 require __DIR__.'/../silex/src/app.php';
 require __DIR__.'/../silex/src/controllers.php';
 
-CrudGenerator\Utils\Installer::checkInstall();
+CrudGenerator\Utils\Installer::install();
 
 $app->run();

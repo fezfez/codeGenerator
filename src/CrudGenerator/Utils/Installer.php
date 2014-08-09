@@ -17,9 +17,6 @@
  */
 namespace CrudGenerator\Utils;
 
-use RuntimeException;
-use Composer\Script\Event;
-
 /**
  * Installer
  *
@@ -46,9 +43,9 @@ class Installer
     }
 
     /**
-     * @param PackageEvent $event
+     * @throws \RuntimeException
      */
-    public static function postPackageInstall(Event $event)
+    public static function install()
     {
         $directoriestoCreate = self::getDirectories();
 
@@ -56,19 +53,8 @@ class Installer
             if (is_dir($directoryPath) !== true) {
                 mkdir($directoryPath, 0777, true);
             }
-        }
-    }
-
-    /**
-     * @throws RuntimeException
-     */
-    public static function checkInstall()
-    {
-        $directoriestoCreate = self::getDirectories();
-
-        foreach ($directoriestoCreate as $directoryName => $directoryPath) {
             if (is_writable($directoryPath) !== true) {
-                throw new RuntimeException(
+                throw new \RuntimeException(
                     sprintf(
                         '%s directory "%s" is not writable',
                         $directoryName,
