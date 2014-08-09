@@ -77,7 +77,6 @@ class Generator
      */
     public function generate(GeneratorDataObject $generator)
     {
-    	var_dump($generator->getTemplateVariables());exit;
         foreach ($generator->getFiles() as $file) {
             $result = $this->strategy->generateFile(
                     $generator->getTemplateVariables(),

@@ -106,8 +106,6 @@ class QuestionParser implements ParserInterface
             (isset($question['required']) === true) ? $question['required'] : false
         );
 
-        //var_dump($question, $response);
-
         $questionName = 'set' . ucfirst($question['dtoAttribute']);
         if (method_exists($generator->getDTO(), $questionName) === true && $response !== null) {
             $generator->getDTO()->$questionName($response);
