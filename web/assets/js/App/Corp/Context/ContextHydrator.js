@@ -34,7 +34,6 @@ define([
 
             if (context.getBackendCollection() !== null) {
                 context.setBackend(context.getBackendCollection().defaultResponse);
-                console.log(context.getBackend());
             }
             if (context.getMetadataCollection() !== null) {
                 context.setMetadata(context.getMetadataCollection().defaultResponse);
