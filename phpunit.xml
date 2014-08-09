@@ -7,7 +7,7 @@
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         strict="false">
+         strict="true">
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".phtml">./src/CrudGenerator/</directory>
