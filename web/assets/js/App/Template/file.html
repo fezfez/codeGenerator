@@ -6,7 +6,7 @@
     <span ng-switch-when="true">
         <li ng-repeat="child in fileList.getChildren()">
             <span class="directory">{{child.getName()}}</span>
-            <ul onload="fileList=child" ng-include="'assets/js/App/Template/file.html'">
+            <ul onload="fileList=child" ng-include="fileTemplate">
             </ul>
         </li>
     </span>
