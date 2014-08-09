@@ -36,7 +36,7 @@ define(
             $scope.backendConfig = function() {
                 $sourceService.config(
                     $scope.configQuestion,
-                    function(data) {
+                    function(context, data) {
                         if (data.question) {
                             $scope.configQuestionsList = data.question;
                         }
@@ -49,6 +49,7 @@ define(
                             $scope.configFormError = data.error;
                         } else if (data.valid !== undefined) {
                             delete $scope.metadataSourceConfigForm;
+                            $scope.backendCollection = context.getBackendCollection();
                             $('newSource > div').modal('hide');
                         }
                 },

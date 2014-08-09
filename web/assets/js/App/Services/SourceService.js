@@ -1,4 +1,4 @@
-define(['App/App'], function (app) {
+define(['App/App', "Corp/Context/Context", "Corp/Context/ContextHydrator"], function (app, Context, ContextHydrator) {
     "use strict";
 
     var Service = app.service('SourceService', ['$http', function ($http) {
@@ -20,7 +20,9 @@ define(['App/App'], function (app) {
                     data    : stringifiedParams
                 }
             ).success(function (data) {
-               successCallback(data);
+               var contextHydrator = new ContextHydrator();
+
+               successCallback(contextHydrator.hydrate(data, new Context()), data);
             }).error(function (data) {
                callbackError(data);
             });
