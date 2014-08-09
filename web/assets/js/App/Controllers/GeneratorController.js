@@ -21,6 +21,7 @@ define(
             var context = new Context(),
                 config = new Config();
 
+            $scope.fileTemplate      = __BASEPATH__ + 'assets/js/App/Template/file.html';
             $scope.configQuestion    = {};
             $scope.answers           = {};
             $scope.metadataSelected  = null;
@@ -46,7 +47,7 @@ define(
                         
                         if (data.error !== undefined) {
                             $scope.configFormError = data.error;
-                        } else if (data.valid === true) {
+                        } else if (data.valid !== undefined) {
                             delete $scope.metadataSourceConfigForm;
                             $('newSource > div').modal('hide');
                         }
