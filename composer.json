@@ -28,7 +28,7 @@
 		"symfony/yaml" : "2.5.*",
 		"sebastian/diff" : "1.1.*",
 		"psr/log" : "1.0.*",
-		"phpdocumentor/reflection-docblock": "2.0.*"
+		"phpdocumentor/reflection-docblock" : "2.0.*"
 	},
 	"require-dev" : {
 		"zendframework/zendframework" : "2.3.*",
@@ -56,5 +56,10 @@
 	"bin" : [
 		"bin/code-generator",
 		"bin/code-generator-web.php"
-	]
+	],
+	"scripts": {
+        "post-package-install": [
+            "CrudGenerator\\Utils\\Installer::postPackageInstall"
+        ]
+    }
 }
