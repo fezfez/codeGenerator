@@ -18,20 +18,6 @@ require __DIR__.'/../silex/resources/config/prod.php';
 require __DIR__.'/../silex/src/app.php';
 require __DIR__.'/../silex/src/controllers.php';
 
-$directoriestoCreate = array(
-	'Cache'   => $app['cache.path'],
-	'History' => CrudGenerator\History\HistoryManager::HISTORY_PATH,
-	'Config'  => CrudGenerator\MetaData\Config\MetaDataConfigDAO::PATH
-);
-
-foreach ($directoriestoCreate as $directoryName => $directoryPath) {
-	if (!is_dir($directoryPath)) {
-		mkdir($directoryPath);
-	}
-
-	if (!is_writable($directoryPath)) {
-		throw new Exception(sprintf('%s directory "%s" is not writable', $directoryName, $directoryPath));
-	}
-}
+CrudGenerator\Utils\Installer::checkInstall();
 
 $app->run();
