@@ -49,7 +49,7 @@ class CliContext implements ContextInterface
     /* (non-PHPdoc)
      * @see \CrudGenerator\Context\ContextInterface::ask()
      */
-    public function ask($text, $attribute, $defaultResponse = null, $required = false, $helpMessage = null)
+    public function ask($text, $attribute, $defaultResponse = null, $required = false, $helpMessage = null, $type = null)
     {
         return $this->dialog->ask(
             $this->output,

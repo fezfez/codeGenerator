@@ -1,4 +1,7 @@
 <?php
+set_time_limit(0);
+error_reporting(-1);
+ini_set('memory_limit', '1G');
 
 if (is_file(__DIR__ . '/../vendor/autoload.php')) {
     chdir(__DIR__ . '/../'); // standalone

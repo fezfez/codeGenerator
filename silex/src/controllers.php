@@ -11,16 +11,36 @@ $app->match('/', function() use ($app) {
 })->bind('homepage');
 
 $app->match('/generator', function (Request $request) use ($app) {
-    $context = new WebContext($app);
-    $main    = MainBackboneFactory::getInstance($context);
+    $stream  = $request->get('stream');
 
-    try {
-        $main->run();
-    } catch (ResponseExpectedException $e) {
-        $context->log("You may answer the question", "generator_question");
+    $runner = function () use($app, $stream, $request) {
+        $event   = (($stream == 'true') ? new Igorw\EventSource\Stream() : null);
+        $context = new WebContext($request, $event);
+        $main    = MainBackboneFactory::getInstance($context);
+
+        try {
+            $main->run();
+        } catch (ResponseExpectedException $e) {
+            $context->log("You may answer the question " . $e->getMessage() . $e->getFile() . $e->getLine(), "generator_question");
+        }
+
+        if ($event !== null) {
+            $event
+            ->event()
+            ->setEvent('end')
+            ->setData('end')
+            ->end()
+            ->flush();
+        }
+
+        return $context;
+    };
+
+    if ($stream == 'true') {
+        return $app->stream($runner, 200, \Igorw\EventSource\Stream::getHeaders());
+    } else {
+        return $app->json($runner(), 200);
     }
-
-    return $app->json($context, 200);
 })->bind('generator');
 
 $app->error(function (\Exception $e, $code) use ($app) {

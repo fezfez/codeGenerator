@@ -26,6 +26,10 @@ class MainBackbone
      */
     private $historyBackbone = null;
     /**
+     * @var SearchGeneratorBackbone
+     */
+    private $searchGeneratorBackbone = null;
+    /**
      * @var PreapreForGenerationBackbone
      */
     private $preapreForGenerationBackbone = null;
@@ -51,6 +55,7 @@ class MainBackbone
      */
     public function __construct(
         HistoryBackbone $historyBackbone,
+        SearchGeneratorBackbone $searchGeneratorBackbone,
         PreapreForGenerationBackbone $preapreForGenerationBackbone,
         GenerateFileBackbone $generateFileBackbone,
         GenerateBackbone $generateBackbone,
@@ -58,6 +63,7 @@ class MainBackbone
         ContextInterface $context
     ) {
         $this->historyBackbone              = $historyBackbone;
+        $this->searchGeneratorBackbone      = $searchGeneratorBackbone;
         $this->preapreForGenerationBackbone = $preapreForGenerationBackbone;
         $this->generateFileBackbone         = $generateFileBackbone;
         $this->generateBackbone             = $generateBackbone;
@@ -75,6 +81,9 @@ class MainBackbone
         }
         if (true === $this->context->confirm('Wake history', 'select_history')) {
             $this->historyBackbone->run();
+        }
+        if (true === $this->context->confirm('Search generator', 'search_generator')) {
+            return $this->searchGeneratorBackbone->run();
         }
 
         $generator = $this->preapreForGenerationBackbone->run();

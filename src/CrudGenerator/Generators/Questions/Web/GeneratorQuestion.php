@@ -17,8 +17,8 @@
  */
 namespace CrudGenerator\Generators\Questions\Web;
 
-use CrudGenerator\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Generators\ResponseExpectedException;
 
 class GeneratorQuestion

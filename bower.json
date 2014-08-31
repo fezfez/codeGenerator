@@ -1,0 +1,29 @@
+{
+    "name": "Code Generator",
+    "version": "0.1.0",
+    "authors": [
+        "fezfez <demonchaux.stephane@gmail.com>"
+    ],
+    "description": "Code generator",
+    "license": "MIT",
+    "private": true,
+    "dependencies": {
+        "angularjs-loader": "0.7.*",
+        "angular-resource" : "1.2.*",
+        "angular-scenario" : "1.2.*",
+        "angular-mocks" : "1.2.*",
+        "angular": "1.2.*",
+        "jquery": "2.1.*",
+        "pace": "0.5.*",
+        "bootstrap": "3.2.*",
+        "requirejs": "2.1.*",
+        "SyntaxHighlighter": "3.0.*"
+    },
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ]
+}

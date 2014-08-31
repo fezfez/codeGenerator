@@ -8,7 +8,7 @@ use CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory;
  */
 class GetMetadataForTest extends \PHPUnit_Framework_TestCase
 {
-    public function testType()
+    public function testTypecc()
     {
         $config = include __DIR__ . '/../Config.php';
 

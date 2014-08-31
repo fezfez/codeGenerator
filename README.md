@@ -13,7 +13,7 @@ What is "Code Generator" ?
 
 Compatibility
 ------------
-PHP : 5.4
+PHP : 5.4, 5.5, 5.6, HHVM 3.3
 
 Database driver : 
 
@@ -32,6 +32,7 @@ Installation of CodeGenerator uses composer. For composer documentation, please 
 
 ```sh
 composer require fezfez/code-generator
+mkdir data/ && mkdir data/crudGenerator/ && mkdir data/crudGenerator/History/ && chmod 777 data/crudGenerator/History/ && mkdir data/crudGenerator/Config/ && chmod 777 data/crudGenerator/Config/
 ```
 
 

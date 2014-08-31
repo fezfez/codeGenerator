@@ -1,30 +1,33 @@
 require(['Services/WaitModalService'], function(WaitModalService) {
-    describe('Testing waitModalservice', function() {
-
+    describe('Testing WaitModalService', function() {
         var service, $httpBackend;
 
+        /*console.log('here4');
         //you need to indicate your module in a test
-        beforeEach(module('GeneratorApp'));
-        beforeEach(inject(function($injector) {
+        beforeEach(angular.mock.module('GeneratorApp'));
+        console.log('here4.5');
+        beforeEach(angular.mock.inject(function($injector) {
             // Set up the mock http service responses
             $httpBackend = $injector.get('$httpBackend');
             service      = $injector.get('WaitModalService');
-        }));
+            console.log(service);
+        }));*/
         
-        it('should show wait modal', function() {
+        /*it('should show wait modal', function() {
 
             $httpBackend.whenGET("assets/js/App/Template/WaitModal.html").respond('<toto></toto>');
             service.show();
             $httpBackend.flush();
-        });
+            console.log('im in');
+        });*/
 
-        it('should hide wait modal', function() {
-            service.hide();
-        });
+        //it('should hide wait modal', function() {
+        	WaitModalService.hide();
+        	console.log('here');
+        //});
 
-        afterEach(function() {
+        /*afterEach(function() {
             $httpBackend.verifyNoOutstandingExpectation();
-            //$httpBackend.verifyNoOutstandingRequest();
-        });
+        });*/
     });
 });

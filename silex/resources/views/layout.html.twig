@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ app.base_path }}/assets/css/shCoreDefault.css">
     <link rel="stylesheet" href="{{ app.base_path }}/assets/css/styles.css">
     <link rel="stylesheet" href="{{ app.base_path }}/assets/css/nprogress.css">
-    <script src="{{ app.base_path }}/assets/js/Vendor/nprogress.js"></script>
+    <script src="{{ app.base_path }}/assets/js/Vendor/pace/pace.min.js"></script>
     <style type="text/css">
         body > div.navbar , body > div.container-full {
           visibility:hidden;
@@ -29,7 +29,7 @@
     </script>
     <script type="text/javascript"
             data-main="{{ app.base_path }}/assets/js/App/Bootstrap.js"
-            src="{{ app.base_path }}/assets/js/Vendor/require.js">
+            src="{{ app.base_path }}/assets/js/Vendor/requirejs/require.js">
     </script>
 </head>
 <body ng-controller="GeneratorCtrl">
@@ -133,6 +133,51 @@
     </div>
     </div>
 </history>
+    <searchgenerator>
+     <div class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Search generator</h4>
+            </div>
+            <div class="modal-body">
+                <form ng-submit="searchGenerator()">
+                    <input type="text" ng-model="searchGeneratorName" />
+                    <input type="submit" class="btn btn-info" id="search-generator-btn" value="Search"/>
+                </form>
+                    <div class="form-group row">
+                    	<div class="col-lg-5">
+	                        <a href="#"
+	                           class="list-group-item col-lg-12"
+	                           ng-repeat="generator in searchGeneratorCollection.values"
+	                           ng-click="previewGenerator(generator)"
+	                           ng-class="{'active': generator.name === backendSelected}">
+	                            {{  generator.name }} {{  generator.description }}
+	                        </a>
+	                        <p ng-if="searchGeneratorCollection == null">No result</p>
+                        </div>
+                        <div class="col-lg-7" ng-if="generatorPreview !== null">
+							{{ generatorPreview.name }}
+							<button class="btn btn-success" ng-click="downloadGenerator(generatorPreview.name)">
+								Download
+							</button>
+							<p ng-if="generatorPreviewReadme">{{ generatorPreviewReadme }}</p>
+							<div class="console row">
+								<i class="fa fa-refresh fa-spin" style="float:right;color:green;" ng-if="downloadEnd == false"></i>
+								<i class="glyphicon glyphicon-ok" style="float:right;color:green;" ng-if="downloadEnd == true"></i>
+								<p ng-repeat="log in downloadLog" ng-bind-html="log.data" class="col-lg-12">
+
+								</p>
+							</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+</searchgenerator>
 {% endraw %}
     <conflict></conflict>
     <metadatasource></metadatasource>

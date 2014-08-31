@@ -10,9 +10,9 @@ requirejs.config({
         App : "App/",
         Controllers : "App/Controllers",
         Corp : "App/Corp/",
-        JQuery: "Vendor/jquery-2.1.0.min",
-        TwitterBootstrap: "Vendor/bootstrap.min",
-        Angular: "Vendor/angular",
+        JQuery: "Vendor/jquery/dist/jquery.min",
+        TwitterBootstrap: "Vendor/bootstrap/dist/js/bootstrap.min",
+        Angular: "Vendor/angular/angular.min",
         HighLighterPHP: "Vendor/shBrushPhp",
         shCore: "Vendor/shCore"
     },

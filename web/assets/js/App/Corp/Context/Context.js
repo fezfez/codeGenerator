@@ -16,6 +16,7 @@ define(function() {
             backendCollection     = null,
             metadataCollection    = null,
             generatorCollection   = null,
+            searchGeneratorCollection   = null,
             historyCollection     = null,
             questionCollection    = null;
 
@@ -46,6 +47,10 @@ define(function() {
         };
         this.setGeneratorCollection  = function (value) {
             generatorCollection = value;
+            return this;
+        };
+        this.setSearchGeneratorCollection  = function (value) {
+            searchGeneratorCollection = value;
             return this;
         };
         this.setHistoryCollection  = function (value) {
@@ -87,6 +92,9 @@ define(function() {
         };
         this.getGeneratorCollection = function () {
             return generatorCollection;
+        };
+        this.getSearchGeneratorCollection = function () {
+            return searchGeneratorCollection;
         };
         this.getHistoryCollection = function () {
             return historyCollection;

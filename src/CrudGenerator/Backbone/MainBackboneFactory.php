@@ -29,6 +29,7 @@ class MainBackboneFactory
     {
         return new MainBackbone(
             HistoryBackboneFactory::getInstance($context),
+            SearchGeneratorBackboneFactory::getInstance($context),
             PreapreForGenerationBackboneFactory::getInstance($context),
             GenerateFileBackboneFactory::getInstance($context),
             GenerateBackboneFactory::getInstance($context),

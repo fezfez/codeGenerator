@@ -18,7 +18,7 @@
 
 namespace CrudGenerator\Context;
 
-use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Questions\Web\GeneratorQuestion;
 use CrudGenerator\Generators\Questions\Web\MetaDataQuestion;
@@ -38,13 +38,15 @@ class WebContext implements ContextInterface, \JsonSerializable
      * @var \Symfony\Component\HttpFoundation\Request
      */
     private $request = null;
+    private $stream = null;
 
     /**
      * @param Application $application
      */
-    public function __construct(Application $application)
+    public function __construct(Request $request, $stream = null)
     {
-        $this->request = $application->offsetGet('request')->request;
+        $this->request = $request;
+        $this->stream  = $stream;
     }
 
     /**
@@ -63,17 +65,21 @@ class WebContext implements ContextInterface, \JsonSerializable
     /* (non-PHPdoc)
      * @see \CrudGenerator\Context\ContextInterface::ask()
     */
-    public function ask($text, $key, $defaultResponse = null, $required = false, $helpMessage = null)
+    public function ask($text, $key, $defaultResponse = null, $required = false, $helpMessage = null, $type = null)
     {
         if (false === isset($this->question['question'])) {
             $this->question['question'] = array();
         }
+        if ($type === null) {
+            $type = 'text';
+        }
+
         $this->question['question'][] = array(
             'text'            => $text,
             'dtoAttribute'    => $key,
             'defaultResponse' => $defaultResponse,
             'required'        => $required,
-            'type'            => 'text'
+            'type'            => $type
         );
 
         return $this->getResponse($key);
@@ -111,6 +117,13 @@ class WebContext implements ContextInterface, \JsonSerializable
      */
     public function log($text, $name = null)
     {
+    	if ($this->stream !== null) {
+    		$this->stream
+    		->event()
+    		->setData($text)
+    		->end()
+    		->flush();
+    	}
         if (isset($this->question[$name]) === true && is_array($this->question[$name]) === false) {
             $this->question[$name] = array($this->question[$name]);
         }

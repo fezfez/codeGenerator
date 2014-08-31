@@ -38,6 +38,7 @@
              <div class="col-sm-12 col-md-2 col-md-offset-4 sidebar sidebar-left arrow_box" ng-show="generatorCollection">
                   <h3>3) {{ generatorCollection.text }}</h3>
                 <div>
+                    <a class="pointer" ng-click="searchGenerator()">Search Generator</a>
                     <a href="#"
                        class="list-group-item"
                        ng-repeat="generator in generatorCollection.values"
@@ -61,6 +62,14 @@
                                    name="{{ question.dtoAttribute }}"
                                    value="{{ (question.value) ? question.value : question.defaultResponse }}"
                                    placeholder="{{ question.text }}" />
+                            <input ng-if="question.type == 'boolean'"
+                                   ng-blur="setQuestion(question.dtoAttribute)"
+                                   ng-model="answers[question.dtoAttribute]"
+                                   id="{{ question.dtoAttribute }}"
+                                   class="form-control question"
+                                   type="checkbox"
+                                   name="{{ question.dtoAttribute }}"
+                                   value="{{ (question.value) ? question.value : question.defaultResponse }}" />
                             <select ng-if="question.type == 'directory'"
                                     id="{{ question.dtoAttribute }}"
                                     class="form-control question"

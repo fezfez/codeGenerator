@@ -55,9 +55,7 @@ class GeneratorFinder
      */
     public function getAllClasses()
     {
-        $directories = array(
-            __DIR__ . '/../../'
-        );
+        $directories = array(getcwd());
 
         $generators = array();
         foreach ($directories as $directorie) {

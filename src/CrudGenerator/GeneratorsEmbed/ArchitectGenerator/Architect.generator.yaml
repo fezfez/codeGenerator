@@ -24,6 +24,10 @@ questions :
         dtoAttribute : Namespace
         text : Choose a target namespace
     - 
+        dtoAttribute : ServiceLayer
+        text : Add service layer
+        type : boolean
+    - 
         dtoAttribute : ModelName
         text : Choose a model name
         defaultResponse : <?php ucfirst($architectGenerator->getMetadata()->getName()); ?>

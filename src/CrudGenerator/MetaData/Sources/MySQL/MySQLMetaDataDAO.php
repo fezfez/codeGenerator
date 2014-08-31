@@ -25,6 +25,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
+use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
 
 /**
  * MySQL adapter
@@ -84,7 +85,7 @@ class MySQLMetaDataDAO implements MetaDataDAO
      */
     public function getMetadataFor($tableName, array $parentName = array())
     {
-        return $this->hydrateDataObject($tableName);
+        return $this->hydrateDataObject($tableName, $parentName);
     }
 
     /**
@@ -110,7 +111,7 @@ class MySQLMetaDataDAO implements MetaDataDAO
      * @param string $tableName
      * @return MetadataDataObjectMySQL
      */
-    private function hydrateDataObject($tableName)
+    private function hydrateDataObject($tableName, array $parentName = array())
     {
         $dataObject = new MetadataDataObjectMySQL(
             new MetaDataColumnCollection(),
@@ -120,14 +121,23 @@ class MySQLMetaDataDAO implements MetaDataDAO
         $columnDataObject = new MetaDataColumn();
 
         $statement = $this->pdo->prepare(
-            "SELECT column_name, data_type, column_key, is_nullable
-            FROM information_schema.columns
-            WHERE table_name = :tableName AND table_schema = :databaseName"
+            "SELECT columnTable.column_name, columnTable.table_name, data_type, column_key, is_nullable, null as referenced_table_name, null as referenced_column_name
+            FROM information_schema.columns as columnTable
+            WHERE columnTable.table_name = :tableName
+              AND columnTable.table_schema = :databaseName"
         );
         $statement->execute(array(':tableName' => $tableName, ':databaseName' => $this->pdoConfig->getConfigDatabaseName()));
         $allFields = $statement->fetchAll(PDO::FETCH_ASSOC);
 
+        $columnsAssociation  = array();
+
         foreach ($allFields as $metadata) {
+
+            if ($metadata['referenced_table_name'] !== null && $metadata['referenced_column_name'] !== null) {
+                $columnsAssociation[] = $metadata;
+                continue;
+            }
+
             $column = clone $columnDataObject;
 
             $type = $metadata['data_type'];
@@ -144,6 +154,23 @@ class MySQLMetaDataDAO implements MetaDataDAO
             }
 
             $dataObject->appendColumn($column);
+        }
+
+        $relationDataObject = new MetaDataRelationColumn();
+
+        foreach ($columnsAssociation as $association) {
+            if (in_array($association['referenced_table_name'], $parentName) === true) {
+                continue;
+            }
+
+            $parentName[] = $tableName;
+
+            $relation = clone $relationDataObject;
+            $relation->setFullName($association['referenced_table_name'])
+                     ->setFieldName($association['referenced_column_name'])
+                     ->setMetadata($this->getMetadataFor($association['referenced_table_name'], $parentName));
+
+            $dataObject->appendRelation($relation);
         }
 
         return $dataObject;

@@ -7,16 +7,53 @@ define(
         "App/Services/WaitModalService",
         "App/Services/GenerateService",
         "App/Services/HistoryService",
+        "App/Services/SearchGeneratorService",
+        "App/Services/DownloadGeneratorService",
         "Corp/Context/Context",
         "Corp/Context/Config",
         "HighLighterPHP"
     ],
-    function (GeneratorApp, SourceService, GeneratorService, ViewFileService, WaitModalService, GenerateService, HistoryService, Context, Config) {
+    function (
+    	GeneratorApp,
+    	SourceService,
+    	GeneratorService,
+    	ViewFileService,
+    	WaitModalService,
+    	GenerateService,
+    	HistoryService,
+    	SearchGeneratorService,
+    	DownloadGeneratorService,
+    	Context,
+    	Config
+    ) {
         "use strict";
 
         GeneratorApp.controller("GeneratorCtrl",
-                ['$scope', '$http', 'SourceService', 'GeneratorService', 'ViewFileService', 'WaitModalService', 'GenerateService', 'HistoryService',
-                function ($scope, $http, $sourceService, $generatorService, $viewFileService, $WaitModalService, $generateService, $historyService) {
+                [
+                 '$scope',
+                 '$http',
+                 '$sce',
+                 'SourceService',
+                 'GeneratorService',
+                 'ViewFileService',
+                 'WaitModalService',
+                 'GenerateService',
+                 'HistoryService',
+                 'SearchGeneratorService',
+                 'DownloadGeneratorService',
+                function (
+                		$scope,
+                		$http,
+                		$sce,
+                		$sourceService,
+                		$generatorService,
+                		$viewFileService,
+                		$WaitModalService,
+                		$generateService,
+                		$historyService,
+                		$searchGeneratorService,
+                		$downloadGeneratorService
+                	) {
 
             var context = new Context(),
                 config = new Config();
@@ -28,6 +65,8 @@ define(
             $scope.generatorSelected = null;
             $scope.backendSelected   = null;
             $scope.historyQuestion   = {};
+            $scope.generatorPreview  = null;
+            $scope.downloadLog       = Array();
 
             $scope.setConfigQuestion = function(attribute) {
                 $scope.backendConfig();
@@ -76,18 +115,86 @@ define(
                     $scope.historyCollection = context.getHistoryCollection();
             };
 
-            var generate = function(context) {
+            var generate = function(context, stream) {
+            	if (stream === undefined ) {
+            		stream = false;
+            	}
                 $WaitModalService.show();
                 $generatorService.build(
                     context,
+                    stream,
                     function(context) {
                         loadContext(context);
                         $WaitModalService.hide();
                         $('body').tooltip({
                             selector: "[rel=tooltip]"
                         });
+                    },
+                    function(error) {
+                        $WaitModalService.hide();
+                        $scope.unsafeModal = {
+                            'title' : 'Error',
+                            'body' : error
+                        };
                     }
                 );
+            };
+            
+            $scope.previewGenerator = function(generator) {
+            	$scope.generatorPreview = generator;
+            	$searchGeneratorService.detail(
+            		generator.name,
+        			function(data) {
+            			$scope.generatorPreviewReadme = data.package_readme;
+        			},
+                    function(results) {
+        				btn.button('reset');
+                        $scope.unsafeModal = {
+                            'title' : 'Error on generator ',
+                            'body'  : results.error,
+                        };
+                    }
+            	);
+            };
+            
+            $scope.downloadGenerator = function(generator) {
+            	$scope.downloadLog = Array();
+        		$downloadGeneratorService.download(
+        			generator,
+        			function(event) {
+        				event.data = $sce.trustAsHtml(event.data);
+        				$scope.downloadLog.push(event);
+        				$scope.downloadEnd = event.end;
+        				$scope.$apply();
+        			},
+        			function(data) {
+        				
+        			}
+        		);
+        	};
+            
+            $scope.searchGenerator = function() {
+            	var btn = $('#search-generator-btn');
+                btn.button('loading');
+            	$searchGeneratorService.generate(
+            			$scope.searchGeneratorName,
+            			function(context) {
+                            var modal = $('searchgenerator > div');
+                            if (!modal.hasClass( "show" )) {
+                                modal.modal('show');
+                            }
+                            btn.button('reset');
+                            
+            				 $scope.searchGeneratorCollection = context.getSearchGeneratorCollection();
+            			},
+                        function(results) {
+            				btn.button('reset');
+                            $scope.unsafeModal = {
+                                'title' : 'Error on generator ',
+                                'body'  : results.error,
+                            };
+                        }
+            	);
             };
 
             $scope.setMetadata = function(name) {

@@ -28,9 +28,10 @@ interface ContextInterface
      * @param string $uniqueKey
      * @param string $defaultResponse
      * @param boolean $required
+     * @param string $type
      * @return string
      */
-    public function ask($text, $uniqueKey, $defaultResponse = null, $required = false, $helpMessage = null);
+    public function ask($text, $uniqueKey, $defaultResponse = null, $required = false, $helpMessage = null, $type = null);
 
     /**
      * Ask question in collection

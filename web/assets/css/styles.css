@@ -113,3 +113,15 @@ html, body {
     border-width: 54px;
     margin-top: -54px;
 }
+
+.console {
+    padding: 2px 4px;
+    font-size: 90%;
+    color: #fff;
+    background-color: #333;
+    display:block;
+}
+
+warning {
+    color:red;
+}

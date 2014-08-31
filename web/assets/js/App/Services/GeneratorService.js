@@ -17,7 +17,7 @@ define([
          * @param context Corp/Context/Context
          * @param callbackAfterAjax callable
          */
-        this.build = function (context, callbackAfterAjax) {
+        this.build = function (context, stream, callbackAfterAjax, callbackError) {
             var canceler = $q.defer();
 
             if ((context instanceof Context) === false) {
@@ -33,9 +33,9 @@ define([
             var datas =  $.param({
                 backend   : context.getBackend(),
                 metadata  : context.getMetadata(),
-                generator : context.getGenerator()
+                generator : context.getGenerator(),
+                'stream'  : stream
             }) + '&' + $.param(context.getQuestion());
-
 
             $http(
                 {
@@ -51,7 +51,7 @@ define([
                 callbackAfterAjax(contextHydrator.hydrate(data, new Context()));
                 http = false;
             }).error(function(data) {
-                alert(data.error);
+                callbackError(data.error);
             });
         };
     }]);

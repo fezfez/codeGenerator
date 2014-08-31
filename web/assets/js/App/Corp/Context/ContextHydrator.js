@@ -31,6 +31,7 @@ define([
             context.setMetadataCollection(findByDtoAttributAndDeleteFromQuestion('metadata', data));
             context.setGeneratorCollection(findByDtoAttributAndDeleteFromQuestion('generator', data));
             context.setHistoryCollection(findByDtoAttributAndDeleteFromQuestion('history', data));
+            context.setSearchGeneratorCollection(findByDtoAttributAndDeleteFromQuestion('search_generatorcollection', data));
 
             if (context.getBackendCollection() !== null) {
                 context.setBackend(context.getBackendCollection().defaultResponse);

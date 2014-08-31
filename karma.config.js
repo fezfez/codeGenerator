@@ -12,12 +12,12 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-        {pattern: 'Vendor/require.js', included: false},
-        {pattern: 'Vendor/angular.js', included: true},
-        {pattern: 'Vendor/angular-resource.js', included: true},
-        {pattern: 'Vendor/angular-mocks.js', included: true},
-        {pattern: 'Vendor/jquery-2.1.0.min.js', included: true},
-        {pattern: 'Vendor/bootstrap.min.js', included: true},
+        {pattern: 'Vendor/requirejs/require.js', included: false},
+        {pattern: 'Vendor/angular/angular.js', included: false},
+        {pattern: 'Vendor/angular-resource/angular-resource.js', included: false},
+        {pattern: 'Vendor/angular-mocks/angular-mocks.js', included: false},
+        {pattern: 'Vendor/jquery/dist/jquery.js', included: true},
+        {pattern: 'Vendor/bootstrap/dist/js/bootstrap.js', included: true},
         {pattern: 'Vendor/shCore.js', included: false},
         {pattern: 'Vendor/shBrushPhp.js', included: false},
         {pattern: 'App/Services/*.js', included: false},
@@ -28,8 +28,7 @@ module.exports = function(config) {
         {pattern: 'App/Corp/Context/*.js', included: false},
         {pattern: 'App/*.js', included: false},
         {pattern: 'Tests/App/**/*.test.js', included: true},
-        {pattern: 'Tests/App/**/**/*.test.js', included: false},
-        'Tests/karma.main.js'
+        {pattern: 'Tests/karma.main.js', included: true}
     ],
 
     // list of files to exclude

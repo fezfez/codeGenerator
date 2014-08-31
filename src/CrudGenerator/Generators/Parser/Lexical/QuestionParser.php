@@ -103,7 +103,9 @@ class QuestionParser implements ParserInterface
             $question['text'],
             'set' . ucfirst($question['dtoAttribute']),
             (isset($question['defaultResponse']) === true) ? $parser->parse($question['defaultResponse']) : null,
-            (isset($question['required']) === true) ? $question['required'] : false
+            (isset($question['required']) === true) ? $question['required'] : false,
+            null,
+            (isset($question['type']) === true) ? $question['type'] : null
         );
 
         $questionName = 'set' . ucfirst($question['dtoAttribute']);

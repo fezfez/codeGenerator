@@ -82,6 +82,6 @@ class MetaDataSourcesConfiguredQuestion
             }
         }
 
-        throw new ResponseExpectedException(sprintf('Invalid metadata "%s"', $choice));
+        throw new ResponseExpectedException(sprintf('Invalid metadata source "%s"', $choice));
     }
 }

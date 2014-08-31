@@ -24,6 +24,7 @@ requirejs.config({
     //By default load any module IDs from js/lib
     baseUrl: '/base/',
     urlArgs: "t=" + (new Date()).getTime(),
+    waitSeconds : 0,
     //except, if the module ID starts with "app",
     //load it from the js/app directory. paths
     //config is relative to the baseUrl, and
@@ -31,22 +32,22 @@ requirejs.config({
     //the paths config could be for a directory.
     paths: {
         App : "App",
-        Controllers : "./App/Controllers",
+        Controllers : "App/Controllers",
         Corp : "App/Corp",
         Services : "App/Services",
-        jquery: "Vendor/jquery-2.1.0.min",
-        TwitterBootstrap: "Vendor/bootstrap.min",
+        JQuery: "Vendor/jquery/dist/jquery",
+        TwitterBootstrap: "Vendor/bootstrap/dist/js/bootstrap",
+        Angular: "Vendor/angular/angular",
         HighLighterPHP: "Vendor/shBrushPhp",
         shCore: "Vendor/shCore",
-        Angular: "Vendor/angular"
     },
     shim: {
-        'jquery': {
+        'JQuery': {
             exports: '$'
         },
         'TwitterBootstrap': {
             //These script dependencies should be loaded before loading
-            deps: ['jquery'],
+            deps: ['JQuery'],
             //Once loaded, use the global 'TwitterBootstrap' as the
             //module value.
             exports: '$'
