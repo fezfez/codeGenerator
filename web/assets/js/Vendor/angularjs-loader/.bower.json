@@ -1,0 +1,37 @@
+{
+  "name": "angularjs-loader",
+  "main": "angularjs-loader.js",
+  "version": "0.7.3",
+  "homepage": "http://github.com/hansl/angularjs-loader",
+  "authors": [
+    "Hans Larsen <hans@hansl.ca>"
+  ],
+  "description": "A script to automatically load scripts based on the module dependencies, using angular.module() calls.",
+  "keywords": [
+    "angularjs",
+    "amd",
+    "script",
+    "loaders",
+    "loader"
+  ],
+  "license": "Apache v2",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "jasmine": "v2.0.0.rc5"
+  },
+  "_release": "0.7.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.7.3",
+    "commit": "ce360c54b5e20d6aa180a47a70cb705551b91510"
+  },
+  "_source": "git://github.com/hansl/angularjs-loader.git",
+  "_target": "0.7.*",
+  "_originalSource": "angularjs-loader"
+}
