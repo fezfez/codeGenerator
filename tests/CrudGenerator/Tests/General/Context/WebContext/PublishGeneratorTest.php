@@ -13,23 +13,11 @@ class PublishGeneratorTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {
-        $application = $this->getMockBuilder('Silex\Application')
-        ->disableOriginalConstructor()
-        ->getMock();
-
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $myTmpObject = new \ArrayObject();
-        $myTmpObject->request = $request;
-
-        $application->expects($this->once())
-        ->method('offsetGet')
-        ->with('request')
-        ->will($this->returnValue($myTmpObject));
-
-        $sUT            = new WebContext($application);
+        $sUT            = new WebContext($request);
         $metadataSource = new MetaDataSource();
         $dto            = new Architect();
         $metadata       = new MetadataDataObjectDoctrine2(new MetaDataColumnCollection(), new MetaDataRelationCollection());
