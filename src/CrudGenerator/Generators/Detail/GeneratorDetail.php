@@ -50,6 +50,6 @@ class GeneratorDetail
 
         $data = $this->client->api('repo')->contents()->readme($packageExplode[0], $packageExplode[1]);
 
-        return base64_decode($data['content']);
+        return $this->client->api('markdown')->render(base64_decode($data['content']));
     }
 }

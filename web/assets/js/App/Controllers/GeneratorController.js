@@ -145,7 +145,7 @@ define(
             	$searchGeneratorService.detail(
             		generator.name,
         			function(data) {
-            			$scope.generatorPreviewReadme = data.package_readme;
+            			$scope.generatorPreviewReadme = $sce.trustAsHtml(data.package_readme);
         			},
                     function(results) {
         				btn.button('reset');
