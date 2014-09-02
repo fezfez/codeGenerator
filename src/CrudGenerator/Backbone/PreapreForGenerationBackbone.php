@@ -20,7 +20,7 @@ namespace CrudGenerator\Backbone;
 use CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion;
 use CrudGenerator\Generators\Questions\Web\MetaDataQuestion;
 use CrudGenerator\Generators\Questions\Web\GeneratorQuestion;
-use CrudGenerator\Generators\Parser\GeneratorParser;
+use CrudGenerator\Generators\Parser\GeneratorParserInterface;
 use CrudGenerator\Generators\GeneratorDataObject;
 
 class PreapreForGenerationBackbone
@@ -38,7 +38,7 @@ class PreapreForGenerationBackbone
      */
     private $generatorQuestion = null;
     /**
-     * @var GeneratorParser
+     * @var GeneratorParserInterface
      */
     private $generatorParser = null;
 
@@ -46,13 +46,13 @@ class PreapreForGenerationBackbone
      * @param MetaDataSourcesConfiguredQuestion $metaDataSourcesConfiguredQuestion
      * @param MetaDataQuestion $metaDataQuestion
      * @param GeneratorQuestion $generatorQuestion
-     * @param GeneratorParser $generatorParser
+     * @param GeneratorParserInterface $generatorParser
      */
     public function __construct(
         MetaDataSourcesConfiguredQuestion $metaDataSourcesConfiguredQuestion,
         MetaDataQuestion $metaDataQuestion,
         GeneratorQuestion $generatorQuestion,
-        GeneratorParser $generatorParser
+        GeneratorParserInterface $generatorParser
     ) {
         $this->metaDataQuestion                  = $metaDataQuestion;
         $this->generatorParser                   = $generatorParser;

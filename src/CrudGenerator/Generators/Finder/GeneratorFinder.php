@@ -35,6 +35,10 @@ class GeneratorFinder
      * @var Yaml Yaml parser
      */
     private $yaml = null;
+    /**
+     * @var array
+     */
+    private static $allClasses = null;
 
     /**
      * Find all generator allow in project
@@ -55,16 +59,14 @@ class GeneratorFinder
      */
     public function getAllClasses()
     {
-        $directories = array(getcwd());
-
-        $generators = array();
-        foreach ($directories as $directorie) {
+    	if (self::$allClasses === null) {
+	        $generators = array();
             $iterator = new \RegexIterator(
                 new \RecursiveIteratorIterator(
-                        new \RecursiveDirectoryIterator($directorie, \FilesystemIterator::SKIP_DOTS),
+                        new \RecursiveDirectoryIterator(getcwd(), \FilesystemIterator::SKIP_DOTS),
                         \RecursiveIteratorIterator::LEAVES_ONLY
                 ),
-                '/^.+' . preg_quote('.generator.yaml') . '$/i',
+                '/^.+\.generator\.yaml$/i',
                 \RecursiveRegexIterator::GET_MATCH
             );
 
@@ -72,9 +74,11 @@ class GeneratorFinder
                 $yaml                 = $this->yaml->parse(file_get_contents($file[0]));
                 $generators[$file[0]] = $yaml['name'];
             }
-        }
 
-        return $generators;
+	        self::$allClasses = $generators;
+    	}
+
+        return self::$allClasses;
     }
 
     /**

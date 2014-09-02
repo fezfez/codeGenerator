@@ -32,6 +32,11 @@ use CrudGenerator\Context\WebContext;
 class GeneratorStrategyFactory
 {
     /**
+     * @var GeneratorStrategy
+     */
+    private static $instance = null;
+
+    /**
      * @param ContextInterface $context
      * @throws \InvalidArgumentException
      * @return \CrudGenerator\Generators\Strategies\GeneratorStrategy
@@ -39,7 +44,11 @@ class GeneratorStrategyFactory
     public static function getInstance(ContextInterface $context)
     {
         if ($context instanceof CliContext || $context instanceof WebContext) {
-            return new GeneratorStrategy(ViewFactory::getInstance(), new FileManager());
+        	if (self::$instance === null) {
+        		self::$instance = new GeneratorStrategy(ViewFactory::getInstance(), new FileManager());
+        	}
+
+            return self::$instance;
         } else {
             throw new \InvalidArgumentException(
                 sprintf(

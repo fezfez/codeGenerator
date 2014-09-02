@@ -18,7 +18,7 @@
 namespace CrudGenerator\Generators\Installer;
 
 use Symfony\Component\Console\Input\ArrayInput;
-use Composer\Command\RequireCommand;
+use Composer\Command\UpdateCommand;
 use CrudGenerator\Utils\OutputWeb;
 
 /**
@@ -26,16 +26,16 @@ use CrudGenerator\Utils\OutputWeb;
  *
  * @author Stéphane Demonchaux
  */
-class GeneratorInstaller
+class GeneratorInstaller implements GeneratorInstallerInterface
 {
     /**
      * @var ArrayInput
      */
     private $input = null;
     /**
-     * @var RequireCommand
+     * @var UpdateCommand
      */
-    private $requireCommand = null;
+    private $updateCommand = null;
     /**
      * @var OutputWeb
      */
@@ -46,10 +46,10 @@ class GeneratorInstaller
      * @param RequireCommand $requireCommand
      * @param OutputWeb $output
      */
-    public function __construct(ArrayInput $input, RequireCommand $requireCommand, OutputWeb $output)
+    public function __construct(ArrayInput $input, UpdateCommand $updateCommand, OutputWeb $output)
     {
         $this->input          = $input;
-        $this->requireCommand = $requireCommand;
+        $this->updateCommand = $updateCommand;
         $this->output         = $output;
     }
 
@@ -63,8 +63,8 @@ class GeneratorInstaller
         //$input = clone $this->input;
 
         $this->input->setArgument('packages',  array($package . ':' . $version));
-        $this->output->write(sprintf('%s$ composer require %s:%s', getcwd(), $package, $version));
+        $this->output->write(sprintf('%s$ composer update %s:%s', getcwd(), $package, $version));
 
-        return $this->requireCommand->run($this->input, $this->output);
+        return $this->updateCommand->run($this->input, $this->output);
     }
 }

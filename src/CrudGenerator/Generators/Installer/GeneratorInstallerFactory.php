@@ -19,7 +19,7 @@ namespace CrudGenerator\Generators\Installer;
 
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Utils\OutputWeb;
-use Composer\Command\RequireCommand;
+use Composer\Command\UpdateCommand;
 use Composer\Command\Helper\DialogHelper;
 use Composer\Downloader\DownloadManager;
 use Composer\EventDispatcher\EventDispatcher;
@@ -45,10 +45,9 @@ class GeneratorInstallerFactory
     {
         putenv("COMPOSER_HOME=/home/steph/.composer");
 
-        $command = new RequireCommand();
+        $command = new UpdateCommand();
 
         $definition = $command->getDefinition();
-        $definition->addOption(new InputOption('verbose'));
 
         $input = new ArrayInput(array(), $definition);
         $input->setInteractive(false);

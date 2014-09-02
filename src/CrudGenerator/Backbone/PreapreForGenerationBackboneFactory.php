@@ -21,7 +21,7 @@ use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\Questions\MetaDataSourcesConfiguredQuestionFactory;
 use CrudGenerator\Generators\Questions\MetaDataQuestionFactory;
 use CrudGenerator\Generators\Questions\GeneratorQuestionFactory;
-use CrudGenerator\Generators\Parser\GeneratorParserFactory;
+use CrudGenerator\Generators\Parser\GeneratorParserProxyFactory;
 
 class PreapreForGenerationBackboneFactory
 {
@@ -35,7 +35,7 @@ class PreapreForGenerationBackboneFactory
             MetaDataSourcesConfiguredQuestionFactory::getInstance($context),
             MetaDataQuestionFactory::getInstance($context),
             GeneratorQuestionFactory::getInstance($context),
-            GeneratorParserFactory::getInstance($context)
+            GeneratorParserProxyFactory::getInstance($context)
         );
     }
 }

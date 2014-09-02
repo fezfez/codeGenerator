@@ -49,23 +49,26 @@ class GeneratorQuestion
     public function ask()
     {
         $generatorArray = array();
-        foreach ($this->generatorFinder->getAllClasses() as $path => $name) {
+        $generators     = $this->generatorFinder->getAllClasses();
+        foreach ($generators as $path => $name) {
             $generatorArray[] = array('id' => $name, 'label' => $name);
         }
 
         return $this->retrieve(
-            $this->context->askCollection("Select generator", self::QUESTION_KEY, $generatorArray)
+            $this->context->askCollection("Select generator", self::QUESTION_KEY, $generatorArray),
+            $generators
         );
     }
 
     /**
      * @param string $preSelected
+     * @param array $generators
      * @throws ResponseExpectedException
      * @return string
      */
-    private function retrieve($preSelected)
+    private function retrieve($preSelected, array $generators)
     {
-        foreach ($this->generatorFinder->getAllClasses() as $path => $name) {
+        foreach ($generators as $path => $name) {
             if ($name === $preSelected) {
                 return $name;
             }

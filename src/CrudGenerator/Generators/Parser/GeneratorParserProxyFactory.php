@@ -15,22 +15,23 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Backbone;
+namespace CrudGenerator\Generators\Parser;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Generators\Search\GeneratorSearchFactory;
-use CrudGenerator\Generators\Installer\GeneratorInstallerProxyFactory;
-use CrudGenerator\Generators\Detail\GeneratorDetailFactory;
 
-class SearchGeneratorBackboneFactory
+/**
+ * Find all generator allow in project
+ *
+ * @author Stéphane Demonchaux
+ */
+class GeneratorParserProxyFactory
 {
+    /**
+     * @param ContextInterface $context
+     * @return GeneratorParser
+     */
     public static function getInstance(ContextInterface $context)
     {
-		return new SearchGeneratorBackbone(
-			GeneratorSearchFactory::getInstance($context),
-			GeneratorInstallerProxyFactory::getInstance($context),
-			GeneratorDetailFactory::getInstance($context),
-			$context
-		);
+        return new GeneratorParserProxy($context);
     }
 }

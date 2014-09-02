@@ -15,44 +15,48 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\Detail;
+namespace CrudGenerator\Generators\Parser;
 
-use Github\Client;
+use CrudGenerator\Utils\Yaml;
+use CrudGenerator\Utils\FileManager;
+use CrudGenerator\Utils\PhpStringParser;
+use CrudGenerator\MetaData\DataObject\MetaData;
+use CrudGenerator\Generators\Strategies\GeneratorStrategy;
+use CrudGenerator\Generators\Finder\GeneratorFinder;
+use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Generators\Parser\ParserCollection;
+use CrudGenerator\Context\ContextInterface;
 
 /**
  * Find all generator allow in project
  *
  * @author Stéphane Demonchaux
  */
-class GeneratorDetail
+class GeneratorParserProxy implements GeneratorParserInterface
 {
     /**
-     * @var Client
+     * @var ContextInterface
      */
-    private $client = null;
+    private $context = null;
 
     /**
-     * @param Client $client
+     * @param ContextInterface $context
      */
-    public function __construct(Client $client)
+    public function __construct(ContextInterface $context)
     {
-        $this->client = $client;
+        $this->context = $context;
     }
 
     /**
-     * @param array $package
-     * @return string
+     * @param GeneratorDataObject $generator
+     * @param MetaData $metadata
+     * @throws \InvalidArgumentException
+     * @return GeneratorDataObject
      */
-    public function find(array $package)
+    public function init(GeneratorDataObject $generator, MetaData $metadata)
     {
-    	$repository = str_replace('https://github.com/', '', $package['repository']); // @FIXME very static
-    	$packageExplode = explode('/', $repository);
+        $generatorParser = GeneratorParserFactory::getInstance($this->context);
 
-        $data = $this->client->api('repo')->contents()->readme($packageExplode[0], $packageExplode[1]);
-
-        return array(
-        	'readme' => $this->client->api('markdown')->render(base64_decode($data['content'])),
-        	'github' => $package['repository']
-        );
+        return $generatorParser->init($generator, $metadata);
     }
 }

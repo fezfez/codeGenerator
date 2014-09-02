@@ -41,8 +41,8 @@ class HistoryFactory
     {
         if ($context instanceof CliContext || $context instanceof WebContext) {
             // wakeup classes
-            $generatorFinder = GeneratorFinderFactory::getInstance();
-            $generatorFinder->getAllClasses();
+            //$generatorFinder = GeneratorFinderFactory::getInstance();
+            //$generatorFinder->getAllClasses();
 
             $fileManager     = new FileManager();
             $historyHydrator = HistoryHydratorFactory::getInstance($context);

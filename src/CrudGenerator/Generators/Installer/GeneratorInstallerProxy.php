@@ -15,22 +15,42 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Backbone;
+namespace CrudGenerator\Generators\Installer;
 
+use Symfony\Component\Console\Input\ArrayInput;
+use Composer\Command\UpdateCommand;
+use CrudGenerator\Utils\OutputWeb;
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Generators\Search\GeneratorSearchFactory;
-use CrudGenerator\Generators\Installer\GeneratorInstallerProxyFactory;
-use CrudGenerator\Generators\Detail\GeneratorDetailFactory;
 
-class SearchGeneratorBackboneFactory
+/**
+ * Find all generator allow in project
+ *
+ * @author Stéphane Demonchaux
+ */
+class GeneratorInstallerProxy implements GeneratorInstallerInterface
 {
-    public static function getInstance(ContextInterface $context)
+    /**
+     * @var ContextInterface
+     */
+    private $context = null;
+
+    /**
+     * @param ContextInterface $context
+     */
+    public function __construct(ContextInterface $context)
     {
-		return new SearchGeneratorBackbone(
-			GeneratorSearchFactory::getInstance($context),
-			GeneratorInstallerProxyFactory::getInstance($context),
-			GeneratorDetailFactory::getInstance($context),
-			$context
-		);
+		$this->context = $context;
+    }
+
+    /**
+     * @param string $package
+     * @param string $version
+     * @return number
+     */
+    public function install($package, $version = 'dev-master')
+    {
+        $generatorInstaller = GeneratorInstallerFactory::getInstance($this->context);
+
+        return $generatorInstaller->install($package, $version);
     }
 }

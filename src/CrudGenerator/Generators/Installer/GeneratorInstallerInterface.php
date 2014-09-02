@@ -15,22 +15,17 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Backbone;
+namespace CrudGenerator\Generators\Installer;
 
-use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Generators\Search\GeneratorSearchFactory;
-use CrudGenerator\Generators\Installer\GeneratorInstallerProxyFactory;
-use CrudGenerator\Generators\Detail\GeneratorDetailFactory;
-
-class SearchGeneratorBackboneFactory
+/**
+ * @author Stéphane Demonchaux
+ */
+interface GeneratorInstallerInterface
 {
-    public static function getInstance(ContextInterface $context)
-    {
-		return new SearchGeneratorBackbone(
-			GeneratorSearchFactory::getInstance($context),
-			GeneratorInstallerProxyFactory::getInstance($context),
-			GeneratorDetailFactory::getInstance($context),
-			$context
-		);
-    }
+    /**
+     * @param string $package
+     * @param string $version
+     * @return number
+     */
+    public function install($package, $version = 'dev-master');
 }

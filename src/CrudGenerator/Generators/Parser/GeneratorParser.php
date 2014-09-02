@@ -31,7 +31,7 @@ use CrudGenerator\Generators\Parser\ParserCollection;
  *
  * @author Stéphane Demonchaux
  */
-class GeneratorParser
+class GeneratorParser implements GeneratorParserInterface
 {
     const COMPLEX_QUESTION        = 'complex';
     const ENVIRONNEMENT_CONDITION = 'environnementCondition';
