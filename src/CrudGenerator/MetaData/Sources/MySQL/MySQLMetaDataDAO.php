@@ -121,8 +121,14 @@ class MySQLMetaDataDAO implements MetaDataDAO
         $columnDataObject = new MetaDataColumn();
 
         $statement = $this->pdo->prepare(
-            "SELECT columnTable.column_name, columnTable.table_name, data_type, column_key, is_nullable, null as referenced_table_name, null as referenced_column_name
+            "SELECT
+        		columnTable.column_name, columnTable.table_name, columnTable.data_type, columnTable.column_key, columnTable.is_nullable,
+        		k.referenced_table_name, k.referenced_column_name
             FROM information_schema.columns as columnTable
+        	left outer join information_schema.key_column_usage k
+        	  on k.table_schema=columnTable.table_schema
+		      and k.table_name=columnTable.table_name
+		      and k.column_name=columnTable.column_name
             WHERE columnTable.table_name = :tableName
               AND columnTable.table_schema = :databaseName"
         );

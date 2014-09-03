@@ -17,7 +17,7 @@ define([
          * @param context Corp/Context/Context
          * @param callbackAfterAjax callable
          */
-        this.build = function (context, stream, callbackAfterAjax, callbackError) {
+        this.build = function (context, metadata_nocache, callbackAfterAjax, callbackError) {
             var canceler = $q.defer();
 
             if ((context instanceof Context) === false) {
@@ -31,10 +31,10 @@ define([
             http = true;
 
             var datas =  $.param({
-                backend   : context.getBackend(),
-                metadata  : context.getMetadata(),
-                generator : context.getGenerator(),
-                'stream'  : stream
+                backend            : context.getBackend(),
+                'metadata_nocache' : metadata_nocache,
+                metadata           : context.getMetadata(),
+                generator          : context.getGenerator()
             }) + '&' + $.param(context.getQuestion());
 
             $http(

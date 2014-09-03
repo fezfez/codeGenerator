@@ -115,14 +115,14 @@ define(
                     $scope.historyCollection = context.getHistoryCollection();
             };
 
-            var generate = function(context, stream) {
-                if (stream === undefined ) {
-                    stream = false;
+            var generate = function(context, metadata_nocache) {
+                if (metadata_nocache === undefined ) {
+                	metadata_nocache = 0;
                 }
                 $WaitModalService.show();
                 $generatorService.build(
                     context,
-                    stream,
+                    metadata_nocache,
                     function(context) {
                         loadContext(context);
                         $WaitModalService.hide();
@@ -203,6 +203,10 @@ define(
                             };
                         }
                 );
+            };
+            
+            $scope.destructMetadataCache = function() {
+                generate(context, 1);
             };
 
             $scope.setMetadata = function(name) {

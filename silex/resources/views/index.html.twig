@@ -26,6 +26,14 @@
              <div class="col-sm-12 col-md-2 col-md-offset-2 sidebar sidebar-left arrow_box" ng-show="metadataCollection">
                   <h3>2) {{ metadataCollection.text }}</h3>
                 <div class="list-group">
+                <span class="glyphicon glyphicon-remove"
+                      ng-click="destructMetadataCache()"
+                      data-toggle="tooltip"
+                      data-placement="right"
+                      rel="tooltip"
+                      title="Destruct metadata cache"
+                      class="pointer">
+                </span>
                     <a href="#"
                        class="list-group-item"
                        ng-repeat="metadata in metadataCollection.values"

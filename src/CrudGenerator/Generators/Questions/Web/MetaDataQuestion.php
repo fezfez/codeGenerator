@@ -62,7 +62,11 @@ class MetaDataQuestion
         $metadataSourceFactoryName = $metadataSource->getMetaDataDAOFactory();
         $metadataSourceConfig      = $metadataSource->getConfig();
 
-        return $this->metaDataSourceFactory->create($metadataSourceFactoryName, $metadataSourceConfig);
+        return $this->metaDataSourceFactory->create(
+            $metadataSourceFactoryName,
+            $metadataSourceConfig,
+            $this->context->confirm('Retireve metadata without cache', 'metadata_nocache')
+        );
     }
 
     /**
