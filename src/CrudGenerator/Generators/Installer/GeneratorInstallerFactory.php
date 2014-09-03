@@ -43,7 +43,8 @@ class GeneratorInstallerFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-        putenv("COMPOSER_HOME=/home/steph/.composer");
+
+        putenv("COMPOSER_HOME=" . getenv('HOME') . "/.composer");
 
         $command = new UpdateCommand();
 
@@ -51,15 +52,15 @@ class GeneratorInstallerFactory
 
         $input = new ArrayInput(array(), $definition);
         $input->setInteractive(false);
-        $input->setOption('verbose', true);
-        $input->setOption('no-progress', false);
 
         $dialog = new DialogHelper();
         $dialog->setInput($input);
 
         $output = new OutputWeb($context);
+        $output->setVerbosity(4);
         $helper = new HelperSet(array($dialog, new ProgressHelper()));
         $io     = new ConsoleIO($input, $output, $helper);
+        $io->enableDebugging(time());
 
 
         $composer = Factory::create($io, null, true);
