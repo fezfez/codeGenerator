@@ -40,7 +40,7 @@ interface ContextInterface
      * @param string $helpMessage
      * @return string
      */
-    public function askCollection($text, $uniqueKey, array $collection, $defaultResponse = null, $required = false, $helpMessage = null);
+    public function askCollection($text, $uniqueKey, array $collection, $defaultResponse = null, $required = false, $helpMessage = null, $type = null);
 
     /**
      * @param string $text

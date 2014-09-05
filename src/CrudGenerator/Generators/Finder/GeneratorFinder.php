@@ -19,13 +19,15 @@ namespace CrudGenerator\Generators\Finder;
 
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\Yaml;
+use CrudGenerator\MetaData\DataObject\MetaDataInterface;
+use CrudGenerator\Generators\GeneratorCompatibilityChecker;
 
 /**
  * Find all generator allow in project
  *
  * @author Stéphane Demonchaux
  */
-class GeneratorFinder
+class GeneratorFinder implements GeneratorFinderInterface
 {
     /**
      * @var FileManager File manager
@@ -35,6 +37,10 @@ class GeneratorFinder
      * @var Yaml Yaml parser
      */
     private $yaml = null;
+    /**
+     * @var GeneratorCompatibilityChecker
+     */
+    private $compatibilityChecker = null;
     /**
      * @var array
      */
@@ -46,10 +52,11 @@ class GeneratorFinder
      * @param FileManager $fileManager
      * @param Yaml $yaml
      */
-    public function __construct(FileManager $fileManager, Yaml $yaml)
+    public function __construct(FileManager $fileManager, Yaml $yaml, GeneratorCompatibilityChecker $compatibilityChecker)
     {
-        $this->fileManager = $fileManager;
-        $this->yaml        = $yaml;
+        $this->fileManager          = $fileManager;
+        $this->yaml                 = $yaml;
+        $this->compatibilityChecker = $compatibilityChecker;
     }
 
     /**
@@ -57,26 +64,35 @@ class GeneratorFinder
      *
      * @return array
      */
-    public function getAllClasses()
+    public function getAllClasses(MetaDataInterface $metadata = null)
     {
-    	if (self::$allClasses === null) {
-	        $generators = array();
+        if (self::$allClasses === null) {
+            $generators = array();
             $iterator = new \RegexIterator(
                 new \RecursiveIteratorIterator(
                         new \RecursiveDirectoryIterator(getcwd(), \FilesystemIterator::SKIP_DOTS),
                         \RecursiveIteratorIterator::LEAVES_ONLY
                 ),
-                '/^.+\.generator\.yaml$/i',
+                '/^.+\.generator\.json$/i',
                 \RecursiveRegexIterator::GET_MATCH
             );
 
             foreach ($iterator as $file) {
-                $yaml                 = $this->yaml->parse(file_get_contents($file[0]));
-                $generators[$file[0]] = $yaml['name'];
+                $process              = json_decode(file_get_contents($file[0]), true);
+                if ($metadata !== null) {
+                    try {
+                        $this->compatibilityChecker->metadataAllowedInGenerator($metadata, $process);
+                        $generators[$file[0]] = $process['name'];
+                    } catch (\InvalidArgumentException $e) {
+                        // Metdata not allowed with this generator
+                    }
+                } else {
+                    $generators[$file[0]] = $process['name'];
+                }
             }
 
-	        self::$allClasses = $generators;
-    	}
+            self::$allClasses = $generators;
+        }
 
         return self::$allClasses;
     }

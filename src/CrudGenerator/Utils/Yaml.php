@@ -44,6 +44,8 @@ class Yaml
      */
     public function parse($string)
     {
+    	return json_decode($string, true);
+
         if (function_exists('yaml_parse') === true) {
             $yaml = yaml_parse($string);
         } else {

@@ -27,8 +27,27 @@ define([
          * @return Context
          */
         this.hydrate = function(data, context) {
-            context.setBackendCollection(findByDtoAttributAndDeleteFromQuestion('backend', data));
-            context.setMetadataCollection(findByDtoAttributAndDeleteFromQuestion('metadata', data));
+        	var backendCollection = findByDtoAttributAndDeleteFromQuestion('backend', data);
+        	var metadataCollection = findByDtoAttributAndDeleteFromQuestion('metadata', data);
+        	
+        	if (backendCollection !== null) {
+	        	angular.forEach(backendCollection.values, function (backend, id) {
+	        		if (metadataCollection !== null) {
+			            angular.forEach(metadataCollection.values, function (metadata, id) {
+			            	if (backend.label === metadata.source) {
+			            		if (backend.metadata === undefined) {
+			            			backend.metadata = {};
+			            			backend.metadata.values = new Array();
+			            		}
+			            		backend.metadata.values.push(metadata);
+			            	}
+			            });
+	        		}
+	        	});
+        	}
+        	
+            context.setBackendCollection(backendCollection);
+            context.setMetadataCollection(metadataCollection);
             context.setGeneratorCollection(findByDtoAttributAndDeleteFromQuestion('generator', data));
             context.setHistoryCollection(findByDtoAttributAndDeleteFromQuestion('history', data));
             context.setSearchGeneratorCollection(findByDtoAttributAndDeleteFromQuestion('search_generatorcollection', data));

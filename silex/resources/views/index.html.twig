@@ -14,38 +14,34 @@
                     Create new source
                 </a>
                 <div class="list-group">
-                    <a href="#"
-                       class="list-group-item"
-                       ng-repeat="backend in backendCollection.values"
-                       ng-click="setBackend(backend.label)"
-                       ng-class="{'active': backend.label === backendSelected}">
+                    <span class="glyphicon glyphicon-remove destruct-cache"
+                          ng-click="destructMetadataCache()"
+                          data-toggle="tooltip"
+                          data-placement="left"
+                          rel="tooltip"
+                          title="Destruct metadata cache"
+                          class="pointer">
+                    </span>
+                    <a class="list-group-item"
+                        ng-repeat-start="backend in backendCollection.values"
+                        ng-click="setBackend(backend.label)"
+                        ng-class="{'active': backend.label === backendSelected}">
                         {{  backend.label }}
                     </a>
-                </div>
-             </div>
-             <div class="col-sm-12 col-md-2 col-md-offset-2 sidebar sidebar-left arrow_box" ng-show="metadataCollection">
-                  <h3>2) {{ metadataCollection.text }}</h3>
-                <div class="list-group">
-                <span class="glyphicon glyphicon-remove"
-                      ng-click="destructMetadataCache()"
-                      data-toggle="tooltip"
-                      data-placement="right"
-                      rel="tooltip"
-                      title="Destruct metadata cache"
-                      class="pointer">
-                </span>
-                    <a href="#"
+                    <a ng-repeat-end=""
+                       ng-if="backend.metadata"
+                       href="#"
                        class="list-group-item"
-                       ng-repeat="metadata in metadataCollection.values"
+                       ng-repeat="metadata in backend.metadata.values"
                        ng-click="setMetadata(metadata.label)"
                        ng-class="{'active': metadata.label === metadataSelected}">
+                         <i class="glyphicon glyphicon-arrow-right"></i>
                         {{  metadata.label }}
-                    </a>
+                    </li>
                 </div>
              </div>
-             <div class="col-sm-12 col-md-2 col-md-offset-4 sidebar sidebar-left arrow_box" ng-show="generatorCollection">
-                  <h3>3) {{ generatorCollection.text }}</h3>
-                <div>
+             <div class="col-sm-12 col-md-2 col-md-offset-2 sidebar sidebar-left arrow_box" ng-show="generatorCollection">
+                  <h3>2) {{ generatorCollection.text }}</h3>
                     <a class="pointer" ng-click="searchGenerator()">Search Generator</a>
                     <a href="#"
                        class="list-group-item"
@@ -54,10 +50,9 @@
                        ng-class="{'active': generator.label === generatorSelected}">
                         {{  generator.label }}
                     </a>
-                </div>
              </div>
-             <div class="col-sm-12 col-md-2 col-md-offset-6 sidebar sidebar-left arrow_box" ng-show="questionList">
-                <h3>4) Questions</h3>
+             <div class="col-sm-12 col-md-4 col-md-offset-4 sidebar sidebar-left arrow_box" ng-show="questionList">
+                <h3>3) Questions</h3>
                     <div>
                         <div class="form-group" ng-repeat="question in questionList">
                             <label for="{{ name.dtoAttribute }}">{{ question.text }}</label>
@@ -78,35 +73,38 @@
                                    type="checkbox"
                                    name="{{ question.dtoAttribute }}"
                                    value="{{ (question.value) ? question.value : question.defaultResponse }}" />
-                            <select ng-if="question.type == 'directory'"
+                            <input type="file"
+                                   ng-if="question.type == 'directory'"
                                     id="{{ question.dtoAttribute }}"
                                     class="form-control question"
                                     ng-model="answers[question.dtoAttribute]"
-                                    name="{{ question.dtoAttribute }}">
-                                    <option selected="selected" value="{{ question.value }}">{{ question.placeholder }}</option>
-                                    <option ng-repeat="value in question.values" ng-click="setQuestion(question.dtoAttribute)" value="{{ value.id }}">
-                                        {{ value.label }}
-                                    </option>
-                            </select>
+                                    onchange="angular.element(this).scope().setQuestion(this)"
+                                    ng-options="value.label for value in question.values track by value.id"
+                                    name="{{ question.dtoAttribute }}"
+                                    directory webkitdirectory mozdirectory />
                             <select ng-if="question.type == 'select'"
                                     id="{{ question.dtoAttribute }}"
                                     class="form-control question"
                                     ng-model="answers[question.dtoAttribute]"
+                                    ng-options="value.id as value.label for value in question.values"
+                                    ng-change="setQuestion(question.dtoAttribute)"
                                     name="{{ question.dtoAttribute }}">
-                                    <option ng-repeat="value in question.values"
-                                            ng-click="setQuestion(question.dtoAttribute)"
-                                            ng-selected="(value.id === question.defaultResponse) ? 'selected' : null"
-                                            value="{{ value.id }}">
-                                        {{ value.label }}
-                                    </option>
                             </select>
                         </div>
                     </div>
             </div>
             <div class="col-sm-12 col-md-4 col-md-offset-8 sidebar sidebar-left arrow_box" ng-show="fileList">
+                <div class="filewaiter" ng-show="waitFileList"> 
+                    <i class="fa fa-refresh fa-spin" style="font-size:80px;position:absolute;top:40%;left:48%;">
+                    </i>
+                </div>
+                <div class="filewaiter modal-backdrop in" ng-show="waitFileList">
+                </div>
+                <div id="filewaiter-target">
                 <h2 class="text-center">File generation preview</h2>
                 <ul ng-include="fileTemplate">
                 </ul>
+                </div>
             </div>
         </div>
     {% endraw %}

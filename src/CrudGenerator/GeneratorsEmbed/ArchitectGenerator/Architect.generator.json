@@ -1,0 +1,205 @@
+{
+  "name": "ArchitectGenerator",
+  "definition": "Generate DAO, DTO, Hydrator, Exception, unit test",
+  "dto": "CrudGenerator\\GeneratorsEmbed\\ArchitectGenerator\\Architect",
+  "metadataTypeAccepted": [
+      "CrudGenerator\\MetaData\\DataObject\\MetaData"
+  ],
+  "environnement": {
+    "framework": {
+      "zend_framework_2": {
+        "backend": [
+          "PDO",
+          "doctrine2"
+        ],
+        "template": [
+          "phtml"
+        ]
+      },
+      "symfony2": {
+        "backend": [
+          "doctrine2"
+        ],
+        "template": [
+          "twig"
+        ]
+      }
+    }
+  },
+  "questions": [
+    {
+      "dtoAttribute": "ModelDirectory",
+      "text": "Chose a directory for model",
+      "type": "complex",
+      "factory": "CrudGenerator\\Generators\\Questions\\DirectoryQuestionFactory"
+    },
+    {
+      "dtoAttribute": "UnitTestDirectory",
+      "text": "Chose a directory for unit test",
+      "type": "complex",
+      "factory": "CrudGenerator\\Generators\\Questions\\DirectoryQuestionFactory"
+    },
+    {
+      "dtoAttribute": "Namespace",
+      "text": "Choose a target namespace",
+      "responseType": "text"
+    },
+    {
+      "dtoAttribute": "ServiceLayer",
+      "text": "Add service layer",
+      "responseType": "boolean"
+    },
+    {
+      "dtoAttribute": "ModelName",
+      "text": "Choose a model name",
+      "defaultResponse": "$architectGenerator->getMetadata()->getName()",
+      "responseType": "text"
+    },
+    {
+      "type": "askCollection",
+      "collection": "$architectGenerator->getMetadata()->getColumnCollection()",
+      "text": "Attribute name for \"%s\", $iteration->getName()",
+      "origine": "$iteration->getName()",
+      "dtoAttribute": "AttributeName",
+      "responseType": "text",
+      "defaultResponse": "$iteration->getName()"
+    },
+    {
+      "type": "askCollection",
+      "collection": "$architectGenerator->getMetadata()->getColumnCollection()",
+      "text": "Add \"%s\" to DTO, $iteration->getName()",
+      "origine": "$iteration->getName()",
+      "dtoAttribute": "ColumnUsed",
+      "responseType": "boolean",
+      "defaultResponse": 1
+    },
+    {
+      "type": "askCollection",
+      "collection": "$architectGenerator->getMetadata()->getRelationCollection()",
+      "text": "Attribute name for \"%s\", $iteration->getName()",
+      "origine": "$iteration->getName()",
+      "dtoAttribute": "RelationRenamed",
+      "responseType": "text",
+      "defaultResponse": "$iteration->getName()"
+    },
+    {
+      "type": "askCollectionOverIterator",
+      "dtoAttribute": "test",
+      "iterator": "$architectGenerator->getMetadata()->getRelationCollection()",
+      "text": "Deal the relation with \"%s\", $iteration->getFullName()",
+      "collection": {
+        "ADD_TO_DTO": "Include \"%s\" attribute from \"%s\" to DTO ', $iteration->getFullName(), $relation->iteration()"
+      }
+    }
+  ],
+  "directories": [
+    "<?php $architectGenerator->getModelDirectory(); ?>/DAO/",
+    "<?php $architectGenerator->getModelDirectory(); ?>/Hydrator/",
+    "<?php $architectGenerator->getModelDirectory(); ?>/DataObject/",
+    "<?php $architectGenerator->getUnitTestDirectory() . $daoFactoryName; ?>",
+    "<?php $architectGenerator->getUnitTestDirectory() . $daoName; ?>"
+  ],
+  "templateVariables": [
+    {
+      "modelName": "<?php lcfirst($architectGenerator->getModelName()); ?>"
+    },
+    {
+      "ucFirstModelName": "<?php ucfirst($architectGenerator->getModelName()); ?>"
+    },
+    {
+      "hydratorName": "<?php $ucFirstModelName; ?>Hydrator"
+    },
+    {
+      "dataObjectName": "<?php $ucFirstModelName; ?>DataObject"
+    },
+    {
+      "collectionName": "<?php $ucFirstModelName; ?>Collection"
+    },
+    {
+      "daoName": "<?php $ucFirstModelName; ?>DAO"
+    },
+    {
+      "daoFactoryName": "<?php $ucFirstModelName; ?>DAOFactory"
+    },
+    {
+      "exceptionName": "No<?php $ucFirstModelName; ?>Exception"
+    },
+    {
+      "daoNamespace": "<?php $architectGenerator->getNamespace(); ?>\\DAO\\<?php $daoName; ?>"
+    },
+    {
+      "daoFactoryNamespace": "<?php $architectGenerator->getNamespace(); ?>\\<?php $daoFactoryName; ?>"
+    },
+    {
+      "dtoNamespace": "<?php $architectGenerator->getNamespace(); ?>\\DataObject\\<?php $dataObjectName; ?>"
+    },
+    {
+      "hydratorNamespace": "<?php $architectGenerator->getNamespace(); ?>\\Hydrator\\<?php $hydratorName; ?>"
+    },
+    {
+      "dtoCollectionNamespace": "<?php $architectGenerator->getNamespace(); ?>\\DataObject\\<?php $collectionName; ?>"
+    },
+    {
+      "exceptionNamespace": "<?php $architectGenerator->getNamespace(); ?>\\<?php $exceptionName; ?>"
+    },
+    {
+      "unitTestNamespace": "Tests\\<?php $architectGenerator->getNamespace(); ?>"
+    },
+    {
+      "fixtureName": "<?php $ucFirstModelName; ?>Fixture"
+    },
+    {
+      "fixtureFactoryName": "<?php $ucFirstModelName; ?>FixtureFactory"
+    },
+    {
+      "fixtureNamespace": "Tests\\<?php $architectGenerator->getNamespace(); ?>\\<?php $fixtureName; ?>"
+    },
+    {
+      "fixtureFactoryNamespace": "Tests\\<?php $architectGenerator->getNamespace(); ?>\\<?php $fixtureFactoryName; ?>"
+    }
+  ],
+  "filesList": [
+    {
+      "/Exception.php.phtml": "<?php $architectGenerator->getModelDirectory(); ?>No<?php $ucFirstModelName; ?>Exception.php"
+    },
+    {
+      "/DAOFactory.php.phtml": "<?php $architectGenerator->getModelDirectory(); ?><?php $ucFirstModelName; ?>DAOFactory.php"
+    },
+    {
+      "/DAO.php.phtml": "<?php $architectGenerator->getModelDirectory(); ?>DAO/<?php $ucFirstModelName; ?>DAO.php"
+    },
+    {
+      "/Hydrator.php.phtml": "<?php $architectGenerator->getModelDirectory(); ?>Hydrator/<?php $ucFirstModelName; ?>Hydrator.php"
+    },
+    {
+      "/DataObject.php.phtml": "<?php $architectGenerator->getModelDirectory(); ?>DataObject/<?php $ucFirstModelName; ?>DataObject.php"
+    },
+    {
+      "/DataObjectCollection.php.phtml": "<?php $architectGenerator->getModelDirectory(); ?>DataObject/<?php $ucFirstModelName; ?>Collection.php"
+    },
+    {
+      "/test/Fixture.php.phtml": "<?php $architectGenerator->getUnitTestDirectory() . $fixtureName; ?>.php"
+    },
+    {
+      "/test/FixtureFactory.php.phtml": "<?php $architectGenerator->getUnitTestDirectory() . $fixtureFactoryName; ?>.php"
+    },
+    {
+      "/test/DAOFactory/getInstanceTest.php.phtml": "<?php $architectGenerator->getUnitTestDirectory() . $daoFactoryName; ?>/GetInstanceTest.php"
+    },
+    {
+      "/test/DAO/findTest.php.phtml": "<?php $architectGenerator->getUnitTestDirectory() . $daoName; ?>/FindTest.php"
+    },
+    {
+      "/test/DAO/findAllTest.php.phtml": "<?php $architectGenerator->getUnitTestDirectory() . $daoName; ?>/FindAllTest.php"
+    },
+    {
+      "/test/DAO/persistTest.php.phtml": "<?php $architectGenerator->getUnitTestDirectory() . $daoName; ?>/PersitTest.php"
+    },
+    {
+      "/test/DAO/modifyTest.php.phtml": "<?php $architectGenerator->getUnitTestDirectory() . $daoName; ?>/ModifyTest.php"
+    },
+    {
+      "/test/DAO/removeTest.php.phtml": "<?php $architectGenerator->getUnitTestDirectory() . $daoName; ?>/RemoveTest.php"
+    }
+  ]
+}

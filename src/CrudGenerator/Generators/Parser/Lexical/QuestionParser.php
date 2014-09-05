@@ -57,11 +57,9 @@ class QuestionParser implements ParserInterface
                     throw new MalformedGeneratorException('Questions excepts to be an array "' . gettype($question) . "' given");
                 }
 
-                $generator = $this->evaluateQuestions($question, $parser, $generator, $firstIteration);
+                $generator = $this->evaluateQuestions($question, $parser, $generator, $firstIteration, $process);
             }
         }
-
-        //exit;
 
         return $generator;
     }
@@ -73,16 +71,30 @@ class QuestionParser implements ParserInterface
      * @param boolean $firstIteration
      * @return GeneratorDataObject
      */
-    public function evaluateQuestions(array $question, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
+    public function evaluateQuestions(array $question, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration, array $process)
     {
         if (isset($question[GeneratorParser::DEPENDENCY_CONDITION]) === true) {
-            $matches = $this->dependencyCondition->evaluate($question[GeneratorParser::DEPENDENCY_CONDITION], $parser, $generator, $firstIteration);
+            $matches = $this->dependencyCondition->evaluate(
+                $question[GeneratorParser::DEPENDENCY_CONDITION],
+                $parser,
+                $generator,
+                $firstIteration,
+                $process
+            );
             foreach ($matches as $questionsMatchs) {
-                $generator = $this->evaluateQuestions($questionsMatchs, $parser, $generator, $firstIteration);
+                $generator = $this->evaluateQuestions(
+                    $questionsMatchs,
+                    $parser,
+                    $generator,
+                    $firstIteration,
+                    $process
+                );
             }
         } elseif (isset($question['type']) === true && $question['type'] === GeneratorParser::COMPLEX_QUESTION) {
             $complex   = $question['factory']::getInstance($this->context);
             $generator = $complex->ask($generator, $question);
+        } elseif (isset($question['type']) === true && $question['type'] === GeneratorParser::ITERATOR) {
+            $generator = $this->evaluateIteratorQuestion($question, $parser, $generator, $firstIteration, $process);
         } else {
             $generator = $this->evaluateGeneriqueQuestion($question, $parser, $generator, $firstIteration);
         }
@@ -105,14 +117,113 @@ class QuestionParser implements ParserInterface
             (isset($question['defaultResponse']) === true) ? $parser->parse($question['defaultResponse']) : null,
             (isset($question['required']) === true) ? $question['required'] : false,
             null,
-            (isset($question['type']) === true) ? $question['type'] : null
+            (isset($question['responseType']) === true) ? $question['responseType'] : null
         );
 
         $questionName = 'set' . ucfirst($question['dtoAttribute']);
-        if (method_exists($generator->getDTO(), $questionName) === true && $response !== null) {
+        if ($response !== null) {
             $generator->getDTO()->$questionName($response);
         }
 
         return $generator;
+    }
+
+    /**
+     * @param array $question
+     * @param PhpStringParser $parser
+     * @param GeneratorDataObject $generator
+     * @param boolean $firstIteration
+     * @return GeneratorDataObject
+     */
+    public function evaluateIteratorQuestion(array $question, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration, array $process)
+    {
+        $instance = $this->phpInterpretStatic(
+            $question['collection'],
+            array(
+                lcfirst($process['name']) => $generator->getDTO()
+            )
+        );
+
+        if (($instance instanceof \Traversable) === false) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'The result of "%s" is not an instance of Traversable',
+                    $question['collection']
+                )
+            );
+        }
+
+        $questionRawExplode = explode(',', $question['text']);
+        $questionText       = array_shift($questionRawExplode);
+        $questionVariables  = array_map('trim', $questionRawExplode);
+
+        foreach ($instance as $iteration) {
+            $placeholder = array();
+            foreach ($questionVariables as $questionVariable) {
+                $placeholder[] = $this->phpInterpretStatic(
+                    $questionVariable,
+                    array('iteration' => $iteration)
+                );
+            }
+
+            $origine = $this->phpInterpretStatic(
+                    $question['origine'],
+                    array('iteration' => $iteration)
+                );
+            $response = $this->context->ask(
+                vsprintf($questionText, $placeholder),
+                'set' . ucfirst($question['dtoAttribute']) . $origine,
+                (isset($question['defaultResponse']) === true) ? $parser->parse($question['defaultResponse']) : null,
+                (isset($question['required']) === true) ? $question['required'] : false,
+                null,
+                (isset($question['responseType']) === true) ? $question['responseType'] : null
+            );
+
+            $questionName = 'set' . ucfirst($question['dtoAttribute']);
+            if ($response !== null) {
+                $generator->getDTO()->$questionName($origine, $response);
+            }
+        }
+
+        return $generator;
+    }
+
+    /**
+     * @param string $test
+     * @param array $variableVariable
+     * @throws \InvalidArgumentException
+     * @return mixed
+     */
+    private function phpInterpretStatic($test, array $variableVariable)
+    {
+        $testExplode = explode('->', $test);
+
+        $cleanMethodName = function($value) {
+            return str_replace('()', '', $value);
+        };
+
+        $variableName = str_replace('$', '', $testExplode[0]);
+
+        if (isset($variableVariable[$variableName]) === false) {
+            throw new \InvalidArgumentException(sprintf('var %s does not exist', $variableName));
+        }
+
+        $method       = $cleanMethodName($testExplode[1]);
+        $instance     = $variableVariable[$variableName]->$method();
+
+        foreach ($testExplode as $key => $value) {
+            if ($key === 0 || $key === 1) {
+                continue;
+            }
+
+            if ($instance === null) {
+                throw new \InvalidArgumentException(sprintf('method %s return null', $method));
+            } else {
+                $method = $cleanMethodName($value);
+                $instance = $instance->$method();
+            }
+        }
+
+        return $instance;
     }
 }

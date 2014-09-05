@@ -83,8 +83,9 @@ class MetaDataQuestion
 
         foreach ($metaDataCollection as $metaData) {
             $metaDataArray[] = array(
-                'id'    => $metaData->getOriginalName(),
-                'label' => $metaData->getOriginalName()
+                'id'     => $metaData->getOriginalName(),
+                'label'  => $metaData->getOriginalName(),
+                'source' => $metadataSource->getUniqueName()
             );
         }
 

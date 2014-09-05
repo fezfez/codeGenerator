@@ -20,6 +20,8 @@ namespace CrudGenerator\Generators\Questions\Web;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Generators\ResponseExpectedException;
+use CrudGenerator\Generators\Finder\GeneratorFinderInterface;
+use CrudGenerator\MetaData\DataObject\MetaDataInterface;
 
 class GeneratorQuestion
 {
@@ -37,7 +39,7 @@ class GeneratorQuestion
      * @param GeneratorFinder $generatorFinder
      * @param ContextInterface $context
      */
-    public function __construct(GeneratorFinder $generatorFinder, ContextInterface $context)
+    public function __construct(GeneratorFinderInterface $generatorFinder, ContextInterface $context)
     {
         $this->generatorFinder = $generatorFinder;
         $this->context         = $context;
@@ -46,10 +48,10 @@ class GeneratorQuestion
     /**
      * @return string
      */
-    public function ask()
+    public function ask(MetaDataInterface $metadata)
     {
         $generatorArray = array();
-        $generators     = $this->generatorFinder->getAllClasses();
+        $generators     = $this->generatorFinder->getAllClasses($metadata);
         foreach ($generators as $path => $name) {
             $generatorArray[] = array('id' => $name, 'label' => $name);
         }

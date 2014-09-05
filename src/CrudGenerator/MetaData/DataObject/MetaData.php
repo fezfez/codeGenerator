@@ -27,7 +27,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
  *
  * @author Stéphane Demonchaux
  */
-abstract class MetaData implements \JsonSerializable
+abstract class MetaData implements \JsonSerializable, MetaDataInterface
 {
     /**
      * @var MetaDataColumnCollection Column collection
@@ -68,7 +68,7 @@ abstract class MetaData implements \JsonSerializable
      */
     public function appendRelation(MetaDataRelationColumn $value)
     {
-        $this->relationCollection->append($value);
+        $this->relationCollection->offsetSet($value->getFullName(), $value);
     }
     /**
      * Set name
@@ -87,6 +87,14 @@ abstract class MetaData implements \JsonSerializable
     public function getColumn($name)
     {
         return $this->columnCollection->offsetGet($name);
+    }
+    /**
+     * @param string $name
+     * @return mixed
+     */
+    public function getRelation($name)
+    {
+    	return $this->relationCollection->offsetGet($name);
     }
     /**
      * Get column collection

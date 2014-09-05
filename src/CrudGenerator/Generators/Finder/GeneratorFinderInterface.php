@@ -15,25 +15,28 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\GeneratorsEmbed\ArchitectGenerator;
+namespace CrudGenerator\Generators\Finder;
 
-use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\CliContext;
-use CrudGenerator\Context\WebContext;
 
-class MetadataToArrayFactory
+use CrudGenerator\MetaData\DataObject\MetaDataInterface;
+/**
+ * Find all generator allow in project
+ *
+ * @author Stéphane Demonchaux
+ */
+interface GeneratorFinderInterface
 {
     /**
-     * @param ContextInterface $context
-     * @throws \InvalidArgumentException
-     * @return MetadataToArray
+     * Find all adapters allow in project
+     *
+     * @return array
      */
-    public static function getInstance(ContextInterface $context)
-    {
-        if ($context instanceof WebContext || $context instanceof CliContext) {
-            return new MetadataToArray($context);
-        } else {
-            throw new \InvalidArgumentException('Invalid context');
-        }
-    }
+    public function getAllClasses(MetaDataInterface $metadata = null);
+
+    /**
+     * @param string $name
+     * @throws \InvalidArgumentException
+     * @return string
+     */
+    public function findByName($name);
 }

@@ -115,23 +115,39 @@ define(
                     $scope.historyCollection = context.getHistoryCollection();
             };
 
-            var generate = function(context, metadata_nocache) {
-                if (metadata_nocache === undefined ) {
+            var generate = function(context, metadata_nocache, waitFileList) {
+            	if (metadata_nocache === undefined ) {
                 	metadata_nocache = 0;
                 }
-                $WaitModalService.show();
+            	if (waitFileList === undefined ) {
+            		waitFileList = false;
+                }
+            	
+            	if (waitFileList === true) {
+            		$scope.waitFileList = true;
+            	} else {
+            		$WaitModalService.show();
+            	}
                 $generatorService.build(
                     context,
                     metadata_nocache,
                     function(context) {
                         loadContext(context);
-                        $WaitModalService.hide();
+                        if (waitFileList === true) {
+                    		$scope.waitFileList = false;
+                    	} else {
+                    		$WaitModalService.hide();
+                    	}
                         $('body').tooltip({
                             selector: "[rel=tooltip]"
                         });
                     },
                     function(error) {
-                        $WaitModalService.hide();
+                    	if (waitFileList === true) {
+                    		$scope.waitFileList = false;
+                    	} else {
+                    		$WaitModalService.hide();
+                    	}
                         $scope.unsafeModal = {
                             'title' : 'Error',
                             'body' : error
@@ -228,7 +244,7 @@ define(
             };
             $scope.setQuestion = function(attribute) {
                 context.setQuestion(attribute, $scope.answers[attribute]);
-                generate(context);
+                generate(context, undefined, true);
             };
             generate(context);
 

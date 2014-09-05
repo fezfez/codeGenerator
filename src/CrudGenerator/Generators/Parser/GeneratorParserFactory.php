@@ -24,6 +24,7 @@ use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
 use CrudGenerator\Generators\Parser\ParserCollectionFactory;
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Generators\GeneratorCompatibilityChecker;
 
 /**
  * Find all generator allow in project
@@ -47,7 +48,8 @@ class GeneratorParserFactory
             new PhpStringParser(),
             GeneratorStrategyFactory::getInstance($context),
             $generatorFinder,
-            $parserCollection
+            $parserCollection,
+            new GeneratorCompatibilityChecker()
         );
     }
 }

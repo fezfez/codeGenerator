@@ -24,7 +24,7 @@ use CrudGenerator\MetaData\DataObject\MetaData;
  *
  * @author Stéphane Demonchaux
  */
-abstract class DataObject implements \JsonSerializable
+class DataObject implements \JsonSerializable
 {
     /**
      * @var MetaData Metadata object
@@ -34,6 +34,10 @@ abstract class DataObject implements \JsonSerializable
      * @var array
      */
     private $environnement = array();
+    /**
+     * @var array
+     */
+    private $store = array();
 
     /**
      * Set MetaData
@@ -86,10 +90,65 @@ abstract class DataObject implements \JsonSerializable
         }
     }
 
+    /**
+     * @param string $method
+     * @param array $args
+     * @throws \Exception
+     * @return mixed
+     */
+    public function __call($method, $args)
+    {
+        $firstChar = substr($method, 0, 3);
+        $methodName = substr($method, 3);
+        if ($firstChar === 'get') {
+            if (false === isset($this->store[$methodName])) {
+                return null;
+            }
+            // Try acces a simple storage
+            elseif (count($args) === 0 && count($this->store[$methodName]) === 1) {
+                return $this->store[$methodName];
+            }
+            // try to acces a storage with (key, val) without parameters
+            elseif (count($args) === 0 && is_array($this->store[$methodName]) === true) {
+                return $this->store[$methodName];
+            }
+            // try to acces a storage with (key, val) with key parameters
+            elseif (count($args) === 1 && $args[0] !== null && is_array($this->store[$methodName]) === true) {
+            	if (isset($this->store[$methodName][$args[0]]) === true) {
+                	return $this->store[$methodName][$args[0]];
+            	} else {
+            		return null;
+            	}
+            }
+            // unkown
+            else {
+                throw new \Exception(
+                	sprintf("method %s unkown params %s with store %s", $method, print_r($args, true), print_r($this->store[$methodName], true))
+                );
+            }
+        } elseif ($firstChar === 'set') {
+            if (count($args) === 1) {
+                $this->store[$methodName] = $args[0];
+            } elseif (count($args) === 2) {
+                $this->store[$methodName][$args[0]] = $args[1];
+            } else {
+                throw new \Exception("cannot store more than 2 parameters");
+            }
+        } else {
+            throw new \Exception("unknown method [$methodName]");
+        }
+    }
+
+    public function getStore()
+    {
+    	return $this->store;
+    }
+
     public function jsonSerialize()
     {
         return array(
-            'metadata' => $this->metadata
+            'metadata' => $this->metadata,
+            'store'    => $this->store
         );
     }
 }

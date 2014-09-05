@@ -1,4 +1,5 @@
 <?php
+use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataRelationToArray;
 echo '<?php' . "\n";
 $lcfirstEntityName              = $this->architectGenerator->getMetadata()->getName(true);
 
@@ -11,7 +12,7 @@ class <?php echo $this->dataObjectName . "\n"; ?>
 /* Traitement des champs */
 foreach($this->architectGenerator->getAttributeName() as $originalName => $name):
 
-	$type = $this->architectGenerator->getMetadata()->getColumn($originalName)->getType();
+    $type = $this->architectGenerator->getMetadata()->getColumn($originalName)->getType();
 ?>
     /**
      * @var <?php echo $type . "\n"; ?>
@@ -22,7 +23,7 @@ foreach($this->architectGenerator->getAttributeName() as $originalName => $name)
 <?php
 /* Traitement des champs */
 foreach($this->architectGenerator->getAttributeName() as $originalName => $name):
-	$type = $this->architectGenerator->getMetadata()->getColumn($originalName)->getType();
+    $type = $this->architectGenerator->getMetadata()->getColumn($originalName)->getType();
 ?>
     /**
      * @param <?php echo $type; ?> $value
@@ -37,8 +38,21 @@ foreach($this->architectGenerator->getAttributeName() as $originalName => $name)
 
 <?php
 /* Traitement des champs */
+foreach($this->architectGenerator->getRelationBehavior() as $originalName => $choice) {
+    if ($choice === MetadataRelationToArray::DO_NOTHING) {
+        continue;
+    } elseif ($choice === MetadataRelationToArray::ADD_TO_DTO) {
+        foreach ($this->architectGenerator->getMetadata()->getRelation($originalName)->getMetadata()->getColumnCollection() as $column): ?>
+            $<?php echo $column->getName(); ?>
+        <?php endforeach;
+    }
+}
+?>
+
+<?php
+/* Traitement des champs */
 foreach($this->architectGenerator->getAttributeName() as $originalName => $name):
-	$type = $this->architectGenerator->getMetadata()->getColumn($originalName)->getType();
+    $type = $this->architectGenerator->getMetadata()->getColumn($originalName)->getType();
 ?>
     /**
      * @return <?php echo $type . "\n"; ?>

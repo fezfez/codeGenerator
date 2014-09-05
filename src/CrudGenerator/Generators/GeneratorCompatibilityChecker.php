@@ -15,35 +15,32 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\Finder;
+namespace CrudGenerator\Generators;
 
-use CrudGenerator\Generators\Finder\GeneratorFinder;
-use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Utils\YamlFactory;
-use CrudGenerator\Utils\Installer;
-use CrudGenerator\Generators\GeneratorCompatibilityChecker;
+use CrudGenerator\MetaData\DataObject\MetaDataInterface;
 
-/**
- * Create GeneratorFinder instance
- *
- * @author Stéphane Demonchaux
- */
-class GeneratorFinderFactory
+class GeneratorCompatibilityChecker
 {
-    /**
-     * Create GeneratorFinder instance
+/**
+     * Check in the metadata instance is in allowed generator type
      *
-     * @return GeneratorFinder
+     * @param MetaData $metadata
+     * @param array $process
+     * @throws \InvalidArgumentException
      */
-    public static function getInstance()
+    public function metadataAllowedInGenerator(MetaDataInterface $metadata, array $process)
     {
-        return new GeneratorFinderCache(
-            new GeneratorFinder(
-                new FileManager(),
-                YamlFactory::getInstance(),
-                new GeneratorCompatibilityChecker()
-            ),
-            Installer::getDirectories()
-        );
+        $metadataAllowed = false;
+        foreach ($process['metadataTypeAccepted'] as $metadataType) {
+            if (true === is_a($metadata, $metadataType)) {
+                $metadataAllowed = true;
+            }
+        }
+
+        if (false === $metadataAllowed) {
+            throw new \InvalidArgumentException(
+                sprintf('The metadata of type "%s" are not allowed in this generator ', get_class($metadata))
+            );
+        }
     }
 }

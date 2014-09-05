@@ -122,13 +122,13 @@ class MySQLMetaDataDAO implements MetaDataDAO
 
         $statement = $this->pdo->prepare(
             "SELECT
-        		columnTable.column_name, columnTable.table_name, columnTable.data_type, columnTable.column_key, columnTable.is_nullable,
-        		k.referenced_table_name, k.referenced_column_name
+                columnTable.column_name, columnTable.table_name, columnTable.data_type, columnTable.column_key, columnTable.is_nullable,
+                k.referenced_table_name, k.referenced_column_name
             FROM information_schema.columns as columnTable
-        	left outer join information_schema.key_column_usage k
-        	  on k.table_schema=columnTable.table_schema
-		      and k.table_name=columnTable.table_name
-		      and k.column_name=columnTable.column_name
+            left outer join information_schema.key_column_usage k
+              on k.table_schema=columnTable.table_schema
+              and k.table_name=columnTable.table_name
+              and k.column_name=columnTable.column_name
             WHERE columnTable.table_name = :tableName
               AND columnTable.table_schema = :databaseName"
         );
@@ -174,6 +174,7 @@ class MySQLMetaDataDAO implements MetaDataDAO
             $relation = clone $relationDataObject;
             $relation->setFullName($association['referenced_table_name'])
                      ->setFieldName($association['referenced_column_name'])
+                     ->setAssociationType(MetaDataRelationColumn::UNKNOWN)
                      ->setMetadata($this->getMetadataFor($association['referenced_table_name'], $parentName));
 
             $dataObject->appendRelation($relation);

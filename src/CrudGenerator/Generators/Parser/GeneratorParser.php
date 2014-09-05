@@ -25,6 +25,9 @@ use CrudGenerator\Generators\Strategies\GeneratorStrategy;
 use CrudGenerator\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\ParserCollection;
+use CrudGenerator\Generators\Finder\GeneratorFinderInterface;
+use CrudGenerator\MetaData\DataObject\MetaDataInterface;
+use CrudGenerator\Generators\GeneratorCompatibilityChecker;
 
 /**
  * Find all generator allow in project
@@ -34,8 +37,10 @@ use CrudGenerator\Generators\Parser\ParserCollection;
 class GeneratorParser implements GeneratorParserInterface
 {
     const COMPLEX_QUESTION        = 'complex';
-    const ENVIRONNEMENT_CONDITION = 'environnementCondition';
-    const DEPENDENCY_CONDITION    = 'dependencyCondition';
+    const ITERATOR            = 'askCollection';
+    const ITERATOR_WITH_PREDEFINED_RESPONSE = 'askCollectionOverIterator';
+    const ENVIRONNEMENT_CONDITION   = 'environnementCondition';
+    const DEPENDENCY_CONDITION      = 'dependencyCondition';
     const CONDITION_ELSE          = 'else';
     const DIFFERENT               = '!';
     const UNDEFINED               = ' == undefined';
@@ -66,6 +71,10 @@ class GeneratorParser implements GeneratorParserInterface
      * @var ParserCollection
      */
     private $parserCollection = null;
+    /**
+     * @var GeneratorCompatibilityChecker
+     */
+    private $generatorCompatibilityChecker = null;
 
     /**
      * @param FileManager $fileManager
@@ -80,15 +89,17 @@ class GeneratorParser implements GeneratorParserInterface
         Yaml $yaml,
         PhpStringParser $phpStringParser,
         GeneratorStrategy $viewFile,
-        GeneratorFinder $generatorFinder,
-        ParserCollection $parserCollection)
-    {
+        GeneratorFinderInterface $generatorFinder,
+        ParserCollection $parserCollection,
+        GeneratorCompatibilityChecker $generatorCompatibilityChecker
+    ) {
         $this->fileManager      = $fileManager;
         $this->yaml             = $yaml;
         $this->phpStringParser  = $phpStringParser;
         $this->viewFile         = $viewFile;
         $this->generatorFinder  = $generatorFinder;
         $this->parserCollection = $parserCollection;
+        $this->generatorCompatibilityChecker = $generatorCompatibilityChecker;
     }
 
     /**
@@ -113,14 +124,15 @@ class GeneratorParser implements GeneratorParserInterface
      * @param boolean $firstIteration
      * @return GeneratorDataObject
      */
-    private function analyze($name, PhpStringParser $phpParser, GeneratorDataObject $generator, MetaData $metadata, $firstIteration = false)
+    private function analyze($name, PhpStringParser $phpParser, GeneratorDataObject $generator, MetaDataInterface $metadata, $firstIteration = false)
     {
         $generator         = clone $generator;
         $generatorFilePath = $this->generatorFinder->findByName($name);
         $process           = $this->yaml->parse($this->fileManager->fileGetContent($generatorFilePath));
 
-        /* @var $dto \CrudGenerator\DataObject */
-        $dto = new $process['dto']();
+        $this->generatorCompatibilityChecker->metadataAllowedInGenerator($metadata, $process);
+
+        $dto = new \CrudGenerator\DataObject();
         $dto->setMetadata($metadata);
 
         $generator->setDTO($dto)
@@ -131,6 +143,8 @@ class GeneratorParser implements GeneratorParserInterface
         $phpParser->addVariable(lcfirst($process['name']), $generator->getDTO());
         $generator->addTemplateVariable(lcfirst($process['name']), $generator->getDTO());
         $generator = $this->analyzePostParser($process, $phpParser, $generator, $firstIteration);
+
+        //var_dump($generator->getDTO()->getStore());exit;
 
         return $generator;
     }

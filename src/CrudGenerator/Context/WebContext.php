@@ -88,7 +88,7 @@ class WebContext implements ContextInterface, \JsonSerializable
     /* (non-PHPdoc)
      * @see \CrudGenerator\Context\ContextInterface::ask()
     */
-    public function askCollection($text, $uniqueKey, array $collection, $defaultResponse = null, $required = false, $helpMessage = null)
+    public function askCollection($text, $uniqueKey, array $collection, $defaultResponse = null, $required = false, $helpMessage = null, $type = null)
     {
         $response = $this->getResponse($uniqueKey);
 
@@ -98,7 +98,7 @@ class WebContext implements ContextInterface, \JsonSerializable
             'defaultResponse' => ($response !== null) ? $response : $defaultResponse,
             'required'        => $required,
             'values'          => $collection,
-            'type'            => 'select'
+            'type'            => ($type === null) ? 'select' : $type
         );
 
         return $response;

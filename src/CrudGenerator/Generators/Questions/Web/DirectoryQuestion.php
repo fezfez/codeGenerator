@@ -43,6 +43,8 @@ class DirectoryQuestion
     }
 
     /**
+     * @param GeneratorDataObject $generator
+     * @param array $question
      * @return GeneratorDataObject
      */
     public function ask(GeneratorDataObject $generator, array $question)
@@ -60,7 +62,8 @@ class DirectoryQuestion
             $directories,
             $actualDirectory,
             (isset($question['required']) === true) ? $question['required'] : false,
-            'Actual directory "' . $actualDirectory . '"'
+            'Actual directory "' . $actualDirectory . '"',
+            'directory'
         );
 
         if ($response !== null) {
@@ -78,16 +81,16 @@ class DirectoryQuestion
      */
     private function checkAdditionalChoices($actualDirectory, array $directories)
     {
-        // if we are in base directory, add back button
+        // if we aren't in base directory, add back button
         if ('' !== $actualDirectory && null !== $actualDirectory) {
             $back = str_replace(
-                array(getcwd() . '/', getcwd()),
+                array(getcwd() . DIRECTORY_SEPARATOR , getcwd()),
                 array('', ''),
-                realpath($actualDirectory . '../')
+                realpath($actualDirectory . '..' . DIRECTORY_SEPARATOR)
             );
             $directories[] = array(
                 'label' => 'Back',
-                'id' => ($back !== '') ? $back . '/' : ''
+                'id' => ($back !== '') ? $back . DIRECTORY_SEPARATOR : ''
             );
         }
 
@@ -107,7 +110,7 @@ class DirectoryQuestion
         );
 
         foreach ($directoriesRaw as $directory) {
-            $directories[] = array('label' => $directory, 'id' => $directory);
+            $directories[] = array('label' => $directory, 'id' => $directory, 'parent' => $actualDirectory);
         }
 
         return $directories;

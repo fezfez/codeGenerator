@@ -65,7 +65,8 @@ class CliContext implements ContextInterface
         array $collection,
         $defaultResponse = null,
         $required = false,
-        $helpMessage = null
+        $helpMessage = null,
+        $type = null
     ) {
         $this->question[$uniqueKey] = $collection;
 
