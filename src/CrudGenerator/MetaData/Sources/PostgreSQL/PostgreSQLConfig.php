@@ -176,7 +176,7 @@ class PostgreSQLConfig implements MetaDataConfig, \JsonSerializable
      */
     public function getUniqueName()
     {
-        return 'PostgreSQL ' . $this->confighost . ' ' . $this->configuser;
+        return 'PostgreSQL ' . $this->configHost . ' ' . $this->configUser;
     }
     /* (non-PHPdoc)
      * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getConnection()

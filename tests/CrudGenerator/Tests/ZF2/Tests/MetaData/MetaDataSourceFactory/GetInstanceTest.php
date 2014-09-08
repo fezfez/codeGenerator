@@ -10,7 +10,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
         $sUT = new MetaDataSourceFactory();
 
         $this->assertInstanceOf(
-            '\CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO',
+            '\CrudGenerator\MetaData\Sources\MetaDataDAOCache',
             $sUT->create('\CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAOFactory')
         );
     }

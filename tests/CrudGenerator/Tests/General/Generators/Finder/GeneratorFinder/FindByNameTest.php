@@ -4,6 +4,7 @@ namespace CrudGenerator\Tests\General\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\YamlFactory;
+use CrudGenerator\Generators\GeneratorCompatibilityChecker;
 
 class FindByNameTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,7 +12,7 @@ class FindByNameTest extends \PHPUnit_Framework_TestCase
     {
         $fileManager = new FileManager();
 
-        $suT = new GeneratorFinder($fileManager, YamlFactory::getInstance());
+        $suT = new GeneratorFinder($fileManager, YamlFactory::getInstance(), new GeneratorCompatibilityChecker());
 
         $this->setExpectedException('InvalidArgumentException');
 
@@ -22,7 +23,7 @@ class FindByNameTest extends \PHPUnit_Framework_TestCase
     {
         $fileManager = new FileManager();
 
-        $suT = new GeneratorFinder($fileManager, YamlFactory::getInstance());
+        $suT = new GeneratorFinder($fileManager, YamlFactory::getInstance(), new GeneratorCompatibilityChecker());
 
         $this->assertInternalType(
             'string',

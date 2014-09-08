@@ -5,7 +5,7 @@ use CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAOFactory;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
-    public function testOkTOTO()
+    public function testOk()
     {
          chdir(__DIR__ . '/../../../');
 

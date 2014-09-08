@@ -33,6 +33,10 @@ class InitTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
+        $generatorCompatibilityCheckerMock = $this->getMockBuilder('CrudGenerator\Generators\GeneratorCompatibilityChecker')
+        ->disableOriginalConstructor()
+        ->getMock();
+
         $parserCollection =  new \CrudGenerator\Generators\Parser\ParserCollection();
 
         $process = array(
@@ -44,7 +48,7 @@ class InitTest extends \PHPUnit_Framework_TestCase
         ->method('parse')
         ->will($this->returnValue($process));
 
-        $sUT       = new GeneratorParser($fileManager, $yaml, $phpParser, $viewFile, $generatorFinder, $parserCollection);
+        $sUT       = new GeneratorParser($fileManager, $yaml, $phpParser, $viewFile, $generatorFinder, $parserCollection, $generatorCompatibilityCheckerMock);
         $generator = new GeneratorDataObject();
         $metadata  = new MetadataDataObjectPostgreSQL(new MetaDataColumnCollection(), new MetaDataRelationCollection());
 
@@ -73,6 +77,10 @@ class InitTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
+        $generatorCompatibilityCheckerMock = $this->getMockBuilder('CrudGenerator\Generators\GeneratorCompatibilityChecker')
+        ->disableOriginalConstructor()
+        ->getMock();
+
         $generator = new GeneratorDataObject();
         $parserCollection =  new \CrudGenerator\Generators\Parser\ParserCollection();
 
@@ -95,7 +103,7 @@ class InitTest extends \PHPUnit_Framework_TestCase
         ->method('parse')
         ->will($this->returnValue($process));
 
-        $sUT       = new GeneratorParser($fileManager, $yaml, $phpParser, $viewFile, $generatorFinder, $parserCollection);
+        $sUT       = new GeneratorParser($fileManager, $yaml, $phpParser, $viewFile, $generatorFinder, $parserCollection, $generatorCompatibilityCheckerMock);
         $metadata  = new MetadataDataObjectPostgreSQL(new MetaDataColumnCollection(), new MetaDataRelationCollection());
 
         $sUT->init($generator, $metadata);

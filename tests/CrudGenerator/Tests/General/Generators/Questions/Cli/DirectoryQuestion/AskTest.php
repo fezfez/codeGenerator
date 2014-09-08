@@ -45,7 +45,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $dto = $sUT->ask($generatorDTO, array('attribute' => 'ModelDirectory'))->getDTO();
         // or alternatively
-        if ( ! $dto instanceof Architect) {
+        if (false === ($dto instanceof DataObject)) {
             throw new \LogicException('The instance must be "Architect"');
         }
 
@@ -137,7 +137,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $dto = $sUT->ask($generatorDTO, array('attribute' => 'ModelDirectory'))->getDTO();
         // or alternatively
-        if (!$dto instanceof Architect) {
+        if (false === ($dto instanceof DataObject)) {
             throw new \LogicException('The instance must be "Architect"');
         }
 

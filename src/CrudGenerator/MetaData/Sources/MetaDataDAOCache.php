@@ -42,7 +42,7 @@ class MetaDataDAOCache implements MetaDataDAO
      * @param array $directories
      * @param boolean $noCache
      */
-    public function __construct(MetaDataDAO $metadataDAO, array $directories, $noCache)
+    public function __construct(MetaDataDAO $metadataDAO, array $directories, $noCache = false)
     {
         $this->metadataDAO     = $metadataDAO;
         $this->directories     = $directories;
