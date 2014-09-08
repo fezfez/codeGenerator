@@ -24,7 +24,7 @@ class GeneratorCompatibilityChecker
 /**
      * Check in the metadata instance is in allowed generator type
      *
-     * @param MetaData $metadata
+     * @param MetaDataInterface $metadata
      * @param array $process
      * @throws \InvalidArgumentException
      */

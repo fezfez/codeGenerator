@@ -43,7 +43,6 @@ class GeneratorInstaller implements GeneratorInstallerInterface
 
     /**
      * @param ArrayInput $input
-     * @param RequireCommand $requireCommand
      * @param OutputWeb $output
      */
     public function __construct(ArrayInput $input, UpdateCommand $updateCommand, OutputWeb $output)
@@ -56,7 +55,7 @@ class GeneratorInstaller implements GeneratorInstallerInterface
     /**
      * @param string $package
      * @param string $version
-     * @return number
+     * @return integer
      */
     public function install($package, $version = 'dev-master')
     {

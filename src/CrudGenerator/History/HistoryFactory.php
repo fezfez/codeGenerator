@@ -20,7 +20,6 @@ namespace CrudGenerator\History;
 use CrudGenerator\History\HistoryManager;
 use CrudGenerator\History\HistoryHydratorFactory;
 use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\CliContext;
 use CrudGenerator\Context\WebContext;

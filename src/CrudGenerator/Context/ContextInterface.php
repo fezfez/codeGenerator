@@ -38,6 +38,7 @@ interface ContextInterface
      * @param string $text
      * @param string $uniqueKey
      * @param string $helpMessage
+     * @param string $type
      * @return string
      */
     public function askCollection($text, $uniqueKey, array $collection, $defaultResponse = null, $required = false, $helpMessage = null, $type = null);

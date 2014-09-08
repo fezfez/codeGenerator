@@ -25,7 +25,7 @@ interface GeneratorInstallerInterface
     /**
      * @param string $package
      * @param string $version
-     * @return number
+     * @return integer
      */
     public function install($package, $version = 'dev-master');
 }

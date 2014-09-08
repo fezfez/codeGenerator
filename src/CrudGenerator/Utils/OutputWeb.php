@@ -12,7 +12,6 @@
 namespace CrudGenerator\Utils;
 
 use Symfony\Component\Console\Output\Output;
-
 use CrudGenerator\Context\ContextInterface;
 
 /**
@@ -20,13 +19,13 @@ use CrudGenerator\Context\ContextInterface;
  */
 class OutputWeb extends Output
 {
-	private $context = null;
+    private $context = null;
 
-	public function __construct(ContextInterface $context)
-	{
-		$this->context = $context;
-		parent::__construct();
-	}
+    public function __construct(ContextInterface $context)
+    {
+        $this->context = $context;
+        parent::__construct();
+    }
     /**
      * @var string
      */

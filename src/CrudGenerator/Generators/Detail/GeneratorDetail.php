@@ -40,19 +40,19 @@ class GeneratorDetail
     }
 
     /**
-     * @param array $package
+     * @param string $package
      * @return string
      */
     public function find(array $package)
     {
-    	$repository = str_replace('https://github.com/', '', $package['repository']); // @FIXME very static
-    	$packageExplode = explode('/', $repository);
+        $repository = str_replace('https://github.com/', '', $package['repository']); // @FIXME very static
+        $packageExplode = explode('/', $repository);
 
         $data = $this->client->api('repo')->contents()->readme($packageExplode[0], $packageExplode[1]);
 
         return array(
-        	'readme' => $this->client->api('markdown')->render(base64_decode($data['content'])),
-        	'github' => $package['repository']
+            'readme' => $this->client->api('markdown')->render(base64_decode($data['content'])),
+            'github' => $package['repository']
         );
     }
 }

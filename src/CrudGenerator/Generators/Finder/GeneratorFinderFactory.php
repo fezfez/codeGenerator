@@ -33,7 +33,7 @@ class GeneratorFinderFactory
     /**
      * Create GeneratorFinder instance
      *
-     * @return GeneratorFinder
+     * @return GeneratorFinderCache
      */
     public static function getInstance()
     {

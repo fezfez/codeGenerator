@@ -18,7 +18,6 @@
 namespace CrudGenerator\Backbone;
 
 use CrudGenerator\Context\ContextInterface;
-use Packagist\Api\Client;
 use CrudGenerator\Generators\Search\GeneratorSearch;
 use CrudGenerator\Generators\Installer\GeneratorInstallerInterface;
 use CrudGenerator\Generators\Detail\GeneratorDetail;
@@ -43,11 +42,11 @@ class SearchGeneratorBackbone
     private $context = null;
 
     public function __construct(
-    	GeneratorSearch $generatorSearch,
-    	GeneratorInstallerInterface $generatorInstaller,
-    	GeneratorDetail $generatorDetail,
-    	ContextInterface $context
-	) {
+        GeneratorSearch $generatorSearch,
+        GeneratorInstallerInterface $generatorInstaller,
+        GeneratorDetail $generatorDetail,
+        ContextInterface $context
+    ) {
         $this->generatorSearch    = $generatorSearch;
         $this->generatorInstaller = $generatorInstaller;
         $this->generatorDetail    = $generatorDetail;
@@ -59,10 +58,10 @@ class SearchGeneratorBackbone
         $package = $this->generatorSearch->ask();
 
         if ($this->context->confirm('Detail', 'package_detail') === true) {
-        	$this->context->log(
-        		$this->generatorDetail->find($package),
-        		'package_details'
-        	);
+            $this->context->log(
+                $this->generatorDetail->find($package),
+                'package_details'
+            );
         }
 
         if ($this->context->confirm('Install', 'install_new_package') === true) {

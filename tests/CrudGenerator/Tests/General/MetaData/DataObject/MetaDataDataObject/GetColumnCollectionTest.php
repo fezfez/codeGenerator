@@ -30,7 +30,7 @@ class GetColumnCollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('CrudGenerator\MetaData\DataObject\MetaDataColumnCollection', $columnCollectionWithoutIdentifier);
 
         foreach ($columnCollectionWithoutIdentifier as $column) {
-        	$this->assertInstanceOf('CrudGenerator\MetaData\DataObject\MetaDataColumn', $column);
+            $this->assertInstanceOf('CrudGenerator\MetaData\DataObject\MetaDataColumn', $column);
             $this->assertEquals(
                 false,
                 $column->isPrimaryKey()

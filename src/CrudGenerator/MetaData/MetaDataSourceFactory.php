@@ -30,7 +30,7 @@ class MetaDataSourceFactory
     /**
      * @param string $metadataSourceFactoryName
      * @param MetaDataConfig $config
-     * @return \CrudGenerator\MetaData\Sources\MetaDataDAOInterface
+     * @return MetaDataDAOCache
      */
     public function create($metadataSourceFactoryName, MetaDataConfig $config = null, $noCache = false)
     {
@@ -41,9 +41,9 @@ class MetaDataSourceFactory
         }
 
         return new MetaDataDAOCache(
-        	$metadataSource,
-        	Installer::getDirectories(),
-        	$noCache
+            $metadataSource,
+            Installer::getDirectories(),
+            $noCache
         );
     }
 }
