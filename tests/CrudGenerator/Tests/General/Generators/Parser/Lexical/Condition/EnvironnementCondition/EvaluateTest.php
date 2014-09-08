@@ -5,7 +5,7 @@ use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
 use Symfony\Component\Yaml\Yaml;
-use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
+use CrudGenerator\DataObject;
 
 class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,7 +17,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
         $sUT       = new EnvironnementCondition();
         $generator = new GeneratorDataObject();
-        $generator->setDTO(new Architect());
+        $generator->setDTO(new DataObject());
         $generator->addEnvironnementValue('backend', 'pdo');
 
         $string = '
@@ -48,7 +48,7 @@ questions :
 
         $sUT       = new EnvironnementCondition();
         $generator = new GeneratorDataObject();
-        $generator->setDTO(new Architect());
+        $generator->setDTO(new DataObject());
         $generator->addEnvironnementValue('backend', 'test');
 
         $string = '
@@ -79,7 +79,7 @@ questions :
 
         $sUT       = new EnvironnementCondition();
         $generator = new GeneratorDataObject();
-        $generator->setDTO(new Architect());
+        $generator->setDTO(new DataObject());
         $generator->addEnvironnementValue('backend', 'pdo');
 
         $string = '
@@ -110,7 +110,7 @@ questions :
 
         $sUT       = new EnvironnementCondition();
         $generator = new GeneratorDataObject();
-        $generator->setDTO(new Architect());
+        $generator->setDTO(new DataObject());
         $generator->addEnvironnementValue('backend', 'test');
 
         $string = '
@@ -141,7 +141,7 @@ questions :
 
         $sUT       = new EnvironnementCondition();
         $generator = new GeneratorDataObject();
-        $generator->setDTO(new Architect());
+        $generator->setDTO(new DataObject());
 
         $string = '
 questions :

@@ -3,7 +3,7 @@ namespace CrudGenerator\Tests\General\Generators\Questions\Web\DirectoryQuestion
 
 use CrudGenerator\Generators\Questions\Web\DirectoryQuestion;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
+use CrudGenerator\DataObject;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,7 +17,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->method('askCollection');
 
         $generatorDTO = new GeneratorDataObject();
-        $dto = new Architect();
+        $dto = new DataObject();
         $dto->setModelDirectory('src');
         $generatorDTO->setDTO($dto);
 

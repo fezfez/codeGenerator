@@ -3,7 +3,7 @@ namespace CrudGenerator\Tests\General\Generators\Strategies\GeneratorStrategy;
 
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\Strategies\GeneratorStrategy;
-use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
+use CrudGenerator\DataObject;
 
 class GenerateFileTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,7 +17,7 @@ class GenerateFileTest extends \PHPUnit_Framework_TestCase
         ->getMock();
 
         $templateResult = 'MyResults';
-        $dataObject     = new Architect();
+        $dataObject     = new DataObject();
         $skeletonDir    = 'MySkeletonDir';
         $pathTemplate   = 'myPathTemplate';
         $pathTo         = 'MyPathTo';

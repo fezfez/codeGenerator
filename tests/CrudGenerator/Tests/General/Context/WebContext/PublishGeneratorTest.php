@@ -3,7 +3,7 @@ namespace CrudGenerator\Tests\General\Context\WebContext;
 
 use CrudGenerator\Context\WebContext;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
+use CrudGenerator\DataObject;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
@@ -19,7 +19,7 @@ class PublishGeneratorTest extends \PHPUnit_Framework_TestCase
 
         $sUT            = new WebContext($request);
         $metadataSource = new MetaDataSource();
-        $dto            = new Architect();
+        $dto            = new DataObject();
         $metadata       = new MetadataDataObjectDoctrine2(new MetaDataColumnCollection(), new MetaDataRelationCollection());
 
         $metadata->setName('test');

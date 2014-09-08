@@ -3,6 +3,9 @@ namespace CrudGenerator\Tests\General\Command\Questions\Web\GeneratorQuestion;
 
 use CrudGenerator\Generators\Questions\Web\GeneratorQuestion;
 use CrudGenerator\Context\WebContext;
+use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
+use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
+use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,7 +15,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sourceFinderStub->expects($this->exactly(2))
+        $sourceFinderStub->expects($this->exactly(1))
                          ->method('getAllClasses')
                          ->will(
                             $this->returnValue(
@@ -30,6 +33,8 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
 
-        $sUT->ask();
+        $metadata = new MetadataDataObjectDoctrine2(new MetaDataColumnCollection(), new MetaDataRelationCollection());
+
+        $sUT->ask($metadata);
     }
 }

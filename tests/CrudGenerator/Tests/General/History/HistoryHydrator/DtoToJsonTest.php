@@ -2,7 +2,7 @@
 namespace CrudGenerator\Tests\General\History\HistoryHydrator;
 
 use CrudGenerator\History\HistoryHydrator;
-use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
+use CrudGenerator\DataObject;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
@@ -25,7 +25,7 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
 
         $sUT = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource);
 
-        $dataObject = new Architect();
+        $dataObject = new DataObject();
         $generator = new GeneratorDataObject();
         $generator->setDTO($dataObject);
         $this->setExpectedException('CrudGenerator\History\InvalidHistoryException');
@@ -56,7 +56,7 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
         );
         $metaData->setName('MyName');
 
-        $dataObject = new Architect();
+        $dataObject = new DataObject();
         $dataObject->setMetadata($metaData);
 
         $generator = new GeneratorDataObject();
@@ -98,7 +98,7 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
         ->with($source)
         ->will($this->returnValue($metaData));
 
-        $dataObject = new Architect();
+        $dataObject = new DataObject();
         $dataObject->setMetadata($metaData);
 
         $generator = new GeneratorDataObject();

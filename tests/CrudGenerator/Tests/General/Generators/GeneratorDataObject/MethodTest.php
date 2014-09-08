@@ -2,14 +2,14 @@
 namespace CrudGenerator\Tests\General\Generators\GeneratorDataObject;
 
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
+use CrudGenerator\DataObject;
 
 class MethodTest extends \PHPUnit_Framework_TestCase
 {
     public function testMethods()
     {
         $sUT = new GeneratorDataObject();
-        $sUT->setDTO(new Architect());
+        $sUT->setDTO(new DataObject());
 
         $sUT->addEnvironnementValue('backend', 'doctrine2');
 

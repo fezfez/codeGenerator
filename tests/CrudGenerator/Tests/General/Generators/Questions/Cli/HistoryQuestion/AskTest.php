@@ -4,7 +4,7 @@ namespace CrudGenerator\Tests\General\Generators\Questions\Cli\HistoryQuestion;
 use CrudGenerator\Generators\Questions\Cli\HistoryQuestion;
 use CrudGenerator\History\HistoryCollection;
 use CrudGenerator\History\History;
-use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
+use CrudGenerator\DataObject;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
@@ -29,7 +29,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
             new MetaDataRelationCollection()
         );
         $metaData->setName('MyName');
-        $dto = new Architect();
+        $dto = new DataObject();
         $dto->setMetadata($metaData);
 
         $generatorDTO = new GeneratorDataObject();

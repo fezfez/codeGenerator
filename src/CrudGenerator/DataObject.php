@@ -134,6 +134,8 @@ class DataObject implements \JsonSerializable
             } else {
                 throw new \Exception("cannot store more than 2 parameters");
             }
+
+            return $this;
         } else {
             throw new \Exception("unknown method [$methodName]");
         }

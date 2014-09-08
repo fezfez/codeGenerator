@@ -2,9 +2,9 @@
 namespace CrudGenerator\Tests\General\DataObject\DataObject;
 
 use CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
-use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
+use CrudGenerator\DataObject;
 
 class DataObjectTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,7 +15,7 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
             new MetaDataRelationCollection()
         );
 
-        $dataObject = new Architect();
+        $dataObject = new DataObject();
         $dataObject->setNamespace('my\namespace')
                    ->setMetadata($metaData)
                    ->addEnvironnementValue('framework', 'zend2');

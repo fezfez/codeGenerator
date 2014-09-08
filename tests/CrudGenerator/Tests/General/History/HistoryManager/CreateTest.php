@@ -4,7 +4,7 @@ namespace CrudGenerator\Tests\General\History\HistoryManager;
 use CrudGenerator\History\HistoryManager;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
-use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
+use CrudGenerator\DataObject;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
@@ -48,7 +48,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         );
         $metadata->setName('test');
 
-        $dataObject = new Architect();
+        $dataObject = new DataObject();
         $dataObject->setMetadata($metadata);
 
         $generatorDTO = new GeneratorDataObject();
@@ -72,7 +72,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $sUT = new HistoryManager($stubFileManager, $stubHistoryHydrator);
 
         $generatorDTO = new GeneratorDataObject();
-        $generatorDTO->setDTO(new Architect());
+        $generatorDTO->setDTO(new DataObject());
 
         $this->setExpectedException('InvalidArgumentException');
         $sUT->create($generatorDTO);

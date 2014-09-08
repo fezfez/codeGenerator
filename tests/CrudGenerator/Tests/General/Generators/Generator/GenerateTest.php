@@ -4,7 +4,7 @@ namespace CrudGenerator\Tests\General\Generators\Generator;
 use CrudGenerator\Generators\Generator;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Context\CliContext;
-use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
+use CrudGenerator\DataObject;
 
 class GenerateTest extends \PHPUnit_Framework_TestCase
 {
@@ -51,7 +51,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         $sUt = new Generator($stategy, $fileConflict, $fileManager, $historyManager, $context);
 
         $generator = new GeneratorDataObject();
-        $generator->setDTO(new Architect());
+        $generator->setDTO(new DataObject());
 
         $generator->addFile('test', 'myName', 'MyValue');
 
@@ -101,7 +101,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         $sUt = new Generator($stategy, $fileConflict, $fileManager, $historyManager, $context);
 
         $generator = new GeneratorDataObject();
-        $generator->setDTO(new Architect());
+        $generator->setDTO(new DataObject());
 
         $generator->addFile('test', 'myName', 'MyValue');
 

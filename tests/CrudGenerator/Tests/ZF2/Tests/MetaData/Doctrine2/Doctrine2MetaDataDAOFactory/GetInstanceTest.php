@@ -10,7 +10,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
          chdir(__DIR__ . '/../../../');
 
          $this->assertInstanceOf(
-            'CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO',
+            'CrudGenerator\MetaData\Sources\MetaDataDAOCache',
              Doctrine2MetaDataDAOFactory::getInstance()
         );
     }

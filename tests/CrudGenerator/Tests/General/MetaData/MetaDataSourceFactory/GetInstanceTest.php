@@ -20,7 +20,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
         ->will($this->returnValue($pdoStub));
 
         $this->assertInstanceOf(
-            '\CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAO',
+            '\CrudGenerator\MetaData\Sources\MetaDataDAOCache',
             $sUT->create('\CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory', $PostgreSQLStub)
         );
     }

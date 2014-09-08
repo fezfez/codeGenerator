@@ -8,7 +8,7 @@ use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
-use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
+use CrudGenerator\DataObject;
 
 class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
@@ -197,7 +197,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $sUT = new FileParser($fileManager, $dependencyCondition, $environnementCondition);
 
         $generator = new GeneratorDataObject();
-        $generator->setDTO(new Architect());
+        $generator->setDTO(new DataObject());
         $generator->addEnvironnementValue('backend', 'pdo');
 
         $process = array(

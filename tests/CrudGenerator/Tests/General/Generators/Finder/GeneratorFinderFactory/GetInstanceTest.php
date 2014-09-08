@@ -8,7 +8,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
     public function testType()
     {
         $this->assertInstanceOf(
-            'CrudGenerator\Generators\Finder\GeneratorFinder',
+            'CrudGenerator\Generators\Finder\GeneratorFinderInterface',
             GeneratorFinderFactory::getInstance()
         );
     }

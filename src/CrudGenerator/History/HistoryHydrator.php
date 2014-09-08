@@ -157,8 +157,7 @@ class HistoryHydrator
             );
         }
 
-        $dtoClass = $arrayRepresentation['dtoClass'];
-        $dto      = new $dtoClass();
+        $dto = new DataObject();
         $dto->setMetadata($metaData);
 
         $generator = new GeneratorDataObject();

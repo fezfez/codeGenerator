@@ -3,7 +3,7 @@ namespace CrudGenerator\Tests\General\Generators\Questions\Cli\DirectoryQuestion
 
 use CrudGenerator\Generators\Questions\Cli\DirectoryQuestion;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect;
+use CrudGenerator\DataObject;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {
@@ -41,7 +41,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $sUT = new DirectoryQuestion($fileManagerStub, $context);
 
         $generatorDTO = new GeneratorDataObject();
-        $generatorDTO->setDTO(new Architect());
+        $generatorDTO->setDTO(new DataObject());
 
         $dto = $sUT->ask($generatorDTO, array('attribute' => 'ModelDirectory'))->getDTO();
         // or alternatively
@@ -133,7 +133,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $sUT = new DirectoryQuestion($fileManagerStub, $context);
 
         $generatorDTO = new GeneratorDataObject();
-        $generatorDTO->setDTO(new Architect());
+        $generatorDTO->setDTO(new DataObject());
 
         $dto = $sUT->ask($generatorDTO, array('attribute' => 'ModelDirectory'))->getDTO();
         // or alternatively
