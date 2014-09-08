@@ -55,7 +55,7 @@ class MetaDataQuestion
 
     /**
      * @param MetaDataSource $metadataSource
-     * @return \CrudGenerator\MetaData\Sources\MetaDataDAOInterface
+     * @return \CrudGenerator\MetaData\Sources\MetaDataDAOCache
      */
     private function getMetaDataDAO(MetaDataSource $metadataSource)
     {

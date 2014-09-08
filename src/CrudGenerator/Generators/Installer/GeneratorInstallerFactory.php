@@ -21,14 +21,10 @@ use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Utils\OutputWeb;
 use Composer\Command\UpdateCommand;
 use Composer\Command\Helper\DialogHelper;
-use Composer\Downloader\DownloadManager;
-use Composer\EventDispatcher\EventDispatcher;
 use Composer\IO\ConsoleIO;
 use Composer\Factory;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProgressHelper;
-use Symfony\Component\Console\Input\InputDefinition;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\ArrayInput;
 
 /**
@@ -61,7 +57,6 @@ class GeneratorInstallerFactory
         $helper = new HelperSet(array($dialog, new ProgressHelper()));
         $io     = new ConsoleIO($input, $output, $helper);
         $io->enableDebugging(time());
-
 
         $composer = Factory::create($io, null, true);
         $command->setIO($io);

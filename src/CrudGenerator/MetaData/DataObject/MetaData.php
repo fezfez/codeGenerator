@@ -94,7 +94,7 @@ abstract class MetaData implements \JsonSerializable, MetaDataInterface
      */
     public function getRelation($name)
     {
-    	return $this->relationCollection->offsetGet($name);
+        return $this->relationCollection->offsetGet($name);
     }
     /**
      * Get column collection

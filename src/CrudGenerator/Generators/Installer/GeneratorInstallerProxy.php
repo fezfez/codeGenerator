@@ -17,9 +17,6 @@
  */
 namespace CrudGenerator\Generators\Installer;
 
-use Symfony\Component\Console\Input\ArrayInput;
-use Composer\Command\UpdateCommand;
-use CrudGenerator\Utils\OutputWeb;
 use CrudGenerator\Context\ContextInterface;
 
 /**
@@ -39,13 +36,13 @@ class GeneratorInstallerProxy implements GeneratorInstallerInterface
      */
     public function __construct(ContextInterface $context)
     {
-		$this->context = $context;
+        $this->context = $context;
     }
 
     /**
      * @param string $package
      * @param string $version
-     * @return number
+     * @return integer
      */
     public function install($package, $version = 'dev-master')
     {
