@@ -41,7 +41,6 @@ class WebContext implements ContextInterface, \JsonSerializable
     private $stream = null;
 
     /**
-     * @param Application $application
      */
     public function __construct(Request $request, $stream = null)
     {
@@ -117,13 +116,13 @@ class WebContext implements ContextInterface, \JsonSerializable
      */
     public function log($text, $name = null)
     {
-    	if ($this->stream !== null) {
-    		$this->stream
-    		->event()
-    		->setData($text)
-    		->end()
-    		->flush();
-    	}
+        if ($this->stream !== null) {
+            $this->stream
+            ->event()
+            ->setData($text)
+            ->end()
+            ->flush();
+        }
         if (isset($this->question[$name]) === true && is_array($this->question[$name]) === false) {
             $this->question[$name] = array($this->question[$name]);
         }

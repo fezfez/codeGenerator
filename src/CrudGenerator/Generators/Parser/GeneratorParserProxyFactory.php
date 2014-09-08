@@ -28,7 +28,7 @@ class GeneratorParserProxyFactory
 {
     /**
      * @param ContextInterface $context
-     * @return GeneratorParser
+     * @return GeneratorParserProxy
      */
     public static function getInstance(ContextInterface $context)
     {

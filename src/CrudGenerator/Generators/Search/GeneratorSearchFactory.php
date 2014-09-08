@@ -28,7 +28,7 @@ class GeneratorSearchFactory
 {
     /**
      * @param ContextInterface $context
-     * @return \CrudGenerator\Generators\Installer\GeneratorSearch
+     * @return GeneratorSearch
      */
     public static function getInstance(ContextInterface $context)
     {

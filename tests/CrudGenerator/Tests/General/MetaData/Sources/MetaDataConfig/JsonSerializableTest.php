@@ -9,7 +9,6 @@ class JsonSerializableTest extends \PHPUnit_Framework_TestCase
         $classes = new \CrudGenerator\Utils\ClassAwake();
         $implementations = $classes->wakeByInterfaces(array(getcwd() . '/src'), 'CrudGenerator\MetaData\Sources\MetaDataConfig');
 
-
         foreach ($implementations as $class) {
             /* @var $object \CrudGenerator\MetaData\Sources\MetaDataConfig */
             $object = new $class();

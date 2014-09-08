@@ -1,6 +1,5 @@
 <?php
 use Symfony\Component\Console\Input\Input;
-use Symfony\Component\Console\Input\InputOption;
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT

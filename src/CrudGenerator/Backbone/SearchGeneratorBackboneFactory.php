@@ -26,11 +26,11 @@ class SearchGeneratorBackboneFactory
 {
     public static function getInstance(ContextInterface $context)
     {
-		return new SearchGeneratorBackbone(
-			GeneratorSearchFactory::getInstance($context),
-			GeneratorInstallerProxyFactory::getInstance($context),
-			GeneratorDetailFactory::getInstance($context),
-			$context
-		);
+        return new SearchGeneratorBackbone(
+            GeneratorSearchFactory::getInstance($context),
+            GeneratorInstallerProxyFactory::getInstance($context),
+            GeneratorDetailFactory::getInstance($context),
+            $context
+        );
     }
 }

@@ -114,16 +114,16 @@ class DataObject implements \JsonSerializable
             }
             // try to acces a storage with (key, val) with key parameters
             elseif (count($args) === 1 && $args[0] !== null && is_array($this->store[$methodName]) === true) {
-            	if (isset($this->store[$methodName][$args[0]]) === true) {
-                	return $this->store[$methodName][$args[0]];
-            	} else {
-            		return null;
-            	}
+                if (isset($this->store[$methodName][$args[0]]) === true) {
+                    return $this->store[$methodName][$args[0]];
+                } else {
+                    return null;
+                }
             }
             // unkown
             else {
                 throw new \Exception(
-                	sprintf("method %s unkown params %s with store %s", $method, print_r($args, true), print_r($this->store[$methodName], true))
+                    sprintf("method %s unkown params %s with store %s", $method, print_r($args, true), print_r($this->store[$methodName], true))
                 );
             }
         } elseif ($firstChar === 'set') {
@@ -143,7 +143,7 @@ class DataObject implements \JsonSerializable
 
     public function getStore()
     {
-    	return $this->store;
+        return $this->store;
     }
 
     public function jsonSerialize()

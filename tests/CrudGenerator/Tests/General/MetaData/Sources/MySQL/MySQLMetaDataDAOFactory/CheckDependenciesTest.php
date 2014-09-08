@@ -3,8 +3,6 @@
 namespace CrudGenerator\Tests\General\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory;
 
 use CrudGenerator\MetaData\MetaDataSource;
-
-use CrudGenerator\MetaData\Sources\MySQL\MySQLConfig;
 use CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory;
 
 /**

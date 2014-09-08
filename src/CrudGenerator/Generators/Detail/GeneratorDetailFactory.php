@@ -28,7 +28,7 @@ class GeneratorDetailFactory
 {
     /**
      * @param ContextInterface $context
-     * @return \CrudGenerator\Generators\Installer\GeneratorInstaller
+     * @return GeneratorDetail
      */
     public static function getInstance(ContextInterface $context)
     {

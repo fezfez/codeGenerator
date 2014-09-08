@@ -17,8 +17,6 @@
  */
 namespace CrudGenerator\Generators\Finder;
 
-use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Utils\Yaml;
 use CrudGenerator\MetaData\DataObject\MetaDataInterface;
 
 /**
@@ -55,8 +53,8 @@ class GeneratorFinderCache implements GeneratorFinderInterface
      */
     public function getAllClasses(MetaDataInterface $metadata = null)
     {
-    	$cacheFilename = $this->directories['Cache'] . DIRECTORY_SEPARATOR .
-    	                 md5('genrator_getAllClasses' . ($metadata !== null) ? get_class($metadata) : '');
+        $cacheFilename = $this->directories['Cache'] . DIRECTORY_SEPARATOR .
+                         md5('genrator_getAllClasses' . ($metadata !== null) ? get_class($metadata) : '');
 
         if (is_file($cacheFilename) && $this->noCache === false) {
             $data = unserialize(file_get_contents($cacheFilename));
@@ -75,7 +73,7 @@ class GeneratorFinderCache implements GeneratorFinderInterface
      */
     public function findByName($name)
     {
-		$generatorCollection = $this->getAllClasses();
+        $generatorCollection = $this->getAllClasses();
 
         foreach ($generatorCollection as $generatorFile => $generatorName) {
             if ($generatorName === $name) {

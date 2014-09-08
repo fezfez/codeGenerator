@@ -2,7 +2,6 @@
 namespace CrudGenerator\Tests\General\History\History;
 
 use CrudGenerator\History\History;
-use CrudGenerator\DataObject;
 use CrudGenerator\Generators\GeneratorDataObject;
 
 class HistoryTest extends \PHPUnit_Framework_TestCase

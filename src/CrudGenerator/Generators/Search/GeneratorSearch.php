@@ -45,23 +45,22 @@ class GeneratorSearch
 
     public function ask()
     {
-    	$name = $this->context->ask('Search generator', 'generator_name');
-    	$list = $this->packagistApiClient->search($name, array('type' => 'fezfez-code-generator'));
+        $name = $this->context->ask('Search generator', 'generator_name');
+        $list = $this->packagistApiClient->search($name, array('type' => 'fezfez-code-generator'));
 
+        $array = array();
+        foreach ($list as $package) {
+            $array[$package->getName()] = array(
+                'name'        => $package->getName(),
+                'description' => $package->getDescription(),
+                'repository'  => $package->repository
+            );
+        }
 
-    	$array = array();
-    	foreach ($list as $package) {
-    		$array[$package->getName()] = array(
-    			'name'        => $package->getName(),
-    			'description' => $package->getDescription(),
-    			'repository'  => $package->repository
-    		);
-    	}
-
-    	return $this->retrieve(
-    		$this->context->askCollection("Select generator", 'search_generatorcollection', $array),
-    		$array
-    	);
+        return $this->retrieve(
+            $this->context->askCollection("Select generator", 'search_generatorcollection', $array),
+            $array
+        );
     }
 
     /**
@@ -71,17 +70,17 @@ class GeneratorSearch
      */
     private function retrieve($preSelected, $array)
     {
-    	foreach ($array as $path => $name) {
-    		if ($path === $preSelected) {
-    			return $array[$path];
-    		}
-    	}
+        foreach ($array as $path => $name) {
+            if ($path === $preSelected) {
+                return $array[$path];
+            }
+        }
 
-    	throw new ResponseExpectedException(
-    		sprintf(
-    			'Generator "%s" does not exist',
-    			$preSelected
-    		)
-    	);
+        throw new ResponseExpectedException(
+            sprintf(
+                'Generator "%s" does not exist',
+                $preSelected
+            )
+        );
     }
 }
