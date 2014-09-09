@@ -12,7 +12,6 @@ class JsonSerializableTest extends \PHPUnit_Framework_TestCase
         foreach ($implementations as $class) {
             /* @var $object \CrudGenerator\MetaData\Sources\MetaDataConfig */
             $object = new $class();
-            $object->setMetaDataDAOFactory('testets');
 
             $this->assertRegExp(
                 '/metaDataDAOFactory/',
@@ -27,7 +26,7 @@ class JsonSerializableTest extends \PHPUnit_Framework_TestCase
         $classes = new \CrudGenerator\Utils\ClassAwake();
         $implementations = $classes->wakeByInterfaces(array(getcwd() . '/src'), 'CrudGenerator\MetaData\Sources\MetaDataConfig');
 
-        $getterWithoutSetter = array('uniqueName');
+        $getterWithoutSetter = array('uniqueName', 'metaDataDAOFactory');
 
         foreach ($implementations as $class) {
             /* @var $object \CrudGenerator\MetaData\Sources\MetaDataConfig */

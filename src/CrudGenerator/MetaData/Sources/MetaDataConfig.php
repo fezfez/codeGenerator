@@ -54,11 +54,4 @@ interface MetaDataConfig
      * @return string
      */
     public function getMetaDataDAOFactory();
-    /**
-     * Set MetaDataDAOFactory
-     *
-     * @param string $value
-     * @return MetaDataConfig
-     */
-    public function setMetaDataDAOFactory($value);
 }

@@ -17,6 +17,7 @@
  */
 namespace CrudGenerator\MetaData\Sources\Oracle;
 
+use CrudGenerator\MetaData\Sources\MetadataConfigDatabase;
 use CrudGenerator\MetaData\Sources\MetaDataConfig;
 use CrudGenerator\MetaData\Config\ConfigException;
 
@@ -25,135 +26,23 @@ use CrudGenerator\MetaData\Config\ConfigException;
  *
  * @author Stéphane Demonchaux
  */
-class OracleConfig implements MetaDataConfig, \JsonSerializable
+class OracleConfig extends MetadataConfigDatabase implements MetaDataConfig, \JsonSerializable
 {
     /**
      * @var string Config definition
      */
-    protected $definition = 'For use the Oracle adapter you need to define the database and how to get the PDO instance';
-    /**
-     * @var string Database Name
-     */
-    protected $databaseName = null;
-    /**
-     * @var string Host
-     */
-    protected $host = null;
-    /**
-     * @var string User
-     */
-    protected $user = null;
-    /**
-     * @var string Password
-     */
-    protected $password = null;
-    /**
-     * @var string Port
-     */
-    protected $port = null;
+    private $definition = 'For use the Oracle adapter you need to define the database and how to get the PDO instance';
     /**
      * @var string
      */
     private $metaDataDAOFactory = 'CrudGenerator\MetaData\Sources\Oracle\OracleMetaDataDAOFactory';
-
-    /**
-     * Set database name
-     * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\Oracle\OracleConfig
-     */
-    public function setDatabaseName($value)
-    {
-        $this->databaseName = $value;
-        return $this;
-    }
-    /**
-     * Set host
-     * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\Oracle\OracleConfig
-     */
-    public function setHost($value)
-    {
-        $this->host = $value;
-        return $this;
-    }
-    /**
-     * Set user
-     * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\Oracle\OracleConfig
-     */
-    public function setUser($value)
-    {
-        $this->user = $value;
-        return $this;
-    }
-    /**
-     * Set password
-     * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\Oracle\OracleConfig
-     */
-    public function setPassword($value)
-    {
-        $this->password = $value;
-        return $this;
-    }
-    /**
-     * Set port
-     * @param string $value
-     * @return \CrudGenerator\MetaData\Sources\Oracle\OracleConfig
-     */
-    public function setPort($value)
-    {
-        $this->port = $value;
-        return $this;
-    }
-
-    /**
-     * Get database name
-     * @return string
-     */
-    public function getDatabaseName()
-    {
-        return $this->databaseName;
-    }
-    /**
-     * Get host
-     * @return string
-     */
-    public function getHost()
-    {
-        return $this->host;
-    }
-    /**
-     * Get user
-     * @return string
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-    /**
-     * Get password
-     * @return string
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-    /**
-     * Get port
-     * @return string
-     */
-    public function getPort()
-    {
-        return $this->port;
-    }
 
     /* (non-PHPdoc)
      * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getConnection()
     */
     public function getConnection()
     {
-        $pdo = new \PDO('//' . $this->host . '/' . $this->databaseName, $this->user, $this->password);
+        $pdo = new \PDO('//' . $this->configHost . '/' . $this->configDatabaseName, $this->configUser, $this->configPassword);
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
         return $pdo;
@@ -174,7 +63,7 @@ class OracleConfig implements MetaDataConfig, \JsonSerializable
     */
     public function getUniqueName()
     {
-        return 'Oracle ' . $this->host . ' ' . $this->user;
+        return 'Oracle ' . $this->configHost . ' ' . $this->configUser;
     }
     /* (non-PHPdoc)
      * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getDefinition()
@@ -189,11 +78,11 @@ class OracleConfig implements MetaDataConfig, \JsonSerializable
     public function jsonSerialize()
     {
         return array(
-            'databaseName'       => $this->databaseName,
-            'host'               => $this->host,
-            'user'               => $this->user,
-            'password'           => $this->password,
-            'port'               => $this->port,
+            'configDatabaseName' => $this->configDatabaseName,
+            'configHost'         => $this->configHost,
+            'configUser'         => $this->configUser,
+            'configPassword'     => $this->configPassword,
+            'configPassword'     => $this->configPort,
             'metaDataDAOFactory' => $this->metaDataDAOFactory,
         );
     }
@@ -205,15 +94,6 @@ class OracleConfig implements MetaDataConfig, \JsonSerializable
      */
     public function getMetaDataDAOFactory()
     {
-
-    }
-    /**
-     * Set MetaDataDAOFactory
-     *
-     * @return MetaDataConfig
-     */
-    public function setMetaDataDAOFactory($value)
-    {
-
+        return $this->metaDataDAOFactory;
     }
 }

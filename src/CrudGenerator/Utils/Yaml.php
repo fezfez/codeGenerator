@@ -17,26 +17,12 @@
  */
 namespace CrudGenerator\Utils;
 
-use Symfony\Component\Yaml\Parser;
 
 /**
- * Yaml parser
+ * Parser
  */
 class Yaml
 {
-    /**
-     * @var Parser
-     */
-    private $parser = null;
-
-    /**
-     * @param Parser $parser
-     */
-    public function __construct(Parser $parser)
-    {
-        $this->parser = $parser;
-    }
-
     /**
      * @param string $string
      *
@@ -45,13 +31,5 @@ class Yaml
     public function parse($string)
     {
         return json_decode($string, true);
-
-        if (function_exists('yaml_parse') === true) {
-            $yaml = yaml_parse($string);
-        } else {
-            $yaml = $this->parser->parse($string);
-        }
-
-        return $yaml;
     }
 }

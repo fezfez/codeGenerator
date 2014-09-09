@@ -1,5 +1,4 @@
 <?php
-use Symfony\Component\Console\Input\Input;
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -17,34 +16,20 @@ use Symfony\Component\Console\Input\Input;
  * and is licensed under the MIT license
  */
 
+use Symfony\Component\Console\Input\Input;
+use CrudGenerator\Utils\Installer;
+
 chdir(realpath('./'));
 
-if (!(@include_once __DIR__ . '/../vendor/autoload.php') && !(@include_once __DIR__ . '/../../../autoload.php')) {
-    throw new RuntimeException('Error: vendor/autoload.php could not be found. Did you run php composer.phar install?');
+if (is_file(__DIR__ . '/../vendor/autoload.php')) {
+	include_once __DIR__ . '/../vendor/autoload.php';
+} elseif (is_file(__DIR__ . '/../../../autoload.php')) {
+	include_once __DIR__ . '/../../../autoload.php';
+} else {
+	throw new RuntimeException('Error: vendor/autoload.php could not be found. Did you run php composer.phar install?');
 }
 
-if(is_dir('data') === false) {
-    mkdir('data/');
-}
-if(is_dir('data/crudGenerator') === false) {
-    mkdir('data/crudGenerator');
-}
-if(is_dir('data/crudGenerator/History') === false) {
-    mkdir('data/crudGenerator/History');
-}
-if(is_dir('data/crudGenerator/Config') === false) {
-    mkdir('data/crudGenerator/Config');
-}
-
-if(is_writable('data/crudGenerator') === false) {
-    throw new Exception('data/crudGenerator is not writable');
-}
-if(is_writable('data/crudGenerator/History') === false) {
-    throw new Exception('data/crudGenerator/History is not writable');
-}
-if(is_writable('data/crudGenerator/Config') === false) {
-    throw new Exception('data/crudGenerator/Config is not writable');
-}
+Installer::install();
 
 $output = new Symfony\Component\Console\Output\ConsoleOutput();
 $input  = new Symfony\Component\Console\Input\ArrayInput(array());

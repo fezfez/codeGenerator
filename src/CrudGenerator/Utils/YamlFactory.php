@@ -17,8 +17,6 @@
  */
 namespace CrudGenerator\Utils;
 
-use Symfony\Component\Yaml\Parser;
-
 /**
  * Yaml parser factory
  */
@@ -35,7 +33,7 @@ class YamlFactory
     public static function getInstance()
     {
         if (self::$instance === null) {
-            self::$instance = new Yaml(new Parser());
+            self::$instance = new Yaml();
         }
 
         return self::$instance;

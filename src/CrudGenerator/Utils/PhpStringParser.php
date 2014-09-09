@@ -4,7 +4,7 @@ namespace CrudGenerator\Utils;
 class PhpStringParser
 {
     /**
-     * @var Twig_Environment
+     * @var \Twig_Environment
      */
     private $twig = array();
     /**
@@ -13,12 +13,12 @@ class PhpStringParser
     private $variables = array();
 
     /**
-     * @param Twig_Environment $twig
-     * @param unknown $variables
+     * @param \Twig_Environment $twig
+     * @param array $variables
      */
-    public function __construct(\Twig_Environment $twig, $variables = array())
+    public function __construct(\Twig_Environment $twig, array $variables = array())
     {
-        $this->twig = $twig;
+        $this->twig      = $twig;
         $this->variables = $variables;
     }
 

@@ -17,6 +17,7 @@
  */
 namespace CrudGenerator\MetaData\Sources\MySQL;
 
+use CrudGenerator\MetaData\Sources\MetadataConfigDatabase;
 use CrudGenerator\MetaData\Sources\MetaDataConfig;
 use CrudGenerator\MetaData\Config\ConfigException;
 
@@ -25,138 +26,16 @@ use CrudGenerator\MetaData\Config\ConfigException;
  *
  * @author Stéphane Demonchaux
  */
-class MySQLConfig implements MetaDataConfig, \JsonSerializable
+class MySQLConfig extends MetadataConfigDatabase implements MetaDataConfig, \JsonSerializable
 {
     /**
      * @var string Config definition
      */
     private $definition = 'For use the MySQL adapter you need to define the database and how to get the MySQL instance';
     /**
-     * Database Name
-     *
-     * @var string
-     */
-    private $configDatabaseName = null;
-    /**
-     * Host
-     *
-     * @var string
-     */
-    private $configHost = null;
-    /**
-     * User
-     *
-     * @var string
-     */
-    private $configUser = null;
-    /**
-     * Password
-     *
-     * @var string
-     */
-    private $configPassword = null;
-    /**
-     * Port
-     *
-     * @var string
-     */
-    private $configPort = null;
-    /**
      * @var string
      */
     private $metaDataDAOFactory = 'CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory';
-
-    /**
-     * Set database name
-     * @param string $value
-     * @return MySQLConfig
-     */
-    public function setConfigDatabaseName($value)
-    {
-        $this->configDatabaseName = $value;
-        return $this;
-    }
-    /**
-     * Set host
-     * @param string $value
-     * @return MySQLConfig
-     */
-    public function setConfigHost($value)
-    {
-        $this->configHost = $value;
-        return $this;
-    }
-    /**
-     * Set user
-     * @param string $value
-     * @return MySQLConfig
-     */
-    public function setConfigUser($value)
-    {
-        $this->configUser = $value;
-        return $this;
-    }
-    /**
-     * Set password
-     * @param string $value
-     * @return MySQLConfig
-     */
-    public function setConfigPassword($value)
-    {
-        $this->configPassword = $value;
-        return $this;
-    }
-    /**
-     * Set port
-     * @param string $value
-     * @return MySQLConfig
-     */
-    public function setConfigPort($value)
-    {
-        $this->configPort = $value;
-        return $this;
-    }
-
-    /**
-     * Get database name
-     * @return string
-     */
-    public function getConfigDatabaseName()
-    {
-        return $this->configDatabaseName;
-    }
-    /**
-     * Get host
-     * @return string
-     */
-    public function getConfigHost()
-    {
-        return $this->configHost;
-    }
-    /**
-     * Get user
-     * @return string
-     */
-    public function getConfigUser()
-    {
-        return $this->configUser;
-    }
-    /**
-     * Get password
-     * @return string
-     */
-    public function getConfigPassword()
-    {
-        return $this->configPassword;
-    }
-    /**
-     * Get port
-     * @return string
-     */
-    public function getConfigPort()
-    {
-        return $this->configPort;
-    }
 
     /* (non-PHPdoc)
      * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getConnection()
@@ -204,11 +83,6 @@ class MySQLConfig implements MetaDataConfig, \JsonSerializable
     public function jsonSerialize()
     {
         return array(
-            'configDatabaseName' => $this->configDatabaseName,
-            'configHost'         => $this->configHost,
-            'configUser'         => $this->configUser,
-            'configPassword'     => $this->configPassword,
-            'configPort'         => $this->configPort,
             'metaDataDAOFactory' => $this->metaDataDAOFactory,
             'uniqueName'         => $this->getUniqueName()
         );
@@ -222,14 +96,5 @@ class MySQLConfig implements MetaDataConfig, \JsonSerializable
     public function getMetaDataDAOFactory()
     {
         return $this->metaDataDAOFactory;
-    }
-    /**
-     * Set MetaDataDAOFactory
-     *
-     * @return MetaDataConfig
-     */
-    public function setMetaDataDAOFactory($value)
-    {
-
     }
 }
