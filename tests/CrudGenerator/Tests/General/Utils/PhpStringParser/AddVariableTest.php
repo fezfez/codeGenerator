@@ -7,7 +7,11 @@ class AddVariableTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {
-        $sUT = new PhpStringParser();
+        $sUT = new PhpStringParser(
+            new \Twig_Environment(
+                new \Twig_Loader_String()
+            )
+        );
 
         $sUT->addVariable('myVariable', 'myValue');
 

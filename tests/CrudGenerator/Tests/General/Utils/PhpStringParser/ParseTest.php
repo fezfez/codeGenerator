@@ -7,16 +7,21 @@ class ParseTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {
-        $sUT = new PhpStringParser(array('test' => 'myValue'));
-
-        $this->assertEquals(
-            'myValue',
-            $sUT->parse('<?php $test; ?>')
+        $sUT = new PhpStringParser(
+            new \Twig_Environment(
+                new \Twig_Loader_String()
+            ),
+            array('test' => 'myValue')
         );
 
         $this->assertEquals(
             'myValue',
-            $sUT->parse('<?php $test ?>')
+            $sUT->parse('{{ test }}')
+        );
+
+        $this->assertEquals(
+            'myValue',
+            $sUT->parse('{{ test }}')
         );
     }
 }

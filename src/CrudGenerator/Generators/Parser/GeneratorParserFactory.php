@@ -19,7 +19,7 @@ namespace CrudGenerator\Generators\Parser;
 
 use CrudGenerator\Utils\YamlFactory;
 use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Utils\PhpStringParser;
+use CrudGenerator\Utils\PhpStringParserFactory;
 use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
 use CrudGenerator\Generators\Parser\ParserCollectionFactory;
@@ -45,7 +45,7 @@ class GeneratorParserFactory
         return new GeneratorParser(
             new FileManager(),
             YamlFactory::getInstance(),
-            new PhpStringParser(),
+            PhpStringParserFactory::getInstance(),
             GeneratorStrategyFactory::getInstance($context),
             $generatorFinder,
             $parserCollection,

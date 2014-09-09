@@ -7,7 +7,11 @@ class IssetVariableTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {
-        $sUT = new PhpStringParser();
+        $sUT = new PhpStringParser(
+            new \Twig_Environment(
+                new \Twig_Loader_String()
+            )
+        );
 
         $this->assertEquals(
             false,
@@ -24,7 +28,12 @@ class IssetVariableTest extends \PHPUnit_Framework_TestCase
 
     public function testWithPredefine()
     {
-        $sUT = new PhpStringParser(array('test' => 'myValue'));
+        $sUT = new PhpStringParser(
+            new \Twig_Environment(
+                new \Twig_Loader_String()
+            ),
+        	array('test' => 'myValue')
+        );
 
         $this->assertEquals(
             true,

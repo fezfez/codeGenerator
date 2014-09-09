@@ -4,15 +4,21 @@ namespace CrudGenerator\Utils;
 class PhpStringParser
 {
     /**
+     * @var Twig_Environment
+     */
+    private $twig = array();
+    /**
      * @var array
      */
     private $variables = array();
 
     /**
-     * @param array $variables
+     * @param Twig_Environment $twig
+     * @param unknown $variables
      */
-    public function __construct($variables = array())
+    public function __construct(\Twig_Environment $twig, $variables = array())
     {
+        $this->twig = $twig;
         $this->variables = $variables;
     }
 
@@ -42,36 +48,9 @@ class PhpStringParser
      */
     public function parse($string)
     {
-        return preg_replace_callback(
-            '/(\<\?=|\<\?php=|\<\?php)(.*?)\?\>/',
-            array(
-                &$this,
-                'evalBlock'
-            ),
-            $string
+        return $this->twig->render(
+            $string,
+            $this->variables
         );
-    }
-
-    /**
-     * @param mixed $matches
-     * @return string
-     */
-    private function evalBlock($matches)
-    {
-        if (is_array($this->variables) === true && count($this->variables) > 0) {
-            foreach ($this->variables as $var_name => $var_value) {
-                $$var_name = $var_value;
-            }
-        }
-
-        $evalEnd = '';
-        if ($matches[2][count($matches[2] - 1)] !== ';') {
-            $evalEnd = ';';
-        }
-
-        $returnBlock = '';
-        eval('$returnBlock = ' . $matches[2] . $evalEnd);
-
-        return $returnBlock;
     }
 }
