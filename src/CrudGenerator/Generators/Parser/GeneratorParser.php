@@ -36,9 +36,6 @@ use CrudGenerator\Generators\GeneratorCompatibilityChecker;
  */
 class GeneratorParser implements GeneratorParserInterface
 {
-    const COMPLEX_QUESTION        = 'complex';
-    const ITERATOR            = 'askCollection';
-    const ITERATOR_WITH_PREDEFINED_RESPONSE = 'askCollectionOverIterator';
     const ENVIRONNEMENT_CONDITION   = 'environnementCondition';
     const DEPENDENCY_CONDITION      = 'dependencyCondition';
     const CONDITION_ELSE          = 'else';
@@ -143,8 +140,6 @@ class GeneratorParser implements GeneratorParserInterface
         $phpParser->addVariable(lcfirst($process['name']), $generator->getDTO());
         $generator->addTemplateVariable(lcfirst($process['name']), $generator->getDTO());
         $generator = $this->analyzePostParser($process, $phpParser, $generator, $firstIteration);
-
-        //var_dump($generator->getDTO()->getStore());exit;
 
         return $generator;
     }

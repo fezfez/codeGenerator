@@ -7,6 +7,8 @@ use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Context\WebContext;
+use CrudGenerator\DataObject;
+use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
 
 class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,6 +29,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $sUT = new QuestionParser($context, $dependencyCondition);
 
         $generator = new GeneratorDataObject();
+        $generator->setDTO(new DataObject());
 
         $process = array(
             'questions' => array(
@@ -55,6 +58,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $sUT = new QuestionParser($context, $dependencyCondition);
 
         $generator = new GeneratorDataObject();
+        $generator->setDTO(new DataObject());
 
         $process = array(
                 'questions' => array(
@@ -106,6 +110,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $sUT = new QuestionParser($context, $dependencyCondition);
 
         $generator = new GeneratorDataObject();
+        $generator->setDTO(new DataObject());
 
         $process = array(
             'questions' => array(
@@ -119,7 +124,8 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
                     )
                 ),
                 array(
-                    'type'    => GeneratorParser::COMPLEX_QUESTION,
+                    'dtoAttribute'    => 'test',
+                    'type'    => QuestionTypeEnum::COMPLEX,
                     'factory' => 'CrudGenerator\Tests\General\Generators\Parser\Lexical\MyFakeQuestionFactory'
                 )
             )

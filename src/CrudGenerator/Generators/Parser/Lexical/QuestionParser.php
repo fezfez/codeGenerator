@@ -66,6 +66,54 @@ class QuestionParser implements ParserInterface
 
     /**
      * @param array $question
+     * @param GeneratorDataObject $generator
+     * @param string $type
+     * @return GeneratorDataObject
+     */
+    private function registerQuestionToDTO(array $question, GeneratorDataObject $generator, $type = null)
+    {
+        if ($type === null) {
+            $type = (isset($question['responseType']) ? $question['responseType'] : null);
+        }
+
+        $generator->getDTO()->register($question['dtoAttribute'], $type);
+
+        return $generator;
+    }
+
+    private function checkIntegrity(array $question)
+    {
+        $exception = function($question, $missingAttr) {
+            throw new MalformedGeneratorException(
+                sprintf(
+                    'Question "%s" does not have property "%s"',
+                    $question['text'],
+                    $missingAttr
+                )
+            );
+        };
+
+        if (isset($question['type']) === false) {
+            $type = new QuestionTypeEnum();
+        } else {
+            try {
+                $type = new QuestionTypeEnum($question['type']);
+            } catch (\UnexpectedValueException $e) {
+                throw new MalformedGeneratorException($e->getMessage());
+            }
+        }
+
+        if (isset($question['dtoAttribute']) === false) {
+            $exception($question, 'dtoAttribute');
+        }
+
+        $question['type'] = $type;
+
+        return $question;
+    }
+
+    /**
+     * @param array $question
      * @param PhpStringParser $parser
      * @param GeneratorDataObject $generator
      * @param boolean $firstIteration
@@ -90,13 +138,26 @@ class QuestionParser implements ParserInterface
                     $process
                 );
             }
-        } elseif (isset($question['type']) === true && $question['type'] === GeneratorParser::COMPLEX_QUESTION) {
-            $complex   = $question['factory']::getInstance($this->context);
-            $generator = $complex->ask($generator, $question);
-        } elseif (isset($question['type']) === true && $question['type'] === GeneratorParser::ITERATOR) {
-            $generator = $this->evaluateIteratorQuestion($question, $parser, $generator, $firstIteration, $process);
         } else {
-            $generator = $this->evaluateGeneriqueQuestion($question, $parser, $generator, $firstIteration);
+            $question = $this->checkIntegrity($question);
+            if ($question['type']->is(QuestionTypeEnum::COMPLEX) === true) {
+                $generator = $this->registerQuestionToDTO($question, $generator);
+                $complex   = $question['factory']::getInstance($this->context);
+                $generator = $complex->ask($generator, $question);
+            } elseif ($question['type']->is(QuestionTypeEnum::DIRECTORY) === true) {
+                $generator = $this->registerQuestionToDTO($question, $generator);
+                $complex   = \CrudGenerator\Generators\Questions\DirectoryQuestionFactory::getInstance($this->context);
+                $generator = $complex->ask($generator, $question);
+            } elseif ($question['type']->is(QuestionTypeEnum::ITERATOR) === true) {
+                $generator = $this->registerQuestionToDTO($question, $generator, 'collection');
+                $generator = $this->evaluateIteratorQuestion($question, $parser, $generator, $firstIteration, $process);
+            } elseif ($question['type']->is(QuestionTypeEnum::ITERATOR_WITH_PREDEFINED_RESPONSE) === true) {
+                $generator = $this->registerQuestionToDTO($question, $generator, 'collection');
+                $generator = $this->evaluateIteratorWithPredefinedResponseQuestion($question, $parser, $generator, $firstIteration, $process);
+            } else {
+                $generator = $this->registerQuestionToDTO($question, $generator);
+                $generator = $this->evaluateGeneriqueQuestion($question, $parser, $generator, $firstIteration);
+            }
         }
 
         return $generator;
@@ -128,15 +189,13 @@ class QuestionParser implements ParserInterface
         return $generator;
     }
 
-    /**
-     * @param array $question
-     * @param PhpStringParser $parser
-     * @param GeneratorDataObject $generator
-     * @param boolean $firstIteration
-     * @return GeneratorDataObject
-     */
-    public function evaluateIteratorQuestion(array $question, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration, array $process)
-    {
+    public function evaluateIteratorWithPredefinedResponseQuestion(
+        array $question,
+        PhpStringParser $parser,
+        GeneratorDataObject $generator,
+        $firstIteration,
+        array $process
+    ) {
         $instance = $this->phpInterpretStatic(
             $question['collection'],
             array(
@@ -153,25 +212,99 @@ class QuestionParser implements ParserInterface
             );
         }
 
-        $questionRawExplode = explode(',', $question['text']);
+        foreach ($instance as $iteration) {
+
+            $origine = $this->phpInterpretStatic(
+                $question['origine'],
+                array('iteration' => $iteration)
+            );
+
+            $responseList = array();
+            foreach ($question['predefinedResponse'] as $key => $response) {
+            	$responseList[$key] = $this->staticsprintf($response, array('iteration' => $iteration));
+            }
+
+            $response = $this->context->askCollection(
+                $this->staticsprintf($question['text'], array('iteration' => $iteration)),
+                'set_predefined_' . ucfirst($question['dtoAttribute']) . $origine,
+                $responseList,
+                (isset($question['defaultResponse']) === true) ? $parser->parse($question['defaultResponse']) : null,
+                (isset($question['required']) === true) ? $question['required'] : false,
+                null,
+                (isset($question['responseType']) === true) ? $question['responseType'] : null
+            );
+
+            $questionName = 'set' . ucfirst($question['dtoAttribute']);
+            if ($response !== null) {
+                $generator->getDTO()->$questionName($origine, $response);
+            }
+        }
+
+        return $generator;
+    }
+
+    /**
+     * @param string $text
+     * @param array $realVariables
+     * @return string
+     */
+    private function staticsprintf($text, array $realVariables)
+    {
+        $questionRawExplode = explode(',', $text);
         $questionText       = array_shift($questionRawExplode);
         $questionVariables  = array_map('trim', $questionRawExplode);
 
+        $placeholder = array();
+        foreach ($questionVariables as $questionVariable) {
+            $placeholder[] = $this->phpInterpretStatic(
+                $questionVariable,
+                $realVariables
+            );
+        }
+
+        return vsprintf($questionText, $placeholder);
+    }
+
+    /**
+     * @param array $question
+     * @param PhpStringParser $parser
+     * @param GeneratorDataObject $generator
+     * @param boolean $firstIteration
+     * @return GeneratorDataObject
+     */
+    public function evaluateIteratorQuestion(
+        array $question,
+        PhpStringParser $parser,
+        GeneratorDataObject $generator,
+        $firstIteration,
+        array $process
+    ) {
+        $instance = $this->phpInterpretStatic(
+            $question['collection'],
+            array(
+                lcfirst($process['name']) => $generator->getDTO()
+            )
+        );
+
+        if (($instance instanceof \Traversable) === false) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'The result of "%s" is not an instance of Traversable',
+                    $question['collection']
+                )
+            );
+        }
+
+
         foreach ($instance as $iteration) {
-            $placeholder = array();
-            foreach ($questionVariables as $questionVariable) {
-                $placeholder[] = $this->phpInterpretStatic(
-                    $questionVariable,
-                    array('iteration' => $iteration)
-                );
-            }
 
             $origine = $this->phpInterpretStatic(
-                    $question['origine'],
-                    array('iteration' => $iteration)
-                );
+                $question['origine'],
+                array('iteration' => $iteration)
+            );
+
             $response = $this->context->ask(
-                vsprintf($questionText, $placeholder),
+                $this->staticsprintf($question['text'], array('iteration' => $iteration)),
                 'set' . ucfirst($question['dtoAttribute']) . $origine,
                 (isset($question['defaultResponse']) === true) ? $parser->parse($question['defaultResponse']) : null,
                 (isset($question['required']) === true) ? $question['required'] : false,
@@ -208,8 +341,13 @@ class QuestionParser implements ParserInterface
             throw new \InvalidArgumentException(sprintf('var %s does not exist', $variableName));
         }
 
-        $method       = $cleanMethodName($testExplode[1]);
-        $instance     = $variableVariable[$variableName]->$method();
+        $method = $cleanMethodName($testExplode[1]);
+
+        if (false === method_exists($variableVariable[$variableName], $method)) {
+			throw new \InvalidArgumentException(sprintf('method %s does not exist on %s', $method, $test));
+        }
+
+        $instance = $variableVariable[$variableName]->$method();
 
         foreach ($testExplode as $key => $value) {
             if ($key === 0 || $key === 1) {

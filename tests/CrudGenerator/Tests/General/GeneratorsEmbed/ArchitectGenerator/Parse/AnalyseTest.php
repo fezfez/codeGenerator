@@ -8,7 +8,7 @@ use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 
 class AnalyseTest extends \PHPUnit_Framework_TestCase
 {
-    public function testPDOWithZend2()
+    public function testPDOWithZend2ssssss()
     {
         $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()

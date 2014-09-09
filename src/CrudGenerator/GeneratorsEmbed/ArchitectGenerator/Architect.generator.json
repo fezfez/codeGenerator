@@ -30,14 +30,12 @@
     {
       "dtoAttribute": "ModelDirectory",
       "text": "Chose a directory for model",
-      "type": "complex",
-      "factory": "CrudGenerator\\Generators\\Questions\\DirectoryQuestionFactory"
+      "type": "directory"
     },
     {
       "dtoAttribute": "UnitTestDirectory",
       "text": "Chose a directory for unit test",
-      "type": "complex",
-      "factory": "CrudGenerator\\Generators\\Questions\\DirectoryQuestionFactory"
+      "type": "directory"
     },
     {
       "dtoAttribute": "Namespace",
@@ -84,11 +82,14 @@
     },
     {
       "type": "askCollectionOverIterator",
-      "dtoAttribute": "test",
-      "iterator": "$architectGenerator->getMetadata()->getRelationCollection()",
+      "collection": "$architectGenerator->getMetadata()->getRelationCollection()",
       "text": "Deal the relation with \"%s\", $iteration->getFullName()",
-      "collection": {
-        "ADD_TO_DTO": "Include \"%s\" attribute from \"%s\" to DTO ', $iteration->getFullName(), $relation->iteration()"
+      "origine": "$iteration->getFullName()",
+      "dtoAttribute": "RelationBehavior",
+      "responseType": "text",
+      "defaultResponse": "ADD_TO_DTO",
+      "predefinedResponse": {
+        "ADD_TO_DTO": "Include \"%s\" attribute from \"%s\" to DTO ', $iteration->getFullName(), $iteration->getName()"
       }
     }
   ],

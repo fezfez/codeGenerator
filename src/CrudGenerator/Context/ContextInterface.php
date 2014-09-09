@@ -37,6 +37,9 @@ interface ContextInterface
      * Ask question in collection
      * @param string $text
      * @param string $uniqueKey
+     * @param array $collection
+     * @param string $defaultResponse
+     * @param boolean $required
      * @param string $helpMessage
      * @param string $type
      * @return string

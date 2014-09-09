@@ -1,7 +1,6 @@
 <?php
-use CrudGenerator\GeneratorsEmbed\ArchitectGenerator\MetadataRelationToArray;
 echo '<?php' . "\n";
-$lcfirstEntityName              = $this->architectGenerator->getMetadata()->getName(true);
+$lcfirstEntityName = $this->architectGenerator->getMetadata()->getName(true);
 
 ?>
 namespace <?php echo $this->architectGenerator->getNamespace(); ?>\DataObject;
@@ -39,9 +38,9 @@ foreach($this->architectGenerator->getAttributeName() as $originalName => $name)
 <?php
 /* Traitement des champs */
 foreach($this->architectGenerator->getRelationBehavior() as $originalName => $choice) {
-    if ($choice === MetadataRelationToArray::DO_NOTHING) {
+    if ($choice === 'DO_NOTHING') {
         continue;
-    } elseif ($choice === MetadataRelationToArray::ADD_TO_DTO) {
+    } elseif ($choice === 'ADD_TO_DTO') {
         foreach ($this->architectGenerator->getMetadata()->getRelation($originalName)->getMetadata()->getColumnCollection() as $column): ?>
             $<?php echo $column->getName(); ?>
         <?php endforeach;
