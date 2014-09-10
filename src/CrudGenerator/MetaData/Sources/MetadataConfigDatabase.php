@@ -56,7 +56,7 @@ abstract class MetadataConfigDatabase implements \JsonSerializable
     /**
      * Set database name
      * @param string $value
-     * @return MySQLConfig
+     * @return MetadataConfigDatabase
      */
     public function setConfigDatabaseName($value)
     {
@@ -66,7 +66,7 @@ abstract class MetadataConfigDatabase implements \JsonSerializable
     /**
      * Set host
      * @param string $value
-     * @return MySQLConfig
+     * @return MetadataConfigDatabase
      */
     public function setConfigHost($value)
     {
@@ -76,7 +76,7 @@ abstract class MetadataConfigDatabase implements \JsonSerializable
     /**
      * Set user
      * @param string $value
-     * @return MySQLConfig
+     * @return MetadataConfigDatabase
      */
     public function setConfigUser($value)
     {
@@ -86,7 +86,7 @@ abstract class MetadataConfigDatabase implements \JsonSerializable
     /**
      * Set password
      * @param string $value
-     * @return MySQLConfig
+     * @return MetadataConfigDatabase
      */
     public function setConfigPassword($value)
     {
@@ -96,7 +96,7 @@ abstract class MetadataConfigDatabase implements \JsonSerializable
     /**
      * Set port
      * @param string $value
-     * @return MySQLConfig
+     * @return MetadataConfigDatabase
      */
     public function setConfigPort($value)
     {

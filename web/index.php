@@ -1,8 +1,4 @@
 <?php
-use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
-use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 
 set_time_limit(0);
 error_reporting(-1);

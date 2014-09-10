@@ -32,7 +32,7 @@ class IssetVariableTest extends \PHPUnit_Framework_TestCase
             new \Twig_Environment(
                 new \Twig_Loader_String()
             ),
-        	array('test' => 'myValue')
+            array('test' => 'myValue')
         );
 
         $this->assertEquals(

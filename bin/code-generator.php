@@ -22,11 +22,11 @@ use CrudGenerator\Utils\Installer;
 chdir(realpath('./'));
 
 if (is_file(__DIR__ . '/../vendor/autoload.php')) {
-	include_once __DIR__ . '/../vendor/autoload.php';
+    include_once __DIR__ . '/../vendor/autoload.php';
 } elseif (is_file(__DIR__ . '/../../../autoload.php')) {
-	include_once __DIR__ . '/../../../autoload.php';
+    include_once __DIR__ . '/../../../autoload.php';
 } else {
-	throw new RuntimeException('Error: vendor/autoload.php could not be found. Did you run php composer.phar install?');
+    throw new RuntimeException('Error: vendor/autoload.php could not be found. Did you run php composer.phar install?');
 }
 
 Installer::install();
