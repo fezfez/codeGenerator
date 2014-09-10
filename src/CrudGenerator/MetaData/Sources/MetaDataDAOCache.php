@@ -25,7 +25,7 @@ namespace CrudGenerator\MetaData\Sources;
 class MetaDataDAOCache implements MetaDataDAOInterface
 {
     /**
-     * @var MetaDataDAO
+     * @var MetaDataDAOInterface
      */
     private $metadataDAO = null;
     /**
@@ -38,11 +38,11 @@ class MetaDataDAOCache implements MetaDataDAOInterface
     private $noCache = null;
 
     /**
-     * @param MetaDataDAO $metadataDAO
+     * @param MetaDataDAOInterface $metadataDAO
      * @param array $directories
      * @param boolean $noCache
      */
-    public function __construct(MetaDataDAO $metadataDAO, array $directories, $noCache = false)
+    public function __construct(MetaDataDAOInterface $metadataDAO, array $directories, $noCache = false)
     {
         $this->metadataDAO     = $metadataDAO;
         $this->directories     = $directories;

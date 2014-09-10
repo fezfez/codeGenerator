@@ -5,7 +5,7 @@ use CrudGenerator\Command\CreateCommand;
 use Symfony\Component\Console\Application as App;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class executeTest extends \PHPUnit_Framework_TestCase
+class ExecuteTest extends \PHPUnit_Framework_TestCase
 {
     public function testYes()
     {

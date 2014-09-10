@@ -30,12 +30,12 @@ interface MetaDataDAOFactoryInterface
      *
      * @param MetaDataConfig $config
      */
-    public static function getInstance(MetaDataConfig $config = null);
+    public static function getInstance(MetaDataConfigInterface $config = null);
 
     /**
      * Check if dependencies are complete
+     *
      * @param MetaDataSource $metadataSource
-     * return boolean
      * @return boolean
      */
     public static function checkDependencies(MetaDataSource $metadataSource);
