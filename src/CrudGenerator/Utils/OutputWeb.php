@@ -19,17 +19,19 @@ use CrudGenerator\Context\ContextInterface;
  */
 class OutputWeb extends Output
 {
+    /**
+     * @var ContextInterface
+     */
     private $context = null;
 
+    /**
+     * @param ContextInterface $context
+     */
     public function __construct(ContextInterface $context)
     {
         $this->context = $context;
         parent::__construct();
     }
-    /**
-     * @var string
-     */
-    private $buffer = '';
 
     /**
      * {@inheritdoc}

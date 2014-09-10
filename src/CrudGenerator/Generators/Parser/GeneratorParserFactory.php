@@ -17,7 +17,7 @@
  */
 namespace CrudGenerator\Generators\Parser;
 
-use CrudGenerator\Utils\YamlFactory;
+use CrudGenerator\Utils\TranstyperFactory;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\PhpStringParserFactory;
 use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
@@ -44,9 +44,8 @@ class GeneratorParserFactory
 
         return new GeneratorParser(
             new FileManager(),
-            YamlFactory::getInstance(),
+            TranstyperFactory::getInstance(),
             PhpStringParserFactory::getInstance(),
-            GeneratorStrategyFactory::getInstance($context),
             $generatorFinder,
             $parserCollection,
             new GeneratorCompatibilityChecker()

@@ -17,10 +17,9 @@
  */
 namespace CrudGenerator\Generators\Finder;
 
-use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Utils\Yaml;
 use CrudGenerator\MetaData\DataObject\MetaDataInterface;
 use CrudGenerator\Generators\GeneratorCompatibilityChecker;
+use CrudGenerator\Utils\Transtyper;
 
 /**
  * Find all generator allow in project
@@ -30,17 +29,13 @@ use CrudGenerator\Generators\GeneratorCompatibilityChecker;
 class GeneratorFinder implements GeneratorFinderInterface
 {
     /**
-     * @var FileManager File manager
-     */
-    private $fileManager = null;
-    /**
-     * @var Yaml Yaml parser
-     */
-    private $yaml = null;
-    /**
      * @var GeneratorCompatibilityChecker
      */
     private $compatibilityChecker = null;
+    /**
+     * @var Transtyper
+     */
+    private $transtyper = null;
     /**
      * @var array
      */
@@ -49,14 +44,13 @@ class GeneratorFinder implements GeneratorFinderInterface
     /**
      * Find all generator allow in project
      *
-     * @param FileManager $fileManager
-     * @param Yaml $yaml
+     * @param GeneratorCompatibilityChecker $compatibilityChecker
+     * @param Transtyper $transtyper
      */
-    public function __construct(FileManager $fileManager, Yaml $yaml, GeneratorCompatibilityChecker $compatibilityChecker)
+    public function __construct(GeneratorCompatibilityChecker $compatibilityChecker, Transtyper $transtyper)
     {
-        $this->fileManager          = $fileManager;
-        $this->yaml                 = $yaml;
         $this->compatibilityChecker = $compatibilityChecker;
+        $this->transtyper           = $transtyper;
     }
 
     /**
@@ -78,7 +72,7 @@ class GeneratorFinder implements GeneratorFinderInterface
             );
 
             foreach ($iterator as $file) {
-                $process              = json_decode(file_get_contents($file[0]), true);
+                $process              = $this->transtyper->decode(file_get_contents($file[0]));
                 if ($metadata !== null) {
                     try {
                         $this->compatibilityChecker->metadataAllowedInGenerator($metadata, $process);

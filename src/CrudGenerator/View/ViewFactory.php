@@ -45,8 +45,7 @@ class ViewFactory
         );
 
         $viewRenderer = new ViewRenderer($viewHelpers);
-        $fileManager  = new FileManager();
 
-        return new View($fileManager, $viewRenderer);
+        return new View($viewRenderer);
     }
 }

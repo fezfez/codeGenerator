@@ -28,10 +28,6 @@ use CrudGenerator\View\ViewRenderer;
 class View
 {
     /**
-     * @var FileManager File manager
-     */
-    private $fileManager = null;
-    /**
      * @var ViewRenderer File interpreter
      */
     private $viewRenderer = null;
@@ -39,12 +35,10 @@ class View
     /**
      * Manage template renderer
      *
-     * @param FileManager $fileManager
      * @param ViewRenderer $viewRenderer
      */
-    public function __construct(FileManager $fileManager, ViewRenderer $viewRenderer)
+    public function __construct(ViewRenderer $viewRenderer)
     {
-        $this->fileManager  = $fileManager;
         $this->viewRenderer = $viewRenderer;
     }
 

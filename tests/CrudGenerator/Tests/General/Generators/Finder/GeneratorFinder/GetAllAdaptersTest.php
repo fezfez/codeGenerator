@@ -3,17 +3,14 @@ namespace CrudGenerator\Tests\General\Generators\Finder\GeneratorFinder;
 
 use CrudGenerator\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Utils\YamlFactory;
+use CrudGenerator\Utils\TranstyperFactory;
 use CrudGenerator\Generators\GeneratorCompatibilityChecker;
 
 class GetAllAdaptersTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
-        $fileManager = new FileManager();
-        $yaml        = YamlFactory::getInstance();
-
-        $suT = new GeneratorFinder($fileManager, $yaml, new GeneratorCompatibilityChecker());
+        $suT = new GeneratorFinder(new GeneratorCompatibilityChecker(), TranstyperFactory::getInstance());
 
         $this->assertInternalType(
             'array',

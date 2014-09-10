@@ -17,15 +17,11 @@ class InitTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $yaml =  $this->getMockBuilder('CrudGenerator\Utils\Yaml')
+        $yaml =  $this->getMockBuilder('CrudGenerator\Utils\Transtyper')
         ->disableOriginalConstructor()
         ->getMock();
 
         $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $viewFile =  $this->getMockBuilder('CrudGenerator\Generators\Strategies\GeneratorStrategy')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -45,10 +41,10 @@ class InitTest extends \PHPUnit_Framework_TestCase
         );
 
         $yaml->expects($this->once())
-        ->method('parse')
+        ->method('decode')
         ->will($this->returnValue($process));
 
-        $sUT       = new GeneratorParser($fileManager, $yaml, $phpParser, $viewFile, $generatorFinder, $parserCollection, $generatorCompatibilityCheckerMock);
+        $sUT       = new GeneratorParser($fileManager, $yaml, $phpParser, $generatorFinder, $parserCollection, $generatorCompatibilityCheckerMock);
         $generator = new GeneratorDataObject();
         $metadata  = new MetadataDataObjectPostgreSQL(new MetaDataColumnCollection(), new MetaDataRelationCollection());
 
@@ -61,15 +57,11 @@ class InitTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $yaml =  $this->getMockBuilder('CrudGenerator\Utils\Yaml')
+        $yaml =  $this->getMockBuilder('CrudGenerator\Utils\Transtyper')
         ->disableOriginalConstructor()
         ->getMock();
 
         $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $viewFile =  $this->getMockBuilder('CrudGenerator\Generators\Strategies\GeneratorStrategy')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -100,10 +92,10 @@ class InitTest extends \PHPUnit_Framework_TestCase
         );
 
         $yaml->expects($this->once())
-        ->method('parse')
+        ->method('decode')
         ->will($this->returnValue($process));
 
-        $sUT       = new GeneratorParser($fileManager, $yaml, $phpParser, $viewFile, $generatorFinder, $parserCollection, $generatorCompatibilityCheckerMock);
+        $sUT       = new GeneratorParser($fileManager, $yaml, $phpParser, $generatorFinder, $parserCollection, $generatorCompatibilityCheckerMock);
         $metadata  = new MetadataDataObjectPostgreSQL(new MetaDataColumnCollection(), new MetaDataRelationCollection());
 
         $sUT->init($generator, $metadata);

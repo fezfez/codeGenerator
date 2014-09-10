@@ -45,7 +45,7 @@ class GeneratorStrategyFactory
     {
         if ($context instanceof CliContext || $context instanceof WebContext) {
             if (self::$instance === null) {
-                self::$instance = new GeneratorStrategy(ViewFactory::getInstance(), new FileManager());
+                self::$instance = new GeneratorStrategy(ViewFactory::getInstance());
             }
 
             return self::$instance;

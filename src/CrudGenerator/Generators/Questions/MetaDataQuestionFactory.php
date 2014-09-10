@@ -32,11 +32,8 @@ class MetaDataQuestionFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-        $metadataSourceFactory = new MetaDataSourceFactory();
-
         if ($context instanceof WebContext || $context instanceof CliContext) {
-            $metaDataConfigDAO = MetaDataConfigDAOFactory::getInstance($context);
-            return new Web\MetaDataQuestion($metaDataConfigDAO, $metadataSourceFactory, $context);
+            return new Web\MetaDataQuestion(new MetaDataSourceFactory(), $context);
         } else {
             throw new \InvalidArgumentException('Invalid context given');
         }

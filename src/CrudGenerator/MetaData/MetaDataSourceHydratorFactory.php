@@ -31,6 +31,6 @@ class MetaDataSourceHydratorFactory
      */
     public static function getInstance()
     {
-        return new MetaDataSourceHydrator(new FileManager());
+        return new MetaDataSourceHydrator();
     }
 }

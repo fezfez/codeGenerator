@@ -12,9 +12,6 @@ class GenerateFileTest extends \PHPUnit_Framework_TestCase
         $view = $this->getMockBuilder('CrudGenerator\View\View')
         ->disableOriginalConstructor()
         ->getMock();
-        $fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
-        ->disableOriginalConstructor()
-        ->getMock();
 
         $templateResult = 'MyResults';
         $dataObject     = new DataObject();
@@ -35,7 +32,7 @@ class GenerateFileTest extends \PHPUnit_Framework_TestCase
         )
         ->will($this->returnValue($templateResult));
 
-        $sUT = new GeneratorStrategy($view, $fileManager);
+        $sUT = new GeneratorStrategy($view);
 
         $sUT->generateFile(array('dataObject' => $dataObject), $skeletonDir, $pathTemplate, $pathTo);
     }

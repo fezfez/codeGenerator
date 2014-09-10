@@ -10,9 +10,8 @@ class RenderTest extends \PHPUnit_Framework_TestCase
     public function testReturn()
     {
         $viewRenderer = new ViewRenderer(array());
-        $fileManager  = new FileManager();
 
-        $SUT = new View($fileManager, $viewRenderer);
+        $SUT = new View($viewRenderer);
 
         $this->assertEquals(
             'myValue',
@@ -27,9 +26,8 @@ class RenderTest extends \PHPUnit_Framework_TestCase
     public function testFail()
     {
         $viewRenderer = new ViewRenderer(array());
-        $fileManager  = new FileManager();
 
-        $SUT = new View($fileManager, $viewRenderer);
+        $SUT = new View($viewRenderer);
 
         $this->setExpectedException('CrudGenerator\View\ViewRendererException');
 

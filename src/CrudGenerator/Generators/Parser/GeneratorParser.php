@@ -17,7 +17,7 @@
  */
 namespace CrudGenerator\Generators\Parser;
 
-use CrudGenerator\Utils\Yaml;
+use CrudGenerator\Utils\Transtyper;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\MetaData\DataObject\MetaData;
@@ -45,9 +45,9 @@ class GeneratorParser implements GeneratorParserInterface
     const DIFFERENT_EQUAL         = '!=';
 
     /**
-     * @var Yaml YamlParser
+     * @var Transtyper
      */
-    private $yaml = null;
+    private $transtyper = null;
     /**
      * @var FileManager file manager
      */
@@ -56,10 +56,6 @@ class GeneratorParser implements GeneratorParserInterface
      * @var PhpStringParser PhpStringParser
      */
     private $phpStringParser = null;
-    /**
-     * @var GeneratorStrategy
-     */
-    private $viewFile = null;
     /**
      * @var GeneratorFinder
      */
@@ -75,25 +71,22 @@ class GeneratorParser implements GeneratorParserInterface
 
     /**
      * @param FileManager $fileManager
-     * @param Yaml $yaml
+     * @param Transtyper $transtyper
      * @param PhpStringParser $phpStringParser
-     * @param GeneratorStrategy $viewFile
      * @param GeneratorFinder $generatorFinder
      * @param ParserCollection $parserCollection
      */
     public function __construct(
         FileManager $fileManager,
-        Yaml $yaml,
+        Transtyper $transtyper,
         PhpStringParser $phpStringParser,
-        GeneratorStrategy $viewFile,
         GeneratorFinderInterface $generatorFinder,
         ParserCollection $parserCollection,
         GeneratorCompatibilityChecker $generatorCompatibilityChecker
     ) {
         $this->fileManager      = $fileManager;
-        $this->yaml             = $yaml;
+        $this->transtyper       = $transtyper;
         $this->phpStringParser  = $phpStringParser;
-        $this->viewFile         = $viewFile;
         $this->generatorFinder  = $generatorFinder;
         $this->parserCollection = $parserCollection;
         $this->generatorCompatibilityChecker = $generatorCompatibilityChecker;
@@ -125,7 +118,7 @@ class GeneratorParser implements GeneratorParserInterface
     {
         $generator         = clone $generator;
         $generatorFilePath = $this->generatorFinder->findByName($name);
-        $process           = $this->yaml->parse($this->fileManager->fileGetContent($generatorFilePath));
+        $process           = $this->transtyper->decode($this->fileManager->fileGetContent($generatorFilePath));
 
         $this->generatorCompatibilityChecker->metadataAllowedInGenerator($metadata, $process);
 

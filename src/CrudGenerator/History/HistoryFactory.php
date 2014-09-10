@@ -17,12 +17,12 @@
  */
 namespace CrudGenerator\History;
 
-use CrudGenerator\History\HistoryManager;
-use CrudGenerator\History\HistoryHydratorFactory;
-use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\CliContext;
 use CrudGenerator\Context\WebContext;
+use CrudGenerator\History\HistoryManager;
+use CrudGenerator\History\HistoryHydratorFactory;
+use CrudGenerator\Utils\FileManager;
 
 /**
  * Create HistoryManager instance
@@ -39,10 +39,6 @@ class HistoryFactory
     public static function getInstance(ContextInterface $context)
     {
         if ($context instanceof CliContext || $context instanceof WebContext) {
-            // wakeup classes
-            //$generatorFinder = GeneratorFinderFactory::getInstance();
-            //$generatorFinder->getAllClasses();
-
             $fileManager     = new FileManager();
             $historyHydrator = HistoryHydratorFactory::getInstance($context);
 

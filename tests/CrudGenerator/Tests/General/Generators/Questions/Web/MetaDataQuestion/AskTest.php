@@ -19,10 +19,6 @@ class AskTest extends \PHPUnit_Framework_TestCase
                ->setMetaDataDAO('Name')
                ->setMetaDataDAOFactory('test');
 
-        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigDAO')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $metaData = new MetadataDataObjectDoctrine2(
             new MetaDataColumnCollection(),
             new MetaDataRelationCollection()
@@ -53,7 +49,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub, $context);
+        $sUT = new MetaDataQuestion($metaDataSourceFactoryStub, $context);
 
         $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
 
@@ -67,10 +63,6 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $source->setDefinition('My definition')
         ->setMetaDataDAO('Name')
         ->setConfig($config);
-
-        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigDAO')
-        ->disableOriginalConstructor()
-        ->getMock();
 
         $metaData = new MetadataDataObjectDoctrine2(
             new MetaDataColumnCollection(),
@@ -102,7 +94,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub, $context);
+        $sUT = new MetaDataQuestion($metaDataSourceFactoryStub, $context);
 
         $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
 
@@ -114,10 +106,6 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
         ->setMetaDataDAO('Name');
-
-        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigDAO')
-        ->disableOriginalConstructor()
-        ->getMock();
 
         $metaData = new MetadataDataObjectDoctrine2(
             new MetaDataColumnCollection(),
@@ -154,7 +142,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->method('askCollection')
         ->will($this->returnValue('MyName'));
 
-        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub, $context);
+        $sUT = new MetaDataQuestion($metaDataSourceFactoryStub, $context);
         $this->assertEquals($metaData, $sUT->ask($source));
     }
 
@@ -163,10 +151,6 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
         ->setMetaDataDAO('Name');
-
-        $metaDataConfigReaderStub = $this->getMockBuilder('CrudGenerator\MetaData\Config\MetaDataConfigDAO')
-        ->disableOriginalConstructor()
-        ->getMock();
 
         $metaData = new MetadataDataObjectDoctrine2(
             new MetaDataColumnCollection(),
@@ -203,7 +187,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->method('askCollection')
         ->will($this->returnValue('fakename'));
 
-        $sUT = new MetaDataQuestion($metaDataConfigReaderStub, $metaDataSourceFactoryStub, $context);
+        $sUT = new MetaDataQuestion($metaDataSourceFactoryStub, $context);
 
         $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
 

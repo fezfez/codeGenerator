@@ -13,7 +13,7 @@ $app->match('/', function() use ($app) {
 $app->match('/generator', function (Request $request) use ($app) {
     $stream  = $request->get('stream');
 
-    $runner = function () use($app, $stream, $request) {
+    $runner = function () use($stream, $request) {
         $event   = (($stream == 'true') ? new Igorw\EventSource\Stream() : null);
         $context = new WebContext($request, $event);
         $main    = MainBackboneFactory::getInstance($context);

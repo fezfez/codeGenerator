@@ -18,16 +18,26 @@
 namespace CrudGenerator\Utils;
 
 /**
- * Parser
+ * Transtyper
  */
-class Yaml
+class Transtyper
 {
     /**
      * @param string $string
      *
      * @return mixed  A PHP value
      */
-    public function parse($string)
+    public function encode($string)
+    {
+        return json_encode($string, true);
+    }
+
+    /**
+     * @param string $string
+     *
+     * @return mixed  A PHP value
+     */
+    public function decode($string)
     {
         return json_decode($string, true);
     }

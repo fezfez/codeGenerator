@@ -27,17 +27,6 @@ use CrudGenerator\Utils\FileManager;
  */
 class MetaDataSourceHydrator
 {
-    private $fileManager = null;
-
-    /**
-     * Find all adapters allow in project
-     * @param FileManager $fileManager
-     */
-    public function __construct(FileManager $fileManager)
-    {
-        $this->fileManager = $fileManager;
-    }
-
     /**
      * Build a MetaDataSourceDataobject with all his dependencies
      *

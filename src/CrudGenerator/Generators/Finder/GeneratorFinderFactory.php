@@ -19,7 +19,7 @@ namespace CrudGenerator\Generators\Finder;
 
 use CrudGenerator\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Utils\YamlFactory;
+use CrudGenerator\Utils\TranstyperFactory;
 use CrudGenerator\Utils\Installer;
 use CrudGenerator\Generators\GeneratorCompatibilityChecker;
 
@@ -39,9 +39,8 @@ class GeneratorFinderFactory
     {
         return new GeneratorFinderCache(
             new GeneratorFinder(
-                new FileManager(),
-                YamlFactory::getInstance(),
-                new GeneratorCompatibilityChecker()
+                new GeneratorCompatibilityChecker(),
+                TranstyperFactory::getInstance()
             ),
             Installer::getDirectories()
         );

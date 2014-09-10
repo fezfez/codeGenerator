@@ -32,20 +32,14 @@ class GeneratorStrategy implements StrategyInterface
      * @var View View manager
      */
     private $view = null;
-    /**
-     * @var FileManager File Manager
-     */
-    private $fileManager = null;
 
     /**
      * Base code generator
      * @param View $view
-     * @param FileManager $fileManager
      */
-    public function __construct(View $view, FileManager $fileManager)
+    public function __construct(View $view)
     {
         $this->view        = $view;
-        $this->fileManager = $fileManager;
     }
 
     /* (non-PHPdoc)

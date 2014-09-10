@@ -9,11 +9,13 @@ ini_set('memory_limit', '512M');
 
 $vendorDir = __DIR__ . '/../vendor';
 
-if (!@include($vendorDir . '/autoload.php')) {
-    die("You must set up the project dependencies, run the following commands:
+if (false === is_file($vendorDir . '/autoload.php')) {
+    throw new \Exception("You must set up the project dependencies, run the following commands:
                     wget http://getcomposer.org/composer.phar
                     php composer.phar install
                     ");
+} else {
+    include($vendorDir . '/autoload.php');
 }
 
 // register silently failing autoloader

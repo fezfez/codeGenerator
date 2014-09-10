@@ -17,19 +17,14 @@
  */
 namespace CrudGenerator\Generators\Questions\Web;
 
-use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
+use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\MetaDataSourceFactory;
-use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\ResponseExpectedException;
 
 class MetaDataQuestion
 {
     const QUESTION_KEY = 'metadata';
-    /**
-     * @var MetaDataConfigDAO
-     */
-    private $metaDataConfigDAO = null;
     /**
      * @var MetaDataSourceFactory
      */
@@ -40,15 +35,13 @@ class MetaDataQuestion
     private $context = null;
 
     /**
-     * @param MetaDataConfigDAO $metaDataConfigDAO
      * @param MetaDataSourceFactory $metaDataSourceFactory
+     * @param ContextInterface $context
      */
     public function __construct(
-        MetaDataConfigDAO $metaDataConfigDAO,
         MetaDataSourceFactory $metaDataSourceFactory,
         ContextInterface $context
     ) {
-        $this->metaDataConfigDAO     = $metaDataConfigDAO;
         $this->metaDataSourceFactory = $metaDataSourceFactory;
         $this->context               = $context;
     }
@@ -112,7 +105,7 @@ class MetaDataQuestion
 
         throw new ResponseExpectedException(
             sprintf(
-                "Metadata %s does not exist",
+                'Metadata "%s" does not exist',
                 $metaDataNamePreselected
             )
         );

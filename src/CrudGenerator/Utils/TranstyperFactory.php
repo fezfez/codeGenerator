@@ -18,22 +18,22 @@
 namespace CrudGenerator\Utils;
 
 /**
- * Yaml parser factory
+ * Transtyper factory
  */
-class YamlFactory
+class TranstyperFactory
 {
     /**
-     * @var Yaml
+     * @var Transtyper
      */
     private static $instance = null;
 
     /**
-     * @return \CrudGenerator\Utils\Yaml
+     * @return \CrudGenerator\Utils\Transtyper
      */
     public static function getInstance()
     {
         if (self::$instance === null) {
-            self::$instance = new Yaml();
+            self::$instance = new Transtyper();
         }
 
         return self::$instance;
