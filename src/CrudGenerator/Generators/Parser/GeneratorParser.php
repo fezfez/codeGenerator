@@ -57,7 +57,7 @@ class GeneratorParser implements GeneratorParserInterface
      */
     private $phpStringParser = null;
     /**
-     * @var GeneratorFinder
+     * @var GeneratorFinderInterface
      */
     private $generatorFinder = null;
     /**
@@ -73,7 +73,7 @@ class GeneratorParser implements GeneratorParserInterface
      * @param FileManager $fileManager
      * @param Transtyper $transtyper
      * @param PhpStringParser $phpStringParser
-     * @param GeneratorFinder $generatorFinder
+     * @param GeneratorFinderInterface $generatorFinder
      * @param ParserCollection $parserCollection
      */
     public function __construct(

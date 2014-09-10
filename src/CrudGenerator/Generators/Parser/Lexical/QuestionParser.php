@@ -126,8 +126,7 @@ class QuestionParser implements ParserInterface
                 $question[GeneratorParser::DEPENDENCY_CONDITION],
                 $parser,
                 $generator,
-                $firstIteration,
-                $process
+                $firstIteration
             );
             foreach ($matches as $questionsMatchs) {
                 $generator = $this->evaluateQuestions(
@@ -190,8 +189,13 @@ class QuestionParser implements ParserInterface
     }
 
     /**
-     * @param boolean $firstIteration
-     */
+      * @param array $question
+      * @param PhpStringParser $parser
+      * @param GeneratorDataObject $generator
+      * @param boolean $firstIteration
+      * @param array $process
+      * @throws \InvalidArgumentException
+      */
     public function evaluateIteratorWithPredefinedResponseQuestion(
         array $question,
         PhpStringParser $parser,

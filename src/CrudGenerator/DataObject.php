@@ -114,7 +114,7 @@ class DataObject implements \JsonSerializable
      * @param array $args
      * @param string $methodName
      * @throws \Exception
-     * @return NULL|multitype:
+     * @return mixed
      */
     private function getter(array $args, $methodName)
     {
@@ -140,7 +140,10 @@ class DataObject implements \JsonSerializable
         // unkown
         else {
             throw new \Exception(
-                    sprintf("method %s unkown params %s with store %s", $method, print_r($args, true), print_r($this->store[$methodName], true))
+                sprintf(
+                    'Unkown method "%s"',
+                    $methodName
+                )
             );
         }
     }

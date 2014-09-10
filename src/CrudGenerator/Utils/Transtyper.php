@@ -29,7 +29,7 @@ class Transtyper
      */
     public function encode($string)
     {
-        return json_encode($string, true);
+        return json_encode($string, JSON_PRETTY_PRINT);
     }
 
     /**

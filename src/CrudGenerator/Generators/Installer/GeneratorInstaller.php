@@ -59,8 +59,6 @@ class GeneratorInstaller implements GeneratorInstallerInterface
      */
     public function install($package, $version = 'dev-master')
     {
-        //$input = clone $this->input;
-
         $this->input->setArgument('packages',  array($package . ':' . $version));
         $this->output->write(sprintf('%s$ composer update %s:%s', getcwd(), $package, $version));
 

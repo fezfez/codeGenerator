@@ -66,7 +66,7 @@ define(
             $scope.backendSelected   = null;
             $scope.historyQuestion   = {};
             $scope.generatorPreview  = null;
-            $scope.downloadLog       = Array();
+            $scope.downloadLog       = new Array();
 
             $scope.setConfigQuestion = function(attribute) {
                 $scope.backendConfig();
@@ -178,7 +178,7 @@ define(
             };
             
             $scope.downloadGenerator = function(generator) {
-                $scope.downloadLog = Array();
+                $scope.downloadLog = new Array();
                 $downloadGeneratorService.download(
                     generator,
                     function(event) {

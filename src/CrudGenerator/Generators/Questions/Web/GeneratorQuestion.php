@@ -27,7 +27,7 @@ class GeneratorQuestion
 {
     const QUESTION_KEY = 'generator';
     /**
-     * @var GeneratorFinder
+     * @var GeneratorFinderInterface
      */
     private $generatorFinder = null;
     /**
@@ -36,7 +36,7 @@ class GeneratorQuestion
     private $context = null;
 
     /**
-     * @param GeneratorFinder $generatorFinder
+     * @param GeneratorFinderInterface $generatorFinder
      * @param ContextInterface $context
      */
     public function __construct(GeneratorFinderInterface $generatorFinder, ContextInterface $context)

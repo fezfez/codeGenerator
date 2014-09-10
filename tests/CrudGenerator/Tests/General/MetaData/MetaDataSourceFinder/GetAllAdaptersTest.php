@@ -2,6 +2,7 @@
 namespace CrudGenerator\Tests\General\MetaData\MetaDataSourceFinder;
 
 use CrudGenerator\MetaData\MetaDataSourceFinder;
+use CrudGenerator\MetaData\MetaDataSourceHydrator;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\ClassAwake;
 
@@ -12,7 +13,7 @@ class GetAllAdaptersTest extends \PHPUnit_Framework_TestCase
         chdir(__DIR__);
         $classAwake = new ClassAwake();
 
-        $metaDataSourceHydrator = new \CrudGenerator\MetaData\MetaDataSourceHydrator(new FileManager());
+        $metaDataSourceHydrator = new MetaDataSourceHydrator();
         $suT = new MetaDataSourceFinder($classAwake, $metaDataSourceHydrator);
 
         $adapterCollection = $suT->getAllAdapters();
