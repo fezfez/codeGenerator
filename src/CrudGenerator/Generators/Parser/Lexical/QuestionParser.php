@@ -189,6 +189,9 @@ class QuestionParser implements ParserInterface
         return $generator;
     }
 
+    /**
+     * @param boolean $firstIteration
+     */
     public function evaluateIteratorWithPredefinedResponseQuestion(
         array $question,
         PhpStringParser $parser,
@@ -221,7 +224,7 @@ class QuestionParser implements ParserInterface
 
             $responseList = array();
             foreach ($question['predefinedResponse'] as $key => $response) {
-            	$responseList[$key] = $this->staticsprintf($response, array('iteration' => $iteration));
+                $responseList[$key] = $this->staticsprintf($response, array('iteration' => $iteration));
             }
 
             $response = $this->context->askCollection(
@@ -295,7 +298,6 @@ class QuestionParser implements ParserInterface
             );
         }
 
-
         foreach ($instance as $iteration) {
 
             $origine = $this->phpInterpretStatic(
@@ -344,7 +346,7 @@ class QuestionParser implements ParserInterface
         $method = $cleanMethodName($testExplode[1]);
 
         if (false === method_exists($variableVariable[$variableName], $method)) {
-			throw new \InvalidArgumentException(sprintf('method %s does not exist on %s', $method, $test));
+            throw new \InvalidArgumentException(sprintf('method %s does not exist on %s', $method, $test));
         }
 
         $instance = $variableVariable[$variableName]->$method();

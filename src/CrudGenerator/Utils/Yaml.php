@@ -17,7 +17,6 @@
  */
 namespace CrudGenerator\Utils;
 
-
 /**
  * Parser
  */

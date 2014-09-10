@@ -35,7 +35,7 @@ class Doctrine2MetaDataDAOFactory implements MetaDataDAOFactory
 {
     /**
      * Create Doctrine2MetaDataDAO instance
-     * @return Doctrine2MetaDataDAO
+     * @return MetaDataDAOCache
      */
     public static function getInstance(MetaDataConfig $config = null)
     {
