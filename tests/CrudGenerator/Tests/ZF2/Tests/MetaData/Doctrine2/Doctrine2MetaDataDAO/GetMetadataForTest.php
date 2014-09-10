@@ -3,7 +3,6 @@ namespace CrudGenerator\Tests\ZF2\MetaData\Sources\Doctrine2\Doctrine2MetaDataDA
 
 use CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO;
 use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
-use CrudGenerator\Utils\FileManager;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
 
 class GetMetadataForTest extends \PHPUnit_Framework_TestCase

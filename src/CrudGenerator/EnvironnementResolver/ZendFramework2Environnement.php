@@ -62,14 +62,12 @@ class ZendFramework2Environnement
             }
 
             try {
-                $application = \Zend\Mvc\Application::init($fileManager->includeFile('config/application.config.php'));
+                self::$serviceManager = \Zend\Mvc\Application::init($fileManager->includeFile('config/application.config.php'));
             } catch (\Zend\ModuleManager\Exception\RuntimeException $e) {
                 throw new EnvironnementResolverException($e->getMessage());
             }
 
             chdir($actualDir);
-
-            self::$serviceManager = $application->getServiceManager();
         }
 
         return self::$serviceManager;

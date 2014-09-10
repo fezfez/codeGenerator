@@ -3,7 +3,6 @@ namespace CrudGenerator\Tests\General\GeneratorsEmbed\FormGenerator\Parse;
 
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParserFactory;
-use CrudGenerator\Context\WebContext;
 use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 
 class AnalyseTest extends \PHPUnit_Framework_TestCase

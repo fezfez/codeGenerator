@@ -2,12 +2,8 @@
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\FileParser;
 
 use CrudGenerator\Generators\Parser\Lexical\FileParser;
-use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
-use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
-use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\DataObject;
 
 class EvaluateTest extends \PHPUnit_Framework_TestCase

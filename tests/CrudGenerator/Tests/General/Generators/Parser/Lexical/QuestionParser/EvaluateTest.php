@@ -2,11 +2,8 @@
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\QuestionParser;
 
 use CrudGenerator\Generators\Parser\Lexical\QuestionParser;
-use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
-use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
-use CrudGenerator\Context\WebContext;
 use CrudGenerator\DataObject;
 use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
 

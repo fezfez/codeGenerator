@@ -21,7 +21,6 @@ use CrudGenerator\Utils\Transtyper;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\MetaData\DataObject\MetaData;
-use CrudGenerator\Generators\Strategies\GeneratorStrategy;
 use CrudGenerator\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\ParserCollection;

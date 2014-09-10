@@ -3,7 +3,6 @@ namespace CrudGenerator\Tests\General\Command\Questions\HistoryQuestionFactory;
 
 use CrudGenerator\Generators\Questions\HistoryQuestionFactory;
 use CrudGenerator\Context\CliContext;
-use CrudGenerator\Context\WebContext;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {

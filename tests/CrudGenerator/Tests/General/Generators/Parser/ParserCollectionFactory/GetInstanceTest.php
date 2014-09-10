@@ -3,7 +3,6 @@ namespace CrudGenerator\Tests\General\Generators\Parser\ParserCollectionFactory;
 
 use CrudGenerator\Generators\Parser\ParserCollectionFactory;
 use CrudGenerator\Context\CliContext;
-use CrudGenerator\Context\WebContext;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {

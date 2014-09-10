@@ -3,7 +3,6 @@ namespace CrudGenerator\Tests\General\Generators\Questions\MetaDataSourcesQuesti
 
 use CrudGenerator\Generators\Questions\MetaDataSourcesQuestionFactory;
 use CrudGenerator\Context\CliContext;
-use CrudGenerator\Context\WebContext;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {

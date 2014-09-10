@@ -20,7 +20,6 @@ namespace CrudGenerator\Generators\Parser;
 use CrudGenerator\Utils\TranstyperFactory;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\PhpStringParserFactory;
-use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
 use CrudGenerator\Generators\Parser\ParserCollectionFactory;
 use CrudGenerator\Context\ContextInterface;

@@ -17,7 +17,6 @@
  */
 namespace CrudGenerator\MetaData;
 
-use CrudGenerator\Utils\FileManager;
 
 /**
  * Find all MetaDataSource allow in project

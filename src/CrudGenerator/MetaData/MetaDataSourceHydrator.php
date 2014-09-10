@@ -18,7 +18,6 @@
 namespace CrudGenerator\MetaData;
 
 use CrudGenerator\MetaData\MetaDataSource;
-use CrudGenerator\Utils\FileManager;
 
 /**
  * Find all MetaDataSource allow in project

@@ -17,7 +17,6 @@
  */
 namespace CrudGenerator\Generators\Parser\Lexical;
 
-use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
@@ -28,10 +27,6 @@ use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 class TemplateVariableParser implements ParserInterface
 {
     /**
-     * @var FileManager
-     */
-    private $fileManager = null;
-    /**
      * @var EnvironnementCondition
      */
     private $environnementCondition = null;
@@ -41,13 +36,11 @@ class TemplateVariableParser implements ParserInterface
     private $dependencyCondition = null;
 
     /**
-     * @param FileManager $fileManager
      * @param EnvironnementCondition $environnementCondition
      * @param DependencyCondition $dependencyCondition
      */
-    public function __construct(FileManager $fileManager, EnvironnementCondition $environnementCondition, DependencyCondition $dependencyCondition)
+    public function __construct(EnvironnementCondition $environnementCondition, DependencyCondition $dependencyCondition)
     {
-        $this->fileManager            = $fileManager;
         $this->environnementCondition = $environnementCondition;
         $this->dependencyCondition    = $dependencyCondition;
     }

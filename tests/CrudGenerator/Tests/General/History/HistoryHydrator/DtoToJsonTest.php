@@ -9,7 +9,6 @@ use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Sources\MySQL\MySQLConfig;
-use CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAO;
 
 class DtoToJsonTest extends \PHPUnit_Framework_TestCase
 {

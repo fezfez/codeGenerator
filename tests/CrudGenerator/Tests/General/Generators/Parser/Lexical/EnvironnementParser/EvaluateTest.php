@@ -2,9 +2,7 @@
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\EnvironnementParser;
 
 use CrudGenerator\Generators\Parser\Lexical\EnvironnementParser;
-use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Context\WebContext;
 use Symfony\Component\Yaml\Yaml;
 use CrudGenerator\DataObject;
 

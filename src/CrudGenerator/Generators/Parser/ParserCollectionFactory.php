@@ -46,7 +46,7 @@ class ParserCollectionFactory
 
             $collection->addPreParse(new EnvironnementParser($context))
                        ->addPostParse(new QuestionParser($context, $dependencyCondition))
-                       ->addPostParse(new TemplateVariableParser($fileManager, $environnemetCondition, $dependencyCondition))
+                       ->addPostParse(new TemplateVariableParser($environnemetCondition, $dependencyCondition))
                        ->addPostParse(new DirectoriesParser())
                        ->addPostParse(new FileParser($fileManager, $dependencyCondition, $environnemetCondition));
 

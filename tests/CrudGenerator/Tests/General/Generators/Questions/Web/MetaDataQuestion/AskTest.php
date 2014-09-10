@@ -8,7 +8,6 @@ use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
-use CrudGenerator\Context\WebContext;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,7 +1,6 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\Condition\DependencyCondition;
 
-use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Generators\Parser\GeneratorParser;

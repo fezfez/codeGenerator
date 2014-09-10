@@ -4,7 +4,6 @@ namespace CrudGenerator\Tests\General\Generators\Questions\Web\MetaDataSourcesQu
 use CrudGenerator\Generators\Questions\Web\MetaDataSourcesQuestion;
 use CrudGenerator\MetaData\MetaDataSourceCollection;
 use CrudGenerator\MetaData\MetaDataSource;
-use CrudGenerator\Context\WebContext;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {

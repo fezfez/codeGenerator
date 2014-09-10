@@ -3,7 +3,6 @@ namespace CrudGenerator\Tests\General\MetaData\MetaDataSourceFinder;
 
 use CrudGenerator\MetaData\MetaDataSourceFinder;
 use CrudGenerator\MetaData\MetaDataSourceHydrator;
-use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\ClassAwake;
 
 class GetAllAdaptersTest extends \PHPUnit_Framework_TestCase

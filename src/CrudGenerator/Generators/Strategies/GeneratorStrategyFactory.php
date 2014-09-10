@@ -18,7 +18,6 @@
 namespace CrudGenerator\Generators\Strategies;
 
 use CrudGenerator\View\ViewFactory;
-use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\CliContext;
 use CrudGenerator\Context\WebContext;

@@ -17,7 +17,6 @@
  */
 namespace CrudGenerator\History;
 
-use CrudGenerator\DataObject;
 use CrudGenerator\Generators\GeneratorDataObject;
 
 /**

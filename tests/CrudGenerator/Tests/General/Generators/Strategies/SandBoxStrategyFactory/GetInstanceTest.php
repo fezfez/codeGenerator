@@ -3,7 +3,6 @@ namespace CrudGenerator\Tests\General\Generators\Strategies\SandBoxStrategyFacto
 
 use CrudGenerator\Generators\Strategies\SandBoxStrategyFactory;
 use CrudGenerator\Context\CliContext;
-use CrudGenerator\Context\WebContext;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {

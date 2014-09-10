@@ -2,7 +2,6 @@
 namespace CrudGenerator\Tests\General\Command\Questions\Web\GeneratorQuestion;
 
 use CrudGenerator\Generators\Questions\Web\GeneratorQuestion;
-use CrudGenerator\Context\WebContext;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;

@@ -2,7 +2,6 @@
 namespace CrudGenerator\Tests\General\EnvironnementResolver;
 
 use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
-use CrudGenerator\Utils\FileManager;
 
 class ZendFramework2EnvironnementTest extends \PHPUnit_Framework_TestCase
 {

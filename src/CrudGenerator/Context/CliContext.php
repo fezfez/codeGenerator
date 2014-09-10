@@ -33,11 +33,6 @@ class CliContext implements ContextInterface
      */
     private $dialog = null;
     /**
-     * @var array
-     */
-    private $question = array();
-
-    /**
      * @param OutputInterface $output
      */
     public function __construct(DialogHelper $dialog, OutputInterface $output)

@@ -2,7 +2,6 @@
 namespace CrudGenerator\Tests\General\History\HistoryHydrator;
 
 use CrudGenerator\History\HistoryHydrator;
-use CrudGenerator\Command\Questions\MetaDataQuestion;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;

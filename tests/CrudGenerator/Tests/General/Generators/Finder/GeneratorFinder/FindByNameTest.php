@@ -2,7 +2,6 @@
 namespace CrudGenerator\Tests\General\Generators\Finder\GeneratorFinder;
 
 use CrudGenerator\Generators\Finder\GeneratorFinder;
-use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\TranstyperFactory;
 use CrudGenerator\Generators\GeneratorCompatibilityChecker;
 

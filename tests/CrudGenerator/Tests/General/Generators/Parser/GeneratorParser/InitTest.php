@@ -1,8 +1,6 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Parser\GeneratorParser;
 
-use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;

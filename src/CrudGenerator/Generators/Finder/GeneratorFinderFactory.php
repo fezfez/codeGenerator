@@ -18,7 +18,6 @@
 namespace CrudGenerator\Generators\Finder;
 
 use CrudGenerator\Generators\Finder\GeneratorFinder;
-use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\TranstyperFactory;
 use CrudGenerator\Utils\Installer;
 use CrudGenerator\Generators\GeneratorCompatibilityChecker;

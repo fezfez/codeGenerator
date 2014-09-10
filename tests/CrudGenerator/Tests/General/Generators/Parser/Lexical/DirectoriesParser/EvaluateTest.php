@@ -2,7 +2,6 @@
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\DirectoriesParser;
 
 use CrudGenerator\Generators\Parser\Lexical\DirectoriesParser;
-use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 
 class EvaluateTest extends \PHPUnit_Framework_TestCase

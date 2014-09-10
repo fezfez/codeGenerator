@@ -1,7 +1,6 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Strategies\GeneratorStrategy;
 
-use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\Strategies\GeneratorStrategy;
 use CrudGenerator\DataObject;
 

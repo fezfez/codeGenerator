@@ -17,7 +17,6 @@
  */
 namespace CrudGenerator\Generators\Questions;
 
-use CrudGenerator\MetaData\Config\MetaDataConfigDAOFactory;
 use CrudGenerator\MetaData\MetaDataSourceFactory;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\CliContext;

@@ -16,7 +16,9 @@
  * and is licensed under the MIT license
  */
 
-use Symfony\Component\Console\Input\Input;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Input\ArrayInput;
+use CrudGenerator\Service\CliFactory;
 use CrudGenerator\Utils\Installer;
 
 chdir(realpath('./'));
@@ -31,7 +33,7 @@ if (is_file(__DIR__ . '/../vendor/autoload.php')) {
 
 Installer::install();
 
-$output = new Symfony\Component\Console\Output\ConsoleOutput();
-$input  = new Symfony\Component\Console\Input\ArrayInput(array());
-$cli    = CrudGenerator\Service\CliFactory::getInstance($output);
+$output = new ConsoleOutput();
+$input  = new ArrayInput(array());
+$cli    = CliFactory::getInstance($output);
 $cli->run($input, $output);
