@@ -58,7 +58,7 @@ class MetaDataSourceFinder
             array(
                 __DIR__ . '/Sources/'
             ),
-            'CrudGenerator\MetaData\Sources\MetaDataDAOFactory'
+            'CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface'
         );
 
         $adapterCollection = new MetaDataSourceCollection();

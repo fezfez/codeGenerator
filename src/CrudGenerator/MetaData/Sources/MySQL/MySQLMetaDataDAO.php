@@ -19,7 +19,7 @@ namespace CrudGenerator\MetaData\Sources\MySQL;
 
 use PDO;
 use CrudGenerator\MetaData\Sources\MySQL\MySQLConfig;
-use CrudGenerator\MetaData\Sources\MetaDataDAO;
+use CrudGenerator\MetaData\Sources\MetaDataDAOInterface;
 use CrudGenerator\MetaData\Sources\MySQL\MetadataDataObjectMySQL;
 use CrudGenerator\MetaData\DataObject\MetaDataCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
@@ -30,7 +30,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
 /**
  * MySQL adapter
  */
-class MySQLMetaDataDAO implements MetaDataDAO
+class MySQLMetaDataDAO implements MetaDataDAOInterface
 {
     /**
      * @var array

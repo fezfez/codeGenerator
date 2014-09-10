@@ -20,7 +20,7 @@ namespace CrudGenerator\MetaData\Config;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\ClassAwake;
-use CrudGenerator\MetaData\Sources\MetaDataConfig;
+use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\MetaDataSourceHydrator;
 use CrudGenerator\MetaData\MetaDataSourceCollection;
 use ReflectionClass;
@@ -93,7 +93,7 @@ class MetaDataConfigDAO
             array(
                 __DIR__ . '/../Sources/'
             ),
-            'CrudGenerator\MetaData\Sources\MetaDataDAOFactory'
+            'CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface'
         );
 
         $adapterCollection = new MetaDataSourceCollection();
@@ -122,10 +122,10 @@ class MetaDataConfigDAO
 
     /**
      * @param array $configFile
-     * @param MetaDataConfig $config
-     * @return MetaDataConfig
+     * @param MetaDataConfigInterface $config
+     * @return MetaDataConfigInterface
      */
-    private function arrayToDto(array $configFile, MetaDataConfig $config)
+    private function arrayToDto(array $configFile, MetaDataConfigInterface $config)
     {
         $configMethods = get_class_methods($config);
         foreach ($configFile as $configAttribute => $configValue) {
@@ -144,10 +144,10 @@ class MetaDataConfigDAO
     }
 
     /**
-     * @param MetaDataConfig $adapterConfig
+     * @param MetaDataConfigInterface $adapterConfig
      * @return boolean
      */
-    public function save(MetaDataConfig $adapterConfig)
+    public function save(MetaDataConfigInterface $adapterConfig)
     {
         $adapterConfig = $this->ask($adapterConfig);
         $this->isValid($adapterConfig);
@@ -159,10 +159,10 @@ class MetaDataConfigDAO
     }
 
     /**
-     * @param MetaDataConfig $adapterConfig
+     * @param MetaDataConfigInterface $adapterConfig
      * @return $adapterConfig
      */
-    public function ask(MetaDataConfig $adapterConfig)
+    public function ask(MetaDataConfigInterface $adapterConfig)
     {
         $adapterConfig = clone $adapterConfig;
         $reflect       = new ReflectionClass($adapterConfig);
@@ -185,10 +185,10 @@ class MetaDataConfigDAO
     }
 
     /**
-     * @param MetaDataConfig $adapterConfig
+     * @param MetaDataConfigInterface $adapterConfig
      * @return boolean
      */
-    private function isValid(MetaDataConfig $adapterConfig)
+    private function isValid(MetaDataConfigInterface $adapterConfig)
     {
         $adapterConfig->test();
         return true;

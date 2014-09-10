@@ -17,16 +17,16 @@
  */
 namespace CrudGenerator\MetaData\Sources\MySQL;
 
-use CrudGenerator\MetaData\Sources\MetaDataDAOFactory;
+use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface;
 use CrudGenerator\MetaData\MetaDataSource;
-use CrudGenerator\MetaData\Sources\MetaDataConfig;
+use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\Sources\MySQL\MySQLConfig;
 
 /**
  * Create MySQL Metadata DAO instance
  *
  */
-class MySQLMetaDataDAOFactory implements MetaDataDAOFactory
+class MySQLMetaDataDAOFactory implements MetaDataDAOFactoryInterface
 {
     /**
      * Create MySQL Metadata DAO instance
@@ -34,7 +34,7 @@ class MySQLMetaDataDAOFactory implements MetaDataDAOFactory
      * @param MySQLConfig $config
      * @return MySQLMetaDataDAO
      */
-    public static function getInstance(MetaDataConfig $config = null)
+    public static function getInstance(MetaDataConfigInterface $config = null)
     {
         if (false === ($config instanceof MySQLConfig)) {
             throw new \InvalidArgumentException('Config must be an instance of MySQLConfig');

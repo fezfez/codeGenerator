@@ -17,7 +17,7 @@
  */
 namespace CrudGenerator\MetaData;
 
-use CrudGenerator\MetaData\Sources\MetaDataConfig;
+use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\Sources\MetaDataDAOCache;
 use CrudGenerator\Utils\Installer;
 
@@ -29,10 +29,10 @@ class MetaDataSourceFactory
 {
     /**
      * @param string $metadataSourceFactoryName
-     * @param MetaDataConfig $config
+     * @param MetaDataConfigInterface $config
      * @return MetaDataDAOCache
      */
-    public function create($metadataSourceFactoryName, MetaDataConfig $config = null, $noCache = false)
+    public function create($metadataSourceFactoryName, MetaDataConfigInterface $config = null, $noCache = false)
     {
         if (null !== $config) {
             $metadataSource = $metadataSourceFactoryName::getInstance($config);

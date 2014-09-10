@@ -18,7 +18,7 @@
 namespace CrudGenerator\MetaData\Sources\Oracle;
 
 use PDO;
-use CrudGenerator\MetaData\Sources\MetaDataDAO;
+use CrudGenerator\MetaData\Sources\MetaDataDAOInterface;
 use CrudGenerator\MetaData\DataObject\MetaDataCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumn;
@@ -27,7 +27,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 /**
  * Oracle adapter
  */
-class OracleMetaDataDAO implements MetaDataDAO
+class OracleMetaDataDAO implements MetaDataDAOInterface
 {
     /**
      * @var PDO Pdo stmt

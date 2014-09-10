@@ -18,7 +18,7 @@
 namespace CrudGenerator\MetaData\Sources\MySQL;
 
 use CrudGenerator\MetaData\Sources\MetadataConfigDatabase;
-use CrudGenerator\MetaData\Sources\MetaDataConfig;
+use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\Config\ConfigException;
 
 /**
@@ -26,7 +26,7 @@ use CrudGenerator\MetaData\Config\ConfigException;
  *
  * @author Stéphane Demonchaux
  */
-class MySQLConfig extends MetadataConfigDatabase implements MetaDataConfig, \JsonSerializable
+class MySQLConfig extends MetadataConfigDatabase implements MetaDataConfigInterface, \JsonSerializable
 {
     /**
      * @var string Config definition
@@ -38,7 +38,7 @@ class MySQLConfig extends MetadataConfigDatabase implements MetaDataConfig, \Jso
     private $metaDataDAOFactory = 'CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory';
 
     /* (non-PHPdoc)
-     * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getConnection()
+     * @see \CrudGenerator\MetaData\Sources\MetaDataConfigInterface::getConnection()
      */
     public function getConnection()
     {
@@ -52,7 +52,7 @@ class MySQLConfig extends MetadataConfigDatabase implements MetaDataConfig, \Jso
         return $pdo;
     }
     /* (non-PHPdoc)
-     * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::test()
+     * @see \CrudGenerator\MetaData\Sources\MetaDataConfigInterface::test()
      */
     public function test()
     {
@@ -64,21 +64,21 @@ class MySQLConfig extends MetadataConfigDatabase implements MetaDataConfig, \Jso
     }
 
     /* (non-PHPdoc)
-     * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getUniqueName()
+     * @see \CrudGenerator\MetaData\Sources\MetaDataConfigInterface::getUniqueName()
      */
     public function getUniqueName()
     {
         return 'MySQL ' . $this->configHost . ' ' . $this->configUser;
     }
     /* (non-PHPdoc)
-     * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::getDefinition()
+     * @see \CrudGenerator\MetaData\Sources\MetaDataConfigInterface::getDefinition()
     */
     public function getDefinition()
     {
         return $this->definition;
     }
     /* (non-PHPdoc)
-     * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::jsonSerialize()
+     * @see \CrudGenerator\MetaData\Sources\MetaDataConfigInterface::jsonSerialize()
     */
     public function jsonSerialize()
     {

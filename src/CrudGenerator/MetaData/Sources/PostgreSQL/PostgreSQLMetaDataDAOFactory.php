@@ -18,16 +18,16 @@
 namespace CrudGenerator\MetaData\Sources\PostgreSQL;
 
 use CrudGenerator\MetaData\Sources\PostgreSQL\SqlManager;
-use CrudGenerator\MetaData\Sources\MetaDataDAOFactory;
+use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface;
 use CrudGenerator\MetaData\MetaDataSource;
-use CrudGenerator\MetaData\Sources\MetaDataConfig;
+use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
 
 /**
  * Create PostgreSQL Metadata DAO instance
  *
  */
-class PostgreSQLMetaDataDAOFactory implements MetaDataDAOFactory
+class PostgreSQLMetaDataDAOFactory implements MetaDataDAOFactoryInterface
 {
     /**
      * Create PostgreSQL Metadata DAO instance
@@ -35,7 +35,7 @@ class PostgreSQLMetaDataDAOFactory implements MetaDataDAOFactory
      * @param PostgreSQLConfig $config
      * @return PostgreSQLMetaDataDAO
      */
-    public static function getInstance(MetaDataConfig $config = null)
+    public static function getInstance(MetaDataConfigInterface $config = null)
     {
         if (false === ($config instanceof PostgreSQLConfig)) {
             throw new \InvalidArgumentException('Config must be an instance of PostgreConfig');

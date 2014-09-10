@@ -17,7 +17,7 @@
  */
 namespace CrudGenerator\MetaData;
 
-use CrudGenerator\MetaData\Sources\MetaDataConfig;
+use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 
 /**
  * Adapter representation
@@ -42,7 +42,7 @@ class MetaDataSource implements \JsonSerializable
      */
     private $definition = null;
     /**
-     * @var MetaDataConfig adapter configuration
+     * @var MetaDataConfigInterface adapter configuration
      */
     private $config = null;
 
@@ -87,10 +87,10 @@ class MetaDataSource implements \JsonSerializable
     }
     /**
      * Set config
-     * @param MetaDataConfig $value
+     * @param MetaDataConfigInterface $value
      * @return \CrudGenerator\MetaData\MetaDataSource
      */
-    public function setConfig(MetaDataConfig $value)
+    public function setConfig(MetaDataConfigInterface $value)
     {
         $this->config = $value;
         return $this;
@@ -130,7 +130,7 @@ class MetaDataSource implements \JsonSerializable
     }
     /**
      * Get config
-     * @return MetaDataConfig
+     * @return MetaDataConfigInterface
      */
     public function getConfig()
     {

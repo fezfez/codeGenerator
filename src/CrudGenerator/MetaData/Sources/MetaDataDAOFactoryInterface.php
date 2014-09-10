@@ -17,41 +17,31 @@
  */
 namespace CrudGenerator\MetaData\Sources;
 
+use CrudGenerator\MetaData\MetaDataSource;
 /**
- * Metadata DAO interface
+ * Metadata DAO Factory interface
  *
  * @author Stéphane Demonchaux
  */
-interface MetaDataConfig
+interface MetaDataDAOFactoryInterface
 {
     /**
-     * Get config definition
+     * Get instance of metadataDAO
      *
-     * @return string
+     * @param MetaDataConfig $config
      */
-    public function getDefinition();
+    public static function getInstance(MetaDataConfig $config = null);
+
     /**
-     * Get unique configuration name
-     * @return string
+     * Check if dependencies are complete
+     * @param MetaDataSource $metadataSource
+     * return boolean
+     * @return boolean
      */
-    public function getUniqueName();
+    public static function checkDependencies(MetaDataSource $metadataSource);
+
     /**
-     * @return \PDO
+     * @return \CrudGenerator\MetaData\MetaDataSource
      */
-    public function getConnection();
-    /**
-     * @throws ConfigException
-     * @return void
-     */
-    public function test();
-    /**
-     * @return array
-     */
-    public function jsonSerialize();
-    /**
-     * Get MetaDataDAOFactory
-     *
-     * @return string
-     */
-    public function getMetaDataDAOFactory();
+    public static function getDescription();
 }

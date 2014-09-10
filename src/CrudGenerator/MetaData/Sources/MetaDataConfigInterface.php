@@ -18,24 +18,40 @@
 namespace CrudGenerator\MetaData\Sources;
 
 /**
- * Metadata DAO interface
+ * Metadata config interface
  *
  * @author Stéphane Demonchaux
  */
-interface MetaDataDAO
+interface MetaDataConfigInterface
 {
     /**
-     * Get all metadata from the concrete metadata DAO
+     * Get config definition
      *
-     * @return \CrudGenerator\MetaData\DataObject\MetaDataCollection
+     * @return string
      */
-    public function getAllMetadata();
-
+    public function getDefinition();
     /**
-     * Get particularie metadata from the concrete metadata DAO
-     *
-     * @param string $entityName
-     * @return \CrudGenerator\MetaData\DataObject\MetaData
+     * Get unique configuration name
+     * @return string
      */
-    public function getMetadataFor($entityName, array $parentName = array());
+    public function getUniqueName();
+    /**
+     * @return \PDO
+     */
+    public function getConnection();
+    /**
+     * @throws ConfigException
+     * @return void
+     */
+    public function test();
+    /**
+     * @return array
+     */
+    public function jsonSerialize();
+    /**
+     * Get MetaDataDAOFactory
+     *
+     * @return string
+     */
+    public function getMetaDataDAOFactory();
 }

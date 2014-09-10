@@ -17,7 +17,7 @@
  */
 namespace CrudGenerator\MetaData\Sources\Doctrine2;
 
-use CrudGenerator\MetaData\Sources\MetaDataDAO;
+use CrudGenerator\MetaData\Sources\MetaDataDAOInterface;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataCollection;
@@ -31,7 +31,7 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
  *
  * Doctrine2 adapter in ZF2 environnement
  */
-class Doctrine2MetaDataDAO implements MetaDataDAO
+class Doctrine2MetaDataDAO implements MetaDataDAOInterface
 {
     /**
      * @var EntityManager Entity manager

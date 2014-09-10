@@ -18,7 +18,7 @@
 namespace CrudGenerator\MetaData\Sources\PostgreSQL;
 
 use PDO;
-use CrudGenerator\MetaData\Sources\MetaDataDAO;
+use CrudGenerator\MetaData\Sources\MetaDataDAOInterface;
 use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
 use CrudGenerator\MetaData\Sources\PostgreSQL\SqlManager;
 use CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
@@ -30,7 +30,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 /**
  * PostgreSQL adapter
  */
-class PostgreSQLMetaDataDAO implements MetaDataDAO
+class PostgreSQLMetaDataDAO implements MetaDataDAOInterface
 {
     /**
      * @var array

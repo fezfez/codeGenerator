@@ -22,7 +22,7 @@ namespace CrudGenerator\MetaData\Sources;
  *
  * @author Stéphane Demonchaux
  */
-class MetaDataDAOCache implements MetaDataDAO
+class MetaDataDAOCache implements MetaDataDAOInterface
 {
     /**
      * @var MetaDataDAO
