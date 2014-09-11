@@ -82,9 +82,12 @@ class MySQLConfig extends MetadataConfigDatabase implements MetaDataConfigInterf
     */
     public function jsonSerialize()
     {
-        return array(
-            'metaDataDAOFactory' => $this->metaDataDAOFactory,
-            'uniqueName'         => $this->getUniqueName()
+        return array_merge(
+	        	array(
+	            'metaDataDAOFactory' => $this->metaDataDAOFactory,
+	            'uniqueName'         => $this->getUniqueName()
+	        ),
+        	parent::jsonSerialize()
         );
     }
 

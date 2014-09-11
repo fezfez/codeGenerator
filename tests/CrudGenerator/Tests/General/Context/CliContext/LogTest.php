@@ -7,21 +7,22 @@ class LogTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstance()
     {
-        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+        $consoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $dialog =  $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
+        $questionHelper =  $this->getMockBuilder('Symfony\Component\Console\Helper\QuestionHelper')
         ->disableOriginalConstructor()
         ->getMock();
 
         $logged = 'test';
-        $ConsoleOutputStub->expects($this->once())
-        ->method('writeln')
-        ->with($logged);
 
-        $sUT = new CliContext($dialog, $ConsoleOutputStub);
+        $consoleOutputStub->expects($this->once())
+                          ->method('writeln')
+                          ->with($logged);
 
-        $sUT->log($logged, 'my_key');
+        $sUT = new CliContext($questionHelper, $ConsoleOutputStub);
+
+        $this->assertEmpty($sUT->log($logged, 'my_key'));
     }
 }

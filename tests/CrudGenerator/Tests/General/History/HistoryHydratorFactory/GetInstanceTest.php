@@ -8,15 +8,9 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstance()
     {
-        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+        $context =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
-
-        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $context = new CliContext($dialog, $ConsoleOutputStub);
 
         $this->assertInstanceOf(
             'CrudGenerator\History\HistoryHydrator',

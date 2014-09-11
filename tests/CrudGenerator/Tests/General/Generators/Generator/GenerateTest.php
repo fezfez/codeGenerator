@@ -10,15 +10,9 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
 {
     public function testConflict()
     {
-        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+        $context =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
-
-        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $context = new CliContext($dialog, $ConsoleOutputStub);
 
         $stategy = $this->getMockBuilder('CrudGenerator\Generators\Strategies\GeneratorStrategy')
         ->disableOriginalConstructor()
@@ -60,15 +54,9 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
 
     public function testOk()
     {
-        $ConsoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+        $context =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
-
-        $dialog = $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $context = new CliContext($dialog, $ConsoleOutputStub);
 
         $stategy = $this->getMockBuilder('CrudGenerator\Generators\Strategies\GeneratorStrategy')
         ->disableOriginalConstructor()

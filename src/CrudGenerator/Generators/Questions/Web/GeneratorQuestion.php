@@ -18,8 +18,10 @@
 namespace CrudGenerator\Generators\Questions\Web;
 
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\PredefinedResponse;
 use CrudGenerator\Generators\Finder\GeneratorFinder;
-use CrudGenerator\Generators\ResponseExpectedException;
 use CrudGenerator\Generators\Finder\GeneratorFinderInterface;
 use CrudGenerator\MetaData\DataObject\MetaDataInterface;
 
@@ -50,37 +52,20 @@ class GeneratorQuestion
      */
     public function ask(MetaDataInterface $metadata)
     {
-        $generatorArray = array();
-        $generators     = $this->generatorFinder->getAllClasses($metadata);
+        $responseCollection = new PredefinedResponseCollection();
+        $generators         = $this->generatorFinder->getAllClasses($metadata);
+
         foreach ($generators as $path => $name) {
-            $generatorArray[] = array('id' => $name, 'label' => $name);
+            $responseCollection->append(new PredefinedResponse($name, $name, $name));
         }
 
-        return $this->retrieve(
-            $this->context->askCollection("Select generator", self::QUESTION_KEY, $generatorArray),
-            $generators
+        $question = new QuestionWithPredefinedResponse(
+            "Select generator",
+            self::QUESTION_KEY,
+            $responseCollection
         );
-    }
+        $question->setShutdownWithoutResponse(true);
 
-    /**
-     * @param string $preSelected
-     * @param array $generators
-     * @throws ResponseExpectedException
-     * @return string
-     */
-    private function retrieve($preSelected, array $generators)
-    {
-        foreach ($generators as $path => $name) {
-            if ($name === $preSelected) {
-                return $name;
-            }
-        }
-
-        throw new ResponseExpectedException(
-            sprintf(
-                "Generator %s does not exist",
-                $preSelected
-            )
-        );
+        return $this->context->askCollection($question);
     }
 }

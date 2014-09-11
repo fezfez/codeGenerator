@@ -18,9 +18,19 @@
 
 namespace CrudGenerator\Context;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\DialogHelper;
 use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Command\CreateCommand;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\PredefinedResponse;
+use CrudGenerator\Generators\ResponseExpectedException;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class CliContext implements ContextInterface
 {
@@ -29,16 +39,30 @@ class CliContext implements ContextInterface
      */
     private $output = null;
     /**
-     * @var DialogHelper
+     * @var QuestionHelper
      */
-    private $dialog = null;
+    private $question = null;
     /**
-     * @param OutputInterface $output
+     * @var CreateCommand
      */
-    public function __construct(DialogHelper $dialog, OutputInterface $output)
-    {
-        $this->dialog = $dialog;
-        $this->output = $output;
+    private $createCommand = null;
+
+    /**
+     * @param QuestionHelper $question
+     * @param OutputInterface $output
+     * @param InputInterface $input
+     * @param CreateCommand $createCommand
+     */
+    public function __construct(
+        QuestionHelper $question,
+        OutputInterface $output,
+        InputInterface $input,
+        CreateCommand $createCommand
+    ) {
+        $this->question      = $question;
+        $this->output        = $output;
+        $this->input         = $input;
+        $this->createCommand = $createCommand;
     }
 
     /* (non-PHPdoc)
@@ -46,29 +70,63 @@ class CliContext implements ContextInterface
      */
     public function ask($text, $attribute, $defaultResponse = null, $required = false, $helpMessage = null, $type = null)
     {
-        return $this->dialog->ask(
+        return $this->question->ask(
+            $this->input,
             $this->output,
-            '<question>Choose a "' . $text . '"</question> : '
+            new Question(
+                '<question>Choose a "' . $text . '"</question> : '
+            )
         );
     }
 
     /* (non-PHPdoc)
      * @see \CrudGenerator\Context\ContextInterface::ask()
     */
-    public function askCollection(
-        $text, $uniqueKey,
-        array $collection,
-        $defaultResponse = null,
-        $required = false,
-        $helpMessage = null,
-        $type = null
-    ) {
-        $this->question[$uniqueKey] = $collection;
+    public function askCollection(QuestionWithPredefinedResponse $questionResponseCollection)
+    {
+        $choises = array();
 
-        return $this->dialog->select(
+        foreach ($questionResponseCollection->getPredefinedResponseCollection() as $response) {
+            $choises[] = $response->getLabel();
+        }
+
+        $preselectedResponse = $questionResponseCollection->getPreselectedResponse();
+
+        if ($preselectedResponse !== null) {
+            try {
+                return $questionResponseCollection->getPredefinedResponseCollection()->offsetGetById($preselectedResponse)->getResponse();
+            } catch (\Exception $e) {
+                // preselected response does not exist anymore
+            }
+        }
+
+        $choise = $this->question->ask(
+            $this->input,
             $this->output,
-            '<question>Choose a "' . $text . '"</question> : ', $collection
+            new ChoiceQuestion(
+                'Choose a "' . $questionResponseCollection->getText() . '"',
+                $choises
+            )
         );
+
+        try {
+            return $questionResponseCollection->getPredefinedResponseCollection()->offsetGetByLabel($choise)->getResponse();
+        } catch (\Exception $e) {
+            throw new ResponseExpectedException(
+                sprintf(
+                    'Response "%s" does not exist',
+                    $choise
+                )
+            );
+        }
+    }
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Context\ContextInterface::menu()
+     */
+    public function menu($text, $uniqueKey, callable $runner)
+    {
+        return $this->createCommand->create($uniqueKey, $text, $runner);
     }
 
     /* (non-PHPdoc)
@@ -76,9 +134,12 @@ class CliContext implements ContextInterface
      */
     public function confirm($text, $uniqueKey)
     {
-        return $this->dialog->askConfirmation(
+        return $this->question->ask(
+            $this->input,
             $this->output,
-            $text
+            new ConfirmationQuestion(
+                $text
+            )
         );
     }
 

@@ -2,9 +2,8 @@
 namespace CrudGenerator\Tests\ZF2\Tests\Generators\Finder\GeneratorFinder;
 
 use CrudGenerator\Generators\Finder\GeneratorFinder;
-use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Utils\TranstyperFactory;
 use CrudGenerator\Generators\GeneratorCompatibilityChecker;
+use CrudGenerator\Utils\TranstyperFactory;
 
 class GetAllAdaptersTest extends \PHPUnit_Framework_TestCase
 {

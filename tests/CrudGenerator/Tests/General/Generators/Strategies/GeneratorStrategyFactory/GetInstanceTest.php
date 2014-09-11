@@ -8,14 +8,9 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstanceCli()
     {
-        $output =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+        $context =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
-        $dialog =  $this->getMockBuilder('Symfony\Component\Console\Helper\DialogHelper')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $context = new CliContext($dialog, $output);
 
         $this->assertInstanceOf(
             'CrudGenerator\Generators\Strategies\GeneratorStrategy',

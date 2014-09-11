@@ -19,7 +19,9 @@ namespace CrudGenerator\Generators\Questions\Web;
 
 use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Generators\ResponseExpectedException;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\PredefinedResponse;
 
 class MetaDataSourcesConfiguredQuestion
 {
@@ -50,38 +52,25 @@ class MetaDataSourcesConfiguredQuestion
      */
     public function ask($choice = null)
     {
-        $backendArray = array();
+        $responseCollection = new PredefinedResponseCollection();
+
         foreach ($this->metadataSourceConfigDAO->retrieveAll() as $backend) {
             /* @var $backend \CrudGenerator\MetaData\MetaDataSource */
             if(null === $backend->getFalseDependencies()) {
-                $backendArray[] = array(
-                    'id'    => $backend->getUniqueName(),
-                    'label' => $backend->getUniqueName()
+                $responseCollection->append(
+                    new PredefinedResponse($backend->getUniqueName(), $backend->getUniqueName(), $backend)
                 );
             }
         }
 
-        if (null === $choice) {
-            $choice = $this->context->askCollection("Select source ", self::QUESTION_KEY, $backendArray);
-        }
+        $question = new QuestionWithPredefinedResponse(
+            "Select configured source",
+            self::QUESTION_KEY,
+            $responseCollection
+        );
+        $question->setPreselectedResponse($choice);
+        $question->setShutdownWithoutResponse(true);
 
-        return $this->retrieve($choice);
-    }
-
-    /**
-     * @param string $choice
-     * @throws ResponseExpectedException
-     * @return \CrudGenerator\MetaData\MetaDataSource
-     */
-    private function retrieve($choice)
-    {
-        foreach ($this->metadataSourceConfigDAO->retrieveAll() as $backend) {
-            /* @var $backend \CrudGenerator\MetaData\MetaDataSource */
-            if ($backend->getUniqueName() === $choice) {
-                return $backend;
-            }
-        }
-
-        throw new ResponseExpectedException(sprintf('Invalid metadata source "%s"', $choice));
+        return $this->context->askCollection($question);
     }
 }

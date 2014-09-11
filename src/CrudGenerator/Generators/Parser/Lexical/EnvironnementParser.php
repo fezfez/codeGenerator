@@ -21,6 +21,9 @@ use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\PredefinedResponse;
 use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 
 class EnvironnementParser implements ParserInterface
@@ -66,22 +69,25 @@ class EnvironnementParser implements ParserInterface
      */
     private function evaluateQuestions($environnementName, array $environnements, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
     {
-        $possibleValues = array();
-        $toRecurse      = array();
+        $responseCollection = new PredefinedResponseCollection();
+        $toRecurse          = array();
         foreach ($environnements as $framework => $environnement) {
             if (is_array($environnement) === true) {
-                $possibleValues[]      = array('label' => $framework, 'id' => $framework);
+                $responseCollection->append(new PredefinedResponse($framework, $framework, $framework));
                 $toRecurse[$framework] = $environnement;
             } else {
-                $possibleValues[] = array('label' => $environnement, 'id' => $environnement);
+                $responseCollection->append(new PredefinedResponse($environnement, $environnement, $environnement));
             }
         }
 
-        $response = $this->context->askCollection(
+        $question = new QuestionWithPredefinedResponse(
             $environnementName . ' environnement',
             'environnement_' . $environnementName,
-            $possibleValues
+            $responseCollection
         );
+
+        $response = $this->context->askCollection($question);
+
 
         if ($response !== null) {
             $generator->addEnvironnementValue($environnementName, $response);

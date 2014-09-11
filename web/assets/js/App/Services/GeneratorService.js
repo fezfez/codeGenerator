@@ -34,7 +34,8 @@ define([
                 backend            : context.getBackend(),
                 'metadata_nocache' : metadata_nocache,
                 metadata           : context.getMetadata(),
-                generator          : context.getGenerator()
+                generator          : context.getGenerator(),
+                generate           : true
             }) + '&' + $.param(context.getQuestion());
 
             $http(

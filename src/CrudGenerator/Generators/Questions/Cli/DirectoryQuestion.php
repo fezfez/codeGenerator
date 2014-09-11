@@ -61,10 +61,11 @@ class DirectoryQuestion
      */
     public function ask(GeneratorDataObject $generator, $question)
     {
-        $directory = './';
-        $choice    = null;
+        $directory   = './';
+        $choice      = null;
+        $directories = array(self::CURRENT_DIRECTORY => 'cant find me !');
 
-        while ($choice != self::CURRENT_DIRECTORY) {
+        while ($choice != $directories[self::CURRENT_DIRECTORY]) {
             $directories = $this->fileManager->glob(
                 $directory . '*',
                 GLOB_ONLYDIR|GLOB_MARK
@@ -77,28 +78,36 @@ class DirectoryQuestion
                 ' -> Create directory'
             );
 
+            $choices = array();
+            foreach ($directories as $directorie) {
+            	$choices[$directorie] = array(
+            		'id'    => $directorie,
+            		'label' => $directorie
+            	);
+            }
+
             $this->context->log($directory);
             $choice = $this->context->askCollection(
                 "<question>Choose a target directory</question> \n> ",
                 'directory',
-                $directories
+                $choices
             );
 
-            if ($choice === self::CREATE_DIRECTORY) {
+            if ($choice === $directories[self::CREATE_DIRECTORY]) {
                 $directory .= $this->createDirectory($directory);
-            } elseif ($choice === self::BACK) {
+            } elseif ($choice === $directories[self::BACK]) {
                 $directory = substr($directory, 0, -1);
                 $directory = str_replace(
                     substr(strrchr($directory, "/"), 1),
                     '',
                     $directory
                 );
-            } elseif ($choice !== self::CURRENT_DIRECTORY) {
-                $directory = $directories[$choice];
+            } elseif ($choice !== $directories[self::CURRENT_DIRECTORY]) {
+                $directory = $choice;
             }
         }
 
-        $attribute = 'set' . $question['attribute'];
+        $attribute = 'set' . $question['dtoAttribute'];
 
         $generator->getDTO()->$attribute($directory);
 

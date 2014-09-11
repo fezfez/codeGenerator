@@ -18,8 +18,10 @@
 namespace CrudGenerator\Generators\Search;
 
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\PredefinedResponse;
 use Packagist\Api\Client;
-use CrudGenerator\Generators\ResponseExpectedException;
 
 /**
  * Find all generator allow in project
@@ -28,6 +30,10 @@ use CrudGenerator\Generators\ResponseExpectedException;
  */
 class GeneratorSearch
 {
+    /**
+     * @var string
+     */
+    const QUESTION_KEY = 'search_generatorcollection';
     /**
      * @var Client
      */
@@ -43,44 +49,33 @@ class GeneratorSearch
         $this->context            = $context;
     }
 
+    /**
+     * @return string
+     */
     public function ask()
     {
         $name = $this->context->ask('Search generator', 'generator_name');
         $list = $this->packagistApiClient->search($name, array('type' => 'fezfez-code-generator'));
 
-        $array = array();
+        $responseCollection = new PredefinedResponseCollection();
+
         foreach ($list as $package) {
-            $array[$package->getName()] = array(
-                'name'        => $package->getName(),
-                'description' => $package->getDescription(),
-                'repository'  => $package->repository
+            $predefinedResponse = new PredefinedResponse(
+                $package->getName(),
+                $package->getDescription(),
+                $package->getName()
             );
+            $predefinedResponse->setAdditionalData(array('repository' => $package->repository));
+            $responseCollection->append($predefinedResponse);
         }
 
-        return $this->retrieve(
-            $this->context->askCollection("Select generator", 'search_generatorcollection', $array),
-            $array
+        $question = new QuestionWithPredefinedResponse(
+            "Select generator",
+            self::QUESTION_KEY,
+            $responseCollection
         );
-    }
+        $question->setShutdownWithoutResponse(true);
 
-    /**
-     * @param string $preSelected
-     * @throws ResponseExpectedException
-     * @return string
-     */
-    private function retrieve($preSelected, $array)
-    {
-        foreach ($array as $path => $name) {
-            if ($path === $preSelected) {
-                return $array[$path];
-            }
-        }
-
-        throw new ResponseExpectedException(
-            sprintf(
-                'Generator "%s" does not exist',
-                $preSelected
-            )
-        );
+        return $this->context->askCollection($question);
     }
 }

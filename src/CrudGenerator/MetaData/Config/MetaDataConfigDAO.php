@@ -166,7 +166,7 @@ class MetaDataConfigDAO
     {
         $adapterConfig = clone $adapterConfig;
         $reflect       = new ReflectionClass($adapterConfig);
-        $props         = $reflect->getProperties(ReflectionProperty::IS_PRIVATE);
+        $props         = $reflect->getProperties();
 
         foreach ($props as $prop) {
             $propName = $prop->getName();

@@ -7,7 +7,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
 
 class GetMetadataForTest extends \PHPUnit_Framework_TestCase
 {
-    public function testType()
+    public function testtotototototot()
     {
         $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())

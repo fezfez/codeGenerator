@@ -19,10 +19,13 @@ namespace CrudGenerator\Generators\Questions\Web;
 
 use CrudGenerator\MetaData\MetaDataSourceFinder;
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Generators\ResponseExpectedException;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\PredefinedResponse;
 
 class MetaDataSourcesQuestion
 {
+	const QUESTION_KEY = 'metadatasource';
     /**
      * @var MetaDataSourceFinder
      */
@@ -44,44 +47,31 @@ class MetaDataSourcesQuestion
 
     /**
      * Ask witch MetaData Source you want to use
+     *
      * @param string $choice
-     * @throws ResponseExpectedException
      * @return \CrudGenerator\MetaData\MetaDataSource
      */
     public function ask($choice = null)
     {
-        $backendArray = array();
+        $responseCollection = new PredefinedResponseCollection();
+
         foreach ($this->metadataSourceFinder->getAllAdapters() as $backend) {
             /* @var $backend \CrudGenerator\MetaData\MetaDataSource */
             if(null === $backend->getFalseDependencies()) {
-                $backendArray[] = array(
-                    'id'    => $backend->getMetaDataDAOFactory(),
-                    'label' => $backend->getDefinition()
+                $responseCollection->append(
+                	new PredefinedResponse($backend->getMetaDataDAOFactory(), $backend->getDefinition(), $backend)
                 );
             }
         }
 
-        if (null === $choice) {
-            $choice = $this->context->askCollection("Select source ", 'metadatasource', $backendArray);
-        }
+        $question = new QuestionWithPredefinedResponse(
+            "Select source",
+            self::QUESTION_KEY,
+            $responseCollection
+        );
+        $question->setPreselectedResponse($choice);
+        $question->setShutdownWithoutResponse(true);
 
-        return $this->retrieve($choice);
-    }
-
-    /**
-     * @param string $choice
-     * @throws ResponseExpectedException
-     * @return \CrudGenerator\MetaData\MetaDataSource
-     */
-    private function retrieve($choice)
-    {
-        foreach ($this->metadataSourceFinder->getAllAdapters() as $backend) {
-            /* @var $backend \CrudGenerator\MetaData\MetaDataSource */
-            if ($backend->getMetaDataDAOFactory() === $choice) {
-                return $backend;
-            }
-        }
-
-        throw new ResponseExpectedException(sprintf('Invalid source "%s"', $choice));
+        return $this->context->askCollection($question);
     }
 }

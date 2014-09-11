@@ -20,6 +20,9 @@ namespace CrudGenerator\Generators\Questions\Web;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\PredefinedResponse;
 
 class DirectoryQuestion
 {
@@ -52,19 +55,21 @@ class DirectoryQuestion
         $attribute       = 'get' . $question['dtoAttribute'];
         $actualDirectory = $generator->getDTO()->$attribute();
 
-        $directories = array();
-        $directories = $this->checkAdditionalChoices($actualDirectory, $directories);
-        $directories = $this->buildDirectoryList($actualDirectory, $directories);
+        $responseCollection = new PredefinedResponseCollection();
+        $responseCollection = $this->checkAdditionalChoices($actualDirectory, $responseCollection);
+        $responseCollection = $this->buildDirectoryList($actualDirectory, $responseCollection);
 
-        $response = $this->context->askCollection(
+        $questionDTO = new QuestionWithPredefinedResponse(
             $question['text'],
             'set' . $question['dtoAttribute'],
-            $directories,
-            $actualDirectory,
-            (isset($question['required']) === true) ? $question['required'] : false,
-            'Actual directory "' . $actualDirectory . '"',
-            'directory'
+            $responseCollection
         );
+        $questionDTO->setPreselectedResponse($actualDirectory)
+                    ->setRequired((isset($question['required']) === true) ? $question['required'] : false)
+                    ->setHelpMessage(sprintf('Actual directory "%s"', $actualDirectory))
+                    ->setType('directory');
+
+        $response = $this->context->askCollection($questionDTO);
 
         if ($response !== null) {
             $setter = 'set' . $question['dtoAttribute'];
@@ -76,10 +81,10 @@ class DirectoryQuestion
 
     /**
      * @param string|null $actualDirectory
-     * @param array $directories
-     * @return array
+     * @param PredefinedResponseCollection $responseCollection
+     * @return PredefinedResponseCollection
      */
-    private function checkAdditionalChoices($actualDirectory, array $directories)
+    private function checkAdditionalChoices($actualDirectory, PredefinedResponseCollection $responseCollection)
     {
         // if we aren't in base directory, add back button
         if ('' !== $actualDirectory && null !== $actualDirectory) {
@@ -88,21 +93,22 @@ class DirectoryQuestion
                 array('', ''),
                 realpath($actualDirectory . '..' . DIRECTORY_SEPARATOR)
             );
-            $directories[] = array(
-                'label' => 'Back',
-                'id' => ($back !== '') ? $back . DIRECTORY_SEPARATOR : ''
+            $id = ($back !== '') ? $back . DIRECTORY_SEPARATOR : '';
+
+            $responseCollection->append(
+                new PredefinedResponse($id, 'Back', $id)
             );
         }
 
-        return $directories;
+        return $responseCollection;
     }
 
     /**
      * @param string|null $actualDirectory
-     * @param array $directories
-     * @return array
+     * @param PredefinedResponseCollection $responseCollection
+     * @return PredefinedResponseCollection
      */
-    private function buildDirectoryList($actualDirectory, array $directories)
+    private function buildDirectoryList($actualDirectory, PredefinedResponseCollection $responseCollection)
     {
         $directoriesRaw = $this->fileManager->glob(
             $actualDirectory . '*',
@@ -110,9 +116,11 @@ class DirectoryQuestion
         );
 
         foreach ($directoriesRaw as $directory) {
-            $directories[] = array('label' => $directory, 'id' => $directory, 'parent' => $actualDirectory);
+            $predefinedResponse = new PredefinedResponse($directory, $directory, $directory);
+            $predefinedResponse->setAdditionalData(array('parent' => $actualDirectory));
+            $responseCollection->append($predefinedResponse);
         }
 
-        return $directories;
+        return $responseCollection;
     }
 }

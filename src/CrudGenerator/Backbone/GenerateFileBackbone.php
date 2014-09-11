@@ -20,9 +20,16 @@ namespace CrudGenerator\Backbone;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Generator;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\PredefinedResponse;
 
 class GenerateFileBackbone
 {
+    /**
+     * @var string
+     */
+    const QUESTION_KEY = 'file_to_generate';
     /**
      * @var Generator
      */
@@ -47,11 +54,21 @@ class GenerateFileBackbone
      */
     public function run(GeneratorDataObject $generator)
     {
-        $files = array();
+        $responseCollection = new PredefinedResponseCollection();
+
         foreach ($generator->getFiles() as $file) {
-            $files[] = $file['name'];
+            $responseCollection->append(
+                new PredefinedResponse($file['name'], $file['name'], $file['name'])
+            );
         }
-        $fileName = $this->context->askCollection("Select a file to generate", "file_to_generate", $files);
-        $this->generator->generateFile($generator, $fileName);
+
+        $question = new QuestionWithPredefinedResponse(
+            "Select a file to generate",
+            self::QUESTION_KEY,
+            $responseCollection
+        );
+        $question->setShutdownWithoutResponse(true);
+
+        $this->generator->generateFile($generator, $this->context->askCollection($question));
     }
 }

@@ -76,24 +76,44 @@ class MainBackbone
      */
     public function run()
     {
-        if (true === $this->context->confirm('Create new metadataSource', 'create_metadatasource')) {
-            $this->createSourceBackbone->run();
-        }
-        if (true === $this->context->confirm('Wake history', 'select_history')) {
-            $this->historyBackbone->run();
-        }
-        if (true === $this->context->confirm('Search generator', 'search_generator')) {
-            return $this->searchGeneratorBackbone->run();
-        }
+        $this->context->menu(
+            'Create new metadataSource',
+            'create_metadatasource',
+            function() {
+                $this->createSourceBackbone->run();
+            }
+        );
 
-        $generator = $this->preapreForGenerationBackbone->run();
-        $this->context->log($generator->getFiles(), 'files');
+        $this->context->menu(
+            'Wake history',
+            'select_history',
+            function() {
+                $this->historyBackbone->run();
+            }
+        );
 
-        if (true === $this->context->confirm('view file', 'view_file')) {
-            $this->generateFileBackbone->run($generator);
-        }
-        if (true === $this->context->confirm('Generate file', 'generate_files')) {
-            $this->generateBackbone->run($generator);
-        }
+        $this->context->menu(
+            'Search generator',
+            'search_generator',
+            function() {
+                $this->searchGeneratorBackbone->run();
+            }
+        );
+
+        $this->context->menu(
+            'Generate',
+            'generate',
+            function() {
+                $generator = $this->preapreForGenerationBackbone->run();
+                $this->context->log($generator->getFiles(), 'files');
+
+                if (true === $this->context->confirm('view file', 'view_file')) {
+                    $this->generateFileBackbone->run($generator);
+                }
+                if (true === $this->context->confirm('Generate file', 'generate_files')) {
+                    $this->generateBackbone->run($generator);
+                }
+            }
+        );
     }
 }

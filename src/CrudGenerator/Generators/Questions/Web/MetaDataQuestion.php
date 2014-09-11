@@ -20,7 +20,9 @@ namespace CrudGenerator\Generators\Questions\Web;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\MetaDataSourceFactory;
-use CrudGenerator\Generators\ResponseExpectedException;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\PredefinedResponse;
 
 class MetaDataQuestion
 {
@@ -72,42 +74,23 @@ class MetaDataQuestion
     public function ask(MetaDataSource $metadataSource, $choice = null)
     {
         $metaDataCollection = $this->getMetaDataDAO($metadataSource)->getAllMetadata();
-        $metaDataArray      = array();
+        $responseCollection = new PredefinedResponseCollection();
 
         foreach ($metaDataCollection as $metaData) {
-            $metaDataArray[] = array(
-                'id'     => $metaData->getOriginalName(),
-                'label'  => $metaData->getOriginalName(),
-                'source' => $metadataSource->getUniqueName()
-            );
+        	$response = new PredefinedResponse($metaData->getOriginalName(), $metaData->getOriginalName(), $metaData);
+            $response->setAdditionalData(array('source' => $metadataSource->getUniqueName()));
+
+            $responseCollection->append($response);
         }
 
-        if (null === $choice) {
-            $choice = $this->context->askCollection("Select Metadata", self::QUESTION_KEY, $metaDataArray);
-        }
-
-        return $this->retrieve($metadataSource, $choice);
-    }
-
-    /**
-     * @param MetaDataSource $metadataSource
-     * @param string $metaDataNamePreselected
-     * @throws ResponseExpectedException
-     * @return \CrudGenerator\MetaData\DataObject\MetaData
-     */
-    public function retrieve(MetaDataSource $metadataSource, $metaDataNamePreselected)
-    {
-        foreach ($this->getMetaDataDAO($metadataSource)->getAllMetadata() as $metadata) {
-            if ($metadata->getOriginalName() === $metaDataNamePreselected) {
-                return $metadata;
-            }
-        }
-
-        throw new ResponseExpectedException(
-            sprintf(
-                'Metadata "%s" does not exist',
-                $metaDataNamePreselected
-            )
+        $question = new QuestionWithPredefinedResponse(
+            "Select Metadata",
+            self::QUESTION_KEY,
+            $responseCollection
         );
+        $question->setPreselectedResponse($choice);
+        $question->setShutdownWithoutResponse(true);
+
+        return $this->context->askCollection($question);
     }
 }

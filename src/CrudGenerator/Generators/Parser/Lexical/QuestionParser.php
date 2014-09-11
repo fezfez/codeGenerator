@@ -18,6 +18,9 @@
 namespace CrudGenerator\Generators\Parser\Lexical;
 
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\PredefinedResponse;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
@@ -226,20 +229,32 @@ class QuestionParser implements ParserInterface
                 array('iteration' => $iteration)
             );
 
-            $responseList = array();
+            $responseCollection = new PredefinedResponseCollection();
+
             foreach ($question['predefinedResponse'] as $key => $response) {
-                $responseList[$key] = $this->staticsprintf($response, array('iteration' => $iteration));
+                $responseCollection->append(
+                    new PredefinedResponse(
+                        $key, $this->staticsprintf($response, array('iteration' => $iteration)), $key
+                    )
+                );
             }
 
-            $response = $this->context->askCollection(
+            $questionWithPredefinedResponse = new QuestionWithPredefinedResponse(
                 $this->staticsprintf($question['text'], array('iteration' => $iteration)),
                 'set_predefined_' . ucfirst($question['dtoAttribute']) . $origine,
-                $responseList,
-                (isset($question['defaultResponse']) === true) ? $parser->parse($question['defaultResponse']) : null,
-                (isset($question['required']) === true) ? $question['required'] : false,
-                null,
-                (isset($question['responseType']) === true) ? $question['responseType'] : null
+                $responseCollection
             );
+
+            $questionWithPredefinedResponse->setDefaultResponse(
+                (isset($question['defaultResponse']) === true) ? $parser->parse($question['defaultResponse']) : null
+            )->setRequired(
+                (isset($question['required']) === true) ? $question['required'] : false
+            );
+
+            // ->setresponseType((isset($question['responseType']) === true) ? $question['responseType'] : null);
+
+
+            $response = $this->context->askCollection($questionWithPredefinedResponse);
 
             $questionName = 'set' . ucfirst($question['dtoAttribute']);
             if ($response !== null) {

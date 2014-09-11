@@ -17,52 +17,41 @@
  */
 namespace CrudGenerator\Command;
 
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputInterface;
-use CrudGenerator\Backbone\MainBackbone;
+use Symfony\Component\Console\Application;
 
 /**
  * Generator command
  *
  * @author Stéphane Demonchaux
  */
-class CreateCommand extends Command
+class CreateCommand
 {
     /**
-     * @var MainBackbone
+     * @var Application
      */
-    private $mainBakbone = null;
+    private $application = null;
 
     /**
-     * @param MainBackbone $mainBakbone
+     * @param Application $application
      */
-    public function __construct(
-        MainBackbone $mainBakbone
-    ) {
-        parent::__construct('create');
-        $this->mainBakbone = $mainBakbone;
+    public function __construct(Application $application)
+    {
+        $this->application = $application;
     }
+
     /**
-     * (non-PHPdoc)
-     * @see Symfony\Component\Console\Command.Command::configure()
+     * @param string $action
+     * @param string $definition
+     * @param callable $runner
      */
-    protected function configure()
+    public function create($action, $definition, $runner)
     {
-        $this->setName('CodeGenerator:create')
-             ->setDescription('Generate code based on metadata');
-    }
+        $commandDefinition = new CommandDefinition();
+        $commandDefinition->setAction($action)
+                          ->setDefinition($definition)
+                          ->setNamespace('generator')
+                          ->setRunner($runner);
 
-    /* (non-PHPdoc)
-     * @see \Symfony\Component\Console\Command\Command::execute()
-     */
-    public function execute(InputInterface $input, OutputInterface $output)
-    {
-        $this->create();
-    }
-
-    public function create()
-    {
-        $this->mainBakbone->run();
+        $this->application->add(new SkeletonCommand($commandDefinition));
     }
 }

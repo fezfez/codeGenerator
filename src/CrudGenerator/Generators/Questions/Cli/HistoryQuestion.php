@@ -19,11 +19,17 @@ namespace CrudGenerator\Generators\Questions\Cli;
 
 use CrudGenerator\History\HistoryManager;
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\PredefinedResponse;
 use CrudGenerator\History\EmptyHistoryException;
-use CrudGenerator\Generators\ResponseExpectedException;
 
 class HistoryQuestion
 {
+    /**
+     * @var string
+     */
+    const QUESTION_KEY = 'history';
     /**
      * @var HistoryManager
      */
@@ -55,43 +61,21 @@ class HistoryQuestion
             throw new EmptyHistoryException('Empty history');
         }
 
-        $historyChoices = array();
+        $responseCollection = new PredefinedResponseCollection();
         foreach ($historyCollection as $history) {
             foreach ($history->getDataObjects() as $dto) {
-                $historyChoices[] = array(
-                    'id'    => $dto->getDTO()->getMetadata()->getName(),
-                    'label' => $dto->getDTO()->getMetadata()->getName()
-                );
+                $name = $dto->getDTO()->getMetadata()->getName();
+                $responseCollection->append(new PredefinedResponse($name, $name, $dto));
             }
         }
 
-        return $this->retrieve(
-            $this->context->askCollection("Select history", 'history', $historyChoices)
+        $question = new QuestionWithPredefinedResponse(
+            "Select history",
+            self::QUESTION_KEY,
+            $responseCollection
         );
-    }
+        $question->setShutdownWithoutResponse(true);
 
-    /**
-     * @param string $preSelected
-     * @throws ResponseExpectedException
-     * @return \CrudGenerator\Generators\GeneratorDataObject
-     */
-    private function retrieve($preSelected)
-    {
-        foreach ($this->historyManager->findAll() as $history) {
-            /* @var $history \CrudGenerator\History\History */
-            foreach ($history->getDataObjects() as $dto) {
-                /* @var $dto \CrudGenerator\Generators\GeneratorDataObject */
-                if ($dto->getDTO()->getMetadata()->getName() === $preSelected) {
-                    return $dto;
-                }
-            }
-        }
-
-        throw new ResponseExpectedException(
-            sprintf(
-                "History %s does not exist",
-                $preSelected
-            )
-        );
+        return $this->context->askCollection($question);
     }
 }

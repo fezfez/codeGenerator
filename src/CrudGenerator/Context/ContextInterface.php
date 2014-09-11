@@ -35,16 +35,12 @@ interface ContextInterface
 
     /**
      * Ask question in collection
-     * @param string $text
-     * @param string $uniqueKey
-     * @param array $collection
-     * @param string $defaultResponse
-     * @param boolean $required
-     * @param string $helpMessage
-     * @param string $type
-     * @return string
+     *
+     * @param QuestionWithPredefinedResponse $questionResponseCollection
+     *
+     * @return ResponseContext
      */
-    public function askCollection($text, $uniqueKey, array $collection, $defaultResponse = null, $required = false, $helpMessage = null, $type = null);
+    public function askCollection(QuestionWithPredefinedResponse $questionResponseCollection);
 
     /**
      * @param string $text
@@ -52,6 +48,13 @@ interface ContextInterface
      * @return boolean
      */
     public function confirm($text, $uniqueKey);
+
+    /**
+     * @param string $text
+     * @param string $uniqueKey
+     * @param callable $runner
+     */
+    public function menu($text, $uniqueKey, callable $runner);
 
     /**
      * @param string|array $text

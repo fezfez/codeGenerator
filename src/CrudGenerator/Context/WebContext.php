@@ -20,6 +20,7 @@ namespace CrudGenerator\Context;
 
 use Symfony\Component\HttpFoundation\Request;
 use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Generators\ResponseExpectedException;
 use CrudGenerator\Generators\Questions\Web\GeneratorQuestion;
 use CrudGenerator\Generators\Questions\Web\MetaDataQuestion;
 use CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion;
@@ -87,20 +88,49 @@ class WebContext implements ContextInterface, \JsonSerializable
     /* (non-PHPdoc)
      * @see \CrudGenerator\Context\ContextInterface::ask()
     */
-    public function askCollection($text, $uniqueKey, array $collection, $defaultResponse = null, $required = false, $helpMessage = null, $type = null)
+    public function askCollection(QuestionWithPredefinedResponse $questionWithPredefinedReponse)
     {
-        $response = $this->getResponse($uniqueKey);
+        $response = $this->getResponse($questionWithPredefinedReponse->getUniqueKey());
+
+        $collection = array();
+        foreach ($questionWithPredefinedReponse->getPredefinedResponseCollection() as $predifinedResponse) {
+            /* @var $predifinedResponse PredefinedResponse */
+            $collection[$predifinedResponse->getId()] = array_merge(
+                array(
+                    'id' => $predifinedResponse->getId(),
+                    'label' => $predifinedResponse->getLabel()
+                ),
+                $predifinedResponse->getAdditionalData()
+            );
+        }
 
         $this->question['question'][] = array(
-            'text'            => $text,
-            'dtoAttribute'    => $uniqueKey,
-            'defaultResponse' => ($response !== null) ? $response : $defaultResponse,
-            'required'        => $required,
+            'text'            => $questionWithPredefinedReponse->getText(),
+            'dtoAttribute'    => $questionWithPredefinedReponse->getUniqueKey(),
+            'defaultResponse' => ($response !== null) ? $response : $questionWithPredefinedReponse->getDefaultResponse(),
+            'required'        => $questionWithPredefinedReponse->isRequired(),
             'values'          => $collection,
-            'type'            => ($type === null) ? 'select' : $type
+            'type'            => ($questionWithPredefinedReponse->getType() === null) ? 'select' : $questionWithPredefinedReponse->getType()
         );
 
-        return $response;
+        if ($response === null) {
+            if ($questionWithPredefinedReponse->isShutdownWithoutResponse() === true) {
+                throw new ResponseExpectedException('Response expected');
+            } else {
+                return null;
+            }
+        } else {
+            try {
+                return $questionWithPredefinedReponse->getPredefinedResponseCollection()->offsetGetById($response)->getResponse();
+            } catch (\Exception $e) {
+                throw new ResponseExpectedException(
+                    sprintf(
+                        'Response "%s" does not exist',
+                        $response
+                    )
+                );
+            }
+        }
     }
 
     /* (non-PHPdoc)
@@ -109,6 +139,16 @@ class WebContext implements ContextInterface, \JsonSerializable
     public function confirm($text, $uniqueKey)
     {
         return (bool) $this->getResponse($uniqueKey);
+    }
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Context\ContextInterface::menu()
+     */
+    public function menu($text, $uniqueKey, callable $runner)
+    {
+        if ((bool) $this->getResponse($uniqueKey) === true) {
+            $runner();
+        }
     }
 
     /* (non-PHPdoc)

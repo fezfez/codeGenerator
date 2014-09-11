@@ -18,7 +18,7 @@
 namespace CrudGenerator\Command;
 
 use CrudGenerator\Context\CliContext;
-use CrudGenerator\Backbone\MainBackboneFactory;
+use Symfony\Component\Console\Application;
 
 /**
  * Generator command
@@ -31,8 +31,8 @@ class CreateCommandFactory
      * @param CliContext $context
      * @return \CrudGenerator\Command\CreateCommand
      */
-    public static function getInstance(CliContext $context)
+    public static function getInstance(Application $application)
     {
-        return new CreateCommand(MainBackboneFactory::getInstance($context));
+        return new CreateCommand($application);
     }
 }
