@@ -25,6 +25,17 @@ class AskCollectionTest extends \PHPUnit_Framework_TestCase
             $responseCollection
         );
 
+        $responseCollection = new PredefinedResponseCollection();
+        $responseCollection->append(
+            new PredefinedResponse('key', 'value', 'value')
+        );
+
+        $question = new QuestionWithPredefinedResponse(
+            "test",
+            'my_key',
+            $responseCollection
+        );
+
         $this->assertEquals(
             null,
             $sUT->askCollection($question)
