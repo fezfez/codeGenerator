@@ -13,7 +13,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
         ->getMock();
 
         $this->assertInstanceOf(
-            'CrudGenerator\Generators\Questions\Cli\DirectoryQuestion',
+            'CrudGenerator\Generators\Questions\Web\DirectoryQuestion',
             DirectoryQuestionFactory::getInstance($context)
         );
     }

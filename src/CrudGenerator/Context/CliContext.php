@@ -38,10 +38,17 @@ class CliContext implements ContextInterface
      * @var OutputInterface
      */
     private $output = null;
+
     /**
      * @var QuestionHelper
      */
     private $question = null;
+
+    /**
+     * @var InputInterface
+     */
+    private $input = null;
+
     /**
      * @var CreateCommand
      */

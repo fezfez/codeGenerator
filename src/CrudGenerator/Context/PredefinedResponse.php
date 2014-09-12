@@ -30,7 +30,7 @@ class PredefinedResponse
     /**
      * @var string
      */
-    private $labelle = null;
+    private $label = null;
     /**
      * @var mixed
      */
@@ -82,8 +82,8 @@ class PredefinedResponse
      */
     public function setResponse($value)
     {
-    	$this->response = $value;
-    	return $this;
+        $this->response = $value;
+        return $this;
     }
     /**
      * Additional data will be added only in WebContext
@@ -93,8 +93,8 @@ class PredefinedResponse
      */
     public function setAdditionalData(array $value)
     {
-    	$this->additionalData = $value;
-    	return $this;
+        $this->additionalData = $value;
+        return $this;
     }
 
     /**
@@ -110,7 +110,7 @@ class PredefinedResponse
      */
     public function getLabel()
     {
-    	return $this->label;
+        return $this->label;
     }
 
     /**
@@ -126,6 +126,6 @@ class PredefinedResponse
      */
     public function getAdditionalData()
     {
-    	return $this->additionalData;
+        return $this->additionalData;
     }
 }

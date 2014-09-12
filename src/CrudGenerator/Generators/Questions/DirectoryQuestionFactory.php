@@ -25,16 +25,14 @@ use CrudGenerator\Context\WebContext;
 class DirectoryQuestionFactory
 {
     /**
-     * @return \CrudGenerator\Command\Questions\DirectoryQuestion
+     * @param ContextInterface $context
+     * @throws \InvalidArgumentException
+     * @return \CrudGenerator\Generators\Questions\Web\DirectoryQuestion
      */
     public static function getInstance(ContextInterface $context)
     {
-        $fileManager = new FileManager();
-
-        if ($context instanceof CliContext) {
-            return new Cli\DirectoryQuestion($fileManager, $context);
-        } elseif ($context instanceof WebContext) {
-            return new Web\DirectoryQuestion($fileManager, $context);
+        if ($context instanceof CliContext || $context instanceof WebContext) {
+            return new Web\DirectoryQuestion(new FileManager(), $context);
         } else {
             throw new \InvalidArgumentException('Invalid context given');
         }

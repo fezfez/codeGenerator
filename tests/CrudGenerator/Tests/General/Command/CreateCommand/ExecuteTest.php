@@ -13,19 +13,19 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $createCommand  = new CreateCommand($application);
 
         // Create a fake mock to make sure thats the callback is call
-        $fakeMock = $this->getMockBuilder('CrudGenerator\Command\CreateCommand')
+        $fakeMock = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
 
         $fakeMock->expects($this->once())
-        ->method('create')
-        ->with('toto', 'titi', function() { });
+        ->method('log')
+        ->with('hello !');
 
         $createCommand->create(
             'my_action',
             'this is the definition of my_action',
             function() use ($fakeMock) {
-                $fakeMock->create('toto', 'titi', function() { });
+                $fakeMock->log('hello !');
             }
         );
 

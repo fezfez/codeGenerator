@@ -26,7 +26,7 @@ class PredefinedResponseCollection implements \IteratorAggregate
 
     public function __construct()
     {
-        $this->collection = new \ArrayIterator();
+        $this->collection = new \ArrayIterator(array());
     }
     /**
      * @param QuestionContext $value

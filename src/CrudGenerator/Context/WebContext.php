@@ -116,7 +116,10 @@ class WebContext implements ContextInterface, \JsonSerializable
     */
     public function askCollection(QuestionWithPredefinedResponse $questionWithPredefinedReponse)
     {
-        $response = $this->getResponse($questionWithPredefinedReponse->getUniqueKey());
+        $response = $this->getResponse(
+            $questionWithPredefinedReponse->getUniqueKey(),
+            $questionWithPredefinedReponse->isConsumeResponse(
+        ));
 
         $collection = array();
         foreach ($questionWithPredefinedReponse->getPredefinedResponseCollection() as $predifinedResponse) {

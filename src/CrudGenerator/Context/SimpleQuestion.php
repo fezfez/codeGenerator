@@ -51,6 +51,10 @@ class SimpleQuestion
      * @var string
      */
     private $customeExceptionMessage = null;
+    /**
+     * @var boolean
+     */
+    private $consumeResponse = false;
 
     /**
      * @param string $text
@@ -135,12 +139,27 @@ class SimpleQuestion
      *
      * @param boolean $value
      * @param string $customeExceptionMessage
+     *
      * @return \CrudGenerator\Context\SimpleQuestion
      */
     public function setShutdownWithoutResponse($value, $customeExceptionMessage = null)
     {
         $this->shutdownWithoutResponse = $value;
         $this->customeExceptionMessage = $customeExceptionMessage;
+
+        return $this;
+    }
+
+    /**
+     * If true, response will be delete after retrieve
+     *
+     * @param boolean $value
+     *
+     * @return \CrudGenerator\Context\SimpleQuestion
+     */
+    public function setConsumeResponse($value)
+    {
+        $this->consumeResponse = $value;
 
         return $this;
     }
@@ -199,5 +218,13 @@ class SimpleQuestion
     public function isShutdownWithoutResponse()
     {
         return $this->shutdownWithoutResponse;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isConsumeResponse()
+    {
+    	return $this->consumeResponse;
     }
 }

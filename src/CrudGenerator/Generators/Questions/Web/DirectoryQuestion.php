@@ -23,9 +23,24 @@ use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
+use CrudGenerator\Context\WebContext;
+use CrudGenerator\Context\CliContext;
 
 class DirectoryQuestion
 {
+    /**
+     * @var integer
+     */
+    const BACK = 2;
+    /**
+     * @var integer
+     */
+    const CURRENT_DIRECTORY = 3;
+    /**
+     * @var integer
+     */
+    const CREATE_DIRECTORY = 4;
+
     /**
      * @var FileManager $fileManager
      */
@@ -52,31 +67,84 @@ class DirectoryQuestion
      */
     public function ask(GeneratorDataObject $generator, array $question)
     {
-        $attribute       = 'get' . $question['dtoAttribute'];
-        $actualDirectory = $generator->getDTO()->$attribute();
+        do {
+            $attribute       = 'get' . $question['dtoAttribute'];
+            $actualDirectory = $generator->getDTO()->$attribute();
 
-        $responseCollection = new PredefinedResponseCollection();
-        $responseCollection = $this->checkAdditionalChoices($actualDirectory, $responseCollection);
-        $responseCollection = $this->buildDirectoryList($actualDirectory, $responseCollection);
+            $responseCollection = new PredefinedResponseCollection();
+            $responseCollection = $this->checkAdditionalChoices($actualDirectory, $responseCollection);
+            $responseCollection = $this->buildDirectoryList($actualDirectory, $responseCollection);
 
-        $questionDTO = new QuestionWithPredefinedResponse(
-            $question['text'],
-            'set' . $question['dtoAttribute'],
-            $responseCollection
-        );
-        $questionDTO->setPreselectedResponse($actualDirectory)
-                    ->setRequired((isset($question['required']) === true) ? $question['required'] : false)
-                    ->setHelpMessage(sprintf('Actual directory "%s"', $actualDirectory))
-                    ->setType('directory');
+            $questionDTO = new QuestionWithPredefinedResponse(
+                $question['text'],
+                'set' . $question['dtoAttribute'],
+                $responseCollection
+            );
+            $questionDTO->setPreselectedResponse($actualDirectory)
+                        ->setRequired((isset($question['required']) === true) ? $question['required'] : false)
+                        ->setHelpMessage(sprintf('Actual directory "%s"', $actualDirectory))
+                        ->setType('directory')
+                        ->setConsumeResponse(true);
 
-        $response = $this->context->askCollection($questionDTO);
+            $response = $this->context->askCollection($questionDTO);
 
-        if ($response !== null) {
-            $setter = 'set' . $question['dtoAttribute'];
-            $generator->getDTO()->$setter($response);
-        }
+            if ($response === self::CREATE_DIRECTORY) {
+                $response = $this->createDirectory($actualDirectory);
+            } elseif ($response === self::BACK) {
+                $response = substr($actualDirectory, 0, -1);
+                $response = str_replace(
+                    substr(strrchr($response, "/"), 1),
+                    '',
+                    $response
+                );
+            }
+
+            if ($response !== null ) {
+                $setter = 'set' . $question['dtoAttribute'];
+                if ($response === self::CURRENT_DIRECTORY) {
+                    $generator->getDTO()->$setter($actualDirectory);
+                    break;
+                } else {
+                    $generator->getDTO()->$setter($response);
+                }
+            }
+
+        } while($response !== null);
 
         return $generator;
+    }
+
+    /**
+     * @param string $baseDirectory
+     * @throws \Exception
+     * @return string
+     */
+    private function createDirectory($baseDirectory = null)
+    {
+        if ($baseDirectory === null) {
+            $baseDirectory = '';
+        }
+
+        $directory = '';
+
+        while (true) {
+            try {
+                $directory = $this->context->ask(
+                    'Directory name ',
+                    'directory_name'
+                );
+
+                if (false === $this->fileManager->ifDirDoesNotExistCreate($baseDirectory . $directory)) {
+                    throw new \Exception('Directory already exist');
+                } else {
+                    break;
+                }
+            } catch (\Exception $e) {
+                $this->context->log('<error>' . $e->getMessage() . '</error>');
+            }
+        }
+
+        return $directory . '/';
     }
 
     /**
@@ -88,15 +156,24 @@ class DirectoryQuestion
     {
         // if we aren't in base directory, add back button
         if ('' !== $actualDirectory && null !== $actualDirectory) {
-            $back = str_replace(
+            /*$back = str_replace(
                 array(getcwd() . DIRECTORY_SEPARATOR , getcwd()),
                 array('', ''),
                 realpath($actualDirectory . '..' . DIRECTORY_SEPARATOR)
             );
-            $id = ($back !== '') ? $back . DIRECTORY_SEPARATOR : '';
+            $id = ($back !== '') ? $back . DIRECTORY_SEPARATOR : '';*/
 
             $responseCollection->append(
-                new PredefinedResponse($id, 'Back', $id)
+                new PredefinedResponse(self::BACK, 'Back', self::BACK)
+            );
+        }
+
+        if ($this->context instanceof CliContext) {
+            $responseCollection->append(
+                new PredefinedResponse(self::CURRENT_DIRECTORY, 'Chose actual directory', self::CURRENT_DIRECTORY)
+            );
+            $responseCollection->append(
+                new PredefinedResponse(self::CREATE_DIRECTORY, 'Create directory', self::CREATE_DIRECTORY)
             );
         }
 
