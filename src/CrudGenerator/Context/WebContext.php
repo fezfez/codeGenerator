@@ -24,6 +24,7 @@ use CrudGenerator\Generators\ResponseExpectedException;
 use CrudGenerator\Generators\Questions\Web\GeneratorQuestion;
 use CrudGenerator\Generators\Questions\Web\MetaDataQuestion;
 use CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion;
+use Igorw\EventSource\Stream;
 
 class WebContext implements ContextInterface, \JsonSerializable
 {
@@ -36,29 +37,54 @@ class WebContext implements ContextInterface, \JsonSerializable
      */
     private $preResponse = null;
     /**
-     * @var \Symfony\Component\HttpFoundation\Request
+     * @var Request
      */
     private $request = null;
+    /**
+     * @var Stream
+     */
     private $stream = null;
 
     /**
+     * @param Request $request
+     * @param Stream $stream
      */
-    public function __construct(Request $request, $stream = null)
+    public function __construct(Request $request, Stream $stream = null)
     {
         $this->request = $request;
         $this->stream  = $stream;
     }
 
     /**
-     * @param string $key
+     * @param string  $key
+     * @param boolean $consume If consume is true the response is remove after the retrieve
+     *
      * @return string
      */
-    private function getResponse($key)
+    private function getResponse($key, $consume = false)
     {
         if (isset($this->preResponse[$key]) === true) {
-            return $this->preResponse[$key];
+            $response = $this->preResponse[$key];
+
+            if ($consume === true) {
+                unset($this->preResponse[$key]);
+            }
+
+            return $response;
+        } elseif ($this->request->query->has($key) === true) {
+            $response = $this->request->get($key);
+
+            if ($consume === true) {
+                $query = $this->request->query;
+
+                $query->remove($key);
+
+                $this->request->query = $query;
+            }
+
+            return $response;
         } else {
-            return $this->request->get($key);
+            return null;
         }
     }
 
@@ -95,7 +121,7 @@ class WebContext implements ContextInterface, \JsonSerializable
         $collection = array();
         foreach ($questionWithPredefinedReponse->getPredefinedResponseCollection() as $predifinedResponse) {
             /* @var $predifinedResponse PredefinedResponse */
-            $collection[$predifinedResponse->getId()] = array_merge(
+            $collection[] = array_merge(
                 array(
                     'id' => $predifinedResponse->getId(),
                     'label' => $predifinedResponse->getLabel()

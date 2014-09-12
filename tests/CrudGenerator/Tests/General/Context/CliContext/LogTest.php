@@ -5,9 +5,13 @@ use CrudGenerator\Context\CliContext;
 
 class LogTest extends \PHPUnit_Framework_TestCase
 {
-    public function testInstance()
+    public function testLogIsCorrectlyCall()
     {
-        $consoleOutputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+        $outputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+        ->disableOriginalConstructor()
+        ->getMock();
+
+        $inputStub =  $this->getMockBuilder('Symfony\Component\Console\Input\ArrayInput')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -15,13 +19,17 @@ class LogTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
+        $createCommandMock = $this->getMockBuilder('CrudGenerator\Command\CreateCommand')
+        ->disableOriginalConstructor()
+        ->getMock();
+
         $logged = 'test';
 
-        $consoleOutputStub->expects($this->once())
-                          ->method('writeln')
-                          ->with($logged);
+        $outputStub->expects($this->once())
+                   ->method('writeln')
+                   ->with($logged);
 
-        $sUT = new CliContext($questionHelper, $ConsoleOutputStub);
+        $sUT = new CliContext($questionHelper, $outputStub, $inputStub, $createCommandMock);
 
         $this->assertEmpty($sUT->log($logged, 'my_key'));
     }

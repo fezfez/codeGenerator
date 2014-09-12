@@ -7,9 +7,7 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
 {
     public function testNullResponse()
     {
-        $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $request = new \Symfony\Component\HttpFoundation\Request();
 
         $sUT = new WebContext($request);
 
@@ -19,14 +17,7 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
 
     public function testStringTrueResponse()
     {
-        $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $request->expects($this->once())
-        ->method('get')
-        ->with('my_key')
-        ->willReturn('true');
+        $request = new \Symfony\Component\HttpFoundation\Request(array('my_key' => 'true'));
 
         $sUT = new WebContext($request);
 
@@ -36,14 +27,7 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
 
     public function testStringFalseResponse()
     {
-        $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $request->expects($this->once())
-        ->method('get')
-        ->with('my_key')
-        ->willReturn('false');
+        $request = new \Symfony\Component\HttpFoundation\Request(array('my_key' => 'false'));
 
         $sUT = new WebContext($request);
 
@@ -53,14 +37,7 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
 
     public function testStringResponse()
     {
-        $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $request->expects($this->once())
-        ->method('get')
-        ->with('my_key')
-        ->willReturn('imstring');
+        $request = new \Symfony\Component\HttpFoundation\Request(array('my_key' => 'imstring'));
 
         $sUT = new WebContext($request);
 
@@ -70,14 +47,7 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
 
     public function testStringOneResponse()
     {
-        $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $request->expects($this->once())
-        ->method('get')
-        ->with('my_key')
-        ->willReturn('1');
+        $request = new \Symfony\Component\HttpFoundation\Request(array('my_key' => '1'));
 
         $sUT = new WebContext($request);
 
@@ -87,14 +57,7 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
 
     public function testStringZeroResponse()
     {
-        $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $request->expects($this->once())
-        ->method('get')
-        ->with('my_key')
-        ->willReturn('0');
+        $request = new \Symfony\Component\HttpFoundation\Request(array('my_key' => '0'));
 
         $sUT = new WebContext($request);
 

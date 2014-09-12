@@ -29,8 +29,8 @@ class QuestionWithPredefinedResponse extends SimpleQuestion
     private $preselectedResponse = null;
 
     /**
-     * @param unknown $text
-     * @param unknown $uniqueKey
+     * @param string $text
+     * @param string $uniqueKey
      * @param PredefinedResponseCollection $responseContextCollection
      */
     public function __construct($text, $uniqueKey, PredefinedResponseCollection $predefinedResponseCollection)

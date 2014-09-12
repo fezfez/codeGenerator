@@ -8,7 +8,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {
-    public function testOk()
+    public function testExceptionIfNoResponseProvided()
     {
         $sourceFinderStub = $this->getMockBuilder('CrudGenerator\Generators\Finder\GeneratorFinder')
         ->disableOriginalConstructor()
@@ -24,9 +24,8 @@ class AskTest extends \PHPUnit_Framework_TestCase
                             )
                         );
 
-        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $request = new \Symfony\Component\HttpFoundation\Request();
+        $context =  new \CrudGenerator\Context\WebContext($request);
 
         $sUT = new GeneratorQuestion($sourceFinderStub, $context);
 

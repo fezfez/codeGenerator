@@ -43,7 +43,7 @@ class PredefinedResponse
     /**
      * @param string $id
      * @param string $label
-     * @param unknown $response
+     * @param string $response
      */
     public function __construct($id, $label, $response)
     {
@@ -75,7 +75,7 @@ class PredefinedResponse
         return $this;
     }
     /**
-     * If the user choice this response, this value woulmd be returned
+     * If the user choice this response, this value would be returned
      *
      * @param mixed $value
      * @return \CrudGenerator\Context\PredefinedResponse

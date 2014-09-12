@@ -7,9 +7,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 {
     public function testJsonWellReturned()
     {
-        $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $request = new \Symfony\Component\HttpFoundation\Request();
 
         $sUT = new WebContext($request);
 

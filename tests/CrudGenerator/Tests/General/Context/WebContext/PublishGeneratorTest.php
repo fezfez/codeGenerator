@@ -13,9 +13,7 @@ class PublishGeneratorTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {
-        $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
-        ->disableOriginalConstructor()
-        ->getMock();
+    	$request = new \Symfony\Component\HttpFoundation\Request();
 
         $sUT            = new WebContext($request);
         $metadataSource = new MetaDataSource();

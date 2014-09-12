@@ -10,10 +10,13 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
         $outputStub = $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
         ->disableOriginalConstructor()
         ->getMock();
+        $inputStub = $this->getMockBuilder('Symfony\Component\Console\Input\ArgvInput')
+        ->disableOriginalConstructor()
+        ->getMock();
 
         $this->assertInstanceOf(
             'Symfony\Component\Console\Application',
-            CliFactory::getInstance($outputStub)
+            CliFactory::getInstance($outputStub, $inputStub)
         );
     }
 }
