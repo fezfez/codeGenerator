@@ -21,7 +21,13 @@ class AskTest extends \PHPUnit_Framework_TestCase
             $this->isType('string'),
             $this->isType('array')
         )
-        ->will($this->onConsecutiveCalls($this->returnValue(4), $this->returnValue(DirectoryQuestion::BACK), $this->returnValue(DirectoryQuestion::CURRENT_DIRECTORY)));
+        ->will(
+        	$this->onConsecutiveCalls(
+        		$this->returnValue(4),
+        		$this->returnValue(DirectoryQuestion::BACK),
+        		$this->returnValue(DirectoryQuestion::CURRENT_DIRECTORY)
+        	)
+        );
 
         $fileManagerStub =  $this->getMockBuilder('\CrudGenerator\Utils\FileManager')
         ->disableOriginalConstructor()

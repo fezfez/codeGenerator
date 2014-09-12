@@ -80,10 +80,10 @@ class DirectoryQuestion
 
             $choices = array();
             foreach ($directories as $directorie) {
-            	$choices[$directorie] = array(
-            		'id'    => $directorie,
-            		'label' => $directorie
-            	);
+                $choices[$directorie] = array(
+                    'id'    => $directorie,
+                    'label' => $directorie
+                );
             }
 
             $this->context->log($directory);

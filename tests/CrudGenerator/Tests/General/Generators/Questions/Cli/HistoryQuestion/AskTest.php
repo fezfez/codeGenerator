@@ -12,18 +12,8 @@ use CrudGenerator\Generators\GeneratorDataObject;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {
-    public function testOk()
+    public function testRetrieveHistory()
     {
-        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $context->expects($this->any())
-        ->method('log')
-        ->will($this->returnValue(''));
-        $context->expects($this->once())
-        ->method('askCollection')
-        ->will($this->returnValue('MyName'));
-
         $metaData = new MetadataDataObjectDoctrine2(
             new MetaDataColumnCollection(),
             new MetaDataRelationCollection()
@@ -42,10 +32,22 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $HistoryCollection->append($history);
 
-        $HistoryStub =  $this->getMockBuilder('CrudGenerator\History\HistoryManager')
+        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()
         ->getMock();
-        $HistoryStub->expects($this->exactly(2))
+
+        $context->expects($this->any())
+        ->method('log')
+        ->will($this->returnValue(''));
+
+        $context->expects($this->once())
+        ->method('askCollection')
+        ->will($this->returnValue($generatorDTO));
+
+        $HistoryStub = $this->getMockBuilder('CrudGenerator\History\HistoryManager')
+        ->disableOriginalConstructor()
+        ->getMock();
+        $HistoryStub->expects($this->once())
         ->method('findAll')
         ->will($this->returnValue($HistoryCollection));
 

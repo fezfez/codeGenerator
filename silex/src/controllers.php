@@ -5,6 +5,7 @@ use CrudGenerator\Context\WebContext;
 use CrudGenerator\Generators\ResponseExpectedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Igorw\EventSource\Stream;
 
 $app->match('/', function() use ($app) {
     return $app['twig']->render('index.html.twig');
@@ -14,14 +15,22 @@ $app->match('/generator', function (Request $request) use ($app) {
     $stream  = $request->get('stream');
 
     $runner = function () use($stream, $request) {
-        $event   = (($stream == 'true') ? new Igorw\EventSource\Stream() : null);
+        $event   = (($stream == 'true') ? new Stream() : null);
         $context = new WebContext($request, $event);
         $main    = MainBackboneFactory::getInstance($context);
 
         try {
             $main->run();
         } catch (ResponseExpectedException $e) {
-            $context->log("You may answer the question " . $e->getMessage() . $e->getFile() . $e->getLine(), "generator_question");
+            $context->log(
+                sprintf(
+                    "You may answer the question %s %s %s",
+                    $e->getMessage(),
+                    $e->getFile(),
+                    $e->getLine()
+                ),
+                "generator_question"
+            );
         }
 
         if ($event !== null) {
@@ -37,7 +46,7 @@ $app->match('/generator', function (Request $request) use ($app) {
     };
 
     if ($stream == 'true') {
-        return $app->stream($runner, 200, \Igorw\EventSource\Stream::getHeaders());
+        return $app->stream($runner, 200, Stream::getHeaders());
     } else {
         return $app->json($runner(), 200);
     }

@@ -55,7 +55,7 @@ class GeneratorQuestion
         $responseCollection = new PredefinedResponseCollection();
         $generators         = $this->generatorFinder->getAllClasses($metadata);
 
-        foreach ($generators as $path => $name) {
+        foreach ($generators as $name) {
             $responseCollection->append(new PredefinedResponse($name, $name, $name));
         }
 

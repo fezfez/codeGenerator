@@ -44,7 +44,7 @@ class CreateCommand
      * @param string $definition
      * @param callable $runner
      */
-    public function create($action, $definition, $runner)
+    public function create($action, $definition, callable $runner)
     {
         $commandDefinition = new CommandDefinition();
         $commandDefinition->setAction($action)

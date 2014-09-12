@@ -9,10 +9,6 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
     public function testEmpty()
     {
-        $fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
-        ->disableOriginalConstructor()
-        ->getMock();
-
         $environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
         ->disableOriginalConstructor()
         ->getMock();
@@ -25,7 +21,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new TemplateVariableParser($fileManager, $environnementCondition, $dependencyCondition);
+        $sUT = new TemplateVariableParser($environnementCondition, $dependencyCondition);
 
         $generator = new GeneratorDataObject();
 
@@ -39,10 +35,6 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testMalformedVar()
     {
-        $fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
-        ->disableOriginalConstructor()
-        ->getMock();
-
         $environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
         ->disableOriginalConstructor()
         ->getMock();
@@ -55,7 +47,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new TemplateVariableParser($fileManager, $environnementCondition, $dependencyCondition);
+        $sUT = new TemplateVariableParser($environnementCondition, $dependencyCondition);
 
         $generator = new GeneratorDataObject();
 
@@ -71,10 +63,6 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testWithVar()
     {
-        $fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
-        ->disableOriginalConstructor()
-        ->getMock();
-
         $environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
         ->disableOriginalConstructor()
         ->getMock();
@@ -92,7 +80,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->with('MyValue')
         ->will($this->returnValue('MyValueParser'));
 
-        $sUT = new TemplateVariableParser($fileManager, $environnementCondition, $dependencyCondition);
+        $sUT = new TemplateVariableParser($environnementCondition, $dependencyCondition);
 
         $generator = new GeneratorDataObject();
 
@@ -112,10 +100,6 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testWithDependencyCondiction()
     {
-        $fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
-        ->disableOriginalConstructor()
-        ->getMock();
-
         $environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
         ->disableOriginalConstructor()
         ->getMock();
@@ -137,7 +121,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->with('MyValue')
         ->will($this->returnValue('MyValueParser'));
 
-        $sUT = new TemplateVariableParser($fileManager, $environnementCondition, $dependencyCondition);
+        $sUT = new TemplateVariableParser($environnementCondition, $dependencyCondition);
 
         $generator = new GeneratorDataObject();
 
@@ -163,10 +147,6 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testWithEnvironnemetnCondiction()
     {
-        $fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
-        ->disableOriginalConstructor()
-        ->getMock();
-
         $environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
         ->disableOriginalConstructor()
         ->getMock();
@@ -188,7 +168,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->with('MyValue')
         ->will($this->returnValue('MyValueParser'));
 
-        $sUT = new TemplateVariableParser($fileManager, $environnementCondition, $dependencyCondition);
+        $sUT = new TemplateVariableParser($environnementCondition, $dependencyCondition);
 
         $generator = new GeneratorDataObject();
 

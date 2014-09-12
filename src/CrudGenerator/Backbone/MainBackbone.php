@@ -51,7 +51,13 @@ class MainBackbone
     private $context = null;
 
     /**
+     * @param HistoryBackbone $historyBackbone
+     * @param SearchGeneratorBackbone $searchGeneratorBackbone
      * @param PreapreForGenerationBackbone $preapreForGenerationBackbone
+     * @param GenerateFileBackbone $generateFileBackbone
+     * @param GenerateBackbone $generateBackbone
+     * @param CreateSourceBackbone $createSourceBackbone
+     * @param ContextInterface $context
      */
     public function __construct(
         HistoryBackbone $historyBackbone,
@@ -71,9 +77,6 @@ class MainBackbone
         $this->context                      = $context;
     }
 
-    /**
-     * @throws \InvalidArgumentException
-     */
     public function run()
     {
         $this->context->menu(

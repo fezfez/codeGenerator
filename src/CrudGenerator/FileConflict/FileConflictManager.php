@@ -20,7 +20,9 @@ namespace CrudGenerator\FileConflict;
 use CrudGenerator\Utils\FileManager;
 use SebastianBergmann\Diff\Differ;
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Generators\ResponseExpectedException;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\PredefinedResponse;
 
 class FileConflictManager
 {
@@ -90,16 +92,29 @@ class FileConflictManager
      */
     public function handle($filePath, $results)
     {
-        while (($response = $this->context->askCollection(
-                'File "' . $filePath . '" already exist, erase it with the new',
-                'conflict' . $filePath,
-                array(
-                    'postpone',
-                    'show diff',
-                    'erase',
-                    'cancel'
-                )
-            )) !== null) {
+        $responseCollection = new PredefinedResponseCollection();
+        $responseCollection->append(
+            new PredefinedResponse('postpone', 'postpone', self::POSTPONE)
+        );
+        $responseCollection->append(
+            new PredefinedResponse('show diff', 'show diff', self::SHOW_DIFF)
+        );
+        $responseCollection->append(
+            new PredefinedResponse('erase', 'erase', self::ERASE)
+        );
+        $responseCollection->append(
+            new PredefinedResponse('cancel', 'cancel', self::CANCEL)
+        );
+
+        $question = new QuestionWithPredefinedResponse(
+            sprintf('File "%s" already exist, erase it with the new', $filePath),
+            'conflict' . $filePath,
+            $responseCollection
+        );
+
+        $question->setShutdownWithoutResponse(true, sprintf('Conflict with file "%s" not resolved', $filePath));
+
+        while (($response = $this->context->askCollection($question)) !== null) {
 
             $response = intval($response);
 
@@ -126,8 +141,6 @@ class FileConflictManager
         } elseif ($response === self::ERASE) {
             $this->fileManager->filePutsContent($filePath, $results);
             $this->context->log('--> Replace file ' . $filePath, 'generationLog');
-        } elseif (null === $response) {
-            throw new ResponseExpectedException(sprintf('Conflict with file "%s" not resolved', $filePath));
         }
     }
 }

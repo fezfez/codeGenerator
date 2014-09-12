@@ -25,7 +25,7 @@ use CrudGenerator\Context\PredefinedResponse;
 
 class MetaDataSourcesQuestion
 {
-	const QUESTION_KEY = 'metadatasource';
+    const QUESTION_KEY = 'metadatasource';
     /**
      * @var MetaDataSourceFinder
      */
@@ -59,7 +59,7 @@ class MetaDataSourcesQuestion
             /* @var $backend \CrudGenerator\MetaData\MetaDataSource */
             if(null === $backend->getFalseDependencies()) {
                 $responseCollection->append(
-                	new PredefinedResponse($backend->getMetaDataDAOFactory(), $backend->getDefinition(), $backend)
+                    new PredefinedResponse($backend->getMetaDataDAOFactory(), $backend->getDefinition(), $backend)
                 );
             }
         }

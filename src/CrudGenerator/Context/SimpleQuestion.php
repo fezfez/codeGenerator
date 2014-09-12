@@ -47,6 +47,10 @@ class SimpleQuestion
      * @var boolean
      */
     private $shutdownWithoutResponse = false;
+    /**
+     * @var string
+     */
+    private $customeExceptionMessage = null;
 
     /**
      * @param string $text
@@ -130,11 +134,13 @@ class SimpleQuestion
      * will be throw
      *
      * @param boolean $value
+     * @param string $customeExceptionMessage
      * @return \CrudGenerator\Context\SimpleQuestion
      */
-    public function setShutdownWithoutResponse($value)
+    public function setShutdownWithoutResponse($value, $customeExceptionMessage = null)
     {
         $this->shutdownWithoutResponse = $value;
+        $this->customeExceptionMessage = $customeExceptionMessage;
 
         return $this;
     }

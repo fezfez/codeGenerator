@@ -7,7 +7,7 @@ use CrudGenerator\MetaData\MetaDataSource;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {
-    public function testOk()
+    public function testFail()
     {
         $metadataSourceCollection = new MetaDataSourceCollection();
         $source = new MetaDataSource();
@@ -25,13 +25,12 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $sourceFinderStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFinder')
         ->disableOriginalConstructor()
         ->getMock();
-        $sourceFinderStub->expects($this->exactly(2))
+        $sourceFinderStub->expects($this->once())
         ->method('getAllAdapters')
         ->will($this->returnValue($metadataSourceCollection));
 
-        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $request = new \Symfony\Component\HttpFoundation\Request();
+        $context =  new \CrudGenerator\Context\WebContext($request);
 
         $sUT = new MetaDataSourcesQuestion($sourceFinderStub, $context);
 
@@ -39,7 +38,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $sUT->ask();
     }
 
-    public function testWithPreselected()
+    public function testWithPreselectedOk()
     {
 
         $metadataSourceCollection = new MetaDataSourceCollection();
@@ -57,7 +56,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $sourceFinderStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFinder')
         ->disableOriginalConstructor()
         ->getMock();
-        $sourceFinderStub->expects($this->exactly(2))
+        $sourceFinderStub->expects($this->once())
         ->method('getAllAdapters')
         ->will($this->returnValue($metadataSourceCollection));
 
@@ -68,7 +67,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $context
         ->expects($this->once())
         ->method('askCollection')
-        ->will($this->returnValue('my name factory'));
+        ->will($this->returnValue($source));
 
         $sUT = new MetaDataSourcesQuestion($sourceFinderStub, $context);
         $this->assertEquals($source, $sUT->ask());
@@ -76,7 +75,6 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
     public function testWithPreselectedFail()
     {
-
         $metadataSourceCollection = new MetaDataSourceCollection();
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
@@ -91,18 +89,12 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $sourceFinderStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFinder')
         ->disableOriginalConstructor()
         ->getMock();
-        $sourceFinderStub->expects($this->exactly(2))
+        $sourceFinderStub->expects($this->once())
         ->method('getAllAdapters')
         ->will($this->returnValue($metadataSourceCollection));
 
-        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $context
-        ->expects($this->once())
-        ->method('askCollection')
-        ->will($this->returnValue('My name'));
+        $request = new \Symfony\Component\HttpFoundation\Request();
+        $context =  new \CrudGenerator\Context\WebContext($request);
 
         $sUT = new MetaDataSourcesQuestion($sourceFinderStub, $context);
 

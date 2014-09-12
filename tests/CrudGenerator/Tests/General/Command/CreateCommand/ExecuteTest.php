@@ -2,28 +2,38 @@
 namespace CrudGenerator\Tests\General\Command\CreateCommand;
 
 use CrudGenerator\Command\CreateCommand;
-use Symfony\Component\Console\Application as App;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class ExecuteTest extends \PHPUnit_Framework_TestCase
+class CreateTest extends \PHPUnit_Framework_TestCase
 {
-    public function testYes()
+    public function testCreateCommand()
     {
-        $mainBackboneStub = $this->getMockBuilder('CrudGenerator\Backbone\MainBackbone')
+        $application    = new Application();
+        $createCommand  = new CreateCommand($application);
+
+        // Create a fake mock to make sure thats the callback is call
+        $fakeMock = $this->getMockBuilder('CrudGenerator\Command\CreateCommand')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $mainBackboneStub->expects($this->once())
-        ->method('run');
+        $fakeMock->expects($this->once())
+        ->method('create')
+        ->with('toto', 'titi', function() { });
 
-        $commandTmp = new CreateCommand($mainBackboneStub);
-        $application = new App();
-        $application->add($commandTmp);
+        $createCommand->create(
+            'my_action',
+            'this is the definition of my_action',
+            function() use ($fakeMock) {
+                $fakeMock->create('toto', 'titi', function() { });
+            }
+        );
 
-        $sUT = $application->find('CodeGenerator:create');
+        $sUT = $application->find('generator:my_action');
+
+        $this->assertInstanceOf('CrudGenerator\Command\SkeletonCommand', $sUT);
 
         $commandTester = new CommandTester($sUT);
-
         $commandTester->execute(array('command' => $sUT->getName()));
     }
 }
