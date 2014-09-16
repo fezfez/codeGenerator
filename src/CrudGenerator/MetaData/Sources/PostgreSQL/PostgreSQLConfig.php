@@ -67,7 +67,12 @@ class PostgreSQLConfig extends MetadataConfigDatabase implements MetaDataConfigI
      */
     public function getConnection()
     {
-        $pdo = new \PDO('pgsql:dbname='.$this->configDatabaseName . ';host='.$this->configHost, $this->configUser, $this->configPassword);
+        $pdo = new \PDO(
+            'pgsql:dbname=' . $this->configDatabaseName . ';host=' . $this->configHost,
+            $this->configUser,
+            $this->configPassword
+        );
+
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
         return $pdo;

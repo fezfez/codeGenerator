@@ -77,7 +77,7 @@ class MetaDataQuestion
         $responseCollection = new PredefinedResponseCollection();
 
         foreach ($metaDataCollection as $metaData) {
-        	$response = new PredefinedResponse($metaData->getOriginalName(), $metaData->getOriginalName(), $metaData);
+            $response = new PredefinedResponse($metaData->getOriginalName(), $metaData->getOriginalName(), $metaData);
             $response->setAdditionalData(array('source' => $metadataSource->getUniqueName()));
 
             $responseCollection->append($response);

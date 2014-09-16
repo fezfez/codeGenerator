@@ -62,7 +62,7 @@ class SimpleQuestion
      */
     public function __construct($text, $uniqueKey)
     {
-        $this->text = $text;
+        $this->text      = $text;
         $this->uniqueKey = $uniqueKey;
     }
 
@@ -110,7 +110,7 @@ class SimpleQuestion
         return $this;
     }
 
-   /**
+    /**
      * @param mixed $value
      * @return \CrudGenerator\Context\SimpleQuestion
      */
@@ -225,6 +225,6 @@ class SimpleQuestion
      */
     public function isConsumeResponse()
     {
-    	return $this->consumeResponse;
+        return $this->consumeResponse;
     }
 }

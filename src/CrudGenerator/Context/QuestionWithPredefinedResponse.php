@@ -35,8 +35,8 @@ class QuestionWithPredefinedResponse extends SimpleQuestion
      */
     public function __construct($text, $uniqueKey, PredefinedResponseCollection $predefinedResponseCollection)
     {
-    	parent::__construct($text, $uniqueKey);
-    	$this->predefinedResponseCollection = $predefinedResponseCollection;
+        parent::__construct($text, $uniqueKey);
+        $this->predefinedResponseCollection = $predefinedResponseCollection;
     }
 
     /**
@@ -49,9 +49,9 @@ class QuestionWithPredefinedResponse extends SimpleQuestion
      */
     public function setPreselectedResponse($value)
     {
-    	$this->preselectedResponse = $value;
+        $this->preselectedResponse = $value;
 
-    	return $this;
+        return $this;
     }
 
     /**
@@ -67,6 +67,6 @@ class QuestionWithPredefinedResponse extends SimpleQuestion
      */
     public function getPreselectedResponse()
     {
-    	return $this->preselectedResponse;
+        return $this->preselectedResponse;
     }
 }

@@ -44,9 +44,9 @@ class MetaDataDAOCache implements MetaDataDAOInterface
      */
     public function __construct(MetaDataDAOInterface $metadataDAO, array $directories, $noCache = false)
     {
-        $this->metadataDAO     = $metadataDAO;
-        $this->directories     = $directories;
-        $this->noCache = $noCache;
+        $this->metadataDAO = $metadataDAO;
+        $this->directories = $directories;
+        $this->noCache     = $noCache;
     }
     /**
      * Get all metadata from the concrete metadata DAO
@@ -55,9 +55,10 @@ class MetaDataDAOCache implements MetaDataDAOInterface
      */
     public function getAllMetadata()
     {
-        $cacheFilename = $this->directories['Cache'] . DIRECTORY_SEPARATOR . md5('all_metadata' . get_class($this->metadataDAO));
+        $cacheFilename = $this->directories['Cache'] . DIRECTORY_SEPARATOR;
+        $cacheFilename .= md5('all_metadata' . get_class($this->metadataDAO));
 
-        if (is_file($cacheFilename) && $this->noCache === false) {
+        if (is_file($cacheFilename) === true && $this->noCache === false) {
             $data = unserialize(file_get_contents($cacheFilename));
         } else {
             $data = $this->metadataDAO->getAllMetadata();
@@ -75,9 +76,10 @@ class MetaDataDAOCache implements MetaDataDAOInterface
      */
     public function getMetadataFor($entityName, array $parentName = array())
     {
-        $cacheFilename = $this->directories['Cache'] . DIRECTORY_SEPARATOR . md5('metadata' . $entityName . get_class($this->metadataDAO));
+        $cacheFilename = $this->directories['Cache'] . DIRECTORY_SEPARATOR;
+        $cacheFilename .= md5('metadata' . $entityName . get_class($this->metadataDAO));
 
-        if (is_file($cacheFilename) && $this->noCache === false) {
+        if (is_file($cacheFilename) === true && $this->noCache === false) {
             $data = unserialize(file_get_contents($cacheFilename));
         } else {
             $data = $this->metadataDAO->getMetadataFor($entityName, $parentName);

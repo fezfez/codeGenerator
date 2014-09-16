@@ -45,9 +45,15 @@ class MySQLConfig extends MetadataConfigDatabase implements MetaDataConfigInterf
         if ($this->configHost === null || $this->configDatabaseName === null) {
             throw new ConfigException('Empty connection');
         }
-        $pdo = new \PDO('mysql:host='.$this->configHost . ';dbname='.$this->configDatabaseName, $this->configUser, $this->configPassword, array(
-            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-        ));
+
+        $pdo = new \PDO(
+            'mysql:host='.$this->configHost . ';dbname=' . $this->configDatabaseName,
+            $this->configUser,
+            $this->configPassword,
+            array(
+                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+            )
+        );
 
         return $pdo;
     }
@@ -83,11 +89,11 @@ class MySQLConfig extends MetadataConfigDatabase implements MetaDataConfigInterf
     public function jsonSerialize()
     {
         return array_merge(
-	        	array(
-	            'metaDataDAOFactory' => $this->metaDataDAOFactory,
-	            'uniqueName'         => $this->getUniqueName()
-	        ),
-        	parent::jsonSerialize()
+            array(
+                'metaDataDAOFactory' => $this->metaDataDAOFactory,
+                'uniqueName'         => $this->getUniqueName()
+            ),
+            parent::jsonSerialize()
         );
     }
 

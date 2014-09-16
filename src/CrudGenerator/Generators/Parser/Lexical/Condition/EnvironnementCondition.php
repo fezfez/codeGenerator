@@ -27,14 +27,21 @@ class EnvironnementCondition implements ParserInterface
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
      */
-    public function evaluate(array $environnementNode, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
-    {
+    public function evaluate(
+        array $environnementNode,
+        PhpStringParser $parser,
+        GeneratorDataObject $generator,
+        $firstIteration
+    ) {
         $matches = array();
 
         foreach ($environnementNode as $environnementNodes) {
-             foreach ($environnementNodes as $expression => $toDoIfValidExpression) {
-                $matches = array_merge($matches, $this->analyseExpression($expression, $toDoIfValidExpression, $generator));
-             }
+            foreach ($environnementNodes as $expression => $toDoIfValidExpression) {
+                $matches = array_merge(
+                    $matches,
+                    $this->analyseExpression($expression, $toDoIfValidExpression, $generator)
+                );
+            }
         }
 
          return $matches;
@@ -53,14 +60,20 @@ class EnvironnementCondition implements ParserInterface
 
         try {
             $comparaisonDifferentEquals = $this->analyseExpressionType($expression, GeneratorParser::DIFFERENT_EQUAL);
-            $addEnvironnementExpression = ($comparaisonDifferentEquals['environnementValue'] !== $generator->getEnvironnement($comparaisonDifferentEquals['environnementName']));
+            $addEnvironnementExpression = (
+                $comparaisonDifferentEquals['environnementValue'] !==
+                $generator->getEnvironnement($comparaisonDifferentEquals['environnementName'])
+            );
         } catch (\InvalidArgumentException $e) {
-            $comparaisonEquals = $this->analyseExpressionType($expression, GeneratorParser::EQUAL);
-            $addEnvironnementExpression = ($comparaisonEquals['environnementValue'] === $generator->getEnvironnement($comparaisonEquals['environnementName']));
+            $comparaisonEquals          = $this->analyseExpressionType($expression, GeneratorParser::EQUAL);
+            $addEnvironnementExpression = (
+                $comparaisonEquals['environnementValue'] ===
+                $generator->getEnvironnement($comparaisonEquals['environnementName'])
+            );
         }
 
         if (true === $addEnvironnementExpression) {
-            foreach ($toDoIfValidExpression as $key => $dependency) {
+            foreach ($toDoIfValidExpression as $dependency) {
                 $matches[] = $dependency;
             }
         }

@@ -39,8 +39,10 @@ class TemplateVariableParser implements ParserInterface
      * @param EnvironnementCondition $environnementCondition
      * @param DependencyCondition $dependencyCondition
      */
-    public function __construct(EnvironnementCondition $environnementCondition, DependencyCondition $dependencyCondition)
-    {
+    public function __construct(
+        EnvironnementCondition $environnementCondition,
+        DependencyCondition $dependencyCondition
+    ) {
         $this->environnementCondition = $environnementCondition;
         $this->dependencyCondition    = $dependencyCondition;
     }
@@ -53,7 +55,9 @@ class TemplateVariableParser implements ParserInterface
         if (isset($process['templateVariables']) === true) {
             foreach ($process['templateVariables'] as $variables) {
                 if (is_array($variables) === false) {
-                    throw new MalformedGeneratorException('Variable excepts to be an array "' . gettype($variables) . "' given");
+                    throw new MalformedGeneratorException(
+                        sprintf('Variable excepts to be an array "%s" given', gettype($variables))
+                    );
                 }
                 $this->evaluateVariable($variables, $parser, $generator, (bool) $firstIteration);
             }
@@ -69,8 +73,12 @@ class TemplateVariableParser implements ParserInterface
      * @param boolean $firstIteration
      * @return GeneratorDataObject
      */
-    private function evaluateVariable(array $variables, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
-    {
+    private function evaluateVariable(
+        array $variables,
+        PhpStringParser $parser,
+        GeneratorDataObject $generator,
+        $firstIteration
+    ) {
         foreach ($variables as $varName => $value) {
             if ($varName === GeneratorParser::DEPENDENCY_CONDITION) {
                 $matches = $this->dependencyCondition->evaluate($value, $parser, $generator, $firstIteration);

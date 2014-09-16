@@ -39,11 +39,16 @@ class GeneratorFinderCache implements GeneratorFinderInterface
      */
     private $noCache = null;
 
+    /**
+     * @param GeneratorFinder $generatorFinder
+     * @param array $directories
+     * @param boolean $noCache
+     */
     public function __construct(GeneratorFinder $generatorFinder, array $directories, $noCache = false)
     {
         $this->generatorFinder = $generatorFinder;
-        $this->directories = $directories;
-        $this->noCache = false;
+        $this->directories     = $directories;
+        $this->noCache         = false;
     }
 
     /**
@@ -53,10 +58,10 @@ class GeneratorFinderCache implements GeneratorFinderInterface
      */
     public function getAllClasses(MetaDataInterface $metadata = null)
     {
-        $cacheFilename = $this->directories['Cache'] . DIRECTORY_SEPARATOR .
-                         md5('genrator_getAllClasses' . ($metadata !== null) ? get_class($metadata) : '');
+        $cacheFilename = $this->directories['Cache'] . DIRECTORY_SEPARATOR;
+        $cacheFilename .= md5('genrator_getAllClasses' . ($metadata !== null) ? get_class($metadata) : '');
 
-        if (is_file($cacheFilename) && $this->noCache === false) {
+        if (is_file($cacheFilename) === true && $this->noCache === false) {
             $data = unserialize(file_get_contents($cacheFilename));
         } else {
             $data = $this->generatorFinder->getAllClasses($metadata);

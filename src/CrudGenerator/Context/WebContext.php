@@ -136,10 +136,12 @@ class WebContext implements ContextInterface, \JsonSerializable
         $this->question['question'][] = array(
             'text'            => $questionWithPredefinedReponse->getText(),
             'dtoAttribute'    => $questionWithPredefinedReponse->getUniqueKey(),
-            'defaultResponse' => ($response !== null) ? $response : $questionWithPredefinedReponse->getDefaultResponse(),
+            'defaultResponse' => ($response !== null)
+                                     ? $response : $questionWithPredefinedReponse->getDefaultResponse(),
             'required'        => $questionWithPredefinedReponse->isRequired(),
             'values'          => $collection,
-            'type'            => ($questionWithPredefinedReponse->getType() === null) ? 'select' : $questionWithPredefinedReponse->getType()
+            'type'            => ($questionWithPredefinedReponse->getType() === null)
+                                     ? 'select' : $questionWithPredefinedReponse->getType()
         );
 
         if ($response === null) {
@@ -150,7 +152,9 @@ class WebContext implements ContextInterface, \JsonSerializable
             }
         } else {
             try {
-                return $questionWithPredefinedReponse->getPredefinedResponseCollection()->offsetGetById($response)->getResponse();
+                return $questionWithPredefinedReponse->getPredefinedResponseCollection()
+                                                     ->offsetGetById($response)
+                                                     ->getResponse();
             } catch (\Exception $e) {
                 throw new ResponseExpectedException(
                     sprintf(
@@ -215,8 +219,11 @@ class WebContext implements ContextInterface, \JsonSerializable
      */
     public function publishGenerator(GeneratorDataObject $generator)
     {
-        $this->preResponse[MetaDataSourcesConfiguredQuestion::QUESTION_KEY] = $generator->getMetadataSource()->getUniqueName();
-        $this->preResponse[MetaDataQuestion::QUESTION_KEY]                  = $generator->getDTO()->getMetadata()->getOriginalName();
+        $this->preResponse[MetaDataSourcesConfiguredQuestion::QUESTION_KEY] = $generator->getMetadataSource()
+                                                                                        ->getUniqueName();
+        $this->preResponse[MetaDataQuestion::QUESTION_KEY]                  = $generator->getDTO()
+                                                                                        ->getMetadata()
+                                                                                        ->getOriginalName();
         $this->preResponse[GeneratorQuestion::QUESTION_KEY]                 = $generator->getName();
     }
 }

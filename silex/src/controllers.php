@@ -12,10 +12,11 @@ $app->match('/', function() use ($app) {
 })->bind('homepage');
 
 $app->match('/generator', function (Request $request) use ($app) {
-    $stream  = $request->get('stream');
+    $stream = $request->get('stream');
 
     $runner = function () use($stream, $request) {
-        $event   = (($stream == 'true') ? new Stream() : null);
+        $stream  = (($stream === 'true') ? true : false);
+        $event   = (($stream === true) ? new Stream() : null);
         $context = new WebContext($request, $event);
         $main    = MainBackboneFactory::getInstance($context);
 
@@ -45,7 +46,7 @@ $app->match('/generator', function (Request $request) use ($app) {
         return $context;
     };
 
-    if ($stream == 'true') {
+    if ($stream === true) {
         return $app->stream($runner, 200, Stream::getHeaders());
     } else {
         return $app->json($runner(), 200);

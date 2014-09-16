@@ -23,15 +23,17 @@ use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 
 class DirectoriesParser implements ParserInterface
 {
-   /* (non-PHPdoc)
-    * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
-    */
-   public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
-   {
-       if (isset($process['directories']) === true && is_array($process['directories']) === true) {
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
+     */
+    public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
+    {
+        if (isset($process['directories']) === true && is_array($process['directories']) === true) {
             foreach ($process['directories'] as $directory) {
                 if (is_string($directory) === false) {
-                    throw new MalformedGeneratorException('Directory excepts to be an string "' . gettype($directory) . "' given");
+                    throw new MalformedGeneratorException(
+                        sprintf('Directory excepts to be an string "%s" given', gettype($directory))
+                    );
                 }
 
                 $generator->addDirectories($directory, $parser->parse($directory));

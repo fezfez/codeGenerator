@@ -27,8 +27,12 @@ class DependencyCondition implements ParserInterface
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
      */
-    public function evaluate(array $dependencyNode, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
-    {
+    public function evaluate(
+        array $dependencyNode,
+        PhpStringParser $parser,
+        GeneratorDataObject $generator,
+        $firstIteration
+    ) {
         $matches               = array();
         $generatorDependencies = array();
 
@@ -38,8 +42,18 @@ class DependencyCondition implements ParserInterface
 
         foreach ($dependencyNode as $dependencyNodes) {
              foreach ($dependencyNodes as $dependencyName => $dependencyList) {
-                  $matches = $this->checkDifferentCondition($matches, $generatorDependencies, $dependencyList, $dependencyName);
-                  $matches = $this->checkEqualCondition($matches, $generatorDependencies, $dependencyList, $dependencyName);
+                  $matches = $this->checkDifferentCondition(
+                      $matches,
+                      $generatorDependencies,
+                      $dependencyList,
+                      $dependencyName
+                  );
+                  $matches = $this->checkEqualCondition(
+                      $matches,
+                      $generatorDependencies,
+                      $dependencyList,
+                      $dependencyName
+                  );
              }
          }
 
@@ -53,11 +67,16 @@ class DependencyCondition implements ParserInterface
      * @param string $dependencyName
      * @return array
      */
-    private function checkDifferentCondition(array $matches, array $generatorDependencies, array $dependencyList, $dependencyName)
-    {
+    private function checkDifferentCondition(
+        array $matches,
+        array $generatorDependencies,
+        array $dependencyList,
+        $dependencyName
+    ) {
         if (substr($dependencyName, -strlen(GeneratorParser::UNDEFINED)) === GeneratorParser::UNDEFINED &&
-            false === in_array(substr($dependencyName, 0, -count(GeneratorParser::UNDEFINED)), $generatorDependencies)) {
-            foreach ($dependencyList as $key => $dependency) {
+            false === in_array(substr($dependencyName, 0, -count(GeneratorParser::UNDEFINED)), $generatorDependencies)
+        ) {
+            foreach ($dependencyList as $dependency) {
                 $matches[] = $dependency;
             }
         }
@@ -72,10 +91,14 @@ class DependencyCondition implements ParserInterface
      * @param string $dependencyName
      * @return array
      */
-    private function checkEqualCondition(array $matches, array $generatorDependencies, array $dependencyList, $dependencyName)
-    {
+    private function checkEqualCondition(
+        array $matches,
+        array $generatorDependencies,
+        array $dependencyList,
+        $dependencyName
+    ) {
         if (in_array($dependencyName, $generatorDependencies) === true) {
-            foreach ($dependencyList as $key => $dependency) {
+            foreach ($dependencyList as $dependency) {
                 $matches[] = $dependency;
             }
         }

@@ -66,7 +66,7 @@ define(
             $scope.backendSelected   = null;
             $scope.historyQuestion   = {};
             $scope.generatorPreview  = null;
-            $scope.downloadLog       = new Array();
+            $scope.downloadLog       = [];
 
             $scope.setConfigQuestion = function(attribute) {
                 $scope.backendConfig();
@@ -116,38 +116,38 @@ define(
             };
 
             var generate = function(context, metadata_nocache, waitFileList) {
-            	if (metadata_nocache === undefined ) {
-                	metadata_nocache = 0;
+                if (metadata_nocache === undefined ) {
+                    metadata_nocache = 0;
                 }
-            	if (waitFileList === undefined ) {
-            		waitFileList = false;
+                if (waitFileList === undefined ) {
+                    waitFileList = false;
                 }
-            	
-            	if (waitFileList === true) {
-            		$scope.waitFileList = true;
-            	} else {
-            		$WaitModalService.show();
-            	}
+                
+                if (waitFileList === true) {
+                    $scope.waitFileList = true;
+                } else {
+                    $WaitModalService.show();
+                }
                 $generatorService.build(
                     context,
                     metadata_nocache,
                     function(context) {
                         loadContext(context);
                         if (waitFileList === true) {
-                    		$scope.waitFileList = false;
-                    	} else {
-                    		$WaitModalService.hide();
-                    	}
+                            $scope.waitFileList = false;
+                        } else {
+                            $WaitModalService.hide();
+                        }
                         $('body').tooltip({
                             selector: "[rel=tooltip]"
                         });
                     },
                     function(error) {
-                    	if (waitFileList === true) {
-                    		$scope.waitFileList = false;
-                    	} else {
-                    		$WaitModalService.hide();
-                    	}
+                        if (waitFileList === true) {
+                            $scope.waitFileList = false;
+                        } else {
+                            $WaitModalService.hide();
+                        }
                         $scope.unsafeModal = {
                             'title' : 'Error',
                             'body' : error
@@ -194,17 +194,17 @@ define(
             };
             
             $scope.searchGenerator = function() {
-            	var modal = $('searchgenerator > div');
-            	if (!modal.hasClass( "show" )) {
-            		$WaitModalService.show();
-            	}
+                var modal = $('searchgenerator > div');
+                if (!modal.hasClass( "show" )) {
+                    $WaitModalService.show();
+                }
                 var btn = $('#search-generator-btn');
                 btn.button('loading');
                 $searchGeneratorService.generate(
                         $scope.searchGeneratorName,
                         function(context) {
                             if (!modal.hasClass( "show" )) {
-                            	$WaitModalService.hide();
+                                $WaitModalService.hide();
                                 modal.modal('show');
                             }
                             btn.button('reset');
@@ -252,9 +252,9 @@ define(
              * Preview file
              */
             $scope.viewFile = function (file) {
-            	$WaitModalService.show();
+                $WaitModalService.show();
                 $viewFileService.generate(context, file, function (results) {
-                	$WaitModalService.hide();
+                    $WaitModalService.hide();
 
                     if (results.error !== undefined) {
                         $scope.unsafeModal = {

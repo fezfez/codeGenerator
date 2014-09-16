@@ -75,8 +75,14 @@ class CliContext implements ContextInterface
     /* (non-PHPdoc)
      * @see \CrudGenerator\Context\ContextInterface::ask()
      */
-    public function ask($text, $attribute, $defaultResponse = null, $required = false, $helpMessage = null, $type = null)
-    {
+    public function ask(
+        $text,
+        $attribute,
+        $defaultResponse = null,
+        $required = false,
+        $helpMessage = null,
+        $type = null
+    ) {
         return $this->question->ask(
             $this->input,
             $this->output,
@@ -101,7 +107,9 @@ class CliContext implements ContextInterface
 
         if ($preselectedResponse !== null) {
             try {
-                return $questionResponseCollection->getPredefinedResponseCollection()->offsetGetById($preselectedResponse)->getResponse();
+                return $questionResponseCollection->getPredefinedResponseCollection()
+                                                  ->offsetGetById($preselectedResponse)
+                                                  ->getResponse();
             } catch (\Exception $e) {
                 // preselected response does not exist anymore
             }
@@ -117,7 +125,9 @@ class CliContext implements ContextInterface
         );
 
         try {
-            return $questionResponseCollection->getPredefinedResponseCollection()->offsetGetByLabel($choise)->getResponse();
+            return $questionResponseCollection->getPredefinedResponseCollection()
+                                              ->offsetGetByLabel($choise)
+                                              ->getResponse();
         } catch (\Exception $e) {
             throw new ResponseExpectedException(
                 sprintf(
