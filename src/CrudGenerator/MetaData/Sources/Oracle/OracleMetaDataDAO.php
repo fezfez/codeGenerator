@@ -138,7 +138,7 @@ class OracleMetaDataDAO implements MetaDataDAOInterface
             $column->setName($metadata['name'])
                    ->setType($type)
                    ->setLength(
-                       isset($metadata['length']) ?
+                       isset($metadata['length']) === true ?
                        $metadata['length'] :
                        null
                    );

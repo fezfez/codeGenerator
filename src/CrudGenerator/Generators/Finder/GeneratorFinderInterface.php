@@ -18,6 +18,7 @@
 namespace CrudGenerator\Generators\Finder;
 
 use CrudGenerator\MetaData\DataObject\MetaDataInterface;
+
 /**
  * Find all generator allow in project
  *

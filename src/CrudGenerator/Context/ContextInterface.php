@@ -31,7 +31,14 @@ interface ContextInterface
      * @param string $type
      * @return string
      */
-    public function ask($text, $uniqueKey, $defaultResponse = null, $required = false, $helpMessage = null, $type = null);
+    public function ask(
+        $text,
+        $uniqueKey,
+        $defaultResponse = null,
+        $required = false,
+        $helpMessage = null,
+        $type = null
+    );
 
     /**
      * Ask question in collection
@@ -63,7 +70,7 @@ interface ContextInterface
      */
     public function log($text, $name = null);
 
-   /**
+    /**
      * @param GeneratorDataObject $generator
      * @return void
      */

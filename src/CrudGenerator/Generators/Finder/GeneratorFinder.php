@@ -62,7 +62,7 @@ class GeneratorFinder implements GeneratorFinderInterface
     {
         if (self::$allClasses === null) {
             $generators = array();
-            $iterator = new \RegexIterator(
+            $iterator   = new \RegexIterator(
                 new \RecursiveIteratorIterator(
                         new \RecursiveDirectoryIterator(getcwd(), \FilesystemIterator::SKIP_DOTS),
                         \RecursiveIteratorIterator::LEAVES_ONLY
@@ -72,7 +72,8 @@ class GeneratorFinder implements GeneratorFinderInterface
             );
 
             foreach ($iterator as $file) {
-                $process              = $this->transtyper->decode(file_get_contents($file[0]));
+                $process = $this->transtyper->decode(file_get_contents($file[0]));
+
                 if ($metadata !== null) {
                     try {
                         $this->compatibilityChecker->metadataAllowedInGenerator($metadata, $process);

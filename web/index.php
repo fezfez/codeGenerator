@@ -4,9 +4,9 @@ set_time_limit(0);
 error_reporting(-1);
 ini_set('memory_limit', '1G');
 
-if (is_file(__DIR__ . '/../vendor/autoload.php')) {
+if (is_file(__DIR__ . '/../vendor/autoload.php') === true) {
     chdir(__DIR__ . '/../'); // standalone
-} elseif (is_file(__DIR__ . '/../../../autoload.php')) {
+} elseif (is_file(__DIR__ . '/../../../autoload.php') === true) {
     chdir(__DIR__ . '/../../../../'); // install with composer
 } else {
     throw new RuntimeException('Error: vendor/autoload.php could not be found. Did you run php composer.phar install?');

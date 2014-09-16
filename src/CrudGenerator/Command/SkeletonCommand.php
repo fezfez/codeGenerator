@@ -39,7 +39,7 @@ class SkeletonCommand extends Command
      */
     public function __construct(CommandDefinition $commandDefinition)
     {
-    	$this->commandDefinition = $commandDefinition;
+        $this->commandDefinition = $commandDefinition;
         parent::__construct($this->commandDefinition->getAction());
     }
     /**

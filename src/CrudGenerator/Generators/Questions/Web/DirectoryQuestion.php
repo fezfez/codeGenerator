@@ -189,7 +189,7 @@ class DirectoryQuestion
     {
         $directoriesRaw = $this->fileManager->glob(
             $actualDirectory . '*',
-            GLOB_ONLYDIR|GLOB_MARK
+            GLOB_ONLYDIR | GLOB_MARK
         );
 
         foreach ($directoriesRaw as $directory) {

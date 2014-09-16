@@ -30,5 +30,11 @@ interface QuestionInterface
      * @param boolean $firstIteration
      * @return Generator
      */
-    public function evaluateQuestions(array $process, PhpStringParser $parser, GeneratorDataObject $generator, array $questions, $firstIteration);
+    public function evaluateQuestions(
+        array $process,
+        PhpStringParser $parser,
+        GeneratorDataObject $generator,
+        array $questions,
+        $firstIteration
+    );
 }

@@ -42,7 +42,12 @@ class OracleConfig extends MetadataConfigDatabase implements MetaDataConfigInter
     */
     public function getConnection()
     {
-        $pdo = new \PDO('//' . $this->configHost . '/' . $this->configDatabaseName, $this->configUser, $this->configPassword);
+        $pdo = new \PDO(
+            '//' . $this->configHost . '/' . $this->configDatabaseName,
+            $this->configUser,
+            $this->configPassword
+        );
+
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
         return $pdo;

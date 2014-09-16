@@ -22,8 +22,8 @@ require(['Services/WaitModalService'], function(WaitModalService) {
         });*/
 
         //it('should hide wait modal', function() {
-        	WaitModalService.hide();
-        	console.log('here');
+            WaitModalService.hide();
+            console.log('here');
         //});
 
         /*afterEach(function() {

@@ -122,7 +122,8 @@ class MySQLMetaDataDAO implements MetaDataDAOInterface
 
         $statement = $this->pdo->prepare(
             "SELECT
-                columnTable.column_name, columnTable.table_name, columnTable.data_type, columnTable.column_key, columnTable.is_nullable,
+                columnTable.column_name, columnTable.table_name,
+                columnTable.data_type, columnTable.column_key, columnTable.is_nullable,
                 k.referenced_table_name, k.referenced_column_name
             FROM information_schema.columns as columnTable
             left outer join information_schema.key_column_usage k
@@ -132,10 +133,17 @@ class MySQLMetaDataDAO implements MetaDataDAOInterface
             WHERE columnTable.table_name = :tableName
               AND columnTable.table_schema = :databaseName"
         );
-        $statement->execute(array(':tableName' => $tableName, ':databaseName' => $this->pdoConfig->getConfigDatabaseName()));
+
+        $statement->execute(
+            array(
+                ':tableName' => $tableName,
+                ':databaseName' => $this->pdoConfig->getConfigDatabaseName()
+            )
+        );
+
         $allFields = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        $columnsAssociation  = array();
+        $columnsAssociation = array();
 
         foreach ($allFields as $metadata) {
 
