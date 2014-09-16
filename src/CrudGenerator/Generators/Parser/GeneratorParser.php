@@ -35,8 +35,8 @@ use CrudGenerator\Generators\GeneratorCompatibilityChecker;
  */
 class GeneratorParser implements GeneratorParserInterface
 {
-    const ENVIRONNEMENT_CONDITION   = 'environnementCondition';
-    const DEPENDENCY_CONDITION      = 'dependencyCondition';
+    const ENVIRONNEMENT_CONDITION = 'environnementCondition';
+    const DEPENDENCY_CONDITION    = 'dependencyCondition';
     const CONDITION_ELSE          = 'else';
     const DIFFERENT               = '!';
     const UNDEFINED               = ' == undefined';
@@ -83,11 +83,11 @@ class GeneratorParser implements GeneratorParserInterface
         ParserCollection $parserCollection,
         GeneratorCompatibilityChecker $generatorCompatibilityChecker
     ) {
-        $this->fileManager      = $fileManager;
-        $this->transtyper       = $transtyper;
-        $this->phpStringParser  = $phpStringParser;
-        $this->generatorFinder  = $generatorFinder;
-        $this->parserCollection = $parserCollection;
+        $this->fileManager                   = $fileManager;
+        $this->transtyper                    = $transtyper;
+        $this->phpStringParser               = $phpStringParser;
+        $this->generatorFinder               = $generatorFinder;
+        $this->parserCollection              = $parserCollection;
         $this->generatorCompatibilityChecker = $generatorCompatibilityChecker;
     }
 
@@ -113,8 +113,13 @@ class GeneratorParser implements GeneratorParserInterface
      * @param boolean $firstIteration
      * @return GeneratorDataObject
      */
-    private function analyze($name, PhpStringParser $phpParser, GeneratorDataObject $generator, MetaDataInterface $metadata, $firstIteration = false)
-    {
+    private function analyze(
+        $name,
+        PhpStringParser $phpParser,
+        GeneratorDataObject $generator,
+        MetaDataInterface $metadata,
+        $firstIteration = false
+    ) {
         $generator         = clone $generator;
         $generatorFilePath = $this->generatorFinder->findByName($name);
         $process           = $this->transtyper->decode($this->fileManager->fileGetContent($generatorFilePath));
@@ -190,8 +195,12 @@ class GeneratorParser implements GeneratorParserInterface
      * @param boolean $firstIteration
      * @return \CrudGenerator\Generators\GeneratorDataObject
      */
-    private function analyzePreParser(array $process, PhpStringParser $phpParser, GeneratorDataObject $generator, $firstIteration)
-    {
+    private function analyzePreParser(
+        array $process,
+        PhpStringParser $phpParser,
+        GeneratorDataObject $generator,
+        $firstIteration
+    ) {
         $generator = clone $generator;
 
         if ($this->parserCollection->getPreParse()->count() > 0) {
@@ -212,8 +221,12 @@ class GeneratorParser implements GeneratorParserInterface
      * @param boolean $firstIteration
      * @return \CrudGenerator\Generators\GeneratorDataObject
      */
-    private function analyzePostParser(array $process, PhpStringParser $phpParser, GeneratorDataObject $generator, $firstIteration)
-    {
+    private function analyzePostParser(
+        array $process,
+        PhpStringParser $phpParser,
+        GeneratorDataObject $generator,
+        $firstIteration
+    ) {
         $generator = clone $generator;
 
         if ($this->parserCollection->getPostParse()->count() > 0) {

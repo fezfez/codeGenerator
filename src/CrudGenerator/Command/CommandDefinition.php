@@ -17,6 +17,7 @@
  */
 namespace CrudGenerator\Command;
 
+use CrudGenerator\Backbone\BackboneInterface;
 /**
  * Base representation for template generation
  *
@@ -68,18 +69,18 @@ class CommandDefinition
      */
     public function setDefinition($value)
     {
-    	$this->definition = $value;
-    	return $this;
+        $this->definition = $value;
+        return $this;
     }
 
     /**
-     * @param string $value
+     * @param callable $value
      * @return \CrudGenerator\Command\CommandDefinition
      */
-    public function setRunner($value)
+    public function setRunner(callable $value)
     {
-    	$this->runner = $value;
-    	return $this;
+        $this->runner = $value;
+        return $this;
     }
 
     /**
@@ -94,20 +95,20 @@ class CommandDefinition
      */
     public function getNamespace()
     {
-    	return $this->namespace;
+        return $this->namespace;
     }
     /**
      * @return string
      */
     public function getDefinition()
     {
-    	return $this->definition;
+        return $this->definition;
     }
     /**
-     * @return mixed
+     * @return callable
      */
     public function getRunner()
     {
-    	return $this->runner;
+        return $this->runner;
     }
 }
