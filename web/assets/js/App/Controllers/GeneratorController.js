@@ -178,7 +178,7 @@ define(
             };
             
             $scope.downloadGenerator = function(generator) {
-                $scope.downloadLog = new Array();
+                $scope.downloadLog = [];
                 $downloadGeneratorService.download(
                     generator,
                     function(event) {

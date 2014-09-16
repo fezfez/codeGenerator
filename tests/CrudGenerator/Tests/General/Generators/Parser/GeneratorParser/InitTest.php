@@ -27,7 +27,9 @@ class InitTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $generatorCompatibilityCheckerMock = $this->getMockBuilder('CrudGenerator\Generators\GeneratorCompatibilityChecker')
+        $generatorCompatibilityCheckerMock = $this->getMockBuilder(
+            'CrudGenerator\Generators\GeneratorCompatibilityChecker'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -42,7 +44,14 @@ class InitTest extends \PHPUnit_Framework_TestCase
         ->method('decode')
         ->will($this->returnValue($process));
 
-        $sUT       = new GeneratorParser($fileManager, $yaml, $phpParser, $generatorFinder, $parserCollection, $generatorCompatibilityCheckerMock);
+        $sUT       = new GeneratorParser(
+            $fileManager,
+            $yaml,
+            $phpParser,
+            $generatorFinder,
+            $parserCollection,
+            $generatorCompatibilityCheckerMock
+        );
         $generator = new GeneratorDataObject();
         $metadata  = new MetadataDataObjectPostgreSQL(new MetaDataColumnCollection(), new MetaDataRelationCollection());
 
@@ -67,7 +76,9 @@ class InitTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $generatorCompatibilityCheckerMock = $this->getMockBuilder('CrudGenerator\Generators\GeneratorCompatibilityChecker')
+        $generatorCompatibilityCheckerMock = $this->getMockBuilder(
+            'CrudGenerator\Generators\GeneratorCompatibilityChecker'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -93,8 +104,15 @@ class InitTest extends \PHPUnit_Framework_TestCase
         ->method('decode')
         ->will($this->returnValue($process));
 
-        $sUT       = new GeneratorParser($fileManager, $yaml, $phpParser, $generatorFinder, $parserCollection, $generatorCompatibilityCheckerMock);
-        $metadata  = new MetadataDataObjectPostgreSQL(new MetaDataColumnCollection(), new MetaDataRelationCollection());
+        $sUT      = new GeneratorParser(
+            $fileManager,
+            $yaml,
+            $phpParser,
+            $generatorFinder,
+            $parserCollection,
+            $generatorCompatibilityCheckerMock
+        );
+        $metadata = new MetadataDataObjectPostgreSQL(new MetaDataColumnCollection(), new MetaDataRelationCollection());
 
         $sUT->init($generator, $metadata);
     }

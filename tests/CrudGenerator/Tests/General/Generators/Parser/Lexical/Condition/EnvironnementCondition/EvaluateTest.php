@@ -31,7 +31,11 @@ questions :
             foreach ($files as $templateName => $tragetFile) {
                 if ($templateName === 'environnementCondition') {
                     $this->assertEquals(
-                        array(array('/form/DataObject.phtml' => '<?php $formGenerator->getFormPath(); ?>DataObject.phtml')),
+                        array(
+                            array(
+                                '/form/DataObject.phtml' => '<?php $formGenerator->getFormPath(); ?>DataObject.phtml'
+                            )
+                        ),
                         $sUT->evaluate($tragetFile, $phpParser, $generator, true)
                     );
                 }
@@ -62,7 +66,11 @@ questions :
             foreach ($files as $templateName => $tragetFile) {
                 if ($templateName === 'environnementCondition') {
                     $this->assertEquals(
-                        array(array('/form/DataObject.phtml' => '<?php $formGenerator->getFormPath(); ?>DataObject.phtml')),
+                        array(
+                            array(
+                                '/form/DataObject.phtml' => '<?php $formGenerator->getFormPath(); ?>DataObject.phtml'
+                            )
+                        ),
                         $sUT->evaluate($tragetFile, $phpParser, $generator, true)
                     );
                 }
@@ -72,7 +80,7 @@ questions :
 
     public function testNotCatchDifferent()
     {
-            $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
 

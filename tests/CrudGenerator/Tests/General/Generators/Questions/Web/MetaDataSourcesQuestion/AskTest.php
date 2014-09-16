@@ -10,16 +10,21 @@ class AskTest extends \PHPUnit_Framework_TestCase
     public function testFail()
     {
         $metadataSourceCollection = new MetaDataSourceCollection();
-        $source = new MetaDataSource();
+        $source                   = new MetaDataSource();
+
         $source->setDefinition('My definition')
                ->setMetaDataDAO('My name')
                ->setMetaDataDAOFactory('My nameFactory');
+
         $metadataSourceCollection->append($source);
+
         $sourceWithFailedDependencie = new MetaDataSource();
+
         $sourceWithFailedDependencie->setDefinition('My definition')
         ->setMetaDataDAO('My name')
         ->setFalseDependencie('My false dependencies')
         ->setMetaDataDAOFactory('My nameFactory');
+
         $metadataSourceCollection->append($sourceWithFailedDependencie);
 
         $sourceFinderStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFinder')
@@ -30,7 +35,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->will($this->returnValue($metadataSourceCollection));
 
         $request = new \Symfony\Component\HttpFoundation\Request();
-        $context =  new \CrudGenerator\Context\WebContext($request);
+        $context = new \CrudGenerator\Context\WebContext($request);
 
         $sUT = new MetaDataSourcesQuestion($sourceFinderStub, $context);
 
@@ -40,22 +45,27 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
     public function testWithPreselectedOk()
     {
-
         $metadataSourceCollection = new MetaDataSourceCollection();
-        $source = new MetaDataSource();
+        $source                   = new MetaDataSource();
+
         $source->setDefinition('My definition')
         ->setMetaDataDAO('My name')
         ->setMetaDataDAOFactory('my name factory');
+
         $metadataSourceCollection->append($source);
+
         $sourceWithFailedDependencie = new MetaDataSource();
+
         $sourceWithFailedDependencie->setDefinition('My definition')
         ->setMetaDataDAO('My named')
         ->setFalseDependencie('My false dependencies');
+
         $metadataSourceCollection->append($sourceWithFailedDependencie);
 
         $sourceFinderStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFinder')
         ->disableOriginalConstructor()
         ->getMock();
+
         $sourceFinderStub->expects($this->once())
         ->method('getAllAdapters')
         ->will($this->returnValue($metadataSourceCollection));
@@ -76,25 +86,30 @@ class AskTest extends \PHPUnit_Framework_TestCase
     public function testWithPreselectedFail()
     {
         $metadataSourceCollection = new MetaDataSourceCollection();
-        $source = new MetaDataSource();
+        $source                   = new MetaDataSource();
+
         $source->setDefinition('My definition')
         ->setMetaDataDAO('My name');
+
         $metadataSourceCollection->append($source);
+
         $sourceWithFailedDependencie = new MetaDataSource();
         $sourceWithFailedDependencie->setDefinition('My definition')
         ->setMetaDataDAO('My name')
         ->setFalseDependencie('My false dependencies');
+
         $metadataSourceCollection->append($sourceWithFailedDependencie);
 
         $sourceFinderStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFinder')
         ->disableOriginalConstructor()
         ->getMock();
+
         $sourceFinderStub->expects($this->once())
         ->method('getAllAdapters')
         ->will($this->returnValue($metadataSourceCollection));
 
         $request = new \Symfony\Component\HttpFoundation\Request();
-        $context =  new \CrudGenerator\Context\WebContext($request);
+        $context = new \CrudGenerator\Context\WebContext($request);
 
         $sUT = new MetaDataSourcesQuestion($sourceFinderStub, $context);
 

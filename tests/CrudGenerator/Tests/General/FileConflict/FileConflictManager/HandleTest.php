@@ -5,9 +5,9 @@ use CrudGenerator\FileConflict\FileConflictManager;
 
 class HandleTest extends \PHPUnit_Framework_TestCase
 {
-   public function testShowDiff()
-   {
-        $contextStub =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
+    public function testShowDiff()
+    {
+        $contextStub = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
         $contextStub->expects($this->exactly(2))
@@ -58,7 +58,7 @@ class HandleTest extends \PHPUnit_Framework_TestCase
 
     public function testErase()
     {
-        $contextStub =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
+        $contextStub = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
         $contextStub->expects($this->once())

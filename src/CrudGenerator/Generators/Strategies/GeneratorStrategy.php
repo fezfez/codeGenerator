@@ -38,7 +38,7 @@ class GeneratorStrategy implements StrategyInterface
      */
     public function __construct(View $view)
     {
-        $this->view        = $view;
+        $this->view = $view;
     }
 
     /* (non-PHPdoc)

@@ -12,7 +12,7 @@ class FindTest extends \PHPUnit_Framework_TestCase
         $generatorFinder = GeneratorFinderFactory::getInstance();
         $generatorFinder->getAllClasses();
 
-        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
+        $stubFileManager     = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubHistoryHydrator = $this->getMockBuilder('\CrudGenerator\History\HistoryHydrator')
         ->disableOriginalConstructor()
         ->getMock();
@@ -37,7 +37,7 @@ class FindTest extends \PHPUnit_Framework_TestCase
         $generatorFinder = GeneratorFinderFactory::getInstance();
         $generatorFinder->getAllClasses();
 
-        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
+        $stubFileManager     = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubHistoryHydrator = $this->getMockBuilder('\CrudGenerator\History\HistoryHydrator')
         ->disableOriginalConstructor()
         ->getMock();

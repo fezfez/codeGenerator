@@ -186,10 +186,10 @@ class QuestionParser implements ParserInterface
      * @return GeneratorDataObject
      */
     public function evaluateGeneriqueQuestion(
-    	array $question,
-    	PhpStringParser $parser,
-    	GeneratorDataObject $generator,
-    	$firstIteration
+        array $question,
+        PhpStringParser $parser,
+        GeneratorDataObject $generator,
+        $firstIteration
     ) {
         $response = $this->context->ask(
             $question['text'],

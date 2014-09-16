@@ -136,7 +136,9 @@ class HistoryHydrator
         }
 
         try {
-            $metadataSource = $this->metaDataSourcesConfiguredQuestion->ask($arrayRepresentation['metaDataSource']['uniqueName']);
+            $metadataSource = $this->metaDataSourcesConfiguredQuestion->ask(
+                $arrayRepresentation['metaDataSource']['uniqueName']
+            );
         } catch (ResponseExpectedException $e) {
             throw new InvalidHistoryException(
                 sprintf(

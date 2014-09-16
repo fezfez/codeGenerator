@@ -14,11 +14,15 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
+        $environnementCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
+        $dependencyCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -32,7 +36,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
         $process = array();
 
-        $this->setexpectedexception('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
+        $this->setExpectedException('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
         $this->assertEquals(
             $generator,
             $sUT->evaluate($process, $phpParser, $generator, true)
@@ -45,11 +49,15 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
+        $environnementCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
+        $dependencyCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -77,11 +85,15 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
+        $environnementCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
+        $dependencyCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -118,11 +130,15 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
+        $environnementCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
+        $dependencyCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -169,11 +185,15 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
+        $environnementCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
+        $dependencyCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 

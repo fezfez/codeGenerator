@@ -10,11 +10,11 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
     public function testEnvironnementMalFormed()
     {
-        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -26,6 +26,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $string = 'environnement :
     framework :
         "zend_framework_2"';
+
         $process = Yaml::parse($string, true);
 
         $this->setExpectedException('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
@@ -35,7 +36,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testEnvironnementfzefzefzef()
     {
-        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()
         ->getMock();
         $context->expects($this->exactly(3))
@@ -58,6 +59,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         symfony2 :
             backend : [doctrine2]
             template : [twig]';
+
         $process = Yaml::parse($string, true);
 
         $generator = $sUT->evaluate($process, $phpParser, $generator, true);

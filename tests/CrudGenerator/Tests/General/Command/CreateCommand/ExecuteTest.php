@@ -9,8 +9,8 @@ class CreateTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreateCommand()
     {
-        $application    = new Application();
-        $createCommand  = new CreateCommand($application);
+        $application   = new Application();
+        $createCommand = new CreateCommand($application);
 
         // Create a fake mock to make sure thats the callback is call
         $fakeMock = $this->getMockBuilder('CrudGenerator\Context\CliContext')

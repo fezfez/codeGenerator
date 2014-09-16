@@ -8,8 +8,8 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstance()
     {
-        $generator  = new GeneratorDataObject();
-        $history    = new History();
+        $generator = new GeneratorDataObject();
+        $history   = new History();
 
         $history->addDataObject($generator)
                 ->setName('name');

@@ -98,7 +98,7 @@ class DataObject implements \JsonSerializable
      */
     public function __call($method, $args)
     {
-        $firstChar = substr($method, 0, 3);
+        $firstChar  = substr($method, 0, 3);
         $methodName = substr($method, 3);
 
         if ($firstChar === 'get') {

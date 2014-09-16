@@ -18,6 +18,7 @@
 namespace CrudGenerator\Command;
 
 use CrudGenerator\Backbone\BackboneInterface;
+
 /**
  * Base representation for template generation
  *

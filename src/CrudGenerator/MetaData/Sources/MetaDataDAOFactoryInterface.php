@@ -18,6 +18,7 @@
 namespace CrudGenerator\MetaData\Sources;
 
 use CrudGenerator\MetaData\MetaDataSource;
+
 /**
  * Metadata DAO Factory interface
  *

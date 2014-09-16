@@ -16,7 +16,7 @@ class FindAllTest extends \PHPUnit_Framework_TestCase
         $stubHistoryHydrator = $this->getMockBuilder('\CrudGenerator\History\HistoryHydrator')
         ->disableOriginalConstructor()
         ->getMock();
-        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
+        $stubFileManager     = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())
                         ->method('isDir')
                         ->will($this->returnValue(false));
@@ -37,7 +37,7 @@ class FindAllTest extends \PHPUnit_Framework_TestCase
         $stubHistoryHydrator = $this->getMockBuilder('\CrudGenerator\History\HistoryHydrator')
         ->disableOriginalConstructor()
         ->getMock();
-        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
+        $stubFileManager     = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())
         ->method('isDir')
         ->will($this->returnValue(true));

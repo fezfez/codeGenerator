@@ -44,17 +44,25 @@ class EnvironnementParser implements ParserInterface
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
      */
-     public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
-     {
-         if (isset($process['environnement']) === true && is_array($process['environnement']) === true) {
+    public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
+    {
+        if (isset($process['environnement']) === true && is_array($process['environnement']) === true) {
             foreach ($process['environnement'] as $environnementName => $question) {
                 if (is_array($question) === false) {
-                    throw new MalformedGeneratorException('Questions excepts to be an array "' . gettype($question) . "' given");
+                    throw new MalformedGeneratorException(
+                        sprintf('Questions excepts to be an array "%s" given', gettype($question))
+                    );
                 }
 
-                $generator = $this->evaluateQuestions($environnementName, $question, $parser, $generator, $firstIteration);
+                $generator = $this->evaluateQuestions(
+                    $environnementName,
+                    $question,
+                    $parser,
+                    $generator,
+                    $firstIteration
+                );
             }
-         }
+        }
 
         return $generator;
     }
@@ -67,8 +75,13 @@ class EnvironnementParser implements ParserInterface
      * @param boolean $firstIteration
      * @return GeneratorDataObject
      */
-    private function evaluateQuestions($environnementName, array $environnements, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
-    {
+    private function evaluateQuestions(
+        $environnementName,
+        array $environnements,
+        PhpStringParser $parser,
+        GeneratorDataObject $generator,
+        $firstIteration
+    ) {
         $responseCollection = new PredefinedResponseCollection();
         $toRecurse          = array();
         foreach ($environnements as $framework => $environnement) {
@@ -94,7 +107,13 @@ class EnvironnementParser implements ParserInterface
 
             if (isset($toRecurse[$response]) === true) {
                 foreach ($toRecurse[$response] as $recurseEnvironnementName => $questionToRecurse) {
-                    $this->evaluateQuestions($recurseEnvironnementName, $questionToRecurse, $parser, $generator, $firstIteration);
+                    $this->evaluateQuestions(
+                        $recurseEnvironnementName,
+                        $questionToRecurse,
+                        $parser,
+                        $generator,
+                        $firstIteration
+                    );
                 }
             }
         }

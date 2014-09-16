@@ -9,11 +9,15 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
     public function testEmpty()
     {
-        $environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
+        $environnementCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
+        $dependencyCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -35,11 +39,15 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testMalformedVar()
     {
-        $environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
+        $environnementCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
+        $dependencyCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -63,11 +71,15 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testWithVar()
     {
-        $environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
+        $environnementCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
+        $dependencyCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -100,11 +112,15 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testWithDependencyCondiction()
     {
-        $environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
+        $environnementCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
+        $dependencyCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -147,11 +163,15 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testWithEnvironnemetnCondiction()
     {
-        $environnementCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition')
+        $environnementCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
+        $dependencyCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 

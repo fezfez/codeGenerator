@@ -14,7 +14,9 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
 {
     public function testWithInvalidHistory()
     {
-        $stubMetadataSourceQuestion = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion')
+        $stubMetadataSourceQuestion = $this->getMockBuilder(
+            'CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -34,7 +36,9 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
 
     public function testOk()
     {
-        $stubMetadataSourceQuestion = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion')
+        $stubMetadataSourceQuestion = $this->getMockBuilder(
+            'CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -67,7 +71,9 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
 
     public function testBoth()
     {
-        $stubMetadataSourceQuestion = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion')
+        $stubMetadataSourceQuestion = $this->getMockBuilder(
+            'CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -78,8 +84,8 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
         $sUT = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource);
 
         $metaData = new MetadataDataObjectDoctrine2(
-                new MetaDataColumnCollection(),
-                new MetaDataRelationCollection()
+            new MetaDataColumnCollection(),
+            new MetaDataRelationCollection()
         );
         $metaData->setName('MyName');
 

@@ -27,7 +27,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $metaDataCollection = new MetaDataCollection();
         $metaDataCollection->append($metaData);
 
-        $doctrine2MetaDataDAOStub = $this->getMockBuilder('CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO')
+        $doctrine2MetaDataDAOStub = $this->getMockBuilder(
+            'CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO'
+            )
             ->disableOriginalConstructor()
             ->getMock();
         $doctrine2MetaDataDAOStub
@@ -71,7 +73,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $metaDataCollection = new MetaDataCollection();
         $metaDataCollection->append($metaData);
 
-        $doctrine2MetaDataDAOStub = $this->getMockBuilder('CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO')
+        $doctrine2MetaDataDAOStub = $this->getMockBuilder(
+            'CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO'
+        )
         ->disableOriginalConstructor()
         ->getMock();
         $doctrine2MetaDataDAOStub
@@ -113,7 +117,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $metaDataCollection = new MetaDataCollection();
         $metaDataCollection->append($metaData);
 
-        $doctrine2MetaDataDAOStub = $this->getMockBuilder('CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO')
+        $doctrine2MetaDataDAOStub = $this->getMockBuilder(
+            'CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO'
+        )
         ->disableOriginalConstructor()
         ->getMock();
         $doctrine2MetaDataDAOStub

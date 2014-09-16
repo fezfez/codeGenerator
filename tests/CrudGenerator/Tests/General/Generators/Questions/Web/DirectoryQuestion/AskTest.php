@@ -17,7 +17,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->method('askCollection');
 
         $generatorDTO = new GeneratorDataObject();
-        $dto = new DataObject();
+        $dto          = new DataObject();
         $dto->setModelDirectory('src');
         $generatorDTO->setDTO($dto);
 
@@ -32,12 +32,15 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $fileManagerStub->expects($this->once())
         ->method('glob')
-        ->with($dto->getModelDirectory() . '*', GLOB_ONLYDIR|GLOB_MARK)
+        ->with($dto->getModelDirectory() . '*', GLOB_ONLYDIR | GLOB_MARK)
         ->will($this->returnValue($directories));
 
         $sUT = new DirectoryQuestion($fileManagerStub, $context);
 
-        $this->assertEquals($generatorDTO, $sUT->ask($generatorDTO, array('dtoAttribute' => 'ModelDirectory', 'text' => 'Select a Directory')));
+        $this->assertEquals(
+            $generatorDTO,
+            $sUT->ask($generatorDTO, array('dtoAttribute' => 'ModelDirectory', 'text' => 'Select a Directory'))
+        );
     }
 
     public function testOkWithCliInstance()
@@ -78,16 +81,19 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $generatorDTO = new GeneratorDataObject();
         $generatorDTO->setDTO(new DataObject());
 
-        $generatorDTO = $sUT->ask($generatorDTO, array('dtoAttribute' => 'ModelDirectory', 'text' => 'Good question...'));
+        $generatorDTO = $sUT->ask(
+            $generatorDTO,
+            array('dtoAttribute' => 'ModelDirectory', 'text' => 'Good question...')
+        );
         $this->assertEquals('myFile/', $generatorDTO->getDTO()->getModelDirectory());
     }
 
     public function testCreateFileAndWithCliInstance()
     {
-        $context =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
+        $context         = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
-        $fileManagerStub =  $this->getMockBuilder('\CrudGenerator\Utils\FileManager')
+        $fileManagerStub = $this->getMockBuilder('\CrudGenerator\Utils\FileManager')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -142,7 +148,10 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $generatorDTO = new GeneratorDataObject();
         $generatorDTO->setDTO(new DataObject());
 
-        $generatorDTO = $sUT->ask($generatorDTO, array('dtoAttribute' => 'ModelDirectory', 'text' => 'Good question...'));
+        $generatorDTO = $sUT->ask(
+            $generatorDTO,
+            array('dtoAttribute' => 'ModelDirectory', 'text' => 'Good question...')
+        );
 
         $this->assertEquals('MyTrueDir/', $generatorDTO->getDTO()->getModelDirectory());
     }

@@ -149,7 +149,7 @@ abstract class MetaData implements \JsonSerializable, MetaDataInterface
     public function getName($ucfirst = false)
     {
         $name = $this->name;
-        if (strrchr($name, '\\')) {
+        if (strrchr($name, '\\') !== false) {
             $name = str_replace('\\', '', strrchr($name, '\\'));
         }
         $name = $this->camelCase($name);

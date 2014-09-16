@@ -16,8 +16,13 @@ class GetHelperTest extends \PHPUnit_Framework_TestCase
 
     public function testOk()
     {
-        $viewRenderer = new ViewRenderer(array('FixtureRendererFactory' => '\CrudGenerator\View\Helpers\FixtureRendererFactory'));
+        $viewRenderer = new ViewRenderer(
+            array('FixtureRendererFactory' => '\CrudGenerator\View\Helpers\FixtureRendererFactory')
+        );
 
-        $this->assertInstanceOf('\CrudGenerator\View\Helpers\FixtureRenderer', $viewRenderer->getHelper('FixtureRenderer'));
+        $this->assertInstanceOf(
+            '\CrudGenerator\View\Helpers\FixtureRenderer',
+            $viewRenderer->getHelper('FixtureRenderer')
+        );
     }
 }

@@ -138,10 +138,14 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
     /**
      * @param ClassMetadataInfo $metadata
      * @param MetadataDataObjectDoctrine2 $dataObject
+     * @param array $parentName
      * @return MetadataDataObjectDoctrine2
      */
-    private function hydrateAssociation(ClassMetadataInfo $metadata, MetadataDataObjectDoctrine2 $dataObject, array $parentName = array())
-    {
+    private function hydrateAssociation(
+        ClassMetadataInfo $metadata,
+        MetadataDataObjectDoctrine2 $dataObject,
+        array $parentName = array()
+    ) {
         $relationDataObject = new MetaDataRelationColumn();
 
         foreach ($metadata->getAssociationMappings() as $association) {

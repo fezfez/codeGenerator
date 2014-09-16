@@ -11,7 +11,9 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
     public function testMalformedVar()
     {
-        $dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
+        $dependencyCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -40,7 +42,9 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testWithFiles()
     {
-        $dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
+        $dependencyCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -75,7 +79,9 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testWithDependencyCondiction()
     {
-        $dependencyCondition =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition')
+        $dependencyCondition =  $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -121,9 +127,9 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
                     )
                 ),
                 array(
-                    'dtoAttribute'    => 'test',
-                    'type'    => QuestionTypeEnum::COMPLEX,
-                    'factory' => 'CrudGenerator\Tests\General\Generators\Parser\Lexical\MyFakeQuestionFactory'
+                    'dtoAttribute' => 'test',
+                    'type'         => QuestionTypeEnum::COMPLEX,
+                    'factory'      => 'CrudGenerator\Tests\General\Generators\Parser\Lexical\MyFakeQuestionFactory'
                 )
             )
         );

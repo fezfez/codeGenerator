@@ -13,7 +13,8 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(null, $sUT->ask('test', 'my_key'));
         $this->assertEquals(
-            '{"question":[{"text":"test","dtoAttribute":"my_key","defaultResponse":null,"required":false,"type":"text"}]}',
+            '{"question":[{"text":"test","dtoAttribute":"my_key",' .
+            '"defaultResponse":null,"required":false,"type":"text"}]}',
             json_encode($sUT)
         );
     }

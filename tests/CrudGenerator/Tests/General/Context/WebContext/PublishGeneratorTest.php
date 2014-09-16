@@ -13,12 +13,14 @@ class PublishGeneratorTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {
-    	$request = new \Symfony\Component\HttpFoundation\Request();
-
+        $request        = new \Symfony\Component\HttpFoundation\Request();
         $sUT            = new WebContext($request);
         $metadataSource = new MetaDataSource();
         $dto            = new DataObject();
-        $metadata       = new MetadataDataObjectDoctrine2(new MetaDataColumnCollection(), new MetaDataRelationCollection());
+        $metadata       = new MetadataDataObjectDoctrine2(
+            new MetaDataColumnCollection(),
+            new MetaDataRelationCollection()
+        );
 
         $metadata->setName('test');
         $dto->setMetadata($metadata);

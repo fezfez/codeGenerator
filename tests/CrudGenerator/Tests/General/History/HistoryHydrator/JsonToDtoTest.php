@@ -11,7 +11,9 @@ class JsonToDtoTest extends \PHPUnit_Framework_TestCase
     public function testOk()
     {
         // @TODO improve unit test
-        $stubMetadataSourceQuestion = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion')
+        $stubMetadataSourceQuestion = $this->getMockBuilder(
+        	'CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion'
+        )
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -22,8 +24,8 @@ class JsonToDtoTest extends \PHPUnit_Framework_TestCase
         $sUT = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource);
 
         $metaDataSourceName = 'Doctrine2';
-        $metaDataSource = 'CrudGenerator\MetaData\MetaDataSource';
-        $metaDataName = 'Corp\NewsEntity';
+        $metaDataSource     = 'CrudGenerator\MetaData\MetaDataSource';
+        $metaDataName       = 'Corp\NewsEntity';
 
         $stubMetadataSourceClass = $this->getMockBuilder($metaDataSource)
         ->disableOriginalConstructor()
