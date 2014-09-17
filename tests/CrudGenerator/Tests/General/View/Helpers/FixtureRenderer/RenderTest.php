@@ -9,7 +9,7 @@ class RenderTest extends \PHPUnit_Framework_TestCase
 {
     public function testTypedzdzaz()
     {
-        $sUT = new FixtureRenderer(Factory::create());
+        $sUT      = new FixtureRenderer(Factory::create());
         $metadata = new MetaDataColumn();
 
         $this->assertInternalType(

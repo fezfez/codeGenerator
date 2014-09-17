@@ -59,7 +59,7 @@ class MetaDataSourcesQuestion
             /* @var $backend \CrudGenerator\MetaData\MetaDataSource */
             if(null === $backend->getFalseDependencies()) {
                 $responseCollection->append(
-                    new PredefinedResponse($backend->getMetaDataDAOFactory(), $backend->getDefinition(), $backend)
+                    new PredefinedResponse($backend->getMetadataDaoFactory(), $backend->getDefinition(), $backend)
                 );
             }
         }

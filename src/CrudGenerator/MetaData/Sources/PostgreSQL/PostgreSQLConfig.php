@@ -97,7 +97,7 @@ class PostgreSQLConfig extends MetadataConfigDatabase implements MetaDataConfigI
      *
      * @return string
      */
-    public function getMetaDataDAOFactory()
+    public function getMetadataDaoFactory()
     {
         return $this->metaDataDAOFactory;
     }

@@ -10,9 +10,10 @@ class GetAllAdaptersTest extends \PHPUnit_Framework_TestCase
     public function testType()
     {
         chdir(__DIR__);
-        $classAwake = new ClassAwake();
 
+        $classAwake             = new ClassAwake();
         $metaDataSourceHydrator = new MetaDataSourceHydrator();
+
         $suT = new MetaDataSourceFinder($classAwake, $metaDataSourceHydrator);
 
         $adapterCollection = $suT->getAllAdapters();

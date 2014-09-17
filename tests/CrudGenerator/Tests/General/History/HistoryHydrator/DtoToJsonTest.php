@@ -27,7 +27,8 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
         $sUT = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource);
 
         $dataObject = new DataObject();
-        $generator = new GeneratorDataObject();
+        $generator  = new GeneratorDataObject();
+
         $generator->setDTO($dataObject);
         $this->setExpectedException('CrudGenerator\History\InvalidHistoryException');
 

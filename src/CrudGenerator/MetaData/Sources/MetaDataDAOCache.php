@@ -55,7 +55,7 @@ class MetaDataDAOCache implements MetaDataDAOInterface
      */
     public function getAllMetadata()
     {
-        $cacheFilename = $this->directories['Cache'] . DIRECTORY_SEPARATOR;
+        $cacheFilename  = $this->directories['Cache'] . DIRECTORY_SEPARATOR;
         $cacheFilename .= md5('all_metadata' . get_class($this->metadataDAO));
 
         if (is_file($cacheFilename) === true && $this->noCache === false) {
@@ -76,7 +76,7 @@ class MetaDataDAOCache implements MetaDataDAOInterface
      */
     public function getMetadataFor($entityName, array $parentName = array())
     {
-        $cacheFilename = $this->directories['Cache'] . DIRECTORY_SEPARATOR;
+        $cacheFilename  = $this->directories['Cache'] . DIRECTORY_SEPARATOR;
         $cacheFilename .= md5('metadata' . $entityName . get_class($this->metadataDAO));
 
         if (is_file($cacheFilename) === true && $this->noCache === false) {

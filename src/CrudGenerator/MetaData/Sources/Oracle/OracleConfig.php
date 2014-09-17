@@ -97,7 +97,7 @@ class OracleConfig extends MetadataConfigDatabase implements MetaDataConfigInter
      *
      * @return string
      */
-    public function getMetaDataDAOFactory()
+    public function getMetadataDaoFactory()
     {
         return $this->metaDataDAOFactory;
     }

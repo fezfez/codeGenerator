@@ -43,7 +43,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $metaDataSourceFactoryStub
              ->expects($this->once())
              ->method('create')
-             ->with($this->equalTo($source->getMetaDataDAOFactory()),$this->equalTo(null))
+             ->with($this->equalTo($source->getMetadataDaoFactory()),$this->equalTo(null))
              ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
         $request = new \Symfony\Component\HttpFoundation\Request();
@@ -89,7 +89,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $metaDataSourceFactoryStub
         ->expects($this->once())
         ->method('create')
-        ->with($this->equalTo($source->getMetaDataDAOFactory()),$this->equalTo($config))
+        ->with($this->equalTo($source->getMetadataDaoFactory()),$this->equalTo($config))
         ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
         $request = new \Symfony\Component\HttpFoundation\Request();
@@ -133,7 +133,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $metaDataSourceFactoryStub
         ->expects($this->once())
         ->method('create')
-        ->with($this->equalTo($source->getMetaDataDAOFactory()),$this->equalTo(null))
+        ->with($this->equalTo($source->getMetadataDaoFactory()),$this->equalTo(null))
         ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
         $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
@@ -164,7 +164,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $metaDataCollection = new MetaDataCollection();
         $metaDataCollection->append($metaData);
 
-        $doctrine2MetaDataDAOStub = $this->getMockBuilder('CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO')
+        $doctrine2MetaDataDAOStub = $this->getMockBuilder(
+            'CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO'
+        )
         ->disableOriginalConstructor()
         ->getMock();
         $doctrine2MetaDataDAOStub
@@ -178,7 +180,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $metaDataSourceFactoryStub
         ->expects($this->once())
         ->method('create')
-        ->with($this->equalTo($source->getMetaDataDAOFactory()),$this->equalTo(null))
+        ->with($this->equalTo($source->getMetadataDaoFactory()),$this->equalTo(null))
         ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
         $request = new \Symfony\Component\HttpFoundation\Request();

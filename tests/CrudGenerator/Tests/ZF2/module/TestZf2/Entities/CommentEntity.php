@@ -43,7 +43,7 @@ class CommentEntity
 
     public function __construct()
     {
-        $this->commentInOneToMany  = new ArrayCollection();
+        $this->commentInOneToMany = new ArrayCollection();
     }
 
     /**

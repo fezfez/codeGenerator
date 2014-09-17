@@ -102,7 +102,7 @@ class MySQLConfig extends MetadataConfigDatabase implements MetaDataConfigInterf
      *
      * @return string
      */
-    public function getMetaDataDAOFactory()
+    public function getMetadataDaoFactory()
     {
         return $this->metaDataDAOFactory;
     }

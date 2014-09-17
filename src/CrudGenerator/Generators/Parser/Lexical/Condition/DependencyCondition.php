@@ -41,7 +41,7 @@ class DependencyCondition implements ParserInterface
         }
 
         foreach ($dependencyNode as $dependencyNodes) {
-             foreach ($dependencyNodes as $dependencyName => $dependencyList) {
+            foreach ($dependencyNodes as $dependencyName => $dependencyList) {
                   $matches = $this->checkDifferentCondition(
                       $matches,
                       $generatorDependencies,

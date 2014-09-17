@@ -26,7 +26,8 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $generatorDTO->setDTO($dto);
 
         $HistoryCollection = new HistoryCollection();
-        $history = new History();
+        $history           = new History();
+
         $history->setName('MyEntity')
                 ->addDataObject($generatorDTO);
 

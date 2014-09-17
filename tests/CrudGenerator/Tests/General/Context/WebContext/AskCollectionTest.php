@@ -41,7 +41,8 @@ class AskCollectionTest extends \PHPUnit_Framework_TestCase
             $sUT->askCollection($question)
         );
         $this->assertEquals(
-            '{"question":[{"text":"test","dtoAttribute":"my_key","defaultResponse":null,"required":false,"values":[{"id":"key","label":"value"}],"type":"select"}]}',
+            '{"question":[{"text":"test","dtoAttribute":"my_key","defaultResponse":null' .
+            ',"required":false,"values":[{"id":"key","label":"value"}],"type":"select"}]}',
             json_encode($sUT)
         );
     }

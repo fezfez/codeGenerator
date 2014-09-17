@@ -35,12 +35,12 @@ class MetaDataSourceDataObjectTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             'name',
-            $adapater->getMetaDataDAO()
+            $adapater->getMetaDataDao()
         );
 
         $this->assertEquals(
             'test',
-            $adapater->getMetaDataDAOFactory()
+            $adapater->getMetadataDaoFactory()
         );
     }
 }

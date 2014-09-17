@@ -52,9 +52,9 @@ class MetaDataQuestion
      * @param MetaDataSource $metadataSource
      * @return \CrudGenerator\MetaData\Sources\MetaDataDAOCache
      */
-    private function getMetaDataDAO(MetaDataSource $metadataSource)
+    private function getMetadataDao(MetaDataSource $metadataSource)
     {
-        $metadataSourceFactoryName = $metadataSource->getMetaDataDAOFactory();
+        $metadataSourceFactoryName = $metadataSource->getMetadataDaoFactory();
         $metadataSourceConfig      = $metadataSource->getConfig();
 
         return $this->metaDataSourceFactory->create(
@@ -73,7 +73,7 @@ class MetaDataQuestion
      */
     public function ask(MetaDataSource $metadataSource, $choice = null)
     {
-        $metaDataCollection = $this->getMetaDataDAO($metadataSource)->getAllMetadata();
+        $metaDataCollection = $this->getMetadataDao($metadataSource)->getAllMetadata();
         $responseCollection = new PredefinedResponseCollection();
 
         foreach ($metaDataCollection as $metaData) {

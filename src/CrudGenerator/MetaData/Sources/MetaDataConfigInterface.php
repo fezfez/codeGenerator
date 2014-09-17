@@ -49,9 +49,9 @@ interface MetaDataConfigInterface
      */
     public function jsonSerialize();
     /**
-     * Get MetaDataDAOFactory
+     * Get MetadataDaoFactory
      *
      * @return string
      */
-    public function getMetaDataDAOFactory();
+    public function getMetadataDaoFactory();
 }

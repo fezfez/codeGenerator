@@ -7,6 +7,7 @@ class JsonSerializableTest extends \PHPUnit_Framework_TestCase
     public function testHaveData()
     {
         $classes = new \CrudGenerator\Utils\ClassAwake();
+
         $implementations = $classes->wakeByInterfaces(
             array(getcwd() . '/src'),
             'CrudGenerator\MetaData\Sources\MetaDataConfig'
@@ -27,6 +28,7 @@ class JsonSerializableTest extends \PHPUnit_Framework_TestCase
     public function testcanBeRehydrated()
     {
         $classes         = new \CrudGenerator\Utils\ClassAwake();
+
         $implementations = $classes->wakeByInterfaces(
             array(getcwd() . '/src'),
             'CrudGenerator\MetaData\Sources\MetaDataConfig'
