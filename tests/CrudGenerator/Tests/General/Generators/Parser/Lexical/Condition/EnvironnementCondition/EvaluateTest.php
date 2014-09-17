@@ -16,7 +16,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
         $sUT       = new EnvironnementCondition();
         $generator = new GeneratorDataObject();
-        $generator->setDTO(new DataObject());
+        $generator->setDto(new DataObject());
         $generator->addEnvironnementValue('backend', 'pdo');
 
         $string = '
@@ -51,7 +51,7 @@ questions :
 
         $sUT       = new EnvironnementCondition();
         $generator = new GeneratorDataObject();
-        $generator->setDTO(new DataObject());
+        $generator->setDto(new DataObject());
         $generator->addEnvironnementValue('backend', 'test');
 
         $string = '
@@ -86,7 +86,7 @@ questions :
 
         $sUT       = new EnvironnementCondition();
         $generator = new GeneratorDataObject();
-        $generator->setDTO(new DataObject());
+        $generator->setDto(new DataObject());
         $generator->addEnvironnementValue('backend', 'pdo');
 
         $string = '
@@ -117,7 +117,7 @@ questions :
 
         $sUT       = new EnvironnementCondition();
         $generator = new GeneratorDataObject();
-        $generator->setDTO(new DataObject());
+        $generator->setDto(new DataObject());
         $generator->addEnvironnementValue('backend', 'test');
 
         $string = '
@@ -148,7 +148,7 @@ questions :
 
         $sUT       = new EnvironnementCondition();
         $generator = new GeneratorDataObject();
-        $generator->setDTO(new DataObject());
+        $generator->setDto(new DataObject());
 
         $string = '
 questions :

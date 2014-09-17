@@ -69,8 +69,8 @@ class PostgreSQLMetaDataDAOFactory implements MetaDataDAOFactoryInterface
     {
         $dataObject = new MetaDataSource();
         $dataObject->setDefinition("PostgreSQL")
-                   ->setMetaDataDAOFactory('CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory')
-                   ->setMetaDataDAO("CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAO")
+                   ->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory')
+                   ->setMetadataDao("CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAO")
                    ->setConfig(new PostgreSQLConfig());
 
         return $dataObject;

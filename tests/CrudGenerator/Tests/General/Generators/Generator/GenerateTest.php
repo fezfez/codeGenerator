@@ -45,7 +45,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         $sUt = new Generator($stategy, $fileConflict, $fileManager, $historyManager, $context);
 
         $generator = new GeneratorDataObject();
-        $generator->setDTO(new DataObject());
+        $generator->setDto(new DataObject());
 
         $generator->addFile('test', 'myName', 'MyValue');
 
@@ -89,7 +89,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
         $sUt = new Generator($stategy, $fileConflict, $fileManager, $historyManager, $context);
 
         $generator = new GeneratorDataObject();
-        $generator->setDTO(new DataObject());
+        $generator->setDto(new DataObject());
 
         $generator->addFile('test', 'myName', 'MyValue');
 

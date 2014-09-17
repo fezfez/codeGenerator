@@ -64,7 +64,7 @@ class HistoryManager
             $this->fileManager->mkdir(self::HISTORY_PATH);
         }
 
-        $dto = $dataObject->getDTO();
+        $dto = $dataObject->getDto();
 
         if (null === $dto) {
             throw new \InvalidArgumentException('DTO cant be empty');

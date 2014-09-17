@@ -68,7 +68,7 @@ class GeneratorDataObject implements \JsonSerializable
     /**
      * @return \CrudGenerator\Generators\GeneratorDataObject
      */
-    public function setDTO(DataObject $value)
+    public function setDto(DataObject $value)
     {
         $this->dto = $value;
         return $this;
@@ -172,7 +172,7 @@ class GeneratorDataObject implements \JsonSerializable
     /**
      * @return DataObject
      */
-    public function getDTO()
+    public function getDto()
     {
         return $this->dto;
     }

@@ -20,7 +20,7 @@
 
         } elseif($this->getRequest()->isPost() && $<?php echo $this->modelName; ?>Form->isValid($datas)) {
 
-            $<?php echo $this->modelName; ?> = $<?php echo $this->modelName; ?>Form->getDTO()->setId($id);
+            $<?php echo $this->modelName; ?> = $<?php echo $this->modelName; ?>Form->getDto()->setId($id);
 
             $<?php echo $this->modelName; ?>DAO->update($<?php echo $this->modelName; ?>);
 

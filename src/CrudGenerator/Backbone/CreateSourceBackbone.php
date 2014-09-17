@@ -43,8 +43,11 @@ class CreateSourceBackbone
      * @param MetaDataConfigDAO $metaDataConfigDAO
      * @param ContextInterface $context
      */
-    public function __construct(MetaDataSourcesQuestion $metaDataSourcesQuestion, MetaDataConfigDAO $metaDataConfigDAO, ContextInterface $context)
-    {
+    public function __construct(
+        MetaDataSourcesQuestion $metaDataSourcesQuestion,
+        MetaDataConfigDAO $metaDataConfigDAO,
+        ContextInterface $context
+    ) {
         $this->metaDataSourcesQuestion = $metaDataSourcesQuestion;
         $this->metaDataConfigDAO       = $metaDataConfigDAO;
         $this->context                 = $context;

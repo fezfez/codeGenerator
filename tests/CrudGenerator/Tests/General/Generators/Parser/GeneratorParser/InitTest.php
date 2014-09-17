@@ -82,8 +82,8 @@ class InitTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $generator = new GeneratorDataObject();
-        $parserCollection =  new \CrudGenerator\Generators\Parser\ParserCollection();
+        $generator        = new GeneratorDataObject();
+        $parserCollection = new \CrudGenerator\Generators\Parser\ParserCollection();
 
         $questionResponse =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\QuestionParser')
         ->disableOriginalConstructor()

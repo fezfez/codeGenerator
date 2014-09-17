@@ -20,7 +20,7 @@ class AnalyseTest extends \PHPUnit_Framework_TestCase
 
         $generator = $generatorParser->init($generator, $this->getMetadata());
 
-        $generator->getDTO()->setAttributeName('tetze', 'myName')
+        $generator->getDto()->setAttributeName('tetze', 'myName')
         ->setAttributeName('myDate', 'madata')
         ->setAttributeName('name', 'name');
 

@@ -19,7 +19,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->getMock();
 
         $generator = new GeneratorDataObject();
-        $generator->setDTO(new DataObject());
+        $generator->setDto(new DataObject());
 
         $sUT = new EnvironnementParser($context);
 
@@ -47,7 +47,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->getMock();
 
         $generator = new GeneratorDataObject();
-        $generator->setDTO(new DataObject());
+        $generator->setDto(new DataObject());
 
         $sUT = new EnvironnementParser($context);
 

@@ -40,7 +40,7 @@ class MetaDataConfigDAO
     /**
      * @var string
      */
-    const SOURCE_FACTORY_KEY = 'metaDataDAOFactory';
+    const SOURCE_FACTORY_KEY = 'metadataDaoFactory';
 
     /**
      * @var FileManager File manager

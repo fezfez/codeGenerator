@@ -71,15 +71,15 @@ class WebContext implements ContextInterface, \JsonSerializable
             }
 
             return $response;
-        } elseif ($this->request->query->has($key) === true) {
-            $response = $this->request->get($key);
+        } elseif (($response = $this->request->get($key)) !== null) {
+            $method = ($this->request->request->has($key) === true) ? 'request' : 'query';
 
             if ($consume === true) {
-                $query = $this->request->query;
+                $query = $this->request->$method;
 
                 $query->remove($key);
 
-                $this->request->query = $query;
+                $this->request->$method = $query;
             }
 
             return $response;
@@ -221,7 +221,7 @@ class WebContext implements ContextInterface, \JsonSerializable
     {
         $this->preResponse[MetaDataSourcesConfiguredQuestion::QUESTION_KEY] = $generator->getMetadataSource()
                                                                                         ->getUniqueName();
-        $this->preResponse[MetaDataQuestion::QUESTION_KEY]                  = $generator->getDTO()
+        $this->preResponse[MetaDataQuestion::QUESTION_KEY]                  = $generator->getDto()
                                                                                         ->getMetadata()
                                                                                         ->getOriginalName();
         $this->preResponse[GeneratorQuestion::QUESTION_KEY]                 = $generator->getName();

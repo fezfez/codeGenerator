@@ -23,7 +23,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $dto->setMetadata($metaData);
 
         $generatorDTO = new GeneratorDataObject();
-        $generatorDTO->setDTO($dto);
+        $generatorDTO->setDto($dto);
 
         $HistoryCollection = new HistoryCollection();
         $history           = new History();

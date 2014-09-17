@@ -68,8 +68,8 @@ class Doctrine2MetaDataDAOFactory implements MetaDataDAOFactoryInterface
     {
         $dataObject = new MetaDataSource();
         $dataObject->setDefinition("Doctrine2")
-                   ->setMetaDataDAOFactory('CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAOFactory')
-                   ->setMetaDataDAO('CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO');
+                   ->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAOFactory')
+                   ->setMetadataDao('CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO');
 
         return $dataObject;
     }

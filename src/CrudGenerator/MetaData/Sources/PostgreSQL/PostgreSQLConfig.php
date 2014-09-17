@@ -31,7 +31,7 @@ class PostgreSQLConfig extends MetadataConfigDatabase implements MetaDataConfigI
     /**
      * @var string Config definition
      */
-    private $definition = 'For use the PostgreSQL adapter you need to define the database and how to get the PostgreSQL instance';
+    private $definition = 'PostgreSQL adapter';
     /**
      * @var string
      */

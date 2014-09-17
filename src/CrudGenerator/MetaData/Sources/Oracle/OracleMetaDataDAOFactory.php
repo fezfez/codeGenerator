@@ -66,8 +66,8 @@ class OracleMetaDataDAOFactory implements MetaDataDAOFactoryInterface
     {
         $dataObject = new MetaDataSource();
         $dataObject->setDefinition("Oracle")
-                   ->setMetaDataDAOFactory('CrudGenerator\MetaData\Sources\Oracle\OracleMetaDataDAOFactory')
-                   ->setMetaDataDAO('CrudGenerator\MetaData\Sources\Oracle\OracleMetaDataDAO')
+                   ->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\Oracle\OracleMetaDataDAOFactory')
+                   ->setMetadataDao('CrudGenerator\MetaData\Sources\Oracle\OracleMetaDataDAO')
                    ->setConfig(new OracleConfig());
 
         return $dataObject;

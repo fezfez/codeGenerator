@@ -19,7 +19,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $generatorDTO = new GeneratorDataObject();
         $dto          = new DataObject();
         $dto->setModelDirectory('src');
-        $generatorDTO->setDTO($dto);
+        $generatorDTO->setDto($dto);
 
         $directories = array(
             'dirOne',
@@ -79,13 +79,13 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $sUT = new DirectoryQuestion($fileManagerStub, $context);
 
         $generatorDTO = new GeneratorDataObject();
-        $generatorDTO->setDTO(new DataObject());
+        $generatorDTO->setDto(new DataObject());
 
         $generatorDTO = $sUT->ask(
             $generatorDTO,
             array('dtoAttribute' => 'ModelDirectory', 'text' => 'Good question...')
         );
-        $this->assertEquals('myFile/', $generatorDTO->getDTO()->getModelDirectory());
+        $this->assertEquals('myFile/', $generatorDTO->getDto()->getModelDirectory());
     }
 
     public function testCreateFileAndWithCliInstance()
@@ -146,13 +146,13 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $sUT = new DirectoryQuestion($fileManagerStub, $context);
 
         $generatorDTO = new GeneratorDataObject();
-        $generatorDTO->setDTO(new DataObject());
+        $generatorDTO->setDto(new DataObject());
 
         $generatorDTO = $sUT->ask(
             $generatorDTO,
             array('dtoAttribute' => 'ModelDirectory', 'text' => 'Good question...')
         );
 
-        $this->assertEquals('MyTrueDir/', $generatorDTO->getDTO()->getModelDirectory());
+        $this->assertEquals('MyTrueDir/', $generatorDTO->getDto()->getModelDirectory());
     }
 }

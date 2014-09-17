@@ -23,7 +23,7 @@ class AnalyseTest extends \PHPUnit_Framework_TestCase
             $this->getMetadata()
         );
 
-        $generator->getDTO()
+        $generator->getDto()
                   ->setAttributeName('tetze', 'myName')
                   ->setAttributeName('myDate', 'madata')
                   ->addEnvironnementValue('backend', 'PDO')
@@ -60,7 +60,7 @@ class AnalyseTest extends \PHPUnit_Framework_TestCase
             $this->getMetadata()
         );
 
-        $generator->getDTO()
+        $generator->getDto()
                   ->setAttributeName('tetze', 'myName')
                   ->setAttributeName('myDate', 'madata')
                   ->addEnvironnementValue('backend', 'doctrine2')

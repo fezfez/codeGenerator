@@ -96,7 +96,7 @@ class Abstract<?php echo $this->ucFirstModelName; ?>Form
      * @param array $datas
      * @param <?php echo $this->ucFirstModelName; ?>DataObject $<?php echo $this->ucFirstModelName; ?>DTO
      */
-    public function getDTO(<?php echo $this->ucFirstModelName; ?>DataObject $<?php echo $this->ucFirstModelName; ?>DTO = null)
+    public function getDto(<?php echo $this->ucFirstModelName; ?>DataObject $<?php echo $this->ucFirstModelName; ?>DTO = null)
     {
         if(null === $<?php echo $this->ucFirstModelName; ?>DTO) {
             $<?php echo $this->ucFirstModelName; ?>DTO = new <?php echo $this->ucFirstModelName; ?>DataObject();

@@ -18,7 +18,7 @@ class JsonSerializableTest extends \PHPUnit_Framework_TestCase
             $object = new $class();
 
             $this->assertRegExp(
-                '/metaDataDAOFactory/',
+                '/metadataDaoFactory/',
                 json_encode($object),
                 sprintf('class "%s" does not have property "metaDataDAOFactory"', $class)
             );
@@ -27,7 +27,7 @@ class JsonSerializableTest extends \PHPUnit_Framework_TestCase
 
     public function testcanBeRehydrated()
     {
-        $classes         = new \CrudGenerator\Utils\ClassAwake();
+        $classes = new \CrudGenerator\Utils\ClassAwake();
 
         $implementations = $classes->wakeByInterfaces(
             array(getcwd() . '/src'),

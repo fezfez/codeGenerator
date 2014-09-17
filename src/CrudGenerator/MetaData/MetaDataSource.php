@@ -51,7 +51,7 @@ class MetaDataSource implements \JsonSerializable
      * @param string $value
      * @return \CrudGenerator\MetaData\MetaDataSource
      */
-    public function setMetaDataDAO($value)
+    public function setMetadataDao($value)
     {
         $this->metaDataDAO = $value;
         return $this;
@@ -60,7 +60,7 @@ class MetaDataSource implements \JsonSerializable
      * @param string $value
      * @return \CrudGenerator\MetaData\MetaDataSource
      */
-    public function setMetaDataDAOFactory($value)
+    public function setMetadataDaoFactory($value)
     {
         $this->metaDataDAOFactory = $value;
         return $this;

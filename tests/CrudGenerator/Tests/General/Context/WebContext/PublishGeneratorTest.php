@@ -26,7 +26,7 @@ class PublishGeneratorTest extends \PHPUnit_Framework_TestCase
         $dto->setMetadata($metadata);
 
         $generator = new GeneratorDataObject();
-        $generator->setDTO($dto)
+        $generator->setDto($dto)
                   ->setMetadataSource($metadataSource)
                   ->setName('test');
 

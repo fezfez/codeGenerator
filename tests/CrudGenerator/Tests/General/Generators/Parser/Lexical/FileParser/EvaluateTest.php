@@ -213,7 +213,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $sUT = new FileParser($fileManager, $dependencyCondition, $environnementCondition);
 
         $generator = new GeneratorDataObject();
-        $generator->setDTO(new DataObject());
+        $generator->setDto(new DataObject());
         $generator->addEnvironnementValue('backend', 'pdo');
 
         $process = array(

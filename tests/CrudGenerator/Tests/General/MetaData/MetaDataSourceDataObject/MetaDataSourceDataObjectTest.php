@@ -15,8 +15,8 @@ class MetaDataSourceDataObjectTest extends \PHPUnit_Framework_TestCase
         $adapater->setConfig($PostgreSQLConfig)
                  ->setDefinition('definition')
                  ->setFalseDependencie('false')
-                 ->setMetaDataDAO('name')
-                 ->setMetaDataDAOFactory('test');
+                 ->setMetadataDao('name')
+                 ->setMetadataDaoFactory('test');
 
         $this->assertInstanceOf(
             'CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig',

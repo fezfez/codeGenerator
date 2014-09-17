@@ -51,7 +51,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $dataObject->setMetadata($metadata);
 
         $generatorDTO = new GeneratorDataObject();
-        $generatorDTO->setDTO($dataObject)
+        $generatorDTO->setDto($dataObject)
                         ->setMetadataSource(new MetaDataSource());
 
         $sUT->create($generatorDTO);
@@ -71,7 +71,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $sUT = new HistoryManager($stubFileManager, $stubHistoryHydrator);
 
         $generatorDTO = new GeneratorDataObject();
-        $generatorDTO->setDTO(new DataObject());
+        $generatorDTO->setDto(new DataObject());
 
         $this->setExpectedException('InvalidArgumentException');
         $sUT->create($generatorDTO);

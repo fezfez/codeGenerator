@@ -28,7 +28,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $sUT = new QuestionParser($context, $dependencyCondition);
 
         $generator = new GeneratorDataObject();
-        $generator->setDTO(new DataObject());
+        $generator->setDto(new DataObject());
 
         $process = array(
             'questions' => array(
@@ -59,7 +59,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $sUT = new QuestionParser($context, $dependencyCondition);
 
         $generator = new GeneratorDataObject();
-        $generator->setDTO(new DataObject());
+        $generator->setDto(new DataObject());
 
         $process = array(
                 'questions' => array(
@@ -113,7 +113,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $sUT = new QuestionParser($context, $dependencyCondition);
 
         $generator = new GeneratorDataObject();
-        $generator->setDTO(new DataObject());
+        $generator->setDto(new DataObject());
 
         $process = array(
             'questions' => array(

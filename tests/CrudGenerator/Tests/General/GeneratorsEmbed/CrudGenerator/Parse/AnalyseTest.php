@@ -25,7 +25,7 @@ class AnalyseTest extends \PHPUnit_Framework_TestCase
 
         $generator->addEnvironnementValue('backend', 'PDO')
                   ->addEnvironnementValue('framework', 'zend_framework_2')
-                  ->getDTO()
+                  ->getDto()
                   ->setAttributeName('tetze', 'myName')
                   ->setAttributeName('myDate', 'madata');
 

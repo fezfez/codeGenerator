@@ -67,8 +67,8 @@ class MySQLMetaDataDAOFactory implements MetaDataDAOFactoryInterface
     {
         $dataObject = new MetaDataSource();
         $dataObject->setDefinition("MySQL")
-                   ->setMetaDataDAOFactory('CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory')
-                   ->setMetaDataDAO("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAO")
+                   ->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory')
+                   ->setMetadataDao("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAO")
                    ->setConfig(new MySQLConfig());
 
         return $dataObject;

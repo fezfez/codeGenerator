@@ -15,8 +15,8 @@ class AskTest extends \PHPUnit_Framework_TestCase
     {
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
-               ->setMetaDataDAO('Name')
-               ->setMetaDataDAOFactory('test');
+               ->setMetadataDao('Name')
+               ->setMetadataDaoFactory('test');
 
         $metaData = new MetadataDataObjectDoctrine2(
             new MetaDataColumnCollection(),
@@ -61,7 +61,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $config = new PostgreSQLConfig();
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
-        ->setMetaDataDAO('Name')
+        ->setMetadataDao('Name')
         ->setConfig($config);
 
         $metaData = new MetadataDataObjectDoctrine2(
@@ -106,7 +106,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
     {
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
-        ->setMetaDataDAO('Name');
+        ->setMetadataDao('Name');
 
         $metaData = new MetadataDataObjectDoctrine2(
             new MetaDataColumnCollection(),
@@ -153,7 +153,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
     {
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
-        ->setMetaDataDAO('Name');
+        ->setMetadataDao('Name');
 
         $metaData = new MetadataDataObjectDoctrine2(
             new MetaDataColumnCollection(),

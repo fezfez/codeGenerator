@@ -30,7 +30,7 @@ spl_autoload_register(function($class) {
     } elseif(0 === strpos($class, 'TestZf2\\')) {
         $path = __DIR__ . '/CrudGenerator/Tests/ZF2/module/' . strtr($class, '\\', '/') . '.php';
 
-        if (is_file($path) == true && is_readable($path) === true) {
+        if (is_file($path) === true && is_readable($path) === true) {
             require_once $path;
 
             return true;

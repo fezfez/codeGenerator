@@ -23,21 +23,4 @@ class GetAllAdaptersTest extends \PHPUnit_Framework_TestCase
             $adapterCollection
         );
     }
-
-    /*public function testFail()
-    {
-        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
-        $stubFileManager->expects($this->any())
-                        ->method('fileExists')
-                        ->will($this->returnValue(false));
-
-        $classAwake  = new ClassAwake();
-
-        $suT = new MetaDataSourceFinder($stubFileManager, $classAwake);
-
-        $this->assertInstanceOf(
-            'CrudGenerator\MetaData\MetaDataSourceCollection',
-            $suT->getAllAdapters()
-        );
-    }*/
 }

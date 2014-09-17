@@ -164,7 +164,7 @@ class HistoryHydrator
 
         $generator = new GeneratorDataObject();
         $generator->setMetadataSource($metadataSource)
-                  ->setDTO($dto)
+                  ->setDto($dto)
                   ->setName($arrayRepresentation['name']);
 
         $history->addDataObject($generator);

@@ -29,7 +29,7 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
         $dataObject = new DataObject();
         $generator  = new GeneratorDataObject();
 
-        $generator->setDTO($dataObject);
+        $generator->setDto($dataObject);
         $this->setExpectedException('CrudGenerator\History\InvalidHistoryException');
 
         $sUT->dtoToJson($generator);
@@ -51,8 +51,8 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
 
         $source = new MetaDataSource();
         $source->setConfig(new MySQLConfig())
-        ->setMetaDataDAO("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAO")
-        ->setMetaDataDAOFactory("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory");
+        ->setMetadataDao("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAO")
+        ->setMetadataDaoFactory("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory");
 
         $metaData = new MetadataDataObjectDoctrine2(
             new MetaDataColumnCollection(),
@@ -64,7 +64,7 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
         $dataObject->setMetadata($metaData);
 
         $generator = new GeneratorDataObject();
-        $generator->setDTO($dataObject)
+        $generator->setDto($dataObject)
                   ->setMetadataSource($source);
 
         $this->assertInternalType('string', $sUT->dtoToJson($generator));
@@ -92,8 +92,8 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
 
         $source = new MetaDataSource();
         $source->setConfig(new MySQLConfig())
-               ->setMetaDataDAO("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAO")
-               ->setMetaDataDAOFactory("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory");
+               ->setMetadataDao("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAO")
+               ->setMetadataDaoFactory("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory");
 
         $stubMetadataSourceQuestion->expects($this->once())
         ->method('ask')
@@ -109,7 +109,7 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
 
         $generator = new GeneratorDataObject();
         $generator->setMetadataSource($source)
-                  ->setDTO($dataObject);
+                  ->setDto($dataObject);
 
         $yaml = $sUT->dtoToJson($generator);
         $sUT->jsonToDto($yaml);

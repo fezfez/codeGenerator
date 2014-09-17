@@ -8,7 +8,7 @@
         $datas          = $this->getRequest()->getPost()->toArray();
 
         if($this->getRequest()->isPost() && $<?php echo $this->modelName; ?>Form->isValid($datas)) {
-            $<?php echo $this->modelName; ?>DAO->persist($<?php echo $this->modelName; ?>Form->getDTO());
+            $<?php echo $this->modelName; ?>DAO->persist($<?php echo $this->modelName; ?>Form->getDto());
 
             $this->flashMessenger()->addSuccessMessage('"<?php
             echo ucfirst($this->crudGenerator->getDisplayName());

@@ -81,7 +81,7 @@ class QuestionParser implements ParserInterface
             $type = (isset($question['responseType']) === true ? $question['responseType'] : null);
         }
 
-        $generator->getDTO()->register($question['dtoAttribute'], $type);
+        $generator->getDto()->register($question['dtoAttribute'], $type);
 
         return $generator;
     }
@@ -202,7 +202,7 @@ class QuestionParser implements ParserInterface
 
         $questionName = 'set' . ucfirst($question['dtoAttribute']);
         if ($response !== null) {
-            $generator->getDTO()->$questionName($response);
+            $generator->getDto()->$questionName($response);
         }
 
         return $generator;
@@ -226,7 +226,7 @@ class QuestionParser implements ParserInterface
         $instance = $this->phpInterpretStatic(
             $question['collection'],
             array(
-                lcfirst($process['name']) => $generator->getDTO()
+                lcfirst($process['name']) => $generator->getDto()
             )
         );
 
@@ -275,7 +275,7 @@ class QuestionParser implements ParserInterface
 
             $questionName = 'set' . ucfirst($question['dtoAttribute']);
             if ($response !== null) {
-                $generator->getDTO()->$questionName($origine, $response);
+                $generator->getDto()->$questionName($origine, $response);
             }
         }
 
@@ -321,7 +321,7 @@ class QuestionParser implements ParserInterface
         $instance = $this->phpInterpretStatic(
             $question['collection'],
             array(
-                lcfirst($process['name']) => $generator->getDTO()
+                lcfirst($process['name']) => $generator->getDto()
             )
         );
 
@@ -352,7 +352,7 @@ class QuestionParser implements ParserInterface
 
             $questionName = 'set' . ucfirst($question['dtoAttribute']);
             if ($response !== null) {
-                $generator->getDTO()->$questionName($origine, $response);
+                $generator->getDto()->$questionName($origine, $response);
             }
         }
 

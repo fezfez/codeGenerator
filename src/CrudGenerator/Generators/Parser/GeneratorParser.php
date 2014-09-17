@@ -129,13 +129,13 @@ class GeneratorParser implements GeneratorParserInterface
         $dto = new \CrudGenerator\DataObject();
         $dto->setMetadata($metadata);
 
-        $generator->setDTO($dto)
+        $generator->setDto($dto)
                   ->setPath($generatorFilePath);
 
         $generator = $this->analyzeDependencies($process, $phpParser, $generator);
         $generator = $this->analyzePreParser($process, $phpParser, $generator, $firstIteration);
-        $phpParser->addVariable(lcfirst($process['name']), $generator->getDTO());
-        $generator->addTemplateVariable(lcfirst($process['name']), $generator->getDTO());
+        $phpParser->addVariable(lcfirst($process['name']), $generator->getDto());
+        $generator->addTemplateVariable(lcfirst($process['name']), $generator->getDto());
         $generator = $this->analyzePostParser($process, $phpParser, $generator, $firstIteration);
 
         return $generator;
@@ -156,7 +156,7 @@ class GeneratorParser implements GeneratorParserInterface
         if (isset($process['dependencies']) === true && is_array($process['dependencies']) === true) {
             foreach ($process['dependencies'] as $dependencieName) {
                 $generator->addDependency(
-                    $this->analyze($dependencieName, $phpParser, $generator, $generator->getDTO()->getMetadata())
+                    $this->analyze($dependencieName, $phpParser, $generator, $generator->getDto()->getMetadata())
                 );
             }
             $generator = $this->addDependenciesVariablesToMainGenerator($generator);

@@ -21,7 +21,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataInterface;
 
 class GeneratorCompatibilityChecker
 {
-/**
+    /**
      * Check in the metadata instance is in allowed generator type
      *
      * @param MetaDataInterface $metadata

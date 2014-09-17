@@ -13,17 +13,17 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $source                   = new MetaDataSource();
 
         $source->setDefinition('My definition')
-               ->setMetaDataDAO('My name')
-               ->setMetaDataDAOFactory('My nameFactory');
+               ->setMetadataDao('My name')
+               ->setMetadataDaoFactory('My nameFactory');
 
         $metadataSourceCollection->append($source);
 
         $sourceWithFailedDependencie = new MetaDataSource();
 
         $sourceWithFailedDependencie->setDefinition('My definition')
-        ->setMetaDataDAO('My name')
+        ->setMetadataDao('My name')
         ->setFalseDependencie('My false dependencies')
-        ->setMetaDataDAOFactory('My nameFactory');
+        ->setMetadataDaoFactory('My nameFactory');
 
         $metadataSourceCollection->append($sourceWithFailedDependencie);
 
@@ -49,15 +49,15 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $source                   = new MetaDataSource();
 
         $source->setDefinition('My definition')
-        ->setMetaDataDAO('My name')
-        ->setMetaDataDAOFactory('my name factory');
+        ->setMetadataDao('My name')
+        ->setMetadataDaoFactory('my name factory');
 
         $metadataSourceCollection->append($source);
 
         $sourceWithFailedDependencie = new MetaDataSource();
 
         $sourceWithFailedDependencie->setDefinition('My definition')
-        ->setMetaDataDAO('My named')
+        ->setMetadataDao('My named')
         ->setFalseDependencie('My false dependencies');
 
         $metadataSourceCollection->append($sourceWithFailedDependencie);
@@ -89,13 +89,13 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $source                   = new MetaDataSource();
 
         $source->setDefinition('My definition')
-        ->setMetaDataDAO('My name');
+        ->setMetadataDao('My name');
 
         $metadataSourceCollection->append($source);
 
         $sourceWithFailedDependencie = new MetaDataSource();
         $sourceWithFailedDependencie->setDefinition('My definition')
-        ->setMetaDataDAO('My name')
+        ->setMetadataDao('My name')
         ->setFalseDependencie('My false dependencies');
 
         $metadataSourceCollection->append($sourceWithFailedDependencie);

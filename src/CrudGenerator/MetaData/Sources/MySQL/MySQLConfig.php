@@ -31,7 +31,7 @@ class MySQLConfig extends MetadataConfigDatabase implements MetaDataConfigInterf
     /**
      * @var string Config definition
      */
-    private $definition = 'For use the MySQL adapter you need to define the database and how to get the MySQL instance';
+    private $definition = 'MySQL adapter';
     /**
      * @var string
      */
@@ -90,7 +90,7 @@ class MySQLConfig extends MetadataConfigDatabase implements MetaDataConfigInterf
     {
         return array_merge(
             array(
-                'metaDataDAOFactory' => $this->metaDataDAOFactory,
+                'metadataDaoFactory' => $this->metaDataDAOFactory,
                 'uniqueName'         => $this->getUniqueName()
             ),
             parent::jsonSerialize()

@@ -64,7 +64,7 @@ class HistoryQuestion
         $responseCollection = new PredefinedResponseCollection();
         foreach ($historyCollection as $history) {
             foreach ($history->getDataObjects() as $dto) {
-                $name = $dto->getDTO()->getMetadata()->getName();
+                $name = $dto->getDto()->getMetadata()->getName();
                 $responseCollection->append(new PredefinedResponse($name, $name, $dto));
             }
         }

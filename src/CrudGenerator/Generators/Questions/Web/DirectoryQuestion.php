@@ -69,7 +69,7 @@ class DirectoryQuestion
     {
         do {
             $attribute       = 'get' . $question['dtoAttribute'];
-            $actualDirectory = $generator->getDTO()->$attribute();
+            $actualDirectory = $generator->getDto()->$attribute();
 
             $responseCollection = new PredefinedResponseCollection();
             $responseCollection = $this->checkAdditionalChoices($actualDirectory, $responseCollection);
@@ -102,10 +102,10 @@ class DirectoryQuestion
             if ($response !== null ) {
                 $setter = 'set' . $question['dtoAttribute'];
                 if ($response === self::CURRENT_DIRECTORY) {
-                    $generator->getDTO()->$setter($actualDirectory);
+                    $generator->getDto()->$setter($actualDirectory);
                     break;
                 } else {
-                    $generator->getDTO()->$setter($response);
+                    $generator->getDto()->$setter($response);
                 }
             }
 

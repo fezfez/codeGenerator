@@ -9,7 +9,7 @@ class MethodTest extends \PHPUnit_Framework_TestCase
     public function testMethods()
     {
         $sUT = new GeneratorDataObject();
-        $sUT->setDTO(new DataObject());
+        $sUT->setDto(new DataObject());
 
         $sUT->addEnvironnementValue('backend', 'doctrine2');
 
