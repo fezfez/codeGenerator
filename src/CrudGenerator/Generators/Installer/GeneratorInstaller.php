@@ -33,10 +33,6 @@ class GeneratorInstaller implements GeneratorInstallerInterface
      */
     private $input = null;
     /**
-     * @var ArrayInput
-     */
-    private $input2 = null;
-    /**
      * @var RequireCommand
      */
     private $requireCommand = null;

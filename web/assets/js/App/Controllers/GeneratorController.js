@@ -83,7 +83,7 @@ define(
                         if (!modal.hasClass( "show" )) {
                             modal.modal('show');
                         }
-                        
+
                         if (data.error !== undefined) {
                             $scope.configFormError = data.error;
                         } else if (data.valid !== undefined) {
@@ -122,7 +122,7 @@ define(
                 if (waitFileList === undefined ) {
                     waitFileList = false;
                 }
-                
+
                 if (waitFileList === true) {
                     $scope.waitFileList = true;
                 } else {
@@ -162,7 +162,7 @@ define(
                 $scope.generatorPreviewReadme = null;
                 $scope.generatorPreviewGithub = null;
                 $searchGeneratorService.detail(
-                    generator.name,
+                    generator.id,
                     function(data) {
                         $scope.generatorPreviewReadme = $sce.trustAsHtml(data.package_details.readme);
                         $scope.generatorPreviewGithub = data.package_details.github;
@@ -176,7 +176,7 @@ define(
                     }
                 );
             };
-            
+
             $scope.downloadGenerator = function(generator) {
                 $scope.downloadLog = [];
                 $downloadGeneratorService.download(
@@ -192,7 +192,7 @@ define(
                     }
                 );
             };
-            
+
             $scope.searchGenerator = function() {
                 var modal = $('searchgenerator > div');
                 if (!modal.hasClass( "show" )) {
@@ -208,8 +208,8 @@ define(
                                 modal.modal('show');
                             }
                             btn.button('reset');
-                            
-                             $scope.searchGeneratorCollection = context.getSearchGeneratorCollection();
+
+                            $scope.searchGeneratorCollection = context.getSearchGeneratorCollection();
                         },
                         function(results) {
                             btn.button('reset');
@@ -220,7 +220,7 @@ define(
                         }
                 );
             };
-            
+
             $scope.destructMetadataCache = function() {
                 generate(context, 1);
             };
@@ -313,7 +313,7 @@ define(
                     }
                 );
             };
-            
+
             /*
              * History
              */

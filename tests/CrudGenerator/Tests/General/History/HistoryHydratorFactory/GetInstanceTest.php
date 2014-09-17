@@ -2,13 +2,12 @@
 namespace CrudGenerator\Tests\General\History\HistoryHydratorFactory;
 
 use CrudGenerator\History\HistoryHydratorFactory;
-use CrudGenerator\Context\CliContext;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstance()
     {
-        $context =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
 

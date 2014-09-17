@@ -152,7 +152,7 @@
                                class="list-group-item col-lg-12"
                                ng-repeat="generator in searchGeneratorCollection.values"
                                ng-click="previewGenerator(generator)"
-                               ng-class="{'active': generator.name === backendSelected}">
+                               ng-class="{'active': generator.id === generatorPreview.id}">
                                 {{  generator.id }} {{  generator.label }}
                             </a>
                             <p ng-if="searchGeneratorCollection == null">No result</p>

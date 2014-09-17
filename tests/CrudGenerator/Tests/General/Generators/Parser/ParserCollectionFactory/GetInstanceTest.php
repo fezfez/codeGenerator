@@ -2,13 +2,12 @@
 namespace CrudGenerator\Tests\General\Generators\Parser\ParserCollectionFactory;
 
 use CrudGenerator\Generators\Parser\ParserCollectionFactory;
-use CrudGenerator\Context\CliContext;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testCliInstance()
     {
-        $context =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -20,7 +19,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 
     public function testWebInstance()
     {
-        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()
         ->getMock();
 

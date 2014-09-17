@@ -24,7 +24,6 @@ use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\MetaDataSourceHydrator;
 use CrudGenerator\MetaData\MetaDataSourceCollection;
 use ReflectionClass;
-use ReflectionProperty;
 use phpDocumentor\Reflection\DocBlock;
 
 class MetaDataConfigDAO

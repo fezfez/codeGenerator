@@ -53,7 +53,7 @@ class GeneratorDetail
 
         return array(
             'readme' => $this->client->api('markdown')->render(base64_decode($data['content'])),
-            'github' => $package['repository']
+            'github' => $package->getRepository()
         );
     }
 }

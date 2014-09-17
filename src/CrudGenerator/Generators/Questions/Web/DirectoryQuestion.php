@@ -23,7 +23,6 @@ use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
-use CrudGenerator\Context\WebContext;
 use CrudGenerator\Context\CliContext;
 
 class DirectoryQuestion

@@ -2,7 +2,6 @@
 namespace CrudGenerator\Tests\General\Command\CreateCommandFactory;
 
 use CrudGenerator\Command\CreateCommandFactory;
-use CrudGenerator\Context\CliContext;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {

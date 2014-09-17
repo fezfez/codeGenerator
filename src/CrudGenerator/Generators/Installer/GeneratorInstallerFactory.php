@@ -20,7 +20,6 @@ namespace CrudGenerator\Generators\Installer;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Utils\OutputWeb;
 use Composer\Command\RequireCommand;
-use Composer\Command\InstallCommand;
 use Composer\Command\Helper\DialogHelper;
 use Composer\IO\ConsoleIO;
 use Composer\Factory;
@@ -28,7 +27,6 @@ use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProgressHelper;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputDefinition;
 
 /**
  *

@@ -3,7 +3,6 @@ namespace CrudGenerator\Tests\General\Generators\Generator;
 
 use CrudGenerator\Generators\Generator;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Context\CliContext;
 use CrudGenerator\DataObject;
 
 class GenerateTest extends \PHPUnit_Framework_TestCase
