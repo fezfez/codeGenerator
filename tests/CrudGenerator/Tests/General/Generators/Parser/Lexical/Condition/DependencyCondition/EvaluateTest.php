@@ -10,7 +10,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
     public function testDifferent()
     {
-        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -79,7 +79,7 @@ questions :
 
     public function testWithout()
     {
-        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
 

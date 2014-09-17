@@ -13,9 +13,9 @@ $app->match('/', function() use ($app) {
 
 $app->match('/generator', function (Request $request) use ($app) {
     $stream = $request->get('stream');
+    $stream = (($stream === 'true') ? true : false);
 
     $runner = function () use($stream, $request) {
-        $stream  = (($stream === 'true') ? true : false);
         $event   = (($stream === true) ? new Stream() : null);
         $context = new WebContext($request, $event);
         $main    = MainBackboneFactory::getInstance($context);

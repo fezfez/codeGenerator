@@ -50,7 +50,7 @@ class GeneratorSearch
     }
 
     /**
-     * @return string
+     * @return \Packagist\Api\Result\Result
      */
     public function ask()
     {
@@ -60,12 +60,13 @@ class GeneratorSearch
         $responseCollection = new PredefinedResponseCollection();
 
         foreach ($list as $package) {
+            /* @var \Packagist\Api\Result\Result $package */
             $predefinedResponse = new PredefinedResponse(
                 $package->getName(),
                 $package->getDescription(),
-                $package->getName()
+                $package
             );
-            $predefinedResponse->setAdditionalData(array('repository' => $package->repository));
+            $predefinedResponse->setAdditionalData(array('repository' => $package->getRepository()));
             $responseCollection->append($predefinedResponse);
         }
 

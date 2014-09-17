@@ -10,23 +10,23 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
     public function testEmpty()
     {
-        $fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
+        $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $environnementCondition =  $this->getMockBuilder(
+        $environnementCondition = $this->getMockBuilder(
             'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
         )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $dependencyCondition =  $this->getMockBuilder(
+        $dependencyCondition = $this->getMockBuilder(
             'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
         )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -45,23 +45,23 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testMalformedVar()
     {
-        $fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
+        $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $environnementCondition =  $this->getMockBuilder(
+        $environnementCondition = $this->getMockBuilder(
             'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
         )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $dependencyCondition =  $this->getMockBuilder(
+        $dependencyCondition = $this->getMockBuilder(
             'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
         )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -81,23 +81,23 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testWithFiles()
     {
-        $fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
+        $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $environnementCondition =  $this->getMockBuilder(
+        $environnementCondition = $this->getMockBuilder(
             'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
         )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $dependencyCondition =  $this->getMockBuilder(
+        $dependencyCondition = $this->getMockBuilder(
             'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
         )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -126,17 +126,17 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testWithDependencyCondiction()
     {
-        $fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
+        $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $environnementCondition =  $this->getMockBuilder(
+        $environnementCondition = $this->getMockBuilder(
             'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
         )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $dependencyCondition =  $this->getMockBuilder(
+        $dependencyCondition = $this->getMockBuilder(
             'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
         )
         ->disableOriginalConstructor()
@@ -146,7 +146,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->method('evaluate')
         ->will($this->returnValue(array(array('MyFileTemplate' => 'MyFile'))));
 
-        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -181,17 +181,17 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testWithEnvironnemetnCondiction()
     {
-        $fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
+        $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $environnementCondition =  $this->getMockBuilder(
+        $environnementCondition = $this->getMockBuilder(
             'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
         )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $dependencyCondition =  $this->getMockBuilder(
+        $dependencyCondition = $this->getMockBuilder(
             'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
         )
         ->disableOriginalConstructor()
@@ -201,7 +201,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->method('evaluate')
         ->will($this->returnValue(array(array('MyFileTemplate' => 'MyFile'))));
 
-        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
 

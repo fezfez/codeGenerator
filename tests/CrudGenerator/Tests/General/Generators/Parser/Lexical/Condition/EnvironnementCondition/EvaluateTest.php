@@ -10,7 +10,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
     public function testEquals()
     {
-        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -45,7 +45,7 @@ questions :
 
     public function testDifferent()
     {
-        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -80,7 +80,7 @@ questions :
 
     public function testNotCatchDifferent()
     {
-        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -111,7 +111,7 @@ questions :
 
     public function testNotCatchEquals()
     {
-        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -142,7 +142,7 @@ questions :
 
     public function testMalformedExpression()
     {
-        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
 

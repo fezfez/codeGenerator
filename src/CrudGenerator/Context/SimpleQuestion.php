@@ -44,6 +44,10 @@ class SimpleQuestion
      */
     private $type = null;
     /**
+     * @var string
+     */
+    private $responseType = null;
+    /**
      * @var boolean
      */
     private $shutdownWithoutResponse = false;
@@ -128,6 +132,17 @@ class SimpleQuestion
     public function setType($value)
     {
         $this->type = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     * @return \CrudGenerator\Context\SimpleQuestion
+     */
+    public function setResponseType($value)
+    {
+        $this->responseType = $value;
 
         return $this;
     }

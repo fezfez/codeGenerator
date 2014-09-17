@@ -65,7 +65,7 @@ class SearchGeneratorBackbone
         }
 
         if ($this->context->confirm('Install', 'install_new_package') === true) {
-            $this->generatorInstaller->install($package['id']);
+            $this->generatorInstaller->install($package->getName());
         }
     }
 }

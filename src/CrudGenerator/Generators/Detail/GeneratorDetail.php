@@ -18,6 +18,7 @@
 namespace CrudGenerator\Generators\Detail;
 
 use Github\Client;
+use Packagist\Api\Result\Result;
 
 /**
  * Find all generator allow in project
@@ -40,12 +41,12 @@ class GeneratorDetail
     }
 
     /**
-     * @param string $package
+     * @param Result $package
      * @return string
      */
-    public function find(array $package)
+    public function find(Result $package)
     {
-        $repository     = str_replace('https://github.com/', '', $package['repository']);
+        $repository     = str_replace('https://github.com/', '', $package->getRepository());
         $packageExplode = explode('/', $repository);
 
         $data = $this->client->api('repo')->contents()->readme($packageExplode[0], $packageExplode[1]);

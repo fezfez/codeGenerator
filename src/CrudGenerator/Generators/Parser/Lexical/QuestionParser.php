@@ -266,9 +266,9 @@ class QuestionParser implements ParserInterface
                 (isset($question['defaultResponse']) === true) ? $parser->parse($question['defaultResponse']) : null
             )->setRequired(
                 (isset($question['required']) === true) ? $question['required'] : false
+            )->setResponseType(
+                (isset($question['responseType']) === true) ? $question['responseType'] : null
             );
-
-            // ->setresponseType((isset($question['responseType']) === true) ? $question['responseType'] : null);
 
 
             $response = $this->context->askCollection($questionWithPredefinedResponse);

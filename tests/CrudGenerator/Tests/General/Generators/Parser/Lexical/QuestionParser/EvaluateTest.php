@@ -11,17 +11,17 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
     public function testMalformedVar()
     {
-        $dependencyCondition =  $this->getMockBuilder(
+        $dependencyCondition = $this->getMockBuilder(
             'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
         )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -42,17 +42,17 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testWithFiles()
     {
-        $dependencyCondition =  $this->getMockBuilder(
+        $dependencyCondition = $this->getMockBuilder(
             'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
         )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -79,17 +79,17 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testWithDependencyCondiction()
     {
-        $dependencyCondition =  $this->getMockBuilder(
+        $dependencyCondition = $this->getMockBuilder(
             'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
         )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
 

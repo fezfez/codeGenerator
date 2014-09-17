@@ -8,7 +8,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstanceCli()
     {
-        $context =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -20,7 +20,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 
     public function testInstanceWeb()
     {
-        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -32,7 +32,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 
     public function testFailContext()
     {
-        $context =  $this->getMockForAbstractClass('CrudGenerator\Context\ContextInterface');
+        $context = $this->getMockForAbstractClass('CrudGenerator\Context\ContextInterface');
 
         $this->setExpectedException('InvalidArgumentException');
 

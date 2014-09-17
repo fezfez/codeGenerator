@@ -42,7 +42,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $context->expects($this->exactly(3))
         ->method('askCollection')
         ->will($this->onConsecutiveCalls('zend_framework_2', 'pdo'));
-        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
 

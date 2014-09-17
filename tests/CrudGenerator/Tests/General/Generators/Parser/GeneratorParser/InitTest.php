@@ -11,19 +11,19 @@ class InitTest extends \PHPUnit_Framework_TestCase
 {
     public function testEmptydddd()
     {
-        $fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
+        $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $yaml =  $this->getMockBuilder('CrudGenerator\Utils\Transtyper')
+        $yaml = $this->getMockBuilder('CrudGenerator\Utils\Transtyper')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $generatorFinder =  $this->getMockBuilder('CrudGenerator\Generators\Finder\GeneratorFinder')
+        $generatorFinder = $this->getMockBuilder('CrudGenerator\Generators\Finder\GeneratorFinder')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -33,7 +33,7 @@ class InitTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $parserCollection =  new \CrudGenerator\Generators\Parser\ParserCollection();
+        $parserCollection = new \CrudGenerator\Generators\Parser\ParserCollection();
 
         $process = array(
             'dto' => 'CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect',
@@ -60,19 +60,19 @@ class InitTest extends \PHPUnit_Framework_TestCase
 
     public function testWithPreParseAndPostParse()
     {
-        $fileManager =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
+        $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $yaml =  $this->getMockBuilder('CrudGenerator\Utils\Transtyper')
+        $yaml = $this->getMockBuilder('CrudGenerator\Utils\Transtyper')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $phpParser =  $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $generatorFinder =  $this->getMockBuilder('CrudGenerator\Generators\Finder\GeneratorFinder')
+        $generatorFinder = $this->getMockBuilder('CrudGenerator\Generators\Finder\GeneratorFinder')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -85,7 +85,7 @@ class InitTest extends \PHPUnit_Framework_TestCase
         $generator        = new GeneratorDataObject();
         $parserCollection = new \CrudGenerator\Generators\Parser\ParserCollection();
 
-        $questionResponse =  $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\QuestionParser')
+        $questionResponse = $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\QuestionParser')
         ->disableOriginalConstructor()
         ->getMock();
 

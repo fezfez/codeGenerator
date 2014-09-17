@@ -19,13 +19,16 @@ namespace CrudGenerator\Generators\Installer;
 
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Utils\OutputWeb;
-use Composer\Command\UpdateCommand;
+use Composer\Command\RequireCommand;
+use Composer\Command\InstallCommand;
 use Composer\Command\Helper\DialogHelper;
 use Composer\IO\ConsoleIO;
 use Composer\Factory;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProgressHelper;
 use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputDefinition;
 
 /**
  *
@@ -39,13 +42,11 @@ class GeneratorInstallerFactory
      */
     public static function getInstance(ContextInterface $context)
     {
+        $requireCommand = new RequireCommand();
+        $requireCommand->ignoreValidationErrors();
 
-        putenv("COMPOSER_HOME=" . getenv('HOME') . "/.composer");
-
-        $command = new UpdateCommand();
-
-        $definition = $command->getDefinition();
-
+        $definition = $requireCommand->getDefinition();
+        $definition->addOption(new InputOption('verbose'));
         $input = new ArrayInput(array(), $definition);
         $input->setInteractive(false);
 
@@ -59,13 +60,13 @@ class GeneratorInstallerFactory
         $io->enableDebugging(time());
 
         $composer = Factory::create($io, null, true);
-        $command->setIO($io);
-        $command->setComposer($composer);
-        $command->setHelperSet($helper);
+        $requireCommand->setIO($io);
+        $requireCommand->setComposer($composer);
+        $requireCommand->setHelperSet($helper);
 
         return new GeneratorInstaller(
             $input,
-            $command,
+            $requireCommand,
             $output
         );
     }

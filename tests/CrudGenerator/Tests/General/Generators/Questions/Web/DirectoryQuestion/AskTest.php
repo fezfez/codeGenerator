@@ -9,7 +9,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {
-        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -26,7 +26,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
             'dirTwo'
         );
 
-        $fileManagerStub =  $this->getMockBuilder('CrudGenerator\Utils\FileManager')
+        $fileManagerStub = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -45,7 +45,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
     public function testOkWithCliInstance()
     {
-        $context =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
 

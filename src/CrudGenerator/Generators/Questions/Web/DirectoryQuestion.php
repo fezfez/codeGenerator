@@ -156,13 +156,6 @@ class DirectoryQuestion
     {
         // if we aren't in base directory, add back button
         if ('' !== $actualDirectory && null !== $actualDirectory) {
-            /*$back = str_replace(
-                array(getcwd() . DIRECTORY_SEPARATOR , getcwd()),
-                array('', ''),
-                realpath($actualDirectory . '..' . DIRECTORY_SEPARATOR)
-            );
-            $id = ($back !== '') ? $back . DIRECTORY_SEPARATOR : '';*/
-
             $responseCollection->append(
                 new PredefinedResponse(self::BACK, 'Back', self::BACK)
             );
