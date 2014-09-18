@@ -37,66 +37,49 @@ class QuestionAnalyser
      */
     public function checkIntegrity(array $question)
     {
-        if (isset($question['text']) === false) {
-            $this->throwException($question, 'text');
-        }
-        if (isset($question['dtoAttribute']) === false) {
-            $this->throwException($question, 'dtoAttribute');
-        }
+        $questionDefinition = $this->getDefinition();
+        $question           = $this->parseMandatory($questionDefinition, $question);
+        $question           = $this->parseOptional($questionDefinition, $question);
+        $question           = $this->parseIsType($questionDefinition, $question);
+
         $question['setter'] = 'set' . ucfirst($question['dtoAttribute']);
 
-        if (isset($question['required']) === false) {
-            $question['required'] = false;
-        }
-        if (isset($question['helpMessage']) === false) {
-            $question['helpMessage'] = null;
-        }
-
-        if (isset($question['responseType']) === false) {
-            $responseType = new QuestionResponseTypeEnum();
-        } else {
-            try {
-                $responseType = new QuestionResponseTypeEnum($question['responseType']);
-            } catch (\UnexpectedValueException $e) {
-                throw new MalformedGeneratorException($e->getMessage());
-            }
-        }
-        $question['responseType'] = $responseType;
-
-        if (isset($question['type']) === false) {
-            $type = new QuestionTypeEnum();
-        } else {
-            try {
-                $type = new QuestionTypeEnum($question['type']);
-            } catch (\UnexpectedValueException $e) {
-                throw new MalformedGeneratorException($e->getMessage());
-            }
-        }
-        $question['type'] = $type;
-
-        if ($question['type']->is(QuestionTypeEnum::COMPLEX)) {
-            if (isset($question['factory']) === false) {
-                $this->throwException($question, 'factory');
-            }
-        } elseif ($question['type']->is(QuestionTypeEnum::ITERATOR) ||
-                $question['type']->is(QuestionTypeEnum::ITERATOR_WITH_PREDEFINED_RESPONSE)
-        ) {
-            if (isset($question['collection']) === false) {
-                $this->throwException($question, 'collection');
-            }
-
-            if (isset($question['origine']) === false) {
-                $this->throwException($question, 'origine');
-            }
-
             if ($question['type']->is(QuestionTypeEnum::ITERATOR_WITH_PREDEFINED_RESPONSE) === true) {
-                if (isset($question['predefinedResponse']) === false) {
-                    $this->throwException($question, 'predefinedResponse');
-                }
                 if (is_array($question['predefinedResponse']) === false) {
                     throw new MalformedGeneratorException(
                         sprintf('"predefinedResponse" must be an array in %s', json_encode($question))
                     );
+                }
+            }
+
+        return $question;
+    }
+
+    /**
+     * @param array $questionDefinition
+     * @param array $question
+     * @throws \InvalidArgumentException
+     * @throws MalformedGeneratorException
+     * @return array
+     */
+    private function parseOptional(array $questionDefinition, array $question)
+    {
+        foreach ($questionDefinition['optional'] as $tag => $definition) {
+            if (isset($question[$tag]) === false) {
+                if (array_key_exists('default', $definition) === true) {
+                    $question[$tag] = $definition['default'];
+                } elseif (array_key_exists('enum', $definition) === true) {
+                    $question[$tag] = new $definition['enum']();
+                } else {
+                    throw new \InvalidArgumentException(
+                    	sprintf('No default and no enum for %s %s', $tag, json_encode($definition))
+                    );
+                }
+            } elseif (isset($definition['enum']) === true) {
+                try {
+                    $question[$tag] = new $definition['enum']($question[$tag]);
+                } catch (\UnexpectedValueException $e) {
+                    throw new MalformedGeneratorException($e->getMessage());
                 }
             }
         }
@@ -105,11 +88,88 @@ class QuestionAnalyser
     }
 
     /**
-     * @param string $question
+     * @param array $questionDefinition
+     * @param array $question
+     * @return array
+     */
+    private function parseMandatory(array $questionDefinition, array $question)
+    {
+        foreach ($questionDefinition['mandatory'] as $tag) {
+            if (isset($question[$tag]) === false) {
+                $this->throwException($question, $tag);
+            }
+        }
+
+        return $question;
+    }
+
+    /**
+     * @param array $questionDefinition
+     * @param array $question
+     * @return array
+     */
+    private function parseIsType(array $questionDefinition, array $question)
+    {
+        foreach ($questionDefinition['isTypeIs'] as $type => $definition) {
+            if ($question['type']->is($type)) {
+                foreach ($definition as $mandatory) {
+                    if (isset($question[$mandatory]) === false) {
+                        $this->throwException($question, $mandatory);
+                    }
+                }
+            }
+        }
+
+        return $question;
+    }
+
+    /**
+     * @return array
+     */
+    private function getDefinition()
+    {
+        return array(
+            'mandatory' => array(
+                'text',
+                'dtoAttribute'
+            ),
+            'optional' => array(
+                'required' => array(
+                    'default' => false
+                ),
+                'helpMessage' => array(
+                    'default' => null
+                ),
+                'responseType' => array(
+                    'enum' => 'CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum'
+                ),
+                'type' => array(
+                    'enum' => 'CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum'
+                )
+            ),
+            'isTypeIs' => array(
+                QuestionTypeEnum::COMPLEX => array(
+                    'factory'
+                ),
+                QuestionTypeEnum::ITERATOR => array(
+                    'collection',
+                    'origine'
+                ),
+                QuestionTypeEnum::ITERATOR_WITH_PREDEFINED_RESPONSE => array(
+                    'collection',
+                    'origine',
+                    'predefinedResponse'
+                )
+            )
+        );
+    }
+
+    /**
+     * @param array $question
      * @param string $missingAttr
      * @throws MalformedGeneratorException
      */
-    private function throwException($question, $missingAttr)
+    private function throwException(array $question, $missingAttr)
     {
         throw new MalformedGeneratorException(
             sprintf(

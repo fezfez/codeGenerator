@@ -116,29 +116,31 @@ class QuestionParser implements ParserInterface
                     $process
                 );
             }
-        }
+        } else {
 
-        $question  = $this->questionAnalyser->checkIntegrity($question);
-        $generator = $generator->getDto()->register($question['dtoAttribute'], $question['responseType']);
-        $isParsed  = false;
+            $question  = $this->questionAnalyser->checkIntegrity($question);
+            $isParsed  = false;
 
-        foreach ($this->questionTypeCollection as $questionTypeParser) {
-            /* @var $questionTypeParser \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeInterface */
-            if ($question['type']->is($questionTypeParser->getType()) === true) {
-                $generator = $questionTypeParser->evaluateQuestion(
-                    $question,
-                    $parser,
-                    $generator,
-                    $firstIteration,
-                    $process
-                );
-                $isParsed  = true;
-                break;
+            $generator->getDto()->register($question['dtoAttribute'], $question['responseType']);
+
+            foreach ($this->questionTypeCollection as $questionTypeParser) {
+                /* @var $questionTypeParser \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeInterface */
+                if ($question['type']->is($questionTypeParser->getType()) === true) {
+                    $generator = $questionTypeParser->evaluateQuestion(
+                        $question,
+                        $parser,
+                        $generator,
+                        $firstIteration,
+                        $process
+                    );
+                    $isParsed  = true;
+                    break;
+                }
             }
-        }
 
-        if ($isParsed === false) {
-            throw new \LogicException(sprintf('The question type "%s" havent found his parser', $question['type']));
+            if ($isParsed === false) {
+                throw new \LogicException(sprintf('The question type "%s" havent found his parser', $question['type']));
+            }
         }
 
         return $generator;

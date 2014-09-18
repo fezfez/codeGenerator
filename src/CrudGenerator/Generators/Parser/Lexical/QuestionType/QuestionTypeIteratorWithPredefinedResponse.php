@@ -24,6 +24,7 @@ use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
 use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
+use CrudGenerator\Utils\StaticPhp;
 
 class QuestionTypeIteratorWithPredefinedResponse implements QuestionTypeInterface
 {

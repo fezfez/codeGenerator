@@ -20,43 +20,25 @@ namespace CrudGenerator\Generators\Parser\Lexical\QuestionType;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
+use CrudGenerator\Utils\StaticPhp;
 
-class QuestionTypeComplex implements QuestionTypeInterface
+class QuestionTypeCollectionFactory
 {
     /**
-     * @var ContextInterface
-     */
-    private $context = null;
-
-    /**
      * @param ContextInterface $context
+     * @return QuestionTypeCollection
      */
-    public function __construct(ContextInterface $context)
+    public static function getInstance(ContextInterface $context)
     {
-        $this->context = $context;
-    }
+    	$staticPhp              = new StaticPhp();
+        $questionTypeCollection = new QuestionTypeCollection();
 
-    /* (non-PHPdoc)
-     * @see \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeInterface::evaluateQuestion()
-     */
-    public function evaluateQuestion(
-        array $question,
-        PhpStringParser $parser,
-        GeneratorDataObject $generator,
-        $firstIteration,
-        array $process
-    ) {
-        $complex = $question['factory']::getInstance($this->context);
+        $questionTypeCollection->append(new QuestionTypeSimple($context))
+                               ->append(new QuestionTypeIterator($context, $staticPhp))
+                               ->append(new QuestionTypeIteratorWithPredefinedResponse($context, $staticPhp))
+                               ->append(new QuestionTypeDirectory($context))
+                               ->append(new QuestionTypeComplex($context));
 
-        return $complex->ask($generator, $question);
-    }
-
-    /* (non-PHPdoc)
-     * @see \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeInterface::getType()
-     */
-    public function getType()
-    {
-        return QuestionTypeEnum::COMPLEX;
+        return $questionTypeCollection;
     }
 }

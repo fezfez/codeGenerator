@@ -36,6 +36,7 @@ use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeDirectory;
 use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeComplex;
 use CrudGenerator\Generators\Parser\Lexical\QuestionAnalyser;
 use CrudGenerator\Utils\StaticPhp;
+use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeCollectionFactory;
 
 class ParserCollectionFactory
 {
@@ -51,14 +52,6 @@ class ParserCollectionFactory
             $collection            = new ParserCollection();
             $environnemetCondition = new EnvironnementCondition();
             $dependencyCondition   = new DependencyCondition();
-            $staticPhp             = new StaticPhp();
-
-            $questionTypeCollection = new QuestionTypeCollection();
-            $questionTypeCollection->append(new QuestionTypeSimple($context))
-                                   ->append(new QuestionTypeIterator($context, $staticPhp))
-                                   ->append(new QuestionTypeIteratorWithPredefinedResponse($context, $staticPhp))
-                                   ->append(new QuestionTypeDirectory($context))
-                                   ->append(new QuestionTypeComplex($context));
 
             $collection->addPreParse(new EnvironnementParser($context))
                        ->addPostParse(new TemplateVariableParser($environnemetCondition, $dependencyCondition))
@@ -68,7 +61,7 @@ class ParserCollectionFactory
                            new QuestionParser(
                                $context,
                                $dependencyCondition,
-                               $questionTypeCollection,
+                               QuestionTypeCollectionFactory::getInstance($context),
                                new QuestionAnalyser()
                            )
                        );

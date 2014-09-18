@@ -38,10 +38,12 @@ class StaticPhp
     public function phpInterpretStatic($text, array $variableVariable)
     {
         $textExplode  = explode('->', $text);
-        $variableName = array_shift($textExplode);
+        $variableName = str_replace('$', '', array_shift($textExplode));
 
         if (isset($variableVariable[$variableName]) === false) {
-            throw new \InvalidArgumentException(sprintf('var %s does not exist', $variableName));
+            throw new \InvalidArgumentException(
+                sprintf('variable %s does not exist', $variableName)
+            );
         }
 
         $textExplode = array_map(
@@ -52,7 +54,8 @@ class StaticPhp
         );
 
         $instance = $variableVariable[$variableName];
-        $lastKey  = end(array_keys($textExplode));
+        $keys     = array_values($textExplode);
+        $lastKey  = array_pop($keys);
 
         foreach ($textExplode as $key => $method) {
             if ($instance === null && $lastKey !== $key) {
