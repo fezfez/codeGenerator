@@ -91,7 +91,7 @@ class QuestionTypeIteratorWithPredefinedResponse implements QuestionTypeInterfac
             }
 
             $questionWithPredefinedResponse = new QuestionWithPredefinedResponse(
-                $this->staticsprintf($question['text'], array('iteration' => $iteration)),
+                $this->staticPhp->staticsprintf($question['text'], array('iteration' => $iteration)),
                 'set_predefined_' . ucfirst($question['dtoAttribute']) . $origine,
                 $responseCollection
             );

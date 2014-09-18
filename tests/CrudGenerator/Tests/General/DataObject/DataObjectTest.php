@@ -35,7 +35,7 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
             $dataObject->getEnvironnement('framework')
         );
 
-        $this->setExpectedException('InvalidArgumentException');
+        $this->setExpectedException('CrudGenerator\EnvironnementNotDefinedException');
         $dataObject->getEnvironnement('exception');
     }
 }

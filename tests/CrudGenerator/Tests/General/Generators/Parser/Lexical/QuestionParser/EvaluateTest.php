@@ -6,6 +6,8 @@ use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\DataObject;
 use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
+use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeCollectionFactory;
+use CrudGenerator\Generators\Parser\Lexical\QuestionAnalyser;
 
 class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,7 +27,12 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new QuestionParser($context, $dependencyCondition);
+        $sUT = new QuestionParser(
+            $context,
+            $dependencyCondition,
+            QuestionTypeCollectionFactory::getInstance($context),
+            new QuestionAnalyser()
+        );
 
         $generator = new GeneratorDataObject();
         $generator->setDto(new DataObject());
@@ -56,7 +63,12 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new QuestionParser($context, $dependencyCondition);
+        $sUT = new QuestionParser(
+            $context,
+            $dependencyCondition,
+            QuestionTypeCollectionFactory::getInstance($context),
+            new QuestionAnalyser()
+        );
 
         $generator = new GeneratorDataObject();
         $generator->setDto(new DataObject());
@@ -110,7 +122,12 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
             )
         ));
 
-        $sUT = new QuestionParser($context, $dependencyCondition);
+        $sUT = new QuestionParser(
+            $context,
+            $dependencyCondition,
+            QuestionTypeCollectionFactory::getInstance($context),
+            new QuestionAnalyser()
+        );
 
         $generator = new GeneratorDataObject();
         $generator->setDto(new DataObject());
@@ -128,6 +145,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
                 ),
                 array(
                     'dtoAttribute' => 'test',
+                    'text'         => 'test',
                     'type'         => QuestionTypeEnum::COMPLEX,
                     'factory'      => 'CrudGenerator\Tests\General\Generators\Parser\Lexical\MyFakeQuestionFactory'
                 )

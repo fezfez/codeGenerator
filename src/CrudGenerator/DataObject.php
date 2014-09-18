@@ -18,6 +18,7 @@
 namespace CrudGenerator;
 
 use CrudGenerator\MetaData\DataObject\MetaDataInterface;
+use CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum;
 
 /**
  * Base representation for template generation
@@ -169,12 +170,14 @@ class DataObject implements \JsonSerializable
 
     /**
      * @param string $dtoAttribute
-     * @param string $type
+     * @param QuestionResponseTypeEnum $type
      * @return \CrudGenerator\DataObject
      */
-    public function register($dtoAttribute, $type)
+    public function register($dtoAttribute, QuestionResponseTypeEnum $type)
     {
-        if ($type === 'collection') {
+        if ($type->is(QuestionResponseTypeEnum::COLLECTION_BOOLEAN) === true ||
+            $type->is(QuestionResponseTypeEnum::COLLECTION_TEXT) === true
+        ) {
             $realType = array();
         } else {
             $realType = null;

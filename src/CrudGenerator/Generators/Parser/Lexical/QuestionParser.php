@@ -120,8 +120,10 @@ class QuestionParser implements ParserInterface
 
             $question  = $this->questionAnalyser->checkIntegrity($question);
             $isParsed  = false;
+            $dto       = $generator->getDto();
 
-            $generator->getDto()->register($question['dtoAttribute'], $question['responseType']);
+            $dto->register($question['dtoAttribute'], $question['responseType']);
+            $generator->setDto($dto);
 
             foreach ($this->questionTypeCollection as $questionTypeParser) {
                 /* @var $questionTypeParser \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeInterface */
