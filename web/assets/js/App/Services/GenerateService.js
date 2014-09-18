@@ -14,11 +14,12 @@ define(["App/App", "Corp/Context/Context"], function(app, Context) {
             }
 
             var datas =  $.param({
-                backend   : context.getBackend(),
-                metadata  : context.getMetadata(),
-                generator : context.getGenerator(),
-                questions : context.getQuestion(),
-                conflict  : $('.conflict_handle').serialize(),
+                backend        : context.getBackend(),
+                metadata       : context.getMetadata(),
+                generator      : context.getGenerator(),
+                questions      : context.getQuestion(),
+                conflict       : $('.conflict_handle').serialize(),
+                generate       : true,
                 generate_files : true
             });
 

@@ -8,7 +8,7 @@ class GenerateFileTest extends \PHPUnit_Framework_TestCase
 {
     public function testOnFile()
     {
-        $context =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -50,7 +50,7 @@ class GenerateFileTest extends \PHPUnit_Framework_TestCase
 
     public function testOnFileException()
     {
-        $context =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
 

@@ -18,6 +18,7 @@
 namespace CrudGenerator\View;
 
 use CrudGenerator\View\ViewRendererException;
+use CrudGenerator\EnvironnementNotDefinedException;
 
 /**
  * Template renderer
@@ -53,6 +54,9 @@ class ViewRenderer
             ob_start();
             include $path . $templateName;
             $content = ob_get_clean();
+        } catch(EnvironnementNotDefinedException $e) {
+            ob_end_clean();
+            throw new ViewRendererException($e->getMessage());
         } catch (\Exception $ex) {
             ob_end_clean();
             throw new ViewRendererException(

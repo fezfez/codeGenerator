@@ -17,7 +17,7 @@
  */
 namespace CrudGenerator;
 
-use CrudGenerator\MetaData\DataObject\MetaData;
+use CrudGenerator\MetaData\DataObject\MetaDataInterface;
 
 /**
  * Base representation for template generation
@@ -27,7 +27,7 @@ use CrudGenerator\MetaData\DataObject\MetaData;
 class DataObject implements \JsonSerializable
 {
     /**
-     * @var MetaData Metadata object
+     * @var MetaDataInterface Metadata object
      */
     private $metadata = null;
     /**
@@ -41,10 +41,10 @@ class DataObject implements \JsonSerializable
 
     /**
      * Set MetaData
-     * @param MetaData $value
+     * @param MetaDataInterface $value
      * @return \CrudGenerator\DataObject
      */
-    public function setMetadata(MetaData $value)
+    public function setMetadata(MetaDataInterface $value)
     {
         $this->metadata = $value;
         return $this;
@@ -63,7 +63,7 @@ class DataObject implements \JsonSerializable
     /**
      * Get MetaData
      *
-     * @return \CrudGenerator\MetaData\DataObject\MetaData
+     * @return \CrudGenerator\MetaData\DataObject\MetaDataInterface
      */
     public function getMetadata()
     {
@@ -79,9 +79,9 @@ class DataObject implements \JsonSerializable
     public function getEnvironnement($environnement)
     {
         if (false === isset($this->environnement[$environnement])) {
-            throw new \InvalidArgumentException(
+            throw new EnvironnementNotDefinedException(
                 sprintf(
-                    'Environnement "%s" not defined',
+                    'Environnement "%s" not defined, please answer this question before preview',
                     $environnement
                 )
             );

@@ -28,6 +28,14 @@ use CrudGenerator\Generators\Parser\Lexical\QuestionParser;
 use CrudGenerator\Generators\Parser\Lexical\EnvironnementParser;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
+use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeCollection;
+use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeSimple;
+use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeIterator;
+use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeIteratorWithPredefinedResponse;
+use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeDirectory;
+use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeComplex;
+use CrudGenerator\Generators\Parser\Lexical\QuestionAnalyser;
+use CrudGenerator\Utils\StaticPhp;
 
 class ParserCollectionFactory
 {
@@ -43,12 +51,27 @@ class ParserCollectionFactory
             $collection            = new ParserCollection();
             $environnemetCondition = new EnvironnementCondition();
             $dependencyCondition   = new DependencyCondition();
+            $staticPhp             = new StaticPhp();
+
+            $questionTypeCollection = new QuestionTypeCollection();
+            $questionTypeCollection->append(new QuestionTypeSimple($context))
+                                   ->append(new QuestionTypeIterator($context, $staticPhp))
+                                   ->append(new QuestionTypeIteratorWithPredefinedResponse($context, $staticPhp))
+                                   ->append(new QuestionTypeDirectory($context))
+                                   ->append(new QuestionTypeComplex($context));
 
             $collection->addPreParse(new EnvironnementParser($context))
-                       ->addPostParse(new QuestionParser($context, $dependencyCondition))
                        ->addPostParse(new TemplateVariableParser($environnemetCondition, $dependencyCondition))
                        ->addPostParse(new DirectoriesParser())
-                       ->addPostParse(new FileParser($fileManager, $dependencyCondition, $environnemetCondition));
+                       ->addPostParse(new FileParser($fileManager, $dependencyCondition, $environnemetCondition))
+                       ->addPostParse(
+                           new QuestionParser(
+                               $context,
+                               $dependencyCondition,
+                               $questionTypeCollection,
+                               new QuestionAnalyser()
+                           )
+                       );
 
             return $collection;
         } else {

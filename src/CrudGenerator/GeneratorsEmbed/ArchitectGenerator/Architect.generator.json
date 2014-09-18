@@ -40,7 +40,8 @@
     {
       "dtoAttribute": "Namespace",
       "text": "Choose a target namespace",
-      "responseType": "text"
+      "responseType": "text",
+      "defaultResponse" : "Corp"
     },
     {
       "dtoAttribute": "ServiceLayer",

@@ -9,7 +9,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
 {
     public function testConflict()
     {
-        $context =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -53,7 +53,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
 
     public function testOk()
     {
-        $context =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
 

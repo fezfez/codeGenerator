@@ -9,7 +9,7 @@ class AnalyseTest extends \PHPUnit_Framework_TestCase
 {
     public function testPdoWithZend2()
     {
-        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -46,7 +46,7 @@ class AnalyseTest extends \PHPUnit_Framework_TestCase
 
     public function testOkDoctrine2WithZend2()
     {
-        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()
         ->getMock();
 

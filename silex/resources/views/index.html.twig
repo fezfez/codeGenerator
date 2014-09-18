@@ -63,7 +63,7 @@
                                    class="form-control question"
                                    type="text"
                                    name="{{ question.dtoAttribute }}"
-                                   value="{{ (question.value) ? question.value : question.defaultResponse }}"
+                                   ng-init="answers[question.dtoAttribute] = (question.value !== undefined) ? question.value : question.defaultResponse "
                                    placeholder="{{ question.text }}" />
                             <input ng-if="question.type == 'boolean'"
                                    ng-blur="setQuestion(question.dtoAttribute)"
@@ -72,7 +72,7 @@
                                    class="form-control question"
                                    type="checkbox"
                                    name="{{ question.dtoAttribute }}"
-                                   value="{{ (question.value) ? question.value : question.defaultResponse }}" />
+                                   ng-init="answers[question.dtoAttribute] = (question.value !== undefined) ? question.value : question.defaultResponse" />
                             <input type="file"
                                    ng-if="question.type == 'directory'"
                                     id="{{ question.dtoAttribute }}"
