@@ -33,7 +33,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $HistoryCollection->append($history);
 
-        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -58,7 +58,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
     public function testEmptyHistory()
     {
-        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()
         ->getMock();
         $context->expects($this->any())
@@ -67,7 +67,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $HistoryCollection = new HistoryCollection();
 
-        $HistoryStub =  $this->getMockBuilder('CrudGenerator\History\HistoryManager')
+        $HistoryStub = $this->getMockBuilder('CrudGenerator\History\HistoryManager')
         ->disableOriginalConstructor()
         ->getMock();
         $HistoryStub->expects($this->once())

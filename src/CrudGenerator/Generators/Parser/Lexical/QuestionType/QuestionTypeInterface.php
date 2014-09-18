@@ -15,26 +15,32 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\Parser\Lexical;
+namespace CrudGenerator\Generators\Parser\Lexical\QuestionType;
 
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 
-interface QuestionInterface
+interface QuestionTypeInterface
 {
     /**
-     * @param array $process
+     * @param array $question
      * @param PhpStringParser $parser
      * @param GeneratorDataObject $generator
-     * @param array $questions
      * @param boolean $firstIteration
-     * @return Generator
+     * @param array $process
+     *
+     * @return GeneratorDataObject
      */
-    public function evaluateQuestions(
-        array $process,
+    public function evaluateQuestion(
+        array $question,
         PhpStringParser $parser,
         GeneratorDataObject $generator,
-        array $questions,
-        $firstIteration
+        $firstIteration,
+        array $process
     );
-}
+
+    /**
+     * @return string
+     */
+    public function getType();
+};

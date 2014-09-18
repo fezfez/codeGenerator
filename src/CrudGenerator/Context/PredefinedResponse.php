@@ -43,7 +43,7 @@ class PredefinedResponse
     /**
      * @param string $id
      * @param string $label
-     * @param string $response
+     * @param mixed $response
      */
     public function __construct($id, $label, $response)
     {

@@ -7,7 +7,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstance()
     {
-        $context =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -19,7 +19,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 
     public function testInstanceWeb()
     {
-        $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()
         ->getMock();
 

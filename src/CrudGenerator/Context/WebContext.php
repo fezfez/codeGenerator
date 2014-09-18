@@ -108,7 +108,9 @@ class WebContext implements ContextInterface, \JsonSerializable
             'type'            => $type
         );
 
-        return $this->getResponse($key);
+        $response = $this->getResponse($key);
+
+        return ($response !== null) ? $response : $defaultResponse;
     }
 
     /* (non-PHPdoc)

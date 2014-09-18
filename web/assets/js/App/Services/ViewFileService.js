@@ -24,6 +24,7 @@ define(['App/App', 'Corp/Context/Context', 'Corp/File/FileDataObject'], function
                 skeletonPath     : file.getSkeletonPath(),
                 file_to_generate : file.getTemplate(),
                 view_file        : true,
+                generate         : true
             }) + '&' + $.param(context.getQuestion());
 
             $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';

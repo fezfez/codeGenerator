@@ -7,15 +7,15 @@ class LogTest extends \PHPUnit_Framework_TestCase
 {
     public function testLogIsCorrectlyCall()
     {
-        $outputStub =  $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
+        $outputStub = $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $inputStub =  $this->getMockBuilder('Symfony\Component\Console\Input\ArrayInput')
+        $inputStub = $this->getMockBuilder('Symfony\Component\Console\Input\ArrayInput')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $questionHelper =  $this->getMockBuilder('Symfony\Component\Console\Helper\QuestionHelper')
+        $questionHelper = $this->getMockBuilder('Symfony\Component\Console\Helper\QuestionHelper')
         ->disableOriginalConstructor()
         ->getMock();
 
