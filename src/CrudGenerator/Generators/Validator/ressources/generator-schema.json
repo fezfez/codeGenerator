@@ -1,0 +1,210 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://jsonschema.net#",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "name": {
+      "id": "http://jsonschema.net/name#",
+      "type": "string",
+      "additionalProperties": false,
+      "description": "The name of the generator",
+      "minLength":1
+    },
+    "definition": {
+      "id": "http://jsonschema.net/definition#",
+      "type": "string",
+      "additionalProperties": false,
+      "description": "The description of the generator",
+      "minLength":1
+    },
+    "metadataTypeAccepted": {
+      "id": "http://jsonschema.net/metadataTypeAccepted#",
+      "type": "array",
+      "additionalProperties": false,
+      "description": "The list of the metadataType allowed in this generator",
+      "minItems": 1,
+      "items": {
+        "id": "http://jsonschema.net/metadataTypeAccepted/0#",
+        "type": "string",
+        "default": "",
+        "additionalProperties": false,
+        "minLength":1
+      }
+    },
+    "questions": {
+      "id": "http://jsonschema.net/questions#",
+      "type": "array",
+      "additionalProperties": false,
+      "items": {
+        "id": "http://jsonschema.net/questions/0#",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "id": "http://jsonschema.net/questions/0/type#",
+            "type": "string",
+            "additionalProperties": false,
+            "description": "The question type"
+          },
+          "text": {
+            "id": "http://jsonschema.net/questions/0/text#",
+            "type": "string",
+            "default": "",
+            "additionalProperties": false,
+            "minLength":1
+          },
+          "dtoAttribute": {
+            "id": "http://jsonschema.net/questions/0/dtoAttribute#",
+            "type": "string",
+            "default": "",
+            "additionalProperties": false,
+            "minLength":1
+          },
+          "responseType": {
+            "id": "http://jsonschema.net/questions/0/responseType#",
+            "type": "string",
+            "default": "",
+            "additionalProperties": false
+          },
+          "defaultResponse": {
+            "id": "http://jsonschema.net/questions/0/defaultResponse#",
+            "type": "string",
+            "default": "",
+            "additionalProperties": false
+          },
+          "collection": {
+            "id": "http://jsonschema.net/questions/0/collection#",
+            "type": "string",
+            "default": "",
+            "additionalProperties": false
+          },
+          "origine": {
+            "id": "http://jsonschema.net/questions/0/origine#",
+            "type": "string",
+            "default": "",
+            "additionalProperties": false
+          },
+          "dependencyCondition": {
+            "id": "http://jsonschema.net/questions/0/dependencyCondition#",
+            "type": "string",
+            "default": "",
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "text",
+          "dtoAttribute"
+        ]
+      },
+      "required": [
+        "0"
+      ]
+    },
+    "directories": {
+      "id": "http://jsonschema.net/directories#",
+      "type": "array",
+      "additionalProperties": false,
+      "items": {
+        "id": "http://jsonschema.net/directories/0#",
+        "type": "string",
+        "default": "",
+        "additionalProperties": false
+      },
+      "required": [
+        "0"
+      ]
+    },
+    "templateVariables": {
+      "id": "http://jsonschema.net/templateVariables#",
+      "type": "array",
+      "additionalProperties": false,
+      "items": {
+        "id": "http://jsonschema.net/templateVariables/0#",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "variableName": {
+            "id": "http://jsonschema.net/templateVariables/0/variableName#",
+            "type": "string",
+            "default": "",
+            "additionalProperties": false,
+            "minLength":1
+          },
+          "value": {
+            "id": "http://jsonschema.net/templateVariables/0/value#",
+            "type": "string",
+            "default": "",
+            "additionalProperties": false,
+            "minLength":1
+          },
+          "dependencyCondition": {
+            "id": "http://jsonschema.net/templateVariables/0/dependencyCondition#",
+            "type": "string",
+            "default": "",
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "variableName",
+          "value"
+        ]
+      },
+      "required": [
+        "0"
+      ]
+    },
+    "filesList": {
+      "id": "http://jsonschema.net/filesList#",
+      "type": "array",
+      "additionalProperties": false,
+      "minItems": 1,
+      "items": {
+        "id": "http://jsonschema.net/filesList/0#",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "templatePath": {
+            "id": "http://jsonschema.net/filesList/0/templatePath#",
+            "type": "string",
+            "default": "",
+            "additionalProperties": false,
+            "minLength":1
+          },
+          "destinationPath": {
+            "id": "http://jsonschema.net/filesList/0/destinationPath#",
+            "type": "string",
+            "default": "",
+            "additionalProperties": false,
+            "minLength":1
+          },
+          "description": {
+            "id": "http://jsonschema.net/filesList/0/description#",
+            "type": "string",
+            "default": "",
+            "additionalProperties": false
+          },
+          "dependencyCondition": {
+            "id": "http://jsonschema.net/filesList/0/dependencyCondition#",
+            "type": "string",
+            "default": "",
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "templatePath",
+          "destinationPath"
+        ]
+      }
+    }
+  },
+  "required": [
+    "name",
+    "definition",
+    "metadataTypeAccepted",
+    "questions",
+    "directories",
+    "templateVariables",
+    "filesList"
+  ]
+}

@@ -22,42 +22,15 @@ use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
 
-class EnvironnementCondition implements ParserInterface
+class EnvironnementCondition implements ConditionInterface
 {
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
      */
-    public function evaluate(
-        array $environnementNode,
-        PhpStringParser $parser,
-        GeneratorDataObject $generator,
-        $firstIteration
+    public function isValid(
+        $expression,
+        GeneratorDataObject $generator
     ) {
-        $matches = array();
-
-        foreach ($environnementNode as $environnementNodes) {
-            foreach ($environnementNodes as $expression => $toDoIfValidExpression) {
-                $matches = array_merge(
-                    $matches,
-                    $this->analyseExpression($expression, $toDoIfValidExpression, $generator)
-                );
-            }
-        }
-
-         return $matches;
-    }
-
-    /**
-     * @param string $expression
-     * @param array $toDoIfValidExpression
-     * @param GeneratorDataObject $generator
-     * @throws \InvalidArgumentException
-     * @return array
-     */
-    private function analyseExpression($expression, $toDoIfValidExpression, $generator)
-    {
-        $matches = array();
-
         try {
             $comparaisonDifferentEquals = $this->analyseExpressionType($expression, GeneratorParser::DIFFERENT_EQUAL);
             $addEnvironnementExpression = (
@@ -72,13 +45,7 @@ class EnvironnementCondition implements ParserInterface
             );
         }
 
-        if (true === $addEnvironnementExpression) {
-            foreach ($toDoIfValidExpression as $dependency) {
-                $matches[] = $dependency;
-            }
-        }
-
-        return $matches;
+        return $addEnvironnementExpression;
     }
 
     /**

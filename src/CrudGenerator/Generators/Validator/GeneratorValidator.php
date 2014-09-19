@@ -15,35 +15,58 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\Finder;
+namespace CrudGenerator\Generators\Validator;
 
-use CrudGenerator\Generators\Finder\GeneratorFinder;
-use CrudGenerator\Utils\TranstyperFactory;
-use CrudGenerator\Utils\Installer;
-use CrudGenerator\Generators\GeneratorCompatibilityChecker;
-use CrudGenerator\Generators\Validator\GeneratorValidatorFactory;
+use JsonSchema\Uri\UriRetriever;
+use JsonSchema\Validator;
+use stdClass;
 
 /**
- * Create GeneratorFinder instance
  *
  * @author Stéphane Demonchaux
  */
-class GeneratorFinderFactory
+class GeneratorValidator
 {
     /**
-     * Create GeneratorFinder instance
-     *
-     * @return GeneratorFinderCache
+     * @var mixed
      */
-    public static function getInstance()
+    private $schema = null;
+    /**
+     * @var Validator
+     */
+    private $validator = null;
+
+    /**
+     * @param mixed $schema
+     * @param Validator $validator
+     */
+    public function __construct($schema, Validator $validator)
     {
-        return new GeneratorFinderCache(
-            new GeneratorFinder(
-                new GeneratorCompatibilityChecker(),
-                TranstyperFactory::getInstance(),
-                GeneratorValidatorFactory::getInstance()
-            ),
-            Installer::getDirectories()
-        );
+        $this->schema    = $schema;
+        $this->validator = $validator;
+    }
+
+    /**
+     * @param mixed $data
+     * @return boolean
+     */
+    public function isValid($data)
+    {
+        $this->validator->check($data, $this->schema);
+
+        return $this->validator->isValid();
+    }
+
+    /**
+     * @return multitype:
+     */
+    public function getErrors()
+    {
+        return $this->validator->getErrors();
+    }
+
+    public function reset()
+    {
+        $this->validator->reset();
     }
 }

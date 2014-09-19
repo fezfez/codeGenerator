@@ -48,7 +48,7 @@ class GeneratorFinderCache implements GeneratorFinderInterface
     {
         $this->generatorFinder = $generatorFinder;
         $this->directories     = $directories;
-        $this->noCache         = false;
+        $this->noCache         = $noCache;
     }
 
     /**

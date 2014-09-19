@@ -33,7 +33,8 @@
 		"composer/composer" : "1.0.*@dev",
 		"igorw/event-source" : "*",
 		"knplabs/github-api" : "~1.2",
-		"garoevans/php-enum" : "1.1.*"
+		"garoevans/php-enum" : "1.1.*",
+		"justinrainbow/json-schema" : "~1.3"
 	},
 	"require-dev" : {
 		"zendframework/zendframework" : "2.3.*",

@@ -37,8 +37,8 @@ class Transtyper
      *
      * @return mixed  A PHP value
      */
-    public function decode($string)
+    public function decode($string, $assoc = true)
     {
-        return json_decode($string, true);
+        return json_decode($string, $assoc);
     }
 }

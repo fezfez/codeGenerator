@@ -20,89 +20,58 @@ namespace CrudGenerator\Generators\Parser\Lexical\Condition;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
-use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
 
-class DependencyCondition implements ParserInterface
+class DependencyCondition implements ConditionInterface
 {
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
      */
-    public function evaluate(
-        array $dependencyNode,
-        PhpStringParser $parser,
-        GeneratorDataObject $generator,
-        $firstIteration
+    public function isValid(
+        $node,
+        GeneratorDataObject $generator
     ) {
-        $matches               = array();
-        $generatorDependencies = array();
+        $dependencies = array();
 
         foreach ($generator->getDependencies() as $dependency) {
-            $generatorDependencies[] = $dependency->getName();
+            $dependencies[] = $dependency->getName();
         }
 
-        foreach ($dependencyNode as $dependencyNodes) {
-            foreach ($dependencyNodes as $dependencyName => $dependencyList) {
-                  $matches = $this->checkDifferentCondition(
-                      $matches,
-                      $generatorDependencies,
-                      $dependencyList,
-                      $dependencyName
-                  );
-                  $matches = $this->checkEqualCondition(
-                      $matches,
-                      $generatorDependencies,
-                      $dependencyList,
-                      $dependencyName
-                  );
-             }
-         }
-
-         return $matches;
+        return $this->differentCondition($dependencies, $node) || $this->equalCondition($dependencies, $node);
     }
 
     /**
-     * @param array $matches
      * @param array $generatorDependencies
      * @param array $dependencyList
      * @param string $dependencyName
      * @return array
      */
-    private function checkDifferentCondition(
-        array $matches,
-        array $generatorDependencies,
-        array $dependencyList,
-        $dependencyName
-    ) {
+    private function differentCondition(array $generatorDependencies, $dependencyName)
+    {
+        $isTrue = false;
+
         if (substr($dependencyName, -strlen(GeneratorParser::UNDEFINED)) === GeneratorParser::UNDEFINED &&
             false === in_array(substr($dependencyName, 0, -count(GeneratorParser::UNDEFINED)), $generatorDependencies)
         ) {
-            foreach ($dependencyList as $dependency) {
-                $matches[] = $dependency;
-            }
+            $isTrue = true;
         }
 
-        return $matches;
+        return $isTrue;
     }
 
     /**
-     * @param array $matches
      * @param array $generatorDependencies
      * @param array $dependencyList
      * @param string $dependencyName
      * @return array
      */
-    private function checkEqualCondition(
-        array $matches,
-        array $generatorDependencies,
-        array $dependencyList,
-        $dependencyName
-    ) {
+    private function equalCondition(array $generatorDependencies, $dependencyName)
+    {
+        $isTrue = false;
+
         if (in_array($dependencyName, $generatorDependencies) === true) {
-            foreach ($dependencyList as $dependency) {
-                $matches[] = $dependency;
-            }
+            $isTrue = true;
         }
 
-        return $matches;
+        return $isTrue;
     }
 }

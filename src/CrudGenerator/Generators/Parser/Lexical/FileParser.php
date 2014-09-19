@@ -24,6 +24,7 @@ use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
 use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
+use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator;
 
 class FileParser implements ParserInterface
 {
@@ -32,27 +33,20 @@ class FileParser implements ParserInterface
      */
     private $fileManager = null;
     /**
-     * @var DependencyCondition
+     * @var ConditionValidator
      */
-    private $dependencyCondition = null;
-    /**
-     * @var EnvironnementCondition
-     */
-    private $environnementCondition = null;
+    private $conditionValidator = null;
 
     /**
      * @param FileManager $fileManager
-     * @param DependencyCondition $dependencyCondition
-     * @param EnvironnementCondition $environnementCondition
+     * @param ConditionValidator $conditionValidator
      */
     public function __construct(
         FileManager $fileManager,
-        DependencyCondition $dependencyCondition,
-        EnvironnementCondition $environnementCondition
+        ConditionValidator $conditionValidator
     ) {
-        $this->fileManager            = $fileManager;
-        $this->dependencyCondition    = $dependencyCondition;
-        $this->environnementCondition = $environnementCondition;
+        $this->fileManager        = $fileManager;
+        $this->conditionValidator = $conditionValidator;
     }
 
     /* (non-PHPdoc)
@@ -72,14 +66,16 @@ class FileParser implements ParserInterface
             throw new MalformedGeneratorException('No file given');
         }
 
-        foreach ($process['filesList'] as $files) {
-            if (false === is_array($files)) {
+        foreach ($process['filesList'] as $file) {
+            if (false === is_array($file)) {
                 throw new MalformedGeneratorException(
-                    sprintf('File excepts to be an array "%s" given', gettype($files))
+                    sprintf('File excepts to be an array "%s" given', gettype($file))
                 );
             }
 
-            $this->evaluateFile($files, $parser, $generator, (bool) $firstIteration, $skeletonPath);
+            if ($this->conditionValidator->isValid($file, $generator) === true) {
+                $this->evaluateFile($file, $parser, $generator, (bool) $firstIteration, $skeletonPath);
+            }
         }
 
         return $generator;
@@ -94,42 +90,16 @@ class FileParser implements ParserInterface
      * @return GeneratorDataObject
      */
     private function evaluateFile(
-        array $files,
+        array $file,
         PhpStringParser $parser,
         GeneratorDataObject $generator,
         $firstIteration,
         $skeletonPath
     ) {
-        foreach ($files as $templateName => $tragetFile) {
-            if($templateName === GeneratorParser::ENVIRONNEMENT_CONDITION) {
-
-                $matches = $this->environnementCondition->evaluate($tragetFile, $parser, $generator, $firstIteration);
-                foreach ($matches as $matchesEnvironnement) {
-                    $generator = $this->evaluateFile(
-                        $matchesEnvironnement,
-                        $parser,
-                        $generator,
-                        $firstIteration,
-                        $skeletonPath
-                    );
-                }
-            } elseif($templateName === GeneratorParser::DEPENDENCY_CONDITION) {
-                $matches = $this->dependencyCondition->evaluate($tragetFile, $parser, $generator, $firstIteration);
-
-                foreach ($matches as $matchesDependency) {
-                    $generator = $this->evaluateFile(
-                        $matchesDependency,
-                        $parser,
-                        $generator,
-                        $firstIteration,
-                        $skeletonPath
-                    );
-                }
-            } else {
-                $generator->addFile($skeletonPath, $templateName, $parser->parse($tragetFile));
-            }
-        }
-
-        return $generator;
+        return $generator->addFile(
+            $skeletonPath,
+            $file['templatePath'],
+            $parser->parse($file['destinationPath'])
+        );
     }
 }

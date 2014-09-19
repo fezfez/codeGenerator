@@ -23,28 +23,21 @@ use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
+use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator;
 
 class TemplateVariableParser implements ParserInterface
 {
     /**
-     * @var EnvironnementCondition
+     * @var ConditionValidator
      */
-    private $environnementCondition = null;
-    /**
-     * @var DependencyCondition
-     */
-    private $dependencyCondition = null;
+    private $conditionValidator = null;
 
     /**
-     * @param EnvironnementCondition $environnementCondition
-     * @param DependencyCondition $dependencyCondition
+     * @param ConditionValidator $conditionValidator
      */
-    public function __construct(
-        EnvironnementCondition $environnementCondition,
-        DependencyCondition $dependencyCondition
-    ) {
-        $this->environnementCondition = $environnementCondition;
-        $this->dependencyCondition    = $dependencyCondition;
+    public function __construct(ConditionValidator $conditionValidator)
+    {
+        $this->conditionValidator = $conditionValidator;
     }
 
     /* (non-PHPdoc)
@@ -53,13 +46,15 @@ class TemplateVariableParser implements ParserInterface
     public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
     {
         if (isset($process['templateVariables']) === true) {
-            foreach ($process['templateVariables'] as $variables) {
-                if (is_array($variables) === false) {
+            foreach ($process['templateVariables'] as $variable) {
+                if (is_array($variable) === false) {
                     throw new MalformedGeneratorException(
-                        sprintf('Variable excepts to be an array "%s" given', gettype($variables))
+                        sprintf('Variable excepts to be an array "%s" given', gettype($variable))
                     );
                 }
-                $this->evaluateVariable($variables, $parser, $generator, (bool) $firstIteration);
+                if ($this->conditionValidator->isValid($variable, $generator) === true) {
+                	$this->evaluateVariable($variable, $parser, $generator, (bool) $firstIteration);
+                }
             }
         }
 
@@ -74,28 +69,14 @@ class TemplateVariableParser implements ParserInterface
      * @return GeneratorDataObject
      */
     private function evaluateVariable(
-        array $variables,
+        array $variable,
         PhpStringParser $parser,
         GeneratorDataObject $generator,
         $firstIteration
     ) {
-        foreach ($variables as $varName => $value) {
-            if ($varName === GeneratorParser::DEPENDENCY_CONDITION) {
-                $matches = $this->dependencyCondition->evaluate($value, $parser, $generator, $firstIteration);
-                foreach ($matches as $matchesDependency) {
-                    $generator = $this->evaluateVariable($matchesDependency, $parser, $generator, $firstIteration);
-                }
-            } elseif ($varName === GeneratorParser::ENVIRONNEMENT_CONDITION) {
-                $matches = $this->environnementCondition->evaluate($value, $parser, $generator, $firstIteration);
-                foreach ($matches as $matchesEnvironnement) {
-                    $generator = $this->evaluateVariable($matchesEnvironnement, $parser, $generator, $firstIteration);
-                }
-            } else {
-                $variableValue = $parser->parse($value);
-                $parser->addVariable($varName, $variableValue);
-                $generator->addTemplateVariable($varName, $variableValue);
-            }
-        }
+        $variableValue = $parser->parse($variable['value']);
+        $parser->addVariable($variable['variableName'], $variableValue);
+        $generator->addTemplateVariable($variable['variableName'], $variableValue);
 
         return $generator;
     }

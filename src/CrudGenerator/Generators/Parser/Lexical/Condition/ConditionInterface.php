@@ -15,35 +15,15 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\Finder;
+namespace CrudGenerator\Generators\Parser\Lexical\Condition;
 
-use CrudGenerator\Generators\Finder\GeneratorFinder;
-use CrudGenerator\Utils\TranstyperFactory;
-use CrudGenerator\Utils\Installer;
-use CrudGenerator\Generators\GeneratorCompatibilityChecker;
-use CrudGenerator\Generators\Validator\GeneratorValidatorFactory;
+use CrudGenerator\Generators\GeneratorDataObject;
 
-/**
- * Create GeneratorFinder instance
- *
- * @author Stéphane Demonchaux
- */
-class GeneratorFinderFactory
+interface ConditionInterface
 {
     /**
-     * Create GeneratorFinder instance
-     *
-     * @return GeneratorFinderCache
+     * @param string $plainTextCondition
+     * @param GeneratorDataObject $generator
      */
-    public static function getInstance()
-    {
-        return new GeneratorFinderCache(
-            new GeneratorFinder(
-                new GeneratorCompatibilityChecker(),
-                TranstyperFactory::getInstance(),
-                GeneratorValidatorFactory::getInstance()
-            ),
-            Installer::getDirectories()
-        );
-    }
+    public function isValid($plainTextCondition, GeneratorDataObject $generator);
 }

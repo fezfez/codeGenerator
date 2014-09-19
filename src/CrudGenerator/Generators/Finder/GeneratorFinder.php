@@ -20,6 +20,7 @@ namespace CrudGenerator\Generators\Finder;
 use CrudGenerator\MetaData\DataObject\MetaDataInterface;
 use CrudGenerator\Generators\GeneratorCompatibilityChecker;
 use CrudGenerator\Utils\Transtyper;
+use CrudGenerator\Generators\Validator\GeneratorValidator;
 
 /**
  * Find all generator allow in project
@@ -37,6 +38,10 @@ class GeneratorFinder implements GeneratorFinderInterface
      */
     private $transtyper = null;
     /**
+     * @var GeneratorValidator
+     */
+    private $generatorValidator = null;
+    /**
      * @var array
      */
     private static $allClasses = null;
@@ -46,11 +51,16 @@ class GeneratorFinder implements GeneratorFinderInterface
      *
      * @param GeneratorCompatibilityChecker $compatibilityChecker
      * @param Transtyper $transtyper
+     * @param GeneratorValidator $generatorValidator
      */
-    public function __construct(GeneratorCompatibilityChecker $compatibilityChecker, Transtyper $transtyper)
-    {
+    public function __construct(
+        GeneratorCompatibilityChecker $compatibilityChecker,
+        Transtyper $transtyper,
+        GeneratorValidator $generatorValidator
+    ) {
         $this->compatibilityChecker = $compatibilityChecker;
         $this->transtyper           = $transtyper;
+        $this->generatorValidator   = $generatorValidator;
     }
 
     /**
@@ -72,17 +82,24 @@ class GeneratorFinder implements GeneratorFinderInterface
             );
 
             foreach ($iterator as $file) {
-                $process = $this->transtyper->decode(file_get_contents($file[0]));
+                $fileName = $file[0];
+                $rawData  = file_get_contents($fileName);
+                $data     = $this->transtyper->decode($rawData, false);
+                $process  = $this->transtyper->decode($rawData);
 
-                if ($metadata !== null) {
+                $this->generatorValidator->reset();
+
+                if ($this->generatorValidator->isValid($data) === false) {
+
+                } elseif ($metadata !== null) {
                     try {
                         $this->compatibilityChecker->metadataAllowedInGenerator($metadata, $process);
-                        $generators[$file[0]] = $process['name'];
+                        $generators[$fileName] = $process['name'];
                     } catch (\InvalidArgumentException $e) {
                         // Metdata not allowed with this generator
                     }
                 } else {
-                    $generators[$file[0]] = $process['name'];
+                    $generators[$fileName] = $process['name'];
                 }
             }
 

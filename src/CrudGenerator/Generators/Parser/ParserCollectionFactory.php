@@ -37,6 +37,7 @@ use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeComplex;
 use CrudGenerator\Generators\Parser\Lexical\QuestionAnalyser;
 use CrudGenerator\Utils\StaticPhp;
 use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeCollectionFactory;
+use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator;
 
 class ParserCollectionFactory
 {
@@ -52,15 +53,16 @@ class ParserCollectionFactory
             $collection            = new ParserCollection();
             $environnemetCondition = new EnvironnementCondition();
             $dependencyCondition   = new DependencyCondition();
+            $conditionValidation   = new ConditionValidator($dependencyCondition, $environnemetCondition);
 
             $collection->addPreParse(new EnvironnementParser($context))
-                       ->addPostParse(new TemplateVariableParser($environnemetCondition, $dependencyCondition))
+                       ->addPostParse(new TemplateVariableParser($conditionValidation))
                        ->addPostParse(new DirectoriesParser())
-                       ->addPostParse(new FileParser($fileManager, $dependencyCondition, $environnemetCondition))
+                       ->addPostParse(new FileParser($fileManager, $conditionValidation))
                        ->addPostParse(
                            new QuestionParser(
                                $context,
-                               $dependencyCondition,
+                               $conditionValidation,
                                QuestionTypeCollectionFactory::getInstance($context),
                                new QuestionAnalyser()
                            )

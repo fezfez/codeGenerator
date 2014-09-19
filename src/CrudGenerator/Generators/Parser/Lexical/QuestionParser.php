@@ -28,6 +28,7 @@ use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeCollection;
+use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator;
 
 class QuestionParser implements ParserInterface
 {
@@ -36,9 +37,9 @@ class QuestionParser implements ParserInterface
      */
     private $context = null;
     /**
-     * @var DependencyCondition
+     * @var ConditionValidator
      */
-    private $dependencyCondition = null;
+    private $conditionValidator = null;
     /**
      * @var QuestionTypeCollection
      */
@@ -50,18 +51,18 @@ class QuestionParser implements ParserInterface
 
     /**
      * @param ContextInterface $context
-     * @param DependencyCondition $dependencyCondition
-     * @param QuestionTypeCollection $questionTypeCollection
+     * @param ConditionValidator $dependencyCondition
+     * @param QuestionTypeCollection $conditionValidator
      * @param QuestionAnalyser $questionAnalyser
      */
     public function __construct(
         ContextInterface $context,
-        DependencyCondition $dependencyCondition,
+        ConditionValidator $conditionValidator,
         QuestionTypeCollection $questionTypeCollection,
         QuestionAnalyser $questionAnalyser
     ) {
         $this->context                = $context;
-        $this->dependencyCondition    = $dependencyCondition;
+        $this->conditionValidator     = $conditionValidator;
         $this->questionTypeCollection = $questionTypeCollection;
         $this->questionAnalyser       = $questionAnalyser;
     }
@@ -79,7 +80,9 @@ class QuestionParser implements ParserInterface
                     );
                 }
 
-                $generator = $this->evaluateQuestions($question, $parser, $generator, $firstIteration, $process);
+                if ($this->conditionValidator->isValid($question, $generator) === true) {
+                    $generator = $this->evaluateQuestions($question, $parser, $generator, $firstIteration, $process);
+                }
             }
         }
 
@@ -100,49 +103,30 @@ class QuestionParser implements ParserInterface
         $firstIteration,
         array $process
     ) {
-        if (isset($question[GeneratorParser::DEPENDENCY_CONDITION]) === true) {
-            $matches = $this->dependencyCondition->evaluate(
-                $question[GeneratorParser::DEPENDENCY_CONDITION],
-                $parser,
-                $generator,
-                $firstIteration
-            );
-            foreach ($matches as $questionsMatchs) {
-                $generator = $this->evaluateQuestions(
-                    $questionsMatchs,
+        $question  = $this->questionAnalyser->checkIntegrity($question);
+        $isParsed  = false;
+        $dto       = $generator->getDto();
+
+        $dto->register($question['dtoAttribute'], $question['responseType']);
+        $generator->setDto($dto);
+
+        foreach ($this->questionTypeCollection as $questionTypeParser) {
+            /* @var $questionTypeParser \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeInterface */
+            if ($question['type']->is($questionTypeParser->getType()) === true) {
+                $generator = $questionTypeParser->evaluateQuestion(
+                    $question,
                     $parser,
                     $generator,
                     $firstIteration,
                     $process
                 );
+                $isParsed  = true;
+                break;
             }
-        } else {
+        }
 
-            $question  = $this->questionAnalyser->checkIntegrity($question);
-            $isParsed  = false;
-            $dto       = $generator->getDto();
-
-            $dto->register($question['dtoAttribute'], $question['responseType']);
-            $generator->setDto($dto);
-
-            foreach ($this->questionTypeCollection as $questionTypeParser) {
-                /* @var $questionTypeParser \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeInterface */
-                if ($question['type']->is($questionTypeParser->getType()) === true) {
-                    $generator = $questionTypeParser->evaluateQuestion(
-                        $question,
-                        $parser,
-                        $generator,
-                        $firstIteration,
-                        $process
-                    );
-                    $isParsed  = true;
-                    break;
-                }
-            }
-
-            if ($isParsed === false) {
-                throw new \LogicException(sprintf('The question type "%s" havent found his parser', $question['type']));
-            }
+        if ($isParsed === false) {
+            throw new \LogicException(sprintf('The question type "%s" havent found his parser', $question['type']));
         }
 
         return $generator;

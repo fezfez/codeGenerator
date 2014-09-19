@@ -15,35 +15,25 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Generators\Finder;
+namespace CrudGenerator\Generators\Validator;
 
-use CrudGenerator\Generators\Finder\GeneratorFinder;
-use CrudGenerator\Utils\TranstyperFactory;
-use CrudGenerator\Utils\Installer;
-use CrudGenerator\Generators\GeneratorCompatibilityChecker;
-use CrudGenerator\Generators\Validator\GeneratorValidatorFactory;
+use JsonSchema\Uri\UriRetriever;
+use JsonSchema\Validator;
 
 /**
- * Create GeneratorFinder instance
  *
  * @author Stéphane Demonchaux
  */
-class GeneratorFinderFactory
+class GeneratorValidatorFactory
 {
     /**
-     * Create GeneratorFinder instance
-     *
-     * @return GeneratorFinderCache
+     * @return \CrudGenerator\Generators\Validator\GeneratorValidator
      */
     public static function getInstance()
     {
-        return new GeneratorFinderCache(
-            new GeneratorFinder(
-                new GeneratorCompatibilityChecker(),
-                TranstyperFactory::getInstance(),
-                GeneratorValidatorFactory::getInstance()
-            ),
-            Installer::getDirectories()
-        );
+        $retriever = new UriRetriever();
+        $schema = $retriever->retrieve('file://' . realpath(__DIR__ . '/ressources/generator-schema.json'));
+
+        return new GeneratorValidator($schema, new Validator());
     }
 }
