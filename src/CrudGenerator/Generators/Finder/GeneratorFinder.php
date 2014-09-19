@@ -30,10 +30,6 @@ use CrudGenerator\Generators\Validator\GeneratorValidator;
 class GeneratorFinder implements GeneratorFinderInterface
 {
     /**
-     * @var GeneratorCompatibilityChecker
-     */
-    private $compatibilityChecker = null;
-    /**
      * @var Transtyper
      */
     private $transtyper = null;
@@ -49,18 +45,15 @@ class GeneratorFinder implements GeneratorFinderInterface
     /**
      * Find all generator allow in project
      *
-     * @param GeneratorCompatibilityChecker $compatibilityChecker
      * @param Transtyper $transtyper
      * @param GeneratorValidator $generatorValidator
      */
     public function __construct(
-        GeneratorCompatibilityChecker $compatibilityChecker,
         Transtyper $transtyper,
         GeneratorValidator $generatorValidator
     ) {
-        $this->compatibilityChecker = $compatibilityChecker;
-        $this->transtyper           = $transtyper;
-        $this->generatorValidator   = $generatorValidator;
+        $this->transtyper         = $transtyper;
+        $this->generatorValidator = $generatorValidator;
     }
 
     /**
@@ -83,23 +76,13 @@ class GeneratorFinder implements GeneratorFinderInterface
 
             foreach ($iterator as $file) {
                 $fileName = $file[0];
-                $rawData  = file_get_contents($fileName);
-                $data     = $this->transtyper->decode($rawData, false);
-                $process  = $this->transtyper->decode($rawData);
+                $process  = $this->transtyper->decode(file_get_contents($fileName));
 
-                $this->generatorValidator->reset();
-
-                if ($this->generatorValidator->isValid($data) === false) {
-
-                } elseif ($metadata !== null) {
-                    try {
-                        $this->compatibilityChecker->metadataAllowedInGenerator($metadata, $process);
-                        $generators[$fileName] = $process['name'];
-                    } catch (\InvalidArgumentException $e) {
-                        // Metdata not allowed with this generator
-                    }
-                } else {
+                try {
+                    $this->generatorValidator->isValid($process, $metadata);
                     $generators[$fileName] = $process['name'];
+                } catch (\InvalidArgumentException $e) {
+                    // Generator no valid
                 }
             }
 

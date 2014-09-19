@@ -20,7 +20,6 @@ namespace CrudGenerator\Generators\Finder;
 use CrudGenerator\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Utils\TranstyperFactory;
 use CrudGenerator\Utils\Installer;
-use CrudGenerator\Generators\GeneratorCompatibilityChecker;
 use CrudGenerator\Generators\Validator\GeneratorValidatorFactory;
 
 /**
@@ -39,7 +38,6 @@ class GeneratorFinderFactory
     {
         return new GeneratorFinderCache(
             new GeneratorFinder(
-                new GeneratorCompatibilityChecker(),
                 TranstyperFactory::getInstance(),
                 GeneratorValidatorFactory::getInstance()
             ),

@@ -23,6 +23,8 @@ use CrudGenerator\Generators\Parser\GeneratorParser;
 
 class DependencyCondition implements ConditionInterface
 {
+    const NAME = 'dependencyCondition';
+
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
      */
@@ -49,8 +51,8 @@ class DependencyCondition implements ConditionInterface
     {
         $isTrue = false;
 
-        if (substr($dependencyName, -strlen(GeneratorParser::UNDEFINED)) === GeneratorParser::UNDEFINED &&
-            false === in_array(substr($dependencyName, 0, -count(GeneratorParser::UNDEFINED)), $generatorDependencies)
+        if (substr($dependencyName, -strlen(ConditionInterface::UNDEFINED)) === ConditionInterface::UNDEFINED &&
+            false === in_array(substr($dependencyName, 0, -count(ConditionInterface::UNDEFINED)), $generatorDependencies)
         ) {
             $isTrue = true;
         }

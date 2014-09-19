@@ -27,8 +27,8 @@ class InitTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $generatorCompatibilityCheckerMock = $this->getMockBuilder(
-            'CrudGenerator\Generators\GeneratorCompatibilityChecker'
+        $generatorValidator = $this->getMockBuilder(
+            'CrudGenerator\Generators\Validator\GeneratorValidator'
         )
         ->disableOriginalConstructor()
         ->getMock();
@@ -50,7 +50,7 @@ class InitTest extends \PHPUnit_Framework_TestCase
             $phpParser,
             $generatorFinder,
             $parserCollection,
-            $generatorCompatibilityCheckerMock
+            $generatorValidator
         );
         $generator = new GeneratorDataObject();
         $metadata  = new MetadataDataObjectPostgreSQL(new MetaDataColumnCollection(), new MetaDataRelationCollection());
@@ -76,8 +76,8 @@ class InitTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $generatorCompatibilityCheckerMock = $this->getMockBuilder(
-            'CrudGenerator\Generators\GeneratorCompatibilityChecker'
+        $generatorValidator = $this->getMockBuilder(
+            'CrudGenerator\Generators\Validator\GeneratorValidator'
         )
         ->disableOriginalConstructor()
         ->getMock();
@@ -110,7 +110,7 @@ class InitTest extends \PHPUnit_Framework_TestCase
             $phpParser,
             $generatorFinder,
             $parserCollection,
-            $generatorCompatibilityCheckerMock
+            $generatorValidator
         );
         $metadata = new MetadataDataObjectPostgreSQL(new MetaDataColumnCollection(), new MetaDataRelationCollection());
 

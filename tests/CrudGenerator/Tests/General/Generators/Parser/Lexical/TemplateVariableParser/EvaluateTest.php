@@ -4,19 +4,15 @@ namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\TemplateVariable
 use CrudGenerator\Generators\Parser\Lexical\TemplateVariableParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
+use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
+use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
 
 class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
     public function testEmpty()
     {
-        $environnementCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $dependencyCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
+        $conditionValidator = $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator'
         )
         ->disableOriginalConstructor()
         ->getMock();
@@ -25,7 +21,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new TemplateVariableParser($environnementCondition, $dependencyCondition);
+        $sUT = new TemplateVariableParser($conditionValidator);
 
         $generator = new GeneratorDataObject();
 
@@ -37,51 +33,17 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testMalformedVar()
-    {
-        $environnementCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $dependencyCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $sUT = new TemplateVariableParser($environnementCondition, $dependencyCondition);
-
-        $generator = new GeneratorDataObject();
-
-        $process = array(
-                'templateVariables' => array(
-                    'MyVar' => 'MyValue'
-                )
-        );
-
-        $this->setexpectedexception('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
-        $sUT->evaluate($process, $phpParser, $generator, true);
-    }
-
     public function testWithVar()
     {
-        $environnementCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
+        $conditionValidator = $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator'
         )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $dependencyCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
+        $conditionValidator->expects($this->once())
+        ->method('isValid')
+        ->will($this->returnValue(true));
 
         $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
@@ -92,13 +54,16 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->with('MyValue')
         ->will($this->returnValue('MyValueParser'));
 
-        $sUT = new TemplateVariableParser($environnementCondition, $dependencyCondition);
+        $sUT = new TemplateVariableParser($conditionValidator);
 
         $generator = new GeneratorDataObject();
 
         $process = array(
             'templateVariables' => array(
-                array('MyVar' => 'MyValue')
+                array(
+                    'variableName' => 'MyVar',
+                    'value' => 'MyValue'
+                )
             )
         );
 
@@ -112,21 +77,15 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testWithDependencyCondiction()
     {
-        $environnementCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
+        $conditionValidator = $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator'
         )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $dependencyCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $dependencyCondition->expects($this->once())
-        ->method('evaluate')
-        ->will($this->returnValue(array(array('MyVar' => 'MyValue'))));
+        $conditionValidator->expects($this->once())
+        ->method('isValid')
+        ->will($this->returnValue(true));
 
         $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
@@ -137,18 +96,16 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->with('MyValue')
         ->will($this->returnValue('MyValueParser'));
 
-        $sUT = new TemplateVariableParser($environnementCondition, $dependencyCondition);
+        $sUT = new TemplateVariableParser($conditionValidator);
 
         $generator = new GeneratorDataObject();
 
         $process = array(
             'templateVariables' => array(
                 array(
-                    GeneratorParser::DEPENDENCY_CONDITION => array(
-                        '!ArchitedGenerator' => array(
-                            array('MyVar' => 'MyValue')
-                        )
-                    )
+                    'variableName' => 'MyVar',
+                    'value' => 'MyValue',
+                    DependencyCondition::NAME => '!ArchitedGenerator'
                 )
             )
         );
@@ -163,21 +120,15 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testWithEnvironnemetnCondiction()
     {
-        $environnementCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
+        $conditionValidator = $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator'
         )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $dependencyCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $environnementCondition->expects($this->once())
-        ->method('evaluate')
-        ->will($this->returnValue(array(array('MyVar' => 'MyValue'))));
+        $conditionValidator->expects($this->once())
+        ->method('isValid')
+        ->will($this->returnValue(true));
 
         $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
@@ -188,18 +139,16 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->with('MyValue')
         ->will($this->returnValue('MyValueParser'));
 
-        $sUT = new TemplateVariableParser($environnementCondition, $dependencyCondition);
+        $sUT = new TemplateVariableParser($conditionValidator);
 
         $generator = new GeneratorDataObject();
 
         $process = array(
             'templateVariables' => array(
                 array(
-                    GeneratorParser::ENVIRONNEMENT_CONDITION => array(
-                        'backend == pdo' => array(
-                            array('MyVar' => 'MyValue')
-                        )
-                    )
+                    'variableName' => 'MyVar',
+                    'value' => 'MyValue',
+                    EnvironnementCondition::NAME => 'backend == pdo'
                 )
             )
         );

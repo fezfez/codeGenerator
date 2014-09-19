@@ -24,6 +24,8 @@ use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
 
 class EnvironnementCondition implements ConditionInterface
 {
+    const NAME = 'environnementCondition';
+
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
      */
@@ -32,13 +34,13 @@ class EnvironnementCondition implements ConditionInterface
         GeneratorDataObject $generator
     ) {
         try {
-            $comparaisonDifferentEquals = $this->analyseExpressionType($expression, GeneratorParser::DIFFERENT_EQUAL);
+            $comparaisonDifferentEquals = $this->analyseExpressionType($expression, ConditionInterface::DIFFERENT_EQUAL);
             $addEnvironnementExpression = (
                 $comparaisonDifferentEquals['environnementValue'] !==
                 $generator->getEnvironnement($comparaisonDifferentEquals['environnementName'])
             );
         } catch (\InvalidArgumentException $e) {
-            $comparaisonEquals          = $this->analyseExpressionType($expression, GeneratorParser::EQUAL);
+            $comparaisonEquals          = $this->analyseExpressionType($expression, ConditionInterface::EQUAL);
             $addEnvironnementExpression = (
                 $comparaisonEquals['environnementValue'] ===
                 $generator->getEnvironnement($comparaisonEquals['environnementName'])

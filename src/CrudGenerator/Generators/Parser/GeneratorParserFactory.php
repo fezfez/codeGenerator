@@ -23,7 +23,7 @@ use CrudGenerator\Utils\PhpStringParserFactory;
 use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
 use CrudGenerator\Generators\Parser\ParserCollectionFactory;
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Generators\GeneratorCompatibilityChecker;
+use CrudGenerator\Generators\Validator\GeneratorValidatorFactory;
 
 /**
  * Find all generator allow in project
@@ -47,7 +47,7 @@ class GeneratorParserFactory
             PhpStringParserFactory::getInstance(),
             $generatorFinder,
             $parserCollection,
-            new GeneratorCompatibilityChecker()
+            GeneratorValidatorFactory::getInstance()
         );
     }
 }

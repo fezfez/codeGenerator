@@ -5,6 +5,8 @@ use CrudGenerator\Generators\Parser\Lexical\FileParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\DataObject;
+use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
+use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 
 class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,14 +16,8 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $environnementCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $dependencyCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
+        $conditionValidator = $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator'
         )
         ->disableOriginalConstructor()
         ->getMock();
@@ -30,7 +26,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new FileParser($fileManager, $dependencyCondition, $environnementCondition);
+        $sUT = new FileParser($fileManager, $conditionValidator);
 
         $generator = new GeneratorDataObject();
 
@@ -43,59 +39,21 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testMalformedVar()
-    {
-        $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $environnementCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $dependencyCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $sUT = new FileParser($fileManager, $dependencyCondition, $environnementCondition);
-
-        $generator = new GeneratorDataObject();
-
-        $process = array(
-                'filesList' => array(
-                    'MyVar' => 'MyValue'
-                )
-        );
-
-        $this->setexpectedexception('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
-        $sUT->evaluate($process, $phpParser, $generator, true);
-    }
-
     public function testWithFiles()
     {
         $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
         ->disableOriginalConstructor()
         ->getMock();
 
-        $environnementCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
+        $conditionValidator = $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator'
         )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $dependencyCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
+        $conditionValidator->expects($this->once())
+        ->method('isValid')
+        ->will($this->returnValue(true));
 
         $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
@@ -105,14 +63,14 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->method('parse')
         ->will($this->returnValue('MyFileParser'));
 
-        $sUT = new FileParser($fileManager, $dependencyCondition, $environnementCondition);
+        $sUT = new FileParser($fileManager, $conditionValidator);
 
         $generator = new GeneratorDataObject();
         $generator->setPath('./');
 
         $process = array(
             'filesList' => array(
-                array('MyFileTemplate' => 'MyFile')
+                array('templatePath' => 'MyFileTemplate', 'destinationPath' => 'MyFile')
             )
         );
 
@@ -130,21 +88,15 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $environnementCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
+        $conditionValidator = $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator'
         )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $dependencyCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $dependencyCondition->expects($this->once())
-        ->method('evaluate')
-        ->will($this->returnValue(array(array('MyFileTemplate' => 'MyFile'))));
+        $conditionValidator->expects($this->once())
+        ->method('isValid')
+        ->will($this->returnValue(true));
 
         $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
@@ -154,7 +106,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->method('parse')
         ->will($this->returnValue('MyFileParser'));
 
-        $sUT = new FileParser($fileManager, $dependencyCondition, $environnementCondition);
+        $sUT = new FileParser($fileManager, $conditionValidator);
 
         $generator = new GeneratorDataObject();
         $generator->setPath('./');
@@ -162,11 +114,9 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $process = array(
             'filesList' => array(
                 array(
-                    GeneratorParser::DEPENDENCY_CONDITION => array(
-                        '!ArchitedGenerator' => array(
-                            array('MyFileTemplate' => 'MyFile')
-                        )
-                    )
+                    'templatePath' => 'MyFileTemplate',
+                    'destinationPath' => 'MyFile',
+                    DependencyCondition::NAME => '!ArchitedGenerator'
                 )
             )
         );
@@ -185,21 +135,15 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $environnementCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition'
+        $conditionValidator = $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator'
         )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $dependencyCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $environnementCondition->expects($this->once())
-        ->method('evaluate')
-        ->will($this->returnValue(array(array('MyFileTemplate' => 'MyFile'))));
+        $conditionValidator->expects($this->once())
+        ->method('isValid')
+        ->will($this->returnValue(true));
 
         $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
         ->disableOriginalConstructor()
@@ -210,7 +154,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->with('MyFile')
         ->will($this->returnValue('MyFileParsed'));
 
-        $sUT = new FileParser($fileManager, $dependencyCondition, $environnementCondition);
+        $sUT = new FileParser($fileManager, $conditionValidator);
 
         $generator = new GeneratorDataObject();
         $generator->setDto(new DataObject());
@@ -219,11 +163,9 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $process = array(
             'filesList' => array(
                 array(
-                    GeneratorParser::ENVIRONNEMENT_CONDITION => array(
-                        'backend == pdo' => array(
-                            array('MyFileTemplate' => 'MyFile')
-                        )
-                    )
+                    'templatePath' => 'MyFileTemplate',
+                    'destinationPath' => 'MyFile',
+                    EnvironnementCondition::NAME => 'backend == pdo'
                 )
             )
         );

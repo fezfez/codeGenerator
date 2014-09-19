@@ -3,13 +3,13 @@ namespace CrudGenerator\Tests\General\Generators\Finder\GeneratorFinder;
 
 use CrudGenerator\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Utils\TranstyperFactory;
-use CrudGenerator\Generators\GeneratorCompatibilityChecker;
+use CrudGenerator\Generators\Validator\GeneratorValidatorFactory;
 
 class FindByNameTest extends \PHPUnit_Framework_TestCase
 {
     public function testFail()
     {
-        $suT = new GeneratorFinder(new GeneratorCompatibilityChecker(), TranstyperFactory::getInstance());
+        $suT = new GeneratorFinder(TranstyperFactory::getInstance(), GeneratorValidatorFactory::getInstance());
 
         $this->setExpectedException('InvalidArgumentException');
 
@@ -18,7 +18,7 @@ class FindByNameTest extends \PHPUnit_Framework_TestCase
 
     public function testOk()
     {
-        $suT = new GeneratorFinder(new GeneratorCompatibilityChecker(), TranstyperFactory::getInstance());
+        $suT = new GeneratorFinder(TranstyperFactory::getInstance(), GeneratorValidatorFactory::getInstance());
 
         $this->assertInternalType(
             'string',

@@ -10,161 +10,64 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
     public function testEquals()
     {
-        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-        ->disableOriginalConstructor()
-        ->getMock();
-
         $sUT       = new EnvironnementCondition();
         $generator = new GeneratorDataObject();
         $generator->setDto(new DataObject());
         $generator->addEnvironnementValue('backend', 'pdo');
 
-        $string = '
-questions :
-    - environnementCondition :
-        - backend == pdo :
-            - /form/DataObject.phtml        : <?php $formGenerator->getFormPath(); ?>DataObject.phtml';
-
-        $result = Yaml::parse($string, true);
-
-        foreach ($result['questions'] as  $files) {
-            foreach ($files as $templateName => $tragetFile) {
-                if ($templateName === 'environnementCondition') {
-                    $this->assertEquals(
-                        array(
-                            array(
-                                '/form/DataObject.phtml' => '<?php $formGenerator->getFormPath(); ?>DataObject.phtml'
-                            )
-                        ),
-                        $sUT->evaluate($tragetFile, $phpParser, $generator, true)
-                    );
-                }
-            }
-        }
+        $this->assertEquals(
+        	true,
+        	$sUT->isValid('backend == pdo', $generator)
+        );
     }
 
     public function testDifferent()
     {
-        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-        ->disableOriginalConstructor()
-        ->getMock();
-
         $sUT       = new EnvironnementCondition();
         $generator = new GeneratorDataObject();
         $generator->setDto(new DataObject());
         $generator->addEnvironnementValue('backend', 'test');
 
-        $string = '
-questions :
-    - environnementCondition :
-        - backend != pdo :
-            - /form/DataObject.phtml        : <?php $formGenerator->getFormPath(); ?>DataObject.phtml';
-
-        $result = Yaml::parse($string, true);
-
-        foreach ($result['questions'] as  $files) {
-            foreach ($files as $templateName => $tragetFile) {
-                if ($templateName === 'environnementCondition') {
-                    $this->assertEquals(
-                        array(
-                            array(
-                                '/form/DataObject.phtml' => '<?php $formGenerator->getFormPath(); ?>DataObject.phtml'
-                            )
-                        ),
-                        $sUT->evaluate($tragetFile, $phpParser, $generator, true)
-                    );
-                }
-            }
-        }
+        $this->assertEquals(
+            true,
+            $sUT->isValid('backend != pdo', $generator)
+        );
     }
 
     public function testNotCatchDifferent()
     {
-        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-        ->disableOriginalConstructor()
-        ->getMock();
-
         $sUT       = new EnvironnementCondition();
         $generator = new GeneratorDataObject();
         $generator->setDto(new DataObject());
         $generator->addEnvironnementValue('backend', 'pdo');
 
-        $string = '
-questions :
-    - environnementCondition :
-        - backend != pdo :
-            - /form/DataObject.phtml        : <?php $formGenerator->getFormPath(); ?>DataObject.phtml';
-
-        $result = Yaml::parse($string, true);
-
-        foreach ($result['questions'] as  $files) {
-            foreach ($files as $templateName => $tragetFile) {
-                if ($templateName === 'environnementCondition') {
-                    $this->assertEquals(
-                        array(),
-                        $sUT->evaluate($tragetFile, $phpParser, $generator, true)
-                    );
-                }
-            }
-        }
+        $this->assertEquals(
+            false,
+            $sUT->isValid('backend != pdo', $generator)
+        );
     }
 
     public function testNotCatchEquals()
     {
-        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-        ->disableOriginalConstructor()
-        ->getMock();
-
         $sUT       = new EnvironnementCondition();
         $generator = new GeneratorDataObject();
         $generator->setDto(new DataObject());
         $generator->addEnvironnementValue('backend', 'test');
 
-        $string = '
-questions :
-    - environnementCondition :
-        - backend == pdo :
-            - /form/DataObject.phtml        : <?php $formGenerator->getFormPath(); ?>DataObject.phtml';
-
-        $result = Yaml::parse($string, true);
-
-        foreach ($result['questions'] as  $files) {
-            foreach ($files as $templateName => $tragetFile) {
-                if ($templateName === 'environnementCondition') {
-                    $this->assertEquals(
-                        array(),
-                        $sUT->evaluate($tragetFile, $phpParser, $generator, true)
-                    );
-                }
-            }
-        }
+        $this->assertEquals(
+            false,
+            $sUT->isValid('backend == pdo', $generator)
+        );
     }
 
     public function testMalformedExpression()
     {
-        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-        ->disableOriginalConstructor()
-        ->getMock();
-
         $sUT       = new EnvironnementCondition();
         $generator = new GeneratorDataObject();
         $generator->setDto(new DataObject());
 
-        $string = '
-questions :
-    - environnementCondition :
-        - backend  pdo :
-            - /form/DataObject.phtml        : <?php $formGenerator->getFormPath(); ?>DataObject.phtml';
+        $this->setExpectedException('InvalidArgumentException');
 
-        $result = Yaml::parse($string, true);
-
-        foreach ($result['questions'] as  $files) {
-            foreach ($files as $templateName => $tragetFile) {
-                if ($templateName === 'environnementCondition') {
-                    $this->setExpectedException('InvalidArgumentException');
-                    $sUT->evaluate($tragetFile, $phpParser, $generator, true);
-                }
-            }
-        }
+        $sUT->isValid('backend pdo', $generator);
     }
 }

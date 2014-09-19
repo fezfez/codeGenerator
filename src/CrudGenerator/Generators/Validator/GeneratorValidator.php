@@ -20,6 +20,7 @@ namespace CrudGenerator\Generators\Validator;
 use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Validator;
 use stdClass;
+use CrudGenerator\MetaData\DataObject\MetaDataInterface;
 
 /**
  *
@@ -48,13 +49,32 @@ class GeneratorValidator
 
     /**
      * @param mixed $data
-     * @return boolean
+     * @param MetaDataInterface $metadata
+     * @throws \InvalidArgumentException
      */
-    public function isValid($data)
+    public function isValid($data, MetaDataInterface $metadata = null)
     {
-        $this->validator->check($data, $this->schema);
+        $this->validator->reset();
+        $this->validator->check((object) $data, $this->schema);
 
-        return $this->validator->isValid();
+        if ($this->validator->isValid() === false) {
+            throw new \InvalidArgumentException('The schema is not valid');
+        }
+
+        if ($metadata !== null) {
+            $metadataAllowed = false;
+            foreach ($data['metadataTypeAccepted'] as $metadataType) {
+                if (true === is_a($metadata, $metadataType)) {
+                    $metadataAllowed = true;
+                }
+            }
+
+            if (false === $metadataAllowed) {
+                throw new \InvalidArgumentException(
+                    sprintf('The metadata of type "%s" are not allowed in this generator ', get_class($metadata))
+                );
+            }
+        }
     }
 
     /**

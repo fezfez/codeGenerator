@@ -53,7 +53,7 @@ class TemplateVariableParser implements ParserInterface
                     );
                 }
                 if ($this->conditionValidator->isValid($variable, $generator) === true) {
-                	$this->evaluateVariable($variable, $parser, $generator, (bool) $firstIteration);
+                    $this->evaluateVariable($variable, $parser, $generator, (bool) $firstIteration);
                 }
             }
         }

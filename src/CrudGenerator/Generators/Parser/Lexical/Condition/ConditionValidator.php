@@ -54,16 +54,16 @@ class ConditionValidator
     ) {
         $isValid = true;
 
-        if (isset($node[GeneratorParser::DEPENDENCY_CONDITION]) === true) {
+        if (isset($node[DependencyCondition::NAME]) === true) {
             if ($this->dependencyCondition->isValid(
-                $node[GeneratorParser::DEPENDENCY_CONDITION],
+                $node[DependencyCondition::NAME],
                 $generator
             ) === false) {
                 $isValid = false;
             }
-        } elseif (isset($node[GeneratorParser::ENVIRONNEMENT_CONDITION]) === true) {
+        } elseif (isset($node[EnvironnementCondition::NAME]) === true) {
             if ($this->environnementCondition->isValid(
-                $node[GeneratorParser::ENVIRONNEMENT_CONDITION],
+                $node[EnvironnementCondition::NAME],
                 $generator
             ) === false) {
                 $isValid = false;

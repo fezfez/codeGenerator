@@ -8,13 +8,14 @@ use CrudGenerator\DataObject;
 use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
 use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeCollectionFactory;
 use CrudGenerator\Generators\Parser\Lexical\QuestionAnalyser;
+use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 
 class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
     public function testMalformedVar()
     {
-        $dependencyCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
+        $conditionValidator = $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator'
         )
         ->disableOriginalConstructor()
         ->getMock();
@@ -29,7 +30,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
         $sUT = new QuestionParser(
             $context,
-            $dependencyCondition,
+            $conditionValidator,
             QuestionTypeCollectionFactory::getInstance($context),
             new QuestionAnalyser()
         );
@@ -49,8 +50,8 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testWithFiles()
     {
-        $dependencyCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
+        $conditionValidator = $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator'
         )
         ->disableOriginalConstructor()
         ->getMock();
@@ -65,7 +66,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
         $sUT = new QuestionParser(
             $context,
-            $dependencyCondition,
+            $conditionValidator,
             QuestionTypeCollectionFactory::getInstance($context),
             new QuestionAnalyser()
         );
@@ -91,8 +92,8 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testWithDependencyCondiction()
     {
-        $dependencyCondition = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition'
+        $conditionValidator = $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator'
         )
         ->disableOriginalConstructor()
         ->getMock();
@@ -110,21 +111,13 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->with('myDefaultResponse')
         ->will($this->returnValue('myDefaultResponse'));
 
-        $dependencyCondition->expects($this->once())
-        ->method('evaluate')
-        ->will($this->returnValue(
-            array(
-                array(
-                    'dtoAttribute'    => 'test',
-                    'text'            => 'test',
-                    'defaultResponse' => 'myDefaultResponse'
-                )
-            )
-        ));
+        $conditionValidator->expects($this->exactly(2))
+        ->method('isValid')
+        ->will($this->returnValue(true));
 
         $sUT = new QuestionParser(
             $context,
-            $dependencyCondition,
+            $conditionValidator,
             QuestionTypeCollectionFactory::getInstance($context),
             new QuestionAnalyser()
         );
@@ -135,13 +128,10 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $process = array(
             'questions' => array(
                 array(
-                    GeneratorParser::DEPENDENCY_CONDITION => array(
-                        '!ArchitedGenerator' => array(
-                            'dtoAttribute'    => 'test',
-                            'text'            => 'test',
-                            'defaultResponse' => 'myDefaultResponse'
-                        )
-                    )
+                    'dtoAttribute'    => 'test',
+                    'text'            => 'test',
+                    'defaultResponse' => 'myDefaultResponse',
+                    DependencyCondition::NAME => '!ArchitedGenerator'
                 ),
                 array(
                     'dtoAttribute' => 'test',

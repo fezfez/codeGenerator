@@ -26,7 +26,7 @@ use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\ParserCollection;
 use CrudGenerator\Generators\Finder\GeneratorFinderInterface;
 use CrudGenerator\MetaData\DataObject\MetaDataInterface;
-use CrudGenerator\Generators\GeneratorCompatibilityChecker;
+use CrudGenerator\Generators\Validator\GeneratorValidator;
 
 /**
  * Find all generator allow in project
@@ -35,14 +35,6 @@ use CrudGenerator\Generators\GeneratorCompatibilityChecker;
  */
 class GeneratorParser implements GeneratorParserInterface
 {
-    const ENVIRONNEMENT_CONDITION = 'environnementCondition';
-    const DEPENDENCY_CONDITION    = 'dependencyCondition';
-    const CONDITION_ELSE          = 'else';
-    const DIFFERENT               = '!';
-    const UNDEFINED               = ' == undefined';
-    const EQUAL                   = '==';
-    const DIFFERENT_EQUAL         = '!=';
-
     /**
      * @var Transtyper
      */
@@ -81,14 +73,14 @@ class GeneratorParser implements GeneratorParserInterface
         PhpStringParser $phpStringParser,
         GeneratorFinderInterface $generatorFinder,
         ParserCollection $parserCollection,
-        GeneratorCompatibilityChecker $generatorCompatibilityChecker
+        GeneratorValidator $generatorValidator
     ) {
-        $this->fileManager                   = $fileManager;
-        $this->transtyper                    = $transtyper;
-        $this->phpStringParser               = $phpStringParser;
-        $this->generatorFinder               = $generatorFinder;
-        $this->parserCollection              = $parserCollection;
-        $this->generatorCompatibilityChecker = $generatorCompatibilityChecker;
+        $this->fileManager        = $fileManager;
+        $this->transtyper         = $transtyper;
+        $this->phpStringParser    = $phpStringParser;
+        $this->generatorFinder    = $generatorFinder;
+        $this->parserCollection   = $parserCollection;
+        $this->generatorValidator = $generatorValidator;
     }
 
     /**
@@ -124,7 +116,7 @@ class GeneratorParser implements GeneratorParserInterface
         $generatorFilePath = $this->generatorFinder->findByName($name);
         $process           = $this->transtyper->decode($this->fileManager->fileGetContent($generatorFilePath));
 
-        $this->generatorCompatibilityChecker->metadataAllowedInGenerator($metadata, $process);
+        $this->generatorValidator->isValid($process, $metadata);
 
         $dto = new \CrudGenerator\DataObject();
         $dto->setMetadata($metadata);
