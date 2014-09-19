@@ -17,15 +17,6 @@
  */
 namespace CrudGenerator\Generators\Parser\Lexical;
 
-use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\QuestionWithPredefinedResponse;
-use CrudGenerator\Context\PredefinedResponseCollection;
-use CrudGenerator\Context\PredefinedResponse;
-use CrudGenerator\Utils\PhpStringParser;
-use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Parser\GeneratorParser;
-use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
-use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 
 class QuestionAnalyser

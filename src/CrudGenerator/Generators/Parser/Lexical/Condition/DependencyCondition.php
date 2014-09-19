@@ -17,9 +17,7 @@
  */
 namespace CrudGenerator\Generators\Parser\Lexical\Condition;
 
-use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Parser\GeneratorParser;
 
 class DependencyCondition implements ConditionInterface
 {
@@ -52,7 +50,10 @@ class DependencyCondition implements ConditionInterface
         $isTrue = false;
 
         if (substr($dependencyName, -strlen(ConditionInterface::UNDEFINED)) === ConditionInterface::UNDEFINED &&
-            false === in_array(substr($dependencyName, 0, -count(ConditionInterface::UNDEFINED)), $generatorDependencies)
+            false === in_array(
+                substr($dependencyName, 0, -count(ConditionInterface::UNDEFINED)),
+                $generatorDependencies
+            )
         ) {
             $isTrue = true;
         }

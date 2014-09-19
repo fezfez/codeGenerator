@@ -18,7 +18,6 @@
 namespace CrudGenerator\Generators\Finder;
 
 use CrudGenerator\MetaData\DataObject\MetaDataInterface;
-use CrudGenerator\Generators\GeneratorCompatibilityChecker;
 use CrudGenerator\Utils\Transtyper;
 use CrudGenerator\Generators\Validator\GeneratorValidator;
 

@@ -21,11 +21,11 @@ use CrudGenerator\Generators\GeneratorDataObject;
 
 interface ConditionInterface
 {
-    const CONDITION_ELSE          = 'else';
-    const DIFFERENT               = '!';
-    const UNDEFINED               = ' == undefined';
-    const EQUAL                   = '==';
-    const DIFFERENT_EQUAL         = '!=';
+    const CONDITION_ELSE  = 'else';
+    const DIFFERENT       = '!';
+    const UNDEFINED       = ' == undefined';
+    const EQUAL           = '==';
+    const DIFFERENT_EQUAL = '!=';
 
     /**
      * @param string $plainTextCondition

@@ -17,9 +17,7 @@
  */
 namespace CrudGenerator\Generators\Validator;
 
-use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Validator;
-use stdClass;
 use CrudGenerator\MetaData\DataObject\MetaDataInterface;
 
 /**

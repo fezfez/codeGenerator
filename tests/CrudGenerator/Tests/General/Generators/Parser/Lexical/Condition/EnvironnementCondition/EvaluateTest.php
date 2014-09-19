@@ -16,8 +16,8 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $generator->addEnvironnementValue('backend', 'pdo');
 
         $this->assertEquals(
-        	true,
-        	$sUT->isValid('backend == pdo', $generator)
+            true,
+            $sUT->isValid('backend == pdo', $generator)
         );
     }
 

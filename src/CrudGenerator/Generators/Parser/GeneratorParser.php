@@ -56,9 +56,9 @@ class GeneratorParser implements GeneratorParserInterface
      */
     private $parserCollection = null;
     /**
-     * @var GeneratorCompatibilityChecker
+     * @var GeneratorValidator
      */
-    private $generatorCompatibilityChecker = null;
+    private $generatorValidator = null;
 
     /**
      * @param FileManager $fileManager

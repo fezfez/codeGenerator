@@ -19,9 +19,6 @@ namespace CrudGenerator\Generators\Parser\Lexical;
 
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Parser\GeneratorParser;
-use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
-use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator;
 

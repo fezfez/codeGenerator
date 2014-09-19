@@ -15,8 +15,8 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $generator = new GeneratorDataObject();
 
         $this->assertEquals(
-        	true,
-        	$sUT->isValid('ArchitectGenerator ' . ConditionInterface::UNDEFINED, $generator)
+            true,
+            $sUT->isValid('ArchitectGenerator ' . ConditionInterface::UNDEFINED, $generator)
         );
     }
 
@@ -30,8 +30,8 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $generator->addDependency($generatorDependency);
 
         $this->assertEquals(
-        	true,
-        	$sUT->isValid('ArchitectGenerator', $generator)
+            true,
+            $sUT->isValid('ArchitectGenerator', $generator)
         );
     }
 
@@ -41,8 +41,8 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $generator = new GeneratorDataObject();
 
         $this->assertEquals(
-        	false,
-        	$sUT->isValid('ArchitectGenerator', $generator)
+            false,
+            $sUT->isValid('ArchitectGenerator', $generator)
         );
     }
 }
