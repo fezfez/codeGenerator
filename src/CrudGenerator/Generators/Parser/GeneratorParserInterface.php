@@ -17,8 +17,8 @@
  */
 namespace CrudGenerator\Generators\Parser;
 
-use CrudGenerator\MetaData\DataObject\MetaData;
 use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\MetaData\DataObject\MetaDataInterface;
 
 /**
  * Find all generator allow in project
@@ -29,9 +29,9 @@ interface GeneratorParserInterface
 {
     /**
      * @param GeneratorDataObject $generator
-     * @param MetaData $metadata
+     * @param MetaDataInterface $metadata
      * @throws \InvalidArgumentException
      * @return GeneratorDataObject
      */
-    public function init(GeneratorDataObject $generator, MetaData $metadata);
+    public function init(GeneratorDataObject $generator, MetaDataInterface $metadata);
 }

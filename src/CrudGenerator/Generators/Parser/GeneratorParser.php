@@ -17,16 +17,15 @@
  */
 namespace CrudGenerator\Generators\Parser;
 
+use CrudGenerator\DataObject;
 use CrudGenerator\Utils\Transtyper;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\PhpStringParser;
-use CrudGenerator\MetaData\DataObject\MetaData;
-use CrudGenerator\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\ParserCollection;
 use CrudGenerator\Generators\Finder\GeneratorFinderInterface;
-use CrudGenerator\MetaData\DataObject\MetaDataInterface;
 use CrudGenerator\Generators\Validator\GeneratorValidator;
+use CrudGenerator\MetaData\DataObject\MetaDataInterface;
 
 /**
  * Find all generator allow in project
@@ -83,13 +82,10 @@ class GeneratorParser implements GeneratorParserInterface
         $this->generatorValidator = $generatorValidator;
     }
 
-    /**
-     * @param GeneratorDataObject $generator
-     * @param MetaData $metadata
-     * @throws \InvalidArgumentException
-     * @return GeneratorDataObject
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Generators\Parser\GeneratorParserInterface::init()
      */
-    public function init(GeneratorDataObject $generator, MetaData $metadata)
+    public function init(GeneratorDataObject $generator, MetaDataInterface $metadata)
     {
         $generator = clone $generator;
         $phpParser = clone $this->phpStringParser;
@@ -98,12 +94,12 @@ class GeneratorParser implements GeneratorParserInterface
     }
 
     /**
-     * @param string $name Generator name
+     * @param string $name
      * @param PhpStringParser $phpParser
      * @param GeneratorDataObject $generator
-     * @param MetaData $metadata
+     * @param MetaDataInterface $metadata
      * @param boolean $firstIteration
-     * @return GeneratorDataObject
+     * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     private function analyze(
         $name,
@@ -118,10 +114,9 @@ class GeneratorParser implements GeneratorParserInterface
 
         $this->generatorValidator->isValid($process, $metadata);
 
-        $dto = new \CrudGenerator\DataObject();
-        $dto->setMetadata($metadata);
+        $dto = new DataObject();
 
-        $generator->setDto($dto)
+        $generator->setDto($dto->setMetadata($metadata))
                   ->setPath($generatorFilePath);
 
         $generator = $this->analyzeDependencies($process, $phpParser, $generator);

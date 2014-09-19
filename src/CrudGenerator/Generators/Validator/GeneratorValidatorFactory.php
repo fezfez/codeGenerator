@@ -19,6 +19,7 @@ namespace CrudGenerator\Generators\Validator;
 
 use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Validator;
+use JsonSchema\Constraints\Constraint;
 
 /**
  *
@@ -34,6 +35,6 @@ class GeneratorValidatorFactory
         $retriever = new UriRetriever();
         $schema    = $retriever->retrieve('file://' . realpath(__DIR__ . '/ressources/generator-schema.json'));
 
-        return new GeneratorValidator($schema, new Validator());
+        return new GeneratorValidator($schema, new Validator(Constraint::CHECK_MODE_TYPE_CAST));
     }
 }

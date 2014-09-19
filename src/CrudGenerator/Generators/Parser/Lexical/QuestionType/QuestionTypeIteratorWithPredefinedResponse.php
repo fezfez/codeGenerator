@@ -82,10 +82,12 @@ class QuestionTypeIteratorWithPredefinedResponse implements QuestionTypeInterfac
 
             $responseCollection = new PredefinedResponseCollection();
 
-            foreach ($question['predefinedResponse'] as $key => $response) {
+            foreach ($question['predefinedResponse'] as $predefinedResponse) {
                 $responseCollection->append(
                     new PredefinedResponse(
-                        $key, $this->staticPhp->staticsprintf($response, array('iteration' => $iteration)), $key
+                        $predefinedResponse['response'],
+                        $this->staticPhp->staticsprintf($predefinedResponse['text'], array('iteration' => $iteration)),
+                        $predefinedResponse['response']
                     )
                 );
             }

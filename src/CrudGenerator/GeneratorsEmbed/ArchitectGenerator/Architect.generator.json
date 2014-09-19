@@ -1,241 +1,242 @@
 {
-  "name": "ArchitectGenerator",
-  "definition": "Generate DAO, DTO, Hydrator, Exception, unit test",
-  "metadataTypeAccepted": [
-      "CrudGenerator\\MetaData\\DataObject\\MetaData"
-  ],
-  "environnement": {
-    "framework": {
-      "zend_framework_2": {
-        "backend": [
-          "PDO",
-          "doctrine2"
-        ],
-        "template": [
-          "phtml"
-        ]
-      },
-      "symfony2": {
-        "backend": [
-          "doctrine2"
-        ],
-        "template": [
-          "twig"
-        ]
-      }
-    }
-  },
-  "questions": [
-    {
-      "dtoAttribute": "ModelDirectory",
-      "text": "Chose a directory for model",
-      "type": "directory"
+    "name": "ArchitectGenerator",
+    "definition": "Generate DAO, DTO, Hydrator, Exception, unit test",
+    "metadataTypeAccepted": [
+        "CrudGenerator\\MetaData\\DataObject\\MetaData"
+    ],
+    "environnement": {
+        "framework": {
+            "zend_framework_2": {
+                "backend": [
+                    "PDO",
+                    "doctrine2"
+                ],
+                "template": [
+                    "phtml"
+                ]
+            },
+            "symfony2": {
+                "backend": [
+                    "doctrine2"
+                ],
+                "template": [
+                    "twig"
+                ]
+            }
+        }
     },
-    {
-      "dtoAttribute": "UnitTestDirectory",
-      "text": "Chose a directory for unit test",
-      "type": "directory"
-    },
-    {
-      "dtoAttribute": "Namespace",
-      "text": "Choose a target namespace",
-      "responseType": "text",
-      "defaultResponse" : "Corp"
-    },
-    {
-      "dtoAttribute": "ServiceLayer",
-      "text": "Add service layer",
-      "responseType": "boolean"
-    },
-    {
-      "dtoAttribute": "ModelName",
-      "text": "Choose a model name",
-      "defaultResponse": "{{ architectGenerator.getMetadata().getName() }}",
-      "responseType": "text"
-    },
-    {
-      "type": "askCollection",
-      "collection": "$architectGenerator->getMetadata()->getColumnCollection()",
-      "text": "Attribute name for \"%s\", $iteration->getName()",
-      "origine": "$iteration->getName()",
-      "dtoAttribute": "AttributeName",
-      "responseType": "text",
-      "defaultResponse": "$iteration->getName()"
-    },
-    {
-      "type": "askCollection",
-      "collection": "$architectGenerator->getMetadata()->getColumnCollection()",
-      "text": "Add \"%s\" to DTO, $iteration->getName()",
-      "origine": "$iteration->getName()",
-      "dtoAttribute": "ColumnUsed",
-      "responseType": "boolean",
-      "defaultResponse": 1
-    },
-    {
-      "type": "askCollection",
-      "collection": "$architectGenerator->getMetadata()->getRelationCollection()",
-      "text": "Attribute name for \"%s\", $iteration->getName()",
-      "origine": "$iteration->getName()",
-      "dtoAttribute": "RelationRenamed",
-      "responseType": "text",
-      "defaultResponse": "$iteration->getName()"
-    },
-    {
-      "type": "askCollectionOverIterator",
-      "collection": "$architectGenerator->getMetadata()->getRelationCollection()",
-      "text": "Deal the relation with \"%s\", $iteration->getFullName()",
-      "origine": "$iteration->getFullName()",
-      "dtoAttribute": "RelationBehavior",
-      "responseType": "text",
-      "defaultResponse": "ADD_TO_DTO",
-      "predefinedResponse": {
-        "ADD_TO_DTO": "Include \"%s\" attribute from \"%s\" to DTO ', $iteration->getFullName(), $iteration->getName()"
-      }
-    }
-  ],
-  "directories": [
-    "{{ architectGenerator.getModelDirectory() }}/DAO/",
-    "{{ architectGenerator.getModelDirectory() }}/Hydrator/",
-    "{{ architectGenerator.getModelDirectory() }}/DataObject/",
-    "{{ architectGenerator.getUnitTestDirectory() ~ daoFactoryName }}",
-    "{{ architectGenerator.getUnitTestDirectory() ~ daoName }}"
-  ],
-  "templateVariables": [
-    {
-      "variableName" : "modelName",
-      "value": "{{ architectGenerator.getModelName()|capitalize }}",
-    },
-    {
-      "variableName" : "ucFirstModelName",
-      "value": "{{ architectGenerator.getModelName()|capitalize }}",
-    },
-    {
-      "variableName" : "hydratorName",
-      "value": "{{ ucFirstModelName }}Hydrator",
-    },
-    {
-      "variableName" : "dataObjectName",
-      "value": "{{ ucFirstModelName }}DataObject",
-    },
-    {
-      "variableName" : "collectionName",
-      "value": "{{ ucFirstModelName }}Collection",
-    },
-    
-    {
-      "variableName" : "daoName",
-      "value": "{{ ucFirstModelName }}DAO",
-    },
-    {
-      "variableName" : "daoFactoryName",
-      "value": "{{ ucFirstModelName }}DAOFactory",
-    },
-    {
-      "variableName" : "exceptionName",
-      "value": "No{{ ucFirstModelName }}Exception",
-    },
-    {
-      "variableName" : "daoNamespace",
-      "value": "{{ architectGenerator.getNamespace() }}\\DAO\\{{ daoName }}",
-    },
-    {
-      "variableName" : "daoFactoryNamespace",
-      "value": "{{ architectGenerator.getNamespace() }}\\{{ daoFactoryName }}",
-    },
-    
-    {
-      "variableName" : "dtoNamespace",
-      "value": "{{ architectGenerator.getNamespace() }}\\DataObject\\{{ dataObjectName }}",
-    },
-    {
-      "variableName" : "hydratorNamespace",
-      "value": "{{ architectGenerator.getNamespace() }}\\Hydrator\\{{ hydratorName }}",
-    },
-    {
-      "variableName" : "dtoCollectionNamespace",
-      "value": "{{ architectGenerator.getNamespace() }}\\DataObject\\{{ collectionName }}",
-    },
-    {
-      "variableName" : "exceptionNamespace",
-      "value": "{{ architectGenerator.getNamespace() }}\\{{ exceptionName }}",
-    },
-    {
-      "variableName" : "unitTestNamespace",
-      "value": "Tests\\{{ architectGenerator.getNamespace() }}",
-    },
-    {
-      "variableName" : "fixtureName",
-      "value": "{{ ucFirstModelName }}Fixture",
-    },
-    {
-      "variableName" : "fixtureFactoryName",
-      "value": "{{ ucFirstModelName }}FixtureFactory",
-    },
-    {
-      "variableName" : "fixtureNamespace",
-      "value": "Tests\\{{ architectGenerator.getNamespace() }}\\{{ fixtureName }}",
-    },
-    {
-      "variableName" : "fixtureFactoryNamespace",
-      "value": "Tests\\{{ architectGenerator.getNamespace() }}\\{{ fixtureFactoryName }}",
-    },
-  ],
-  "filesList": [
-    {
-      "templatePath" : "/Exception.php.phtml",
-      "destinationPath" : "{{ architectGenerator.getModelDirectory() }}No{{ ucFirstModelName }}Exception.php",
-    },
-    {
-      "templatePath" : "/DAOFactory.php.phtml",
-      "destinationPath" : "{{ architectGenerator.getModelDirectory() }}{{ ucFirstModelName }}DAOFactory.php"
-    },
-    {
-      "templatePath" : "/DAO.php.phtml",
-      "destinationPath" : "{{ architectGenerator.getModelDirectory() }}DAO/{{ ucFirstModelName }}DAO.php"
-    },
-    {
-      "templatePath" : "/Hydrator.php.phtml",
-      "destinationPath" : "{{ architectGenerator.getModelDirectory() }}Hydrator/{{ ucFirstModelName }}Hydrator.php"
-    },
-    {
-      "templatePath" : "/DataObject.php.phtml",
-      "destinationPath" : "{{ architectGenerator.getModelDirectory() }}DataObject/{{ ucFirstModelName }}DataObject.php"
-    },
-    {
-      "templatePath" : "/DataObjectCollection.php.phtml",
-      "destinationPath" : "{{ architectGenerator.getModelDirectory() }}DataObject/{{ ucFirstModelName }}Collection.php"
-    },
-    {
-      "templatePath" : "/test/Fixture.php.phtml",
-      "destinationPath" : "{{ architectGenerator.getUnitTestDirectory() ~ fixtureName }}.php"
-    },
-    {
-      "templatePath" : "/test/FixtureFactory.php.phtml",
-      "destinationPath" : "{{ architectGenerator.getUnitTestDirectory() ~ fixtureFactoryName }}.php"
-    },
-    {
-      "templatePath" : "/test/DAOFactory/getInstanceTest.php.phtml",
-      "destinationPath" : "{{ architectGenerator.getUnitTestDirectory() ~ daoFactoryName }}/GetInstanceTest.php"
-    },
-    {
-      "templatePath" : "/test/DAO/findTest.php.phtml",
-      "destinationPath" : "{{ architectGenerator.getUnitTestDirectory() ~ daoName }}/FindTest.php"
-    },
-    {
-      "templatePath" : "/test/DAO/findAllTest.php.phtml",
-      "destinationPath" : "{{ architectGenerator.getUnitTestDirectory() ~ daoName }}/FindAllTest.php"
-    },
-    {
-      "templatePath" : "/test/DAO/persistTest.php.phtml",
-      "destinationPath" : "{{ architectGenerator.getUnitTestDirectory() ~ daoName }}/PersitTest.php"
-    },
-    {
-      "templatePath" : "/test/DAO/modifyTest.php.phtml",
-      "destinationPath" : "{{ architectGenerator.getUnitTestDirectory() ~ daoName }}/ModifyTest.php"
-    },
-    {
-      "templatePath" : "/test/DAO/removeTest.php.phtml",
-      "destinationPath" : "{{ architectGenerator.getUnitTestDirectory() ~ daoName }}/RemoveTest.php"
-    }
-  ]
+    "questions": [
+        {
+            "dtoAttribute": "ModelDirectory",
+            "text": "Chose a directory for model",
+            "type": "directory"
+        },
+        {
+            "dtoAttribute": "UnitTestDirectory",
+            "text": "Chose a directory for unit test",
+            "type": "directory"
+        },
+        {
+            "dtoAttribute": "Namespace",
+            "text": "Choose a target namespace",
+            "responseType": "text",
+            "defaultResponse": "Corp"
+        },
+        {
+            "dtoAttribute": "ServiceLayer",
+            "text": "Add service layer",
+            "responseType": "boolean"
+        },
+        {
+            "dtoAttribute": "ModelName",
+            "text": "Choose a model name",
+            "defaultResponse": "{{ architectGenerator.getMetadata().getName() }}",
+            "responseType": "text"
+        },
+        {
+            "type": "askCollection",
+            "collection": "$architectGenerator->getMetadata()->getColumnCollection()",
+            "text": "Attribute name for \"%s\", $iteration->getName()",
+            "origine": "$iteration->getName()",
+            "dtoAttribute": "AttributeName",
+            "responseType": "text",
+            "defaultResponse": "$iteration->getName()"
+        },
+        {
+            "type": "askCollection",
+            "collection": "$architectGenerator->getMetadata()->getColumnCollection()",
+            "text": "Add \"%s\" to DTO, $iteration->getName()",
+            "origine": "$iteration->getName()",
+            "dtoAttribute": "ColumnUsed",
+            "responseType": "boolean",
+            "defaultResponse": "1"
+        },
+        {
+            "type": "askCollection",
+            "collection": "$architectGenerator->getMetadata()->getRelationCollection()",
+            "text": "Attribute name for \"%s\", $iteration->getName()",
+            "origine": "$iteration->getName()",
+            "dtoAttribute": "RelationRenamed",
+            "responseType": "text",
+            "defaultResponse": "$iteration->getName()"
+        },
+        {
+            "type": "askCollectionOverIterator",
+            "collection": "$architectGenerator->getMetadata()->getRelationCollection()",
+            "text": "Deal the relation with \"%s\", $iteration->getFullName()",
+            "origine": "$iteration->getFullName()",
+            "dtoAttribute": "RelationBehavior",
+            "responseType": "text",
+            "defaultResponse": "ADD_TO_DTO",
+            "predefinedResponse": [
+                {
+                    "response": "ADD_TO_DTO",
+                    "text": "Include \"%s\" attribute from \"%s\" to DTO ', $iteration->getFullName(), $iteration->getName()"
+                }
+            ]
+        }
+    ],
+    "directories": [
+        "{{ architectGenerator.getModelDirectory() }}/DAO/",
+        "{{ architectGenerator.getModelDirectory() }}/Hydrator/",
+        "{{ architectGenerator.getModelDirectory() }}/DataObject/",
+        "{{ architectGenerator.getUnitTestDirectory() ~ daoFactoryName }}",
+        "{{ architectGenerator.getUnitTestDirectory() ~ daoName }}"
+    ],
+    "templateVariables": [
+        {
+            "variableName": "modelName",
+            "value": "{{ architectGenerator.getModelName()|capitalize }}"
+        },
+        {
+            "variableName": "ucFirstModelName",
+            "value": "{{ architectGenerator.getModelName()|capitalize }}"
+        },
+        {
+            "variableName": "hydratorName",
+            "value": "{{ ucFirstModelName }}Hydrator"
+        },
+        {
+            "variableName": "dataObjectName",
+            "value": "{{ ucFirstModelName }}DataObject"
+        },
+        {
+            "variableName": "collectionName",
+            "value": "{{ ucFirstModelName }}Collection"
+        },
+        {
+            "variableName": "daoName",
+            "value": "{{ ucFirstModelName }}DAO"
+        },
+        {
+            "variableName": "daoFactoryName",
+            "value": "{{ ucFirstModelName }}DAOFactory"
+        },
+        {
+            "variableName": "exceptionName",
+            "value": "No{{ ucFirstModelName }}Exception"
+        },
+        {
+            "variableName": "daoNamespace",
+            "value": "{{ architectGenerator.getNamespace() }}\\DAO\\{{ daoName }}"
+        },
+        {
+            "variableName": "daoFactoryNamespace",
+            "value": "{{ architectGenerator.getNamespace() }}\\{{ daoFactoryName }}"
+        },
+        {
+            "variableName": "dtoNamespace",
+            "value": "{{ architectGenerator.getNamespace() }}\\DataObject\\{{ dataObjectName }}"
+        },
+        {
+            "variableName": "hydratorNamespace",
+            "value": "{{ architectGenerator.getNamespace() }}\\Hydrator\\{{ hydratorName }}"
+        },
+        {
+            "variableName": "dtoCollectionNamespace",
+            "value": "{{ architectGenerator.getNamespace() }}\\DataObject\\{{ collectionName }}"
+        },
+        {
+            "variableName": "exceptionNamespace",
+            "value": "{{ architectGenerator.getNamespace() }}\\{{ exceptionName }}"
+        },
+        {
+            "variableName": "unitTestNamespace",
+            "value": "Tests\\{{ architectGenerator.getNamespace() }}"
+        },
+        {
+            "variableName": "fixtureName",
+            "value": "{{ ucFirstModelName }}Fixture"
+        },
+        {
+            "variableName": "fixtureFactoryName",
+            "value": "{{ ucFirstModelName }}FixtureFactory"
+        },
+        {
+            "variableName": "fixtureNamespace",
+            "value": "Tests\\{{ architectGenerator.getNamespace() }}\\{{ fixtureName }}"
+        },
+        {
+            "variableName": "fixtureFactoryNamespace",
+            "value": "Tests\\{{ architectGenerator.getNamespace() }}\\{{ fixtureFactoryName }}"
+        }
+    ],
+    "filesList": [
+        {
+            "templatePath": "/Exception.php.phtml",
+            "destinationPath": "{{ architectGenerator.getModelDirectory() }}No{{ ucFirstModelName }}Exception.php"
+        },
+        {
+            "templatePath": "/DAOFactory.php.phtml",
+            "destinationPath": "{{ architectGenerator.getModelDirectory() }}{{ ucFirstModelName }}DAOFactory.php"
+        },
+        {
+            "templatePath": "/DAO.php.phtml",
+            "destinationPath": "{{ architectGenerator.getModelDirectory() }}DAO/{{ ucFirstModelName }}DAO.php"
+        },
+        {
+            "templatePath": "/Hydrator.php.phtml",
+            "destinationPath": "{{ architectGenerator.getModelDirectory() }}Hydrator/{{ ucFirstModelName }}Hydrator.php"
+        },
+        {
+            "templatePath": "/DataObject.php.phtml",
+            "destinationPath": "{{ architectGenerator.getModelDirectory() }}DataObject/{{ ucFirstModelName }}DataObject.php"
+        },
+        {
+            "templatePath": "/DataObjectCollection.php.phtml",
+            "destinationPath": "{{ architectGenerator.getModelDirectory() }}DataObject/{{ ucFirstModelName }}Collection.php"
+        },
+        {
+            "templatePath": "/test/Fixture.php.phtml",
+            "destinationPath": "{{ architectGenerator.getUnitTestDirectory() ~ fixtureName }}.php"
+        },
+        {
+            "templatePath": "/test/FixtureFactory.php.phtml",
+            "destinationPath": "{{ architectGenerator.getUnitTestDirectory() ~ fixtureFactoryName }}.php"
+        },
+        {
+            "templatePath": "/test/DAOFactory/getInstanceTest.php.phtml",
+            "destinationPath": "{{ architectGenerator.getUnitTestDirectory() ~ daoFactoryName }}/GetInstanceTest.php"
+        },
+        {
+            "templatePath": "/test/DAO/findTest.php.phtml",
+            "destinationPath": "{{ architectGenerator.getUnitTestDirectory() ~ daoName }}/FindTest.php"
+        },
+        {
+            "templatePath": "/test/DAO/findAllTest.php.phtml",
+            "destinationPath": "{{ architectGenerator.getUnitTestDirectory() ~ daoName }}/FindAllTest.php"
+        },
+        {
+            "templatePath": "/test/DAO/persistTest.php.phtml",
+            "destinationPath": "{{ architectGenerator.getUnitTestDirectory() ~ daoName }}/PersitTest.php"
+        },
+        {
+            "templatePath": "/test/DAO/modifyTest.php.phtml",
+            "destinationPath": "{{ architectGenerator.getUnitTestDirectory() ~ daoName }}/ModifyTest.php"
+        },
+        {
+            "templatePath": "/test/DAO/removeTest.php.phtml",
+            "destinationPath": "{{ architectGenerator.getUnitTestDirectory() ~ daoName }}/RemoveTest.php"
+        }
+    ]
 }

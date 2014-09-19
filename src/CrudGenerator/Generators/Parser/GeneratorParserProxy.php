@@ -17,9 +17,9 @@
  */
 namespace CrudGenerator\Generators\Parser;
 
-use CrudGenerator\MetaData\DataObject\MetaData;
-use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\MetaData\DataObject\MetaDataInterface;
 
 /**
  * Find all generator allow in project
@@ -41,13 +41,10 @@ class GeneratorParserProxy implements GeneratorParserInterface
         $this->context = $context;
     }
 
-    /**
-     * @param GeneratorDataObject $generator
-     * @param MetaData $metadata
-     * @throws \InvalidArgumentException
-     * @return GeneratorDataObject
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Generators\Parser\GeneratorParserInterface::init()
      */
-    public function init(GeneratorDataObject $generator, MetaData $metadata)
+    public function init(GeneratorDataObject $generator, MetaDataInterface $metadata)
     {
         $generatorParser = GeneratorParserFactory::getInstance($this->context);
 

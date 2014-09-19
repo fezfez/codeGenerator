@@ -1,86 +1,95 @@
 {
-  "name": "CrudGenerator",
-  "definition": "Generate CRUD based on ArchitectGenerator utilisation",
-  "dto": "CrudGenerator\\GeneratorsEmbed\\CrudGenerator\\Crud",
-   "metadataTypeAccepted": [
-      "CrudGenerator\\MetaData\\DataObject\\MetaData"
-  ],
-  "dependencies": [
-    "ArchitectGenerator",
-    "FormGenerator"
-  ],
-  "questions": [
-    {
-      "dtoAttribute": "DisplayName",
-      "text": "Display name (in view, title etc..)",
-      "defaultResponse": "{{ ucFirstModelName }}"
-    },
-    {
-      "dtoAttribute": "DisplayNames",
-      "text": "Plural Display name (in view, title etc..)",
-      "defaultResponse": "{{ ucFirstModelName }}s"
-    },
-    {
-      "dtoAttribute": "ControllerName",
-      "text": "Controller name (ucFirst and without \"Controller\")",
-      "defaultResponse": "{{ ucFirstModelName }}"
-    },
-    {
-      "dtoAttribute": "PrefixRouteName",
-      "text": "Prefix route name (lower case)",
-      "defaultResponse": "!uncamelcase($modelName)!"
-    },
-    {
-      "dtoAttribute": "ViewDirectory",
-      "text": "Chose the view directory",
-      "type": "complex",
-      "factory": "CrudGenerator\\Generators\\Questions\\DirectoryQuestionFactory"
-    },
-    {
-      "dtoAttribute": "ControllerDirectory",
-      "text": "Chose the controller directory",
-      "type": "directory"
-    }
-  ],
-  "directories": [
-    "{{ crudGenerator.getControllerDirectory() }}",
-    "{{ crudGenerator.getViewDirectory() }}"
-  ],
-  "templateVariables": [
-    {
-      "homeRoute": "{{ crudGenerator.getPrefixRouteName() }}"
-    },
-    {
-      "newRoute": "{{ homeRoute }}-new"
-    },
-    {
-      "showRoute": "{{ homeRoute }}-show"
-    },
-    {
-      "editRoute": "{{ homeRoute }}-edit"
-    },
-    {
-      "deleteRoute": "{{ homeRoute }}-delete"
-    }
-  ],
-  "filesList": [
-    {
-      "/controller.php.phtml": "{{ crudGenerator.getControllerDirectory() ~ crudGenerator.getControllerName() }}Controller.php"
-    },
-    {
-      "/views/index.phtml": "{{ crudGenerator.getViewDirectory() }}index.phtml"
-    },
-    {
-      "/views/show.phtml": "{{ crudGenerator.getViewDirectory() }}show.phtml"
-    },
-    {
-      "/views/new.phtml": "{{ crudGenerator.getViewDirectory() }}new.phtml"
-    },
-    {
-      "/views/edit.phtml": "{{ crudGenerator.getViewDirectory() }}edit.phtml"
-    },
-    {
-      "/views/edit-js.phtml": "{{ crudGenerator.getViewDirectory() }}edit-js.phtml"
-    }
-  ]
+    "name": "CrudGenerator",
+    "definition": "Generate CRUD based on ArchitectGenerator utilisation",
+    "metadataTypeAccepted": [
+        "CrudGenerator\\MetaData\\DataObject\\MetaData"
+    ],
+    "dependencies": [
+        "ArchitectGenerator",
+        "FormGenerator"
+    ],
+    "questions": [
+        {
+            "dtoAttribute": "DisplayName",
+            "text": "Display name (in view, title etc..)",
+            "defaultResponse": "{{ ucFirstModelName }}"
+        },
+        {
+            "dtoAttribute": "DisplayNames",
+            "text": "Plural Display name (in view, title etc..)",
+            "defaultResponse": "{{ ucFirstModelName }}s"
+        },
+        {
+            "dtoAttribute": "ControllerName",
+            "text": "Controller name (ucFirst and without \"Controller\")",
+            "defaultResponse": "{{ ucFirstModelName }}"
+        },
+        {
+            "dtoAttribute": "PrefixRouteName",
+            "text": "Prefix route name (lower case)",
+            "defaultResponse": "!uncamelcase($modelName)!"
+        },
+        {
+            "dtoAttribute": "ViewDirectory",
+            "text": "Chose the view directory",
+            "type": "directory"
+        },
+        {
+            "dtoAttribute": "ControllerDirectory",
+            "text": "Chose the controller directory",
+            "type": "directory"
+        }
+    ],
+    "directories": [
+        "{{ crudGenerator.getControllerDirectory() }}",
+        "{{ crudGenerator.getViewDirectory() }}"
+    ],
+    "templateVariables": [
+        {
+            "variableName": "homeRoute",
+            "value": "{{ crudGenerator.getPrefixRouteName() }}"
+        },
+        {
+            "variableName": "newRoute",
+            "value": "{{ homeRoute }}-new"
+        },
+        {
+            "variableName": "showRoute",
+            "value": "{{ homeRoute }}-show"
+        },
+        {
+            "variableName": "editRoute",
+            "value": "{{ homeRoute }}-edit"
+        },
+        {
+            "variableName": "deleteRoute",
+            "value": "{{ homeRoute }}-delete"
+        }
+    ],
+    "filesList": [
+        {
+            "templatePath": "/controller.php.phtml",
+            "destinationPath": "{{ crudGenerator.getControllerDirectory() ~ crudGenerator.getControllerName() }}Controller.php"
+        },
+        {
+            "templatePath": "/views/index.phtml",
+            "destinationPath": "{{ crudGenerator.getViewDirectory() }}index.phtml"
+        },
+        {
+            "templatePath": "/views/show.phtml",
+            "destinationPath": "{{ crudGenerator.getViewDirectory() }}show.phtml"
+        },
+        {
+            "templatePath": "/views/new.phtml",
+            "destinationPath": "{{ crudGenerator.getViewDirectory() }}new.phtml"
+        },
+        {
+            "templatePath": "/views/edit.phtml",
+            "destinationPath": "{{ crudGenerator.getViewDirectory() }}edit.phtml"
+        },
+        {
+            "templatePath": "/views/edit-js.phtml",
+            "destinationPath": "{{ crudGenerator.getViewDirectory() }}edit-js.phtml"
+        }
+    ]
 }
