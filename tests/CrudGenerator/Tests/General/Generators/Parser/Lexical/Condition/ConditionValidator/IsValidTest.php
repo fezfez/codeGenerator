@@ -45,7 +45,7 @@ class IsValidTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new ConditionValidator($dependencyCondition, $environnementCondition, $simpleCondition);
+        $sUT = new ConditionValidator(array($dependencyCondition, $environnementCondition, $simpleCondition));
 
         $this->assertEquals(
             true,
@@ -93,7 +93,7 @@ class IsValidTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new ConditionValidator($dependencyCondition, $environnementCondition, $simpleCondition);
+        $sUT = new ConditionValidator(array($dependencyCondition, $environnementCondition, $simpleCondition));
 
         $this->assertEquals(
             true,
@@ -144,7 +144,7 @@ class IsValidTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new ConditionValidator($dependencyCondition, $environnementCondition, $simpleCondition);
+        $sUT = new ConditionValidator(array($dependencyCondition, $environnementCondition, $simpleCondition));
 
         $this->assertEquals(
             true,
@@ -195,7 +195,7 @@ class IsValidTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new ConditionValidator($dependencyCondition, $environnementCondition, $simpleCondition);
+        $sUT = new ConditionValidator(array($dependencyCondition, $environnementCondition, $simpleCondition));
 
         $this->assertEquals(
             true,

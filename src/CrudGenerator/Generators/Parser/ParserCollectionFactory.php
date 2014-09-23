@@ -35,6 +35,7 @@ use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator;
 use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
 use CrudGenerator\Generators\Parser\Lexical\Condition\SimpleCondition;
 use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidatorFactory;
+use CrudGenerator\Generators\Parser\Lexical\QuestionRegister;
 
 class ParserCollectionFactory
 {
@@ -51,7 +52,15 @@ class ParserCollectionFactory
             $conditionValidation   = ConditionValidatorFactory::getInstance();
             $iteratorValidator     = new IteratorValidator($conditionValidation);
 
-            $collection->addPreParse(new EnvironnementParser($context))
+            $collection->addPreParse(
+                           new QuestionRegister(
+                               $context,
+                               $conditionValidation,
+                               QuestionTypeCollectionFactory::getInstance($context),
+                               new QuestionAnalyser()
+                           )
+                       )
+                       ->addPreParse(new EnvironnementParser($context))
                        ->addPostParse(new TemplateVariableParser($conditionValidation))
                        ->addPostParse(new DirectoriesParser())
                        ->addPostParse(new FileParser($fileManager, $conditionValidation, $iteratorValidator))

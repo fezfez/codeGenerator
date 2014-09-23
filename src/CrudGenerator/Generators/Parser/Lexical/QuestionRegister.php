@@ -25,7 +25,7 @@ use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeCollection;
 use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator;
 
-class QuestionParser implements ParserInterface
+class QuestionRegister implements ParserInterface
 {
     /**
      * @var ContextInterface
@@ -104,14 +104,7 @@ class QuestionParser implements ParserInterface
         foreach ($this->questionTypeCollection as $questionTypeParser) {
             /* @var $questionTypeParser \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeInterface */
             if ($question['type']->is($questionTypeParser->getType()) === true) {
-                $generator = $questionTypeParser->evaluateQuestion(
-                    $question,
-                    $parser,
-                    $generator,
-                    $firstIteration,
-                    $process
-                );
-
+                $generator->getDto()->register($question, $questionTypeParser->isIterable($question));
                 $isParsed  = true;
                 break;
             }

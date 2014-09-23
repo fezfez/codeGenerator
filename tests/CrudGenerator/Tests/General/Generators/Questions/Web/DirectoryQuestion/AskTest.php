@@ -18,6 +18,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $generatorDTO = new GeneratorDataObject();
         $dto          = new DataObject();
+        $dto->register(array('dtoAttribute' => 'ModelDirectory'), false);
         $dto->setModelDirectory('src');
         $generatorDTO->setDto($dto);
 
@@ -79,7 +80,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $sUT = new DirectoryQuestion($fileManagerStub, $context);
 
         $generatorDTO = new GeneratorDataObject();
-        $generatorDTO->setDto(new DataObject());
+        $dto = new DataObject();
+        $dto->register(array('dtoAttribute' => 'ModelDirectory'), false);
+        $generatorDTO->setDto($dto);
 
         $generatorDTO = $sUT->ask(
             $generatorDTO,
@@ -146,7 +149,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $sUT = new DirectoryQuestion($fileManagerStub, $context);
 
         $generatorDTO = new GeneratorDataObject();
-        $generatorDTO->setDto(new DataObject());
+        $dto = new DataObject();
+        $dto->register(array('dtoAttribute' => 'ModelDirectory'), false);
+        $generatorDTO->setDto($dto);
 
         $generatorDTO = $sUT->ask(
             $generatorDTO,

@@ -28,9 +28,11 @@ class ConditionValidatorFactory
     public static function getInstance()
     {
         return new ConditionValidator(
-            new DependencyCondition(),
-            new EnvironnementCondition(),
-            new SimpleCondition()
+            array(
+                new DependencyCondition(),
+                new EnvironnementCondition(),
+                new SimpleCondition()
+            )
         );
     }
 }

@@ -122,7 +122,7 @@ class DataObject implements \JsonSerializable
      */
     private function getter(array $args, $methodName)
     {
-        if (false === isset($this->store[$methodName])) {
+        if (false === array_key_exists($methodName, $this->store)) {
             throw new \Exception(sprintf('The storage "%s" does not exist', $methodName));
         } elseif ($this->store[$methodName]->isValidAcces($args, $methodName)) {
             return $this->store[$methodName]->get($args);
@@ -168,7 +168,7 @@ class DataObject implements \JsonSerializable
      */
     public function register(array $question, $isIterable)
     {
-        $this->store[$question['dtoAttribute']] = $isIterable === true ? array() : null;
+        $this->store[$question['dtoAttribute']] = $isIterable === true ? new StorageArray() : new StorageString();
 
         return $this;
     }
