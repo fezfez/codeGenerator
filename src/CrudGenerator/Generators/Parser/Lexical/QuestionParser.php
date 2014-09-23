@@ -75,7 +75,7 @@ class QuestionParser implements ParserInterface
                     );
                 }
 
-                if ($this->conditionValidator->isValid($question, $generator) === true) {
+                if ($this->conditionValidator->isValid($question, $generator, $parser) === true) {
                     $generator = $this->evaluateQuestions($question, $parser, $generator, $firstIteration, $process);
                 }
             }

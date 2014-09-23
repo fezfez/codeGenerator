@@ -12,22 +12,30 @@
         {
             "dtoAttribute": "DisplayName",
             "text": "Display name (in view, title etc..)",
-            "defaultResponse": "{{ ucFirstModelName }}"
+            "response": {
+                "default": "{{ ucFirstModelName }}"
+            }
         },
         {
             "dtoAttribute": "DisplayNames",
             "text": "Plural Display name (in view, title etc..)",
-            "defaultResponse": "{{ ucFirstModelName }}s"
+            "response": {
+                "default": "{{ ucFirstModelName }}s"
+            }
         },
         {
             "dtoAttribute": "ControllerName",
             "text": "Controller name (ucFirst and without \"Controller\")",
-            "defaultResponse": "{{ ucFirstModelName }}"
+            "response": {
+                "default": "{{ ucFirstModelName }}"
+            }
         },
         {
             "dtoAttribute": "PrefixRouteName",
             "text": "Prefix route name (lower case)",
-            "defaultResponse": "!uncamelcase($modelName)!"
+            "response": {
+                "default": "!uncamelcase($modelName)!"
+            }
         },
         {
             "dtoAttribute": "ViewDirectory",

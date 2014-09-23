@@ -24,7 +24,7 @@ use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
 use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
-use CrudGenerator\Utils\StaticPhp;
+use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
 
 class QuestionTypeIteratorWithPredefinedResponse implements QuestionTypeInterface
 {
@@ -33,18 +33,18 @@ class QuestionTypeIteratorWithPredefinedResponse implements QuestionTypeInterfac
      */
     private $context = null;
     /**
-     * @var StaticPhp
+     * @var IteratorValidator
      */
-    private $staticPhp = null;
+    private $iteratorValidator = null;
 
     /**
      * @param ContextInterface $context
-     * @param StaticPhp $staticPhp
+     * @param IteratorValidator $iteratorValidator
      */
-    public function __construct(ContextInterface $context, StaticPhp $staticPhp)
+    public function __construct(ContextInterface $context, IteratorValidator $iteratorValidator)
     {
-        $this->context   = $context;
-        $this->staticPhp = $staticPhp;
+        $this->context           = $context;
+        $this->iteratorValidator = $iteratorValidator;
     }
 
     /* (non-PHPdoc)
@@ -57,51 +57,37 @@ class QuestionTypeIteratorWithPredefinedResponse implements QuestionTypeInterfac
         $firstIteration,
         array $process
     ) {
-        $instance = $this->staticPhp->phpInterpretStatic(
-            $question['collection'],
-            array(
-                lcfirst($process['name']) => $generator->getDto()
-            )
-        );
+        $iterator       = $this->iteratorValidator->retrieveValidIteration($question, $generator, $parser);
+        $iteratorParser = clone $parser;
 
-        if (($instance instanceof \Traversable) === false) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'The result of "%s" is not an instance of Traversable',
-                    $question['collection']
-                )
-            );
-        }
+        foreach ($iterator as $iteration) {
 
-        foreach ($instance as $iteration) {
+            $iteratorParser->addVariable('iteration', $iteration);
 
-            $origine = $this->staticPhp->phpInterpretStatic(
-                $question['origine'],
-                array('iteration' => $iteration)
-            );
-
+            $origine            = $iteratorParser->parse($question['iteration']['retrieveBy']);
             $responseCollection = new PredefinedResponseCollection();
 
-            foreach ($question['predefinedResponse'] as $predefinedResponse) {
+            foreach ($question['iteration']['response']['predefined'] as $predefinedResponse) {
                 $responseCollection->append(
                     new PredefinedResponse(
                         $predefinedResponse['response'],
-                        $this->staticPhp->staticsprintf($predefinedResponse['text'], array('iteration' => $iteration)),
+                        $iteratorParser->parse($predefinedResponse['text']),
                         $predefinedResponse['response']
                     )
                 );
             }
 
             $questionWithPredefinedResponse = new QuestionWithPredefinedResponse(
-                $this->staticPhp->staticsprintf($question['text'], array('iteration' => $iteration)),
+                $iteratorParser->parse($question['iteration']['text']),
                 'set_predefined_' . ucfirst($question['dtoAttribute']) . $origine,
                 $responseCollection
             );
 
             $questionWithPredefinedResponse->setDefaultResponse(
-                (isset($question['defaultResponse']) === true) ? $parser->parse($question['defaultResponse']) : null
+                (isset($question['iteration']['response']['default']) === true) ?
+                    $iteratorParser->parse($question['iteration']['response']['default']) : null
             )->setRequired($question['required'])
-             ->setResponseType($question['responseType']);
+             ->setResponseType($question['iteration']['response']['type']);
 
 
             $response = $this->context->askCollection($questionWithPredefinedResponse);

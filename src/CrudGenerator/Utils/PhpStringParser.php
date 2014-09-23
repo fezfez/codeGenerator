@@ -53,4 +53,47 @@ class PhpStringParser
             $this->variables
         );
     }
+
+    /**
+     * Interpret a php plain text
+     *
+     * @param string $text A php call as plain text example : $foo->bar()->baz()
+     * @throws \InvalidArgumentException
+     * @return mixed
+     */
+    public function staticPhp($text)
+    {
+        $textExplode      = explode('->', $text);
+        $variableName     = str_replace('$', '', array_shift($textExplode));
+        $variableVariable = $this->variables;
+
+        if (isset($variableVariable[$variableName]) === false) {
+            throw new \InvalidArgumentException(
+                sprintf('variable %s does not exist', $variableName)
+            );
+        }
+
+        $textExplode = array_map(
+            function($value) {
+                return str_replace('()', '', $value);
+            },
+            $textExplode
+        );
+
+        $instance = $variableVariable[$variableName];
+        $keys     = array_values($textExplode);
+        $lastKey  = array_pop($keys);
+
+        foreach ($textExplode as $key => $method) {
+            if ($instance === null && $lastKey !== $key) {
+                throw new \InvalidArgumentException(sprintf('method %s return null', $method));
+            } elseif (false === method_exists($instance, $method)) {
+                throw new \InvalidArgumentException(sprintf('method %s does not exist on %s', $method, $text));
+            } else {
+                $instance = $instance->$method();
+            }
+        }
+
+        return $instance;
+    }
 }

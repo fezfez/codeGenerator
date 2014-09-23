@@ -6,24 +6,27 @@ use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Generators\Parser\GeneratorParser;
 use Symfony\Component\Yaml\Yaml;
 use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionInterface;
+use CrudGenerator\Utils\PhpStringParserFactory;
 
-class EvaluateTest extends \PHPUnit_Framework_TestCase
+class IsValidTest extends \PHPUnit_Framework_TestCase
 {
     public function testDifferent()
     {
-        $sUT       = new DependencyCondition();
-        $generator = new GeneratorDataObject();
+        $sUT          = new DependencyCondition();
+        $generator    = new GeneratorDataObject();
+        $stringParser = PhpStringParserFactory::getInstance();
 
         $this->assertEquals(
             true,
-            $sUT->isValid('ArchitectGenerator ' . ConditionInterface::UNDEFINED, $generator)
+            $sUT->isValid(array('ArchitectGenerator ' . ConditionInterface::UNDEFINED), $generator, $stringParser)
         );
     }
 
-    public function testInd()
+    public function testIn()
     {
         $sUT                 = new DependencyCondition();
         $generator           = new GeneratorDataObject();
+        $stringParser        = PhpStringParserFactory::getInstance();
         $generatorDependency = new GeneratorDataObject();
 
         $generatorDependency->setName('ArchitectGenerator');
@@ -31,18 +34,19 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             true,
-            $sUT->isValid('ArchitectGenerator', $generator)
+            $sUT->isValid(array('ArchitectGenerator'), $generator, $stringParser)
         );
     }
 
     public function testWithout()
     {
-        $sUT       = new DependencyCondition();
-        $generator = new GeneratorDataObject();
+        $sUT          = new DependencyCondition();
+        $generator    = new GeneratorDataObject();
+        $stringParser = PhpStringParserFactory::getInstance();
 
         $this->assertEquals(
             false,
-            $sUT->isValid('ArchitectGenerator', $generator)
+            $sUT->isValid(array('ArchitectGenerator'), $generator, $stringParser)
         );
     }
 }

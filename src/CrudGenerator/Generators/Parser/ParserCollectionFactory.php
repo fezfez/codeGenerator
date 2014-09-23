@@ -32,6 +32,9 @@ use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
 use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeCollection;
 use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeCollectionFactory;
 use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator;
+use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
+use CrudGenerator\Generators\Parser\Lexical\Condition\SimpleCondition;
+use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidatorFactory;
 
 class ParserCollectionFactory
 {
@@ -45,14 +48,13 @@ class ParserCollectionFactory
         if ($context instanceof CliContext || $context instanceof WebContext) {
             $fileManager           = new FileManager();
             $collection            = new ParserCollection();
-            $environnemetCondition = new EnvironnementCondition();
-            $dependencyCondition   = new DependencyCondition();
-            $conditionValidation   = new ConditionValidator($dependencyCondition, $environnemetCondition);
+            $conditionValidation   = ConditionValidatorFactory::getInstance();
+            $iteratorValidator     = new IteratorValidator($conditionValidation);
 
             $collection->addPreParse(new EnvironnementParser($context))
                        ->addPostParse(new TemplateVariableParser($conditionValidation))
                        ->addPostParse(new DirectoriesParser())
-                       ->addPostParse(new FileParser($fileManager, $conditionValidation))
+                       ->addPostParse(new FileParser($fileManager, $conditionValidation, $iteratorValidator))
                        ->addPostParse(
                            new QuestionParser(
                                $context,

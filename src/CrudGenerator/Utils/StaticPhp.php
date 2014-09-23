@@ -26,47 +26,4 @@ class StaticPhp
 
         return vsprintf($questionText, $placeholder);
     }
-
-    /**
-     * Interpret a php plain text
-     *
-     * @param string $text               A php call as plain text example : $foo->bar()->baz()
-     * @param array  $variableVariable   An array of variable used be the text array('foo' => $foo)
-     * @throws \InvalidArgumentException
-     * @return mixed
-     */
-    public function phpInterpretStatic($text, array $variableVariable)
-    {
-        $textExplode  = explode('->', $text);
-        $variableName = str_replace('$', '', array_shift($textExplode));
-
-        if (isset($variableVariable[$variableName]) === false) {
-            throw new \InvalidArgumentException(
-                sprintf('variable %s does not exist', $variableName)
-            );
-        }
-
-        $textExplode = array_map(
-            function($value) {
-                return str_replace('()', '', $value);
-            },
-            $textExplode
-        );
-
-        $instance = $variableVariable[$variableName];
-        $keys     = array_values($textExplode);
-        $lastKey  = array_pop($keys);
-
-        foreach ($textExplode as $key => $method) {
-            if ($instance === null && $lastKey !== $key) {
-                throw new \InvalidArgumentException(sprintf('method %s return null', $method));
-            } elseif (false === method_exists($instance, $method)) {
-                throw new \InvalidArgumentException(sprintf('method %s does not exist on %s', $method, $text));
-            } else {
-                $instance = $instance->$method();
-            }
-        }
-
-        return $instance;
-    }
 }

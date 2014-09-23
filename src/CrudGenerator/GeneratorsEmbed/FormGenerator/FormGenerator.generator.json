@@ -1,83 +1,113 @@
 {
-  "name": "FormGenerator",
-  "definition": "Generate Form",
-   "metadataTypeAccepted": [
-     "CrudGenerator\\MetaData\\DataObject\\MetaData"
-  ],
-  "questions": [
-    {
-      "dtoAttribute": "FormDirectory",
-      "text": "Chose the form directory",
-      "type": "directory"
-    },
-    {
-      "dtoAttribute": "Namespace",
-      "text": "Choose a target namespace",
-      "dependencyCondition" : "ArchitectGenerator == undefined"
-    },
-    {
-      "dtoAttribute": "ModelName",
-      "text": "Choose a model name",
-      "defaultResponse": "{{ formGenerator.getMetadata().getName()|capitalize }}",
-      "dependencyCondition" : "ArchitectGenerator == undefined"
-    },
-    {
-      "type": "askCollection",
-      "collection": "$formGenerator->getMetadata()->getColumnCollection()",
-      "text": "Attribute name for \"%s\", $iteration->getName()",
-      "origine": "$iteration->getName()",
-      "dtoAttribute": "AttributeName",
-      "responseType": "text",
-      "defaultResponse": "$iteration->getName()",
-      "dependencyCondition" : "ArchitectGenerator == undefined"
-    }
-  ],
-  "directories": [
-    "{{ formGenerator.getFormDirectory() }}"
-  ],
-  "templateVariables": [
-    {
-      "variableName" : "ucFirstModelName",
-      "value": "{{ formGenerator.getModelName()|capitalize }}",
-      "dependencyCondition" : "ArchitectGenerator == undefined"
-    },
-    {
-      "variableName" : "dataObjectName",
-      "value": "{{ ucFirstModelName }}DataObject",
-      "dependencyCondition" : "ArchitectGenerator == undefined"
-    },
-    {
-      "variableName" : "dtoNamespace",
-      "value": "{{ formGenerator.getNamespace() }}\\Form\\{{ dataObjectName }}",
-      "dependencyCondition" : "ArchitectGenerator == undefined"
-    }
-  ],
-  "filesList": [
-    {
-      "templatePath" : "/form/FormFactory.phtml",
-      "destinationPath" : "{{ formGenerator.getFormDirectory() ~ ucFirstModelName }}FormFactory.php",
-      "description": "The form factory"
-    },
-    {
-      "templatePath" : "/form/AbstractForm.phtml",
-      "destinationPath" : "{{ formGenerator.getFormDirectory() ~ 'Abstract' ~ ucFirstModelName }}Form.php",
-      "description": "The form factory"
-    },
-    {
-      "templatePath" : "/form/Form.phtml",
-      "destinationPath" : "{{ formGenerator.getFormDirectory() ~ ucFirstModelName }}Form.php",
-      "description": "The form factory"
-    },
-    {
-      "templatePath" : "/form/FormFilter.phtml",
-      "destinationPath" : "{{ formGenerator.getFormDirectory() ~ ucFirstModelName }}FormFilter.php",
-      "description": "The form factory"
-    },
-    {
-      "templatePath" : "/form/DataObject.phtml",
-      "destinationPath" : "{{ formGenerator.getFormDirectory() ~ ucFirstModelName }}DataObject.php",
-      "description": "The form factory",
-      "dependencyCondition" : "ArchitectGenerator == undefined"
-    }
-  ]
+    "name": "FormGenerator",
+    "definition": "Generate Form",
+    "metadataTypeAccepted": [
+        "CrudGenerator\\MetaData\\DataObject\\MetaData"
+    ],
+    "questions": [
+        {
+            "dtoAttribute": "FormDirectory",
+            "text": "Chose the form directory",
+            "type": "directory"
+        },
+        {
+            "dtoAttribute": "Namespace",
+            "text": "Choose a target namespace",
+            "dependencyCondition": "ArchitectGenerator == undefined"
+        },
+        {
+            "dtoAttribute": "ModelName",
+            "text": "Choose a model name",
+            "response": {
+                "default": "{{ formGenerator.getMetadata().getName()|capitalize }}"
+            },
+            "condition": {
+                "dependency": [
+                    "ArchitectGenerator == undefined"
+                ]
+            }
+        },
+        {
+            "type": "askCollection",
+            "dtoAttribute": "AttributeName",
+            "iteration": {
+                "iterator": "$formGenerator->getMetadata()->getColumnCollection()",
+                "text": "Attribute name for \"{{ iteration.getName() }}\"",
+                "retrieveBy": "{{ iteration.getName() }}",
+                "response": {
+                    "type": "text",
+                    "default": "{{ iteration.getName() }}"
+                }
+            },
+            "condition": {
+                "dependency": [
+                    "ArchitectGenerator == undefined"
+                ]
+            }
+        }
+    ],
+    "directories": [
+        "{{ formGenerator.getFormDirectory() }}"
+    ],
+    "templateVariables": [
+        {
+            "variableName": "ucFirstModelName",
+            "value": "{{ formGenerator.getModelName()|capitalize }}",
+            "condition": {
+                "dependency": [
+                    "ArchitectGenerator == undefined"
+                ]
+            }
+        },
+        {
+            "variableName": "dataObjectName",
+            "value": "{{ ucFirstModelName }}DataObject",
+            "condition": {
+                "dependency": [
+                    "ArchitectGenerator == undefined"
+                ]
+            }
+        },
+        {
+            "variableName": "dtoNamespace",
+            "value": "{{ formGenerator.getNamespace() }}\\Form\\{{ dataObjectName }}",
+            "condition": {
+                "dependency": [
+                    "ArchitectGenerator == undefined"
+                ]
+            }
+        }
+    ],
+    "filesList": [
+        {
+            "templatePath": "/form/FormFactory.phtml",
+            "destinationPath": "{{ formGenerator.getFormDirectory() ~ ucFirstModelName }}FormFactory.php",
+            "description": "The form factory"
+        },
+        {
+            "templatePath": "/form/AbstractForm.phtml",
+            "destinationPath": "{{ formGenerator.getFormDirectory() ~ 'Abstract' ~ ucFirstModelName }}Form.php",
+            "description": "The form factory"
+        },
+        {
+            "templatePath": "/form/Form.phtml",
+            "destinationPath": "{{ formGenerator.getFormDirectory() ~ ucFirstModelName }}Form.php",
+            "description": "The form factory"
+        },
+        {
+            "templatePath": "/form/FormFilter.phtml",
+            "destinationPath": "{{ formGenerator.getFormDirectory() ~ ucFirstModelName }}FormFilter.php",
+            "description": "The form factory"
+        },
+        {
+            "templatePath": "/form/DataObject.phtml",
+            "destinationPath": "{{ formGenerator.getFormDirectory() ~ ucFirstModelName }}DataObject.php",
+            "description": "The form factory",
+            "condition": {
+                "dependency": [
+                    "ArchitectGenerator == undefined"
+                ]
+            }
+        }
+    ]
 }

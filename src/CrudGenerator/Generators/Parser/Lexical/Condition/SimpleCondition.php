@@ -20,24 +20,26 @@ namespace CrudGenerator\Generators\Parser\Lexical\Condition;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Utils\PhpStringParser;
 
-interface ConditionInterface
+class SimpleCondition implements ConditionInterface
 {
-    const CONDITION       = 'condition';
-    const CONDITION_ELSE  = 'else';
-    const DIFFERENT       = '!';
-    const UNDEFINED       = ' == undefined';
-    const EQUAL           = '==';
-    const DIFFERENT_EQUAL = '!=';
+    const NAME = 'simple';
 
-    /**
-     * @param array $plainTextCondition
-     * @param GeneratorDataObject $generator
-     * @param PhpStringParser $phpStringParser
-     * @return boolean
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
      */
     public function isValid(
-        array $plainTextCondition,
+        array $nodes,
         GeneratorDataObject $generator,
         PhpStringParser $phpStringParser
-    );
+    ) {
+        $parser = clone $phpStringParser;
+
+        foreach ($nodes as $node) {
+            if (false === (bool) $parser->parse($node)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

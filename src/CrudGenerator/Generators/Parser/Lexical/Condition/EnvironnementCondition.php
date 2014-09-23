@@ -18,36 +18,44 @@
 namespace CrudGenerator\Generators\Parser\Lexical\Condition;
 
 use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Utils\PhpStringParser;
 
 class EnvironnementCondition implements ConditionInterface
 {
-    const NAME = 'environnementCondition';
+    const NAME = 'environnement';
 
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
      */
     public function isValid(
-        $expression,
-        GeneratorDataObject $generator
+        array $expressions,
+        GeneratorDataObject $generator,
+        PhpStringParser $phpStringParser
     ) {
-        try {
-            $comparaisonDifferentEquals = $this->analyseExpressionType(
-                $expression,
-                ConditionInterface::DIFFERENT_EQUAL
-            );
-            $addEnvironnementExpression = (
-                $comparaisonDifferentEquals['environnementValue'] !==
-                $generator->getEnvironnement($comparaisonDifferentEquals['environnementName'])
-            );
-        } catch (\InvalidArgumentException $e) {
-            $comparaisonEquals          = $this->analyseExpressionType($expression, ConditionInterface::EQUAL);
-            $addEnvironnementExpression = (
-                $comparaisonEquals['environnementValue'] ===
-                $generator->getEnvironnement($comparaisonEquals['environnementName'])
-            );
+        foreach ($expressions as $expression) {
+            try {
+                $comparaisonDifferentEquals = $this->analyseExpressionType(
+                    $expression,
+                    ConditionInterface::DIFFERENT_EQUAL
+                );
+                $addEnvironnementExpression = (
+                    $comparaisonDifferentEquals['environnementValue'] !==
+                    $generator->getEnvironnement($comparaisonDifferentEquals['environnementName'])
+                );
+            } catch (\InvalidArgumentException $e) {
+                $comparaisonEquals          = $this->analyseExpressionType($expression, ConditionInterface::EQUAL);
+                $addEnvironnementExpression = (
+                    $comparaisonEquals['environnementValue'] ===
+                    $generator->getEnvironnement($comparaisonEquals['environnementName'])
+                );
+            }
+
+            if ($addEnvironnementExpression === false) {
+                return false;
+            }
         }
 
-        return $addEnvironnementExpression;
+        return true;
     }
 
     /**

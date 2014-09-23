@@ -39,61 +39,99 @@
         {
             "dtoAttribute": "Namespace",
             "text": "Choose a target namespace",
-            "responseType": "text",
-            "defaultResponse": "Corp"
+            "response": {
+                "type": "text",
+                "default": "Corp"
+            }
         },
         {
             "dtoAttribute": "ServiceLayer",
             "text": "Add service layer",
-            "responseType": "boolean"
+            "response": {
+                "type": "boolean",
+                "default": "false"
+            }
         },
         {
             "dtoAttribute": "ModelName",
             "text": "Choose a model name",
-            "defaultResponse": "{{ architectGenerator.getMetadata().getName() }}",
-            "responseType": "text"
+            "response": {
+                "type": "text",
+                "default": "{{ architectGenerator.getMetadata().getName() }}"
+            }
         },
         {
             "type": "askCollection",
-            "collection": "$architectGenerator->getMetadata()->getColumnCollection()",
-            "text": "Attribute name for \"%s\", $iteration->getName()",
-            "origine": "$iteration->getName()",
             "dtoAttribute": "AttributeName",
-            "responseType": "text",
-            "defaultResponse": "$iteration->getName()"
+            "iteration": {
+                "iterator": "$architectGenerator->getMetadata()->getColumnCollection()",
+                "retrieveBy": "{{ iteration.getName() }}",
+                "text": "Attribute name for \"{{ iteration.getName() }}\"",
+                "response": {
+                    "type": "text",
+                    "default": "{{ iteration.getName() }}"
+                },
+                "condition": {
+                    "simple": [
+                        "{{ iteration.isPrimaryKey() == false }}"
+                    ]
+                }
+            }
         },
         {
             "type": "askCollection",
-            "collection": "$architectGenerator->getMetadata()->getColumnCollection()",
-            "text": "Add \"%s\" to DTO, $iteration->getName()",
-            "origine": "$iteration->getName()",
             "dtoAttribute": "ColumnUsed",
-            "responseType": "boolean",
-            "defaultResponse": "1"
+            "iteration": {
+                "iterator": "$architectGenerator->getMetadata()->getColumnCollection()",
+                "retrieveBy": "{{ iteration.getName() }}",
+                "text": "Add \"{{ iteration.getName() }}\" to DTO)",
+                "response": {
+                    "type": "boolean",
+                    "default": "true"
+                },
+                "condition": {
+                    "simple": [
+                        "{{ iteration.isPk() }}"
+                    ]
+                }
+            }
         },
         {
             "type": "askCollection",
-            "collection": "$architectGenerator->getMetadata()->getRelationCollection()",
-            "text": "Attribute name for \"%s\", $iteration->getName()",
-            "origine": "$iteration->getName()",
             "dtoAttribute": "RelationRenamed",
-            "responseType": "text",
-            "defaultResponse": "$iteration->getName()"
+            "iteration": {
+                "iterator": "$architectGenerator->getMetadata()->getRelationCollection()",
+                "retrieveBy": "{{ iteration.getName() }}",
+                "text": "Attribute name for  \"{{ iteration.getName() }}\"",
+                "response": {
+                    "type": "text",
+                    "default": "{{ iteration.getName() }}"
+                },
+                "condition": {
+                    "simple": [
+                        "{{ architectGenerator.getServiceLayer() or true }}"
+                    ]
+                }
+            }
         },
         {
             "type": "askCollectionOverIterator",
-            "collection": "$architectGenerator->getMetadata()->getRelationCollection()",
-            "text": "Deal the relation with \"%s\", $iteration->getFullName()",
-            "origine": "$iteration->getFullName()",
             "dtoAttribute": "RelationBehavior",
-            "responseType": "text",
-            "defaultResponse": "ADD_TO_DTO",
-            "predefinedResponse": [
-                {
-                    "response": "ADD_TO_DTO",
-                    "text": "Include \"%s\" attribute from \"%s\" to DTO ', $iteration->getFullName(), $iteration->getName()"
+            "iteration": {
+                "iterator": "$architectGenerator->getMetadata()->getRelationCollection()",
+                "retrieveBy": "{{ iteration.getFullName() }}",
+                "text": "Deal the relation with \"{{ iteration.getFullName() }}\"",
+                "response": {
+                    "type": "text",
+                    "default": "ADD_TO_DTO",
+                    "predefined": [
+                        {
+                            "response": "ADD_TO_DTO",
+                            "text": "Include \"{{ iteration.getFullName() }}\" attribute from \"{{ iteration.getName() }}\" to DTO"
+                        }
+                    ]
                 }
-            ]
+            }
         }
     ],
     "directories": [

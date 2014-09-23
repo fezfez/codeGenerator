@@ -18,7 +18,8 @@
 namespace CrudGenerator\Generators\Parser\Lexical\QuestionType;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Utils\StaticPhp;
+use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
+use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidatorFactory;
 
 class QuestionTypeCollectionFactory
 {
@@ -28,12 +29,12 @@ class QuestionTypeCollectionFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-    	$staticPhp              = new StaticPhp();
+        $iteratorValidator      = new IteratorValidator(ConditionValidatorFactory::getInstance());
         $questionTypeCollection = new QuestionTypeCollection();
 
         $questionTypeCollection->append(new QuestionTypeSimple($context))
-                               ->append(new QuestionTypeIterator($context, $staticPhp))
-                               ->append(new QuestionTypeIteratorWithPredefinedResponse($context, $staticPhp))
+                               ->append(new QuestionTypeIterator($context, $iteratorValidator))
+                               ->append(new QuestionTypeIteratorWithPredefinedResponse($context, $iteratorValidator))
                                ->append(new QuestionTypeDirectory($context))
                                ->append(new QuestionTypeComplex($context));
 

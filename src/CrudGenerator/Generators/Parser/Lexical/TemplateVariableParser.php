@@ -49,7 +49,7 @@ class TemplateVariableParser implements ParserInterface
                         sprintf('Variable excepts to be an array "%s" given', gettype($variable))
                     );
                 }
-                if ($this->conditionValidator->isValid($variable, $generator) === true) {
+                if ($this->conditionValidator->isValid($variable, $generator, $parser) === true) {
                     $this->evaluateVariable($variable, $parser, $generator, (bool) $firstIteration);
                 }
             }

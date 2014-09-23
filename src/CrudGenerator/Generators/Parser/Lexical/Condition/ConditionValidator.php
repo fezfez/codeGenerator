@@ -18,6 +18,7 @@
 namespace CrudGenerator\Generators\Parser\Lexical\Condition;
 
 use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Utils\PhpStringParser;
 
 class ConditionValidator
 {
@@ -29,17 +30,24 @@ class ConditionValidator
      * @var EnvironnementCondition
      */
     private $environnementCondition = null;
+    /**
+     * @var SimpleCondition
+     */
+    private $simpleCondition = null;
 
     /**
      * @param DependencyCondition $dependencyCondition
      * @param EnvironnementCondition $environnementCondition
+     * @param SimpleCondition $simpleCondition
      */
     public function __construct(
         DependencyCondition $dependencyCondition,
-        EnvironnementCondition $environnementCondition
+        EnvironnementCondition $environnementCondition,
+        SimpleCondition $simpleCondition
     ) {
         $this->dependencyCondition    = $dependencyCondition;
         $this->environnementCondition = $environnementCondition;
+        $this->simpleCondition        = $simpleCondition;
     }
 
     /* (non-PHPdoc)
@@ -47,23 +55,38 @@ class ConditionValidator
      */
     public function isValid(
         array $node,
-        GeneratorDataObject $generator
+        GeneratorDataObject $generator,
+        PhpStringParser $phpStringParser
     ) {
         $isValid = true;
 
-        if (isset($node[DependencyCondition::NAME]) === true) {
-            if ($this->dependencyCondition->isValid(
-                $node[DependencyCondition::NAME],
-                $generator
-            ) === false) {
-                $isValid = false;
-            }
-        } elseif (isset($node[EnvironnementCondition::NAME]) === true) {
-            if ($this->environnementCondition->isValid(
-                $node[EnvironnementCondition::NAME],
-                $generator
-            ) === false) {
-                $isValid = false;
+        if (isset($node[ConditionInterface::CONDITION]) === true) {
+            $condition = $node[ConditionInterface::CONDITION];
+
+            if (isset($condition[DependencyCondition::NAME]) === true) {
+                if ($this->dependencyCondition->isValid(
+                    $condition[DependencyCondition::NAME],
+                    $generator,
+                    $phpStringParser
+                ) === false) {
+                    $isValid = false;
+                }
+            } elseif (isset($condition[EnvironnementCondition::NAME]) === true) {
+                if ($this->environnementCondition->isValid(
+                    $condition[EnvironnementCondition::NAME],
+                    $generator,
+                    $phpStringParser
+                ) === false) {
+                    $isValid = false;
+                }
+            } elseif (isset($condition[SimpleCondition::NAME]) === true) {
+                if ($this->simpleCondition->isValid(
+                    $condition[SimpleCondition::NAME],
+                    $generator,
+                    $phpStringParser
+                ) === false) {
+                    $isValid = false;
+                }
             }
         }
 

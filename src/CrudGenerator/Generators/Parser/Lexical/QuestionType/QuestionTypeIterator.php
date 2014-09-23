@@ -21,7 +21,7 @@ use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
-use CrudGenerator\Utils\StaticPhp;
+use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
 
 class QuestionTypeIterator implements QuestionTypeInterface
 {
@@ -30,18 +30,18 @@ class QuestionTypeIterator implements QuestionTypeInterface
      */
     private $context = null;
     /**
-     * @var StaticPhp
+     * @var IteratorValidator
      */
-    private $staticPhp = null;
+    private $iteratorValidator = null;
 
     /**
      * @param ContextInterface $context
-     * @param StaticPhp $staticPhp
+     * @param IteratorValidator $iteratorValidator
      */
-    public function __construct(ContextInterface $context, StaticPhp $staticPhp)
+    public function __construct(ContextInterface $context, IteratorValidator $iteratorValidator)
     {
-        $this->context   = $context;
-        $this->staticPhp = $staticPhp;
+        $this->context           = $context;
+        $this->iteratorValidator = $iteratorValidator;
     }
 
     /* (non-PHPdoc)
@@ -54,36 +54,22 @@ class QuestionTypeIterator implements QuestionTypeInterface
         $firstIteration,
         array $process
     ) {
-        $instance = $this->staticPhp->phpInterpretStatic(
-            $question['collection'],
-            array(
-                lcfirst($process['name']) => $generator->getDto()
-            )
-        );
+        $iterator       = $this->iteratorValidator->retrieveValidIteration($question, $generator, $parser);
+        $iteratorParser = clone $parser;
 
-        if (($instance instanceof \Traversable) === false) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'The result of "%s" is not an instance of Traversable',
-                    $question['collection']
-                )
-            );
-        }
+        foreach ($iterator as $iteration) {
 
-        foreach ($instance as $iteration) {
+            $iteratorParser->addVariable('iteration', $iteration);
 
-            $origine = $this->staticPhp->phpInterpretStatic(
-                $question['origine'],
-                array('iteration' => $iteration)
-            );
-
+            $origine  = $iteratorParser->parse($question['iteration']['retrieveBy']);
             $response = $this->context->ask(
-                $this->staticPhp->staticsprintf($question['text'], array('iteration' => $iteration)),
+                $iteratorParser->parse($question['iteration']['text']),
                 $question['setter'] . $origine,
-                (isset($question['defaultResponse']) === true) ? $parser->parse($question['defaultResponse']) : null,
+                (isset($question['iteration']['response']['default']) === true)
+                    ? $iteratorParser->parse($question['iteration']['response']['default']) : null,
                 $question['required'],
                 $question['helpMessage'],
-                $question['responseType']
+                $question['iteration']['response']['type']
             );
 
             $questionName = $question['setter'];

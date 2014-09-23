@@ -18,17 +18,19 @@
 namespace CrudGenerator\Generators\Parser\Lexical\Condition;
 
 use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Utils\PhpStringParser;
 
 class DependencyCondition implements ConditionInterface
 {
-    const NAME = 'dependencyCondition';
+    const NAME = 'dependency';
 
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\Lexical\ParserInterface::evaluate()
      */
     public function isValid(
-        $node,
-        GeneratorDataObject $generator
+        array $nodes,
+        GeneratorDataObject $generator,
+        PhpStringParser $phpStringParser
     ) {
         $dependencies = array();
 
@@ -36,7 +38,14 @@ class DependencyCondition implements ConditionInterface
             $dependencies[] = $dependency->getName();
         }
 
-        return $this->differentCondition($dependencies, $node) || $this->equalCondition($dependencies, $node);
+        foreach ($nodes as $node) {
+            if (($this->differentCondition($dependencies, $node) ||
+                $this->equalCondition($dependencies, $node)) === false) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

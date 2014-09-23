@@ -11,6 +11,8 @@ $metadata = new MetadataDataObjectDoctrine2(
     new MetaDataRelationCollection()
 );
 
+$metadata->setName('toto');
+
 $column = new MetaDataColumn();
 $column->setName('id')
 ->setNullable(true)
@@ -19,7 +21,6 @@ $column->setName('id')
 ->setPrimaryKey(true);
 
 $metadata->appendColumn($column);
-$metadata->setName('toto');
 
 $column = new MetaDataColumn();
 $column->setName('tetze')

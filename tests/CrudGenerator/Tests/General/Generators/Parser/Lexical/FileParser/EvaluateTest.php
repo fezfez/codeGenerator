@@ -7,6 +7,7 @@ use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\DataObject;
 use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
+use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
 
 class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,7 +27,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new FileParser($fileManager, $conditionValidator);
+        $sUT = new FileParser($fileManager, $conditionValidator, new IteratorValidator($conditionValidator));
 
         $generator = new GeneratorDataObject();
 
@@ -63,7 +64,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->method('parse')
         ->will($this->returnValue('MyFileParser'));
 
-        $sUT = new FileParser($fileManager, $conditionValidator);
+        $sUT = new FileParser($fileManager, $conditionValidator, new IteratorValidator($conditionValidator));
 
         $generator = new GeneratorDataObject();
         $generator->setPath('./');
@@ -106,7 +107,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->method('parse')
         ->will($this->returnValue('MyFileParser'));
 
-        $sUT = new FileParser($fileManager, $conditionValidator);
+        $sUT = new FileParser($fileManager, $conditionValidator, new IteratorValidator($conditionValidator));
 
         $generator = new GeneratorDataObject();
         $generator->setPath('./');
@@ -154,7 +155,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->with('MyFile')
         ->will($this->returnValue('MyFileParsed'));
 
-        $sUT = new FileParser($fileManager, $conditionValidator);
+        $sUT = new FileParser($fileManager, $conditionValidator, new IteratorValidator($conditionValidator));
 
         $generator = new GeneratorDataObject();
         $generator->setDto(new DataObject());

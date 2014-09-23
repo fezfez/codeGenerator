@@ -22,6 +22,7 @@ use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator;
+use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
 
 class FileParser implements ParserInterface
 {
@@ -33,17 +34,24 @@ class FileParser implements ParserInterface
      * @var ConditionValidator
      */
     private $conditionValidator = null;
+    /**
+     * @var IteratorValidator
+     */
+    private $iterationValidator = null;
 
     /**
      * @param FileManager $fileManager
      * @param ConditionValidator $conditionValidator
+     * @param IteratorValidator $iterationValidator
      */
     public function __construct(
         FileManager $fileManager,
-        ConditionValidator $conditionValidator
+        ConditionValidator $conditionValidator,
+        IteratorValidator $iterationValidator
     ) {
         $this->fileManager        = $fileManager;
         $this->conditionValidator = $conditionValidator;
+        $this->iterationValidator = $iterationValidator;
     }
 
     /* (non-PHPdoc)
@@ -70,7 +78,7 @@ class FileParser implements ParserInterface
                 );
             }
 
-            if ($this->conditionValidator->isValid($file, $generator) === true) {
+            if ($this->conditionValidator->isValid($file, $generator, $parser) === true) {
                 $this->evaluateFile($file, $parser, $generator, (bool) $firstIteration, $skeletonPath);
             }
         }
@@ -93,10 +101,29 @@ class FileParser implements ParserInterface
         $firstIteration,
         $skeletonPath
     ) {
-        return $generator->addFile(
-            $skeletonPath,
-            $file['templatePath'],
-            $parser->parse($file['destinationPath'])
-        );
+        if (isset($file['iteration'])) {
+
+            $iterator           = $this->iterationValidator->retrieveValidIteration($file, $generator, $parser);
+            $overIteratorParser = clone $parser;
+
+            foreach ($iterator as $iteration) {
+                $overIteratorParser->addVariable('iteration', $iteration);
+
+                $generator->addFile(
+                    $skeletonPath,
+                    $file['templatePath'],
+                    $overIteratorParser->parse($file['destinationPath'])
+                );
+            }
+
+        } else {
+            $generator->addFile(
+                $skeletonPath,
+                $file['templatePath'],
+                $parser->parse($file['destinationPath'])
+            );
+        }
+
+        return $generator;
     }
 }

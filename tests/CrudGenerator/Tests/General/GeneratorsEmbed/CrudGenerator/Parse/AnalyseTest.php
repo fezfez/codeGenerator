@@ -7,7 +7,7 @@ use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 
 class AnalyseTest extends \PHPUnit_Framework_TestCase
 {
-    public function testOkddddddddd()
+    public function testOk()
     {
          $context =  $this->getMockBuilder('CrudGenerator\Context\WebContext')
         ->disableOriginalConstructor()

@@ -35,13 +35,13 @@ class QuestionAnalyser
 
         $question['setter'] = 'set' . ucfirst($question['dtoAttribute']);
 
-            if ($question['type']->is(QuestionTypeEnum::ITERATOR_WITH_PREDEFINED_RESPONSE) === true) {
-                if (is_array($question['predefinedResponse']) === false) {
-                    throw new MalformedGeneratorException(
-                        sprintf('"predefinedResponse" must be an array in %s', json_encode($question))
-                    );
-                }
+        if ($question['type']->is(QuestionTypeEnum::ITERATOR_WITH_PREDEFINED_RESPONSE) === true) {
+            if (is_array($question['iteration']['response']['predefined']) === false) {
+                throw new MalformedGeneratorException(
+                    sprintf('"predefinedResponse" must be an array in %s', json_encode($question))
+                );
             }
+        }
 
         return $question;
     }
@@ -120,10 +120,7 @@ class QuestionAnalyser
     private function getDefinition()
     {
         return array(
-            'mandatory' => array(
-                'text',
-                'dtoAttribute'
-            ),
+            'mandatory' => array(),
             'optional' => array(
                 'required' => array(
                     'default' => false
@@ -138,20 +135,7 @@ class QuestionAnalyser
                     'enum' => 'CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum'
                 )
             ),
-            'isTypeIs' => array(
-                QuestionTypeEnum::COMPLEX => array(
-                    'factory'
-                ),
-                QuestionTypeEnum::ITERATOR => array(
-                    'collection',
-                    'origine'
-                ),
-                QuestionTypeEnum::ITERATOR_WITH_PREDEFINED_RESPONSE => array(
-                    'collection',
-                    'origine',
-                    'predefinedResponse'
-                )
-            )
+            'isTypeIs' => array()
         );
     }
 
