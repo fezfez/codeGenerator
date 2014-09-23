@@ -43,4 +43,9 @@ interface QuestionTypeInterface
      * @return string
      */
     public function getType();
+
+    /**
+     * @return boolean
+     */
+    public function isIterable(array $question);
 };

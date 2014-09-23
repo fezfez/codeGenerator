@@ -60,4 +60,12 @@ class QuestionTypeDirectory implements QuestionTypeInterface
     {
         return QuestionTypeEnum::DIRECTORY;
     }
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeInterface::isIterable()
+     */
+    public function isIterable(array $question)
+    {
+        return false;
+    }
 }

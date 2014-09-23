@@ -108,4 +108,12 @@ class QuestionTypeIteratorWithPredefinedResponse implements QuestionTypeInterfac
     {
         return QuestionTypeEnum::ITERATOR_WITH_PREDEFINED_RESPONSE;
     }
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeInterface::isIterable()
+     */
+    public function isIterable(array $question)
+    {
+        return true;
+    }
 }

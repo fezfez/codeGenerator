@@ -13,7 +13,11 @@
         {
             "dtoAttribute": "Namespace",
             "text": "Choose a target namespace",
-            "dependencyCondition": "ArchitectGenerator == undefined"
+            "condition": {
+                "dependency": [
+                    "ArchitectGenerator == undefined"
+                ]
+            }
         },
         {
             "dtoAttribute": "ModelName",

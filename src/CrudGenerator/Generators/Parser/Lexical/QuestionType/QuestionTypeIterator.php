@@ -88,4 +88,12 @@ class QuestionTypeIterator implements QuestionTypeInterface
     {
         return QuestionTypeEnum::ITERATOR;
     }
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeInterface::isIterable()
+     */
+    public function isIterable(array $question)
+    {
+        return true;
+    }
 }

@@ -13,4 +13,9 @@ class MyFakeQuestion
     {
         return $generator;
     }
+
+    public function isIterable(array $question)
+    {
+        return false;
+    }
 }

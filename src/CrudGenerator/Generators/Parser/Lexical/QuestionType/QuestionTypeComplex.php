@@ -59,4 +59,14 @@ class QuestionTypeComplex implements QuestionTypeInterface
     {
         return QuestionTypeEnum::COMPLEX;
     }
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeInterface::isIterable()
+     */
+    public function isIterable(array $question)
+    {
+        $complex = $question['factory']::getInstance($this->context);
+
+        return $complex->isIterable($question);
+    }
 }
