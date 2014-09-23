@@ -20,6 +20,8 @@ namespace CrudGenerator;
 use CrudGenerator\MetaData\DataObject\MetaDataInterface;
 use CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum;
 use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
+use CrudGenerator\Storage\StorageString;
+use CrudGenerator\Storage\StorageArray;
 
 /**
  * Base representation for template generation
@@ -121,32 +123,11 @@ class DataObject implements \JsonSerializable
     private function getter(array $args, $methodName)
     {
         if (false === isset($this->store[$methodName])) {
-            return null;
-        }
-        // Try acces a simple storage
-        elseif (count($args) === 0 && count($this->store[$methodName]) === 1) {
-            return $this->store[$methodName];
-        }
-        // try to acces a storage with (key, val) without parameters
-        elseif (count($args) === 0 && is_array($this->store[$methodName]) === true) {
-            return $this->store[$methodName];
-        }
-        // try to acces a storage with (key, val) with key parameters
-        elseif (count($args) === 1 && $args[0] !== null && is_array($this->store[$methodName]) === true) {
-            if (isset($this->store[$methodName][$args[0]]) === true) {
-                return $this->store[$methodName][$args[0]];
-            } else {
-                return null;
-            }
-        }
-        // unkown
-        else {
-            throw new \Exception(
-                sprintf(
-                    'Unkown method "%s"',
-                    $methodName
-                )
-            );
+            throw new \Exception(sprintf('The storage "%s" does not exist', $methodName));
+        } elseif ($this->store[$methodName]->isValidAcces($args, $methodName)) {
+            return $this->store[$methodName]->get($args);
+        } else {
+            throw new \Exception(sprintf('Unkown method "%s"', $methodName));
         }
     }
 
@@ -158,12 +139,23 @@ class DataObject implements \JsonSerializable
      */
     private function setter(array $args, $methodName)
     {
-        if (count($args) === 1) {
-            $this->store[$methodName] = $args[0];
-        } elseif (count($args) === 2) {
-            $this->store[$methodName][$args[0]] = $args[1];
-        } else {
-            throw new \Exception("cannot store more than 2 parameters");
+        $storageCollection = array(new StorageString(), new StorageArray());
+        $stored            = false;
+
+        foreach ($storageCollection as $storage) {
+            if ($storage->isValidStore($args, $methodName) == true) {
+                if (isset($this->store[$methodName]) === false ||
+                    get_class($this->store[$methodName]) != get_class($storage)) {
+                    $this->store[$methodName] = clone $storage;
+                }
+
+                $this->store[$methodName]->set($args);
+                $stored = true;
+            }
+        }
+
+        if ($stored === false) {
+            throw new \Exception(sprintf("Can't store %s expression in %s", json_encode($args), $methodName));
         }
 
         return $this;

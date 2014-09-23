@@ -38,4 +38,40 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('CrudGenerator\EnvironnementNotDefinedException');
         $dataObject->getEnvironnement('exception');
     }
+
+    public function testStorage()
+    {
+        $dataObject = new DataObject();
+
+        $dataObject->setImATest('yyeaah');
+
+        $this->assertEquals('yyeaah', $dataObject->getImATest());
+
+        $dataObject->setImATest('yyeaah', 'toto');
+
+        $this->assertEquals(array('yyeaah' => 'toto'), $dataObject->getImATest());
+        $this->assertEquals('toto', $dataObject->getImATest('yyeaah'));
+
+        $dataObject->setImATest('yyeaah');
+
+        $this->assertEquals('yyeaah', $dataObject->getImATest());
+    }
+
+    public function testWrongUseOfStorageOnGet()
+    {
+        $dataObject = new DataObject();
+
+        $this->setExpectedException('Exception');
+
+        $dataObject->getImATest('test', 'fake');
+    }
+
+    public function testWrongUseOfStorageOnSet()
+    {
+        $dataObject = new DataObject();
+
+        $this->setExpectedException('Exception');
+
+        $dataObject->setTest('test', 'fake', 'fezfze');
+    }
 }
