@@ -46,14 +46,14 @@ class GeneratorValidator
     }
 
     /**
-     * @param mixed $data
+     * @param array $data
      * @param MetaDataInterface $metadata
      * @throws \InvalidArgumentException
      */
-    public function isValid($data, MetaDataInterface $metadata = null)
+    public function isValid(array $data, MetaDataInterface $metadata = null)
     {
         $this->validator->reset();
-        $this->validator->check(json_decode(json_encode($data), FALSE), $this->schema);
+        $this->validator->check(json_decode(json_encode($data), false), $this->schema);
 
         if ($this->validator->isValid() === false) {
             throw new \InvalidArgumentException('The schema is not valid');

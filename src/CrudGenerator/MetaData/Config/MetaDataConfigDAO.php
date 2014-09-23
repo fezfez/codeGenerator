@@ -137,11 +137,6 @@ class MetaDataConfigDAO
         return $config;
     }
 
-    public function retrieve()
-    {
-
-    }
-
     /**
      * @param MetaDataConfigInterface $adapterConfig
      * @return boolean

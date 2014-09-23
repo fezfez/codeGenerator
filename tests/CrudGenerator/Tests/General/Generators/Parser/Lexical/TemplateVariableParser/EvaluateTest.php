@@ -9,6 +9,29 @@ use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
 
 class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
+    public function testMalformed()
+    {
+        $conditionValidator = $this->getMockBuilder(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator'
+        )
+        ->disableOriginalConstructor()
+        ->getMock();
+
+        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
+        ->disableOriginalConstructor()
+        ->getMock();
+
+        $sUT = new TemplateVariableParser($conditionValidator);
+
+        $generator = new GeneratorDataObject();
+
+        $process = array('templateVariables' => array('test', 'test2'));
+
+        $this->setExpectedException('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
+
+        $sUT->evaluate($process, $phpParser, $generator, true);
+    }
+
     public function testEmpty()
     {
         $conditionValidator = $this->getMockBuilder(
