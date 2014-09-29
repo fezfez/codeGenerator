@@ -33,6 +33,10 @@ class MetaDataDAOCache implements MetaDataDAOInterface
      */
     private $directories = null;
     /**
+     * @var MetaDataConfigInterface
+     */
+    private $config = null;
+    /**
      * @var boolean
      */
     private $noCache = null;
@@ -40,12 +44,14 @@ class MetaDataDAOCache implements MetaDataDAOInterface
     /**
      * @param MetaDataDAOInterface $metadataDAO
      * @param array $directories
+     * @param MetaDataConfigInterface $config
      * @param boolean $noCache
      */
-    public function __construct(MetaDataDAOInterface $metadataDAO, array $directories, $noCache = false)
+    public function __construct(MetaDataDAOInterface $metadataDAO, array $directories, MetaDataConfigInterface $config = null, $noCache = false)
     {
         $this->metadataDAO = $metadataDAO;
         $this->directories = $directories;
+        $this->config      = $config;
         $this->noCache     = $noCache;
     }
     /**
@@ -55,8 +61,9 @@ class MetaDataDAOCache implements MetaDataDAOInterface
      */
     public function getAllMetadata()
     {
+        $configName     = ($this->config !== null) ? $this->config->getUniqueName() : '';
         $cacheFilename  = $this->directories['Cache'] . DIRECTORY_SEPARATOR;
-        $cacheFilename .= md5('all_metadata' . get_class($this->metadataDAO));
+        $cacheFilename .= md5('all_metadata' . get_class($this->metadataDAO) . $configName);
 
         if (is_file($cacheFilename) === true && $this->noCache === false) {
             $data = unserialize(file_get_contents($cacheFilename));
@@ -76,8 +83,9 @@ class MetaDataDAOCache implements MetaDataDAOInterface
      */
     public function getMetadataFor($entityName, array $parentName = array())
     {
+        $configName     = ($this->config !== null) ? $this->config->getUniqueName() : '';
         $cacheFilename  = $this->directories['Cache'] . DIRECTORY_SEPARATOR;
-        $cacheFilename .= md5('metadata' . $entityName . get_class($this->metadataDAO));
+        $cacheFilename .= md5('metadata' . $entityName . get_class($this->metadataDAO) . $configName);
 
         if (is_file($cacheFilename) === true && $this->noCache === false) {
             $data = unserialize(file_get_contents($cacheFilename));

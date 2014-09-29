@@ -15,36 +15,15 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData;
+namespace CrudGenerator\MetaData\Sources\Json;
 
-use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
-use CrudGenerator\MetaData\Sources\MetaDataDAOCache;
-use CrudGenerator\Utils\Installer;
+use CrudGenerator\MetaData\DataObject\MetaData;
 
 /**
- * MetaData source factory
+ * Base representation metadata for template generation
+ *
  * @author Stéphane Demonchaux
  */
-class MetaDataSourceFactory
+class MetadataDataObjectJson extends MetaData
 {
-    /**
-     * @param string $metadataSourceFactoryName
-     * @param MetaDataConfigInterface $config
-     * @return MetaDataDAOCache
-     */
-    public function create($metadataSourceFactoryName, MetaDataConfigInterface $config = null, $noCache = false)
-    {
-        if (null !== $config) {
-            $metadataSource = $metadataSourceFactoryName::getInstance($config);
-        } else {
-            $metadataSource = $metadataSourceFactoryName::getInstance();
-        }
-
-        return new MetaDataDAOCache(
-            $metadataSource,
-            Installer::getDirectories(),
-            $config,
-            $noCache
-        );
-    }
 }

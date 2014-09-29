@@ -146,7 +146,7 @@ class MetaDataConfigDAO
         $adapterConfig = $this->ask($adapterConfig);
         $this->isValid($adapterConfig);
 
-        $configPath = self::PATH . $adapterConfig->getUniqueName() . self::EXTENSION;
+        $configPath = self::PATH . md5($adapterConfig->getUniqueName()) . self::EXTENSION;
 
         $this->fileManager->filePutsContent($configPath, json_encode($adapterConfig->jsonSerialize()));
         return true;
