@@ -67,10 +67,6 @@ class MetaDataConfigDAO
      * @var ClassAwake Class awake
      */
     private $classAwake = null;
-    /**
-     * @var DocBlock
-     */
-    private $docBlock = null;
 
     /**
      * @param ClassAwake $classAwake
@@ -83,13 +79,11 @@ class MetaDataConfigDAO
         ClassAwake $classAwake,
         FileManager $fileManager,
         MetaDataSourceHydrator $metaDataSourceHydrator,
-        DocBlock $docBlock,
         ContextInterface $context
     ) {
         $this->classAwake             = $classAwake;
         $this->fileManager            = $fileManager;
         $this->metaDataSourceHydrator = $metaDataSourceHydrator;
-        $this->docBlock               = $docBlock;
         $this->context                = $context;
     }
 

@@ -1,9 +1,10 @@
 <?php
 namespace CrudGenerator\Tests\General\MetaData\Sources\Json;
 
-use CrudGenerator\MetaData\Sources\Json\JsonConfig;
+use CrudGenerator\MetaData\Driver\DriverConfig;
 
-$config = new JsonConfig();
-$config->setConfigUrl(__DIR__ . '/data.json');
+$config = new DriverConfig("test");
+$config->setDriver("CrudGenerator\MetaData\Driver\Web\WebDriverFactory");
+$config->response('configUrl', __DIR__ . '/data.json');
 
 return $config;

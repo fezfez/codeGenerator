@@ -35,7 +35,6 @@ class MetaDataConfigDAOFactory
             new ClassAwake(),
             new FileManager(),
             MetaDataSourceHydratorFactory::getInstance(),
-            new DocBlock(''),
             $context
         );
     }

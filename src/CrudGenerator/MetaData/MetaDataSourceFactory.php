@@ -30,15 +30,15 @@ class MetaDataSourceFactory
 {
     /**
      * @param string $metadataSourceFactoryName
-     * @param MetaDataConfigInterface $config
-     * @return MetaDataDAOCache
+     * @param DriverConfig $config
+     * @param boolean $noCache
+     * @return \CrudGenerator\MetaData\Sources\MetaDataDAOCache
      */
     public function create($metadataSourceFactoryName, DriverConfig $config = null, $noCache = false)
     {
         if (null !== $config) {
-            $driverFactory = $config->getDriver();
-            $driver        = $driverFactory::getInstance();
-
+            $driverFactory  = $config->getDriver();
+            $driver         = $driverFactory::getInstance();
             $metadataSource = $metadataSourceFactoryName::getInstance($driver, $config);
         } else {
             $metadataSource = $metadataSourceFactoryName::getInstance();
