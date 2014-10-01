@@ -18,6 +18,7 @@
 namespace CrudGenerator\MetaData;
 
 use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
+use CrudGenerator\MetaData\Driver\DriverConfig;
 
 /**
  * Adapter representation
@@ -45,6 +46,18 @@ class MetaDataSource implements \JsonSerializable
      * @var MetaDataConfigInterface adapter configuration
      */
     private $config = null;
+    /**
+     * Collection of connector
+     *
+     * @var array
+     */
+    private $connectorFactory = array();
+    /**
+     * Unique name
+     *
+     * @var string
+     */
+    private $uniqueName = null;
 
     /**
      * Set name
@@ -90,9 +103,28 @@ class MetaDataSource implements \JsonSerializable
      * @param MetaDataConfigInterface $value
      * @return \CrudGenerator\MetaData\MetaDataSource
      */
-    public function setConfig(MetaDataConfigInterface $value)
+    public function setConfig(DriverConfig $value)
     {
         $this->config = $value;
+        return $this;
+    }
+    /**
+     * @param string $value
+     * @return \CrudGenerator\MetaData\MetaDataSource
+     */
+    public function addConnectorFactory($value)
+    {
+        $this->connectorFactory[] = $value;
+        return $this;
+    }
+    /**
+     * Set unique name
+     * @param string $value
+     * @return \CrudGenerator\MetaData\MetaDataSource
+     */
+    public function setUniqueName($value)
+    {
+        $this->uniqueName = $value;
         return $this;
     }
 
@@ -146,6 +178,22 @@ class MetaDataSource implements \JsonSerializable
         } else {
             return $this->config->getUniqueName();
         }
+    }
+
+    /**
+     * GetConnectorsFactory
+     * @return array
+     */
+    public function getConnectorsFactory()
+    {
+        return $this->connectorFactory;
+    }
+    /**
+     * @return boolean
+     */
+    public function isUniqueConnector()
+    {
+        return (count($this->connectorFactory) === 1) ? true : false;
     }
 
     public function jsonSerialize()

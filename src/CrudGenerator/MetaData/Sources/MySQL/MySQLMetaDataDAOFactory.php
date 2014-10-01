@@ -20,29 +20,24 @@ namespace CrudGenerator\MetaData\Sources\MySQL;
 use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
-use CrudGenerator\MetaData\Sources\MySQL\MySQLConfig;
+use CrudGenerator\MetaData\Sources\MetaDataDAOPdoFactoryInterface;
+use CrudGenerator\MetaData\Driver\Pdo\PdoDriver;
 
 /**
  * Create MySQL Metadata DAO instance
  *
  */
-class MySQLMetaDataDAOFactory implements MetaDataDAOFactoryInterface
+class MySQLMetaDataDAOFactory implements MetaDataDAOPdoFactoryInterface
 {
     /**
      * Create MySQL Metadata DAO instance
      *
-     * @param MySQLConfig $config
      * @return MySQLMetaDataDAO
      */
-    public static function getInstance(MetaDataConfigInterface $config = null)
+    public static function getInstance(PdoDriver $pdoDriver)
     {
-        if (false === ($config instanceof MySQLConfig)) {
-            throw new \InvalidArgumentException('Config must be an instance of MySQLConfig');
-        }
-
         return new MySQLMetaDataDAO(
-            $config->getConnection(),
-            $config
+            $pdoDriver
         );
     }
 
@@ -69,7 +64,8 @@ class MySQLMetaDataDAOFactory implements MetaDataDAOFactoryInterface
         $dataObject->setDefinition("MySQL")
                    ->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory')
                    ->setMetadataDao("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAO")
-                   ->setConfig(new MySQLConfig());
+                   ->addConnectorFactory("CrudGenerator\MetaData\Connector\PdoConnectorFactory")
+                   ->setUniqueName("MySQL");
 
         return $dataObject;
     }

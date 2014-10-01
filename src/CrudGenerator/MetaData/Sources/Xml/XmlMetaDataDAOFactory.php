@@ -22,24 +22,22 @@ use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\Sources\Json\JsonConfig;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory;
+use CrudGenerator\MetaData\Sources\MetaDataDAOFileFactoryInterface;
+use CrudGenerator\MetaData\Driver\Web\WebDriver;
 
 /**
  * Create Xml Metadata DAO instance
  *
  */
-class XmlMetaDataDAOFactory implements MetaDataDAOFactoryInterface
+class XmlMetaDataDAOFactory implements MetaDataDAOFileFactoryInterface
 {
     /**
      * @param MetaDataConfigInterface $config
      * @throws \InvalidArgumentException
      * @return \CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAO
      */
-    public static function getInstance(MetaDataConfigInterface $config = null)
+    public static function getInstance(WebDriver $fileDriver, $config)
     {
-        if (false === ($config instanceof XmlConfig)) {
-            throw new \InvalidArgumentException('Config must be an instance of XmlConfig');
-        }
-
         $xml   = simplexml_load_string($config->getConnection());
         $json  = json_encode($xml);
 
@@ -70,7 +68,8 @@ class XmlMetaDataDAOFactory implements MetaDataDAOFactoryInterface
         $dataObject->setDefinition("Xml")
                    ->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\Xml\XmlMetaDataDAOFactory')
                    ->setMetadataDao("CrudGenerator\MetaData\Sources\Xml\XmlMetaDataDAO")
-                   ->setConfig(new XmlConfig());
+                   ->addConnectorFactory('CrudGenerator\MetaData\Connector\FileDriver')
+                   ->setUniqueName('Xml');
 
         return $dataObject;
     }

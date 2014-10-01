@@ -27,13 +27,6 @@ use CrudGenerator\MetaData\MetaDataSource;
 interface MetaDataDAOFactoryInterface
 {
     /**
-     * Get instance of metadataDAO
-     *
-     * @param MetaDataConfig $config
-     */
-    public static function getInstance(MetaDataConfigInterface $config = null);
-
-    /**
      * Check if dependencies are complete
      *
      * @param MetaDataSource $metadataSource

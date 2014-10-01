@@ -22,28 +22,25 @@ use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
+use CrudGenerator\MetaData\Sources\MetaDataDAOPdoFactoryInterface;
+use CrudGenerator\MetaData\Driver\Pdo\PdoDriver;
 
 /**
  * Create PostgreSQL Metadata DAO instance
  *
  */
-class PostgreSQLMetaDataDAOFactory implements MetaDataDAOFactoryInterface
+class PostgreSQLMetaDataDAOFactory implements MetaDataDAOPdoFactoryInterface
 {
     /**
      * Create PostgreSQL Metadata DAO instance
      *
-     * @param PostgreSQLConfig $config
      * @return PostgreSQLMetaDataDAO
      */
-    public static function getInstance(MetaDataConfigInterface $config = null)
+    public static function getInstance(PdoDriver $pdoDiver)
     {
-        if (false === ($config instanceof PostgreSQLConfig)) {
-            throw new \InvalidArgumentException('Config must be an instance of PostgreConfig');
-        }
-
         return new PostgreSQLMetaDataDAO(
-            $config->getConnection(),
-            $config,
+            $this->config->getConnector($this->config->getConnectorConfig()),
+            $this->config,
             new SqlManager()
         );
     }
@@ -71,7 +68,8 @@ class PostgreSQLMetaDataDAOFactory implements MetaDataDAOFactoryInterface
         $dataObject->setDefinition("PostgreSQL")
                    ->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory')
                    ->setMetadataDao("CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAO")
-                   ->setConfig(new PostgreSQLConfig());
+                   ->addConnectorFactory('CrudGenerator\MetaData\Connector\PdoConnectorFactory')
+                   ->setUniqueName('PostgreSQL');
 
         return $dataObject;
     }

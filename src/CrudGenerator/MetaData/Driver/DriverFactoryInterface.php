@@ -15,17 +15,19 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\Sources;
+namespace CrudGenerator\MetaData\Driver;
 
 /**
- * Metadata config interface
+ * Metadata connector interface
  *
  * @author Stéphane Demonchaux
  */
-interface MetaDataConfigInterface
+interface DriverFactoryInterface
 {
     /**
-     * @return array
+     * @param AbstractConnectorConfig $config
+     * @throws ConfigException
      */
-    public function jsonSerialize();
+    public static function getInstance();
+    public static function getDescription();
 }

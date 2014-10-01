@@ -24,26 +24,26 @@ use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface;
 use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\Sources\MetaDataDAOCache;
-use CrudGenerator\Utils\Installer;
+use CrudGenerator\MetaData\Sources\MetaDataDAOSimpleFactoryInterface;
 
 /**
  * Doctrine2 Metadata DAO in Zend Framework 2 Environnement
  *
  * @author Stéphane Demonchaux
  */
-class Doctrine2MetaDataDAOFactory implements MetaDataDAOFactoryInterface
+class Doctrine2MetaDataDAOFactory implements MetaDataDAOFactoryInterface, MetaDataDAOSimpleFactoryInterface
 {
     /**
      * Create Doctrine2MetaDataDAO instance
      * @return MetaDataDAOCache
      */
-    public static function getInstance(MetaDataConfigInterface $config = null)
+    public static function getInstance()
     {
         $fileManager    = new FileManager();
         $serviceManager = ZendFramework2Environnement::getDependence($fileManager);
         $entityManager  = $serviceManager->get('doctrine.entitymanager.orm_default');
 
-        return new MetaDataDAOCache(new Doctrine2MetaDataDAO($entityManager), Installer::getDirectories());
+        return new Doctrine2MetaDataDAO($entityManager);
     }
 
     /**

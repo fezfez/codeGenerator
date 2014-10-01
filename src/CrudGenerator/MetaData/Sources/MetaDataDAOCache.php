@@ -17,6 +17,7 @@
  */
 namespace CrudGenerator\MetaData\Sources;
 
+use CrudGenerator\MetaData\Driver\DriverConfig;
 /**
  * Metadata DAO cache
  *
@@ -33,7 +34,7 @@ class MetaDataDAOCache implements MetaDataDAOInterface
      */
     private $directories = null;
     /**
-     * @var MetaDataConfigInterface
+     * @var DriverConfig
      */
     private $config = null;
     /**
@@ -44,10 +45,10 @@ class MetaDataDAOCache implements MetaDataDAOInterface
     /**
      * @param MetaDataDAOInterface $metadataDAO
      * @param array $directories
-     * @param MetaDataConfigInterface $config
+     * @param DriverConfig $config
      * @param boolean $noCache
      */
-    public function __construct(MetaDataDAOInterface $metadataDAO, array $directories, MetaDataConfigInterface $config = null, $noCache = false)
+    public function __construct(MetaDataDAOInterface $metadataDAO, array $directories, DriverConfig $config = null, $noCache = false)
     {
         $this->metadataDAO = $metadataDAO;
         $this->directories = $directories;

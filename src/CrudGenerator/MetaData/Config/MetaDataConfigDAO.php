@@ -25,6 +25,12 @@ use CrudGenerator\MetaData\MetaDataSourceHydrator;
 use CrudGenerator\MetaData\MetaDataSourceCollection;
 use ReflectionClass;
 use phpDocumentor\Reflection\DocBlock;
+use CrudGenerator\MetaData\Sources\MetadataConfig;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\PredefinedResponse;
+use CrudGenerator\MetaData\MetaDataSource;
+use CrudGenerator\MetaData\Driver\DriverConfig;
 
 class MetaDataConfigDAO
 {
@@ -40,6 +46,10 @@ class MetaDataConfigDAO
      * @var string
      */
     const SOURCE_FACTORY_KEY = 'metadataDaoFactory';
+    /**
+     * @var string
+     */
+    const DRIVER_FACTORY_KEY = 'driver';
 
     /**
      * @var FileManager File manager
@@ -104,6 +114,10 @@ class MetaDataConfigDAO
                 continue;
             }
 
+            if (false === isset($configFile['response'])) {
+                continue;
+            }
+
             if (false === in_array($configFile[self::SOURCE_FACTORY_KEY], $allowedMetadataDAO)) {
                 continue;
             }
@@ -112,7 +126,13 @@ class MetaDataConfigDAO
                 $configFile[self::SOURCE_FACTORY_KEY]
             );
 
-            $adapter->setConfig($this->arrayToDto($configFile, $adapter->getConfig()));
+            $driverConfig = new DriverConfig($configFile['uniqueName']);
+            foreach ($configFile['response'] as $responseKey => $response) {
+                $driverConfig->response($responseKey, $response);
+            }
+            $driverConfig->setDriver($configFile['driver']);
+
+            $adapter->setConfig($driverConfig);
             $adapterCollection->append($adapter);
         }
 
@@ -120,28 +140,10 @@ class MetaDataConfigDAO
     }
 
     /**
-     * @param array $configFile
-     * @param MetaDataConfigInterface $config
-     * @return MetaDataConfigInterface
-     */
-    private function arrayToDto(array $configFile, MetaDataConfigInterface $config)
-    {
-        $configMethods = get_class_methods($config);
-        foreach ($configFile as $configAttribute => $configValue) {
-            $configAttr = 'set' . ucfirst($configAttribute);
-            if (true === in_array($configAttr, $configMethods)) {
-                $config->$configAttr($configValue);
-            }
-        }
-
-        return $config;
-    }
-
-    /**
-     * @param MetaDataConfigInterface $adapterConfig
+     * @param MetadataConfig $adapterConfig
      * @return boolean
      */
-    public function save(MetaDataConfigInterface $adapterConfig)
+    public function save(MetaDataSource $adapterConfig)
     {
         $adapterConfig = $this->ask($adapterConfig);
         $this->isValid($adapterConfig);
@@ -153,38 +155,62 @@ class MetaDataConfigDAO
     }
 
     /**
-     * @param MetaDataConfigInterface $adapterConfig
+     * @param MetadataConfig $adapterConfig
      * @return $adapterConfig
      */
-    public function ask(MetaDataConfigInterface $adapterConfig)
+    public function ask(MetaDataSource $source)
     {
-        $adapterConfig = clone $adapterConfig;
-        $reflect       = new ReflectionClass($adapterConfig);
-        $props         = $reflect->getProperties();
+        $isUniqueConnector = $source->isUniqueConnector();
 
-        foreach ($props as $prop) {
-            $propName = $prop->getName();
-            if (substr($propName, 0, 6) !== 'config') {
-                continue;
+        // Dont ask witch connector
+        if($isUniqueConnector === true) {
+            $driversFactory = $source->getConnectorsFactory();
+            $driverFactory  = $driversFactory[0];
+        } else {
+            // Ask wich connector to use
+            $predefinedResponseCollection = new PredefinedResponseCollection();
+
+            foreach ($source->getConnectors() as $connectorFactory) {
+                $description = $connectorFactory::getDescription();
+                $predefinedResponseCollection->append(
+                    new PredefinedResponse(
+                        $description->getDefinition(),
+                        $description->getDefinition(),
+                        $connectorFactory
+                    )
+                );
             }
+            $question = new QuestionWithPredefinedResponse(
+                'Select a connector',
+                'metadataconfig_connector',
+                $predefinedResponseCollection
+            );
+            $question->setShutdownWithoutResponse(true);
 
-            $docBlock  = new DocBlock($prop->getDocComment());
-            $value     = $this->context->ask($docBlock->getText(), $propName);
-            $attribute = 'set' . ucfirst($propName);
-
-            $adapterConfig->$attribute($value);
+            $driverFactory = $this->context->askCollection($question);
         }
 
-        return $adapterConfig;
+        $driverConfiguration = $driverFactory::getDescription()->getConfig();
+        $driverConfiguration->setMetadataDaoFactory($source->getMetadataDaoFactory());
+
+        foreach ($driverConfiguration->getQuestion() as $question) {
+            $driverConfiguration->response(
+                $question['attr'],
+                $this->context->ask($question['desc'], $question['attr'])
+            );
+        }
+
+        return $driverConfiguration;
     }
 
     /**
-     * @param MetaDataConfigInterface $adapterConfig
+     * @param MetadataConfig $adapterConfig
      * @return boolean
      */
-    private function isValid(MetaDataConfigInterface $adapterConfig)
+    private function isValid(DriverConfig $driverConfig)
     {
-        $adapterConfig->test();
-        return true;
+        $driverFactory = $driverConfig->getDriver();
+        $driver = $driverFactory::getInstance();
+        $driver->getConnection($driverConfig);
     }
 }

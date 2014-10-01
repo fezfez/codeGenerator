@@ -15,40 +15,36 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData;
+namespace CrudGenerator\MetaData\Driver\Pdo;
 
-use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
-use CrudGenerator\MetaData\Sources\MetaDataDAOCache;
-use CrudGenerator\Utils\Installer;
 use CrudGenerator\MetaData\Driver\DriverConfig;
+use CrudGenerator\MetaData\Driver\Driver;
+use CrudGenerator\MetaData\Driver\DriverFactoryInterface;
 
-/**
- * MetaData source factory
- * @author Stéphane Demonchaux
- */
-class MetaDataSourceFactory
+class PdoConnectorFactory implements DriverFactoryInterface
 {
-    /**
-     * @param string $metadataSourceFactoryName
-     * @param MetaDataConfigInterface $config
-     * @return MetaDataDAOCache
-     */
-    public function create($metadataSourceFactoryName, DriverConfig $config = null, $noCache = false)
+    public static function getInstance()
     {
-        if (null !== $config) {
-            $driverFactory = $config->getDriver();
-            $driver        = $driverFactory::getInstance();
+        return new PdoDriver();
+    }
 
-            $metadataSource = $metadataSourceFactoryName::getInstance($driver, $config);
-        } else {
-            $metadataSource = $metadataSourceFactoryName::getInstance();
-        }
+    /**
+     * @return \CrudGenerator\MetaData\Driver\Driver
+     */
+    public static function getDescription()
+    {
+        $config = new DriverConfig('Web', 'WebConnector');
+        $config->addQuestion('Database Name', 'configDatabaseName');
+        $config->addQuestion('Host', 'configHost');
+        $config->addQuestion('User', 'configUser');
+        $config->addQuestion('Password', 'configPassword');
+        $config->addQuestion('Port', 'configPort');
 
-        return new MetaDataDAOCache(
-            $metadataSource,
-            Installer::getDirectories(),
-            $config,
-            $noCache
-        );
+        $dataObject = new Driver();
+        $dataObject->setDefinition('Pdo connector')
+                   ->setConfig($config)
+                   ->setUniqueName('PDO');
+
+        return $dataObject;
     }
 }

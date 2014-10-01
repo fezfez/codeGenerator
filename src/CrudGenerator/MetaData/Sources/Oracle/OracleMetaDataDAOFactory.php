@@ -21,12 +21,14 @@ use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\Sources\Oracle\OracleConfig;
+use CrudGenerator\MetaData\Sources\MetaDataDAOPdoFactoryInterface;
+use CrudGenerator\MetaData\Driver\Pdo\PdoDriver;
 
 /**
  * Create PDO Metadata DAO instance
  *
  */
-class OracleMetaDataDAOFactory implements MetaDataDAOFactoryInterface
+class OracleMetaDataDAOFactory implements MetaDataDAOPdoFactoryInterface
 {
     /**
      * Create PDO Metadata DAO instance
@@ -34,12 +36,8 @@ class OracleMetaDataDAOFactory implements MetaDataDAOFactoryInterface
      * @param MetaDataConfigInterface $config
      * @return OracleMetaDataDAO
      */
-    public static function getInstance(MetaDataConfigInterface $config = null)
+    public static function getInstance(PdoDriver $pdoDriver)
     {
-        if (false === ($config instanceof OracleConfig)) {
-            throw new \InvalidArgumentException('Config must be an instance of OracleConfig');
-        }
-
         return new OracleMetaDataDAO(
             $config->getConnection()
         );
@@ -68,7 +66,8 @@ class OracleMetaDataDAOFactory implements MetaDataDAOFactoryInterface
         $dataObject->setDefinition("Oracle")
                    ->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\Oracle\OracleMetaDataDAOFactory')
                    ->setMetadataDao('CrudGenerator\MetaData\Sources\Oracle\OracleMetaDataDAO')
-                   ->setConfig(new OracleConfig());
+                   ->addConnectorFactory('CrudGenerator\MetaData\Connector\PdoConnectorFactory')
+                   ->setUniqueName('Oracle');
 
         return $dataObject;
     }

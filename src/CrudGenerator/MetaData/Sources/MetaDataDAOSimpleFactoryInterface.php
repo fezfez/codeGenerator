@@ -17,15 +17,17 @@
  */
 namespace CrudGenerator\MetaData\Sources;
 
+use CrudGenerator\MetaData\MetaDataSource;
+
 /**
- * Metadata config interface
+ * Metadata DAO Simple Factory interface
  *
  * @author Stéphane Demonchaux
  */
-interface MetaDataConfigInterface
+interface MetaDataDAOSimpleFactoryInterface
 {
     /**
-     * @return array
+     * @return \CrudGenerator\MetaData\Sources\MetaDataDAOInterface
      */
-    public function jsonSerialize();
+    public static function getInstance();
 }

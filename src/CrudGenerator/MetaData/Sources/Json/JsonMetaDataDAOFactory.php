@@ -22,27 +22,26 @@ use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\Sources\Json\JsonConfig;
 use CrudGenerator\MetaData\MetaDataSource;
 use JSONSchema\SchemaGeneratorFactory;
+use CrudGenerator\MetaData\Sources\MetaDataDAOFileFactoryInterface;
+use CrudGenerator\MetaData\Driver\Web\WebDriver;
 
 /**
  * Create Json Metadata DAO instance
  *
  */
-class JsonMetaDataDAOFactory implements MetaDataDAOFactoryInterface
+class JsonMetaDataDAOFactory implements MetaDataDAOFileFactoryInterface
 {
     /**
      * @param MetaDataConfigInterface $config
      * @throws \InvalidArgumentException
      * @return \CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAO
      */
-    public static function getInstance(MetaDataConfigInterface $config = null)
+    public static function getInstance(WebDriver $fileDriver, $config)
     {
-        if (false === ($config instanceof JsonConfig)) {
-            throw new \InvalidArgumentException('Config must be an instance of JsonConfig');
-        }
-
         $schemaGenerator = SchemaGeneratorFactory::getInstance();
 
         return new JsonMetaDataDAO(
+            $fileDriver,
             $config,
             $schemaGenerator
         );
@@ -63,10 +62,11 @@ class JsonMetaDataDAOFactory implements MetaDataDAOFactoryInterface
     public static function getDescription()
     {
         $dataObject = new MetaDataSource();
-        $dataObject->setDefinition("Json")
+        $dataObject->setDefinition("Json adapter")
                    ->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory')
                    ->setMetadataDao("CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAO")
-                   ->setConfig(new JsonConfig());
+                   ->addConnectorFactory('CrudGenerator\MetaData\Driver\Web\WebDriverFactory')
+                   ->setUniqueName('Json');
 
         return $dataObject;
     }

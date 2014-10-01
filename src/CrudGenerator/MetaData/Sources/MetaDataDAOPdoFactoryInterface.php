@@ -17,15 +17,18 @@
  */
 namespace CrudGenerator\MetaData\Sources;
 
+use CrudGenerator\MetaData\MetaDataSource;
+use CrudGenerator\MetaData\Driver\Pdo\PdoDriver;
+
 /**
- * Metadata config interface
+ * Metadata DAO Simple Factory interface
  *
  * @author Stéphane Demonchaux
  */
-interface MetaDataConfigInterface
+interface MetaDataDAOPdoFactoryInterface extends MetaDataDAOFactoryInterface
 {
     /**
-     * @return array
+     * @return \CrudGenerator\MetaData\Sources\MetaDataDAOInterface
      */
-    public function jsonSerialize();
+    public static function getInstance(PdoDriver $pdoDiver);
 }

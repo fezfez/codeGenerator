@@ -15,40 +15,39 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData;
+namespace CrudGenerator\MetaData\Driver\Web;
 
 use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
-use CrudGenerator\MetaData\Sources\MetaDataDAOCache;
-use CrudGenerator\Utils\Installer;
+use CrudGenerator\MetaData\Config\ConfigException;
+use CrudGenerator\Utils\FileManager;
 use CrudGenerator\MetaData\Driver\DriverConfig;
+use CrudGenerator\MetaData\Driver\Driver;
+use CrudGenerator\MetaData\Driver\DriverFactoryInterface;
 
-/**
- * MetaData source factory
- * @author Stéphane Demonchaux
- */
-class MetaDataSourceFactory
+class WebDriverFactory implements DriverFactoryInterface
 {
     /**
-     * @param string $metadataSourceFactoryName
-     * @param MetaDataConfigInterface $config
-     * @return MetaDataDAOCache
+     * @return \CrudGenerator\MetaData\Connector\WebConnector
      */
-    public function create($metadataSourceFactoryName, DriverConfig $config = null, $noCache = false)
+    public static function getInstance()
     {
-        if (null !== $config) {
-            $driverFactory = $config->getDriver();
-            $driver        = $driverFactory::getInstance();
+        return new WebDriver(new FileManager());
+    }
 
-            $metadataSource = $metadataSourceFactoryName::getInstance($driver, $config);
-        } else {
-            $metadataSource = $metadataSourceFactoryName::getInstance();
-        }
+    /**
+     * @return Connector
+     */
+    public static function getDescription()
+    {
+        $config = new DriverConfig('Web');
+        $config->addQuestion('Url', 'configUrl');
+        $config->setDriver(__CLASS__);
 
-        return new MetaDataDAOCache(
-            $metadataSource,
-            Installer::getDirectories(),
-            $config,
-            $noCache
-        );
+        $dataObject = new Driver();
+        $dataObject->setConfig($config)
+                   ->setDefinition('Web connector')
+                   ->setUniqueName('Web');
+
+        return $dataObject;
     }
 }
