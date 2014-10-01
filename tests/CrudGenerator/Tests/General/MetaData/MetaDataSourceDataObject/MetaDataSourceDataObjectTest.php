@@ -2,24 +2,24 @@
 namespace CrudGenerator\Tests\General\Adapater\MetaDataSource;
 
 use CrudGenerator\MetaData\MetaDataSource;
-use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
+use CrudGenerator\MetaData\Driver\DriverConfig;
 
 class MetaDataSourceDataObjectTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
-        $PostgreSQLConfig = new PostgreSQLConfig();
+        $driverConfig = new DriverConfig("test");
 
         $adapater = new MetaDataSource();
 
-        $adapater->setConfig($PostgreSQLConfig)
+        $adapater->setConfig($driverConfig)
                  ->setDefinition('definition')
                  ->setFalseDependencie('false')
                  ->setMetadataDao('name')
                  ->setMetadataDaoFactory('test');
 
         $this->assertInstanceOf(
-            'CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig',
+            'CrudGenerator\MetaData\Driver\DriverConfig',
             $adapater->getConfig()
         );
 

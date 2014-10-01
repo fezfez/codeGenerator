@@ -24,6 +24,7 @@ use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory;
 use CrudGenerator\MetaData\Sources\MetaDataDAOFileFactoryInterface;
 use CrudGenerator\MetaData\Driver\Web\WebDriver;
+use CrudGenerator\MetaData\Driver\DriverConfig;
 
 /**
  * Create Xml Metadata DAO instance
@@ -36,7 +37,7 @@ class XmlMetaDataDAOFactory implements MetaDataDAOFileFactoryInterface
      * @throws \InvalidArgumentException
      * @return \CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAO
      */
-    public static function getInstance(WebDriver $fileDriver, $config)
+    public static function getInstance(WebDriver $fileDriver, DriverConfig $config)
     {
         $xml   = simplexml_load_string($config->getConnection());
         $json  = json_encode($xml);

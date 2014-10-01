@@ -26,6 +26,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
+use CrudGenerator\MetaData\Driver\DriverConfig;
 
 /**
  * MySQL adapter
@@ -39,20 +40,24 @@ class MySQLMetaDataDAO implements MetaDataDAOInterface
         'character varying' => 'text'
     );
     /**
-     * @var PDO Pdo stmt
+     * Pdo stmt
+     *
+     * @var PDO
      */
     private $pdo = null;
     /**
-     * @var MySQLConfig Pdo configuration
+     * Pdo configuration
+     *
+     * @var DriverConfig
      */
     private $pdoConfig = null;
 
     /**
      * MySQL adapter
      * @param PDO $pdo
-     * @param MySQLConfig $pdoConfig
+     * @param DriverConfig $pdoConfig
      */
-    public function __construct(PDO $pdo, MySQLConfig $pdoConfig)
+    public function __construct(PDO $pdo, DriverConfig $pdoConfig)
     {
         $this->pdo       = $pdo;
         $this->pdoConfig = $pdoConfig;

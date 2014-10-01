@@ -23,6 +23,7 @@ use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\Sources\Oracle\OracleConfig;
 use CrudGenerator\MetaData\Sources\MetaDataDAOPdoFactoryInterface;
 use CrudGenerator\MetaData\Driver\Pdo\PdoDriver;
+use CrudGenerator\MetaData\Driver\DriverConfig;
 
 /**
  * Create PDO Metadata DAO instance
@@ -36,10 +37,10 @@ class OracleMetaDataDAOFactory implements MetaDataDAOPdoFactoryInterface
      * @param MetaDataConfigInterface $config
      * @return OracleMetaDataDAO
      */
-    public static function getInstance(PdoDriver $pdoDriver)
+    public static function getInstance(PdoDriver $pdoDriver, DriverConfig $config)
     {
         return new OracleMetaDataDAO(
-            $config->getConnection()
+            $pdoDriver->getConnection($config)
         );
     }
 

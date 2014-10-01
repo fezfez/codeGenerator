@@ -24,6 +24,7 @@ use CrudGenerator\MetaData\MetaDataSource;
 use JSONSchema\SchemaGeneratorFactory;
 use CrudGenerator\MetaData\Sources\MetaDataDAOFileFactoryInterface;
 use CrudGenerator\MetaData\Driver\Web\WebDriver;
+use CrudGenerator\MetaData\Driver\DriverConfig;
 
 /**
  * Create Json Metadata DAO instance
@@ -36,7 +37,7 @@ class JsonMetaDataDAOFactory implements MetaDataDAOFileFactoryInterface
      * @throws \InvalidArgumentException
      * @return \CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAO
      */
-    public static function getInstance(WebDriver $fileDriver, $config)
+    public static function getInstance(WebDriver $fileDriver, DriverConfig $config)
     {
         $schemaGenerator = SchemaGeneratorFactory::getInstance();
 

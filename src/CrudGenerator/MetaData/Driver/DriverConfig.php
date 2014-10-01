@@ -23,8 +23,10 @@ namespace CrudGenerator\MetaData\Driver;
 class DriverConfig implements \JsonSerializable
 {
     private $question   = array();
+    private $response   = array();
     private $driver     = null;
     private $uniqueName = null;
+    private $metadataDaoFactory = null;
 
     public function __construct($uniqueName)
     {

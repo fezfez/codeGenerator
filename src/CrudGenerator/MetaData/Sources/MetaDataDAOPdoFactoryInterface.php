@@ -19,6 +19,7 @@ namespace CrudGenerator\MetaData\Sources;
 
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Driver\Pdo\PdoDriver;
+use CrudGenerator\MetaData\Driver\DriverConfig;
 
 /**
  * Metadata DAO Simple Factory interface
@@ -28,7 +29,10 @@ use CrudGenerator\MetaData\Driver\Pdo\PdoDriver;
 interface MetaDataDAOPdoFactoryInterface extends MetaDataDAOFactoryInterface
 {
     /**
+     * @param PdoDriver $pdoDiver
+     * @param DriverConfig $config
+     *
      * @return \CrudGenerator\MetaData\Sources\MetaDataDAOInterface
      */
-    public static function getInstance(PdoDriver $pdoDiver);
+    public static function getInstance(PdoDriver $pdoDiver, DriverConfig $config);
 }

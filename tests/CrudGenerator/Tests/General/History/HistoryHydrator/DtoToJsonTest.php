@@ -9,6 +9,7 @@ use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Sources\MySQL\MySQLConfig;
+use CrudGenerator\MetaData\Driver\DriverConfig;
 
 class DtoToJsonTest extends \PHPUnit_Framework_TestCase
 {
@@ -49,8 +50,9 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
 
         $sUT = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource);
 
+        $driverConfig = new DriverConfig("test");
         $source = new MetaDataSource();
-        $source->setConfig(new MySQLConfig())
+        $source->setConfig($driverConfig)
         ->setMetadataDao("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAO")
         ->setMetadataDaoFactory("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory");
 
@@ -90,8 +92,10 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
         );
         $metaData->setName('MyName');
 
+        $driverConfig = new DriverConfig("test");
+
         $source = new MetaDataSource();
-        $source->setConfig(new MySQLConfig())
+        $source->setConfig($driverConfig)
                ->setMetadataDao("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAO")
                ->setMetadataDaoFactory("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory");
 

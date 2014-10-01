@@ -1,13 +1,18 @@
 <?php
 namespace CrudGenerator\Tests\General\MetaData\Sources\MySQL;
 
-use CrudGenerator\MetaData\Sources\MySQL\MySQLConfig;
+use CrudGenerator\MetaData\Driver\DriverConfig;
 
-$pdoConfig = new MySQLConfig();
-$pdoConfig->setConfigDatabaseName('code_generator')
-->setConfigPassword('')
-->setConfigUser('travis')
-->setConfigPort('3302')
-->setConfigHost('localhost');
+$config = new DriverConfig('Web', 'WebConnector');
+$config->addQuestion('Database Name', 'configDatabaseName');
+$config->addQuestion('Host', 'configHost');
+$config->addQuestion('User', 'configUser');
+$config->addQuestion('Password', 'configPassword');
+$config->addQuestion('Port', 'configPort');
 
-return $pdoConfig;
+$config->response('configDatabaseName', 'code_generator');
+$config->response('configHost', 'localhost');
+$config->response('configUser', 'travis');
+$config->response('configPort', '3302');
+
+return $config;

@@ -24,6 +24,7 @@ use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
 use CrudGenerator\MetaData\Sources\MetaDataDAOPdoFactoryInterface;
 use CrudGenerator\MetaData\Driver\Pdo\PdoDriver;
+use CrudGenerator\MetaData\Driver\DriverConfig;
 
 /**
  * Create PostgreSQL Metadata DAO instance
@@ -36,11 +37,11 @@ class PostgreSQLMetaDataDAOFactory implements MetaDataDAOPdoFactoryInterface
      *
      * @return PostgreSQLMetaDataDAO
      */
-    public static function getInstance(PdoDriver $pdoDiver)
+    public static function getInstance(PdoDriver $pdoDiver, DriverConfig $config)
     {
         return new PostgreSQLMetaDataDAO(
-            $this->config->getConnector($this->config->getConnectorConfig()),
-            $this->config,
+            $pdoDiver->getConnection($config),
+            $config,
             new SqlManager()
         );
     }

@@ -2,6 +2,7 @@
 namespace CrudGenerator\Tests\General\MetaData\MetaDataSourceFactory;
 
 use CrudGenerator\MetaData\MetaDataSourceFactory;
+use CrudGenerator\MetaData\Driver\DriverConfig;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
@@ -9,19 +10,12 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
     {
         $sUT = new MetaDataSourceFactory();
 
-        $PostgreSQLStub = $this->getMockBuilder('CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $pdoStub = $this->getMock('CrudGenerator\Tests\General\MetaData\MetaDataSourceFactory\MockPDO');
-
-        $PostgreSQLStub->expects($this->once())
-        ->method('getConnection')
-        ->will($this->returnValue($pdoStub));
+        $driver = new DriverConfig('test');
+        $driver->setDriver('CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory');
 
         $this->assertInstanceOf(
             '\CrudGenerator\MetaData\Sources\MetaDataDAOCache',
-            $sUT->create('\CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory', $PostgreSQLStub)
+            $sUT->create('\CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory', $driver)
         );
     }
 }

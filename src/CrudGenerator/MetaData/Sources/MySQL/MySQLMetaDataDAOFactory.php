@@ -22,6 +22,7 @@ use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\Sources\MetaDataDAOPdoFactoryInterface;
 use CrudGenerator\MetaData\Driver\Pdo\PdoDriver;
+use CrudGenerator\MetaData\Driver\DriverConfig;
 
 /**
  * Create MySQL Metadata DAO instance
@@ -34,10 +35,11 @@ class MySQLMetaDataDAOFactory implements MetaDataDAOPdoFactoryInterface
      *
      * @return MySQLMetaDataDAO
      */
-    public static function getInstance(PdoDriver $pdoDriver)
+    public static function getInstance(PdoDriver $pdoDriver, DriverConfig $config)
     {
         return new MySQLMetaDataDAO(
-            $pdoDriver
+            $pdoDriver->getConnection($config),
+            $config
         );
     }
 

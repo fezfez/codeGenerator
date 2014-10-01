@@ -38,22 +38,24 @@ class PdoDriver implements DriverInterface
     public function getConnection(DriverConfig $config)
     {
         try {
-            if ($config->getConfigHost() === null || $config->getConfigDatabaseName() === null) {
+            if ($config->getResponse('configHost') === null || $config->getResponse('configDatabaseName') === null) {
                 throw new ConfigException('Empty connection');
             }
 
-            if ($config instanceof MySQLConfig) {
-                $dsn = 'mysql:host=' . $config->getConfigHost() . ';dbname=' . $config->getConfigDatabaseName();
-            } elseif ($config instanceof PostgreSQLConfig) {
-                $dsn = 'pgsql:host=' . $config->getConfigHost() . ';dbname=' . $config->getConfigDatabaseName();
-            } elseif ($config instanceof OracleConfig) {
-                $dsn = '//' . $config->getConfigHost() . '/' . $config->getConfigDatabaseName();
+            if (strpos($config->getMetadataDaoFactory(), 'MySql') !== false) {
+                $dsn = 'mysql:host=' . $config->getResponse('configHost') . ';dbname=' . $config->getResponse('configDatabaseName');
+            } elseif (strpos($config->getMetadataDaoFactory(), 'PostgreSQL') !== false) {
+                $dsn = 'pgsql:host=' . $config->getResponse('configHost') . ';dbname=' . $config->getResponse('configDatabaseName');
+            } elseif (strpos($config->getMetadataDaoFactory(), 'Oracle') !== false) {
+                $dsn = '//' . $config->getResponse('configHost') . '/' . $config->getResponse('configDatabaseName');
+            } else {
+                throw new \Exception('Dsn not found');
             }
 
             return new \PDO(
                 $dsn,
-                $config->getConfigUser(),
-                $config->getConfigPassword(),
+                $config->getResponse('configUser'),
+                $config->getResponse('configPassword'),
                 array(
                     \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
                 )

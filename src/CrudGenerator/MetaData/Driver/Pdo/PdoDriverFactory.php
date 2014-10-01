@@ -21,7 +21,7 @@ use CrudGenerator\MetaData\Driver\DriverConfig;
 use CrudGenerator\MetaData\Driver\Driver;
 use CrudGenerator\MetaData\Driver\DriverFactoryInterface;
 
-class PdoConnectorFactory implements DriverFactoryInterface
+class PdoDriverFactory implements DriverFactoryInterface
 {
     public static function getInstance()
     {

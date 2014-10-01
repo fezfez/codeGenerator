@@ -26,6 +26,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
+use CrudGenerator\MetaData\Driver\DriverConfig;
 
 /**
  * PostgreSQL adapter
@@ -39,11 +40,15 @@ class PostgreSQLMetaDataDAO implements MetaDataDAOInterface
         'character varying' => 'text'
     );
     /**
-     * @var PDO Pdo stmt
+     * Pdo stmt
+     *
+     * @var PDO
      */
     private $pdo = null;
     /**
-     * @var PostgreSQLConfig Pdo configuration
+     * Pdo configuration
+     *
+     * @var DriverConfig
      */
     private $pdoConfig = null;
     /**
@@ -54,10 +59,10 @@ class PostgreSQLMetaDataDAO implements MetaDataDAOInterface
     /**
      * PostgreSQL adapter
      * @param PDO $pdo
-     * @param PostgreSQLConfig $pdoConfig
+     * @param DriverConfig $pdoConfig
      * @param SqlManager $sqlManager
      */
-    public function __construct(PDO $pdo, PostgreSQLConfig $pdoConfig, SqlManager $sqlManager)
+    public function __construct(PDO $pdo, DriverConfig $pdoConfig, SqlManager $sqlManager)
     {
         $this->pdo        = $pdo;
         $this->pdoConfig  = $pdoConfig;

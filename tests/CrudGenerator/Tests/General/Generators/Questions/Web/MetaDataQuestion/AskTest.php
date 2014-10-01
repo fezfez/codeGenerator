@@ -8,6 +8,7 @@ use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
+use CrudGenerator\MetaData\Driver\DriverConfig;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {
@@ -58,7 +59,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
     public function testWithConfig()
     {
-        $config = new PostgreSQLConfig();
+        $config = new DriverConfig("test");
         $source = new MetaDataSource();
         $source->setDefinition('My definition')
         ->setMetadataDao('Name')

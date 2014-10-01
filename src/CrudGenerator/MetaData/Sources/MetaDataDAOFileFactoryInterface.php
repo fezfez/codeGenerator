@@ -19,6 +19,7 @@ namespace CrudGenerator\MetaData\Sources;
 
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Driver\Web\WebDriver;
+use CrudGenerator\MetaData\Driver\DriverConfig;
 
 /**
  * Metadata DAO Simple Factory interface
@@ -30,5 +31,5 @@ interface MetaDataDAOFileFactoryInterface extends MetaDataDAOFactoryInterface
     /**
      * @return \CrudGenerator\MetaData\Sources\MetaDataDAOInterface
      */
-    public static function getInstance(WebDriver $fileDriver, $config);
+    public static function getInstance(WebDriver $fileDriver, DriverConfig $config);
 }
