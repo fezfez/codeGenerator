@@ -2,6 +2,7 @@
 namespace CrudGenerator\Tests\PostgreSQL\MetaData\PostgreSQL\PostgreSQLMetaDataDAOFactory;
 
 use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory;
+use CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory;
 
 /**
  * @requires extension pdo_pgsql
@@ -14,7 +15,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
             'CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAO',
-            PostgreSQLMetaDataDAOFactory::getInstance($pdoConfig)
+            PostgreSQLMetaDataDAOFactory::getInstance(PdoDriverFactory::getInstance(), $pdoConfig)
         );
     }
 }

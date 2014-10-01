@@ -1,13 +1,18 @@
 <?php
 namespace CrudGenerator\Tests\PostgreSQL\MetaData\PostgreSQL\PostgreSQL;
 
-use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
+use CrudGenerator\MetaData\Driver\DriverConfig;
 
-$pdoConfig = new PostgreSQLConfig();
-$pdoConfig->setConfigDatabaseName('code_generator')
-->setConfigPassword('')
-->setConfigUser('postgres')
-->setConfigPort('5432')
-->setConfigHost('localhost');
+$config = new DriverConfig('Web', 'WebConnector');
+$config->addQuestion('Database Name', 'configDatabaseName');
+$config->addQuestion('Host', 'configHost');
+$config->addQuestion('User', 'configUser');
+$config->addQuestion('Password', 'configPassword');
+$config->addQuestion('Port', 'configPort');
 
-return $pdoConfig;
+$config->response('configDatabaseName', 'code_generator');
+$config->response('configHost', 'localhost');
+$config->response('configUser', 'postgres');
+$config->response('configPort', '5432');
+
+return $config;

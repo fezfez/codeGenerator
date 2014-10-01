@@ -2,6 +2,7 @@
 namespace CrudGenerator\Tests\PostgreSQL\Sources\MetaData\PostgreSQL\PgSql\PostgreSQLMetaDataDAO;
 
 use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory;
+use CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory;
 
 /**
  * @requires extension pdo_pgsql
@@ -12,7 +13,7 @@ class GetAllMetadataTest extends \PHPUnit_Framework_TestCase
     {
         $PostgreSQLConfig = include __DIR__ . '/../config.php';
 
-        $suT = PostgreSQLMetaDataDAOFactory::getInstance($PostgreSQLConfig);
+        $suT = PostgreSQLMetaDataDAOFactory::getInstance(PdoDriverFactory::getInstance(), $PostgreSQLConfig);
 
         $allMetaData = $suT->getAllMetadata();
         $this->assertInstanceOf(
