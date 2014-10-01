@@ -1,6 +1,8 @@
 [![Build Status](https://travis-ci.org/fezfez/codeGenerator.png?branch=master)](https://travis-ci.org/fezfez/codeGenerator)
 [![Code Coverage](https://scrutinizer-ci.com/g/fezfez/codeGenerator/badges/coverage.png?s=56a1921623a18b0405091624044c6d1e8a4452ac)](https://scrutinizer-ci.com/g/fezfez/codeGenerator/)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/fezfez/codeGenerator/badges/quality-score.png?s=fc3829220661fc6edf510608d909cf7b4776713c)](https://scrutinizer-ci.com/g/fezfez/codeGenerator/)
+[![Project Status](http://stillmaintained.com/fezfez/codeGenerator.png)](http://stillmaintained.com/fezfez/codeGenerator)
+[![Latest Stable Version](https://poser.pugx.org/fezfez/code-generator/v/stable.svg)](https://packagist.org/packages/fezfez/code-generator) [![Total Downloads](https://poser.pugx.org/fezfez/code-generator/downloads.svg)](https://packagist.org/packages/fezfez/code-generator) [![Latest Unstable Version](https://poser.pugx.org/fezfez/code-generator/v/unstable.svg)](https://packagist.org/packages/fezfez/code-generator) [![License](https://poser.pugx.org/fezfez/code-generator/license.svg)](https://packagist.org/packages/fezfez/code-generator)
 
 Code Generator
 =============
