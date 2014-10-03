@@ -31,7 +31,6 @@ define(
         GeneratorApp.controller("GeneratorCtrl",
                 [
                  '$scope',
-                 '$http',
                  '$sce',
                  'SourceService',
                  'GeneratorService',
@@ -43,7 +42,6 @@ define(
                  'DownloadGeneratorService',
                 function (
                         $scope,
-                        $http,
                         $sce,
                         $sourceService,
                         $generatorService,
@@ -68,38 +66,6 @@ define(
             $scope.generatorPreview  = null;
             $scope.downloadLog       = [];
 
-            $scope.setConfigQuestion = function(attribute) {
-                $scope.backendConfig();
-            };
-
-            $scope.backendConfig = function() {
-                $sourceService.config(
-                    $scope.configQuestion,
-                    function(context, data) {
-                        if (data.question) {
-                            $scope.configQuestionsList = data.question;
-                        }
-                        var modal = $('newSource > div');
-                        if (!modal.hasClass( "show" )) {
-                            modal.modal('show');
-                        }
-
-                        if (data.error !== undefined) {
-                            $scope.configFormError = data.error;
-                        } else if (data.valid !== undefined) {
-                            delete $scope.metadataSourceConfigForm;
-                            $scope.backendCollection = context.getBackendCollection();
-                            $('newSource > div').modal('hide');
-                        }
-                },
-                function(data) {
-                    $scope.unsafeModal = {
-                        'title' : 'Error on config',
-                        'body' : data.error,
-                    };
-                });
-            };
-
             var loadContext = function(context) {
                 if (context.getBackendCollection() !== null)
                     $scope.backendCollection = context.getBackendCollection();
@@ -117,7 +83,7 @@ define(
 
             var generate = function(context, metadata_nocache, waitFileList) {
                 if (metadata_nocache === undefined ) {
-                    metadata_nocache = 0;
+                    metadata_nocache = false;
                 }
                 if (waitFileList === undefined ) {
                     waitFileList = false;
@@ -155,7 +121,39 @@ define(
                     }
                 );
             };
-            
+
+            $scope.setConfigQuestion = function(attribute) {
+                $scope.backendConfig();
+            };
+
+            $scope.backendConfig = function() {
+                $sourceService.config(
+                    $scope.configQuestion,
+                    function(context, data) {
+                        if (data.question) {
+                            $scope.configQuestionsList = data.question;
+                        }
+                        var modal = $('newSource > div');
+                        if (!modal.hasClass( "show" )) {
+                            modal.modal('show');
+                        }
+
+                        if (data.error !== undefined) {
+                            $scope.configFormError = data.error;
+                        } else if (data.valid !== undefined) {
+                            delete $scope.metadataSourceConfigForm;
+                            $scope.backendCollection = context.getBackendCollection();
+                            $('newSource > div').modal('hide');
+                        }
+                },
+                function(data) {
+                    $scope.unsafeModal = {
+                        'title' : 'Error on config',
+                        'body' : data.error,
+                    };
+                });
+            };
+
             $scope.previewGenerator = function(generator) {
                 $scope.generatorPreview = generator;
                 $scope.downloadEnd = null;
@@ -222,7 +220,7 @@ define(
             };
 
             $scope.destructMetadataCache = function() {
-                generate(context, 1);
+                generate(context, true);
             };
 
             $scope.setMetadata = function(name) {
