@@ -29,7 +29,7 @@ define([
         this.hydrate = function(data, context) {
             var backendCollection = findByDtoAttributAndDeleteFromQuestion('backend', data);
             var metadataCollection = findByDtoAttributAndDeleteFromQuestion('metadata', data);
-            
+
             if (backendCollection !== null) {
                 angular.forEach(backendCollection.values, function (backend, id) {
                     if (metadataCollection !== null) {

@@ -3,7 +3,8 @@ define(["App/App", "Corp/Context/Context", "Corp/Context/ContextHydrator"], func
 
     var Service = app.service('SearchGeneratorService', ['$http', function ($http) {
         /*
-         * History
+         * Search generator by name
+         * 
          * @param callback callable
          * @param callbackError callable
          */
@@ -29,7 +30,7 @@ define(["App/App", "Corp/Context/Context", "Corp/Context/ContextHydrator"], func
                 callbackError({'error' : data.error});
             });
         };
-        
+
         this.detail = function (history, callback, callbackError) {
 
             var datas =  $.param({
