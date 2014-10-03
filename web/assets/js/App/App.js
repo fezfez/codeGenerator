@@ -1,4 +1,4 @@
-define(['Angular'], function() {
+define(['Angular'], function(angular) {
 
     var App = (function () {
         "use strict";
@@ -10,7 +10,7 @@ define(['Angular'], function() {
                 'GeneratorApp', 
                 []
             );
-            
+
             app.init = function() {
                 angular.bootstrap(
                     document,
@@ -29,4 +29,6 @@ define(['Angular'], function() {
     })();
 
     return App;
+}, function(err) {
+    console.log(err);
 });

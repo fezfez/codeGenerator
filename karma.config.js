@@ -8,26 +8,18 @@ module.exports = function(config) {
     basePath: './web/assets/js/',
 
     // frameworks to use
-    frameworks: ['requirejs', 'jasmine', 'chai'],
+    frameworks: ['jasmine', 'requirejs'],
 
     // list of files / patterns to load in the browser
     files: [
-        {pattern: 'Vendor/requirejs/require.js', included: false},
         {pattern: 'Vendor/angular/angular.js', included: false},
-        {pattern: 'Vendor/angular-resource/angular-resource.js', included: false},
         {pattern: 'Vendor/angular-mocks/angular-mocks.js', included: false},
         {pattern: 'Vendor/jquery/dist/jquery.js', included: true},
         {pattern: 'Vendor/bootstrap/dist/js/bootstrap.js', included: true},
         {pattern: 'Vendor/shCore.js', included: false},
         {pattern: 'Vendor/shBrushPhp.js', included: false},
-        {pattern: 'App/Services/*.js', included: false},
-        {pattern: 'App/Controllers/*.js', included: false},
-        {pattern: 'App/Directives/*.js', included: false},
-        {pattern: 'App/Corp/Directory/*.js', included: false},
-        {pattern: 'App/Corp/File/*.js', included: false},
-        {pattern: 'App/Corp/Context/*.js', included: false},
-        {pattern: 'App/*.js', included: false},
-        {pattern: 'Tests/App/**/*.test.js', included: true},
+        {pattern: 'App/**/*.js', included: false},
+        {pattern: 'Tests/App/**/*.test.js', included: false},
         {pattern: 'Tests/karma.main.js', included: true}
     ],
 
@@ -41,8 +33,7 @@ module.exports = function(config) {
      'karma-jasmine',
      'karma-chai',
      'karma-coverage',
-     'karma-firefox-launcher',
-     'karma-ng-scenario'
+     'karma-firefox-launcher'
      ],
 
     // test results reporter to use
@@ -57,7 +48,7 @@ module.exports = function(config) {
     },
     coverageReporter: {
         type : 'html',
-        dir  : 'coverage/'
+        dir  : 'coverage-javascript/'
     },
     // enable / disable colors in the output (reporters and logs)
     colors: true,

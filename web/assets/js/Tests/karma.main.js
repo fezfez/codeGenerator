@@ -9,22 +9,19 @@ for (var file in window.__karma__.files) {
         // note that these files are available here 
         // because of our settings in the karma.conf.js files[]
         if (/(.+test)\.js$/.test(file)) {
+        	//console.log(file);
             tests.push(file);
         }
     }
 }
 
-var path = '';
-
-if (typeof window.__karma__ !== 'undefined') {
-    path += '/base/';
-}
+//tests.push('/base/Tests/App/Services/WaitModalService.test.js');
 
 requirejs.config({
     //By default load any module IDs from js/lib
-    baseUrl: '/base/',
+    baseUrl: 'base/',
     urlArgs: "t=" + (new Date()).getTime(),
-    waitSeconds : 0,
+    waitSeconds : 10,
     //except, if the module ID starts with "app",
     //load it from the js/app directory. paths
     //config is relative to the baseUrl, and
@@ -38,6 +35,7 @@ requirejs.config({
         JQuery: "Vendor/jquery/dist/jquery",
         TwitterBootstrap: "Vendor/bootstrap/dist/js/bootstrap",
         Angular: "Vendor/angular/angular",
+        AngularMock: "Vendor/angular-mocks/angular-mocks",
         HighLighterPHP: "Vendor/shBrushPhp",
         shCore: "Vendor/shCore",
     },
@@ -59,7 +57,9 @@ requirejs.config({
         'HighLighterPHP': {
             //These script dependencies should be loaded before loading
             deps: ['shCore']
-        }
+        },
+        'Angular': {'exports': 'angular'},
+        'AngularMock': {deps: ['Angular'], 'exports': 'angular.mock'}
     },
 
     // ask Require.js to load these files (all our tests)

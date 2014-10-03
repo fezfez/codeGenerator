@@ -1,20 +1,52 @@
-require(['Services/GeneratorService', "Corp/Directory/DirectoryDataObject", 'Corp/Context/Context'], function(GeneratorService, DirectoryDataObject, Context) {
-    describe('Testing a service', function() {
+define(
+    ['Angular', 'AngularMock', "Corp/Directory/DirectoryDataObject", 'Corp/Context/Context', 'Services/GeneratorService'], 
+    function(angular, mock, DirectoryDataObject, Context)
+{
+    describe('Testing GeneratorService', function() {
 
-        var service, $httpBackend;
+        var httpBackend = undefined, _GeneratorService_ = undefined;
 
-        //you need to indicate your module in a test
-        beforeEach(module('GeneratorApp'));
-        beforeEach(inject(function($injector) {
-            // Set up the mock http service responses
-            $httpBackend = $injector.get('$httpBackend');
-            $q           = $injector.get('$q');
-            service      = $injector.get('GeneratorService');
+        beforeEach((function() {
+            angular.mock.module('GeneratorApp');
+            angular.mock.inject(function(GeneratorService, $httpBackend) {
+                // Set up the mock http service responses
+                httpBackend        = $httpBackend;
+                _GeneratorService_ = GeneratorService;
+            });
         }));
         
+        it('Should throw exception on wrong context type', function() {
+            expect(function() {
+                _GeneratorService_.build("im wrong", false, function(context) {}, function(error) {});
+            }).toThrow();
+        });
+        
+        it('Should set metadatanocache to true if undefined', function() {
+        	httpBackend.expectPOST('generator').respond(200, '');
+            _GeneratorService_.build(new Context(), undefined, function(context) {}, function(error) {});
+        });
+        
+        it('Should throw exception on wrong metadata_nocache type', function() {
+            expect(function() {
+            	_GeneratorService_.build(new Context(), 'im wrong', function(context) {}, function(error) {});
+            }).toThrow();
+        });
+        
+        it('Should throw exception on wrong callBackAfterAjax type', function() {
+            expect(function() {
+            	_GeneratorService_.build(new Context(), false, "im wrong", function(error) {});
+            }).toThrow();
+        });
+        
+        it('Should throw exception on wrong callbackError type', function() {
+            expect(function() {
+            	_GeneratorService_.build(new Context(), false, function(context) {}, "im wrong");
+            }).toThrow();
+        });
+
         it('should preview generation', function() {
 
-            $httpBackend.whenPOST("generator").respond(
+            httpBackend.whenPOST("generator").respond(
                 {
                     'generator' : {
                         'files' : [
@@ -27,18 +59,37 @@ require(['Services/GeneratorService', "Corp/Directory/DirectoryDataObject", 'Cor
                 }
             );
 
-            service.build(
+            _GeneratorService_.build(
                 new Context(),
-                function(directories, questions) {
-                    assert.instanceOf(directories, DirectoryDataObject, 'directories is an instance of DirectoryDataObject');
+                false,
+                function(directories) {
+                    expect(directories instanceof Context).toBe(true);
+                }, function(error) {
+                    
                 }
             );
-            $httpBackend.flush();
+            httpBackend.flush();
+        });
+
+        it('Should return error', function() {
+
+            var errorString = 'MyError !';
+            httpBackend.expectPOST('generator').respond(500, {error : errorString});
+
+            _GeneratorService_.build(
+                new Context(),
+                false,
+                function(directories) {
+                    expect(directories instanceof Context).toBe(true);
+                }, function(error) {
+                    expect(error).toBe(errorString);
+                }
+            );
+            httpBackend.flush();
         });
 
         afterEach(function() {
-            $httpBackend.verifyNoOutstandingExpectation();
-            //$httpBackend.verifyNoOutstandingRequest();
+            httpBackend.verifyNoOutstandingExpectation();
         });
     });
 });

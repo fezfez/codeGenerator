@@ -23,6 +23,22 @@ define([
             if ((context instanceof Context) === false) {
                 throw new Error("Context must be instance of Context");
             }
+            
+            if (metadata_nocache === undefined) {
+                metadata_nocache = false;
+            }
+            
+            if (typeof(metadata_nocache) !== "boolean") {
+                throw new Error("metadata_nocache must be a boolean");
+            }
+            
+            if (typeof(callbackAfterAjax) !== "function") {
+                throw new Error("callbackAfterAjax must be of type function");
+            }
+            
+            if (typeof(callbackError) !== "function") {
+                throw new Error("callbackError must be of type function");
+            }
 
             if (http === true) {
                 //canceler.resolve();

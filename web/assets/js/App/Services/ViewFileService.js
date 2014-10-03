@@ -10,11 +10,11 @@ define(['App/App', 'Corp/Context/Context', 'Corp/File/FileDataObject'], function
         this.generate = function (context, file, callback) {
 
             if ((context instanceof Context) === false) {
-                throw new Error("Context muse be instance of Context");
+                throw new Error("Context must be instance of Context");
             }
 
             if ((file instanceof FileDataObject) === false) {
-                throw new Error("file muse be instance of FileDataObject");
+                throw new Error("File must be instance of FileDataObject");
             }
 
             var datas =  $.param({

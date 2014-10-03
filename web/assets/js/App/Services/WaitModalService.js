@@ -1,6 +1,6 @@
-define(["App/App", "TwitterBootstrap"], function(app) {
+define(["App/App", "TwitterBootstrap"], function(angular) {
 
-    var Service = app.service('WaitModalService', ['$http', function ($http) {
+    var Service = angular.service('WaitModalService', ['$http', function ($http) {
         "use strict";
 
         /*

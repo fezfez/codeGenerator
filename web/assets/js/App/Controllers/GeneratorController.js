@@ -1,14 +1,14 @@
 define(
     [
         "App/App",
-        "App/Services/SourceService",
-        "App/Services/GeneratorService",
-        "App/Services/ViewFileService",
-        "App/Services/WaitModalService",
-        "App/Services/GenerateService",
-        "App/Services/HistoryService",
-        "App/Services/SearchGeneratorService",
-        "App/Services/DownloadGeneratorService",
+        "Services/SourceService",
+        "Services/GeneratorService",
+        "Services/ViewFileService",
+        "Services/WaitModalService",
+        "Services/GenerateService",
+        "Services/HistoryService",
+        "Services/SearchGeneratorService",
+        "Services/DownloadGeneratorService",
         "Corp/Context/Context",
         "Corp/Context/Config",
         "HighLighterPHP"
