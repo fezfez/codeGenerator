@@ -1,17 +1,17 @@
 define(
-    ['Angular', 'AngularMock', 'Corp/Context/Context', 'Corp/File/FileDataObject', 'Services/ViewFileService'],
+    ['Angular', 'AngularMock', 'Corp/Context/Context', 'Corp/File/FileDataObject', 'Services/GenerateService'],
     function(angular, mock, Context, FileDataObject)
 {
-    describe('Testing viewFileService', function() {
+    describe('Testing GenerateService, viewFile method', function() {
 
-        var httpBackend = undefined, _ViewFileService_ = undefined;
+        var httpBackend = undefined, _GenerateService_ = undefined;
 
         beforeEach((function() {
             angular.mock.module('GeneratorApp');
-            angular.mock.inject(function(ViewFileService, $httpBackend) {
+            angular.mock.inject(function(GenerateService, $httpBackend) {
                 // Set up the mock http service responses
                 httpBackend       = $httpBackend;
-                _ViewFileService_ = ViewFileService;
+                _GenerateService_ = GenerateService;
             });
         }));
 
@@ -23,7 +23,7 @@ define(
             };
             httpBackend.whenPOST("generator").respond(generateData);
 
-            _ViewFileService_.generate(new Context(), new FileDataObject(), (function(data) {
+            _GenerateService_.viewFile(new Context(), new FileDataObject()).then((function(data) {
                 expect(data).toEqual(generateData);
             }));
 
@@ -35,7 +35,7 @@ define(
 
             httpBackend.expectPOST('generator').respond(500, '');
 
-            _ViewFileService_.generate(new Context(), new FileDataObject(), (function(data) {
+            _GenerateService_.viewFile(new Context(), new FileDataObject()).then((function(data) {
                 expect(data).toEqual('');
             }));
 
@@ -44,13 +44,13 @@ define(
 
         it('Should throw exception on wrong context type', function() {
             expect(function() {
-                _ViewFileService_.generate('im wrong', new FileDataObject(), (function(data) {}))
+                _GenerateService_.viewFile('im wrong', new FileDataObject()).then((function(data) {}))
             }).toThrow();
         });
 
         it('Should throw exception on wrong file type', function() {
             expect(function() {
-                _ViewFileService_.generate(new Context(), 'im wrong', (function(data) {}))
+                _GenerateService_.viewFile(new Context(), 'im wrong').then((function(data) {}))
             }).toThrow();
         });
 

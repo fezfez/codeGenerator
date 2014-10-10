@@ -90,18 +90,4 @@ class Driver
             return $this->config->getUniqueName();
         }
     }
-
-    /* (non-PHPdoc)
-     * @see \CrudGenerator\MetaData\Sources\MetaDataConfig::jsonSerialize()
-     */
-    public function jsonSerialize()
-    {
-        return array(
-            'configDatabaseName' => $this->configDatabaseName,
-            'configHost'         => $this->configHost,
-            'configUser'         => $this->configUser,
-            'configPassword'     => $this->configPassword,
-            'configPort'         => $this->configPort
-        );
-    }
 }

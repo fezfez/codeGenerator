@@ -19,33 +19,39 @@ namespace CrudGenerator\MetaData\Sources\Xml;
 
 use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface;
 use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
-use CrudGenerator\MetaData\Sources\Json\JsonConfig;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory;
-use CrudGenerator\MetaData\Sources\MetaDataDAOFileFactoryInterface;
-use CrudGenerator\MetaData\Driver\Web\WebDriver;
 use CrudGenerator\MetaData\Driver\DriverConfig;
+use CrudGenerator\MetaData\Driver\File\FileDriverFactory;
+use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryConfigInterface;
 
 /**
  * Create Xml Metadata DAO instance
  *
  */
-class XmlMetaDataDAOFactory implements MetaDataDAOFileFactoryInterface
+class XmlMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
 {
     /**
      * @param MetaDataConfigInterface $config
      * @throws \InvalidArgumentException
      * @return \CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAO
      */
-    public static function getInstance(WebDriver $fileDriver, DriverConfig $config)
+    public static function getInstance(DriverConfig $config)
     {
-        $xml   = simplexml_load_string($config->getConnection());
-        $json  = json_encode($xml);
+        $fileDriver = FileDriverFactory::getInstance($config);
+
+        $json  = json_encode(
+            simplexml_load_string(
+                $fileDriver->getFile($config)
+            )
+        );
 
         file_put_contents('tmp', $json);
 
-        $jsonConfig = new JsonConfig();
+        $jsonConfig = clone $config;
         $jsonConfig->setConfigUrl('tmp');
+        $jsonConfig->setDriver('CrudGenerator\MetaData\Driver\File\Web\WebDriverFactory');
+
         $jsonMetadata = JsonMetaDataDAOFactory::getInstance($jsonConfig);
 
         return new XmlMetaDataDAO($jsonMetadata);
@@ -69,7 +75,7 @@ class XmlMetaDataDAOFactory implements MetaDataDAOFileFactoryInterface
         $dataObject->setDefinition("Xml")
                    ->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\Xml\XmlMetaDataDAOFactory')
                    ->setMetadataDao("CrudGenerator\MetaData\Sources\Xml\XmlMetaDataDAO")
-                   ->addConnectorFactory('CrudGenerator\MetaData\Connector\FileDriver')
+                   ->addDriverDescription(\CrudGenerator\MetaData\Driver\File\Web\WebDriverFactory::getDescription())
                    ->setUniqueName('Xml');
 
         return $dataObject;

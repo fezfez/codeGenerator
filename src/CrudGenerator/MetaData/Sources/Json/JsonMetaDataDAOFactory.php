@@ -19,26 +19,29 @@ namespace CrudGenerator\MetaData\Sources\Json;
 
 use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface;
 use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
-use CrudGenerator\MetaData\Sources\Json\JsonConfig;
 use CrudGenerator\MetaData\MetaDataSource;
 use JSONSchema\SchemaGeneratorFactory;
-use CrudGenerator\MetaData\Sources\MetaDataDAOFileFactoryInterface;
-use CrudGenerator\MetaData\Driver\Web\WebDriver;
+use CrudGenerator\MetaData\Driver\File\Web\WebDriver;
 use CrudGenerator\MetaData\Driver\DriverConfig;
+use CrudGenerator\MetaData\Driver\File\Web\WebDriverFactory;
+use CrudGenerator\MetaData\Sources\MetaDataDAOSimpleFactoryInterface;
+use CrudGenerator\MetaData\Driver\File\FileDriverFactory;
+use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryConfigInterface;
 
 /**
  * Create Json Metadata DAO instance
  *
  */
-class JsonMetaDataDAOFactory implements MetaDataDAOFileFactoryInterface
+class JsonMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
 {
     /**
      * @param MetaDataConfigInterface $config
      * @throws \InvalidArgumentException
      * @return \CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAO
      */
-    public static function getInstance(WebDriver $fileDriver, DriverConfig $config)
+    public static function getInstance(DriverConfig $config)
     {
+        $fileDriver      = FileDriverFactory::getInstance($config);
         $schemaGenerator = SchemaGeneratorFactory::getInstance();
 
         return new JsonMetaDataDAO(
@@ -66,7 +69,7 @@ class JsonMetaDataDAOFactory implements MetaDataDAOFileFactoryInterface
         $dataObject->setDefinition("Json adapter")
                    ->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory')
                    ->setMetadataDao("CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAO")
-                   ->addConnectorFactory('CrudGenerator\MetaData\Driver\Web\WebDriverFactory')
+                   ->addDriverDescription(\CrudGenerator\MetaData\Driver\File\Web\WebDriverFactory::getDescription())
                    ->setUniqueName('Json');
 
         return $dataObject;

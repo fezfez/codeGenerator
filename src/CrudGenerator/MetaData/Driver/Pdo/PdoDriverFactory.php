@@ -23,6 +23,9 @@ use CrudGenerator\MetaData\Driver\DriverFactoryInterface;
 
 class PdoDriverFactory implements DriverFactoryInterface
 {
+    /**
+     * @return \CrudGenerator\MetaData\Driver\Pdo\PdoDriver
+     */
     public static function getInstance()
     {
         return new PdoDriver();

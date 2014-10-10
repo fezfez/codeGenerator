@@ -26,7 +26,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
 use JSONSchema\SchemaGenerator;
-use CrudGenerator\MetaData\Driver\Web\WebDriver;
+use CrudGenerator\MetaData\Driver\File\FileDriverInterface;
 
 /**
  * Json adapter
@@ -34,7 +34,7 @@ use CrudGenerator\MetaData\Driver\Web\WebDriver;
 class JsonMetaDataDAO implements MetaDataDAOInterface
 {
     /**
-     * @var WebDriver
+     * @var FileDriverInterface
      */
     private $jsonConfig = null;
     /**
@@ -44,10 +44,10 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
 
     /**
      * Constructor.
-     * @param JsonConfig $jsonConfig
+     * @param FileDriverInterface $jsonConfig
      * @param SchemaGenerator $schemaGenerator
      */
-    public function __construct(WebDriver $jsonConfig, $config, SchemaGenerator $schemaGenerator)
+    public function __construct(FileDriverInterface $jsonConfig, $config, SchemaGenerator $schemaGenerator)
     {
         $this->jsonConfig      = $jsonConfig;
         $this->config          = $config;
@@ -61,7 +61,7 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
      */
     public function getAllMetadata()
     {
-        $schema = $this->schemaGenerator->parse($this->jsonConfig->getConnection($this->config));
+        $schema = $this->schemaGenerator->parse($this->jsonConfig->getFile($this->config));
 
         $collection = new MetaDataCollection();
 

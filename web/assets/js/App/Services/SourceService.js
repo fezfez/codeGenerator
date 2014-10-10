@@ -1,8 +1,7 @@
 define(['App/App', "Corp/Context/Context", "Corp/Context/ContextHydrator"], function (app, Context, ContextHydrator) {
     "use strict";
 
-    var Service = app.service('SourceService', ['$http', function ($http) {
-
+    function SourceService($http) {
         /*
          * @param string source
          * @param data array
@@ -27,7 +26,7 @@ define(['App/App', "Corp/Context/Context", "Corp/Context/ContextHydrator"], func
                callbackError(data);
             });
         };
-    }]);
+    }
 
-    return Service;
+    return app.service('SourceService', ['$http', SourceService]);
 });

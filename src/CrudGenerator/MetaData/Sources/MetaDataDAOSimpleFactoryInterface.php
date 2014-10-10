@@ -24,7 +24,7 @@ use CrudGenerator\MetaData\MetaDataSource;
  *
  * @author Stéphane Demonchaux
  */
-interface MetaDataDAOSimpleFactoryInterface
+interface MetaDataDAOSimpleFactoryInterface extends MetaDataDAOFactoryInterface
 {
     /**
      * @return \CrudGenerator\MetaData\Sources\MetaDataDAOInterface

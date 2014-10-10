@@ -25,22 +25,26 @@ use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
 use CrudGenerator\MetaData\Sources\MetaDataDAOPdoFactoryInterface;
 use CrudGenerator\MetaData\Driver\Pdo\PdoDriver;
 use CrudGenerator\MetaData\Driver\DriverConfig;
+use CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory;
+use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryConfigInterface;
 
 /**
  * Create PostgreSQL Metadata DAO instance
  *
  */
-class PostgreSQLMetaDataDAOFactory implements MetaDataDAOPdoFactoryInterface
+class PostgreSQLMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
 {
     /**
      * Create PostgreSQL Metadata DAO instance
      *
      * @return PostgreSQLMetaDataDAO
      */
-    public static function getInstance(PdoDriver $pdoDiver, DriverConfig $config)
+    public static function getInstance(DriverConfig $config)
     {
+        $pdoDriver = PdoDriverFactory::getInstance();
+
         return new PostgreSQLMetaDataDAO(
-            $pdoDiver->getConnection($config),
+            $pdoDiver->getConnection($config, PdoDriver::POSTGRESQL),
             $config,
             new SqlManager()
         );
@@ -65,11 +69,15 @@ class PostgreSQLMetaDataDAOFactory implements MetaDataDAOPdoFactoryInterface
     */
     public static function getDescription()
     {
+        $pdoDriver = \CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory::getDescription();
+        $pdoDriver->getConfig()->response('dsn', \CrudGenerator\MetaData\Driver\Pdo\PdoDriver::ORACLE);
+
+
         $dataObject = new MetaDataSource();
         $dataObject->setDefinition("PostgreSQL")
                    ->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory')
                    ->setMetadataDao("CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAO")
-                   ->addConnectorFactory('CrudGenerator\MetaData\Connector\PdoConnectorFactory')
+                   ->addDriverDescription($pdoDriver)
                    ->setUniqueName('PostgreSQL');
 
         return $dataObject;

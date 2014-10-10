@@ -15,39 +15,21 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\Driver\Web;
+namespace CrudGenerator\MetaData\Sources;
 
-use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
-use CrudGenerator\MetaData\Config\ConfigException;
-use CrudGenerator\Utils\FileManager;
+use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Driver\DriverConfig;
-use CrudGenerator\MetaData\Driver\Driver;
-use CrudGenerator\MetaData\Driver\DriverFactoryInterface;
 
-class WebDriverFactory implements DriverFactoryInterface
+/**
+ * Metadata DAO Simple Factory interface
+ *
+ * @author Stéphane Demonchaux
+ */
+interface MetaDataDAOFactoryConfigInterface extends MetaDataDAOFactoryInterface
 {
     /**
-     * @return \CrudGenerator\MetaData\Connector\WebConnector
+     * @param DriverConfig $driverConfig
+     * @return \CrudGenerator\MetaData\Sources\MetaDataDAOInterface
      */
-    public static function getInstance()
-    {
-        return new WebDriver(new FileManager());
-    }
-
-    /**
-     * @return Connector
-     */
-    public static function getDescription()
-    {
-        $config = new DriverConfig('Web');
-        $config->addQuestion('Url', 'configUrl');
-        $config->setDriver(__CLASS__);
-
-        $dataObject = new Driver();
-        $dataObject->setConfig($config)
-                   ->setDefinition('Web connector')
-                   ->setUniqueName('Web');
-
-        return $dataObject;
-    }
+    public static function getInstance(DriverConfig $driverConfig);
 }

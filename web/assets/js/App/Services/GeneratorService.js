@@ -1,77 +1,140 @@
-define([
-    "App/App",
-    "Corp/Directory/DirectoryDataObject",
-    "Corp/Directory/DirectoryBuilderFactory",
-    "Corp/Context/Context",
-    "Corp/Context/ContextHydrator"
-    ],
-    function(app, DirectoryDataObject, DirectoryBuilderFactory, Context, ContextHydrator) {
+define(["App/App", "Corp/Context/Context", "Corp/Context/ContextHydrator"], function(app, Context, ContextHydrator) {
     "use strict";
 
-    var Service = app.service('GeneratorService', ['$http', '$q', function ($http, $q) {
+    /**
+     * @module GeneratorService
+     */
+    function GeneratorService($http, $q, $sce) {
 
-        var http = false;
+        $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+
+        var httpQueryAndHydrateResponse = function(datas) {
+            var deferred = $q.defer();
+
+            $http({
+                headers : {'Content-Type': 'application/x-www-form-urlencoded'},
+                method  : "POST",
+                url     : __BASEPATH__ + "generator",
+                data    : datas,
+            }).success(function (data) {
+                var contextHydrator = new ContextHydrator();
+
+                deferred.resolve(contextHydrator.hydrate(data, new Context()));
+            }).error(function(data) {
+                deferred.reject(data.error);
+            });
+
+            return deferred.promise;
+        };
 
         /*
-         * Generate a preview
-         * @param context Corp/Context/Context
-         * @param callbackAfterAjax callable
+         * download a genrator
+         * @param callback callable
+         * @param callbackError callable
          */
-        this.build = function (context, metadata_nocache, callbackAfterAjax, callbackError) {
-            var canceler = $q.defer();
+        this.download = function (history, callback, callbackError) {
+
+            var datas =  $.param({
+                'search_generator' : true,
+                'install_new_package' : true,
+                'stream'  : true,
+                'search_generatorcollection' : history
+            }),
+                download = {
+                    log : [],
+                    end : false
+                };
+
+            var stream = new EventSource(__BASEPATH__ + 'generator?' + datas);
+
+            stream.addEventListener('message', function (event) {
+                download.log.push($sce.trustAsHtml(event.data));
+
+                callback(download);
+            });
+
+            stream.addEventListener('end', function (event) {
+                stream.close();
+                download.log.push('Installation finished');
+                download.end = true;
+                callback(download);
+            });
+        };
+
+        /*
+         * Process the generator
+         * 
+         * @name process
+         * @desc process the generation
+         * @param {Context} context - The context
+         * @param {bool} metadataNoCache - boolean
+         * 
+         * @return promise
+         */
+        this.process = function (context, metadataNoCache) {
+            if (metadataNoCache === undefined) {
+                metadataNoCache = false;
+            }
 
             if ((context instanceof Context) === false) {
                 throw new Error("Context must be instance of Context");
             }
-            
-            if (metadata_nocache === undefined) {
-                metadata_nocache = false;
-            }
-            
-            if (typeof(metadata_nocache) !== "boolean") {
+
+            if (typeof(metadataNoCache) !== "boolean") {
                 throw new Error("metadata_nocache must be a boolean");
             }
-            
-            if (typeof(callbackAfterAjax) !== "function") {
-                throw new Error("callbackAfterAjax must be of type function");
-            }
-            
-            if (typeof(callbackError) !== "function") {
-                throw new Error("callbackError must be of type function");
-            }
-
-            if (http === true) {
-                //canceler.resolve();
-            }
-
-            http = true;
 
             var datas =  $.param({
                 backend            : context.getBackend(),
-                'metadata_nocache' : metadata_nocache,
+                metadata_nocache   : metadataNoCache,
                 metadata           : context.getMetadata(),
                 generator          : context.getGenerator(),
                 generate           : true
             }) + '&' + $.param(context.getQuestion());
 
-            $http(
-                {
-                    headers : {'Content-Type': 'application/x-www-form-urlencoded'},
-                    method  : "POST",
-                    url     : __BASEPATH__ + "generator",
-                    data    : datas,
-                    timeout : canceler.promise
-                }
-            ).success(function (data) {
-                var contextHydrator = new ContextHydrator();
+            return httpQueryAndHydrateResponse(datas);
+        };
 
-                callbackAfterAjax(contextHydrator.hydrate(data, new Context()));
-                http = false;
+        /*
+         * Search generator by name
+         * 
+         * @param generatorName string
+         * 
+         * @return promise
+         */
+        this.searchByName = function (generatorName) {
+
+            var datas =  $.param({
+                'search_generator' : true,
+                'generator_name' : generatorName
+            });
+
+            return httpQueryAndHydrateResponse(datas);
+        };
+
+        this.findOneByName = function (name) {
+
+            var datas =  $.param({
+                'search_generator'           : true,
+                'package_detail'             : true,
+                'search_generatorcollection' : name
+            }), deferred = $q.defer();
+
+            $http({
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'},
+                method: "POST",
+                url: __BASEPATH__ + "generator",
+                data: datas
+            }).success(function (data) {
+                deferred.resolve({
+                    'readme' : $sce.trustAsHtml(data.package_details.readme),
+                    'github' : data.package_details.github
+                });
             }).error(function(data) {
-                callbackError(data.error);
+                deferred.reject({'error' : data.error});
             });
         };
-    }]);
+    }
 
-    return Service;
+    return app.service('GeneratorService', ['$http', '$q', '$sce', GeneratorService]);
 });

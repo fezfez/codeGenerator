@@ -1,7 +1,7 @@
 define(["App/App", "Corp/Context/Context", "Corp/Context/ContextHydrator"], function(app, Context, ContextHydrator) {
     "use strict";
 
-    var Service = app.service('HistoryService', ['$http', function ($http) {
+    function HistoryService($http) {
         /*
          * History
          * @param callback callable
@@ -29,7 +29,7 @@ define(["App/App", "Corp/Context/Context", "Corp/Context/ContextHydrator"], func
                 callbackError({'error' : data.error});
             });
         };
-    }]);
+    }
 
-    return Service;
+    return app.service('HistoryService', ['$http', HistoryService]);
 });

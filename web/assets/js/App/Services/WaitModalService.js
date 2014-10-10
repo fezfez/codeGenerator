@@ -1,8 +1,7 @@
 define(["App/App", "TwitterBootstrap"], function(angular) {
+    "use strict";
 
-    var Service = angular.service('WaitModalService', ['$http', function ($http) {
-        "use strict";
-
+    function WaitModalService($http) {
         /*
          * Show wait modal
          */
@@ -21,7 +20,7 @@ define(["App/App", "TwitterBootstrap"], function(angular) {
         {
             $('waitModal > div').modal('hide');
         };
-    }]);
+    }
 
-    return Service;
+    return angular.service('WaitModalService', ['$http', WaitModalService]);
 });

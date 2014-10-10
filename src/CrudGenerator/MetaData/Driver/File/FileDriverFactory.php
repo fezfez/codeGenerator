@@ -15,21 +15,26 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\Sources;
+namespace CrudGenerator\MetaData\Driver\File;
 
-use CrudGenerator\MetaData\MetaDataSource;
-use CrudGenerator\MetaData\Driver\Web\WebDriver;
 use CrudGenerator\MetaData\Driver\DriverConfig;
 
-/**
- * Metadata DAO Simple Factory interface
- *
- * @author Stéphane Demonchaux
- */
-interface MetaDataDAOFileFactoryInterface extends MetaDataDAOFactoryInterface
+class FileDriverFactory
 {
     /**
-     * @return \CrudGenerator\MetaData\Sources\MetaDataDAOInterface
+     * @param DriverConfig $driverConfig
+     * @throws \Exception
+     * @return \CrudGenerator\MetaData\Driver\File\FileDriverInterface
      */
-    public static function getInstance(WebDriver $fileDriver, DriverConfig $config);
+    public static function getInstance(DriverConfig $driverConfig)
+    {
+        $driverFactory = $driverConfig->getDriver();
+        $driver        = $driverFactory::getInstance();
+
+        if (in_array('CrudGenerator\MetaData\Driver\File\FileDriverInterface', class_implements($driver))) {
+            return $driver;
+        } else {
+            throw new \Exception('Driver must be a file driver ' . json_encode(class_implements($driver)));
+        }
+    }
 }

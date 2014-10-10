@@ -15,10 +15,12 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\Driver\Pdo;
+namespace CrudGenerator\MetaData\Driver\File\Web;
 
 use CrudGenerator\MetaData\Config\ConfigException;
+use CrudGenerator\Utils\FileManager;
 use CrudGenerator\MetaData\Driver\DriverConfig;
+use CrudGenerator\MetaData\Driver\File\FileDriverInterface;
 use CrudGenerator\MetaData\Driver\DriverInterface;
 
 /**
@@ -26,41 +28,31 @@ use CrudGenerator\MetaData\Driver\DriverInterface;
  *
  * @author Stéphane Demonchaux
  */
-class PdoDriver implements DriverInterface
+class WebDriver implements FileDriverInterface, DriverInterface
 {
-    CONST MYSQL = 'MySql';
-    CONST POSTGRESQL = 'PostgreSQL';
-    CONST ORACLE = 'Oracle';
+    /**
+     * @var FileManager
+     */
+    private $fileManager = null;
+
+    /**
+     * Constructor.
+     * @param FileManager $fileManager
+     */
+    public function __construct(FileManager $fileManager)
+    {
+        $this->fileManager = $fileManager;
+    }
 
     /**
      * @param DriverConfig $config
      * @throws ConfigException
+     * @return string
      */
-    public function getConnection(DriverConfig $config)
+    public function getFile(DriverConfig $driverConfig)
     {
         try {
-            if ($config->getResponse('configHost') === null || $config->getResponse('configDatabaseName') === null) {
-                throw new ConfigException('Empty connection');
-            }
-
-            if ($config->getResponse('dsn') === self::MYSQL) {
-                $dsn = 'mysql:host=' . $config->getResponse('configHost') . ';dbname=' . $config->getResponse('configDatabaseName');
-            } elseif ($config->getResponse('dsn') ===  self::POSTGRESQL) {
-                $dsn = 'pgsql:host=' . $config->getResponse('configHost') . ';dbname=' . $config->getResponse('configDatabaseName');
-            } elseif ($config->getResponse('dsn') === self::ORACLE) {
-                $dsn = '//' . $config->getResponse('configHost') . '/' . $config->getResponse('configDatabaseName');
-            } else {
-                throw new \Exception('Dsn not found');
-            }
-
-            return new \PDO(
-                $dsn,
-                $config->getResponse('configUser'),
-                $config->getResponse('configPassword'),
-                array(
-                    \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-                )
-            );
+            return $this->fileManager->fileGetContent($driverConfig->getResponse('configUrl'));
         } catch (\RuntimeException $e) {
             throw new ConfigException($e->getMessage());
         }
@@ -68,7 +60,15 @@ class PdoDriver implements DriverInterface
 
     public function isValid(DriverConfig $driverConfig)
     {
-        $this->getConnection($config);
+        $this->getFile($driverConfig);
         return true;
+    }
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\Sources\MetaDataConnectorInterface::getDefinition()
+     */
+    public function getUniqueName(DriverConfig $config)
+    {
+        return $config->getResponse('configUrl');
     }
 }

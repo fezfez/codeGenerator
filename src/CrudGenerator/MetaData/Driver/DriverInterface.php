@@ -25,8 +25,8 @@ namespace CrudGenerator\MetaData\Driver;
 interface DriverInterface
 {
     /**
-     * @param AbstractConnectorConfig $config
+     * @param DriverConfig $driverConfig
      * @throws ConfigException
      */
-    public function getConnection(DriverConfig $config);
+    public function isValid(DriverConfig $driverConfig);
 }

@@ -154,23 +154,22 @@ class MetaDataConfigDAO
      */
     public function ask(MetaDataSource $source)
     {
-        $isUniqueConnector = $source->isUniqueConnector();
+        $isUniqueDriver = $source->isUniqueDriver();
 
-        // Dont ask witch connector
-        if($isUniqueConnector === true) {
-            $driversFactory = $source->getConnectorsFactory();
-            $driverFactory  = $driversFactory[0];
+        // Dont ask witch driver
+        if($isUniqueDriver === true) {
+            $driversFactory    = $source->getDriversDescription();
+            $driverDescription = $driversFactory[0];
         } else {
             // Ask wich connector to use
             $predefinedResponseCollection = new PredefinedResponseCollection();
 
-            foreach ($source->getConnectors() as $connectorFactory) {
-                $description = $connectorFactory::getDescription();
+            foreach ($source->getConnectors() as $description) {
                 $predefinedResponseCollection->append(
                     new PredefinedResponse(
                         $description->getDefinition(),
                         $description->getDefinition(),
-                        $connectorFactory
+                        $description
                     )
                 );
             }
@@ -181,10 +180,10 @@ class MetaDataConfigDAO
             );
             $question->setShutdownWithoutResponse(true);
 
-            $driverFactory = $this->context->askCollection($question);
+            $driverDescription = $this->context->askCollection($question);
         }
 
-        $driverConfiguration = $driverFactory::getDescription()->getConfig();
+        $driverConfiguration = $driverDescription->getConfig();
         $driverConfiguration->setMetadataDaoFactory($source->getMetadataDaoFactory());
 
         foreach ($driverConfiguration->getQuestion() as $question) {
@@ -205,6 +204,6 @@ class MetaDataConfigDAO
     {
         $driverFactory = $driverConfig->getDriver();
         $driver = $driverFactory::getInstance();
-        $driver->getConnection($driverConfig);
+        $driver->isValid($driverConfig);
     }
 }

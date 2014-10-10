@@ -37,9 +37,7 @@ class MetaDataSourceFactory
     public function create($metadataSourceFactoryName, DriverConfig $config = null, $noCache = false)
     {
         if (null !== $config) {
-            $driverFactory  = $config->getDriver();
-            $driver         = $driverFactory::getInstance();
-            $metadataSource = $metadataSourceFactoryName::getInstance($driver, $config);
+            $metadataSource = $metadataSourceFactoryName::getInstance($config);
         } else {
             $metadataSource = $metadataSourceFactoryName::getInstance();
         }

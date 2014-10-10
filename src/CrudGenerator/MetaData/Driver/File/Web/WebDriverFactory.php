@@ -15,52 +15,39 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\Driver\Web;
+namespace CrudGenerator\MetaData\Driver\File\Web;
 
+use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\Config\ConfigException;
 use CrudGenerator\Utils\FileManager;
-use CrudGenerator\MetaData\Driver\DriverInterface;
 use CrudGenerator\MetaData\Driver\DriverConfig;
+use CrudGenerator\MetaData\Driver\Driver;
+use CrudGenerator\MetaData\Driver\DriverFactoryInterface;
 
-/**
- * Json configuration for Json Metadata adapter
- *
- * @author Stéphane Demonchaux
- */
-class WebDriver implements DriverInterface
+class WebDriverFactory implements DriverFactoryInterface
 {
     /**
-     * @var FileManager
+     * @return \CrudGenerator\MetaData\Driver\File\Web\WebDriver
      */
-    private $fileManager = null;
-
-    /**
-     * Constructor.
-     * @param FileManager $fileManager
-     */
-    public function __construct(FileManager $fileManager)
+    public static function getInstance()
     {
-        $this->fileManager = $fileManager;
+        return new WebDriver(new FileManager());
     }
 
     /**
-     * @param ConnectorConfig $config
-     * @throws ConfigException
+     * @return \CrudGenerator\MetaData\Driver\Driver
      */
-    public function getConnection(DriverConfig $config)
+    public static function getDescription()
     {
-        try {
-            return $this->fileManager->fileGetContent($config->getResponse('configUrl'));
-        } catch (\RuntimeException $e) {
-            throw new ConfigException($e->getMessage());
-        }
-    }
+        $config = new DriverConfig('Web');
+        $config->addQuestion('Url', 'configUrl');
+        $config->setDriver(__CLASS__);
 
-    /* (non-PHPdoc)
-     * @see \CrudGenerator\MetaData\Sources\MetaDataConnectorInterface::getDefinition()
-     */
-    public function getUniqueName(DriverConfig $config)
-    {
-        return $config->getResponse('configUrl');
+        $dataObject = new Driver();
+        $dataObject->setConfig($config)
+                   ->setDefinition('Web connector')
+                   ->setUniqueName('Web');
+
+        return $dataObject;
     }
 }

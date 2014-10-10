@@ -2,7 +2,7 @@ define(
     ['Angular', 'AngularMock', "Corp/Directory/DirectoryDataObject", 'Corp/Context/Context', 'Services/GeneratorService'], 
     function(angular, mock, DirectoryDataObject, Context)
 {
-    describe('Testing GeneratorService', function() {
+    describe('Testing GeneratorService, process method', function() {
 
         var httpBackend = undefined, _GeneratorService_ = undefined;
 
@@ -17,30 +17,30 @@ define(
         
         it('Should throw exception on wrong context type', function() {
             expect(function() {
-                _GeneratorService_.build("im wrong", false, function(context) {}, function(error) {});
+                _GeneratorService_.process("im wrong", false).then(function(context) {}, function(error) {});
             }).toThrow();
         });
         
         it('Should set metadatanocache to true if undefined', function() {
         	httpBackend.expectPOST('generator').respond(200, '');
-            _GeneratorService_.build(new Context(), undefined, function(context) {}, function(error) {});
+            _GeneratorService_.process(new Context(), undefined).then(function(context) {}, function(error) {});
         });
         
         it('Should throw exception on wrong metadata_nocache type', function() {
             expect(function() {
-            	_GeneratorService_.build(new Context(), 'im wrong', function(context) {}, function(error) {});
+            	_GeneratorService_.process(new Context(), 'im wrong').then(function(context) {}, function(error) {});
             }).toThrow();
         });
         
         it('Should throw exception on wrong callBackAfterAjax type', function() {
             expect(function() {
-            	_GeneratorService_.build(new Context(), false, "im wrong", function(error) {});
+            	_GeneratorService_.process(new Context(), false).then("im wrong", function(error) {});
             }).toThrow();
         });
         
         it('Should throw exception on wrong callbackError type', function() {
             expect(function() {
-            	_GeneratorService_.build(new Context(), false, function(context) {}, "im wrong");
+            	_GeneratorService_.process(new Context(), false).then(function(context) {}, "im wrong");
             }).toThrow();
         });
 
@@ -59,9 +59,7 @@ define(
                 }
             );
 
-            _GeneratorService_.build(
-                new Context(),
-                false,
+            _GeneratorService_.process(new Context(), false).then(
                 function(directories) {
                     expect(directories instanceof Context).toBe(true);
                 }, function(error) {
@@ -76,9 +74,7 @@ define(
             var errorString = 'MyError !';
             httpBackend.expectPOST('generator').respond(500, {error : errorString});
 
-            _GeneratorService_.build(
-                new Context(),
-                false,
+            _GeneratorService_.process(new Context(), false).then(
                 function(directories) {
                     expect(directories instanceof Context).toBe(true);
                 }, function(error) {

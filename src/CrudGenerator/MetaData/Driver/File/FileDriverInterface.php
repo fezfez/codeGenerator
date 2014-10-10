@@ -15,24 +15,20 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\MetaData\Sources;
+namespace CrudGenerator\MetaData\Driver\File;
 
-use CrudGenerator\MetaData\MetaDataSource;
-use CrudGenerator\MetaData\Driver\Pdo\PdoDriver;
+use CrudGenerator\MetaData\Config\ConfigException;
 use CrudGenerator\MetaData\Driver\DriverConfig;
 
 /**
- * Metadata DAO Simple Factory interface
- *
  * @author Stéphane Demonchaux
  */
-interface MetaDataDAOPdoFactoryInterface extends MetaDataDAOFactoryInterface
+interface FileDriverInterface
 {
     /**
-     * @param PdoDriver $pdoDiver
-     * @param DriverConfig $config
-     *
-     * @return \CrudGenerator\MetaData\Sources\MetaDataDAOInterface
+     * @param DriverConfig $driverConfig
+     * @throws ConfigException
+     * @return string
      */
-    public static function getInstance(PdoDriver $pdoDiver, DriverConfig $config);
+    public function getFile(DriverConfig $driverConfig);
 }

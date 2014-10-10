@@ -24,12 +24,14 @@ use CrudGenerator\MetaData\Sources\Oracle\OracleConfig;
 use CrudGenerator\MetaData\Sources\MetaDataDAOPdoFactoryInterface;
 use CrudGenerator\MetaData\Driver\Pdo\PdoDriver;
 use CrudGenerator\MetaData\Driver\DriverConfig;
+use CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory;
+use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryConfigInterface;
 
 /**
  * Create PDO Metadata DAO instance
  *
  */
-class OracleMetaDataDAOFactory implements MetaDataDAOPdoFactoryInterface
+class OracleMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
 {
     /**
      * Create PDO Metadata DAO instance
@@ -37,10 +39,12 @@ class OracleMetaDataDAOFactory implements MetaDataDAOPdoFactoryInterface
      * @param MetaDataConfigInterface $config
      * @return OracleMetaDataDAO
      */
-    public static function getInstance(PdoDriver $pdoDriver, DriverConfig $config)
+    public static function getInstance(DriverConfig $config)
     {
+        $pdoDriver = PdoDriverFactory::getInstance();
+
         return new OracleMetaDataDAO(
-            $pdoDriver->getConnection($config)
+            $pdoDriver->getConnection($config, PdoDriver::ORACLE)
         );
     }
 
@@ -63,11 +67,14 @@ class OracleMetaDataDAOFactory implements MetaDataDAOPdoFactoryInterface
     */
     public static function getDescription()
     {
+        $pdoDriver = \CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory::getDescription();
+        $pdoDriver->getConfig()->response('dsn', \CrudGenerator\MetaData\Driver\Pdo\PdoDriver::ORACLE);
+
         $dataObject = new MetaDataSource();
         $dataObject->setDefinition("Oracle")
                    ->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\Oracle\OracleMetaDataDAOFactory')
                    ->setMetadataDao('CrudGenerator\MetaData\Sources\Oracle\OracleMetaDataDAO')
-                   ->addConnectorFactory('CrudGenerator\MetaData\Connector\PdoConnectorFactory')
+                   ->addDriverDescription($pdoDriver)
                    ->setUniqueName('Oracle');
 
         return $dataObject;

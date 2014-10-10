@@ -23,22 +23,26 @@ use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\Sources\MetaDataDAOPdoFactoryInterface;
 use CrudGenerator\MetaData\Driver\Pdo\PdoDriver;
 use CrudGenerator\MetaData\Driver\DriverConfig;
+use CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory;
+use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryConfigInterface;
 
 /**
  * Create MySQL Metadata DAO instance
  *
  */
-class MySQLMetaDataDAOFactory implements MetaDataDAOPdoFactoryInterface
+class MySQLMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
 {
     /**
      * Create MySQL Metadata DAO instance
      *
      * @return MySQLMetaDataDAO
      */
-    public static function getInstance(PdoDriver $pdoDriver, DriverConfig $config)
+    public static function getInstance(DriverConfig $config)
     {
+        $pdoDriver = PdoDriverFactory::getInstance();
+
         return new MySQLMetaDataDAO(
-            $pdoDriver->getConnection($config),
+            $pdoDriver->getConnection($config, PdoDriver::MYSQL),
             $config
         );
     }
@@ -62,11 +66,14 @@ class MySQLMetaDataDAOFactory implements MetaDataDAOPdoFactoryInterface
      */
     public static function getDescription()
     {
+        $pdoDriver = \CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory::getDescription();
+        $pdoDriver->getConfig()->response('dsn', \CrudGenerator\MetaData\Driver\Pdo\PdoDriver::MYSQL);
+
         $dataObject = new MetaDataSource();
         $dataObject->setDefinition("MySQL")
                    ->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory')
                    ->setMetadataDao("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAO")
-                   ->addConnectorFactory("CrudGenerator\MetaData\Connector\PdoConnectorFactory")
+                   ->addDriverDescription($pdoDriver)
                    ->setUniqueName("MySQL");
 
         return $dataObject;

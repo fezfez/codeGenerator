@@ -31,7 +31,7 @@ use CrudGenerator\MetaData\Sources\MetaDataDAOSimpleFactoryInterface;
  *
  * @author Stéphane Demonchaux
  */
-class Doctrine2MetaDataDAOFactory implements MetaDataDAOFactoryInterface, MetaDataDAOSimpleFactoryInterface
+class Doctrine2MetaDataDAOFactory implements MetaDataDAOSimpleFactoryInterface
 {
     /**
      * Create Doctrine2MetaDataDAO instance

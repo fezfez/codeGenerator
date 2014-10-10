@@ -1,17 +1,17 @@
 define(
-    ['Angular', 'AngularMock', 'Corp/Context/Context', 'Services/SearchGeneratorService'],
+    ['Angular', 'AngularMock', 'Corp/Context/Context', 'Services/GeneratorService'],
     function(angular, mock, Context)
 {
-    describe('Testing SearchGeneratorService', function() {
+    describe('Testing GeneratorService, SearchByName method', function() {
 
-        var httpBackend = _SearchGeneratorService_ = undefined;
+        var httpBackend = _GeneratorService_ = undefined;
 
         beforeEach((function() {
             angular.mock.module('GeneratorApp');
-            angular.mock.inject(function(SearchGeneratorService, $httpBackend) {
+            angular.mock.inject(function(GeneratorService, $httpBackend) {
                 // Set up the mock http service responses
                 httpBackend     = $httpBackend;
-                _SearchGeneratorService_ = SearchGeneratorService;
+                _GeneratorService_ = GeneratorService;
             });
         }));
 
@@ -19,8 +19,7 @@ define(
 
             httpBackend.whenPOST("generator").respond({});
 
-            _SearchGeneratorService_.generate(
-                'test',
+            _GeneratorService_.searchByName('test').then(
                 (function(data) {
                     expect(data instanceof Context).toEqual(true);
                 }),
@@ -34,11 +33,10 @@ define(
         
         it('Should return error callback', function() {
 
-        	var errorValue = 'my Error !';
+            var errorValue = 'my Error !';
             httpBackend.expectPOST('generator').respond(500, {error : errorValue});
 
-            _SearchGeneratorService_.generate(
-                'test',
+            _GeneratorService_.searchByName('test').then(
                 (function(data) {
                     
                 }),
