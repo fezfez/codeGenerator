@@ -2,11 +2,11 @@ define(function (require) {
     "use strict";
 
      var app                = require('App/App'),
-         SourceService      = require('App/Services/SourceService'),
+         SourceDAOFactory   = require('Corp/Source/SourceDAOFactory'),
          GeneratorService   = require('App/Services/GeneratorService'),
          WaitModalService   = require('App/Services/WaitModalService'),
          GenerateDAOFactory = require('Corp/Generate/GenerateDAOFactory'),
-         HistoryService     = require('App/Services/HistoryService'),
+         HistoryDAOFactory  = require('Corp/History/HistoryDAOFactory'),
          Context            = require('Corp/Context/Context'),
          Config             = require('Corp/Context/Config'),
          HighLighterPHP     = require('HighLighterPHP'),
@@ -14,71 +14,20 @@ define(function (require) {
 
     function GeneratorController(
         $scope,
-        $sourceService,
+        $SourceDAOFactory,
         $generatorService,
         $WaitModalService,
         $GenerateDAOFactory,
-        $historyService
+        $HistoryDAOFactory
     ) {
-        _.vm                   = $scope;
-        _.generateDAOFactory   = $GenerateDAOFactory;
-        _.context              = new Context(),
-        _.config               = new Config();
-    
-        _.loadContext = function(context) {
-            if (context.getBackendCollection() !== null)
-                $scope.backendCollection = context.getBackendCollection();
-            if (context.getMetadataCollection() !== null)
-                $scope.metadataCollection = context.getMetadataCollection();
-            if (context.getGeneratorCollection() !== null)
-                $scope.generatorCollection = context.getGeneratorCollection();
-            if (context.getDirectories() !== null)
-                $scope.fileList = context.getDirectories();
-            if (context.getQuestionCollection() !== null)
-                $scope.questionList = context.getQuestionCollection();
-            if (context.getHistoryCollection() !== null)
-                $scope.historyCollection = context.getHistoryCollection();
-        };
-    
-        _.generate = function(context, metadata_nocache, waitFileList) {
-            if (metadata_nocache === undefined ) {
-                metadata_nocache = false;
-            }
-            if (waitFileList === undefined ) {
-                waitFileList = false;
-            }
-    
-            if (waitFileList === true) {
-                $scope.waitFileList = true;
-            } else {
-                $WaitModalService.show();
-            }
-            $generatorService.process(context, metadata_nocache).then(
-                function(context) {
-                    _.loadContext(context);
-                    if (waitFileList === true) {
-                        $scope.waitFileList = false;
-                    } else {
-                        $WaitModalService.hide();
-                    }
-                    $('body').tooltip({
-                        selector: "[rel=tooltip]"
-                    });
-                },
-                function(error) {
-                    if (waitFileList === true) {
-                        $scope.waitFileList = false;
-                    } else {
-                        $WaitModalService.hide();
-                    }
-                    $scope.unsafeModal = {
-                        'title' : 'Error',
-                        'body' : error
-                    };
-                }
-            );
-        };
-    
+        _.vm                 = $scope;
+        _.generateDAOFactory = $GenerateDAOFactory;
+        _.historyDAOFactory  = $HistoryDAOFactory;
+        _.sourceDAOFactory   = $SourceDAOFactory;
+        _.waitModalService   = $WaitModalService;
+        _.generatorService   = $generatorService;
+        _.context            = new Context(),
+        _.config             = new Config();
 
         _.vm.generate              = this.generate;
         _.vm.backendConfig         = this.backendConfig;
@@ -105,19 +54,74 @@ define(function (require) {
         _.vm.generatorPreview  = null;
         _.vm.download          = [];
 
+        _.loadContext = function(context) {
+            if (context.getBackendCollection() !== null)
+                $scope.backendCollection = context.getBackendCollection();
+            if (context.getMetadataCollection() !== null)
+                $scope.metadataCollection = context.getMetadataCollection();
+            if (context.getGeneratorCollection() !== null)
+                $scope.generatorCollection = context.getGeneratorCollection();
+            if (context.getDirectories() !== null)
+                $scope.fileList = context.getDirectories();
+            if (context.getQuestionCollection() !== null)
+                $scope.questionList = context.getQuestionCollection();
+            if (context.getHistoryCollection() !== null)
+                $scope.historyCollection = context.getHistoryCollection();
+        };
+    
+        _.generate = function(context, metadata_nocache, waitFileList) {
+            if (metadata_nocache === undefined ) {
+                metadata_nocache = false;
+            }
+            if (waitFileList === undefined ) {
+                waitFileList = false;
+            }
+    
+            if (waitFileList === true) {
+                $scope.waitFileList = true;
+            } else {
+                _.waitModalService.show();
+            }
+            _.generatorService.process(context, metadata_nocache).then(
+                function(context) {
+                    _.loadContext(context);
+                    if (waitFileList === true) {
+                        $scope.waitFileList = false;
+                    } else {
+                        _.waitModalService.hide();
+                    }
+                    $('body').tooltip({
+                        selector: "[rel=tooltip]"
+                    });
+                },
+                function(error) {
+                    if (waitFileList === true) {
+                        $scope.waitFileList = false;
+                    } else {
+                        _.waitModalService.hide();
+                    }
+                    $scope.unsafeModal = {
+                        'title' : 'Error',
+                        'body' : error
+                    };
+                }
+            );
+        };
+
         _.generate(_.context);
     }
 
     GeneratorController.prototype.history = function() {
-        $historyService.generate(
-            $scope.historyQuestion,
+        _.historyDAOFactory.getInstance().generate($scope.historyQuestion).then(
             function(historyContext) {
 
                 loadContext(historyContext);
-                context = historyContext;
-                $scope.metadataSelected = context.getMetadata();
+
+                context                  = historyContext;
+                $scope.metadataSelected  = context.getMetadata();
                 $scope.generatorSelected = context.getGenerator();
-                $scope.backendSelected = context.getBackend();
+                $scope.backendSelected   = context.getBackend();
+
                 angular.forEach(context.getQuestionCollection(), function (question, id) {
                     $scope.answers[question.dtoAttribute] = question.defaultResponse;
                 });
@@ -132,33 +136,23 @@ define(function (require) {
             }
         );
     };
-    
-    GeneratorController.prototype.backendConfig = function() {
-        $sourceService.config(
-            $scope.configQuestion,
-            function(context, data) {
-                if (data.question) {
-                    $scope.configQuestionsList = data.question;
-                }
-                var modal = $('newSource > div');
-                if (!modal.hasClass( "show" )) {
-                    modal.modal('show');
-                }
 
-                if (data.error !== undefined) {
-                    $scope.configFormError = data.error;
-                } else if (data.valid !== undefined) {
-                    delete $scope.metadataSourceConfigForm;
-                    $scope.backendCollection = context.getBackendCollection();
-                    $('newSource > div').modal('hide');
+    GeneratorController.prototype.backendConfig = function() {
+        _.sourceDAOFactory.getInstance().config(_.vm.configQuestion).then(
+            function(sourceDto) {
+                if (sourceDto.isValid() === true) {
+                    _.vm.newSourceDto = null;
+                } else {
+                    _.vm.newSourceDto = sourceDto;
                 }
-        },
-        function(data) {
-            $scope.unsafeModal = {
-                'title' : 'Error on config',
-                'body' : data.error,
-            };
-        });
+            },
+            function(data) {
+                _.vm.unsafeModal = {
+                    'title' : 'Error on config',
+                    'body' : data.error,
+                };
+            }
+        );
     };
 
     GeneratorController.prototype.generate = function() {
@@ -179,31 +173,20 @@ define(function (require) {
             }
         });
     };
-    
-    GeneratorController.prototype.setBackend = function(name) {
-        _.context.setBackend(name);
-        _.vm.backendSelected = name;
-        _.generate(_.context);
-    };
-    
-    GeneratorController.prototype.setConfigQuestion = function(attribute) {
-        $scope.backendConfig();
-    };
 
     GeneratorController.prototype.previewGenerator = function(generator) {
-        $scope.generatorPreview       = generator;
-        $scope.download.end           = null;
-        $scope.generatorPreviewReadme = null;
-        $scope.generatorPreviewGithub = null;
+        _.vm.generatorPreview        = generator;
+        _.vm.download.end            = null;
+        _.vm.generatorPreview.readme = null;
+        _.vm.generatorPreview.github = null;
 
-        $generatorService.findOneByName(generator.id).then(
+        _.generatorService.findOneByName(generator.id).then(
             function(data) {
-                $scope.generatorPreviewReadme = data.readme;
-                $scope.generatorPreviewGithub = data.github;
+                _.vm.generatorPreview.readme = data.readme;
+                _.vm.generatorPreview.github = data.github;
             },
             function(results) {
-                btn.button('reset');
-                $scope.unsafeModal = {
+                _.vm.unsafeModal = {
                     'title' : 'Error on generator ',
                     'body'  : results.error,
                 };
@@ -212,7 +195,7 @@ define(function (require) {
     };
 
     GeneratorController.prototype.downloadGenerator = function(generator) {
-        $generatorService.download(
+        _.generatorService.download(
             generator,
             function(download) {
                 $scope.download = download;
@@ -225,25 +208,24 @@ define(function (require) {
     };
 
     GeneratorController.prototype.searchGenerator = function() {
-        var modal = $('searchgenerator > div');
-        if (!modal.hasClass( "show" )) {
-            $WaitModalService.show();
-        }
-        var btn = $('#search-generator-btn');
-        btn.button('loading');
-        $generatorService.searchByName($scope.searchGeneratorName).then(
-            function(context) {
-                if (!modal.hasClass( "show" )) {
-                    $WaitModalService.hide();
-                    modal.modal('show');
-                }
-                btn.button('reset');
+        var modal = $('searchgenerator > div'),
+            btn = $('#search-generator-btn');
 
-                $scope.searchGeneratorCollection = context.getSearchGeneratorCollection();
+        if (!modal.hasClass( "show" )) {
+            _.waitModalService.show();
+        }
+        btn.button('loading');
+
+        _.generatorService.searchByName(_.vm.searchGeneratorName).then(
+            function(context) {
+                btn.button('reset');
+                _.waitModalService.hide();
+
+                _.vm.searchGeneratorCollection = context.getSearchGeneratorCollection();
             },
             function(results) {
                 btn.button('reset');
-                $scope.unsafeModal = {
+                _.vm.unsafeModal = {
                     'title' : 'Error on generator ',
                     'body'  : results.error,
                 };
@@ -255,30 +237,13 @@ define(function (require) {
         _.generate(context, true);
     };
 
-    GeneratorController.prototype.setMetadata = function(name) {
-        _.context.setMetadata(name);
-        _.vm.metadataSelected = name;
-        _.generate(context);
-    };
-
-    GeneratorController.prototype.setGenerator = function(name) {
-        _.context.setGenerator(name);
-        _.vm.generatorSelected = name;
-        _.generate(context);
-    };
-
-    GeneratorController.prototype.setQuestion = function(attribute) {
-        _.context.setQuestion(attribute, $scope.answers[attribute]);
-        _.generate(context, undefined, true);
-    };
-
     /*
      * Preview file
      */
     GeneratorController.prototype.viewFile = function (file) {
-        $WaitModalService.show();
-        $generatorService.viewFile(context, file).then(function (results) {
-            $WaitModalService.hide();
+        _.waitModalService.show();
+        _.generatorService.viewFile(context, file).then(function (results) {
+            _.waitModalService.hide();
 
             if (results.error !== undefined) {
                 $scope.unsafeModal = {
@@ -298,16 +263,20 @@ define(function (require) {
     };
     
     GeneratorController.prototype.showHistory = function() {
-        $historyService.generate(
-            $scope.historyQuestion,
-            function(context) {
-                if (context.getHistoryCollection() !== null) {
-                    $scope.historyCollection = context.getHistoryCollection();
+        _.waitModalService.show();
+        _.historyDAOFactory.getInstance().retrieveAll().then(
+            function(historyCollection) {
+                _.waitModalService.hide();
+                _.vm.historyModalOpen = true;
+
+                if (historyCollection.isEmpty() === false) {
+                    _.vm.historyCollection = historyCollection.getCollection();
                 }
-                $scope.openHistory = true;
             },
             function(results) {
-                $scope.unsafeModal = {
+                _.vm.historyModalOpen = false;
+                _.waitModalService.hide();
+                _.vm.unsafeModal = {
                     'title' : 'Error on history ',
                     'body'  : results.error,
                 };
@@ -315,13 +284,40 @@ define(function (require) {
         );
     };
 
+    GeneratorController.prototype.setMetadata = function(name) {
+        _.context.setMetadata(name);
+        _.vm.metadataSelected = name;
+        _.generate(_.context);
+    };
+
+    GeneratorController.prototype.setGenerator = function(name) {
+        _.context.setGenerator(name);
+        _.vm.generatorSelected = name;
+        _.generate(context);
+    };
+
+    GeneratorController.prototype.setQuestion = function(attribute) {
+        _.context.setQuestion(attribute, $scope.answers[attribute]);
+        _.generate(context, undefined, true);
+    };
+
+    GeneratorController.prototype.setBackend = function(name) {
+        _.context.setBackend(name);
+        _.vm.backendSelected = name;
+        _.generate(_.context);
+    };
+
+    GeneratorController.prototype.setConfigQuestion = function(attribute) {
+        _.vm.backendConfig();
+    };
+
     GeneratorController.$inject = [
         '$scope',
-        'SourceService',
+        'SourceDAOFactory',
         'GeneratorService',
         'WaitModalService',
         'GenerateDAOFactory',
-        'HistoryService'
+        'HistoryDAOFactory'
     ];
 
     app.controller("GeneratorCtrl", GeneratorController);

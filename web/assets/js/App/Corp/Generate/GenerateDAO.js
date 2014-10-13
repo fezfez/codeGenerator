@@ -63,6 +63,8 @@ define(function (require) {
         }).error(function (data) {
             deferred.reject({'error' : data.error});
         });
+
+        return deferred.promise;
     };
 
     /*
@@ -101,6 +103,8 @@ define(function (require) {
         }).error(function (data) {
             deferred.reject(data);
         });
+
+        return deferred.promise;
     };
 
     return GenerateDAO;

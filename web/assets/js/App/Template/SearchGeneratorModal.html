@@ -1,0 +1,46 @@
+<div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                    aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Search generator</h4>
+            </div>
+            <div class="modal-body">
+                <form ng-submit="searchGenerator()">
+                    <input type="text" ng-model="searchGeneratorName" /> <input
+                        type="submit" class="btn btn-info" id="search-generator-btn"
+                        value="Search" />
+                </form>
+                <div class="form-group row">
+                    <div class="col-lg-5">
+                        <a href="#" class="list-group-item col-lg-12"
+                            ng-repeat="generator in searchGeneratorCollection.values"
+                            ng-click="previewGenerator(generator)"
+                            ng-class="{'active': generator.id === generatorPreview.id}">
+                            {{ generator.id }} {{ generator.label }} </a>
+                        <p ng-if="searchGeneratorCollection == null">No result</p>
+                    </div>
+                    <div class="col-lg-7" ng-if="generatorPreview !== null">
+                        {{ generatorPreview.id }}
+                        <button class="btn btn-success"
+                            ng-click="downloadGenerator(generatorPreview.id)">
+                            Download</button>
+                        <p ng-if="generatorPreview.readme"
+                            ng-bind-html="generatorPreview.readme"></p>
+                        <a href="{{ generatorPreview.github }}">github</a>
+                        <div class="console row"
+                            ng-if="download.end == false || download.end == true">
+                            <i class="fa fa-refresh fa-spin"
+                                style="float: right; color: green;" ng-if="downloadEnd == false"></i>
+                            <i class="glyphicon glyphicon-ok"
+                                style="float: right; color: green;" ng-if="downloadEnd == true"></i>
+                            <p ng-repeat="data in download.log" ng-bind-html="data"
+                                class="col-lg-12"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

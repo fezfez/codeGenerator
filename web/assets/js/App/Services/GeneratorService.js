@@ -133,6 +133,8 @@ define(["App/App", "Corp/Context/Context", "Corp/Context/ContextHydrator"], func
             }).error(function(data) {
                 deferred.reject({'error' : data.error});
             });
+
+            return deferred;
         };
     }
 

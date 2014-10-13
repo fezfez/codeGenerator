@@ -1,0 +1,37 @@
+<div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                    aria-hidden="true">&times;</button>
+                <h4 class="modal-title">New source</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-if="newSourceDto.isErrored() === true"
+                    class="alert alert-danger fade in">{{ newSourceDto.getError() }}
+                </div>
+                <form ng-submit="backendConfig()">
+                    <div class="form-group"
+                        ng-repeat="question in newSourceDto.getQuestionCollection()">
+                        <label>{{ question.getText() }}</label> <select
+                            ng-if="question.getType() == 'select'"
+                            id="{{ question.getDtoAttribute() }}"
+                            class="form-control question"
+                            ng-model="configQuestion[question.getDtoAttribute()]"
+                            name="{{ question.getDtoAttribute() }}">
+                            <option ng-repeat="item in question.getItemCollection()"
+                                ng-click="setConfigQuestion(question.getDtoAttribute())"
+                                ng-selected="(item.getId() === question.getDefaultResponse()) ? 'selected' : null"
+                                value="{{ item.getId() }}">{{ item.getLabel() }}</option>
+                        </select> <input ng-if="question.getType() == 'text'"
+                            class="form-control questions" type="text"
+                            name="{{ question.getDtoAttribute() }}"
+                            placeholder="{{ question.getText() }}"
+                            ng-model="configQuestion[question.getDtoAttribute()]" />
+                    </div>
+                    <input type="submit" class="btn btn-success" value="Configure" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

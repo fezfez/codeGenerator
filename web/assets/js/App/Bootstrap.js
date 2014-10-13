@@ -49,7 +49,9 @@ require(
         'Controllers/GeneratorController',
         "App/Directives/File",
         "App/Directives/UnsafeModal",
-        "App/Directives/Modal"
+        "App/Directives/Modal",
+        "App/Directives/HistoryModal",
+        "App/Directives/NewSourceModal"
     ],
     function (angular, app, controller) {
     app.init();
