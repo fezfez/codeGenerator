@@ -15,20 +15,20 @@
                 <div class="form-group row">
                     <div class="col-lg-5">
                         <a href="#" class="list-group-item col-lg-12"
-                            ng-repeat="generator in searchGeneratorCollection.values"
+                            ng-repeat="generator in searchGenerator.getCollection()"
                             ng-click="previewGenerator(generator)"
-                            ng-class="{'active': generator.id === generatorPreview.id}">
-                            {{ generator.id }} {{ generator.label }} </a>
-                        <p ng-if="searchGeneratorCollection == null">No result</p>
+                            ng-class="{'active': generator.getId() === generatorPreview.getId()}">
+                            {{ generator.getId() }} {{ generator.getLabel() }} </a>
+                        <p ng-if="searchGenerator.getCollection() == null">No result</p>
                     </div>
                     <div class="col-lg-7" ng-if="generatorPreview !== null">
                         {{ generatorPreview.id }}
                         <button class="btn btn-success"
-                            ng-click="downloadGenerator(generatorPreview.id)">
+                            ng-click="downloadGenerator(generatorPreview)">
                             Download</button>
-                        <p ng-if="generatorPreview.readme"
-                            ng-bind-html="generatorPreview.readme"></p>
-                        <a href="{{ generatorPreview.github }}">github</a>
+                        <p ng-if="generatorPreview.getReadme()"
+                            ng-bind-html="generatorPreview.getReadme()"></p>
+                        <a href="{{ generatorPreview.getGithub() }}">github</a>
                         <div class="console row"
                             ng-if="download.end == false || download.end == true">
                             <i class="fa fa-refresh fa-spin"

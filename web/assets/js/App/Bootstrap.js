@@ -46,12 +46,13 @@ require(
     [
         'Angular',
         'App/App',
-        'Controllers/GeneratorController',
-        "App/Directives/File",
         "App/Directives/UnsafeModal",
         "App/Directives/Modal",
-        "App/Directives/HistoryModal",
-        "App/Directives/NewSourceModal"
+        'Controllers/GeneratorController',
+        "Corp/File/FileDirective",
+        "Corp/History/HistoryDirective",
+        "Corp/Source/SourceDirective",
+        "Corp/Generator/SearchGeneratorDirective"
     ],
     function (angular, app, controller) {
     app.init();

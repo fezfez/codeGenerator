@@ -3,6 +3,7 @@ define(function (require) {
 
     var Context          = require('Corp/Context/Context'),
         ConflictHydrator = require('Corp/Conflict/ConflictHydrator'),
+        ContextHydrator  = require('Corp/Context/ContextHydrator'),
         FileDataObject   = require('Corp/File/FileDataObject'),
         _                = {};
 
@@ -11,18 +12,69 @@ define(function (require) {
      * @param {Object} $http
      * @param {Object} $q
      * @param {Corp/Conflict/ConflictHydrator} conflictHydrator
+     * @param {Corp/Context/ContextHydrator} contextHydrator
      */
-    function GenerateDAO($http, $q, conflictHydrator) {
+    function GenerateDAO($http, $q, conflictHydrator, contextHydrator) {
         if ((conflictHydrator instanceof ConflictHydrator) === false) {
             throw new Error("conflictHydrator must be instance of ConflictHydrator");
+        }
+        if ((contextHydrator instanceof ContextHydrator) === false) {
+            throw new Error("contextHydrator must be instance of ContextHydrator");
         }
 
         _.$http            = $http;
         _.$q               = $q;
         _.conflictHydrator = conflictHydrator;
+        _.contextHydrator  = contextHydrator;
 
         _.$http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
     }
+
+    /*
+     * Process the generation
+     * 
+     * @name process
+     * @desc process the generation
+     * @param {Context} context - The context
+     * @param {bool} metadataNoCache - boolean
+     * 
+     * @return promise
+     */
+    GenerateDAO.prototype.process = function (context, metadataNoCache) {
+        if (metadataNoCache === undefined) {
+            metadataNoCache = false;
+        }
+
+        if ((context instanceof Context) === false) {
+            throw new Error("Context must be instance of Context");
+        }
+
+        if (typeof(metadataNoCache) !== "boolean") {
+            throw new Error("metadata_nocache must be a boolean");
+        }
+
+        var deferred = _.$q.defer(),
+            datas =  $.param({
+            backend            : context.getBackend(),
+            metadata_nocache   : metadataNoCache,
+            metadata           : context.getMetadata(),
+            generator          : context.getGenerator(),
+            generate           : true
+        }) + '&' + $.param(context.getQuestion());
+
+        _.$http({
+            headers : {'Content-Type': 'application/x-www-form-urlencoded'},
+            method  : "POST",
+            url     : __BASEPATH__ + "generator",
+            data    : datas,
+        }).success(function (data) {
+            deferred.resolve(_.contextHydrator.hydrate(data, new Context()));
+        }).error(function(data) {
+            deferred.reject(data.error);
+        });
+
+        return deferred.promise;
+    };
 
     /*
      * Generate files

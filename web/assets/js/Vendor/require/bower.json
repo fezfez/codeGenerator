@@ -1,6 +1,6 @@
 {
   "name": "require.js",
-  "version": "0.2.6",
+  "version": "0.3.7",
   "homepage": "https://github.com/nathanfaucett/require.js",
   "authors": [
     "lonewolfgames <nathanfaucett@gmail.com>"
@@ -17,9 +17,13 @@
   "license": "MIT",
   "ignore": [
     "**/.*",
+    "Gruntfile.js",
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "bin",
+    "examples",
+    "src"
   ]
 }

@@ -1,7 +1,7 @@
 {
   "name": "PACE",
   "main": "pace.js",
-  "version": "0.5.6",
+  "version": "0.5.7",
   "homepage": "http://github.hubspot.com/pace/docs/welcome",
   "authors": [
     "Zack Bloom <zackbloom@gmail.com>",
@@ -32,11 +32,11 @@
     "templates",
     "tests"
   ],
-  "_release": "0.5.6",
+  "_release": "0.5.7",
   "_resolution": {
     "type": "version",
-    "tag": "v0.5.6",
-    "commit": "c0fc10261a4ba759df9bd7b0f38456b01f4d4e46"
+    "tag": "v0.5.7",
+    "commit": "9386a0a6e3301ceee058268d6de874e20f86dd17"
   },
   "_source": "git://github.com/HubSpot/pace.git",
   "_target": "0.5.*",

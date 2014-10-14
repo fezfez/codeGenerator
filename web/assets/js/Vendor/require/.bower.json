@@ -16,16 +16,20 @@
   "license": "MIT",
   "ignore": [
     "**/.*",
+    "Gruntfile.js",
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "bin",
+    "examples",
+    "src"
   ],
-  "_release": "f4544c5c99",
+  "_release": "ab8d7fa301",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "f4544c5c9997c5bb6f7b1b9badfa204b07c5f367"
+    "commit": "ab8d7fa30158c632a33bccaa348a43d4f97475d4"
   },
   "_source": "git://github.com/nathanfaucett/require.js.git",
   "_target": "*",

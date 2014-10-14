@@ -3,6 +3,7 @@ define(function (require) {
 
     var app              = require('App/App'),
         ConflictHydrator = require('Corp/Conflict/ConflictHydrator'),
+        ContextHydrator  = require('Corp/Context/ContextHydrator'),
         GenerateDAO      = require('Corp/Generate/GenerateDAO'),
         instance         = null;
 
@@ -13,7 +14,7 @@ define(function (require) {
              */
             getInstance : function () {
                 if (instance === null) {
-                    instance = new GenerateDAO($http, $q, new ConflictHydrator());
+                    instance = new GenerateDAO($http, $q, new ConflictHydrator(), new ContextHydrator());
                 }
 
                 return instance;
