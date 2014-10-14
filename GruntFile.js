@@ -20,10 +20,31 @@ module.exports = function (grunt) {
                 }
               }
         },
+        copy: {
+          main: {
+            files: [
+              {
+                  cwd: 'web/assets/js/Vendor/requirejs/',
+                  src: 'require.js',
+                  dest: 'web/assets/build/',
+                  expand: true
+              },
+              {
+                  cwd: 'web/assets/js/Vendor/pace/', 
+                  src: 'pace.min.js',
+                  dest: 'web/assets/build/',
+                  expand: true
+              }
+            ]
+          }
+        }
     };
+
+    grunt.task.registerTask('build', ['requirejs', 'copy']);
 
     grunt.initConfig(gruntConfig);
 
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
 
 };

@@ -13,8 +13,8 @@ requirejs.config({
         JQuery: "Vendor/jquery/dist/jquery.min",
         TwitterBootstrap: "Vendor/bootstrap/dist/js/bootstrap.min",
         Angular: "Vendor/angular/angular.min",
-        HighLighterPHP: "Vendor/shBrushPhp",
-        shCore: "Vendor/shCore"
+        HighLighterPHP: "Vendor/SyntaxHighlighter/scripts/shBrushPhp",
+        shCore: "Vendor/SyntaxHighlighter/scripts/shCore"
     },
     shim: {
         'TwitterBootstrap': {
