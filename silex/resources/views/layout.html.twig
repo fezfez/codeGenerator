@@ -8,11 +8,15 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="{{ app.base_path }}favicon.ico">
     <title>Code Generator</title>
+    {% if app.debug == true %}
     <link rel="stylesheet" href="{{ app.base_path }}/assets/css/bootstrap.css">
     <link rel="stylesheet" href="{{ app.base_path }}/assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ app.base_path }}/assets/css/shCoreDefault.css">
     <link rel="stylesheet" href="{{ app.base_path }}/assets/css/styles.css">
     <link rel="stylesheet" href="{{ app.base_path }}/assets/css/nprogress.css">
+    {% else %}
+    <link rel="stylesheet" href="{{ app.base_path }}/assets/build/style.css">
+    {% endif %}
     <script src="{{ app.base_path }}/assets/js/Vendor/pace/pace.min.js"></script>
     <style type="text/css">
         body > div.navbar , body > div.container-full {
@@ -27,10 +31,17 @@
         });
         __BASEPATH__ = '{{ app.base_path }}';
     </script>
+    {% if app.debug == true %}
     <script type="text/javascript"
             data-main="{{ app.base_path }}/assets/js/App/Bootstrap.js"
             src="{{ app.base_path }}/assets/js/Vendor/requirejs/require.js">
     </script>
+    {% else %}
+    <script type="text/javascript"
+            data-main="{{ app.base_path }}/assets/build/script.js"
+            src="{{ app.base_path }}/assets/js/Vendor/requirejs/require.min.js">
+    </script>
+    {% endif %}
 </head>
 <body ng-controller="GeneratorCtrl">
 <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
