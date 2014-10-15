@@ -26,23 +26,6 @@ define(function() {
 
             throw new Error('Cant find child with name "' + directoryName + '"');
         };
-
-        /*
-         * @param array data
-         * @param callable callback
-         */
-        this.viewFile = function (data, callback) {
-            $http(
-                {
-                    headers : {'Content-Type': 'application/x-www-form-urlencoded'},
-                    method  : "POST",
-                    url     : "view-file",
-                    data    : data
-                }
-            ).success(function (data) {
-                callback(data);
-            });
-        };
     }
 
     return DirectoryDAO;

@@ -1,46 +1,42 @@
-define(
-    ['Angular', 'AngularMock', "Corp/Directory/DirectoryDataObject", 'Corp/Context/Context', 'Services/GeneratorService'], 
-    function(angular, mock, DirectoryDataObject, Context)
-{
-    describe('Testing GeneratorService, process method', function() {
+define(function(require) {
+	"use strict";
 
-        var httpBackend = undefined, _GeneratorService_ = undefined;
+    var angular           = require('Angular'),
+        mock              = require('AngularMock'),
+        Context           = require('Corp/Context/Context'),
+        GenerateDAO       = require('Corp/Generate/GenerateDAO'),
+        ConflictHydrator  = require('Corp/Conflict/ConflictHydrator'),
+        ContextHydrator   = require('Corp/Context/ContextHydrator');
+
+    describe('Testing Corp/Generate/GenerateDAO method process', function() {
+
+    	var httpBackend, q, generatorHydrator, contextHydrator, generateDAO;
 
         beforeEach((function() {
             angular.mock.module('GeneratorApp');
-            angular.mock.inject(function(GeneratorService, $httpBackend) {
-                // Set up the mock http service responses
-                httpBackend        = $httpBackend;
-                _GeneratorService_ = GeneratorService;
+            angular.mock.inject(function($injector) {
+                httpBackend       = $injector.get('$httpBackend');
+                q                 = $injector.get('$q');
+                generatorHydrator = new ConflictHydrator(); 
+                contextHydrator   = new ContextHydrator(); 
+                generateDAO = new GenerateDAO($injector.get('$http'), q, generatorHydrator, contextHydrator);
             });
         }));
         
         it('Should throw exception on wrong context type', function() {
             expect(function() {
-                _GeneratorService_.process("im wrong", false).then(function(context) {}, function(error) {});
+                generateDAO.process("im wrong", false).then(function(context) {}, function(error) {});
             }).toThrow();
         });
         
         it('Should set metadatanocache to true if undefined', function() {
         	httpBackend.expectPOST('generator').respond(200, '');
-            _GeneratorService_.process(new Context(), undefined).then(function(context) {}, function(error) {});
+            generateDAO.process(new Context(), undefined).then(function(context) {}, function(error) {});
         });
         
         it('Should throw exception on wrong metadata_nocache type', function() {
             expect(function() {
-            	_GeneratorService_.process(new Context(), 'im wrong').then(function(context) {}, function(error) {});
-            }).toThrow();
-        });
-        
-        it('Should throw exception on wrong callBackAfterAjax type', function() {
-            expect(function() {
-            	_GeneratorService_.process(new Context(), false).then("im wrong", function(error) {});
-            }).toThrow();
-        });
-        
-        it('Should throw exception on wrong callbackError type', function() {
-            expect(function() {
-            	_GeneratorService_.process(new Context(), false).then(function(context) {}, "im wrong");
+            	generateDAO.process(new Context(), 'im wrong').then(function(context) {}, function(error) {});
             }).toThrow();
         });
 
@@ -59,7 +55,7 @@ define(
                 }
             );
 
-            _GeneratorService_.process(new Context(), false).then(
+            generateDAO.process(new Context(), false).then(
                 function(directories) {
                     expect(directories instanceof Context).toBe(true);
                 }, function(error) {
@@ -74,7 +70,7 @@ define(
             var errorString = 'MyError !';
             httpBackend.expectPOST('generator').respond(500, {error : errorString});
 
-            _GeneratorService_.process(new Context(), false).then(
+            generateDAO.process(new Context(), false).then(
                 function(directories) {
                     expect(directories instanceof Context).toBe(true);
                 }, function(error) {

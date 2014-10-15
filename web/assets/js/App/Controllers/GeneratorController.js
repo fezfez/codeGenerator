@@ -4,12 +4,12 @@ define(function (require) {
      var app                 = require('App/App'),
          SourceDAOFactory    = require('Corp/Source/SourceDAOFactory'),
          GeneratorDAOFactory = require('Corp/Generator/GeneratorDAOFactory'),
-         WaitModalService    = require('App/Services/WaitModalService'),
+         WaitModalService    = require('Services/WaitModalService'),
          GenerateDAOFactory  = require('Corp/Generate/GenerateDAOFactory'),
          HistoryDAOFactory   = require('Corp/History/HistoryDAOFactory'),
          Context             = require('Corp/Context/Context'),
          Config              = require('Corp/Context/Config'),
-         highlight      = require('highlight'),
+         highlight           = require('highlight'),
          _                   = {};
 
     function GeneratorController(

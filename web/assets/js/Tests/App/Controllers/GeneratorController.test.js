@@ -1,6 +1,6 @@
 define(
-	['Angular', 'AngularMock', "Controllers/GeneratorController"], 
-	function(angular, mock) {
+	['Angular', 'AngularMock', "Corp/Generator/GeneratorDto", "Controllers/GeneratorController"], 
+	function(angular, mock, GeneratorDto) {
     "use strict";
     describe("Test generatorController", function () {
 
@@ -8,16 +8,15 @@ define(
 
         beforeEach((function() {
             angular.mock.module('GeneratorApp');
-            angular.mock.inject(function($controller, $httpBackend, $sce, $rootScope, SourceService) {
+            angular.mock.inject(function($controller, $httpBackend, $sce, $rootScope) {
                 // Set up the mock http service responses
                 httpBackend       = $httpBackend;
                 scope             = $rootScope.$new();
                 sce               = $sce;
-                __SourceService__ = SourceService;
+
                 controller        = $controller('GeneratorCtrl', {
                     '$scope'        : scope,
-                    '$sce'          : sce,
-                    'SourceService' : __SourceService__
+                    '$sce'          : sce
                 });
             });
         }));
@@ -30,11 +29,13 @@ define(
         });
         
         it('test previewGenerator', function() {
-        	scope.previewGenerator('im a generator');
+        	var generator = new GeneratorDto();
+        	scope.previewGenerator(generator);
         });
         
         it('test downloadGenerator', function() {
-        	scope.downloadGenerator('im a generator');
+        	var generator = new GeneratorDto();
+        	controller.downloadGenerator(generator);
         });
         
         it('test searchGenerator', function() {

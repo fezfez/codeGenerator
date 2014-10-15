@@ -1,17 +1,24 @@
-define(
-    ['Angular', 'AngularMock', 'Corp/Context/Context', 'Services/SourceService'],
-    function(angular, mock, Context)
-{
-    describe('Testing SourceService', function() {
+define(function(require) {
+	//"use strict";
 
-        var httpBackend = undefined, _SourceService_ = undefined;
+    var angular           = require('Angular'),
+        mock              = require('AngularMock'),
+        Context           = require('Corp/Context/Context'),
+        SourceDAO         = require('Corp/Source/SourceDAO'),
+        GeneratorHydrator = require('Corp/Generator/GeneratorHydrator');
+
+    describe('Testing Corp/Source/SourceDAO/Config.test', function() {
+
+        var httpBackend = null, q = null, sourceDAO = null;
 
         beforeEach((function() {
             angular.mock.module('GeneratorApp');
-            angular.mock.inject(function(SourceService, $httpBackend) {
+            angular.mock.inject(function($injector) {
                 // Set up the mock http service responses
-                httpBackend     = $httpBackend;
-                _SourceService_ = SourceService;
+            	httpBackend = $injector.get('$httpBackend');
+            	q           = $injector.get('$q');
+
+                sourceDAO = new SourceDAO($injector.get('$http'), q);
             });
         }));
 
@@ -19,7 +26,7 @@ define(
 
             httpBackend.whenPOST("generator").respond({});
 
-            _SourceService_.config(
+            sourceDAO.config(
                 {},
                 (function(data) {
                     expect(data instanceof Context).toEqual(true);
@@ -36,7 +43,7 @@ define(
 
             httpBackend.expectPOST('generator').respond(500, '');
 
-            _SourceService_.config(
+            sourceDAO.config(
                 {},
                 (function(data) {
                     

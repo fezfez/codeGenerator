@@ -36,8 +36,7 @@ requirejs.config({
         TwitterBootstrap: "Vendor/bootstrap/dist/js/bootstrap",
         Angular: "Vendor/angular/angular",
         AngularMock: "Vendor/angular-mocks/angular-mocks",
-        HighLighterPHP: "Vendor/shBrushPhp",
-        shCore: "Vendor/shCore",
+        highlight: "Vendor/highlightjs-amd/highlight.pack"
     },
     shim: {
         'JQuery': {
@@ -49,14 +48,6 @@ requirejs.config({
             //Once loaded, use the global 'TwitterBootstrap' as the
             //module value.
             exports: '$'
-        },
-        'shCore': {
-            //These script dependencies should be loaded before loading
-            exports: 'SyntaxHighlighter'
-        },
-        'HighLighterPHP': {
-            //These script dependencies should be loaded before loading
-            deps: ['shCore']
         },
         'Angular': {'exports': 'angular'},
         'AngularMock': {deps: ['Angular'], 'exports': 'angular.mock'}

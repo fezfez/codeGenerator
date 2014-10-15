@@ -16,10 +16,14 @@ define(function (require) {
      */
     function GenerateDAO($http, $q, conflictHydrator, contextHydrator) {
         if ((conflictHydrator instanceof ConflictHydrator) === false) {
-            throw new Error("conflictHydrator must be instance of ConflictHydrator");
+            throw new Error(
+                'conflictHydrator must be instance of ConflictHydrator "' + conflictHydrator.constructor.name + '" given'
+            );
         }
         if ((contextHydrator instanceof ContextHydrator) === false) {
-            throw new Error("contextHydrator must be instance of ContextHydrator");
+            throw new Error(
+                'contextHydrator must be instance of ContextHydrator "' + contextHydrator.constructor.name + '" given'
+            );
         }
 
         _.$http            = $http;
@@ -87,7 +91,7 @@ define(function (require) {
         }
 
         var deferred = _.$q.defer(),
-            datas    = {
+            datas    = $.param({
             backend        : context.getBackend(),
             metadata       : context.getMetadata(),
             generator      : context.getGenerator(),
@@ -95,13 +99,13 @@ define(function (require) {
             conflict       : $('.conflict_handle').serialize(),
             generate       : true,
             generate_files : true
-        };
+        });
 
         _.$http({
             headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'},
             method  : "POST",
             url     : __BASEPATH__ + "generator",
-            params  : datas
+            data  : datas
         }).success(function (datas) {
             var log = null, conflictList = null;
 

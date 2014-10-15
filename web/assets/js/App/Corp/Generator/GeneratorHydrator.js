@@ -2,7 +2,7 @@ define(function(require) {
     "use strict";
 
     var ContextHydrator        = require('Corp/Context/ContextHydrator'),
-        GeneratorDTO           = require('Corp/Generator/GeneratorDTO'),
+        GeneratorDTO           = require('Corp/Generator/GeneratorDto'),
         GeneratorCollectionDTO = require('Corp/Generator/GeneratorCollectionDTO'),
         _                      = {};
 
@@ -24,14 +24,16 @@ define(function(require) {
             generatorCollection = new GeneratorCollectionDTO(),
             self                = this;
 
-        angular.forEach(rawGenerator.values, function(generator, index) {
-            generatorDTO = new GeneratorDTO();
+        if (rawGenerator !== null) {
+            angular.forEach(rawGenerator.values, function(generator, index) {
+                generatorDTO = new GeneratorDTO();
 
-            generatorDTO.setId(generator.id)
-            generatorDTO.setLabel(generator.label);
+                generatorDTO.setId(generator.id)
+                generatorDTO.setLabel(generator.label);
 
-            collection.push(self.hydrate(generatorDTO, generator));
-        });
+                collection.push(self.hydrate(generatorDTO, generator));
+            });
+        }
 
         generatorCollection.setCollection(collection);
 

@@ -16,8 +16,7 @@ module.exports = function(config) {
         {pattern: 'Vendor/angular-mocks/angular-mocks.js', included: false},
         {pattern: 'Vendor/jquery/dist/jquery.js', included: true},
         {pattern: 'Vendor/bootstrap/dist/js/bootstrap.js', included: true},
-        {pattern: 'Vendor/shCore.js', included: false},
-        {pattern: 'Vendor/shBrushPhp.js', included: false},
+        {pattern: 'Vendor/highlightjs-amd/highlight.pack.js', included: false},
         {pattern: 'App/**/*.js', included: false},
         {pattern: 'Tests/App/**/*.test.js', included: false},
         {pattern: 'Tests/karma.main.js', included: true}

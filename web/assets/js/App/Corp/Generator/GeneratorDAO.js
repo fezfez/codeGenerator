@@ -9,14 +9,13 @@ define(function(require) {
      * @module GeneratorService
      */
     function GeneratorDAO($http, $q, $sce, generatorHydrator) {
-        
+
+    	$http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+
         _.$http             = $http;
         _.$q                = $q;
         _.$sce              = $sce;
         _.generatorHydrator = generatorHydrator;
-
-        _.$http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
-
     }
 
     /*
