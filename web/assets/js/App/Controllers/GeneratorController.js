@@ -9,7 +9,7 @@ define(function (require) {
          HistoryDAOFactory   = require('Corp/History/HistoryDAOFactory'),
          Context             = require('Corp/Context/Context'),
          Config              = require('Corp/Context/Config'),
-         HighLighterPHP      = require('HighLighterPHP'),
+         HighLighterPHP      = require('SyntaxHighlighter'),
          _                   = {};
 
     function GeneratorController(

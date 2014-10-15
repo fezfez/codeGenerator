@@ -17,7 +17,11 @@
     {% else %}
     <link rel="stylesheet" href="{{ app.base_path }}/assets/build/style.css">
     {% endif %}
-    <script src="{{ app.base_path }}/assets/js/Vendor/pace/pace.min.js"></script>
+    {% if app.debug == true %}
+    <script src="{{ app.base_path }}/assets/js/Vendor/pace/pace.js"></script>
+    {% else %}
+    <script src="{{ app.base_path }}/assets/build/pace.min.js"></script>
+    {% endif %}
     <style type="text/css">
         body > div.navbar , body > div.container-full {
           visibility:hidden;
@@ -39,7 +43,7 @@
     {% else %}
     <script type="text/javascript"
             data-main="{{ app.base_path }}/assets/build/script.js"
-            src="{{ app.base_path }}/assets/js/Vendor/requirejs/require.min.js">
+            src="{{ app.base_path }}/assets/build/require.min.js">
     </script>
     {% endif %}
 </head>

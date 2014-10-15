@@ -10,16 +10,18 @@ requirejs.config({
         App : "App/",
         Controllers : "App/Controllers",
         Corp : "App/Corp/",
-        JQuery: "Vendor/jquery/dist/jquery.min",
-        TwitterBootstrap: "Vendor/bootstrap/dist/js/bootstrap.min",
-        Angular: "Vendor/angular/angular.min",
-        HighLighterPHP: "Vendor/SyntaxHighlighter/scripts/shBrushPhp",
-        shCore: "Vendor/SyntaxHighlighter/scripts/shCore"
+        JQuery: "Vendor/jquery/dist/jquery",
+        TwitterBootstrap: "Vendor/bootstrap/js/modal",
+        TwitterBootstrapTooltip: "Vendor/bootstrap/js/tooltip",
+        Angular: "Vendor/angular/angular",
+        shPHP: "Vendor/SyntaxHighlighter/scripts/shBrushPhp",
+        SyntaxHighlighter: "Vendor/SyntaxHighlighter/scripts/shCore",
+        XRegExp: "Vendor/SyntaxHighlighter/scripts/XRegExp"
     },
     shim: {
         'TwitterBootstrap': {
             //These script dependencies should be loaded before loading
-            deps: ['JQuery'],
+            deps: ['TwitterBootstrapTooltip'],
             //Once loaded, use the global 'TwitterBootstrap' as the
             //module value.
             exports: 'TwitterBootstrap'
@@ -31,13 +33,14 @@ requirejs.config({
             //module value.
             exports: 'angular'
         },
-        'shCore': {
+        'SyntaxHighlighter': {
             //These script dependencies should be loaded before loading
-            exports: 'SyntaxHighlighter'
+            exports: 'SyntaxHighlighter',
+            deps: ['XRegExp']
         },
-        'HighLighterPHP': {
+        'shPHP': {
             //These script dependencies should be loaded before loading
-            deps: ['shCore']
+            deps: ['SyntaxHighlighter']
         },
     }
 });
@@ -52,7 +55,8 @@ require(
         "Corp/File/FileDirective",
         "Corp/History/HistoryDirective",
         "Corp/Source/SourceDirective",
-        "Corp/Generator/SearchGeneratorDirective"
+        "Corp/Generator/SearchGeneratorDirective",
+        "SyntaxHighlighter"
     ],
     function (angular, app, controller) {
     app.init();
