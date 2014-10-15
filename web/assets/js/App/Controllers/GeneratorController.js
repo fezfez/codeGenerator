@@ -9,7 +9,7 @@ define(function (require) {
          HistoryDAOFactory   = require('Corp/History/HistoryDAOFactory'),
          Context             = require('Corp/Context/Context'),
          Config              = require('Corp/Context/Config'),
-         HighLighterPHP      = require('SyntaxHighlighter'),
+         highlight      = require('highlight'),
          _                   = {};
 
     function GeneratorController(
@@ -57,9 +57,9 @@ define(function (require) {
 
         _.loadContext = function(context) {
             if (context.getBackendCollection() !== null)
-            	_.vm.backendCollection = context.getBackendCollection();
+                _.vm.backendCollection = context.getBackendCollection();
             if (context.getMetadataCollection() !== null)
-            	_.vm.metadataCollection = context.getMetadataCollection();
+                _.vm.metadataCollection = context.getMetadataCollection();
             if (context.getGeneratorCollection() !== null)
                 _.vm.generatorCollection = context.getGeneratorCollection();
             if (context.getDirectories() !== null)
@@ -238,24 +238,24 @@ define(function (require) {
      */
     GeneratorController.prototype.viewFile = function (file) {
         _.waitModalService.show();
-        _.generatorDAOFactory.getInstance().viewFile(_.context, file).then(function (results) {
-            _.waitModalService.hide();
+        _.generateDAOFactory.getInstance().viewFile(_.context, file).then(
+            function (results) {
+                _.waitModalService.hide();
+    
+                _.vm.file = {
+                    'title' : file.getName(),
+                    'content' : results.previewfile
+                };
+            },
+            function (data) {
+                _.waitModalService.hide();
 
-            if (results.error !== undefined) {
                 _.vm.unsafeModal = {
                     'title' : 'Error on generating ' + file.getName(),
-                    'body' : results.error,
-                };
-            } else {
-                _.vm.unsafeModal = {
-                    'title' : file.getName(),
-                    'body' : '<pre class="brush: php;">' + results.previewfile + '</pre>',
-                    'callback' : function () {
-                        SyntaxHighlighter.highlight();
-                    }
+                    'body' : data.error,
                 };
             }
-        });
+        );
     };
     
     GeneratorController.prototype.showHistory = function() {

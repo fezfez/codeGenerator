@@ -20,7 +20,7 @@ require(['App/App', 'JQuery'], function(app) {
                             }
                       });
                     } else if(null === modal) {
-                        angular.element(element).hide();
+                        $(element.contents()).modal('hide');
                     }
                 });
             }

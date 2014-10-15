@@ -17,7 +17,7 @@
         "pace": "0.5.*",
         "bootstrap": "3.2.*",
         "requirejs": "2.1.*",
-        "SyntaxHighlighter": "3.0.*"
+        "highlightjs-amd": "8.*"
     },
     "ignore": [
         "**/.*",

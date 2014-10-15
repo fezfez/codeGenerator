@@ -9,11 +9,7 @@
     <link rel="shortcut icon" href="{{ app.base_path }}favicon.ico">
     <title>Code Generator</title>
     {% if app.debug == true %}
-    <link rel="stylesheet" href="{{ app.base_path }}/assets/css/bootstrap.css">
-    <link rel="stylesheet" href="{{ app.base_path }}/assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{{ app.base_path }}/assets/css/shCoreDefault.css">
-    <link rel="stylesheet" href="{{ app.base_path }}/assets/css/styles.css">
-    <link rel="stylesheet" href="{{ app.base_path }}/assets/css/nprogress.css">
+    <link rel="stylesheet" href="{{ app.base_path }}/assets/css/main.css">
     {% else %}
     <link rel="stylesheet" href="{{ app.base_path }}/assets/build/style.css">
     {% endif %}
@@ -76,6 +72,7 @@
     <!-- Modal -->
     <modal></modal>
     <unsafe-modal></unsafe-modal>
+    <view-file-modal></view-file-modal>
     <waitModal></waitModal>
     <new-source-modal></new-source-modal>
     <history-modal></history-modal>

@@ -14,9 +14,7 @@ requirejs.config({
         TwitterBootstrap: "Vendor/bootstrap/js/modal",
         TwitterBootstrapTooltip: "Vendor/bootstrap/js/tooltip",
         Angular: "Vendor/angular/angular",
-        shPHP: "Vendor/SyntaxHighlighter/scripts/shBrushPhp",
-        SyntaxHighlighter: "Vendor/SyntaxHighlighter/scripts/shCore",
-        XRegExp: "Vendor/SyntaxHighlighter/scripts/XRegExp"
+        highlight: "Vendor/highlightjs-amd/highlight.pack",
     },
     shim: {
         'TwitterBootstrap': {
@@ -32,16 +30,7 @@ requirejs.config({
             //Once loaded, use the global 'GoogleJSAPI' as the
             //module value.
             exports: 'angular'
-        },
-        'SyntaxHighlighter': {
-            //These script dependencies should be loaded before loading
-            exports: 'SyntaxHighlighter',
-            deps: ['XRegExp']
-        },
-        'shPHP': {
-            //These script dependencies should be loaded before loading
-            deps: ['SyntaxHighlighter']
-        },
+        }
     }
 });
 
@@ -53,10 +42,10 @@ require(
         "App/Directives/Modal",
         'Controllers/GeneratorController',
         "Corp/File/FileDirective",
+        "Corp/File/ViewFileDirective",
         "Corp/History/HistoryDirective",
         "Corp/Source/SourceDirective",
-        "Corp/Generator/SearchGeneratorDirective",
-        "SyntaxHighlighter"
+        "Corp/Generator/SearchGeneratorDirective"
     ],
     function (angular, app, controller) {
     app.init();
