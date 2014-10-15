@@ -12,14 +12,16 @@ define(function() {
 
         $.each(datas, function (fileName, data) {
             if (data.isConflict === true) {
-                conflictDTO = {};
+                conflictDTO          = {};
                 conflictDTO.fileName = fileName;
-                conflictDTO.line = [];
-                items = data.diff.split("\n");
+                conflictDTO.line     = [];
+                items                = data.diff.split("\n");
+
                 items.forEach(function(line) {
-                    lineDTO = {};
+                    lineDTO         = {};
                     lineDTO.content = line;
-                    firstChar = line.substr(0, 1);
+                    firstChar       = line.substr(0, 1);
+
                     if (firstChar === '-') {
                         lineDTO.type = 'remove';
                     } else if (firstChar === '+') {
@@ -27,8 +29,10 @@ define(function() {
                     } else {
                         lineDTO.type = 'other';
                     }
+
                     conflictDTO.line.push(lineDTO);
                 });
+
                 conflictList.push(conflictDTO);
             }
         });
