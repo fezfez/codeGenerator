@@ -65,7 +65,7 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
 
         $collection = new MetaDataCollection();
 
-        if ($this->isFirstLevelIsADto($schema) === true) {
+        if ($this->isFirstLevelIsDto($schema) === true) {
             $metadata = $this->createMetadata('master');
             $metadata = $this->hydrateProperties($schema->getProperties(), $metadata);
             $collection->append($metadata);
@@ -89,17 +89,17 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
      * @param \JSONSchema\Structure\Schema $schema
      * @return boolean
      */
-    private function isFirstLevelIsADto(\JSONSchema\Structure\Schema $schema)
+    private function isFirstLevelIsDto(\JSONSchema\Structure\Schema $schema)
     {
-        $isFirstLevelIsADto = false;
+        $isFirstLevelIsDto = false;
 
         foreach ($schema->getProperties() as $propertie) {
             if (in_array($propertie->getType(), array('object', 'array')) === false) {
-                $isFirstLevelIsADto = true;
+                $isFirstLevelIsDto = true;
             }
         }
 
-        return $isFirstLevelIsADto;
+        return $isFirstLevelIsDto;
     }
 
     private function createMetadata($name)

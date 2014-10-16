@@ -3,7 +3,7 @@ namespace CrudGenerator\Tests\PostgreSQL\MetaData\PostgreSQL\PostgreSQL;
 
 use CrudGenerator\MetaData\Driver\DriverConfig;
 
-$config = new DriverConfig('Web', 'WebConnector');
+$config = new DriverConfig('Web');
 $config->addQuestion('Database Name', 'configDatabaseName');
 $config->addQuestion('Host', 'configHost');
 $config->addQuestion('User', 'configUser');

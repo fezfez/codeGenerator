@@ -44,7 +44,7 @@ class PostgreSQLMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
         $pdoDriver = PdoDriverFactory::getInstance();
 
         return new PostgreSQLMetaDataDAO(
-            $pdoDriver->getConnection($config, PdoDriver::POSTGRESQL),
+            $pdoDriver->getConnection($config),
             $config,
             new SqlManager()
         );

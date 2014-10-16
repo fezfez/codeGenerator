@@ -3,7 +3,7 @@ define(['Angular', 'AngularMock', 'Services/WaitModalService'], function(angular
 
     describe('Testing WaitModalService', function() {
 
-        var httpBackend = undefined, service = undefined;
+        var httpBackend = null, service = null;
 
         beforeEach((function() {
             angular.mock.module('GeneratorApp');

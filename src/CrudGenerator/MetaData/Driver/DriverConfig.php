@@ -22,25 +22,55 @@ namespace CrudGenerator\MetaData\Driver;
  */
 class DriverConfig implements \JsonSerializable
 {
-    private $question   = array();
-    private $response   = array();
-    private $driver     = null;
+    /**
+     * @var array
+     */
+    private $question = array();
+    /**
+     * @var array
+     */
+    private $response = array();
+    /**
+     * @var string
+     */
+    private $driver = null;
+    /**
+     * @var string
+     */
     private $uniqueName = null;
+    /**
+     * @var string
+     */
     private $metadataDaoFactory = null;
 
+    /**
+     * @param string $uniqueName
+     */
     public function __construct($uniqueName)
     {
         $this->uniqueName = $uniqueName;
     }
 
-    public function addQuestion($description, $attribute)
+    /**
+     * @param string $value
+     * @return \CrudGenerator\MetaData\Driver\DriverConfig
+     */
+    public function setDriver($value)
     {
-        $this->question[] = array('desc' => $description, 'attr' => $attribute);
+        $this->driver = $value;
+
+        return $this;
     }
 
-    public function getQuestion()
+    /**
+     * @param string $value
+     * @return \CrudGenerator\MetaData\Driver\DriverConfig
+     */
+    public function setMetadataDaoFactory($value)
     {
-        return $this->question;
+        $this->metadataDaoFactory = $value;
+
+        return $this;
     }
 
     /**
@@ -55,40 +85,61 @@ class DriverConfig implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @param string $description
+     * @param string $attribute
+     * @return \CrudGenerator\MetaData\Driver\DriverConfig
+     */
+    public function addQuestion($description, $attribute)
+    {
+        $this->question[] = array('desc' => $description, 'attr' => $attribute);
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getQuestion()
+    {
+        return $this->question;
+    }
+
+    /**
+     * @param string $attribute
+     * @return string|null
+     */
     public function getResponse($attribute)
     {
         return (isset($this->response[$attribute]) === true) ? $this->response[$attribute] : null;
     }
 
-    public function setDriver($value)
-    {
-        $this->driver = $value;
-
-        return $this;
-    }
-
+    /**
+     * @return string
+     */
     public function getDriver()
     {
         return $this->driver;
     }
 
+    /**
+     * @return string
+     */
     public function getUniqueName()
     {
         return $this->uniqueName;
     }
 
-    public function setMetadataDaoFactory($value)
-    {
-        $this->metadataDaoFactory = $value;
-
-        return $this;
-    }
-
+    /**
+     * @return string
+     */
     public function getMetadataDaoFactory()
     {
         return $this->metadataDaoFactory;
     }
 
+    /**
+     * @return array
+     */
     public function jsonSerialize()
     {
         return array(

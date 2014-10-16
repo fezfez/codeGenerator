@@ -101,7 +101,7 @@ class FileParser implements ParserInterface
         $firstIteration,
         $skeletonPath
     ) {
-        if (isset($file['iteration'])) {
+        if (isset($file['iteration']) === true) {
 
             $iterator           = $this->iterationValidator->retrieveValidIteration($file, $generator, $parser);
             $overIteratorParser = clone $parser;

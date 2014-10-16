@@ -98,8 +98,8 @@ class QuestionParser implements ParserInterface
         $firstIteration,
         array $process
     ) {
-        $question  = $this->questionAnalyser->checkIntegrity($question);
-        $isParsed  = false;
+        $question = $this->questionAnalyser->checkIntegrity($question);
+        $isParsed = false;
 
         foreach ($this->questionTypeCollection as $questionTypeParser) {
             /* @var $questionTypeParser \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeInterface */
@@ -112,7 +112,7 @@ class QuestionParser implements ParserInterface
                     $process
                 );
 
-                $isParsed  = true;
+                $isParsed = true;
                 break;
             }
         }

@@ -50,7 +50,7 @@ abstract class MetadataConfig implements \JsonSerializable
      */
     protected $connectorConfig;
 
-    public final function __construct()
+    final public function __construct()
     {
         $interface = 'JsonSerializable';
 

@@ -40,7 +40,7 @@ class XmlMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
     {
         $fileDriver = FileDriverFactory::getInstance($config);
 
-        $json  = json_encode(
+        $json = json_encode(
             simplexml_load_string(
                 $fileDriver->getFile($config)
             )
@@ -52,9 +52,7 @@ class XmlMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
         $jsonConfig->setConfigUrl('tmp');
         $jsonConfig->setDriver('CrudGenerator\MetaData\Driver\File\Web\WebDriverFactory');
 
-        $jsonMetadata = JsonMetaDataDAOFactory::getInstance($jsonConfig);
-
-        return new XmlMetaDataDAO($jsonMetadata);
+        return new XmlMetaDataDAO(JsonMetaDataDAOFactory::getInstance($jsonConfig));
     }
 
     /**

@@ -98,14 +98,14 @@ class QuestionRegister implements ParserInterface
         $firstIteration,
         array $process
     ) {
-        $question  = $this->questionAnalyser->checkIntegrity($question);
-        $isParsed  = false;
+        $question = $this->questionAnalyser->checkIntegrity($question);
+        $isParsed = false;
 
         foreach ($this->questionTypeCollection as $questionTypeParser) {
             /* @var $questionTypeParser \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeInterface */
             if ($question['type']->is($questionTypeParser->getType()) === true) {
                 $generator->getDto()->register($question, $questionTypeParser->isIterable($question));
-                $isParsed  = true;
+                $isParsed = true;
                 break;
             }
         }

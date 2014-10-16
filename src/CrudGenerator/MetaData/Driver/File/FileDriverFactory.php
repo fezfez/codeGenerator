@@ -36,7 +36,7 @@ class FileDriverFactory
 
         $driver = $driverFactory::getInstance();
 
-        if (in_array('CrudGenerator\MetaData\Driver\File\FileDriverInterface', class_implements($driver))) {
+        if (in_array('CrudGenerator\MetaData\Driver\File\FileDriverInterface', class_implements($driver)) === true) {
             return $driver;
         } else {
             throw new \Exception('Driver must be a file driver ' . json_encode(class_implements($driver)));

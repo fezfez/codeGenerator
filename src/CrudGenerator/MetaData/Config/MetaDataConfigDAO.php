@@ -203,7 +203,8 @@ class MetaDataConfigDAO
     private function isValid(DriverConfig $driverConfig)
     {
         $driverFactory = $driverConfig->getDriver();
-        $driver = $driverFactory::getInstance();
+        $driver        = $driverFactory::getInstance();
+
         $driver->isValid($driverConfig);
     }
 }

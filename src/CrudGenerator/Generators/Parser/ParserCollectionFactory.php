@@ -47,10 +47,10 @@ class ParserCollectionFactory
     public static function getInstance(ContextInterface $context)
     {
         if ($context instanceof CliContext || $context instanceof WebContext) {
-            $fileManager           = new FileManager();
-            $collection            = new ParserCollection();
-            $conditionValidation   = ConditionValidatorFactory::getInstance();
-            $iteratorValidator     = new IteratorValidator($conditionValidation);
+            $fileManager         = new FileManager();
+            $collection          = new ParserCollection();
+            $conditionValidation = ConditionValidatorFactory::getInstance();
+            $iteratorValidator   = new IteratorValidator($conditionValidation);
 
             $collection->addPreParse(
                            new QuestionRegister(

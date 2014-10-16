@@ -39,7 +39,7 @@ class DependencyCondition implements ConditionInterface
         }
 
         foreach ($nodes as $node) {
-            if (($this->differentCondition($dependencies, $node) ||
+            if (($this->differentCondition($dependencies, $node) === true ||
                 $this->equalCondition($dependencies, $node)) === false) {
                 return false;
             }
@@ -52,7 +52,7 @@ class DependencyCondition implements ConditionInterface
      * @param array $generatorDependencies
      * @param array $dependencyList
      * @param string $dependencyName
-     * @return array
+     * @return boolean
      */
     private function differentCondition(array $generatorDependencies, $dependencyName)
     {
@@ -74,7 +74,7 @@ class DependencyCondition implements ConditionInterface
      * @param array $generatorDependencies
      * @param array $dependencyList
      * @param string $dependencyName
-     * @return array
+     * @return boolean
      */
     private function equalCondition(array $generatorDependencies, $dependencyName)
     {

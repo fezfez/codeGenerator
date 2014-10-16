@@ -28,13 +28,24 @@ use CrudGenerator\MetaData\Driver\DriverInterface;
  */
 class PdoDriver implements DriverInterface
 {
-    CONST MYSQL = 'MySql';
-    CONST POSTGRESQL = 'PostgreSQL';
-    CONST ORACLE = 'Oracle';
+    /**
+     * @var string
+     */
+    const MYSQL = 'MySql';
+    /**
+     * @var string
+     */
+    const POSTGRESQL = 'PostgreSQL';
+    /**
+     * @var string
+     */
+    const ORACLE = 'Oracle';
 
     /**
      * @param DriverConfig $config
      * @throws ConfigException
+     * @throws \Exception
+     * @return \PDO
      */
     public function getConnection(DriverConfig $config)
     {
@@ -44,14 +55,16 @@ class PdoDriver implements DriverInterface
 
         try {
             if ($config->getResponse('dsn') === self::MYSQL) {
-                $dsn = 'mysql:host=' . $config->getResponse('configHost') . ';dbname=' . $config->getResponse('configDatabaseName');
+                $dsn  = 'mysql:host=' . $config->getResponse('configHost') . ';dbname=';
             } elseif ($config->getResponse('dsn') ===  self::POSTGRESQL) {
-                $dsn = 'pgsql:host=' . $config->getResponse('configHost') . ';dbname=' . $config->getResponse('configDatabaseName');
+                $dsn = 'pgsql:host=' . $config->getResponse('configHost') . ';dbname=';
             } elseif ($config->getResponse('dsn') === self::ORACLE) {
-                $dsn = '//' . $config->getResponse('configHost') . '/' . $config->getResponse('configDatabaseName');
+                $dsn = '//' . $config->getResponse('configHost') . '/';
             } else {
                 throw new \Exception('Dsn not found');
             }
+
+            $dsn .= $config->getResponse('configDatabaseName');
 
             return new \PDO(
                 $dsn,
@@ -66,6 +79,9 @@ class PdoDriver implements DriverInterface
         }
     }
 
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\Driver\DriverInterface::isValid()
+     */
     public function isValid(DriverConfig $driverConfig)
     {
         $this->getConnection($config);

@@ -5,9 +5,9 @@ module.exports = function (grunt) {
         requirejs: {
             js: {
                 options: {
-                	optimize : 'uglify2',
-                	preserveLicenseComments : false,
-                	inlineText : true,
+                    optimize : 'uglify2',
+                    preserveLicenseComments : false,
+                    inlineText : true,
                     findNestedDependencies : true,
                     name : 'App/Bootstrap',
                     baseUrl: 'web/assets/js',
@@ -37,14 +37,14 @@ module.exports = function (grunt) {
           }
         },
         uglify: {
-        	options: {
-        	      compress: {
-        	        global_defs: {
-        	          "DEBUG": false
-        	        },
-        	        dead_code: true
-        	      }
-        	    },
+            options: {
+                  compress: {
+                    global_defs: {
+                      "DEBUG": false
+                    },
+                    dead_code: true
+                  }
+                },
             my_target: {
               files: {
                 'web/assets/build/require.min.js': ['web/assets/js/Vendor/requirejs/require.js']

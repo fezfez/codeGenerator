@@ -18,6 +18,7 @@
 namespace CrudGenerator\MetaData\Sources;
 
 use CrudGenerator\MetaData\Driver\DriverConfig;
+
 /**
  * Metadata DAO cache
  *

@@ -63,7 +63,7 @@ class QuestionAnalyser
                     $question[$tag] = new $definition['enum']();
                 } else {
                     throw new \InvalidArgumentException(
-                    	sprintf('No default and no enum for %s %s', $tag, json_encode($definition))
+                        sprintf('No default and no enum for %s %s', $tag, json_encode($definition))
                     );
                 }
             } elseif (isset($definition['enum']) === true) {
@@ -102,7 +102,7 @@ class QuestionAnalyser
     private function parseIsType(array $questionDefinition, array $question)
     {
         foreach ($questionDefinition['isTypeIs'] as $type => $definition) {
-            if ($question['type']->is($type)) {
+            if ($question['type']->is($type) === true) {
                 foreach ($definition as $mandatory) {
                     if (isset($question[$mandatory]) === false) {
                         $this->throwException($question, $mandatory);

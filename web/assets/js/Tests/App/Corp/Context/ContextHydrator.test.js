@@ -5,9 +5,9 @@ define(
     describe('Testing ContextHydrator', function() {
 
         it('Should hydrate backendCollection and default response', function() {
-            var context = new Context(),
+            var context         = new Context(),
                 contextHydrator = new ContextHydrator(),
-                results = undefined;
+                results         = null;
 
             var backendQuestion = {
                 dtoAttribute : 'backend',
@@ -17,7 +17,7 @@ define(
 
             var rawData = {
                 question : [
-                    
+
                 ]
             };
 
@@ -29,9 +29,9 @@ define(
         });
         
         it('Should hydrate metadataCollection and default response', function() {
-            var context = new Context(),
+            var context         = new Context(),
                 contextHydrator = new ContextHydrator(),
-                results = undefined;
+                results         = null;
 
             var metadataQuestion = {
                 dtoAttribute : 'metadata',
@@ -41,7 +41,7 @@ define(
 
             var rawData = {
                 question : [
-                    
+
                 ]
             };
 
@@ -53,9 +53,9 @@ define(
         });
         
         it('Should hydrate generatorCollection and default response', function() {
-            var context = new Context(),
+            var context         = new Context(),
                 contextHydrator = new ContextHydrator(),
-                results = undefined;
+                results         = null;
 
             var generatorQuestion = {
                 dtoAttribute : 'generator',
@@ -65,7 +65,7 @@ define(
 
             var rawData = {
                 question : [
-                    
+
                 ]
             };
 
@@ -77,9 +77,9 @@ define(
         });
 
         it('Should create relation beetween backend and metadata', function() {
-            var context = new Context(),
+            var context         = new Context(),
                 contextHydrator = new ContextHydrator(),
-                results = undefined,
+                results         = null;
                 backendQuestion = {
                     dtoAttribute : 'backend',
                     values : [{id : 'my id', label : 'asource'}],
@@ -92,7 +92,7 @@ define(
                 },
                 rawData = {
                     question : [
-                        
+
                     ]
                 },
                 backendCollection = undefined;
@@ -120,19 +120,19 @@ define(
         });
 
         it('Should hydrate files', function() {
-            var context = new Context(),
+            var context         = new Context(),
                 contextHydrator = new ContextHydrator(),
-                results = undefined,
-                rawData = {
+                results         = null;
+                rawData         = {
                     files : [
                         {
                             fileName : 'test'
                         }
                     ]
                 };
-            
+
             results = contextHydrator.hydrate(rawData, context);
-            
+
             expect(results.getDirectories().getFiles()[0].getName()).toEqual('test');
         });
     });

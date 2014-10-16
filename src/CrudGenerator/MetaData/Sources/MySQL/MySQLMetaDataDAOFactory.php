@@ -42,7 +42,7 @@ class MySQLMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
         $pdoDriver = PdoDriverFactory::getInstance();
 
         return new MySQLMetaDataDAO(
-            $pdoDriver->getConnection($config, PdoDriver::MYSQL),
+            $pdoDriver->getConnection($config),
             $config
         );
     }

@@ -44,7 +44,7 @@ class OracleMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
         $pdoDriver = PdoDriverFactory::getInstance();
 
         return new OracleMetaDataDAO(
-            $pdoDriver->getConnection($config, PdoDriver::ORACLE)
+            $pdoDriver->getConnection($config)
         );
     }
 
