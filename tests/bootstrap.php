@@ -4,6 +4,7 @@
  */
 namespace CrudGenerator\Tests;
 
+use CrudGenerator\Utils\Installer;
 error_reporting(-1);
 ini_set('memory_limit', '512M');
 
@@ -37,3 +38,5 @@ spl_autoload_register(function($class) {
         }
     }
 });
+
+\CrudGenerator\Utils\Installer::install();
