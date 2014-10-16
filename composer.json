@@ -28,7 +28,7 @@
 		"sebastian/diff" : "1.2.*",
 		"psr/log" : "1.0.*",
 		"knpLabs/packagist-api" : "1.*",
-		"composer/composer" : "1.0.*@dev",
+		"composer/composer" : "dev-master",
 		"igorw/event-source" : "*",
 		"knplabs/github-api" : "~1.2",
 		"garoevans/php-enum" : "1.1.*",
