@@ -142,7 +142,7 @@ class MySQLMetaDataDAO implements MetaDataDAOInterface
         $statement->execute(
             array(
                 ':tableName' => $tableName,
-                ':databaseName' => $this->pdoConfig->getConfigDatabaseName()
+                ':databaseName' => $this->pdoConfig->getResponse('configDatabaseName')
             )
         );
 
