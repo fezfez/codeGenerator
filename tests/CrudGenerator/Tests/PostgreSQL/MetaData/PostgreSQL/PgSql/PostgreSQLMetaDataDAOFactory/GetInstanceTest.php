@@ -15,7 +15,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
             'CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAO',
-            PostgreSQLMetaDataDAOFactory::getInstance(PdoDriverFactory::getInstance(), $pdoConfig)
+            PostgreSQLMetaDataDAOFactory::getInstance($pdoConfig)
         );
     }
 }

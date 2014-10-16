@@ -70,7 +70,7 @@ class PostgreSQLMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
     public static function getDescription()
     {
         $pdoDriver = \CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory::getDescription();
-        $pdoDriver->getConfig()->response('dsn', \CrudGenerator\MetaData\Driver\Pdo\PdoDriver::ORACLE);
+        $pdoDriver->getConfig()->response('dsn', \CrudGenerator\MetaData\Driver\Pdo\PdoDriver::POSTGRESQL);
 
 
         $dataObject = new MetaDataSource();

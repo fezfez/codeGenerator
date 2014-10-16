@@ -13,7 +13,7 @@ class GetMetadataForTest extends \PHPUnit_Framework_TestCase
     {
         $PostgreSQLConfig = include __DIR__ . '/../config.php';
 
-        $suT = PostgreSQLMetaDataDAOFactory::getInstance(PdoDriverFactory::getInstance(), $PostgreSQLConfig);
+        $suT = PostgreSQLMetaDataDAOFactory::getInstance($PostgreSQLConfig);
 
         $this->assertInstanceOf(
             'CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL',
