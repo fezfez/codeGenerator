@@ -27,6 +27,7 @@ interface DriverInterface
     /**
      * @param DriverConfig $driverConfig
      * @throws ConfigException
+     * @return boolean
      */
     public function isValid(DriverConfig $driverConfig);
 }

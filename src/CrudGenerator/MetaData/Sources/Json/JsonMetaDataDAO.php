@@ -17,7 +17,6 @@
  */
 namespace CrudGenerator\MetaData\Sources\Json;
 
-use CrudGenerator\MetaData\Sources\Json\JsonConfig;
 use CrudGenerator\MetaData\Sources\Json\MetadataDataObjectJson;
 use CrudGenerator\MetaData\Sources\MetaDataDAOInterface;
 use CrudGenerator\MetaData\DataObject\MetaDataCollection;
@@ -46,6 +45,7 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
      * Constructor.
      * @param FileDriverInterface $jsonConfig
      * @param SchemaGenerator $schemaGenerator
+     * @param \CrudGenerator\MetaData\Driver\DriverConfig $config
      */
     public function __construct(FileDriverInterface $jsonConfig, $config, SchemaGenerator $schemaGenerator)
     {
@@ -189,7 +189,6 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
             $column->setNullable(!$propertie->getRequired());
             $column->setName($propertie->getName());
             $column->setType($propertie->getType());
-
 
             $metadata->appendColumn($column);
         }

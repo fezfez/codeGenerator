@@ -50,7 +50,6 @@ class DependencyCondition implements ConditionInterface
 
     /**
      * @param array $generatorDependencies
-     * @param array $dependencyList
      * @param string $dependencyName
      * @return boolean
      */
@@ -72,7 +71,6 @@ class DependencyCondition implements ConditionInterface
 
     /**
      * @param array $generatorDependencies
-     * @param array $dependencyList
      * @param string $dependencyName
      * @return boolean
      */

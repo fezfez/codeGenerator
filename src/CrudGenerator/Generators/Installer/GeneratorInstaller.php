@@ -43,7 +43,6 @@ class GeneratorInstaller implements GeneratorInstallerInterface
 
     /**
      * @param ArrayInput $input
-     * @param UpdateCommand $updateCommand
      * @param OutputWeb $output
      */
     public function __construct(

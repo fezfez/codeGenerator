@@ -3,7 +3,6 @@ namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\Iterator\Iterato
 
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
-use CrudGenerator\Utils\PhpStringParserFactory;
 use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidatorFactory;
 
 class RetrieveValidIterationTest extends \PHPUnit_Framework_TestCase

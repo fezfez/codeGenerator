@@ -7,7 +7,6 @@ use CrudGenerator\MetaData\DataObject\MetaDataCollection;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
-use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
 use CrudGenerator\MetaData\Driver\DriverConfig;
 
 class AskTest extends \PHPUnit_Framework_TestCase
@@ -61,6 +60,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $sUT->ask($source);
     }
 
+    /**
+     * @param string $class
+     */
     private function createMock($class)
     {
         return $this->getMockBuilder($class)
@@ -110,7 +112,6 @@ class AskTest extends \PHPUnit_Framework_TestCase
             $this->createMock('Symfony\Component\Console\Input\InputInterface'),
             $this->createMock('CrudGenerator\Command\CreateCommand')
         );
-
 
         $sUT = new MetaDataQuestion($metaDataSourceFactoryStub, $context);
 
@@ -206,7 +207,6 @@ class AskTest extends \PHPUnit_Framework_TestCase
             $this->createMock('Symfony\Component\Console\Input\InputInterface'),
             $this->createMock('CrudGenerator\Command\CreateCommand')
         );
-
 
         $sUT = new MetaDataQuestion($metaDataSourceFactoryStub, $context);
 

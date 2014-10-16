@@ -3,8 +3,6 @@ namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\Condition\Depend
 
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
-use CrudGenerator\Generators\Parser\GeneratorParser;
-use Symfony\Component\Yaml\Yaml;
 use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionInterface;
 use CrudGenerator\Utils\PhpStringParserFactory;
 

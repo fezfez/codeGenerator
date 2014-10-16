@@ -19,8 +19,6 @@ namespace CrudGenerator\FileConflict;
 
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\WebContext;
-use CrudGenerator\Context\CliContext;
 use SebastianBergmann\Diff\Differ;
 
 class FileConflictManagerFactory

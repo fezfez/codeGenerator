@@ -19,8 +19,6 @@ namespace CrudGenerator\Generators\Questions;
 
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\CliContext;
-use CrudGenerator\Context\WebContext;
 
 class DirectoryQuestionFactory
 {

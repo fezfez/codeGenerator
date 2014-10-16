@@ -93,7 +93,7 @@ class SimpleQuestion
     }
 
     /**
-     * @param mixed $value
+     * @param string|null $value
      * @return \CrudGenerator\Context\SimpleQuestion
      */
     public function setDefaultResponse($value)
@@ -115,7 +115,7 @@ class SimpleQuestion
     }
 
     /**
-     * @param mixed $value
+     * @param string $value
      * @return \CrudGenerator\Context\SimpleQuestion
      */
     public function setHelpMessage($value)
@@ -126,7 +126,7 @@ class SimpleQuestion
     }
 
     /**
-     * @param mixed $value
+     * @param string $value
      * @return \CrudGenerator\Context\SimpleQuestion
      */
     public function setType($value)

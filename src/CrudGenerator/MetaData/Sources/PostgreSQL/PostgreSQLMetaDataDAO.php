@@ -19,7 +19,6 @@ namespace CrudGenerator\MetaData\Sources\PostgreSQL;
 
 use PDO;
 use CrudGenerator\MetaData\Sources\MetaDataDAOInterface;
-use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
 use CrudGenerator\MetaData\Sources\PostgreSQL\SqlManager;
 use CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
 use CrudGenerator\MetaData\DataObject\MetaDataCollection;

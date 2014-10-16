@@ -31,7 +31,6 @@ class QuestionWithPredefinedResponse extends SimpleQuestion
     /**
      * @param string $text
      * @param string $uniqueKey
-     * @param PredefinedResponseCollection $responseContextCollection
      */
     public function __construct($text, $uniqueKey, PredefinedResponseCollection $predefinedResponseCollection)
     {
@@ -45,7 +44,7 @@ class QuestionWithPredefinedResponse extends SimpleQuestion
      * selected
      *
      * @param string $value
-     * @return \CrudGenerator\Context\QuestionContext
+     * @return QuestionWithPredefinedResponse
      */
     public function setPreselectedResponse($value)
     {

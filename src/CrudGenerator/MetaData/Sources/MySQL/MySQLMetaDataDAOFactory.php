@@ -17,10 +17,7 @@
  */
 namespace CrudGenerator\MetaData\Sources\MySQL;
 
-use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface;
 use CrudGenerator\MetaData\MetaDataSource;
-use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
-use CrudGenerator\MetaData\Sources\MetaDataDAOPdoFactoryInterface;
 use CrudGenerator\MetaData\Driver\Pdo\PdoDriver;
 use CrudGenerator\MetaData\Driver\DriverConfig;
 use CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory;

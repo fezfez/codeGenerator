@@ -46,7 +46,6 @@ class QuestionParser implements ParserInterface
 
     /**
      * @param ContextInterface $context
-     * @param ConditionValidator $dependencyCondition
      * @param QuestionTypeCollection $conditionValidator
      * @param QuestionAnalyser $questionAnalyser
      */

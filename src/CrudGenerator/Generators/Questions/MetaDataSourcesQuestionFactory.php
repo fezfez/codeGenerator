@@ -19,8 +19,6 @@ namespace CrudGenerator\Generators\Questions;
 
 use CrudGenerator\MetaData\MetaDataSourceFinderFactory;
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\CliContext;
-use CrudGenerator\Context\WebContext;
 
 class MetaDataSourcesQuestionFactory
 {

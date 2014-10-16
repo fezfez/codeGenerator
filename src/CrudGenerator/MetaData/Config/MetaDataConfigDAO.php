@@ -20,11 +20,8 @@ namespace CrudGenerator\MetaData\Config;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\ClassAwake;
-use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\MetaDataSourceHydrator;
 use CrudGenerator\MetaData\MetaDataSourceCollection;
-use ReflectionClass;
-use phpDocumentor\Reflection\DocBlock;
 use CrudGenerator\MetaData\Sources\MetadataConfig;
 use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Context\PredefinedResponseCollection;
@@ -72,7 +69,6 @@ class MetaDataConfigDAO
      * @param ClassAwake $classAwake
      * @param FileManager $fileManager
      * @param MetaDataSourceHydrator $metaDataSourceHydrator
-     * @param DocBlock $docBlock
      * @param ContextInterface $context
      */
     public function __construct(
@@ -134,7 +130,7 @@ class MetaDataConfigDAO
     }
 
     /**
-     * @param MetadataConfig $adapterConfig
+     * @param MetaDataSource $adapterConfig
      * @return boolean
      */
     public function save(MetaDataSource $adapterConfig)
@@ -149,7 +145,6 @@ class MetaDataConfigDAO
     }
 
     /**
-     * @param MetadataConfig $adapterConfig
      * @return $adapterConfig
      */
     public function ask(MetaDataSource $source)
@@ -197,8 +192,8 @@ class MetaDataConfigDAO
     }
 
     /**
-     * @param MetadataConfig $adapterConfig
-     * @return boolean
+     * @param MetadataConfig $driverConfig
+     * @return boolean|null
      */
     private function isValid(DriverConfig $driverConfig)
     {

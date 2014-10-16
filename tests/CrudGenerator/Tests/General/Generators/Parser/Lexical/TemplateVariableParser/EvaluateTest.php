@@ -3,7 +3,6 @@ namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\TemplateVariable
 
 use CrudGenerator\Generators\Parser\Lexical\TemplateVariableParser;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
 

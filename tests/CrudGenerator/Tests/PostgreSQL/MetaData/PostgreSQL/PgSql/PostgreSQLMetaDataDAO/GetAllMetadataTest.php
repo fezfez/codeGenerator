@@ -2,7 +2,6 @@
 namespace CrudGenerator\Tests\PostgreSQL\Sources\MetaData\PostgreSQL\PgSql\PostgreSQLMetaDataDAO;
 
 use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory;
-use CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory;
 
 /**
  * @requires extension pdo_pgsql

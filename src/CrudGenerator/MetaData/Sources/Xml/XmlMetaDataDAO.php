@@ -17,15 +17,8 @@
  */
 namespace CrudGenerator\MetaData\Sources\Xml;
 
-use CrudGenerator\MetaData\Sources\Json\JsonConfig;
-use CrudGenerator\MetaData\Sources\Json\MetadataDataObjectJson;
 use CrudGenerator\MetaData\Sources\MetaDataDAOInterface;
 use CrudGenerator\MetaData\DataObject\MetaDataCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataColumn;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
-use JSONSchema\SchemaGenerator;
 use CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAO;
 
 /**

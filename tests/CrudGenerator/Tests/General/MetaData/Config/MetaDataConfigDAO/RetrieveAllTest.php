@@ -4,7 +4,6 @@ namespace CrudGenerator\Tests\General\MetaData\Config\MetaDataConfigDAO;
 use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
 use CrudGenerator\Utils\ClassAwake;
 use CrudGenerator\MetaData\MetaDataSourceHydrator;
-use phpDocumentor\Reflection\DocBlock;
 
 class RetrieveAllTest extends \PHPUnit_Framework_TestCase
 {

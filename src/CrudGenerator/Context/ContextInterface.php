@@ -60,6 +60,7 @@ interface ContextInterface
      * @param string $text
      * @param string $uniqueKey
      * @param callable $runner
+     * @return void
      */
     public function menu($text, $uniqueKey, callable $runner);
 

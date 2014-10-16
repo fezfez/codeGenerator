@@ -18,8 +18,6 @@
 namespace CrudGenerator\History;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\CliContext;
-use CrudGenerator\Context\WebContext;
 use CrudGenerator\Generators\Questions\MetaDataSourcesConfiguredQuestionFactory;
 use CrudGenerator\Generators\Questions\MetaDataQuestionFactory;
 

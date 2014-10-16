@@ -3,7 +3,6 @@ namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\Condition\Enviro
 
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
-use Symfony\Component\Yaml\Yaml;
 use CrudGenerator\DataObject;
 use CrudGenerator\Utils\PhpStringParserFactory;
 

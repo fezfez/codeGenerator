@@ -17,7 +17,6 @@
  */
 namespace CrudGenerator\Command;
 
-use CrudGenerator\Context\CliContext;
 use Symfony\Component\Console\Application;
 
 /**
@@ -28,7 +27,6 @@ use Symfony\Component\Console\Application;
 class CreateCommandFactory
 {
     /**
-     * @param CliContext $context
      * @return \CrudGenerator\Command\CreateCommand
      */
     public static function getInstance(Application $application)

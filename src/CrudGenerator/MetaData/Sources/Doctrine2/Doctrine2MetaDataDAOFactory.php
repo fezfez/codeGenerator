@@ -21,9 +21,6 @@ use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\MetaData\MetaDataSource;
-use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface;
-use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
-use CrudGenerator\MetaData\Sources\MetaDataDAOCache;
 use CrudGenerator\MetaData\Sources\MetaDataDAOSimpleFactoryInterface;
 
 /**
@@ -35,7 +32,7 @@ class Doctrine2MetaDataDAOFactory implements MetaDataDAOSimpleFactoryInterface
 {
     /**
      * Create Doctrine2MetaDataDAO instance
-     * @return MetaDataDAOCache
+     * @return Doctrine2MetaDataDAO
      */
     public static function getInstance()
     {

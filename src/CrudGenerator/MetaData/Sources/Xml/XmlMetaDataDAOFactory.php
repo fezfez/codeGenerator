@@ -17,8 +17,6 @@
  */
 namespace CrudGenerator\MetaData\Sources\Xml;
 
-use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface;
-use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory;
 use CrudGenerator\MetaData\Driver\DriverConfig;
@@ -32,9 +30,9 @@ use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryConfigInterface;
 class XmlMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
 {
     /**
-     * @param MetaDataConfigInterface $config
+     * @param DriverConfig $config
      * @throws \InvalidArgumentException
-     * @return \CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAO
+     * @return XmlMetaDataDAO
      */
     public static function getInstance(DriverConfig $config)
     {

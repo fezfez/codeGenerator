@@ -17,9 +17,6 @@
  */
 namespace CrudGenerator\Generators\Parser\Lexical\Condition;
 
-use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Utils\PhpStringParser;
-
 class ConditionValidatorFactory
 {
     /**

@@ -40,6 +40,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $sUT->ask($metadata);
     }
 
+    /**
+     * @param string $class
+     */
     private function createMock($class)
     {
         return $this->getMockBuilder($class)

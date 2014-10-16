@@ -17,8 +17,6 @@
  */
 namespace CrudGenerator\MetaData\Driver\File\Web;
 
-use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
-use CrudGenerator\MetaData\Config\ConfigException;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\MetaData\Driver\DriverConfig;
 use CrudGenerator\MetaData\Driver\Driver;

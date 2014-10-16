@@ -45,7 +45,6 @@ class WebDriver implements FileDriverInterface, DriverInterface
     }
 
     /**
-     * @param DriverConfig $config
      * @throws ConfigException
      * @return string
      */

@@ -29,7 +29,7 @@ class PredefinedResponseCollection implements \IteratorAggregate
         $this->collection = new \ArrayIterator(array());
     }
     /**
-     * @param QuestionContext $value
+     * @param PredefinedResponse $value
      * @return \CrudGenerator\Context\PredefinedResponseCollection
      */
     public function append(PredefinedResponse $value)
@@ -40,7 +40,7 @@ class PredefinedResponseCollection implements \IteratorAggregate
     }
 
     /**
-     * @return ArrayIterator
+     * @return \ArrayIterator
      */
     public function getIterator()
     {

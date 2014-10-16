@@ -101,7 +101,6 @@ class EnvironnementParser implements ParserInterface
 
         $response = $this->context->askCollection($question);
 
-
         if ($response !== null) {
             $generator->addEnvironnementValue($environnementName, $response);
 

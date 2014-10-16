@@ -19,21 +19,14 @@ namespace CrudGenerator\Generators\Parser;
 
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\CliContext;
-use CrudGenerator\Context\WebContext;
 use CrudGenerator\Generators\Parser\Lexical\QuestionAnalyser;
 use CrudGenerator\Generators\Parser\Lexical\DirectoriesParser;
 use CrudGenerator\Generators\Parser\Lexical\FileParser;
 use CrudGenerator\Generators\Parser\Lexical\TemplateVariableParser;
 use CrudGenerator\Generators\Parser\Lexical\QuestionParser;
 use CrudGenerator\Generators\Parser\Lexical\EnvironnementParser;
-use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
-use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
-use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeCollection;
 use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeCollectionFactory;
-use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator;
 use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
-use CrudGenerator\Generators\Parser\Lexical\Condition\SimpleCondition;
 use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidatorFactory;
 use CrudGenerator\Generators\Parser\Lexical\QuestionRegister;
 

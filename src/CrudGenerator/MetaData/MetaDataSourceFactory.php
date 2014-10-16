@@ -17,7 +17,6 @@
  */
 namespace CrudGenerator\MetaData;
 
-use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\Sources\MetaDataDAOCache;
 use CrudGenerator\Utils\Installer;
 use CrudGenerator\MetaData\Driver\DriverConfig;

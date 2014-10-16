@@ -17,11 +17,7 @@
  */
 namespace CrudGenerator\MetaData\Sources\Oracle;
 
-use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface;
 use CrudGenerator\MetaData\MetaDataSource;
-use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
-use CrudGenerator\MetaData\Sources\Oracle\OracleConfig;
-use CrudGenerator\MetaData\Sources\MetaDataDAOPdoFactoryInterface;
 use CrudGenerator\MetaData\Driver\Pdo\PdoDriver;
 use CrudGenerator\MetaData\Driver\DriverConfig;
 use CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory;
@@ -36,7 +32,7 @@ class OracleMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
     /**
      * Create PDO Metadata DAO instance
      *
-     * @param MetaDataConfigInterface $config
+     * @param DriverConfig $config
      * @return OracleMetaDataDAO
      */
     public static function getInstance(DriverConfig $config)

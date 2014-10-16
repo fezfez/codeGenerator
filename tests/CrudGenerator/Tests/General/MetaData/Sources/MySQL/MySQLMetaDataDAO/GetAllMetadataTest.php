@@ -2,8 +2,6 @@
 namespace CrudGenerator\Tests\General\MetaData\Sources\MySQL\MySQLMetaDataDAO;
 
 use CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory;
-use CrudGenerator\MetaData\Driver\Web\WebDriverFactory;
-use CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory;
 
 /**
  * @requires extension pdo_mysql

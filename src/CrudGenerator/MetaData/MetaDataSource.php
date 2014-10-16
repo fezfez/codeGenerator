@@ -101,7 +101,7 @@ class MetaDataSource implements \JsonSerializable
     }
     /**
      * Set config
-     * @param MetaDataConfigInterface $value
+     * @param DriverConfig $value
      * @return \CrudGenerator\MetaData\MetaDataSource
      */
     public function setConfig(DriverConfig $value)

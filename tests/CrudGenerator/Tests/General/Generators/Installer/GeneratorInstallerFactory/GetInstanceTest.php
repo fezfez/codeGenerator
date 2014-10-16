@@ -11,7 +11,6 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-
         $this->assertInstanceOf(
             'CrudGenerator\Generators\Installer\GeneratorInstaller',
             GeneratorInstallerFactory::getInstance($context)

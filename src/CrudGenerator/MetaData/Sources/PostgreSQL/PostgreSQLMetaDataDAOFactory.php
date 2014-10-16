@@ -18,11 +18,7 @@
 namespace CrudGenerator\MetaData\Sources\PostgreSQL;
 
 use CrudGenerator\MetaData\Sources\PostgreSQL\SqlManager;
-use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface;
 use CrudGenerator\MetaData\MetaDataSource;
-use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
-use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLConfig;
-use CrudGenerator\MetaData\Sources\MetaDataDAOPdoFactoryInterface;
 use CrudGenerator\MetaData\Driver\Pdo\PdoDriver;
 use CrudGenerator\MetaData\Driver\DriverConfig;
 use CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory;
@@ -71,7 +67,6 @@ class PostgreSQLMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
     {
         $pdoDriver = \CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory::getDescription();
         $pdoDriver->getConfig()->response('dsn', \CrudGenerator\MetaData\Driver\Pdo\PdoDriver::POSTGRESQL);
-
 
         $dataObject = new MetaDataSource();
         $dataObject->setDefinition("PostgreSQL")

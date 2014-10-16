@@ -41,7 +41,6 @@ class CommandDefinition
      */
     private $runner = null;
 
-
     /**
      * @param string $value
      * @return \CrudGenerator\Command\CommandDefinition

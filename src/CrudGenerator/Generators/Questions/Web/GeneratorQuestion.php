@@ -21,7 +21,6 @@ use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
-use CrudGenerator\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Generators\Finder\GeneratorFinderInterface;
 use CrudGenerator\MetaData\DataObject\MetaDataInterface;
 

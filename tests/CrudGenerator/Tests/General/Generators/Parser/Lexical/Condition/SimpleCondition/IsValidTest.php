@@ -2,9 +2,6 @@
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\Condition\SimpleCondition;
 
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
-use CrudGenerator\Generators\Parser\GeneratorParser;
-use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionInterface;
 use CrudGenerator\Utils\PhpStringParserFactory;
 use CrudGenerator\Generators\Parser\Lexical\Condition\SimpleCondition;
 

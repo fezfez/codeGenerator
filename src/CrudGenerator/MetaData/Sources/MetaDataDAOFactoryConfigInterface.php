@@ -17,7 +17,6 @@
  */
 namespace CrudGenerator\MetaData\Sources;
 
-use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Driver\DriverConfig;
 
 /**

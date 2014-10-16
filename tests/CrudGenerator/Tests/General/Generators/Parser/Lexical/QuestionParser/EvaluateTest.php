@@ -3,7 +3,6 @@ namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\QuestionParser;
 
 use CrudGenerator\Generators\Parser\Lexical\QuestionParser;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\DataObject;
 use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
 use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeCollectionFactory;

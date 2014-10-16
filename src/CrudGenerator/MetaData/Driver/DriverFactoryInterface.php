@@ -25,9 +25,12 @@ namespace CrudGenerator\MetaData\Driver;
 interface DriverFactoryInterface
 {
     /**
-     * @param AbstractConnectorConfig $config
      * @throws ConfigException
      */
     public static function getInstance();
+
+    /**
+     * @return Driver
+     */
     public static function getDescription();
 }

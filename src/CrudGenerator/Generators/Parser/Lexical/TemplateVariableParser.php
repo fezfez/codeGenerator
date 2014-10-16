@@ -59,7 +59,7 @@ class TemplateVariableParser implements ParserInterface
     }
 
     /**
-     * @param array $variables
+     * @param array $variable
      * @param PhpStringParser $parser
      * @param GeneratorDataObject $generator
      * @param boolean $firstIteration

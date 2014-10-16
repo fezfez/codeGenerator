@@ -17,14 +17,10 @@
  */
 namespace CrudGenerator\MetaData\Sources\Json;
 
-use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface;
-use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\MetaDataSource;
 use JSONSchema\SchemaGeneratorFactory;
-use CrudGenerator\MetaData\Driver\File\Web\WebDriver;
 use CrudGenerator\MetaData\Driver\DriverConfig;
 use CrudGenerator\MetaData\Driver\File\Web\WebDriverFactory;
-use CrudGenerator\MetaData\Sources\MetaDataDAOSimpleFactoryInterface;
 use CrudGenerator\MetaData\Driver\File\FileDriverFactory;
 use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryConfigInterface;
 
@@ -35,7 +31,7 @@ use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryConfigInterface;
 class JsonMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
 {
     /**
-     * @param MetaDataConfigInterface $config
+     * @param DriverConfig $config
      * @throws \InvalidArgumentException
      * @return \CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAO
      */

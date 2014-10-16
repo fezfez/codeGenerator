@@ -18,8 +18,6 @@
 namespace CrudGenerator;
 
 use CrudGenerator\MetaData\DataObject\MetaDataInterface;
-use CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum;
-use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
 use CrudGenerator\Storage\StorageString;
 use CrudGenerator\Storage\StorageArray;
 

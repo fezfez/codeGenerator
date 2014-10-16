@@ -89,7 +89,6 @@ class QuestionTypeIteratorWithPredefinedResponse implements QuestionTypeInterfac
             )->setRequired($question['required'])
              ->setResponseType($question['iteration']['response']['type']);
 
-
             $response = $this->context->askCollection($questionWithPredefinedResponse);
 
             $questionName = $question['setter'];

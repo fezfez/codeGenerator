@@ -39,7 +39,7 @@ class Driver
 
     /**
      * @param string $value
-     * @return \CrudGenerator\MetaData\Connector\Connector
+     * @return Driver
      */
     public function setDefinition($value)
     {
@@ -48,7 +48,7 @@ class Driver
     }
     /**
      * @param string $value
-     * @return \CrudGenerator\MetaData\Connector\Connector
+     * @return Driver
      */
     public function setConfig($value)
     {
@@ -57,7 +57,7 @@ class Driver
     }
     /**
      * @param string $value
-     * @return \CrudGenerator\MetaData\Connector\Connector
+     * @return Driver
      */
     public function setUniqueName($value)
     {
