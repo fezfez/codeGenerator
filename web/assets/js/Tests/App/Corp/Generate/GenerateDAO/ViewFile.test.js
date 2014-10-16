@@ -2,12 +2,13 @@ define(function(require) {
     'use strict';
 
     var angular           = require('Angular'),
-        mock              = require('AngularMock'),
         Context           = require('Corp/Context/Context'),
         GenerateDAO       = require('Corp/Generate/GenerateDAO'),
         ConflictHydrator  = require('Corp/Conflict/ConflictHydrator'),
         ContextHydrator   = require('Corp/Context/ContextHydrator'),
         FileDataObject    = require('Corp/File/FileDataObject');
+
+    require('AngularMock');
 
     describe('Testing Corp/Generate/GenerateDAO method viewFile', function() {
 

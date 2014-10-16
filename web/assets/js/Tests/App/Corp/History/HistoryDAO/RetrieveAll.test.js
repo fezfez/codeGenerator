@@ -2,11 +2,11 @@ define(function(require) {
     'use strict';
 
     var angular              = require('Angular'),
-        mock                 = require('AngularMock'),
-        Context              = require('Corp/Context/Context'),
         HistoryDAO           = require('Corp/History/HistoryDAO'),
         HistoryHydrator      = require('Corp/History/HistoryHydrator'),
         HistoryCollectionDTO = require('Corp/History/HistoryCollectionDTO');
+
+    require('AngularMock');
 
     describe('Testing Corp/History/HistoryDAO method retriveAll', function() {
 

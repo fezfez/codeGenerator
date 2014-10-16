@@ -2,10 +2,10 @@ define(function(require) {
     //'use strict';
 
     var angular           = require('Angular'),
-        mock              = require('AngularMock'),
         Context           = require('Corp/Context/Context'),
-        SourceDAO         = require('Corp/Source/SourceDAO'),
-        GeneratorHydrator = require('Corp/Generator/GeneratorHydrator');
+        SourceDAO         = require('Corp/Source/SourceDAO');
+
+    require('AngularMock');
 
     describe('Testing Corp/Source/SourceDAO/Config.test', function() {
 

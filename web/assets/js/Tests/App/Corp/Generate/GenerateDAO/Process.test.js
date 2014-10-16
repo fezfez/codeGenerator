@@ -1,16 +1,17 @@
 define(function(require) {
-	'use strict';
+    'use strict';
 
     var angular           = require('Angular'),
-        mock              = require('AngularMock'),
         Context           = require('Corp/Context/Context'),
         GenerateDAO       = require('Corp/Generate/GenerateDAO'),
         ConflictHydrator  = require('Corp/Conflict/ConflictHydrator'),
         ContextHydrator   = require('Corp/Context/ContextHydrator');
 
+    require('AngularMock');
+
     describe('Testing Corp/Generate/GenerateDAO method process', function() {
 
-    	var httpBackend, q, generatorHydrator, contextHydrator, generateDAO;
+        var httpBackend, q, generatorHydrator, contextHydrator, generateDAO;
 
         beforeEach((function() {
             angular.mock.module('GeneratorApp');
@@ -22,21 +23,21 @@ define(function(require) {
                 generateDAO = new GenerateDAO($injector.get('$http'), q, generatorHydrator, contextHydrator);
             });
         }));
-        
+
         it('Should throw exception on wrong context type', function() {
             expect(function() {
                 generateDAO.process('im wrong', false).then(function(context) {}, function(error) {});
             }).toThrow();
         });
-        
+
         it('Should set metadatanocache to true if undefined', function() {
-        	httpBackend.expectPOST('generator').respond(200, '');
+            httpBackend.expectPOST('generator').respond(200, '');
             generateDAO.process(new Context(), undefined).then(function(context) {}, function(error) {});
         });
-        
+
         it('Should throw exception on wrong metadata_nocache type', function() {
             expect(function() {
-            	generateDAO.process(new Context(), 'im wrong').then(function(context) {}, function(error) {});
+                generateDAO.process(new Context(), 'im wrong').then(function(context) {}, function(error) {});
             }).toThrow();
         });
 

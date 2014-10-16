@@ -1,5 +1,5 @@
 require(['App/App', 'Corp/Source/SourceDTO', 'JQuery'], function(app, SourceDTO) {
-    "use strict";
+    'use strict';
 
     var modalURL = __BASEPATH__ + 'assets/js/App/Template/newSource.html';
 

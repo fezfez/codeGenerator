@@ -11,7 +11,7 @@ module.exports = function (grunt) {
                     findNestedDependencies : true,
                     name : 'App/Bootstrap',
                     baseUrl: 'web/assets/js',
-                    mainConfigFile: "web/assets/js/App/Bootstrap.js",
+                    mainConfigFile: 'web/assets/js/App/Bootstrap.js',
                     out: 'web/assets/build/script.js',
                     generateSourceMaps: true
                 }
@@ -40,7 +40,7 @@ module.exports = function (grunt) {
             options: {
                   compress: {
                     global_defs: {
-                      "DEBUG": false
+                      'DEBUG': false
                     },
                     dead_code: true
                   }

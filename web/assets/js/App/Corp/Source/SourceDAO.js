@@ -1,8 +1,7 @@
 define(function (require) {
-    "use strict";
+    'use strict';
 
-    var Context        = require('Corp/Context/Context'),
-        SourceHydrator = require('Corp/Source/SourceHydrator'),
+    var SourceHydrator = require('Corp/Source/SourceHydrator'),
         _              = {};
 
     /*

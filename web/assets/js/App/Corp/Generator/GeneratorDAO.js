@@ -1,11 +1,10 @@
 define(function(require) {
     'use strict';
 
-    var app               = require('App/App'),
-        Context           = require('Corp/Context/Context'),
-        GeneratorHydrator = require('Corp/Generator/GeneratorHydrator'),
+    var GeneratorHydrator = require('Corp/Generator/GeneratorHydrator'),
         GeneratorDto      = require('Corp/Generator/GeneratorDto'),
         _                 = {};
+
     /**
      * @module GeneratorService
      */

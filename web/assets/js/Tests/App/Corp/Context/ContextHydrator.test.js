@@ -115,7 +115,7 @@ define(
         it('Should hydrate files', function() {
             var context         = new Context(),
                 contextHydrator = new ContextHydrator(),
-                results         = null;
+                results         = null,
                 rawData         = {
                     files : [
                         {
