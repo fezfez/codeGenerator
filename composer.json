@@ -21,10 +21,7 @@
 	"require" : {
 		"php" : ">=5.4",
 		"fzaninotto/faker" : "1.4.*",
-		"silex/silex" : "1.2.*",
-		"twig/twig" : "1.16.*",
 		"symfony/console" : "2.5.*",
-		"symfony/twig-bridge" : "2.5.*",
 		"sebastian/diff" : "1.2.*",
 		"psr/log" : "1.0.*",
 		"knpLabs/packagist-api" : "1.*",
@@ -38,7 +35,6 @@
 	"require-dev" : {
 		"zendframework/zendframework" : "2.3.*",
 		"doctrine/doctrine-orm-module" : "0.*",
-		"silex/web-profiler" : "1.0.*",
 		"phpunit/phpunit" : "4.2.*"
 	},
 	"autoload" : {
@@ -52,13 +48,7 @@
 		"issues" : "https://github.com/fezfez/codeGenerator/issues",
 		"wiki" : "https://github.com/fezfez/codeGenerator/blob/master/README.md"
 	},
-	"extra" : {
-		"branch-alias" : {
-			"alpha-1" : "0.1.x-dev"
-		}
-	},
 	"bin" : [
-		"bin/code-generator",
-		"bin/code-generator-web.php"
+		"bin/code-generator"
 	]
 }

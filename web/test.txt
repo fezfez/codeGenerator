@@ -1,2 +1,0 @@
-For use this adapter you to config it before
-Choose a "databaseName" : 
