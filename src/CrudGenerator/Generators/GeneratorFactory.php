@@ -38,18 +38,12 @@ class GeneratorFactory
      */
     public static function getInstance(ContextInterface $context, StrategyInterface $strategy)
     {
-        $fileManager = new FileManager();
-
-        if ($context instanceof CliContext || $context instanceof WebContext) {
-            return new Generator(
-                $strategy,
-                FileConflictManagerFactory::getInstance($context),
-                $fileManager,
-                HistoryFactory::getInstance($context),
-                $context
-            );
-        } else {
-            throw new \InvalidArgumentException('Context "' . get_class($context) . '" not supported');
-        }
+        return new Generator(
+            $strategy,
+            FileConflictManagerFactory::getInstance($context),
+            new FileManager(),
+            HistoryFactory::getInstance($context),
+            $context
+        );
     }
 }

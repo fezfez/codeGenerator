@@ -16,24 +16,4 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
             GeneratorStrategyFactory::getInstance($context)
         );
     }
-
-    public function testInstanceWeb()
-    {
-        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $this->assertInstanceOf(
-            'CrudGenerator\Generators\Strategies\GeneratorStrategy',
-            GeneratorStrategyFactory::getInstance($context)
-        );
-    }
-
-    public function testFail()
-    {
-        $context = $this->getMockForAbstractClass('CrudGenerator\Context\ContextInterface');
-
-        $this->setExpectedException('InvalidArgumentException');
-
-        GeneratorStrategyFactory::getInstance($context);
-    }
 }

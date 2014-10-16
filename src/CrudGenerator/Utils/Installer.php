@@ -25,16 +25,17 @@ namespace CrudGenerator\Utils;
 class Installer
 {
     /**
+     * @var string
+     */
+    const CACHE_PATH = 'data/crudGenerator/cache/';
+
+    /**
      * @return array
      */
     public static function getDirectories()
     {
-        $app = array();
-
-        require __DIR__.'/../../../silex/resources/config/prod.php';
-
         $directoriestoCreate = array(
-            'Cache'   => $app['cache.path'],
+            'Cache'   => self::CACHE_PATH,
             'History' => \CrudGenerator\History\HistoryManager::HISTORY_PATH,
             'Config'  => \CrudGenerator\MetaData\Config\MetaDataConfigDAO::PATH
         );

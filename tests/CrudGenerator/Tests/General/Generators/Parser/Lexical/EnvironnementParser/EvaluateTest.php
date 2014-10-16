@@ -10,7 +10,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
     public function testEnvironnementMalFormed()
     {
-        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -36,7 +36,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testEnvironnementfzefzefzef()
     {
-        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
         $context->expects($this->exactly(3))

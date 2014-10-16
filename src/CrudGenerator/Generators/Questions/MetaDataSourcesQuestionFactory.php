@@ -33,10 +33,6 @@ class MetaDataSourcesQuestionFactory
     {
         $metadataSourceFinder = MetaDataSourceFinderFactory::getInstance();
 
-        if ($context instanceof CliContext || $context instanceof WebContext) {
-            return new Web\MetaDataSourcesQuestion($metadataSourceFinder, $context);
-        } else {
-            throw new \InvalidArgumentException('Invalid context given');
-        }
+        return new Web\MetaDataSourcesQuestion($metadataSourceFinder, $context);
     }
 }

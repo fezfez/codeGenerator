@@ -19,7 +19,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 
     public function testInstanceWeb()
     {
-        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
 

@@ -33,10 +33,6 @@ class MetaDataSourcesConfiguredQuestionFactory
     {
         $metadataSourceConfigDAO = MetaDataConfigDAOFactory::getInstance($context);
 
-        if ($context instanceof CliContext || $context instanceof WebContext) {
-            return new Web\MetaDataSourcesConfiguredQuestion($metadataSourceConfigDAO, $context);
-        } else {
-            throw new \InvalidArgumentException('Invalid context given');
-        }
+        return new Web\MetaDataSourcesConfiguredQuestion($metadataSourceConfigDAO, $context);
     }
 }

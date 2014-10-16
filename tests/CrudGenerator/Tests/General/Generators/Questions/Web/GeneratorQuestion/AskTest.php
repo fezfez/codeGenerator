@@ -24,8 +24,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
                             )
                         );
 
-        $request = new \Symfony\Component\HttpFoundation\Request();
-        $context =  new \CrudGenerator\Context\WebContext($request);
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
+        ->disableOriginalConstructor()
+        ->getMock();
 
         $sUT = new GeneratorQuestion($sourceFinderStub, $context);
 

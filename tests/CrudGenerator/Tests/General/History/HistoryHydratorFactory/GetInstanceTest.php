@@ -16,13 +16,4 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
             HistoryHydratorFactory::getInstance($context)
         );
     }
-
-    public function testFail()
-    {
-        $context = $this->getMockForAbstractClass('CrudGenerator\Context\ContextInterface');
-
-        $this->setExpectedException('InvalidArgumentException');
-
-        HistoryHydratorFactory::getInstance($context);
-    }
 }

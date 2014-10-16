@@ -38,13 +38,9 @@ class HistoryFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-        if ($context instanceof CliContext || $context instanceof WebContext) {
-            $fileManager     = new FileManager();
-            $historyHydrator = HistoryHydratorFactory::getInstance($context);
+        $fileManager     = new FileManager();
+        $historyHydrator = HistoryHydratorFactory::getInstance($context);
 
-            return new HistoryManager($fileManager, $historyHydrator);
-        } else {
-            throw new \InvalidArgumentException('not supported');
-        }
+        return new HistoryManager($fileManager, $historyHydrator);
     }
 }

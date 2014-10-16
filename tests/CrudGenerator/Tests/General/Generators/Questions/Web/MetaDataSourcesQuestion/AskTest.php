@@ -34,8 +34,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->method('getAllAdapters')
         ->will($this->returnValue($metadataSourceCollection));
 
-        $request = new \Symfony\Component\HttpFoundation\Request();
-        $context = new \CrudGenerator\Context\WebContext($request);
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
+        ->disableOriginalConstructor()
+        ->getMock();
 
         $sUT = new MetaDataSourcesQuestion($sourceFinderStub, $context);
 
@@ -70,7 +71,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->method('getAllAdapters')
         ->will($this->returnValue($metadataSourceCollection));
 
-        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -108,8 +109,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->method('getAllAdapters')
         ->will($this->returnValue($metadataSourceCollection));
 
-        $request = new \Symfony\Component\HttpFoundation\Request();
-        $context = new \CrudGenerator\Context\WebContext($request);
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
+        ->disableOriginalConstructor()
+        ->getMock();
 
         $sUT = new MetaDataSourcesQuestion($sourceFinderStub, $context);
 

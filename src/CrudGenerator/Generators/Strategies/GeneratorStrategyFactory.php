@@ -42,19 +42,10 @@ class GeneratorStrategyFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-        if ($context instanceof CliContext || $context instanceof WebContext) {
-            if (self::$instance === null) {
-                self::$instance = new GeneratorStrategy(ViewFactory::getInstance());
-            }
-
-            return self::$instance;
-        } else {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Context "%s" not supported',
-                    get_class($context)
-                )
-            );
+        if (self::$instance === null) {
+            self::$instance = new GeneratorStrategy(ViewFactory::getInstance());
         }
+
+        return self::$instance;
     }
 }

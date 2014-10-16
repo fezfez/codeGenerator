@@ -46,36 +46,32 @@ class ParserCollectionFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-        if ($context instanceof CliContext || $context instanceof WebContext) {
-            $fileManager         = new FileManager();
-            $collection          = new ParserCollection();
-            $conditionValidation = ConditionValidatorFactory::getInstance();
-            $iteratorValidator   = new IteratorValidator($conditionValidation);
+        $fileManager         = new FileManager();
+        $collection          = new ParserCollection();
+        $conditionValidation = ConditionValidatorFactory::getInstance();
+        $iteratorValidator   = new IteratorValidator($conditionValidation);
 
-            $collection->addPreParse(
-                           new QuestionRegister(
-                               $context,
-                               $conditionValidation,
-                               QuestionTypeCollectionFactory::getInstance($context),
-                               new QuestionAnalyser()
-                           )
+        $collection->addPreParse(
+                       new QuestionRegister(
+                           $context,
+                           $conditionValidation,
+                           QuestionTypeCollectionFactory::getInstance($context),
+                           new QuestionAnalyser()
                        )
-                       ->addPreParse(new EnvironnementParser($context))
-                       ->addPostParse(new TemplateVariableParser($conditionValidation))
-                       ->addPostParse(new DirectoriesParser())
-                       ->addPostParse(new FileParser($fileManager, $conditionValidation, $iteratorValidator))
-                       ->addPostParse(
-                           new QuestionParser(
-                               $context,
-                               $conditionValidation,
-                               QuestionTypeCollectionFactory::getInstance($context),
-                               new QuestionAnalyser()
-                           )
-                       );
+                   )
+                   ->addPreParse(new EnvironnementParser($context))
+                   ->addPostParse(new TemplateVariableParser($conditionValidation))
+                   ->addPostParse(new DirectoriesParser())
+                   ->addPostParse(new FileParser($fileManager, $conditionValidation, $iteratorValidator))
+                   ->addPostParse(
+                       new QuestionParser(
+                           $context,
+                           $conditionValidation,
+                           QuestionTypeCollectionFactory::getInstance($context),
+                           new QuestionAnalyser()
+                       )
+                   );
 
-            return $collection;
-        } else {
-            throw new \InvalidArgumentException('Invalid context');
-        }
+        return $collection;
     }
 }

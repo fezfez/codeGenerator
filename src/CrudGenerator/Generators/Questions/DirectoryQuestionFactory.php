@@ -31,10 +31,6 @@ class DirectoryQuestionFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-        if ($context instanceof CliContext || $context instanceof WebContext) {
-            return new Web\DirectoryQuestion(new FileManager(), $context);
-        } else {
-            throw new \InvalidArgumentException('Invalid context given');
-        }
+        return new Web\DirectoryQuestion(new FileManager(), $context);
     }
 }

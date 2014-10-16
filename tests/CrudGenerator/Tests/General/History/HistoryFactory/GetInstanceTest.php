@@ -16,13 +16,4 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
             HistoryFactory::getInstance($context)
         );
     }
-
-    public function testFail()
-    {
-        $context = $this->getMockForAbstractClass('CrudGenerator\Context\ContextInterface');
-
-        $this->setExpectedException('InvalidArgumentException');
-
-        HistoryFactory::getInstance($context);
-    }
 }

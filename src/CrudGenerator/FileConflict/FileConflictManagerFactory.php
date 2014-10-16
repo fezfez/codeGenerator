@@ -32,14 +32,10 @@ class FileConflictManagerFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-        if ($context instanceof CliContext || $context instanceof WebContext) {
-            return new FileConflictManager(
-                $context,
-                new FileManager(),
-                new Differ()
-            );
-        } else {
-            throw new \InvalidArgumentException('Context "' . get_class($context) . '" not allowed');
-        }
+        return new FileConflictManager(
+            $context,
+            new FileManager(),
+            new Differ()
+        );
     }
 }

@@ -31,11 +31,7 @@ class HistoryQuestionFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-        if ($context instanceof CliContext || $context instanceof WebContext) {
-            $historyManager = HistoryFactory::getInstance($context);
-            return new Cli\HistoryQuestion($historyManager, $context);
-        } else {
-            throw new \InvalidArgumentException('Context "' . get_class($context) . '" not supported');
-        }
+        $historyManager = HistoryFactory::getInstance($context);
+        return new Cli\HistoryQuestion($historyManager, $context);
     }
 }

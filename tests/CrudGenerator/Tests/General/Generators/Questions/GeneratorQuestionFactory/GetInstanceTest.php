@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\General\Command\Questions\GeneratorQuestion;
+namespace CrudGenerator\Tests\General\Generators\Questions\GeneratorQuestionFactory;
 
 use CrudGenerator\Generators\Questions\GeneratorQuestionFactory;
 
@@ -15,26 +15,5 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
             'CrudGenerator\Generators\Questions\Web\GeneratorQuestion',
             GeneratorQuestionFactory::getInstance($context)
         );
-    }
-
-    public function testInstanceWeb()
-    {
-        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $this->assertInstanceOf(
-            'CrudGenerator\Generators\Questions\Web\GeneratorQuestion',
-            GeneratorQuestionFactory::getInstance($context)
-        );
-    }
-
-    public function testFailContext()
-    {
-        $context = $this->getMockForAbstractClass('CrudGenerator\Context\ContextInterface');
-
-        $this->setExpectedException('InvalidArgumentException');
-
-        GeneratorQuestionFactory::getInstance($context);
     }
 }

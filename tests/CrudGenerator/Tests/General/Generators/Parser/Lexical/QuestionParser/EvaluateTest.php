@@ -20,7 +20,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -56,7 +56,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -98,7 +98,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
 

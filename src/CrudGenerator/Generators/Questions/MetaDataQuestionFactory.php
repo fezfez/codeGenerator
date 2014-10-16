@@ -31,10 +31,6 @@ class MetaDataQuestionFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-        if ($context instanceof WebContext || $context instanceof CliContext) {
-            return new Web\MetaDataQuestion(new MetaDataSourceFactory(), $context);
-        } else {
-            throw new \InvalidArgumentException('Invalid context given');
-        }
+        return new Web\MetaDataQuestion(new MetaDataSourceFactory(), $context);
     }
 }

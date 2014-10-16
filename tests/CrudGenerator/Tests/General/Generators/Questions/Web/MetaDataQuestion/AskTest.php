@@ -47,8 +47,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
              ->with($this->equalTo($source->getMetadataDaoFactory()),$this->equalTo(null))
              ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
-        $request = new \Symfony\Component\HttpFoundation\Request();
-        $context = new \CrudGenerator\Context\WebContext($request);
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
+        ->disableOriginalConstructor()
+        ->getMock();
 
         $sUT = new MetaDataQuestion($metaDataSourceFactoryStub, $context);
 
@@ -93,8 +94,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->with($this->equalTo($source->getMetadataDaoFactory()),$this->equalTo($config))
         ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
-        $request = new \Symfony\Component\HttpFoundation\Request();
-        $context = new \CrudGenerator\Context\WebContext($request);
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
+        ->disableOriginalConstructor()
+        ->getMock();
 
         $sUT = new MetaDataQuestion($metaDataSourceFactoryStub, $context);
 
@@ -137,7 +139,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->with($this->equalTo($source->getMetadataDaoFactory()),$this->equalTo(null))
         ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
-        $context = $this->getMockBuilder('CrudGenerator\Context\WebContext')
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -184,8 +186,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->with($this->equalTo($source->getMetadataDaoFactory()),$this->equalTo(null))
         ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
-        $request = new \Symfony\Component\HttpFoundation\Request();
-        $context =  new \CrudGenerator\Context\WebContext($request);
+        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
+        ->disableOriginalConstructor()
+        ->getMock();
 
         $sUT = new MetaDataQuestion($metaDataSourceFactoryStub, $context);
 
