@@ -15,7 +15,7 @@ define(function() {
                 conflictDTO          = {};
                 conflictDTO.fileName = fileName;
                 conflictDTO.line     = [];
-                items                = data.diff.split("\n");
+                items                = data.diff.split('\n');
 
                 items.forEach(function(line) {
                     lineDTO         = {};

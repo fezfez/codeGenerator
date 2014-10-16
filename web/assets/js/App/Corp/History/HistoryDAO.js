@@ -1,5 +1,5 @@
 define(function (require) {
-    "use strict";
+    'use strict';
 
     var Context         = require('Corp/Context/Context'),
         HistoryHydrator = require('Corp/History/HistoryHydrator'),
@@ -13,7 +13,7 @@ define(function (require) {
      */
     function HistoryDAO($http, $q, historyHydrator) {
         if ((historyHydrator instanceof HistoryHydrator) === false) {
-            throw new Error("historyHydrator must be instance of HistoryHydrator");
+            throw new Error('historyHydrator must be instance of HistoryHydrator');
         }
 
         _.$http           = $http;
@@ -28,8 +28,8 @@ define(function (require) {
 
         _.$http({
             headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'},
-            method  : "POST",
-            url     : __BASEPATH__ + "generator",
+            method  : 'POST',
+            url     : __BASEPATH__ + 'generator',
             data    : datas
         }).success(function (data) {
             deferred.resolve(_.historyHydrator.hydrateCollection(data));

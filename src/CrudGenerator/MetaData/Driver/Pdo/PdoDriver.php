@@ -84,7 +84,7 @@ class PdoDriver implements DriverInterface
      */
     public function isValid(DriverConfig $driverConfig)
     {
-        $this->getConnection($config);
+        $this->getConnection($driverConfig);
         return true;
     }
 }

@@ -1,11 +1,11 @@
-define(["Corp/File/FileDataObject", "Corp/Directory/DirectoryDataObject"], function(FileDataObject, DirectoryDataObject) {
+define(['Corp/File/FileDataObject', 'Corp/Directory/DirectoryDataObject'], function(FileDataObject, DirectoryDataObject) {
     /**
      * DirectoryBuilder instance
      * @param DirectoryDAO
      * @returns DirectoryBuilder
      */
     function DirectoryBuilder(DirectoryDAO) {
-        "use strict";
+        'use strict';
 
         var DAO = DirectoryDAO;
 

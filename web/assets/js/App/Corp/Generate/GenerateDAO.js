@@ -1,5 +1,5 @@
 define(function (require) {
-    "use strict";
+    'use strict';
 
     var Context          = require('Corp/Context/Context'),
         ConflictHydrator = require('Corp/Conflict/ConflictHydrator'),
@@ -50,11 +50,11 @@ define(function (require) {
         }
 
         if ((context instanceof Context) === false) {
-            throw new Error("Context must be instance of Context");
+            throw new Error('Context must be instance of Context');
         }
 
-        if (typeof(metadataNoCache) !== "boolean") {
-            throw new Error("metadata_nocache must be a boolean");
+        if (typeof(metadataNoCache) !== 'boolean') {
+            throw new Error('metadata_nocache must be a boolean');
         }
 
         var deferred = _.$q.defer(),
@@ -68,8 +68,8 @@ define(function (require) {
 
         _.$http({
             headers : {'Content-Type': 'application/x-www-form-urlencoded'},
-            method  : "POST",
-            url     : __BASEPATH__ + "generator",
+            method  : 'POST',
+            url     : __BASEPATH__ + 'generator',
             data    : datas,
         }).success(function (data) {
             deferred.resolve(_.contextHydrator.hydrate(data, new Context()));
@@ -87,7 +87,7 @@ define(function (require) {
      */
     GenerateDAO.prototype.generate = function (context) {
         if ((context instanceof Context) === false) {
-            throw new Error("Context must be instance of Context");
+            throw new Error('Context must be instance of Context');
         }
 
         var deferred = _.$q.defer(),
@@ -103,9 +103,9 @@ define(function (require) {
 
         _.$http({
             headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'},
-            method  : "POST",
-            url     : __BASEPATH__ + "generator",
-            data  : datas
+            method  : 'POST',
+            url     : __BASEPATH__ + 'generator',
+            data    : datas
         }).success(function (datas) {
             var log = null, conflictList = null;
 
@@ -131,11 +131,11 @@ define(function (require) {
     GenerateDAO.prototype.viewFile = function (context, file) {
 
         if ((context instanceof Context) === false) {
-            throw new Error("Context must be instance of Context");
+            throw new Error('Context must be instance of Context');
         }
 
         if ((file instanceof FileDataObject) === false) {
-            throw new Error("File must be instance of FileDataObject");
+            throw new Error('File must be instance of FileDataObject');
         }
 
         var datas =  $.param({
@@ -151,8 +151,8 @@ define(function (require) {
 
         _.$http({
             headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'},
-            method  : "POST",
-            url     : __BASEPATH__ + "generator",
+            method  : 'POST',
+            url     : __BASEPATH__ + 'generator',
             data    : datas
         }).success(function (data) {
             deferred.resolve(data);

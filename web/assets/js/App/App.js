@@ -1,7 +1,7 @@
 define(['Angular'], function(angular) {
 
     var App = (function () {
-        "use strict";
+        'use strict';
 
         var instance = null;
 

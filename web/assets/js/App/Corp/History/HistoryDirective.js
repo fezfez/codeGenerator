@@ -1,5 +1,5 @@
 require(['App/App', 'JQuery'], function(app) {
-    "use strict";
+    'use strict';
 
     var modalURL = __BASEPATH__ + 'assets/js/App/Template/HistoryModal.html';
 

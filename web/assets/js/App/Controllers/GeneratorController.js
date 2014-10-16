@@ -1,5 +1,5 @@
 define(function (require) {
-    "use strict";
+    'use strict';
 
      var app                 = require('App/App'),
          SourceDAOFactory    = require('Corp/Source/SourceDAOFactory'),
@@ -92,7 +92,7 @@ define(function (require) {
                         _.waitModalService.hide();
                     }
                     $('body').tooltip({
-                        selector: "[rel=tooltip]"
+                        selector: '[rel=tooltip]'
                     });
                 },
                 function(error) {
@@ -208,7 +208,7 @@ define(function (require) {
     GeneratorController.prototype.searchGenerator = function() {
         var btn = $('#search-generator-btn');
 
-        if (!$('searchgenerator > div').hasClass( "show" )) {
+        if (!$('searchgenerator > div').hasClass( 'show' )) {
             _.waitModalService.show();
         }
         btn.button('loading');
@@ -316,5 +316,5 @@ define(function (require) {
         'HistoryDAOFactory'
     ];
 
-    app.controller("GeneratorCtrl", GeneratorController);
+    app.controller('GeneratorCtrl', GeneratorController);
 });

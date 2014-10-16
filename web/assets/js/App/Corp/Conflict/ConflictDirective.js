@@ -1,5 +1,5 @@
-define(["App/App"], function (GeneratorApp) {
-    "use strict";
+define(['App/App'], function (GeneratorApp) {
+    'use strict';
 
     GeneratorApp.directive('conflict', ['$compile', '$http', function($compile, $http) {
         return {

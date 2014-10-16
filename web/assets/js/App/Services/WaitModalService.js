@@ -1,5 +1,5 @@
-define(["App/App", "TwitterBootstrap"], function(angular) {
-    "use strict";
+define(['App/App', 'TwitterBootstrap'], function(angular) {
+    'use strict';
 
     function WaitModalService($http) {
         /*

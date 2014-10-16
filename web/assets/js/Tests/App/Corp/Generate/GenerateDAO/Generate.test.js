@@ -1,5 +1,5 @@
 define(function(require) {
-    "use strict";
+    'use strict';
 
     var angular           = require('Angular'),
         mock              = require('AngularMock'),
@@ -33,7 +33,7 @@ define(function(require) {
         it('Should return generationLog', function() {
 
             var generationLog = 'im a log';
-            httpBackend.whenPOST("generator").respond({'generationLog' : generationLog});
+            httpBackend.whenPOST('generator').respond({'generationLog' : generationLog});
             httpBackend.expectPOST('generator');
 
             generateDAO.generate(new Context()).then(
@@ -52,7 +52,7 @@ define(function(require) {
 
             var myError = 'i am an error';
 
-            httpBackend.whenPOST("generator").respond(500, {error : myError});
+            httpBackend.whenPOST('generator').respond(500, {error : myError});
             httpBackend.expectPOST('generator');
 
             generateDAO.generate(new Context()).then(

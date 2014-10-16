@@ -1,5 +1,5 @@
 define(function (require) {
-    "use strict";
+    'use strict';
 
     var app               = require('App/App'),
         ContextHydrator   = require('Corp/Context/ContextHydrator'),

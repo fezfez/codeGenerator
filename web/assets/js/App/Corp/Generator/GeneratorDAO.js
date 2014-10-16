@@ -1,5 +1,6 @@
 define(function(require) {
-    "use strict";
+    'use strict';
+
     var app               = require('App/App'),
         Context           = require('Corp/Context/Context'),
         GeneratorHydrator = require('Corp/Generator/GeneratorHydrator'),
@@ -73,8 +74,8 @@ define(function(require) {
 
         _.$http({
             headers : {'Content-Type': 'application/x-www-form-urlencoded'},
-            method  : "POST",
-            url     : __BASEPATH__ + "generator",
+            method  : 'POST',
+            url     : __BASEPATH__ + 'generator',
             data    : datas,
         }).success(function (data) {
             deferred.resolve(_.generatorHydrator.hydrateCollection(data));
@@ -99,8 +100,8 @@ define(function(require) {
 
         _.$http({
             headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'},
-            method  : "POST",
-            url     : __BASEPATH__ + "generator",
+            method  : 'POST',
+            url     : __BASEPATH__ + 'generator',
             data    : datas
         }).success(function (data) {
             deferred.resolve(_.generatorHydrator.hydrate(generator, data));

@@ -1,5 +1,5 @@
 define(function(require) {
-	"use strict";
+    'use strict';
 
     var angular                = require('Angular'),
         mock                   = require('AngularMock'),
@@ -28,7 +28,7 @@ define(function(require) {
 
         it('Should return promise with response', function() {
 
-            httpBackend.whenPOST("generator").respond({});
+            httpBackend.whenPOST('generator').respond({});
 
             generatorDAO.searchByName('test').then(
                 function(data) {

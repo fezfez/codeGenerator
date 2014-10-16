@@ -1,5 +1,5 @@
 define(function(require) {
-    "use strict";
+    'use strict';
 
     var angular              = require('Angular'),
         mock                 = require('AngularMock'),
@@ -24,7 +24,7 @@ define(function(require) {
         }));
 
         it('Should do something...', function() {
-            httpBackend.whenPOST("generator").respond({});
+            httpBackend.whenPOST('generator').respond({});
             httpBackend.expectPOST('generator');
 
             historyDAO.generate('im wrong').then(function(result) {

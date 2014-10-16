@@ -23,10 +23,9 @@ class StorageArray implements \JsonSerializable
 
     /**
      * @param array $args
-     * @param string $methodName
      * @return boolean
      */
-    public function isValidStore(array $args, $methodName)
+    public function isValidStore(array $args)
     {
         if (count($args) === 2) {
             return true;
@@ -37,10 +36,9 @@ class StorageArray implements \JsonSerializable
 
     /**
      * @param array $args
-     * @param string $methodName
      * @return boolean
      */
-    public function isValidAcces(array $args, $methodName)
+    public function isValidAcces(array $args)
     {
         if (count($args) < 2) {
             return true;

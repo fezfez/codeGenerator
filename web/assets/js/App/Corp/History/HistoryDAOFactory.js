@@ -1,5 +1,5 @@
 define(function (require) {
-    "use strict";
+    'use strict';
 
     var app             = require('App/App'),
         HistoryHydrator = require('Corp/History/HistoryHydrator'),

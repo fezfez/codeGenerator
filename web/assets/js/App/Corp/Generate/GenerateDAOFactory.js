@@ -1,5 +1,5 @@
 define(function (require) {
-    "use strict";
+    'use strict';
 
     var app              = require('App/App'),
         ConflictHydrator = require('Corp/Conflict/ConflictHydrator'),

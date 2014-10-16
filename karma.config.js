@@ -24,7 +24,7 @@ module.exports = function(config) {
 
     // list of files to exclude
     exclude: [
-      "App/Bootstrap.js"
+      'App/Bootstrap.js'
     ],
 
     plugins:[

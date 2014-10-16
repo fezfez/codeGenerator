@@ -1,5 +1,5 @@
 require(['App/App', 'highlight', 'JQuery'], function(app, highlight) {
-    "use strict";
+    'use strict';
 
     app.directive('viewFileModal', ['$compile', '$http', '$templateCache', '$timeout', '$sce', function($compile, $http, $templateCache, $timeout, $sce) {
         return {

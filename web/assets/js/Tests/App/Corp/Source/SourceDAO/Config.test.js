@@ -1,5 +1,5 @@
 define(function(require) {
-	//"use strict";
+    //'use strict';
 
     var angular           = require('Angular'),
         mock              = require('AngularMock'),
@@ -15,8 +15,8 @@ define(function(require) {
             angular.mock.module('GeneratorApp');
             angular.mock.inject(function($injector) {
                 // Set up the mock http service responses
-            	httpBackend = $injector.get('$httpBackend');
-            	q           = $injector.get('$q');
+                httpBackend = $injector.get('$httpBackend');
+                q           = $injector.get('$q');
 
                 sourceDAO = new SourceDAO($injector.get('$http'), q);
             });
@@ -24,7 +24,7 @@ define(function(require) {
 
         it('Should source in callback', function() {
 
-            httpBackend.whenPOST("generator").respond({});
+            httpBackend.whenPOST('generator').respond({});
 
             sourceDAO.config(
                 {},
@@ -49,7 +49,7 @@ define(function(require) {
                     
                 }),
                 function(data) {
-                    expect(typeof(data) === "string").toEqual(true);
+                    expect(typeof(data) === 'string').toEqual(true);
                 }
             );
 

@@ -1,5 +1,5 @@
 require(['App/App', 'JQuery'], function(app) {
-    "use strict";
+    'use strict';
 
     app.directive('unsafeModal', ['$compile', '$http', '$templateCache', '$timeout', '$sce', function($compile, $http, $templateCache, $timeout, $sce) {
         return {

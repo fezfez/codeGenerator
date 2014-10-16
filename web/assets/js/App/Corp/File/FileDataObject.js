@@ -5,7 +5,7 @@ define(function() {
  * @returns directory
  */
 function FileDataObject() {
-    "use strict";
+    'use strict';
 
     var name         = null,
         template     = null,

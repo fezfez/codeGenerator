@@ -124,7 +124,7 @@ class DataObject implements \JsonSerializable
     {
         if (false === array_key_exists($methodName, $this->store)) {
             throw new \Exception(sprintf('The storage "%s" does not exist', $methodName));
-        } elseif ($this->store[$methodName]->isValidAcces($args, $methodName) === true) {
+        } elseif ($this->store[$methodName]->isValidAcces($args) === true) {
             return $this->store[$methodName]->get($args);
         } else {
             throw new \Exception(sprintf('Unkown method "%s"', $methodName));
@@ -143,7 +143,7 @@ class DataObject implements \JsonSerializable
         $stored            = false;
 
         foreach ($storageCollection as $storage) {
-            if ($storage->isValidStore($args, $methodName) === true) {
+            if ($storage->isValidStore($args) === true) {
                 if (isset($this->store[$methodName]) === false ||
                     get_class($this->store[$methodName]) !== get_class($storage)) {
                     $this->store[$methodName] = clone $storage;

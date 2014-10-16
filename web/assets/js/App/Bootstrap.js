@@ -1,20 +1,20 @@
 requirejs.config({
     //By default load any module IDs from js/lib
     baseUrl: __BASEPATH__ + './assets/js/',
-    //except, if the module ID starts with "app",
+    //except, if the module ID starts with 'app',
     //load it from the js/app directory. paths
     //config is relative to the baseUrl, and
-    //never includes a ".js" extension since
+    //never includes a '.js' extension since
     //the paths config could be for a directory.
     paths: {
-        App : "App/",
-        Controllers : "App/Controllers",
-        Corp : "App/Corp/",
-        JQuery: "Vendor/jquery/dist/jquery",
-        TwitterBootstrap: "Vendor/bootstrap/js/modal",
-        TwitterBootstrapTooltip: "Vendor/bootstrap/js/tooltip",
-        Angular: "Vendor/angular/angular",
-        highlight: "Vendor/highlightjs-amd/highlight.pack",
+        App : 'App/',
+        Controllers : 'App/Controllers',
+        Corp : 'App/Corp/',
+        JQuery: 'Vendor/jquery/dist/jquery',
+        TwitterBootstrap: 'Vendor/bootstrap/js/modal',
+        TwitterBootstrapTooltip: 'Vendor/bootstrap/js/tooltip',
+        Angular: 'Vendor/angular/angular',
+        highlight: 'Vendor/highlightjs-amd/highlight.pack',
     },
     shim: {
         'TwitterBootstrap': {
@@ -38,14 +38,14 @@ require(
     [
         'Angular',
         'App/App',
-        "App/Directives/UnsafeModal",
-        "App/Directives/Modal",
+        'App/Directives/UnsafeModal',
+        'App/Directives/Modal',
         'Controllers/GeneratorController',
-        "Corp/File/FileDirective",
-        "Corp/File/ViewFileDirective",
-        "Corp/History/HistoryDirective",
-        "Corp/Source/SourceDirective",
-        "Corp/Generator/SearchGeneratorDirective"
+        'Corp/File/FileDirective',
+        'Corp/File/ViewFileDirective',
+        'Corp/History/HistoryDirective',
+        'Corp/Source/SourceDirective',
+        'Corp/Generator/SearchGeneratorDirective'
     ],
     function (angular, app, controller) {
     app.init();

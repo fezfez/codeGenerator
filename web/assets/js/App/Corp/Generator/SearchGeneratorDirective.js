@@ -1,5 +1,5 @@
 require(['App/App', 'Corp/Generator/GeneratorCollectionDTO', 'JQuery'], function(app, GeneratorCollectionDTO) {
-    "use strict";
+    'use strict';
 
     var modalURL = __BASEPATH__ + 'assets/js/App/Template/SearchGeneratorModal.html';
     app.directive('searchGeneratorModal', ['$compile', '$http', '$templateCache', function($compile, $http, $templateCache) {

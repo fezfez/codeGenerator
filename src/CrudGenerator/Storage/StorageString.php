@@ -23,10 +23,9 @@ class StorageString implements \JsonSerializable
 
     /**
      * @param array $args
-     * @param string $methodName
      * @return boolean
      */
-    public function isValidStore(array $args, $methodName)
+    public function isValidStore(array $args)
     {
         if (count($args) === 1) {
             return true;
@@ -37,10 +36,9 @@ class StorageString implements \JsonSerializable
 
     /**
      * @param array $args
-     * @param string $methodName
      * @return boolean
      */
-    public function isValidAcces(array $args, $methodName)
+    public function isValidAcces(array $args)
     {
         if (count($args) === 0) {
             return true;

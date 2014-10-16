@@ -1,5 +1,5 @@
 define(function(require) {
-    "use strict";
+    'use strict';
 
     var ContextHydrator        = require('Corp/Context/ContextHydrator'),
         GeneratorDTO           = require('Corp/Generator/GeneratorDto'),

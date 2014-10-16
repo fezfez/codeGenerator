@@ -1,5 +1,5 @@
 define(function(require) {
-	"use strict";
+	'use strict';
 
     var angular           = require('Angular'),
         mock              = require('AngularMock'),
@@ -25,7 +25,7 @@ define(function(require) {
         
         it('Should throw exception on wrong context type', function() {
             expect(function() {
-                generateDAO.process("im wrong", false).then(function(context) {}, function(error) {});
+                generateDAO.process('im wrong', false).then(function(context) {}, function(error) {});
             }).toThrow();
         });
         
@@ -42,7 +42,7 @@ define(function(require) {
 
         it('should preview generation', function() {
 
-            httpBackend.whenPOST("generator").respond(
+            httpBackend.whenPOST('generator').respond(
                 {
                     'generator' : {
                         'files' : [

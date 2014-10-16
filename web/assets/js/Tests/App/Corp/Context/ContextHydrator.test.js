@@ -7,19 +7,17 @@ define(
         it('Should hydrate backendCollection and default response', function() {
             var context         = new Context(),
                 contextHydrator = new ContextHydrator(),
-                results         = null;
-
-            var backendQuestion = {
+                results         = null,
+                backendQuestion = {
                 dtoAttribute : 'backend',
-                values : [{id : 'my id', 'label' : 'my label'}],
-                defaultResponse : 'my id'
-            };
+                    values : [{id : 'my id', 'label' : 'my label'}],
+                    defaultResponse : 'my id'
+                },
+                rawData = {
+                    question : [
 
-            var rawData = {
-                question : [
-
-                ]
-            };
+                    ]
+                };
 
             rawData.question.push(backendQuestion);
 
@@ -31,19 +29,16 @@ define(
         it('Should hydrate metadataCollection and default response', function() {
             var context         = new Context(),
                 contextHydrator = new ContextHydrator(),
-                results         = null;
+                results         = null,metadataQuestion = {
+                    dtoAttribute : 'metadata',
+                    values : [{id : 'my id', 'label' : 'my label'}],
+                    defaultResponse : 'my id'
+                },
+                rawData = {
+                    question : [
 
-            var metadataQuestion = {
-                dtoAttribute : 'metadata',
-                values : [{id : 'my id', 'label' : 'my label'}],
-                defaultResponse : 'my id'
-            };
-
-            var rawData = {
-                question : [
-
-                ]
-            };
+                    ]
+                };
 
             rawData.question.push(metadataQuestion);
 
@@ -55,19 +50,17 @@ define(
         it('Should hydrate generatorCollection and default response', function() {
             var context         = new Context(),
                 contextHydrator = new ContextHydrator(),
-                results         = null;
+                results         = null,
+                generatorQuestion = {
+                    dtoAttribute : 'generator',
+                    values : [{id : 'my id', 'label' : 'my label'}],
+                    defaultResponse : 'my id'
+                },
+                rawData = {
+                    question : [
 
-            var generatorQuestion = {
-                dtoAttribute : 'generator',
-                values : [{id : 'my id', 'label' : 'my label'}],
-                defaultResponse : 'my id'
-            };
-
-            var rawData = {
-                question : [
-
-                ]
-            };
+                    ]
+                };
 
             rawData.question.push(generatorQuestion);
 
@@ -79,7 +72,7 @@ define(
         it('Should create relation beetween backend and metadata', function() {
             var context         = new Context(),
                 contextHydrator = new ContextHydrator(),
-                results         = null;
+                results         = null,
                 backendQuestion = {
                     dtoAttribute : 'backend',
                     values : [{id : 'my id', label : 'asource'}],

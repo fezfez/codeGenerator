@@ -5,7 +5,7 @@ define(function() {
      * @returns DirectoryDataObject
      */
     function DirectoryDataObject(directoryName) {
-        "use strict";
+        'use strict';
 
         var name     = directoryName,
             files    = [],

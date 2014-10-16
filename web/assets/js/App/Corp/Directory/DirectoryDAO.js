@@ -3,7 +3,7 @@ define(function() {
      * DirectoryDAO
      */
     function DirectoryDAO() {
-        "use strict";
+        'use strict';
 
         /*
          * Find a directory in array of children

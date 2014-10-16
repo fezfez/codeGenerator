@@ -76,7 +76,7 @@ class QuestionRegister implements ParserInterface
                 }
 
                 if ($this->conditionValidator->isValid($question, $generator, $parser) === true) {
-                    $generator = $this->evaluateQuestions($question, $parser, $generator, $firstIteration, $process);
+                    $generator = $this->evaluateQuestions($question, $generator);
                 }
             }
         }
@@ -86,18 +86,11 @@ class QuestionRegister implements ParserInterface
 
     /**
      * @param array $question
-     * @param PhpStringParser $parser
      * @param GeneratorDataObject $generator
-     * @param boolean $firstIteration
      * @return GeneratorDataObject
      */
-    public function evaluateQuestions(
-        array $question,
-        PhpStringParser $parser,
-        GeneratorDataObject $generator,
-        $firstIteration,
-        array $process
-    ) {
+    private function evaluateQuestions(array $question, GeneratorDataObject $generator)
+    {
         $question = $this->questionAnalyser->checkIntegrity($question);
         $isParsed = false;
 
