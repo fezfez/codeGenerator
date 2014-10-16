@@ -24,9 +24,12 @@ class AskTest extends \PHPUnit_Framework_TestCase
                             )
                         );
 
-        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $context = new \CrudGenerator\Context\CliContext(
+            $this->createMock('Symfony\Component\Console\Helper\QuestionHelper'),
+            $this->createMock('Symfony\Component\Console\Output\OutputInterface'),
+            $this->createMock('Symfony\Component\Console\Input\InputInterface'),
+            $this->createMock('CrudGenerator\Command\CreateCommand')
+        );
 
         $sUT = new GeneratorQuestion($sourceFinderStub, $context);
 
@@ -35,5 +38,12 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $metadata = new MetadataDataObjectDoctrine2(new MetaDataColumnCollection(), new MetaDataRelationCollection());
 
         $sUT->ask($metadata);
+    }
+
+    private function createMock($class)
+    {
+        return $this->getMockBuilder($class)
+        ->disableOriginalConstructor()
+        ->getMock();
     }
 }

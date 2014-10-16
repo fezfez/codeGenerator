@@ -34,14 +34,24 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->method('getAllAdapters')
         ->will($this->returnValue($metadataSourceCollection));
 
-        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $context = new \CrudGenerator\Context\CliContext(
+            $this->createMock('Symfony\Component\Console\Helper\QuestionHelper'),
+            $this->createMock('Symfony\Component\Console\Output\OutputInterface'),
+            $this->createMock('Symfony\Component\Console\Input\InputInterface'),
+            $this->createMock('CrudGenerator\Command\CreateCommand')
+        );
 
         $sUT = new MetaDataSourcesQuestion($sourceFinderStub, $context);
 
         $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
         $sUT->ask();
+    }
+
+    private function createMock($class)
+    {
+        return $this->getMockBuilder($class)
+        ->disableOriginalConstructor()
+        ->getMock();
     }
 
     public function testWithPreselectedOk()
@@ -109,9 +119,12 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->method('getAllAdapters')
         ->will($this->returnValue($metadataSourceCollection));
 
-        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $context = new \CrudGenerator\Context\CliContext(
+            $this->createMock('Symfony\Component\Console\Helper\QuestionHelper'),
+            $this->createMock('Symfony\Component\Console\Output\OutputInterface'),
+            $this->createMock('Symfony\Component\Console\Input\InputInterface'),
+            $this->createMock('CrudGenerator\Command\CreateCommand')
+        );
 
         $sUT = new MetaDataSourcesQuestion($sourceFinderStub, $context);
 

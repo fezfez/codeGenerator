@@ -47,15 +47,25 @@ class AskTest extends \PHPUnit_Framework_TestCase
              ->with($this->equalTo($source->getMetadataDaoFactory()),$this->equalTo(null))
              ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
-        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $context = new \CrudGenerator\Context\CliContext(
+            $this->createMock('Symfony\Component\Console\Helper\QuestionHelper'),
+            $this->createMock('Symfony\Component\Console\Output\OutputInterface'),
+            $this->createMock('Symfony\Component\Console\Input\InputInterface'),
+            $this->createMock('CrudGenerator\Command\CreateCommand')
+        );
 
         $sUT = new MetaDataQuestion($metaDataSourceFactoryStub, $context);
 
         $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
 
         $sUT->ask($source);
+    }
+
+    private function createMock($class)
+    {
+        return $this->getMockBuilder($class)
+        ->disableOriginalConstructor()
+        ->getMock();
     }
 
     public function testWithConfig()
@@ -94,9 +104,13 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->with($this->equalTo($source->getMetadataDaoFactory()),$this->equalTo($config))
         ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
-        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $context = new \CrudGenerator\Context\CliContext(
+            $this->createMock('Symfony\Component\Console\Helper\QuestionHelper'),
+            $this->createMock('Symfony\Component\Console\Output\OutputInterface'),
+            $this->createMock('Symfony\Component\Console\Input\InputInterface'),
+            $this->createMock('CrudGenerator\Command\CreateCommand')
+        );
+
 
         $sUT = new MetaDataQuestion($metaDataSourceFactoryStub, $context);
 
@@ -186,9 +200,13 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->with($this->equalTo($source->getMetadataDaoFactory()),$this->equalTo(null))
         ->will($this->returnValue($doctrine2MetaDataDAOStub));
 
-        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $context = new \CrudGenerator\Context\CliContext(
+            $this->createMock('Symfony\Component\Console\Helper\QuestionHelper'),
+            $this->createMock('Symfony\Component\Console\Output\OutputInterface'),
+            $this->createMock('Symfony\Component\Console\Input\InputInterface'),
+            $this->createMock('CrudGenerator\Command\CreateCommand')
+        );
+
 
         $sUT = new MetaDataQuestion($metaDataSourceFactoryStub, $context);
 
