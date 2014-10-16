@@ -44,7 +44,6 @@ class PdoDriver implements DriverInterface
     /**
      * @param DriverConfig $config
      * @throws ConfigException
-     * @throws \Exception
      * @return \PDO
      */
     public function getConnection(DriverConfig $config)
@@ -54,20 +53,8 @@ class PdoDriver implements DriverInterface
         }
 
         try {
-            if ($config->getResponse('dsn') === self::MYSQL) {
-                $dsn  = 'mysql:host=' . $config->getResponse('configHost') . ';dbname=';
-            } elseif ($config->getResponse('dsn') ===  self::POSTGRESQL) {
-                $dsn = 'pgsql:host=' . $config->getResponse('configHost') . ';dbname=';
-            } elseif ($config->getResponse('dsn') === self::ORACLE) {
-                $dsn = '//' . $config->getResponse('configHost') . '/';
-            } else {
-                throw new \Exception('Dsn not found');
-            }
-
-            $dsn .= $config->getResponse('configDatabaseName');
-
             return new \PDO(
-                $dsn,
+                $this->retrieveDsn($config),
                 $config->getResponse('configUser'),
                 $config->getResponse('configPassword'),
                 array(
@@ -77,6 +64,26 @@ class PdoDriver implements DriverInterface
         } catch (\RuntimeException $e) {
             throw new ConfigException($e->getMessage());
         }
+    }
+
+    /**
+     * @param DriverConfig $config
+     * @throws \Exception
+     * @return string
+     */
+    private function retrieveDsn(DriverConfig $config)
+    {
+        if ($config->getResponse('dsn') === self::MYSQL) {
+            $dsn = 'mysql:host=' . $config->getResponse('configHost') . ';dbname=';
+        } elseif ($config->getResponse('dsn') === self::POSTGRESQL) {
+            $dsn = 'pgsql:host=' . $config->getResponse('configHost') . ';dbname=';
+        } elseif ($config->getResponse('dsn') === self::ORACLE) {
+            $dsn = '//' . $config->getResponse('configHost') . '/';
+        } else {
+            throw new \Exception('Dsn not found');
+        }
+
+        return $dsn . $config->getResponse('configDatabaseName');
     }
 
     /* (non-PHPdoc)
