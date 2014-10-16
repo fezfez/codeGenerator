@@ -14,7 +14,7 @@ class GetMetadataForTest extends \PHPUnit_Framework_TestCase
     {
         $config = include __DIR__ . '/../Config.php';
 
-        $suT = MySQLMetaDataDAOFactory::getInstance(PdoDriverFactory::getInstance(), $config);
+        $suT = MySQLMetaDataDAOFactory::getInstance($config);
 
         $this->assertInstanceOf(
             'CrudGenerator\MetaData\Sources\MySQL\MetadataDataObjectMySQL',

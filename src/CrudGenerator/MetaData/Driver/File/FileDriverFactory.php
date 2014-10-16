@@ -29,7 +29,12 @@ class FileDriverFactory
     public static function getInstance(DriverConfig $driverConfig)
     {
         $driverFactory = $driverConfig->getDriver();
-        $driver        = $driverFactory::getInstance();
+
+        if (false === class_exists($driverFactory, true)) {
+            throw new \Exception(sprintf('Driver %s does not exist', $driverFactory));
+        }
+
+        $driver = $driverFactory::getInstance();
 
         if (in_array('CrudGenerator\MetaData\Driver\File\FileDriverInterface', class_implements($driver))) {
             return $driver;

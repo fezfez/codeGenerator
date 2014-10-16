@@ -14,10 +14,6 @@ class RetrieveAllTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $docBlock = $this->getMockBuilder('phpDocumentor\Reflection\DocBlock')
-        ->disableOriginalConstructor()
-        ->getMock();
-
         $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
@@ -34,7 +30,6 @@ class RetrieveAllTest extends \PHPUnit_Framework_TestCase
             new ClassAwake(),
             $fileManager,
             new MetaDataSourceHydrator(),
-            $docBlock,
             $context
         );
 

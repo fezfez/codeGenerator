@@ -2,7 +2,7 @@
 namespace CrudGenerator\Tests\General\MetaData\Sources\Json\JsonMetaDataDAO;
 
 use CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory;
-use CrudGenerator\MetaData\Driver\Web\WebDriver;
+use CrudGenerator\MetaData\Driver\File\Web\WebDriver;
 use CrudGenerator\Utils\FileManager;
 
 /**
@@ -14,7 +14,7 @@ class GetMetadataForTest extends \PHPUnit_Framework_TestCase
     {
         $config = include __DIR__ . '/../Config.php';
 
-        $suT = JsonMetaDataDAOFactory::getInstance(new WebDriver(new FileManager()), $config);
+        $suT = JsonMetaDataDAOFactory::getInstance($config);
 
         $this->assertInstanceOf(
             'CrudGenerator\MetaData\Sources\Json\MetadataDataObjectJson',

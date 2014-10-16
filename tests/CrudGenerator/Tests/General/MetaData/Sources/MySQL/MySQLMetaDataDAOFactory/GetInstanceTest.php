@@ -3,7 +3,6 @@
 namespace CrudGenerator\Tests\General\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory;
 
 use CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory;
-use CrudGenerator\MetaData\Driver\Pdo\PdoDriver;
 use CrudGenerator\MetaData\Driver\DriverConfig;
 
 /**
@@ -17,7 +16,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
             'CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAO',
-            MySQLMetaDataDAOFactory::getInstance(new PdoDriver(), $config)
+            MySQLMetaDataDAOFactory::getInstance($config)
         );
     }
 }

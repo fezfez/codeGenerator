@@ -14,7 +14,7 @@ class GetAllMetadataTest extends \PHPUnit_Framework_TestCase
     {
         $config = include __DIR__ . '/../Config.php';
 
-        $suT = MySQLMetaDataDAOFactory::getInstance(PdoDriverFactory::getInstance(), $config);
+        $suT = MySQLMetaDataDAOFactory::getInstance($config);
 
         $allMetaData = $suT->getAllMetadata();
         $this->assertInstanceOf(

@@ -14,5 +14,6 @@ $config->response('configDatabaseName', 'code_generator');
 $config->response('configHost', 'localhost');
 $config->response('configUser', 'travis');
 $config->response('configPort', '3302');
+$config->response('dsn', \CrudGenerator\MetaData\Driver\Pdo\PdoDriver::MYSQL);
 
 return $config;
