@@ -12,6 +12,11 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 
         $driver = new DriverConfig('test');
         $driver->setDriver('CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory');
+        $driver->response('configDatabaseName', 'code_generator');
+        $driver->response('configHost', 'localhost');
+        $driver->response('configUser', 'postgres');
+        $driver->response('configPort', '5432');
+        $driver->response('dsn', \CrudGenerator\MetaData\Driver\Pdo\PdoDriver::POSTGRESQL);
 
         $this->assertInstanceOf(
             '\CrudGenerator\MetaData\Sources\MetaDataDAOCache',

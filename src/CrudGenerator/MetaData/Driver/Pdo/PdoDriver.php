@@ -38,11 +38,11 @@ class PdoDriver implements DriverInterface
      */
     public function getConnection(DriverConfig $config)
     {
-        try {
-            if ($config->getResponse('configHost') === null || $config->getResponse('configDatabaseName') === null) {
-                throw new ConfigException('Empty connection');
-            }
+        if ($config->getResponse('configHost') === null || $config->getResponse('configDatabaseName') === null) {
+            throw new ConfigException('Empty connection');
+        }
 
+        try {
             if ($config->getResponse('dsn') === self::MYSQL) {
                 $dsn = 'mysql:host=' . $config->getResponse('configHost') . ';dbname=' . $config->getResponse('configDatabaseName');
             } elseif ($config->getResponse('dsn') ===  self::POSTGRESQL) {

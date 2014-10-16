@@ -48,8 +48,12 @@ class MetaDataDAOCache implements MetaDataDAOInterface
      * @param DriverConfig $config
      * @param boolean $noCache
      */
-    public function __construct(MetaDataDAOInterface $metadataDAO, array $directories, DriverConfig $config = null, $noCache = false)
-    {
+    public function __construct(
+        MetaDataDAOInterface $metadataDAO,
+        array $directories,
+        DriverConfig $config = null,
+        $noCache = false
+    ) {
         $this->metadataDAO = $metadataDAO;
         $this->directories = $directories;
         $this->config      = $config;
