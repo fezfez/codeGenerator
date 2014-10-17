@@ -22,6 +22,7 @@ use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
 use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
+use CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum;
 
 class QuestionTypeIterator implements QuestionTypeInterface
 {
@@ -69,7 +70,7 @@ class QuestionTypeIterator implements QuestionTypeInterface
                     ? $iteratorParser->parse($question['iteration']['response']['default']) : null,
                 $question['required'],
                 $question['helpMessage'],
-                $question['iteration']['response']['type']
+                new QuestionResponseTypeEnum($question['iteration']['response']['type'])
             );
 
             $questionName = $question['setter'];

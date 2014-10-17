@@ -28,6 +28,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum;
 
 class CliContext implements ContextInterface
 {
@@ -78,7 +79,7 @@ class CliContext implements ContextInterface
         $defaultResponse = null,
         $required = false,
         $helpMessage = null,
-        $type = null
+        QuestionResponseTypeEnum $type
     ) {
         return $this->question->ask(
             $this->input,

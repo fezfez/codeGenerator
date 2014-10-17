@@ -19,6 +19,7 @@
 namespace CrudGenerator\Context;
 
 use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum;
 
 /**
  * Context interface used for the interaction with the user.
@@ -32,7 +33,7 @@ interface ContextInterface
      * @param string $uniqueKey
      * @param string $defaultResponse
      * @param boolean $required
-     * @param string $type
+     * @param Enum $type
      * @return string
      */
     public function ask(
@@ -41,7 +42,7 @@ interface ContextInterface
         $defaultResponse = null,
         $required = false,
         $helpMessage = null,
-        $type = null
+        QuestionResponseTypeEnum $type
     );
 
     /**
