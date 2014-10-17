@@ -67,23 +67,51 @@ class FileParser implements ParserInterface
             );
         }
 
-        if (false === isset($process['filesList'])) {
+        if (false === isset($process['filesList']) || false === is_array($process['filesList'])) {
             throw new MalformedGeneratorException('No file given');
         }
 
         foreach ($process['filesList'] as $file) {
-            if (false === is_array($file)) {
-                throw new MalformedGeneratorException(
-                    sprintf('File excepts to be an array "%s" given', gettype($file))
-                );
-            }
+
+            $file = $this->checkIsFileIsWellFormed($file);
 
             if ($this->conditionValidator->isValid($file, $generator, $parser) === true) {
-                $this->evaluateFile($file, $parser, $generator, (bool) $firstIteration, $skeletonPath);
+                $generator = $this->evaluateFile($file, $parser, $generator, $skeletonPath);
             }
         }
 
         return $generator;
+    }
+
+    /**
+     * @param mixed $file
+     * @throws MalformedGeneratorException
+     * @return array
+     */
+    private function checkIsFileIsWellFormed($file)
+    {
+        if (false === is_array($file)) {
+            throw new MalformedGeneratorException(
+                sprintf('File excepts to be an array "%s" given', gettype($file))
+            );
+        }
+        if (isset($file['templatePath']) === false) {
+            throw new MalformedGeneratorException(
+                sprintf('No template provided in file "%s"', json_encode($file))
+            );
+        }
+        if (isset($file['destinationPath']) === false) {
+            throw new MalformedGeneratorException(
+                sprintf('No destinationPath provided in file "%s"', json_encode($file))
+            );
+        }
+        if ($this->fileManager->isFile($file['templatePath']) === false) {
+            throw new MalformedGeneratorException(
+                sprintf('TemplatePath does not exist in file "%s"', json_encode($file))
+            );
+        }
+
+        return $file;
     }
 
     /**
@@ -98,9 +126,9 @@ class FileParser implements ParserInterface
         array $file,
         PhpStringParser $parser,
         GeneratorDataObject $generator,
-        $firstIteration,
         $skeletonPath
     ) {
+        $generator = clone $generator;
         if (isset($file['iteration']) === true) {
 
             $iterator           = $this->iterationValidator->retrieveValidIteration($file, $generator, $parser);

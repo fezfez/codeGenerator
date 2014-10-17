@@ -24,6 +24,7 @@ use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
 use CrudGenerator\Context\CliContext;
+use CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum;
 
 class DirectoryQuestion
 {
@@ -130,7 +131,11 @@ class DirectoryQuestion
             try {
                 $directory = $this->context->ask(
                     'Directory name ',
-                    'directory_name'
+                    'directory_name',
+                    null,
+                    false,
+                    null,
+                    new QuestionResponseTypeEnum()
                 );
 
                 if (false === $this->fileManager->ifDirDoesNotExistCreate($baseDirectory . $directory)) {

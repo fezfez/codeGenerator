@@ -96,7 +96,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('myFile/', $generatorDTO->getDto()->getModelDirectory());
     }
 
-    public function testCreateFileAndWithCliInstance()
+    public function testCreateFileWithCliInstance()
     {
         $context         = $this->getMockWithoutConstructor('CrudGenerator\Context\CliContext');
         $fileManagerStub = $this->getMockWithoutConstructor('\CrudGenerator\Utils\FileManager');

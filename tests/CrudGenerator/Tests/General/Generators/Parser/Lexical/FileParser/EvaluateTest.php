@@ -10,113 +10,128 @@ use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
 
 class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
-    public function testEmpty()
+
+    /**
+     * @param string $class
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    private function getMockWithoutConstructor($class)
     {
-        $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
+        return $this->getMockBuilder($class)
         ->disableOriginalConstructor()
         ->getMock();
+    }
 
-        $conditionValidator = $this->getMockBuilder(
+    public function testThrowExceptionWhenEmptyProcess()
+    {
+        $fileManager        = $this->getMockWithoutConstructor('CrudGenerator\Utils\FileManager');
+        $phpParser          = $this->getMockWithoutConstructor('CrudGenerator\Utils\PhpStringParser');
+        $conditionValidator = $this->getMockWithoutConstructor(
             'CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
+        );
 
-        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $sUT = new FileParser($fileManager, $conditionValidator, new IteratorValidator($conditionValidator));
-
+        $sUT       = new FileParser($fileManager, $conditionValidator, new IteratorValidator($conditionValidator));
         $generator = new GeneratorDataObject();
 
         $process = array();
 
         $this->setExpectedException('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
-        $this->assertEquals(
-            $generator,
-            $sUT->evaluate($process, $phpParser, $generator, true)
+
+        $sUT->evaluate($process, $phpParser, $generator, true);
+    }
+
+    public function testThrowExceptionWhenFileListIsNotAnArray()
+    {
+        $fileManager        = $this->getMockWithoutConstructor('CrudGenerator\Utils\FileManager');
+        $phpParser          = $this->getMockWithoutConstructor('CrudGenerator\Utils\PhpStringParser');
+        $conditionValidator = $this->getMockWithoutConstructor(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator'
         );
+
+        $sUT       = new FileParser($fileManager, $conditionValidator, new IteratorValidator($conditionValidator));
+        $generator = new GeneratorDataObject();
+
+        $process = array('filesList' => null);
+
+        $this->setExpectedException('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
+
+        $sUT->evaluate($process, $phpParser, $generator, true);
+    }
+
+    public function testThrowExceptionWhenFileInFileListIsNotAnArray()
+    {
+        $fileManager        = $this->getMockWithoutConstructor('CrudGenerator\Utils\FileManager');
+        $phpParser          = $this->getMockWithoutConstructor('CrudGenerator\Utils\PhpStringParser');
+        $conditionValidator = $this->getMockWithoutConstructor(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator'
+        );
+
+        $sUT       = new FileParser($fileManager, $conditionValidator, new IteratorValidator($conditionValidator));
+        $generator = new GeneratorDataObject();
+
+        $process = array('filesList' => array(null));
+
+        $this->setExpectedException('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
+
+        $sUT->evaluate($process, $phpParser, $generator, true);
+    }
+
+    public function testFileDestinationAreWellParsed()
+    {
+        $fileManager        = $this->getMockWithoutConstructor('CrudGenerator\Utils\FileManager');
+        $phpParser          = new \CrudGenerator\Utils\PhpStringParser(
+            new \Twig_Environment(new \Twig_Loader_String()), array('test' => 'well')
+        );
+        $conditionValidator = $this->getMockWithoutConstructor(
+            'CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator'
+        );
+
+        $conditionValidator->expects($this->once())
+        ->method('isValid')
+        ->willReturn(true);
+
+        $sUT       = new FileParser($fileManager, $conditionValidator, new IteratorValidator($conditionValidator));
+        $generator = new GeneratorDataObject();
+
+        $process = array(
+            'filesList' => array(
+                array('templatePath' => 'MyFileTemplate', 'destinationPath' => '{{ test }}')
+            )
+        );
+
+        $generator = $sUT->evaluate($process, $phpParser, $generator, true);
+
+        $files = $generator->getFiles();
+
+        $this->assertEquals(true, isset($files['well']));
     }
 
     public function testWithFiles()
     {
-        $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $conditionValidator = $this->getMockBuilder(
+        $fileManager        = $this->getMockWithoutConstructor('CrudGenerator\Utils\FileManager');
+        $phpParser          = $this->getMockWithoutConstructor('CrudGenerator\Utils\PhpStringParser');
+        $conditionValidator = $this->getMockWithoutConstructor(
             'CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
+        );
 
         $conditionValidator->expects($this->once())
         ->method('isValid')
         ->will($this->returnValue(true));
 
-        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-        ->disableOriginalConstructor()
-        ->getMock();
-
         $phpParser->expects($this->once())
         ->method('parse')
         ->will($this->returnValue('MyFileParser'));
 
-        $sUT = new FileParser($fileManager, $conditionValidator, new IteratorValidator($conditionValidator));
-
+        $sUT       = new FileParser($fileManager, $conditionValidator, new IteratorValidator($conditionValidator));
         $generator = new GeneratorDataObject();
-        $generator->setPath('./');
 
-        $process = array(
-            'filesList' => array(
-                array('templatePath' => 'MyFileTemplate', 'destinationPath' => 'MyFile')
-            )
-        );
-
-        $generatorToTest = clone $generator;
-
-        $this->assertEquals(
-            $generatorToTest->addFile($generator->getPath() . '/Skeleton/', 'MyFileTemplate', 'MyFileParser'),
-            $sUT->evaluate($process, $phpParser, $generator, true)
-        );
-    }
-
-    public function testWithDependencyCondiction()
-    {
-        $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $conditionValidator = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $conditionValidator->expects($this->once())
-        ->method('isValid')
-        ->will($this->returnValue(true));
-
-        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $phpParser->expects($this->once())
-        ->method('parse')
-        ->will($this->returnValue('MyFileParser'));
-
-        $sUT = new FileParser($fileManager, $conditionValidator, new IteratorValidator($conditionValidator));
-
-        $generator = new GeneratorDataObject();
         $generator->setPath('./');
 
         $process = array(
             'filesList' => array(
                 array(
                     'templatePath' => 'MyFileTemplate',
-                    'destinationPath' => 'MyFile',
-                    DependencyCondition::NAME => '!ArchitedGenerator'
+                    'destinationPath' => 'MyFile'
                 )
             )
         );
@@ -125,55 +140,6 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $generatorToTest->addFile($generator->getPath() . '/Skeleton/', 'MyFileTemplate', 'MyFileParser'),
-            $sUT->evaluate($process, $phpParser, $generator, true)
-        );
-    }
-
-    public function testWithEnvironnemetnCondiction()
-    {
-        $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $conditionValidator = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $conditionValidator->expects($this->once())
-        ->method('isValid')
-        ->will($this->returnValue(true));
-
-        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $phpParser->expects($this->once())
-        ->method('parse')
-        ->with('MyFile')
-        ->will($this->returnValue('MyFileParsed'));
-
-        $sUT = new FileParser($fileManager, $conditionValidator, new IteratorValidator($conditionValidator));
-
-        $generator = new GeneratorDataObject();
-        $generator->setDto(new DataObject());
-        $generator->addEnvironnementValue('backend', 'pdo');
-
-        $process = array(
-            'filesList' => array(
-                array(
-                    'templatePath' => 'MyFileTemplate',
-                    'destinationPath' => 'MyFile',
-                    EnvironnementCondition::NAME => 'backend == pdo'
-                )
-            )
-        );
-
-        $generatorToTest = clone $generator;
-
-        $this->assertEquals(
-            $generatorToTest->addFile($generator->getPath() . '/Skeleton/', 'MyFileTemplate', 'MyFileParsed'),
             $sUT->evaluate($process, $phpParser, $generator, true)
         );
     }
