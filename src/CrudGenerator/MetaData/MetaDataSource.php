@@ -44,7 +44,7 @@ class MetaDataSource implements \JsonSerializable
      */
     private $definition = null;
     /**
-     * @var MetaDataConfigInterface adapter configuration
+     * @var DriverConfig Driver configuration
      */
     private $config = null;
     /**
@@ -163,7 +163,8 @@ class MetaDataSource implements \JsonSerializable
     }
     /**
      * Get config
-     * @return MetaDataConfigInterface
+     *
+     * @return \CrudGenerator\MetaData\Driver\DriverConfig
      */
     public function getConfig()
     {

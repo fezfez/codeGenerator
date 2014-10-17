@@ -26,7 +26,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
-
+use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 /**
  *
  * Doctrine2 adapter in ZF2 environnement
@@ -48,7 +48,7 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
     );
 
     /**
-     * Doctrine2 adapter in ZF2 environnement
+     * Constructor.
      *
      * @param EntityManager $entityManager
      */
@@ -108,7 +108,7 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
      * @param ClassMetadataInfo $metadata Concret metadata
      * @return MetadataDataObjectDoctrine2
      */
-    private function hydrateDataObject(ClassMetadataInfo $metadata, array $parentName = array())
+    private function hydrateDataObject(ClassMetadata $metadata, array $parentName = array())
     {
         $dataObject = new MetadataDataObjectDoctrine2(
             new MetaDataColumnCollection(),
@@ -142,7 +142,7 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
      * @return MetadataDataObjectDoctrine2
      */
     private function hydrateAssociation(
-        ClassMetadataInfo $metadata,
+        ClassMetadata $metadata,
         MetadataDataObjectDoctrine2 $dataObject,
         array $parentName = array()
     ) {

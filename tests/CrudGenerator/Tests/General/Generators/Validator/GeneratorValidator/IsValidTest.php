@@ -20,7 +20,7 @@ class IsValidTest extends \PHPUnit_Framework_TestCase
                   ->will($this->returnValue(true));
 
         $schema = 'schema';
-        $sUT = new GeneratorValidator($schema, $validator);
+        $sUT    = new GeneratorValidator($schema, $validator);
 
         $sUT->isValid(array('my data'));
     }
@@ -36,7 +36,7 @@ class IsValidTest extends \PHPUnit_Framework_TestCase
         ->will($this->returnValue(false));
 
         $schema = 'schema';
-        $sUT = new GeneratorValidator($schema, $validator);
+        $sUT    = new GeneratorValidator($schema, $validator);
 
         $this->setExpectedException('InvalidArgumentException');
 
@@ -54,7 +54,7 @@ class IsValidTest extends \PHPUnit_Framework_TestCase
         ->will($this->returnValue(true));
 
         $schema = 'schema';
-        $sUT = new GeneratorValidator($schema, $validator);
+        $sUT    = new GeneratorValidator($schema, $validator);
 
         $metadata = new MetadataDataObjectDoctrine2(
             new MetaDataColumnCollection(array()),
@@ -77,7 +77,7 @@ class IsValidTest extends \PHPUnit_Framework_TestCase
         ->will($this->returnValue(true));
 
         $schema = 'schema';
-        $sUT = new GeneratorValidator($schema, $validator);
+        $sUT    = new GeneratorValidator($schema, $validator);
 
         $metadata = new MetadataDataObjectDoctrine2(
             new MetaDataColumnCollection(array()),

@@ -8,26 +8,32 @@ use CrudGenerator\Utils\OutputWeb;
 
 class InstallTest extends \PHPUnit_Framework_TestCase
 {
-    public function testWithMock()
+    public function testInstallWithMock()
     {
-        $arrayInput = $this->getMockBuilder('Symfony\Component\Console\Input\ArrayInput')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $requireCommand = $this->getMockBuilder('Composer\Command\RequireCommand')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $outputWeb = $this->getMockBuilder('CrudGenerator\Utils\OutputWeb')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $arrayInput     = $this->getMockWithoutConstructor('Symfony\Component\Console\Input\ArrayInput');
+        $requireCommand = $this->getMockWithoutConstructor('Composer\Command\RequireCommand');
+        $outputWeb      = $this->getMockWithoutConstructor('CrudGenerator\Utils\OutputWeb');
 
         $arrayInput->expects($this->once())
         ->method('setArgument');
 
         $requireCommand->expects($this->once())
-        ->method('run');
+        ->method('run')
+        ->willReturn(1);
 
         $sUT = new GeneratorInstaller($arrayInput, $requireCommand, $outputWeb);
 
-        $sUT->install('MyPackage');
+        $this->assertEquals(1, $sUT->install('MyPackage'));
+    }
+
+    /**
+     * @param string $class
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    private function getMockWithoutConstructor($class)
+    {
+        return $this->getMockBuilder($class)
+        ->disableOriginalConstructor()
+        ->getMock();
     }
 }

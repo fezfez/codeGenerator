@@ -27,7 +27,7 @@ class Driver
      */
     private $definition = null;
     /**
-     * @var string
+     * @var DriverConfig
      */
     private $config = null;
     /**
@@ -47,10 +47,10 @@ class Driver
         return $this;
     }
     /**
-     * @param string $value
+     * @param DriverConfig $value
      * @return Driver
      */
-    public function setConfig($value)
+    public function setConfig(DriverConfig $value)
     {
         $this->config = $value;
         return $this;
@@ -72,7 +72,7 @@ class Driver
         return $this->definition;
     }
     /**
-     * @return string
+     * @return DriverConfig
      */
     public function getConfig()
     {

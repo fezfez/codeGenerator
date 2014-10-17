@@ -7,11 +7,20 @@ use CrudGenerator\DataObject;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {
-    public function testOk()
+    /**
+     * @param string $class
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    private function getMockWithoutConstructor($class)
     {
-        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
+        return $this->getMockBuilder($class)
         ->disableOriginalConstructor()
         ->getMock();
+    }
+
+    public function testOk()
+    {
+        $context = $this->getMockWithoutConstructor('CrudGenerator\Context\CliContext');
 
         $context->expects($this->once())
         ->method('askCollection');
@@ -27,9 +36,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
             'dirTwo'
         );
 
-        $fileManagerStub = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $fileManagerStub = $this->getMockWithoutConstructor('CrudGenerator\Utils\FileManager');
 
         $fileManagerStub->expects($this->once())
         ->method('glob')
@@ -46,9 +53,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
     public function testOkWithCliInstance()
     {
-        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $context = $this->getMockWithoutConstructor('CrudGenerator\Context\CliContext');
 
         // First choice bin
         $context->expects($this->exactly(4))
@@ -62,9 +67,8 @@ class AskTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $fileManagerStub = $this->getMockBuilder('\CrudGenerator\Utils\FileManager')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $fileManagerStub = $this->getMockWithoutConstructor('\CrudGenerator\Utils\FileManager');
+
         $fileManagerStub->expects($this->any())
         ->method('glob')
         ->will(
@@ -77,10 +81,10 @@ class AskTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $sUT = new DirectoryQuestion($fileManagerStub, $context);
-
+        $sUT          = new DirectoryQuestion($fileManagerStub, $context);
         $generatorDTO = new GeneratorDataObject();
-        $dto = new DataObject();
+        $dto          = new DataObject();
+
         $dto->register(array('dtoAttribute' => 'ModelDirectory'), false);
         $generatorDTO->setDto($dto);
 
@@ -88,17 +92,14 @@ class AskTest extends \PHPUnit_Framework_TestCase
             $generatorDTO,
             array('dtoAttribute' => 'ModelDirectory', 'text' => 'Good question...')
         );
+
         $this->assertEquals('myFile/', $generatorDTO->getDto()->getModelDirectory());
     }
 
     public function testCreateFileAndWithCliInstance()
     {
-        $context         = $this->getMockBuilder('CrudGenerator\Context\CliContext')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $fileManagerStub = $this->getMockBuilder('\CrudGenerator\Utils\FileManager')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $context         = $this->getMockWithoutConstructor('CrudGenerator\Context\CliContext');
+        $fileManagerStub = $this->getMockWithoutConstructor('\CrudGenerator\Utils\FileManager');
 
         $context->expects($this->any())
         ->method('log')
@@ -146,10 +147,10 @@ class AskTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $sUT = new DirectoryQuestion($fileManagerStub, $context);
-
+        $sUT          = new DirectoryQuestion($fileManagerStub, $context);
         $generatorDTO = new GeneratorDataObject();
-        $dto = new DataObject();
+        $dto          = new DataObject();
+
         $dto->register(array('dtoAttribute' => 'ModelDirectory'), false);
         $generatorDTO->setDto($dto);
 

@@ -47,10 +47,10 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource);
-
+        $sUT          = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource);
         $driverConfig = new DriverConfig("test");
-        $source = new MetaDataSource();
+        $source       = new MetaDataSource();
+
         $source->setConfig($driverConfig)
         ->setMetadataDao("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAO")
         ->setMetadataDaoFactory("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory");
