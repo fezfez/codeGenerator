@@ -102,6 +102,11 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
         return $isFirstLevelIsDto;
     }
 
+    /**
+     * @param string $name
+     * @throws \Exception
+     * @return MetadataDataObjectJson
+     */
     private function createMetadata($name)
     {
         if (is_string($name) === false) {
@@ -118,6 +123,12 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
         return $dto;
     }
 
+    /**
+     * @param string $name
+     * @param array $props
+     * @param MetadataDataObjectJson $metadata
+     * @return \CrudGenerator\MetaData\DataObject\MetaDataRelationColumn
+     */
     private function hydrateMetaDataRelationColumn($name, array $props, MetadataDataObjectJson $metadata)
     {
         $relation = new MetaDataRelationColumn();
@@ -125,12 +136,18 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
         $relation->setFullName($name);
 
         $metadataRelation = $this->createMetadata($name);
-        $metadataRelation = $this->hydrateProperties($props, $metadata);
+        $metadataRelation = $this->hydrateProperties($props, $metadataRelation);
         $relation->setMetadata($metadataRelation);
 
         return $relation;
     }
 
+    /**
+     * @param string $daddyName
+     * @param array $items
+     * @param MetadataDataObjectJson $metadata
+     * @return MetadataDataObjectJson
+     */
     private function hydrateItems($daddyName, array $items, MetadataDataObjectJson $metadata)
     {
         $specialProperties = array();
@@ -172,6 +189,12 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
         return $metadata;
     }
 
+    /**
+     * @param array $properties
+     * @param MetadataDataObjectJson $metadata
+     * @throws \Exception
+     * @return MetadataDataObjectJson
+     */
     private function hydrateProperties(array $properties, MetadataDataObjectJson $metadata)
     {
         $specialProperties = array();

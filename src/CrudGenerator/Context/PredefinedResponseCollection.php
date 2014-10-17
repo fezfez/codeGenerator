@@ -24,6 +24,9 @@ class PredefinedResponseCollection implements \IteratorAggregate
      */
     private $collection = null;
 
+    /**
+     * Constructor.
+     */
     public function __construct()
     {
         $this->collection = new \ArrayIterator(array());
@@ -49,7 +52,7 @@ class PredefinedResponseCollection implements \IteratorAggregate
 
     /**
      * @param string $idInSearch
-     * @throws \Exception
+     * @throws PredefinedResponseException
      * @return PredefinedResponse
      */
     public function offsetGetById($idInSearch)
@@ -61,12 +64,12 @@ class PredefinedResponseCollection implements \IteratorAggregate
             }
         }
 
-        throw new \Exception('not found');
+        throw new PredefinedResponseException(sprintf('Response with id "%s" not found', $idInSearch));
     }
 
     /**
      * @param string $labelInSearch
-     * @throws \Exception
+     * @throws PredefinedResponseException
      * @return PredefinedResponse
      */
     public function offsetGetByLabel($labelInSearch)
@@ -78,6 +81,6 @@ class PredefinedResponseCollection implements \IteratorAggregate
             }
         }
 
-        throw new \Exception('not found');
+        throw new PredefinedResponseException(sprintf('Response with label "%s" not found', $labelInSearch));
     }
 }

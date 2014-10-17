@@ -20,6 +20,10 @@ namespace CrudGenerator\Context;
 
 use CrudGenerator\Generators\GeneratorDataObject;
 
+/**
+ * Context interface used for the interaction with the user.
+ *
+ */
 interface ContextInterface
 {
     /**
@@ -50,6 +54,8 @@ interface ContextInterface
     public function askCollection(QuestionWithPredefinedResponse $questionResponseCollection);
 
     /**
+     * Ask question in confirm mode ex : "Do you want to eat the banana ?" yes/no
+     *
      * @param string $text
      * @param string $uniqueKey
      * @return boolean
@@ -57,6 +63,8 @@ interface ContextInterface
     public function confirm($text, $uniqueKey);
 
     /**
+     * Create a menu. The idea is to create an "tree decision"
+     *
      * @param string $text
      * @param string $uniqueKey
      * @param callable $runner
@@ -65,6 +73,8 @@ interface ContextInterface
     public function menu($text, $uniqueKey, callable $runner);
 
     /**
+     * Log a text
+     *
      * @param string|array $text
      * @param string $name
      * @return void
@@ -72,6 +82,8 @@ interface ContextInterface
     public function log($text, $name = null);
 
     /**
+     * Publish the generatorDto
+     *
      * @param GeneratorDataObject $generator
      * @return void
      */
