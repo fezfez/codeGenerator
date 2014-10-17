@@ -18,7 +18,7 @@
 namespace CrudGenerator\Backbone;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Generators\Questions\MetaDataSourcesQuestionFactory;
+use CrudGenerator\Generators\Questions\MetadataSource\MetadataSourceQuestionFactory;
 use CrudGenerator\MetaData\Config\MetaDataConfigDAOFactory;
 
 class CreateSourceBackboneFactory
@@ -30,7 +30,7 @@ class CreateSourceBackboneFactory
     public static function getInstance(ContextInterface $context)
     {
         return new CreateSourceBackbone(
-            MetaDataSourcesQuestionFactory::getInstance($context),
+            MetadataSourceQuestionFactory::getInstance($context),
             MetaDataConfigDAOFactory::getInstance($context),
             $context
         );

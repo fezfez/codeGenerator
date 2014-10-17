@@ -18,8 +18,8 @@
 namespace CrudGenerator\History;
 
 use CrudGenerator\DataObject;
-use CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion;
-use CrudGenerator\Generators\Questions\Web\MetaDataQuestion;
+use CrudGenerator\Generators\Questions\MetadataSourceConfigured\MetadataSourceConfiguredQuestion;
+use CrudGenerator\Generators\Questions\Metadata\MetadataQuestion;
 use CrudGenerator\Generators\ResponseExpectedException;
 use CrudGenerator\Generators\GeneratorDataObject;
 
@@ -31,24 +31,24 @@ use CrudGenerator\Generators\GeneratorDataObject;
 class HistoryHydrator
 {
     /**
-     * @var MetaDataSourcesConfiguredQuestion
+     * @var MetadataSourceConfiguredQuestion
      */
-    private $metaDataSourcesConfiguredQuestion = null;
+    private $metadataSourceConfiguredQuestion = null;
     /**
-     * @var MetaDataQuestion
+     * @var MetadataQuestion
      */
-    private $metaDataQuestion = null;
+    private $metadataQuestion = null;
 
     /**
-     * @param MetaDataSourcesConfiguredQuestion $metaDataSourcesConfiguredQuestion
-     * @param MetaDataQuestion $metaDataQuestion
+     * @param MetadataSourceConfiguredQuestion $metadataSourceConfiguredQuestion
+     * @param MetadataQuestion $metadataQuestion
      */
     public function __construct(
-        MetaDataSourcesConfiguredQuestion $metaDataSourcesConfiguredQuestion,
-        MetaDataQuestion $metaDataQuestion
+        MetadataSourceConfiguredQuestion $metadataSourceConfiguredQuestion,
+        MetadataQuestion $metadataQuestion
     ) {
-        $this->metaDataSourcesConfiguredQuestion = $metaDataSourcesConfiguredQuestion;
-        $this->metaDataQuestion                  = $metaDataQuestion;
+        $this->metadataSourceConfiguredQuestion = $metadataSourceConfiguredQuestion;
+        $this->metadataQuestion                 = $metadataQuestion;
     }
 
     /**
@@ -136,7 +136,7 @@ class HistoryHydrator
         }
 
         try {
-            $metadataSource = $this->metaDataSourcesConfiguredQuestion->ask(
+            $metadataSource = $this->metadataSourceConfiguredQuestion->ask(
                 $arrayRepresentation['metaDataSource']['uniqueName']
             );
         } catch (ResponseExpectedException $e) {
@@ -149,7 +149,7 @@ class HistoryHydrator
         }
 
         try {
-            $metaData = $this->metaDataQuestion->ask($metadataSource, $dto['metadata']['name']);
+            $metaData = $this->metadataQuestion->ask($metadataSource, $dto['metadata']['name']);
         } catch (ResponseExpectedException $e) {
             throw new InvalidHistoryException(
                 sprintf(

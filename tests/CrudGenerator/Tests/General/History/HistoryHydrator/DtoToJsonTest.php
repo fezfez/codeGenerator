@@ -15,12 +15,12 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
     public function testWithInvalidHistory()
     {
         $stubMetadataSourceQuestion = $this->getMockBuilder(
-            'CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion'
+            'CrudGenerator\Generators\Questions\MetadataSourceConfigured\MetadataSourceConfiguredQuestion'
         )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $stubMetadataSource = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\MetaDataQuestion')
+        $stubMetadataSource = $this->getMockBuilder('CrudGenerator\Generators\Questions\Metadata\MetadataQuestion')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -38,12 +38,12 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
     public function testOk()
     {
         $stubMetadataSourceQuestion = $this->getMockBuilder(
-            'CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion'
+            'CrudGenerator\Generators\Questions\MetadataSourceConfigured\MetadataSourceConfiguredQuestion'
         )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $stubMetadataSource = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\MetaDataQuestion')
+        $stubMetadataSource = $this->getMockBuilder('CrudGenerator\Generators\Questions\Metadata\MetadataQuestion')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -74,12 +74,12 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
     public function testBoth()
     {
         $stubMetadataSourceQuestion = $this->getMockBuilder(
-            'CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion'
+            'CrudGenerator\Generators\Questions\MetadataSourceConfigured\MetadataSourceConfiguredQuestion'
         )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $stubMetadataSource = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\MetaDataQuestion')
+        $stubMetadataSource = $this->getMockBuilder('CrudGenerator\Generators\Questions\Metadata\MetadataQuestion')
         ->disableOriginalConstructor()
         ->getMock();
 

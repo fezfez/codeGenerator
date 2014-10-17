@@ -18,7 +18,7 @@
 namespace CrudGenerator\Backbone;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Generators\Questions\Web\MetaDataSourcesQuestion;
+use CrudGenerator\Generators\Questions\MetadataSource\MetadataSourceQuestion;
 use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
 use CrudGenerator\MetaData\Config\ConfigException;
 use CrudGenerator\Generators\ResponseExpectedException;
@@ -26,9 +26,9 @@ use CrudGenerator\Generators\ResponseExpectedException;
 class CreateSourceBackbone
 {
     /**
-     * @var MetaDataSourcesQuestion
+     * @var MetadataSourceQuestion
      */
-    private $metaDataSourcesQuestion = null;
+    private $metadataSourceQuestion = null;
     /**
      * @var MetaDataConfigDAO
      */
@@ -39,23 +39,23 @@ class CreateSourceBackbone
     private $context = null;
 
     /**
-     * @param MetaDataSourcesQuestion $metaDataSourcesQuestion
+     * @param MetadataSourceQuestion $metadataSourceQuestion
      * @param MetaDataConfigDAO $metaDataConfigDAO
      * @param ContextInterface $context
      */
     public function __construct(
-        MetaDataSourcesQuestion $metaDataSourcesQuestion,
+        MetadataSourceQuestion $metadataSourceQuestion,
         MetaDataConfigDAO $metaDataConfigDAO,
         ContextInterface $context
     ) {
-        $this->metaDataSourcesQuestion = $metaDataSourcesQuestion;
-        $this->metaDataConfigDAO       = $metaDataConfigDAO;
-        $this->context                 = $context;
+        $this->metadataSourceQuestion = $metadataSourceQuestion;
+        $this->metaDataConfigDAO      = $metaDataConfigDAO;
+        $this->context                = $context;
     }
 
     public function run()
     {
-        $source = $this->metaDataSourcesQuestion->ask();
+        $source = $this->metadataSourceQuestion->ask();
         try {
             $this->metaDataConfigDAO->save($source);
             $this->context->log('New source created', 'valid');

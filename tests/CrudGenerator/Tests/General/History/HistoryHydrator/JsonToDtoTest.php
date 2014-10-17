@@ -12,12 +12,12 @@ class JsonToDtoTest extends \PHPUnit_Framework_TestCase
     {
         // @TODO improve unit test
         $stubMetadataSourceQuestion = $this->getMockBuilder(
-            'CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion'
+            'CrudGenerator\Generators\Questions\MetadataSourceConfigured\MetadataSourceConfiguredQuestion'
         )
         ->disableOriginalConstructor()
         ->getMock();
 
-        $stubMetadataSource = $this->getMockBuilder('CrudGenerator\Generators\Questions\Web\MetaDataQuestion')
+        $stubMetadataSource = $this->getMockBuilder('CrudGenerator\Generators\Questions\Metadata\MetadataQuestion')
         ->disableOriginalConstructor()
         ->getMock();
 

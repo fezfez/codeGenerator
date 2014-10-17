@@ -15,39 +15,22 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Backbone;
+namespace CrudGenerator\Generators\Questions\MetadataSourceConfigured;
 
-use CrudGenerator\Generators\Questions\History\HistoryQuestion;
-use CrudGenerator\History\EmptyHistoryException;
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\MetaData\Config\MetaDataConfigDAOFactory;
 
-class HistoryBackbone
+class MetadataSourceConfiguredQuestionFactory
 {
     /**
-     * @var HistoryQuestion
-     */
-    private $historyQuestion = null;
-    /**
-     * @var ContextInterface
-     */
-    private $context = null;
-
-    /**
-     * @param HistoryQuestion $historyQuestion
      * @param ContextInterface $context
+     * @throws \InvalidArgumentException
+     * @return Web\MetaDataSourcesConfiguredQuestion
      */
-    public function __construct(HistoryQuestion $historyQuestion, ContextInterface $context)
+    public static function getInstance(ContextInterface $context)
     {
-        $this->historyQuestion = $historyQuestion;
-        $this->context         = $context;
-    }
+        $metadataSourceConfigDAO = MetaDataConfigDAOFactory::getInstance($context);
 
-    public function run()
-    {
-        try {
-            $this->context->publishGenerator($this->historyQuestion->ask());
-        } catch (EmptyHistoryException $e) {
-            $this->context->log("Generation history empty", "history_empty");
-        }
+        return new MetadataSourceConfiguredQuestion($metadataSourceConfigDAO, $context);
     }
 }

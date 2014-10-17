@@ -15,39 +15,19 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license.
  */
-namespace CrudGenerator\Backbone;
+namespace CrudGenerator\Generators\Questions\History;
 
-use CrudGenerator\Generators\Questions\History\HistoryQuestion;
-use CrudGenerator\History\EmptyHistoryException;
+use CrudGenerator\History\HistoryFactory;
 use CrudGenerator\Context\ContextInterface;
 
-class HistoryBackbone
+class HistoryQuestionFactory
 {
     /**
-     * @var HistoryQuestion
-     */
-    private $historyQuestion = null;
-    /**
-     * @var ContextInterface
-     */
-    private $context = null;
-
-    /**
-     * @param HistoryQuestion $historyQuestion
      * @param ContextInterface $context
+     * @return \CrudGenerator\Generators\Questions\History\HistoryQuestion
      */
-    public function __construct(HistoryQuestion $historyQuestion, ContextInterface $context)
+    public static function getInstance(ContextInterface $context)
     {
-        $this->historyQuestion = $historyQuestion;
-        $this->context         = $context;
-    }
-
-    public function run()
-    {
-        try {
-            $this->context->publishGenerator($this->historyQuestion->ask());
-        } catch (EmptyHistoryException $e) {
-            $this->context->log("Generation history empty", "history_empty");
-        }
+        return new HistoryQuestion(HistoryFactory::getInstance($context), $context);
     }
 }

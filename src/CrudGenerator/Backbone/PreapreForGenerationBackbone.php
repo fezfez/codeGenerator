@@ -17,22 +17,22 @@
  */
 namespace CrudGenerator\Backbone;
 
-use CrudGenerator\Generators\Questions\Web\MetaDataSourcesConfiguredQuestion;
-use CrudGenerator\Generators\Questions\Web\MetaDataQuestion;
-use CrudGenerator\Generators\Questions\Web\GeneratorQuestion;
+use CrudGenerator\Generators\Questions\MetadataSourceConfigured\MetadataSourceConfiguredQuestion;
+use CrudGenerator\Generators\Questions\Metadata\MetadataQuestion;
+use CrudGenerator\Generators\Questions\Generator\GeneratorQuestion;
 use CrudGenerator\Generators\Parser\GeneratorParserInterface;
 use CrudGenerator\Generators\GeneratorDataObject;
 
 class PreapreForGenerationBackbone
 {
     /**
-     * @var MetaDataSourcesConfiguredQuestion
+     * @var MetadataSourceConfiguredQuestion
      */
-    private $metaDataSourcesConfiguredQuestion = null;
+    private $metadataSourceConfiguredQuestion = null;
     /**
-     * @var MetaDataQuestion
+     * @var MetadataQuestion
      */
-    private $metaDataQuestion = null;
+    private $metadataQuestion = null;
     /**
      * @var GeneratorQuestion
      */
@@ -43,21 +43,21 @@ class PreapreForGenerationBackbone
     private $generatorParser = null;
 
     /**
-     * @param MetaDataSourcesConfiguredQuestion $metaDataSourcesConfiguredQuestion
-     * @param MetaDataQuestion $metaDataQuestion
+     * @param MetadataSourceConfiguredQuestion $metadataSourceConfiguredQuestion
+     * @param MetadataQuestion $metadataQuestion
      * @param GeneratorQuestion $generatorQuestion
      * @param GeneratorParserInterface $generatorParser
      */
     public function __construct(
-        MetaDataSourcesConfiguredQuestion $metaDataSourcesConfiguredQuestion,
-        MetaDataQuestion $metaDataQuestion,
+        MetadataSourceConfiguredQuestion $metadataSourceConfiguredQuestion,
+        MetadataQuestion $metadataQuestion,
         GeneratorQuestion $generatorQuestion,
         GeneratorParserInterface $generatorParser
     ) {
-        $this->metaDataQuestion                  = $metaDataQuestion;
-        $this->generatorParser                   = $generatorParser;
-        $this->generatorQuestion                 = $generatorQuestion;
-        $this->metaDataSourcesConfiguredQuestion = $metaDataSourcesConfiguredQuestion;
+        $this->metadataQuestion                 = $metadataQuestion;
+        $this->generatorParser                  = $generatorParser;
+        $this->generatorQuestion                = $generatorQuestion;
+        $this->metadataSourceConfiguredQuestion = $metadataSourceConfiguredQuestion;
     }
 
     /**
@@ -66,8 +66,8 @@ class PreapreForGenerationBackbone
      */
     public function run()
     {
-        $metadataSource = $this->metaDataSourcesConfiguredQuestion->ask();
-        $metadata       = $this->metaDataQuestion->ask($metadataSource);
+        $metadataSource = $this->metadataSourceConfiguredQuestion->ask();
+        $metadata       = $this->metadataQuestion->ask($metadataSource);
         $generatorName  = $this->generatorQuestion->ask($metadata);
 
         $generator = new GeneratorDataObject();

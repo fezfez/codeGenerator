@@ -18,7 +18,7 @@
 namespace CrudGenerator\Backbone;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Generators\Questions\HistoryQuestionFactory;
+use CrudGenerator\Generators\Questions\History\HistoryQuestionFactory;
 
 class HistoryBackboneFactory
 {

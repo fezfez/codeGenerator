@@ -20,7 +20,7 @@ namespace CrudGenerator\Generators\Parser\Lexical\QuestionType;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Questions\DirectoryQuestionFactory;
+use CrudGenerator\Generators\Questions\Directory\DirectoryQuestionFactory;
 use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
 
 class QuestionTypeDirectory implements QuestionTypeInterface
