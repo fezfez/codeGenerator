@@ -154,7 +154,7 @@ class CliContext implements ContextInterface
             $this->input,
             $this->output,
             new ConfirmationQuestion(
-                $text
+                $text . ' y/n'
             )
         );
     }
@@ -164,7 +164,14 @@ class CliContext implements ContextInterface
      */
     public function log($text, $name = null)
     {
-        $this->output->writeln($text);
+        if (is_array($text)) {
+            $tmpArray = array_keys($text);
+            foreach ($tmpArray as $value) {
+                $this->output->writeln($value);
+            }
+        } else {
+            $this->output->writeln($text);
+        }
     }
 
     /* (non-PHPdoc)

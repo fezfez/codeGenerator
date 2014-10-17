@@ -79,10 +79,10 @@ class Generator
     {
         foreach ($generator->getFiles() as $file) {
             $result = $this->strategy->generateFile(
-                    $generator->getTemplateVariables(),
-                    $file['skeletonPath'],
-                    $file['name'],
-                    $file['fileName']
+                $generator->getTemplateVariables(),
+                $file['skeletonPath'],
+                $file['name'],
+                $file['fileName']
             );
 
             if ($this->fileConflict->test($file['fileName'], $result) === true) {

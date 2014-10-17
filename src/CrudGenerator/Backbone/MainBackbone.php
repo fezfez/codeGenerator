@@ -108,12 +108,12 @@ class MainBackbone
             'generate',
             function() {
                 $generator = $this->preapreForGenerationBackbone->run();
-                $this->context->log($generator->getFiles(), 'files');
+                $this->context->publishGenerator($generator);
 
-                if (true === $this->context->confirm('view file', 'view_file')) {
+                if (true === $this->context->confirm('Preview a file ?', 'view_file')) {
                     $this->generateFileBackbone->run($generator);
                 }
-                if (true === $this->context->confirm('Generate file', 'generate_files')) {
+                if (true === $this->context->confirm('Generate file(s) ?', 'generate_files')) {
                     $this->generateBackbone->run($generator);
                 }
             }

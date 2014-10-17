@@ -51,5 +51,7 @@
 	},
 	"bin" : [
 		"bin/code-generator"
-	]
+	],
+	"minimum-stability" : "dev",
+    "prefer-stable": true
 }

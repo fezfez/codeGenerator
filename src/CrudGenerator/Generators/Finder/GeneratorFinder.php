@@ -66,8 +66,9 @@ class GeneratorFinder implements GeneratorFinderInterface
             $generators = array();
             $iterator   = new \RegexIterator(
                 new \RecursiveIteratorIterator(
-                        new \RecursiveDirectoryIterator(getcwd(), \FilesystemIterator::SKIP_DOTS),
-                        \RecursiveIteratorIterator::LEAVES_ONLY
+                    new \RecursiveDirectoryIterator(getcwd(), \FilesystemIterator::SKIP_DOTS),
+                    \RecursiveIteratorIterator::LEAVES_ONLY,
+                    \RecursiveIteratorIterator::CATCH_GET_CHILD
                 ),
                 '/^.+\.generator\.json$/i',
                 \RecursiveRegexIterator::GET_MATCH
