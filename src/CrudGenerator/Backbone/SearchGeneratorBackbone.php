@@ -17,10 +17,10 @@
  */
 namespace CrudGenerator\Backbone;
 
-use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\Search\GeneratorSearch;
 use CrudGenerator\Generators\Installer\GeneratorInstallerInterface;
 use CrudGenerator\Generators\Detail\GeneratorDetail;
+use CrudGenerator\Context\ContextInterface;
 
 class SearchGeneratorBackbone
 {

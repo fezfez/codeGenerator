@@ -31,6 +31,7 @@ class QuestionWithPredefinedResponse extends SimpleQuestion
     /**
      * @param string $text
      * @param string $uniqueKey
+     * @param PredefinedResponseCollection $predefinedResponseCollection
      */
     public function __construct($text, $uniqueKey, PredefinedResponseCollection $predefinedResponseCollection)
     {

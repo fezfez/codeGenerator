@@ -89,46 +89,42 @@ class CliContext implements ContextInterface
     */
     public function askCollection(QuestionWithPredefinedResponse $questionResponseCollection)
     {
-        $preselectedResponse = $questionResponseCollection->getPreselectedResponse();
-
-        // If a preselected response exist, try to retireve response and return her
-        if ($preselectedResponse !== null) {
-            try {
-                return $questionResponseCollection->getPredefinedResponseCollection()
-                                                  ->offsetGetById($preselectedResponse)
-                                                  ->getResponse();
-            } catch (PredefinedResponseException $e) {
-                // preselected response does not exist anymore
-            }
-        }
-
-        $choises = array();
-
-        foreach ($questionResponseCollection->getPredefinedResponseCollection() as $response) {
-            $choises[] = $response->getLabel();
-        }
-
-        // Ask question
-        $choise = $this->question->ask(
-            $this->input,
-            $this->output,
-            new ChoiceQuestion(
-                sprintf('Choose a "%s"', $questionResponseCollection->getText()) ,
-                $choises
-            )
-        );
-
         try {
+            // If a preselected response exist, try to retireve response and return her
             return $questionResponseCollection->getPredefinedResponseCollection()
-                                              ->offsetGetByLabel($choise)
+                                              ->offsetGetById($questionResponseCollection->getPreselectedResponse())
                                               ->getResponse();
         } catch (PredefinedResponseException $e) {
-            throw new ResponseExpectedException(
-                sprintf(
-                    'Response "%s" does not exist',
-                    $choise
+            // preselected response does not exist
+
+            $choises = array();
+
+            foreach ($questionResponseCollection->getPredefinedResponseCollection() as $response) {
+                $choises[] = $response->getLabel();
+            }
+
+            // Ask question
+            $choise = $this->question->ask(
+                $this->input,
+                $this->output,
+                new ChoiceQuestion(
+                    sprintf('Choose a "%s"', $questionResponseCollection->getText()) ,
+                    $choises
                 )
             );
+
+            try {
+                return $questionResponseCollection->getPredefinedResponseCollection()
+                                                  ->offsetGetByLabel($choise)
+                                                  ->getResponse();
+            } catch (PredefinedResponseException $e) {
+                throw new ResponseExpectedException(
+                    sprintf(
+                        'Response "%s" does not exist',
+                        $choise
+                    )
+                );
+            }
         }
     }
 
@@ -145,7 +141,7 @@ class CliContext implements ContextInterface
      */
     public function confirm($text, $uniqueKey)
     {
-        return $this->question->ask(
+        return (bool) $this->question->ask(
             $this->input,
             $this->output,
             new ConfirmationQuestion(

@@ -57,10 +57,12 @@ class PredefinedResponseCollection implements \IteratorAggregate
      */
     public function offsetGetById($idInSearch)
     {
-        foreach ($this->collection as $question) {
-            /* @var $question PredefinedResponse */
-            if ($idInSearch === $question->getId()) {
-                return $question;
+        if ($idInSearch !== null) {
+            foreach ($this->collection as $question) {
+                /* @var $question PredefinedResponse */
+                if ($idInSearch === $question->getId()) {
+                    return $question;
+                }
             }
         }
 

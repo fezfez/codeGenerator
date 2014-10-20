@@ -26,6 +26,9 @@ use CrudGenerator\MetaData\DataObject\MetaDataInterface;
 
 class GeneratorQuestion
 {
+    /**
+     * @var string
+     */
     const QUESTION_KEY = 'generator';
     /**
      * @var GeneratorFinderInterface
@@ -47,7 +50,8 @@ class GeneratorQuestion
     }
 
     /**
-     * @return string
+     * @param MetaDataInterface $metadata
+     * @return \CrudGenerator\Context\ResponseContext
      */
     public function ask(MetaDataInterface $metadata)
     {
