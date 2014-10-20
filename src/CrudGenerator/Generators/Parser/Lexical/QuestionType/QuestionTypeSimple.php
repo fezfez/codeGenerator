@@ -30,19 +30,13 @@ class QuestionTypeSimple implements QuestionTypeInterface
         $this->context = $context;
     }
 
-    /**
-     * @param array $question
-     * @param PhpStringParser $parser
-     * @param GeneratorDataObject $generator
-     * @param boolean $firstIteration
-     * @return GeneratorDataObject
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeInterface::evaluateQuestion()
      */
     public function evaluateQuestion(
         array $questionRaw,
         PhpStringParser $parser,
-        GeneratorDataObject $generator,
-        $firstIteration,
-        array $process
+        GeneratorDataObject $generator
     ) {
         $question = new SimpleQuestion($questionRaw['text'], 'set' . ucfirst($questionRaw['dtoAttribute']));
         $question->setDefaultResponse(

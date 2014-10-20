@@ -85,9 +85,7 @@ class QuestionParser implements ParserInterface
     public function evaluateQuestions(
         array $question,
         PhpStringParser $parser,
-        GeneratorDataObject $generator,
-        $firstIteration,
-        array $process
+        GeneratorDataObject $generator
     ) {
         $question = $this->questionAnalyser->checkIntegrity($question);
         $isParsed = false;
@@ -98,9 +96,7 @@ class QuestionParser implements ParserInterface
                 $generator = $questionTypeParser->evaluateQuestion(
                     $question,
                     $parser,
-                    $generator,
-                    $firstIteration,
-                    $process
+                    $generator
                 );
 
                 $isParsed = true;

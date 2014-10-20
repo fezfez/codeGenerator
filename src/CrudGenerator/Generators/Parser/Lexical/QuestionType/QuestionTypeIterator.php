@@ -44,9 +44,7 @@ class QuestionTypeIterator implements QuestionTypeInterface
     public function evaluateQuestion(
         array $question,
         PhpStringParser $parser,
-        GeneratorDataObject $generator,
-        $firstIteration,
-        array $process
+        GeneratorDataObject $generator
     ) {
         $iterator       = $this->iteratorValidator->retrieveValidIteration($question, $generator, $parser);
         $iteratorParser = clone $parser;

@@ -35,9 +35,7 @@ class QuestionTypeComplex implements QuestionTypeInterface
     public function evaluateQuestion(
         array $question,
         PhpStringParser $parser,
-        GeneratorDataObject $generator,
-        $firstIteration,
-        array $process
+        GeneratorDataObject $generator
     ) {
         $complex = $question['factory']::getInstance($this->context);
 

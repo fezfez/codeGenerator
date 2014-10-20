@@ -18,17 +18,13 @@ interface QuestionTypeInterface
      * @param array $question
      * @param PhpStringParser $parser
      * @param GeneratorDataObject $generator
-     * @param boolean $firstIteration
-     * @param array $process
      *
      * @return GeneratorDataObject
      */
     public function evaluateQuestion(
         array $question,
         PhpStringParser $parser,
-        GeneratorDataObject $generator,
-        $firstIteration,
-        array $process
+        GeneratorDataObject $generator
     );
 
     /**

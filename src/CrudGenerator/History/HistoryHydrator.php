@@ -16,7 +16,7 @@ use CrudGenerator\Generators\ResponseExpectedException;
 use CrudGenerator\Generators\GeneratorDataObject;
 
 /**
- * HistoryManager instance
+ * History hydrator
  *
  * @author Stéphane Demonchaux
  */
@@ -32,6 +32,8 @@ class HistoryHydrator
     private $metadataQuestion = null;
 
     /**
+     * Constructor.
+     *
      * @param MetadataSourceConfiguredQuestion $metadataSourceConfiguredQuestion
      * @param MetadataQuestion $metadataQuestion
      */
@@ -45,6 +47,7 @@ class HistoryHydrator
 
     /**
      * @param GeneratorDataObject $dataObject
+     * @return string
      */
     public function dtoToJson(GeneratorDataObject $dataObject)
     {
