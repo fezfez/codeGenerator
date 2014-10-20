@@ -22,6 +22,7 @@ use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
 use Packagist\Api\Client;
+use CrudGenerator\Context\SimpleQuestion;
 
 /**
  * Find all generator allow in project
@@ -43,6 +44,10 @@ class GeneratorSearch
      */
     private $context = null;
 
+    /**
+     * @param Client $packagistApiClient
+     * @param ContextInterface $context
+     */
     public function __construct(Client $packagistApiClient, ContextInterface $context)
     {
         $this->packagistApiClient = $packagistApiClient;
@@ -54,7 +59,7 @@ class GeneratorSearch
      */
     public function ask()
     {
-        $name = $this->context->ask('Search generator', 'generator_name');
+        $name = $this->context->ask(new SimpleQuestion('Search generator', 'generator_name'));
         $list = $this->packagistApiClient->search($name, array('type' => 'fezfez-code-generator'));
 
         $responseCollection = new PredefinedResponseCollection();

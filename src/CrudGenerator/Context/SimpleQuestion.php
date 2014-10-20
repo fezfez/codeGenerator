@@ -17,6 +17,8 @@
  */
 namespace CrudGenerator\Context;
 
+use CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum;
+
 class SimpleQuestion
 {
     /**
@@ -44,7 +46,7 @@ class SimpleQuestion
      */
     private $type = null;
     /**
-     * @var string
+     * @var QuestionResponseTypeEnum
      */
     private $responseType = null;
     /**
@@ -137,10 +139,10 @@ class SimpleQuestion
     }
 
     /**
-     * @param string $value
+     * @param QuestionResponseTypeEnum $value
      * @return \CrudGenerator\Context\SimpleQuestion
      */
-    public function setResponseType($value)
+    public function setResponseType(QuestionResponseTypeEnum $value)
     {
         $this->responseType = $value;
 

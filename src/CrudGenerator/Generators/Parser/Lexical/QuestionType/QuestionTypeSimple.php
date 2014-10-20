@@ -21,6 +21,7 @@ use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
+use CrudGenerator\Context\SimpleQuestion;
 
 class QuestionTypeSimple implements QuestionTypeInterface
 {
@@ -45,24 +46,25 @@ class QuestionTypeSimple implements QuestionTypeInterface
      * @return GeneratorDataObject
      */
     public function evaluateQuestion(
-        array $question,
+        array $questionRaw,
         PhpStringParser $parser,
         GeneratorDataObject $generator,
         $firstIteration,
         array $process
     ) {
-        $response = $this->context->ask(
-            $question['text'],
-            'set' . ucfirst($question['dtoAttribute']),
-            (isset($question['defaultResponse']) === true) ? $parser->parse($question['defaultResponse']) : null,
-            $question['required'],
-            $question['helpMessage'],
-            $question['responseType']
+        $question = new SimpleQuestion($questionRaw['text'], 'set' . ucfirst($questionRaw['dtoAttribute']));
+        $question->setDefaultResponse(
+            (isset($questionRaw['defaultResponse']) === true) ? $parser->parse($questionRaw['defaultResponse']) : null
         );
+        $question->setRequired($questionRaw['required']);
+        $question->setHelpMessage($questionRaw['helpMessage']);
+        $question->setResponseType($questionRaw['responseType']);
 
-        $questionName = $question['setter'];
+        $response = $this->context->ask($question);
 
         if ($response !== null) {
+            $questionName = $question['setter'];
+
             $generator->getDto()->$questionName($response);
         }
 

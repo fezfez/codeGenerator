@@ -32,7 +32,7 @@ class CreateSourceBackbone
     /**
      * @var MetaDataConfigDAO
      */
-    private $metaDataConfigDAO = null;
+    private $metadataConfigDAO = null;
     /**
      * @var ContextInterface
      */
@@ -49,15 +49,18 @@ class CreateSourceBackbone
         ContextInterface $context
     ) {
         $this->metadataSourceQuestion = $metadataSourceQuestion;
-        $this->metaDataConfigDAO      = $metaDataConfigDAO;
+        $this->metadataConfigDAO      = $metaDataConfigDAO;
         $this->context                = $context;
     }
 
+    /**
+     * @throws ResponseExpectedException
+     */
     public function run()
     {
         $source = $this->metadataSourceQuestion->ask();
         try {
-            $this->metaDataConfigDAO->save($source);
+            $this->metadataConfigDAO->save($source);
             $this->context->log('New source created', 'valid');
         } catch (ConfigException $e) {
             $this->context->log($e->getMessage(), 'error');

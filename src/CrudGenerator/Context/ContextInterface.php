@@ -29,21 +29,10 @@ interface ContextInterface
 {
     /**
      * Ask question
-     * @param string $text
-     * @param string $uniqueKey
-     * @param string $defaultResponse
-     * @param boolean $required
-     * @param Enum $type
+     * @param SimpleQuestion $question
      * @return string
      */
-    public function ask(
-        $text,
-        $uniqueKey,
-        $defaultResponse = null,
-        $required = false,
-        $helpMessage = null,
-        QuestionResponseTypeEnum $type
-    );
+    public function ask(SimpleQuestion $question);
 
     /**
      * Ask question in collection

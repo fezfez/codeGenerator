@@ -28,6 +28,7 @@ use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Driver\DriverConfig;
+use CrudGenerator\Context\SimpleQuestion;
 
 class MetaDataConfigDAO
 {
@@ -184,7 +185,7 @@ class MetaDataConfigDAO
         foreach ($driverConfiguration->getQuestion() as $question) {
             $driverConfiguration->response(
                 $question['attr'],
-                $this->context->ask($question['desc'], $question['attr'])
+                $this->context->ask(new SimpleQuestion($question['desc'], $question['attr']))
             );
         }
 

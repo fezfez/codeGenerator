@@ -25,6 +25,9 @@ use CrudGenerator\Context\PredefinedResponse;
 
 class MetadataSourceConfiguredQuestion
 {
+    /**
+     * @var string
+     */
     const QUESTION_KEY = 'backend';
     /**
      * @var MetaDataConfigDAO
@@ -37,6 +40,7 @@ class MetadataSourceConfiguredQuestion
 
     /**
      * @param MetaDataConfigDAO $metadataSourceConfigDAO
+     * @param ContextInterface $context
      */
     public function __construct(MetaDataConfigDAO $metadataSourceConfigDAO, ContextInterface $context)
     {
@@ -46,6 +50,7 @@ class MetadataSourceConfiguredQuestion
 
     /**
      * Ask witch MetaData Source you want to use
+     *
      * @param string $choice
      * @throws ResponseExpectedException
      * @return \CrudGenerator\MetaData\MetaDataSource

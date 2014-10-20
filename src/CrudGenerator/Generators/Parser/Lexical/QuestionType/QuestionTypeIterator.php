@@ -23,6 +23,7 @@ use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
 use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
 use CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum;
+use CrudGenerator\Context\SimpleQuestion;
 
 class QuestionTypeIterator implements QuestionTypeInterface
 {
@@ -63,15 +64,18 @@ class QuestionTypeIterator implements QuestionTypeInterface
             $iteratorParser->addVariable('iteration', $iteration);
 
             $origine  = $iteratorParser->parse($question['iteration']['retrieveBy']);
-            $response = $this->context->ask(
+
+            $question = new SimpleQuestion(
                 $iteratorParser->parse($question['iteration']['text']),
-                $question['setter'] . $origine,
-                (isset($question['iteration']['response']['default']) === true)
-                    ? $iteratorParser->parse($question['iteration']['response']['default']) : null,
-                $question['required'],
-                $question['helpMessage'],
-                new QuestionResponseTypeEnum($question['iteration']['response']['type'])
+                $question['setter'] . $origine
             );
+            $question->setDefaultResponse((isset($question['iteration']['response']['default']) === true)
+                    ? $iteratorParser->parse($question['iteration']['response']['default']) : null);
+            $question->setRequired($question['required']);
+            $question->setHelpMessage($question['helpMessage']);
+            $question->setResponseType(new QuestionResponseTypeEnum($question['iteration']['response']['type']));
+
+            $response = $this->context->ask($question);
 
             $questionName = $question['setter'];
             if ($response !== null) {

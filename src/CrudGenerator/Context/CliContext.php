@@ -73,19 +73,13 @@ class CliContext implements ContextInterface
     /* (non-PHPdoc)
      * @see \CrudGenerator\Context\ContextInterface::ask()
      */
-    public function ask(
-        $text,
-        $attribute,
-        $defaultResponse = null,
-        $required = false,
-        $helpMessage = null,
-        QuestionResponseTypeEnum $type
-    ) {
+    public function ask(SimpleQuestion $question)
+    {
         return $this->question->ask(
             $this->input,
             $this->output,
             new Question(
-                sprintf('<question>Choose a "%s"</question> : ', $text)
+                sprintf('<question>Choose a "%s"</question> : ', $question->getText())
             )
         );
     }

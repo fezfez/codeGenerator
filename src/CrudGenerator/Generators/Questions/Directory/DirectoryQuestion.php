@@ -25,6 +25,7 @@ use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
 use CrudGenerator\Context\CliContext;
 use CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum;
+use CrudGenerator\Context\SimpleQuestion;
 
 class DirectoryQuestion
 {
@@ -129,14 +130,7 @@ class DirectoryQuestion
 
         while (true) {
             try {
-                $directory = $this->context->ask(
-                    'Directory name ',
-                    'directory_name',
-                    null,
-                    false,
-                    null,
-                    new QuestionResponseTypeEnum()
-                );
+                $directory = $this->context->ask(new SimpleQuestion('Directory name', 'directory_name'));
 
                 if (false === $this->fileManager->ifDirDoesNotExistCreate($baseDirectory . $directory)) {
                     throw new \Exception('Directory already exist');
