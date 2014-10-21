@@ -11,12 +11,13 @@ class GetErrorsTest extends \PHPUnit_Framework_TestCase
                           ->disableOriginalConstructor()
                           ->getMock();
 
+        $error = array('an error');
         $validator->expects($this->once())
                   ->method('getErrors')
-                  ->will($this->returnValue(true));
+                  ->will($this->returnValue($error));
 
         $sUT = new GeneratorValidator('', $validator);
 
-        $sUT->getErrors();
+        $this->assertEquals($error, $sUT->getErrors());
     }
 }

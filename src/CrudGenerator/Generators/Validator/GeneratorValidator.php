@@ -68,7 +68,7 @@ class GeneratorValidator
     }
 
     /**
-     * @return multitype:
+     * @return array
      */
     public function getErrors()
     {

@@ -147,7 +147,7 @@ class CliContext implements ContextInterface
      */
     public function log($text, $name = null)
     {
-        if (is_array($text)) {
+        if (is_array($text) === true) {
             $tmpArray = array_keys($text);
             foreach ($tmpArray as $value) {
                 $this->output->writeln($value);

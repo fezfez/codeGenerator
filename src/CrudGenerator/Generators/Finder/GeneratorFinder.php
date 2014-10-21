@@ -14,7 +14,7 @@ use CrudGenerator\Utils\Transtyper;
 use CrudGenerator\Generators\Validator\GeneratorValidator;
 
 /**
- * Find all generator allow in project
+ * Find generator
  *
  * @author Stéphane Demonchaux
  */
@@ -34,23 +34,19 @@ class GeneratorFinder implements GeneratorFinderInterface
     private static $allClasses = null;
 
     /**
-     * Find all generator allow in project
+     * Constructor.
      *
      * @param Transtyper $transtyper
      * @param GeneratorValidator $generatorValidator
      */
-    public function __construct(
-        Transtyper $transtyper,
-        GeneratorValidator $generatorValidator
-    ) {
+    public function __construct(Transtyper $transtyper, GeneratorValidator $generatorValidator)
+    {
         $this->transtyper         = $transtyper;
         $this->generatorValidator = $generatorValidator;
     }
 
-    /**
-     * Find all adapters allow in project
-     *
-     * @return array
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Generators\Finder\GeneratorFinderInterface::getAllClasses()
      */
     public function getAllClasses(MetaDataInterface $metadata = null)
     {
@@ -84,10 +80,8 @@ class GeneratorFinder implements GeneratorFinderInterface
         return self::$allClasses;
     }
 
-    /**
-     * @param string $name
-     * @throws \InvalidArgumentException
-     * @return string
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Generators\Finder\GeneratorFinderInterface::findByName()
      */
     public function findByName($name)
     {

@@ -9,7 +9,8 @@
  */
 namespace CrudGenerator\Generators\Detail;
 
-use Github\Client;
+use Github\Api\Repo;
+use Github\Api\Markdown;
 use Packagist\Api\Result\Result;
 
 /**
@@ -20,16 +21,23 @@ use Packagist\Api\Result\Result;
 class GeneratorDetail
 {
     /**
-     * @var Client
+     * @var Repo
      */
-    private $client = null;
+    private $repository = null;
 
     /**
-     * @param Client $client
+     * @var Markdown
      */
-    public function __construct(Client $client)
+    private $markdown = null;
+
+    /**
+     * @param Repo $repository
+     * @param Markdown $markdown
+     */
+    public function __construct(Repo $repository, Markdown $markdown)
     {
-        $this->client = $client;
+        $this->repository = $repository;
+        $this->markdown   = $markdown;
     }
 
     /**
@@ -41,10 +49,10 @@ class GeneratorDetail
         $repository     = str_replace('https://github.com/', '', $package->getRepository());
         $packageExplode = explode('/', $repository);
 
-        $data = $this->client->api('repo')->contents()->readme($packageExplode[0], $packageExplode[1]);
+        $data = $this->repository->readme($packageExplode[0], $packageExplode[1]);
 
         return array(
-            'readme' => $this->client->api('markdown')->render(base64_decode($data['content'])),
+            'readme' => $this->markdown->render(base64_decode($data['content'])),
             'github' => $package->getRepository()
         );
     }

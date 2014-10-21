@@ -8,10 +8,10 @@ class RunTest extends \PHPUnit_Framework_TestCase
 {
     public function testCorrectlyCall()
     {
-        $contextStub =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
+        $contextStub = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
-        $generator =  $this->getMockBuilder('CrudGenerator\Generators\Generator')
+        $generator   = $this->getMockBuilder('CrudGenerator\Generators\Generator')
         ->disableOriginalConstructor()
         ->getMock();
 

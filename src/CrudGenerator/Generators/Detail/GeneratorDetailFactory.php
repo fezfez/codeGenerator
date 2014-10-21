@@ -11,6 +11,8 @@ namespace CrudGenerator\Generators\Detail;
 
 use CrudGenerator\Context\ContextInterface;
 use Github\Client;
+use Github\Api\Repo;
+use Github\Api\Markdown;
 
 /**
  *
@@ -24,8 +26,11 @@ class GeneratorDetailFactory
      */
     public static function getInstance(ContextInterface $context)
     {
+        $client = new Client();
+
         return new GeneratorDetail(
-            new Client()
+            new Repo($client),
+            new Markdown($client)
         );
     }
 }

@@ -41,11 +41,8 @@ class QuestionTypeIterator implements QuestionTypeInterface
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeInterface::evaluateQuestion()
      */
-    public function evaluateQuestion(
-        array $question,
-        PhpStringParser $parser,
-        GeneratorDataObject $generator
-    ) {
+    public function evaluateQuestion(array $question, PhpStringParser $parser, GeneratorDataObject $generator)
+    {
         $iterator       = $this->iteratorValidator->retrieveValidIteration($question, $generator, $parser);
         $iteratorParser = clone $parser;
 
@@ -53,7 +50,7 @@ class QuestionTypeIterator implements QuestionTypeInterface
 
             $iteratorParser->addVariable('iteration', $iteration);
 
-            $origine  = $iteratorParser->parse($question['iteration']['retrieveBy']);
+            $origine = $iteratorParser->parse($question['iteration']['retrieveBy']);
 
             $question = new SimpleQuestion(
                 $iteratorParser->parse($question['iteration']['text']),

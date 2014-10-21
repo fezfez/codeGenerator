@@ -19,6 +19,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
+
 /**
  *
  * Doctrine2 adapter in ZF2 environnement

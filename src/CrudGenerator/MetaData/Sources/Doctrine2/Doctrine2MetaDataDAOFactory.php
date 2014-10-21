@@ -14,6 +14,7 @@ use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Sources\MetaDataDAOSimpleFactoryInterface;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Doctrine2 Metadata DAO in Zend Framework 2 Environnement
@@ -31,6 +32,16 @@ class Doctrine2MetaDataDAOFactory implements MetaDataDAOSimpleFactoryInterface
         $fileManager    = new FileManager();
         $serviceManager = ZendFramework2Environnement::getDependence($fileManager);
         $entityManager  = $serviceManager->get('doctrine.entitymanager.orm_default');
+
+        if (($entityManager instanceof EntityManager) === false) {
+            throw new \Exception(
+                sprintf(
+                    'Service manager return instanceof "%s" instead of "%s"',
+                    get_class($entityManager),
+                    'Doctrine\ORM\EntityManager'
+                )
+            );
+        }
 
         return new Doctrine2MetaDataDAO($entityManager);
     }

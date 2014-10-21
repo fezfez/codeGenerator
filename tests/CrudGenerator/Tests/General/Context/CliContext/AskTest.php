@@ -24,8 +24,6 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $logged = 'test';
-
         $questionHelper->expects($this->once())
                    ->method('ask')
                    ->willReturn('12');
