@@ -175,7 +175,8 @@ class MetaDataSource implements \JsonSerializable
     }
 
     /**
-     * GetConnectorsFactory
+     * getDriversDescription
+     *
      * @return array
      */
     public function getDriversDescription()

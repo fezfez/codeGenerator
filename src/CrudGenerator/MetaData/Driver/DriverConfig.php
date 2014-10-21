@@ -9,6 +9,8 @@
  */
 namespace CrudGenerator\MetaData\Driver;
 
+use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
+
 /**
  * @author Stéphane Demonchaux
  */
@@ -135,10 +137,10 @@ class DriverConfig implements \JsonSerializable
     public function jsonSerialize()
     {
         return array(
-            'metadataDaoFactory' => $this->metadataDaoFactory,
-            'driver'             => $this->driver,
-            'response'           => $this->response,
-            'uniqueName'         => $this->uniqueName
+            MetaDataConfigDAO::SOURCE_FACTORY_KEY => $this->metadataDaoFactory,
+            MetaDataConfigDAO::DRIVER_FACTORY_KEY => $this->driver,
+            MetaDataConfigDAO::RESPONSE_KEY       => $this->response,
+            MetaDataConfigDAO::UNIQUE_NAME_KEY    => $this->uniqueName
         );
     }
 }

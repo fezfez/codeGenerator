@@ -146,7 +146,8 @@ class MetaDataConfigDAO
     }
 
     /**
-     * @return $adapterConfig
+     * @param MetaDataSource $source
+     * @return DriverConfig
      */
     public function ask(MetaDataSource $source)
     {
@@ -160,7 +161,7 @@ class MetaDataConfigDAO
             // Ask wich connector to use
             $predefinedResponseCollection = new PredefinedResponseCollection();
 
-            foreach ($source->getConnectors() as $description) {
+            foreach ($source->getDriversDescription() as $description) {
                 $predefinedResponseCollection->append(
                     new PredefinedResponse(
                         $description->getDefinition(),
