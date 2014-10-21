@@ -53,6 +53,7 @@ class CreateSourceBackbone
     public function run()
     {
         $source = $this->metadataSourceQuestion->ask();
+
         try {
             $this->metadataConfigDAO->save($source);
             $this->context->log('New source created', 'valid');
