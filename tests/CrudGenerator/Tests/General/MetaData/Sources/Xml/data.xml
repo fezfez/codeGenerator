@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contact_information>
+    <member>
+        <member_full>Alexander (R-TN)</member_full>
+        <last_name>Alexander</last_name>
+        <first_name>Lamar</first_name>
+        <party>R</party>
+        <state>TN</state>
+        <address>455 Dirksen Senate Office Building Washington DC 20510</address>
+        <phone>(202) 224-4944</phone>
+        <email>http://www.alexander.senate.gov/public/index.cfm?p=Email</email>
+        <website>http://www.alexander.senate.gov/</website>
+        <class>Class II</class>
+        <bioguide_id>A000360</bioguide_id>
+    </member>
+    <member>
+        <member_full>Ayotte (R-NH)</member_full>
+        <last_name>Ayotte</last_name>
+        <first_name>Kelly</first_name>
+        <party>R</party>
+        <state>NH</state>
+        <address>144 Russell Senate Office Building Washington DC 20510</address>
+        <phone>(202) 224-3324</phone>
+        <email>http://www.ayotte.senate.gov/?p=contact</email>
+        <website>http://www.ayotte.senate.gov</website>
+        <class>Class III</class>
+        <bioguide_id>A000368</bioguide_id>
+    </member>
+</contact_information>

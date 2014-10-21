@@ -36,10 +36,11 @@ class XmlMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
             )
         );
 
-        file_put_contents('tmp', $json);
+        $tmpFile = 'tmp';
+        file_put_contents($tmpFile, $json);
 
         $jsonConfig = clone $config;
-        $jsonConfig->setConfigUrl('tmp');
+        $jsonConfig->response('configUrl', $tmpFile);
         $jsonConfig->setDriver('CrudGenerator\MetaData\Driver\File\Web\WebDriverFactory');
 
         return new XmlMetaDataDAO(JsonMetaDataDAOFactory::getInstance($jsonConfig));

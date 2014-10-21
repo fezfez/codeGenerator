@@ -40,6 +40,14 @@ class MetaDataConfigDAO
      * @var string
      */
     const DRIVER_FACTORY_KEY = 'driver';
+    /**
+     * @var string
+     */
+    const RESPONSE_KEY = 'response';
+    /**
+     * @var string
+     */
+    const UNIQUE_NAME_KEY = 'uniqueName';
 
     /**
      * @var FileManager File manager
@@ -97,7 +105,7 @@ class MetaDataConfigDAO
                 continue;
             }
 
-            if (false === isset($configFile['response'])) {
+            if (false === isset($configFile[self::RESPONSE_KEY])) {
                 continue;
             }
 
@@ -109,11 +117,11 @@ class MetaDataConfigDAO
                 $configFile[self::SOURCE_FACTORY_KEY]
             );
 
-            $driverConfig = new DriverConfig($configFile['uniqueName']);
-            foreach ($configFile['response'] as $responseKey => $response) {
+            $driverConfig = new DriverConfig($configFile[self::UNIQUE_NAME_KEY]);
+            foreach ($configFile[self::RESPONSE_KEY] as $responseKey => $response) {
                 $driverConfig->response($responseKey, $response);
             }
-            $driverConfig->setDriver($configFile['driver']);
+            $driverConfig->setDriver($configFile[self::DRIVER_FACTORY_KEY]);
 
             $adapter->setConfig($driverConfig);
             $adapterCollection->append($adapter);
