@@ -12,6 +12,7 @@ namespace CrudGenerator\MetaData;
 use CrudGenerator\MetaData\Sources\MetaDataDAOCache;
 use CrudGenerator\Utils\Installer;
 use CrudGenerator\MetaData\Driver\DriverConfig;
+use CrudGenerator\Utils\FileManager;
 
 /**
  * MetaData source factory
@@ -35,7 +36,7 @@ class MetaDataSourceFactory
 
         return new MetaDataDAOCache(
             $metadataSource,
-            Installer::getDirectories(),
+            new FileManager(),
             $config,
             $noCache
         );

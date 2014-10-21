@@ -10,6 +10,8 @@
 namespace CrudGenerator\MetaData\Sources;
 
 use CrudGenerator\MetaData\Driver\DriverConfig;
+use CrudGenerator\Utils\FileManager;
+use CrudGenerator\Utils\Installer;
 
 /**
  * Metadata DAO cache
@@ -23,9 +25,9 @@ class MetaDataDAOCache implements MetaDataDAOInterface
      */
     private $metadataDAO = null;
     /**
-     * @var array
+     * @var FileManager
      */
-    private $directories = null;
+    private $fileManager = null;
     /**
      * @var DriverConfig
      */
@@ -37,18 +39,18 @@ class MetaDataDAOCache implements MetaDataDAOInterface
 
     /**
      * @param MetaDataDAOInterface $metadataDAO
-     * @param array $directories
+     * @param FileManager $fileManager
      * @param DriverConfig $config
      * @param boolean $noCache
      */
     public function __construct(
         MetaDataDAOInterface $metadataDAO,
-        array $directories,
+        FileManager $fileManager,
         DriverConfig $config = null,
         $noCache = false
     ) {
         $this->metadataDAO = $metadataDAO;
-        $this->directories = $directories;
+        $this->fileManager = $fileManager;
         $this->config      = $config;
         $this->noCache     = $noCache;
     }
@@ -60,14 +62,14 @@ class MetaDataDAOCache implements MetaDataDAOInterface
     public function getAllMetadata()
     {
         $configName     = ($this->config !== null) ? $this->config->getUniqueName() : '';
-        $cacheFilename  = $this->directories['Cache'] . DIRECTORY_SEPARATOR;
+        $cacheFilename  = Installer::CACHE_PATH . DIRECTORY_SEPARATOR;
         $cacheFilename .= md5('all_metadata' . get_class($this->metadataDAO) . $configName);
 
-        if (is_file($cacheFilename) === true && $this->noCache === false) {
-            $data = unserialize(file_get_contents($cacheFilename));
+        if ($this->fileManager->isFile($cacheFilename) === true && $this->noCache === false) {
+            $data = unserialize($this->fileManager->fileGetContent($cacheFilename));
         } else {
             $data = $this->metadataDAO->getAllMetadata();
-            file_put_contents($cacheFilename, serialize($data));
+            $this->fileManager->filePutsContent($cacheFilename, serialize($data));
         }
 
         return $data;
@@ -82,14 +84,14 @@ class MetaDataDAOCache implements MetaDataDAOInterface
     public function getMetadataFor($entityName, array $parentName = array())
     {
         $configName     = ($this->config !== null) ? $this->config->getUniqueName() : '';
-        $cacheFilename  = $this->directories['Cache'] . DIRECTORY_SEPARATOR;
+        $cacheFilename  = Installer::CACHE_PATH . DIRECTORY_SEPARATOR;
         $cacheFilename .= md5('metadata' . $entityName . get_class($this->metadataDAO) . $configName);
 
-        if (is_file($cacheFilename) === true && $this->noCache === false) {
-            $data = unserialize(file_get_contents($cacheFilename));
+        if ($this->fileManager->isFile($cacheFilename) === true && $this->noCache === false) {
+            $data = unserialize($this->fileManager->fileGetContent($cacheFilename));
         } else {
             $data = $this->metadataDAO->getMetadataFor($entityName, $parentName);
-            file_put_contents($cacheFilename, serialize($data));
+            $this->fileManager->filePutsContent($cacheFilename, serialize($data));
         }
 
         return $data;
