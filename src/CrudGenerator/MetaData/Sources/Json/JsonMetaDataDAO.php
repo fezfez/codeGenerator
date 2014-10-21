@@ -161,12 +161,11 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
      */
     private function hydrateItems($daddyName, array $items, MetadataDataObjectJson $metadata)
     {
-        $specialProperties = array();
-        $mergeArray        = true;
-        $allObject         = $this->itemsAreAllOfType($items, array('object'));
-        $mergedArray       = array();
+        $mergeArray = true;
 
-        if ($mergeArray === true && $allObject === true) {
+        if ($mergeArray === true && $this->itemsAreAllOfType($items, array('object')) === true) {
+            $mergedArray = array();
+
             foreach ($items as $item) {
                 foreach ($item->getProperties() as $itemName => $itemValue) {
                     $mergedArray[$itemName] = $itemValue;
@@ -178,6 +177,8 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
             );
 
         } else {
+            $specialProperties = array();
+
             foreach ($items as $propName => $item) {
                 if (in_array($item->getType(), array('object', 'array')) === false) {
                     $specialProperties[$propName] = $item;

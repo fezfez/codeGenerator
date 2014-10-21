@@ -49,15 +49,7 @@ class QuestionAnalyser
     {
         foreach ($questionDefinition['optional'] as $tag => $definition) {
             if (isset($question[$tag]) === false) {
-                if (array_key_exists('default', $definition) === true) {
-                    $question[$tag] = $definition['default'];
-                } elseif (array_key_exists('enum', $definition) === true) {
-                    $question[$tag] = new $definition['enum']();
-                } else {
-                    throw new \InvalidArgumentException(
-                        sprintf('No default and no enum for %s %s', $tag, json_encode($definition))
-                    );
-                }
+                $question = $this->parseOptionalForNonExistantKey($question, $tag, $definition);
             } elseif (isset($definition['enum']) === true) {
                 try {
                     $question[$tag] = new $definition['enum']($question[$tag]);
@@ -65,6 +57,28 @@ class QuestionAnalyser
                     throw new MalformedGeneratorException($e->getMessage());
                 }
             }
+        }
+
+        return $question;
+    }
+
+    /**
+     * @param array $question
+     * @param string $tag
+     * @param array $definition
+     * @throws \InvalidArgumentException
+     * @return array
+     */
+    private function parseOptionalForNonExistantKey(array $question, $tag, array $definition)
+    {
+        if (array_key_exists('default', $definition) === true) {
+            $question[$tag] = $definition['default'];
+        } elseif (array_key_exists('enum', $definition) === true) {
+            $question[$tag] = new $definition['enum']();
+        } else {
+            throw new \InvalidArgumentException(
+                sprintf('No default and no enum for %s', json_encode($definition))
+            );
         }
 
         return $question;
