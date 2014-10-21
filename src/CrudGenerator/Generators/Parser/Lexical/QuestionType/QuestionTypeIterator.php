@@ -41,30 +41,30 @@ class QuestionTypeIterator implements QuestionTypeInterface
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeInterface::evaluateQuestion()
      */
-    public function evaluateQuestion(array $question, PhpStringParser $parser, GeneratorDataObject $generator)
+    public function evaluateQuestion(array $questionRaw, PhpStringParser $parser, GeneratorDataObject $generator)
     {
-        $iterator       = $this->iteratorValidator->retrieveValidIteration($question, $generator, $parser);
+        $iterator       = $this->iteratorValidator->retrieveValidIteration($questionRaw, $generator, $parser);
         $iteratorParser = clone $parser;
 
         foreach ($iterator as $iteration) {
 
             $iteratorParser->addVariable('iteration', $iteration);
 
-            $origine = $iteratorParser->parse($question['iteration']['retrieveBy']);
+            $origine = $iteratorParser->parse($questionRaw['iteration']['retrieveBy']);
 
             $question = new SimpleQuestion(
-                $iteratorParser->parse($question['iteration']['text']),
-                $question['setter'] . $origine
+                $iteratorParser->parse($questionRaw['iteration']['text']),
+                $questionRaw['setter'] . $origine
             );
-            $question->setDefaultResponse((isset($question['iteration']['response']['default']) === true)
-                    ? $iteratorParser->parse($question['iteration']['response']['default']) : null);
-            $question->setRequired($question['required']);
-            $question->setHelpMessage($question['helpMessage']);
-            $question->setResponseType(new QuestionResponseTypeEnum($question['iteration']['response']['type']));
+            $question->setDefaultResponse((isset($questionRaw['iteration']['response']['default']) === true)
+                    ? $iteratorParser->parse($questionRaw['iteration']['response']['default']) : null);
+            $question->setRequired($questionRaw['required']);
+            $question->setHelpMessage($questionRaw['helpMessage']);
+            $question->setResponseType(new QuestionResponseTypeEnum($questionRaw['iteration']['response']['type']));
 
             $response = $this->context->ask($question);
 
-            $questionName = $question['setter'];
+            $questionName = $questionRaw['setter'];
             if ($response !== null) {
                 $generator->getDto()->$questionName($origine, $response);
             }

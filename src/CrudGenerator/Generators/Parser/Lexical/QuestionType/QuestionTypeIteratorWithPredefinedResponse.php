@@ -17,6 +17,7 @@ use CrudGenerator\Context\PredefinedResponse;
 use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
 use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
+use CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum;
 
 class QuestionTypeIteratorWithPredefinedResponse implements QuestionTypeInterface
 {
@@ -77,7 +78,7 @@ class QuestionTypeIteratorWithPredefinedResponse implements QuestionTypeInterfac
                 (isset($question['iteration']['response']['default']) === true) ?
                     $iteratorParser->parse($question['iteration']['response']['default']) : null
             )->setRequired($question['required'])
-             ->setResponseType($question['iteration']['response']['type']);
+             ->setResponseType(new QuestionResponseTypeEnum($question['iteration']['response']['type']));
 
             $response = $this->context->askCollection($questionWithPredefinedResponse);
 

@@ -65,7 +65,7 @@ class FileParser implements ParserInterface
 
         foreach ($process['filesList'] as $file) {
 
-            $file = $this->checkIsFileIsWellFormed($file);
+            $file = $this->checkIsFileIsWellFormed($file, $skeletonPath);
 
             if ($this->conditionValidator->isValid($file, $generator, $parser) === true) {
                 $generator = $this->evaluateFile($file, $parser, $generator, $skeletonPath);
@@ -77,10 +77,11 @@ class FileParser implements ParserInterface
 
     /**
      * @param mixed $file
+     * @param string $skeletonPath
      * @throws MalformedGeneratorException
      * @return array
      */
-    private function checkIsFileIsWellFormed($file)
+    private function checkIsFileIsWellFormed($file, $skeletonPath)
     {
         if (false === is_array($file)) {
             throw new MalformedGeneratorException(
@@ -97,7 +98,7 @@ class FileParser implements ParserInterface
                 sprintf('No destinationPath provided in file "%s"', json_encode($file))
             );
         }
-        if ($this->fileManager->isFile($file['templatePath']) === false) {
+        if ($this->fileManager->isFile($skeletonPath . $file['templatePath']) === false) {
             throw new MalformedGeneratorException(
                 sprintf('TemplatePath does not exist in file "%s"', json_encode($file))
             );
