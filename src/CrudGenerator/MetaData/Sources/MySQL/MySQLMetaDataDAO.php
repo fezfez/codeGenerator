@@ -103,7 +103,7 @@ class MySQLMetaDataDAO implements MetaDataDAOInterface
     }
 
     /**
-     * Convert MySQL mapping to CrudGenerator mapping
+     * Convert MySQL mapping to CodeGenerator mapping
      * @param string $tableName
      * @return MetadataDataObjectMySQL
      */
@@ -113,8 +113,8 @@ class MySQLMetaDataDAO implements MetaDataDAOInterface
             new MetaDataColumnCollection(),
             new MetaDataRelationCollection()
         );
+
         $dataObject->setName($tableName);
-        $columnDataObject = new MetaDataColumn();
 
         $statement = $this->pdo->prepare(
             "SELECT
@@ -132,7 +132,7 @@ class MySQLMetaDataDAO implements MetaDataDAOInterface
 
         $statement->execute(
             array(
-                ':tableName' => $tableName,
+                ':tableName'    => $tableName,
                 ':databaseName' => $this->pdoConfig->getResponse('configDatabaseName')
             )
         );
@@ -141,13 +141,30 @@ class MySQLMetaDataDAO implements MetaDataDAOInterface
 
         $columnsAssociation = array();
 
-        foreach ($allFields as $metadata) {
-
+        foreach ($allFields as $index => $metadata) {
             if ($metadata['referenced_table_name'] !== null && $metadata['referenced_column_name'] !== null) {
-                $columnsAssociation[] = $metadata;
+                $columnsAssociation[$index] = $metadata;
+                unset($allFields[$index]);
                 continue;
             }
+        }
 
+        return $this->hydrateRelation(
+            $this->hydrateFields($dataObject, $allFields),
+            $columnsAssociation
+        );
+    }
+
+    /**
+     * @param MetadataDataObjectMySQL $dataObject
+     * @param array $allFields
+     * @return MetadataDataObjectMySQL
+     */
+    private function hydrateFields(MetadataDataObjectMySQL $dataObject, array $allFields)
+    {
+        $columnDataObject = new MetaDataColumn();
+
+        foreach ($allFields as $metadata) {
             $column = clone $columnDataObject;
 
             $type = $metadata['data_type'];
@@ -158,14 +175,23 @@ class MySQLMetaDataDAO implements MetaDataDAOInterface
 
             $column->setName($metadata['column_name'])
                    ->setType($type)
-                   ->setLength(null);
-            if ($metadata['column_key'] === 'PRI') {
-                $column->setPrimaryKey(true);
-            }
+                   ->setLength(null)
+                   ->setPrimaryKey(($metadata['column_key'] === 'PRI') ? true : false);
 
             $dataObject->appendColumn($column);
         }
 
+        return $dataObject;
+    }
+
+    /**
+     * @param MetadataDataObjectMySQL $dataObject
+     * @param array $columnsAssociation
+     * @param array $parentName
+     * @return MetadataDataObjectMySQL
+     */
+    private function hydrateRelation(MetadataDataObjectMySQL $dataObject, array $columnsAssociation, array $parentName)
+    {
         $relationDataObject = new MetaDataRelationColumn();
 
         foreach ($columnsAssociation as $association) {

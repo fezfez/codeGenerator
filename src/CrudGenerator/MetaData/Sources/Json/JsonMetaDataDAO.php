@@ -135,6 +135,25 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
     }
 
     /**
+     * @param array $items
+     * @param array $types
+     * @return boolean
+     */
+    private function itemsAreAllOfType(array $items, array $types)
+    {
+        $allOfType = true;
+
+        foreach ($items as $propName => $item) {
+            if (in_array($item->getType(), $types) === false) {
+                $allOfType = false;
+                break;
+            }
+        }
+
+        return $allOfType;
+    }
+
+    /**
      * @param string $daddyName
      * @param array $items
      * @param MetadataDataObjectJson $metadata
@@ -144,15 +163,8 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
     {
         $specialProperties = array();
         $mergeArray        = true;
-        $allObject         = true;
+        $allObject         = $this->itemsAreAllOfType($items, array('object'));
         $mergedArray       = array();
-
-        foreach ($items as $propName => $item) {
-            if (in_array($item->getType(), array('object')) === false) {
-                $allObject = false;
-                break;
-            }
-        }
 
         if ($mergeArray === true && $allObject === true) {
             foreach ($items as $item) {

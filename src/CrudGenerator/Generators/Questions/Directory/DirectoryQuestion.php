@@ -60,40 +60,33 @@ class DirectoryQuestion
      */
     public function ask(GeneratorDataObject $generator, array $question)
     {
-        do {
-            $attribute       = 'get' . $question['dtoAttribute'];
-            $actualDirectory = $generator->getDto()->$attribute();
+        $getter   = 'get' . $question['dtoAttribute'];
+        $setter   = 'set' . $question['dtoAttribute'];
+        $required = (isset($question['required']) === true) ? $question['required'] : false;
 
+        do {
+            $actualDirectory    = $generator->getDto()->$getter();
             $responseCollection = new PredefinedResponseCollection();
             $responseCollection = $this->checkAdditionalChoices($actualDirectory, $responseCollection);
             $responseCollection = $this->buildDirectoryList($actualDirectory, $responseCollection);
 
             $questionDTO = new QuestionWithPredefinedResponse(
                 $question['text'],
-                'set' . $question['dtoAttribute'],
+                $setter,
                 $responseCollection
             );
+
             $questionDTO->setPreselectedResponse($actualDirectory)
-                        ->setRequired((isset($question['required']) === true) ? $question['required'] : false)
+                        ->setRequired($required)
                         ->setHelpMessage(sprintf('Actual directory "%s"', $actualDirectory))
                         ->setType('directory')
                         ->setConsumeResponse(true);
 
             $response = $this->context->askCollection($questionDTO);
+            $response = $this->checkSpecialResponse($response);
 
-            if ($response === self::CREATE_DIRECTORY) {
-                $response = $this->createDirectory($actualDirectory);
-            } elseif ($response === self::BACK) {
-                $response = substr($actualDirectory, 0, -1);
-                $response = str_replace(
-                    substr(strrchr($response, "/"), 1),
-                    '',
-                    $response
-                );
-            }
 
             if ($response !== null ) {
-                $setter = 'set' . $question['dtoAttribute'];
                 if ($response === self::CURRENT_DIRECTORY) {
                     $generator->getDto()->$setter($actualDirectory);
                     break;
@@ -107,6 +100,25 @@ class DirectoryQuestion
         return $generator;
     }
 
+    /**
+     * @param string $response
+     * @return string
+     */
+    private function checkSpecialResponse($response)
+    {
+        if ($response === self::CREATE_DIRECTORY) {
+            $response = $this->createDirectory($actualDirectory);
+        } elseif ($response === self::BACK) {
+            $response = substr($actualDirectory, 0, -1);
+            $response = str_replace(
+                substr(strrchr($response, "/"), 1),
+                '',
+                $response
+            );
+        }
+
+        return $response;
+    }
     /**
      * @param string $baseDirectory
      * @throws \Exception
