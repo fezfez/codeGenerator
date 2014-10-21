@@ -83,7 +83,7 @@ class DirectoryQuestion
                         ->setConsumeResponse(true);
 
             $response = $this->context->askCollection($questionDTO);
-            $response = $this->checkSpecialResponse($response);
+            $response = $this->checkSpecialResponse($actualDirectory, $response);
 
 
             if ($response !== null ) {
@@ -101,10 +101,11 @@ class DirectoryQuestion
     }
 
     /**
+     * @param string $actualDirectory
      * @param string $response
      * @return string
      */
-    private function checkSpecialResponse($response)
+    private function checkSpecialResponse($actualDirectory, $response)
     {
         if ($response === self::CREATE_DIRECTORY) {
             $response = $this->createDirectory($actualDirectory);

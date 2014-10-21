@@ -151,7 +151,8 @@ class MySQLMetaDataDAO implements MetaDataDAOInterface
 
         return $this->hydrateRelation(
             $this->hydrateFields($dataObject, $allFields),
-            $columnsAssociation
+            $columnsAssociation,
+            $parentName
         );
     }
 

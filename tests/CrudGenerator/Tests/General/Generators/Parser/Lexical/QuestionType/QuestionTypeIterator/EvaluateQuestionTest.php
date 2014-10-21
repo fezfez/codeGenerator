@@ -6,10 +6,14 @@ use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
 use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidatorFactory;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Utils\PhpStringParserFactory;
+use CrudGenerator\DataObject;
+use CrudGenerator\MetaData\Sources\MySQL\MetadataDataObjectMySQL;
+use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
+use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 
 class EvaluateQuestionTest extends \PHPUnit_Framework_TestCase
 {
-    public function testdddddddddddddddddddddddddddddddd()
+    public function testWellParsed()
     {
         $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
@@ -36,9 +40,19 @@ class EvaluateQuestionTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $generator     = new GeneratorDataObject();
-        $parser        = PhpStringParserFactory::getInstance();
+        $generator = new GeneratorDataObject();
+        $dto       = new DataObject();
+        $parser    = PhpStringParserFactory::getInstance();
+        $metadata   = new MetadataDataObjectMySQL(new MetaDataColumnCollection(), new MetaDataRelationCollection());
 
-        $sUT->evaluateQuestion($questionArray, $parser, $generator);
+        $dto->setMetadata($metadata);
+        $generator->setDto($dto);
+
+        $parser->addVariable('architectGenerator', $dto);
+
+        $this->assertInstanceOf(
+            'CrudGenerator\Generators\GeneratorDataObject',
+            $sUT->evaluateQuestion($questionArray, $parser, $generator)
+        );
     }
 }
