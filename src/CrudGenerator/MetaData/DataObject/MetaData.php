@@ -46,25 +46,25 @@ abstract class MetaData implements \JsonSerializable, MetaDataInterface
         $this->columnCollection   = $columnCollection;
         $this->relationCollection = $relationCollection;
     }
-    /**
-     * Append column dataobject
-     * @param MetaDataColumn $value
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\DataObject\MetaDataInterface::appendColumn()
      */
     public function appendColumn(MetaDataColumn $value)
     {
         $this->columnCollection->offsetSet($value->getName(), $value);
     }
-    /**
-     * Append relation dataobject
-     * @param MetaDataRelationColumn $value
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\DataObject\MetaDataInterface::appendRelation()
      */
     public function appendRelation(MetaDataRelationColumn $value)
     {
         $this->relationCollection->offsetSet($value->getFullName(), $value);
     }
-    /**
-     * Set name
-     * @param string $value
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\DataObject\MetaDataInterface::setName()
      */
     public function setName($value)
     {
@@ -72,25 +72,24 @@ abstract class MetaData implements \JsonSerializable, MetaDataInterface
         return $this;
     }
 
-    /**
-     * @param string $name
-     * @return mixed
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\DataObject\MetaDataInterface::getColumn()
      */
     public function getColumn($name)
     {
         return $this->columnCollection->offsetGet($name);
     }
-    /**
-     * @param string $name
-     * @return mixed
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\DataObject\MetaDataInterface::getRelation()
      */
     public function getRelation($name)
     {
         return $this->relationCollection->offsetGet($name);
     }
-    /**
-     * Get column collection
-     * @return MetaDataColumnCollection
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\DataObject\MetaDataInterface::getColumnCollection()
      */
     public function getColumnCollection($withoutIdentifier = false)
     {
@@ -109,17 +108,17 @@ abstract class MetaData implements \JsonSerializable, MetaDataInterface
             return $this->columnCollection;
         }
     }
-    /**
-     * Get relation collection
-     * @return MetaDataRelationCollection
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\DataObject\MetaDataInterface::getRelationCollection()
      */
     public function getRelationCollection()
     {
         return $this->relationCollection;
     }
-    /**
-     * Get identifier
-     * @return array
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\DataObject\MetaDataInterface::getIdentifier()
      */
     public function getIdentifier()
     {
@@ -134,9 +133,9 @@ abstract class MetaData implements \JsonSerializable, MetaDataInterface
 
         return $tmpColumnCollection;
     }
-    /**
-     * Get name
-     * @return string
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\DataObject\MetaDataInterface::getName()
      */
     public function getName($ucfirst = false)
     {
@@ -167,6 +166,9 @@ abstract class MetaData implements \JsonSerializable, MetaDataInterface
         );
     }
 
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\MetaData\DataObject\MetaDataInterface::getOriginalName()
+     */
     public function getOriginalName()
     {
         return $this->name;
@@ -178,9 +180,9 @@ abstract class MetaData implements \JsonSerializable, MetaDataInterface
     public function jsonSerialize()
     {
         return array(
-            'id'    => $this->getOriginalName(),
-            'label' => $this->getOriginalName(),
-            'name'  => $this->getOriginalName()
+            self::ID    => $this->getOriginalName(),
+            self::LABEL => $this->getOriginalName(),
+            self::NAME  => $this->getOriginalName()
         );
     }
 }

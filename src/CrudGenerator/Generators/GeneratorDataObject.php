@@ -20,6 +20,22 @@ use CrudGenerator\MetaData\MetaDataSource;
 
 class GeneratorDataObject implements \JsonSerializable
 {
+    const FILES = 'files';
+    /**
+     * @var unknown
+     */
+    const METADATA_SOURCE = 'metadatasource';
+    const TEMPLATE_VARIABLE = 'templatevariable';
+    const DIRECTORIES = 'directories';
+    const NAME = 'name';
+    const ENVIRONNEMENT = 'environnement';
+    const DEPENDENCIES = 'dependencies';
+    const DTO = 'dto';
+    /**
+     * @comparator\IsInstance
+     */
+    const DTO_CLASS = 'dtoclass';
+
     /**
      * @var DataObject
      */
@@ -247,15 +263,15 @@ class GeneratorDataObject implements \JsonSerializable
     public function jsonSerialize()
     {
         return array(
-            'metaDataSource'   => $this->metaDataSource,
-            'templateVariable' => $this->templateVariable,
-            'files'            => $this->getFiles(),
-            'directories'      => $this->directories,
-            'name'             => $this->name,
-            'environnement'    => $this->environnement,
-            'dependencies'     => $this->dependecies,
-            'dto'              => $this->dto,
-            'dtoClass'         => get_class($this->dto)
+            self::METADATA_SOURCE   => $this->metaDataSource,
+            self::TEMPLATE_VARIABLE => $this->templateVariable,
+            self::FILES             => $this->getFiles(),
+            self::DIRECTORIES       => $this->directories,
+            self::NAME              => $this->name,
+            self::ENVIRONNEMENT     => $this->environnement,
+            self::DEPENDENCIES      => $this->dependecies,
+            self::DTO               => $this->dto,
+            self::DTO_CLASS         => get_class($this->dto)
         );
     }
 }

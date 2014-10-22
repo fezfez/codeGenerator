@@ -55,6 +55,9 @@ class StorageString implements \JsonSerializable
         return $this->store;
     }
 
+    /**
+     * @return array
+     */
     public function jsonSerialize()
     {
         return $this->store;

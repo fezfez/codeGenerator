@@ -20,6 +20,8 @@ use CrudGenerator\Storage\StorageArray;
  */
 class DataObject implements \JsonSerializable
 {
+    const METADATA = 'metadata';
+    const STORE = 'store';
     /**
      * @var MetaDataInterface Metadata object
      */
@@ -163,16 +165,22 @@ class DataObject implements \JsonSerializable
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function getStore()
     {
         return $this->store;
     }
 
+    /**
+     * @return array
+     */
     public function jsonSerialize()
     {
         return array(
-            'metadata' => $this->metadata,
-            'store'    => $this->store
+            self::METADATA => $this->metadata,
+            self::STORE    => $this->store
         );
     }
 }

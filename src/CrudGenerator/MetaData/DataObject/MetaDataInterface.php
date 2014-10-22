@@ -11,5 +11,58 @@ namespace CrudGenerator\MetaData\DataObject;
 
 interface MetaDataInterface
 {
+    const ID = 'id';
+    const LABEL = 'label';
+    const NAME = 'name';
 
+    /**
+     * Append column dataobject
+     * @param MetaDataColumn $value
+     */
+    public function appendColumn(MetaDataColumn $value);
+    /**
+     * Append relation dataobject
+     * @param MetaDataRelationColumn $value
+     */
+    public function appendRelation(MetaDataRelationColumn $value);
+    /**
+     * Set name
+     * @param string $value
+     */
+    public function setName($value);
+    /**
+     * @param string $name
+     * @return mixed
+     */
+    public function getColumn($name);
+    /**
+     * @param string $name
+     * @return mixed
+     */
+    public function getRelation($name);
+    /**
+     * Get column collection
+     * @return MetaDataColumnCollection
+     */
+    public function getColumnCollection($withoutIdentifier = false);
+    /**
+     * Get relation collection
+     * @return MetaDataRelationCollection
+     */
+    public function getRelationCollection();
+    /**
+     * Get identifier
+     * @return array
+     */
+    public function getIdentifier();
+    /**
+     * Get name
+     * @return string
+     */
+    public function getName($ucfirst = false);
+
+    /**
+     * @return string
+     */
+    public function getOriginalName();
 }

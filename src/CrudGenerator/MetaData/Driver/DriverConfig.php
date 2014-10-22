@@ -10,12 +10,21 @@
 namespace CrudGenerator\MetaData\Driver;
 
 use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
+use CrudGenerator\Utils\Test\Comparator;
 
 /**
  * @author Stéphane Demonchaux
+ *
+ * @Comparator\Main(strictMode=false);
  */
 class DriverConfig implements \JsonSerializable
 {
+    const QUESTION_DESCRIPTION = 'desc';
+    const QUESTION_ATTRIBUTE = 'attr';
+    const SOURCE_FACTORY = 'metadataDaoFactory';
+    const FACTORY = 'driver';
+    const RESPONSE = 'response';
+    const UNIQUE_NAME = 'uniqueName';
     /**
      * @var array
      */
@@ -33,6 +42,7 @@ class DriverConfig implements \JsonSerializable
      */
     private $uniqueName = null;
     /**
+     * @Comparator\ClassImplements(class="CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface", optional=false)
      * @var string
      */
     private $metadataDaoFactory = null;
@@ -86,7 +96,7 @@ class DriverConfig implements \JsonSerializable
      */
     public function addQuestion($description, $attribute)
     {
-        $this->question[] = array('desc' => $description, 'attr' => $attribute);
+        $this->question[] = array(self::QUESTION_DESCRIPTION => $description, self::QUESTION_ATTRIBUTE => $attribute);
         return $this;
     }
 
@@ -137,10 +147,10 @@ class DriverConfig implements \JsonSerializable
     public function jsonSerialize()
     {
         return array(
-            MetaDataConfigDAO::SOURCE_FACTORY_KEY => $this->metadataDaoFactory,
-            MetaDataConfigDAO::DRIVER_FACTORY_KEY => $this->driver,
-            MetaDataConfigDAO::RESPONSE_KEY       => $this->response,
-            MetaDataConfigDAO::UNIQUE_NAME_KEY    => $this->uniqueName
+            self::SOURCE_FACTORY => $this->metadataDaoFactory,
+            self::FACTORY        => $this->driver,
+            self::RESPONSE       => $this->response,
+            self::UNIQUE_NAME    => $this->uniqueName
         );
     }
 }

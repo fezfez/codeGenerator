@@ -14,6 +14,9 @@ use CrudGenerator\Generators\Questions\MetadataSourceConfigured\MetadataSourceCo
 use CrudGenerator\Generators\Questions\Metadata\MetadataQuestion;
 use CrudGenerator\Generators\ResponseExpectedException;
 use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\MetaData\MetaDataSource;
+use CrudGenerator\MetaData\DataObject\MetaDataInterface;
+use CrudGenerator\Utils\Comparator;
 
 /**
  * History hydrator
@@ -30,19 +33,26 @@ class HistoryHydrator
      * @var MetadataQuestion
      */
     private $metadataQuestion = null;
+    /**
+     * @var Comparator
+     */
+    private $comparator = null;
 
     /**
      * Constructor.
      *
      * @param MetadataSourceConfiguredQuestion $metadataSourceConfiguredQuestion
      * @param MetadataQuestion $metadataQuestion
+     * @param Comparator $comparator
      */
     public function __construct(
         MetadataSourceConfiguredQuestion $metadataSourceConfiguredQuestion,
-        MetadataQuestion $metadataQuestion
+        MetadataQuestion $metadataQuestion,
+        Comparator $comparator
     ) {
         $this->metadataSourceConfiguredQuestion = $metadataSourceConfiguredQuestion;
         $this->metadataQuestion                 = $metadataQuestion;
+        $this->comparator                       = $comparator;
     }
 
     /**
@@ -64,47 +74,7 @@ class HistoryHydrator
      */
     private function checkIntegrity(array $data)
     {
-        if (false === $this->isAttributeIsSet($data, 'dto')) {
-            throw new InvalidHistoryException(
-                "DataObject doesn't have DTO"
-            );
-        }
-
-        if (false === $this->isAttributeIsSet($data, 'dtoClass')) {
-            throw new InvalidHistoryException(
-                "DataObject doesn't have DTO"
-            );
-        }
-
-        if (false === $this->isAttributeIsSet($data['dto'], 'metadata')) {
-            throw new InvalidHistoryException(
-                "DataObject doesn't have metadata"
-            );
-        }
-
-        if (false === $this->isAttributeIsSet($data, 'metaDataSource')) {
-            throw new InvalidHistoryException(
-                "DataObject doesn't have metadataSource"
-            );
-        }
-
-        if (false === $this->isAttributeIsSet($data['metaDataSource'], 'metaDataDAO')) {
-            throw new InvalidHistoryException(
-                "MetadataSource is not well configured"
-            );
-        }
-
-        return $data;
-    }
-
-    /**
-     * @param array $data
-     * @param string $attribute
-     * @return boolean
-     */
-    private function isAttributeIsSet(array $data, $attribute)
-    {
-        return (false === array_key_exists($attribute, $data) || null === $data[$attribute]) ? false : true;
+        return $this->comparator->compareClassAndArray('CrudGenerator\Generators\GeneratorDataObject', $data);
     }
 
     /**
@@ -121,35 +91,35 @@ class HistoryHydrator
         }
         $arrayRepresentation = $this->checkIntegrity($jsonRepresentation);
 
-        $dto = $arrayRepresentation['dto'];
+        $dto = $arrayRepresentation[GeneratorDataObject::DTO];
 
         $history = new History();
-        $history->setName($dto['metadata']['name']);
+        $history->setName($dto[DataObject::METADATA][MetaDataInterface::NAME]);
 
-        if (false === isset($arrayRepresentation['metaDataSource']['uniqueName'])) {
+        if (false === isset($arrayRepresentation[GeneratorDataObject::METADATA_SOURCE][MetaDataSource::UNIQUE_NAME])) {
              throw new InvalidHistoryException('Unique name not set');
         }
 
         try {
             $metadataSource = $this->metadataSourceConfiguredQuestion->ask(
-                $arrayRepresentation['metaDataSource']['uniqueName']
+                $arrayRepresentation[GeneratorDataObject::METADATA_SOURCE][MetaDataSource::UNIQUE_NAME]
             );
         } catch (ResponseExpectedException $e) {
             throw new InvalidHistoryException(
                 sprintf(
                     'Metadatasource "%s" does not exist anymore',
-                    $arrayRepresentation['metaDataSource']['uniqueName']
+                    $arrayRepresentation[GeneratorDataObject::METADATA_SOURCE][MetaDataSource::UNIQUE_NAME]
                 )
             );
         }
 
         try {
-            $metaData = $this->metadataQuestion->ask($metadataSource, $dto['metadata']['name']);
+            $metaData = $this->metadataQuestion->ask($metadataSource, $dto[DataObject::METADATA][MetaDataInterface::NAME]);
         } catch (ResponseExpectedException $e) {
             throw new InvalidHistoryException(
                 sprintf(
                     'Metadata "%s" does not exist anymore',
-                    $arrayRepresentation['metaData']
+                    $dto[DataObject::METADATA][MetaDataInterface::NAME]
                 )
             );
         }
@@ -160,7 +130,7 @@ class HistoryHydrator
         $generator = new GeneratorDataObject();
         $generator->setMetadataSource($metadataSource)
                   ->setDto($dto)
-                  ->setName($arrayRepresentation['name']);
+                  ->setName($arrayRepresentation[GeneratorDataObject::NAME]);
 
         $history->addDataObject($generator);
 

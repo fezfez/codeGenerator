@@ -12,18 +12,47 @@ namespace CrudGenerator\MetaData;
 use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\Driver\DriverConfig;
 use CrudGenerator\MetaData\Driver\Driver;
+use CrudGenerator\Utils\Test\Comparator;
 
 /**
  * Adapter representation
  * @author Stéphane Demonchaux
+ *
+ * @Comparator\Main(strictMode=false);
  */
 class MetaDataSource implements \JsonSerializable
 {
+    /**
+     * @var string
+     */
+    const CONFIG = 'config';
+    /**
+     * @var string
+     */
+    const DEFINITION = 'definition';
+    /**
+     * @var unknown
+     */
+    const METADATA_DAO = 'metaDataDAO';
+    /**
+     * @var string
+     */
+    const METADATA_DAO_FACTORY = 'metaDataDAOFactory';
+    /**
+     * @var unknown
+     */
+    const FALSE_DEPENDENCIES = 'falseDependencies';
+    /**
+     * @var string
+     */
+    const UNIQUE_NAME = 'uniqueName';
+
     /**
      * @var string name of adapater
      */
     private $metaDataDAO = null;
     /**
+     * @Comparator\ClassImplements(class="CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface", optional=false)
      * @var string name of adapater
      */
     private $metaDataDAOFactory = null;
@@ -36,12 +65,14 @@ class MetaDataSource implements \JsonSerializable
      */
     private $definition = null;
     /**
+     * @Comparator\Chain(class="CrudGenerator\MetaData\Driver\DriverConfig", optional=false)
      * @var DriverConfig Driver configuration
      */
     private $config = null;
     /**
      * Collection of connector
      *
+     * @Comparator\ArrayConcretClass(class="CrudGenerator\MetaData\Driver\Driver", optional=true)
      * @var array
      */
     private $driversDescription = array();
@@ -194,12 +225,12 @@ class MetaDataSource implements \JsonSerializable
     public function jsonSerialize()
     {
         return array(
-            'config'             => $this->config,
-            'definition'         => $this->definition,
-            'metaDataDAO'        => $this->metaDataDAO,
-            'metaDataDAOFactory' => $this->metaDataDAOFactory,
-            'falseDependencies'  => $this->falseDependencies,
-            'uniqueName'         => $this->getUniqueName()
+            self::CONFIG               => $this->config,
+            self::DEFINITION           => $this->definition,
+            self::METADATA_DAO         => $this->metaDataDAO,
+            self::METADATA_DAO_FACTORY => $this->metaDataDAOFactory,
+            self::FALSE_DEPENDENCIES   => $this->falseDependencies,
+            self::UNIQUE_NAME          => $this->getUniqueName()
         );
     }
 }

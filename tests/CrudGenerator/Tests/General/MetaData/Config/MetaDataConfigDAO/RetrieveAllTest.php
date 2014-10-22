@@ -4,6 +4,8 @@ namespace CrudGenerator\Tests\General\MetaData\Config\MetaDataConfigDAO;
 use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
 use CrudGenerator\Utils\ClassAwake;
 use CrudGenerator\MetaData\MetaDataSourceHydrator;
+use CrudGenerator\MetaData\MetaDataSource;
+use CrudGenerator\MetaData\Driver\DriverConfig;
 
 class RetrieveAllTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,7 +18,7 @@ class RetrieveAllTest extends \PHPUnit_Framework_TestCase
         ->method('glob')
         ->will($this->returnValue(array('myFile')));
 
-        $data = array(MetaDataConfigDAO::SOURCE_FACTORY_KEY => 'nonexistMetadata');
+        $data = array(MetaDataSource::METADATA_DAO_FACTORY => 'nonexistMetadata');
         $fileManager->expects($this->once())
         ->method('fileGetContent')
         ->will($this->returnValue(json_encode($data)));
@@ -38,7 +40,7 @@ class RetrieveAllTest extends \PHPUnit_Framework_TestCase
         ->method('glob')
         ->will($this->returnValue(array('myFile')));
 
-        $data = array(MetaDataConfigDAO::RESPONSE_KEY => 'im');
+        $data = array(DriverConfig::RESPONSE => 'im');
         $fileManager->expects($this->once())
         ->method('fileGetContent')
         ->will($this->returnValue(json_encode($data)));
@@ -61,8 +63,8 @@ class RetrieveAllTest extends \PHPUnit_Framework_TestCase
         ->will($this->returnValue(array('myFile')));
 
         $data = array(
-            MetaDataConfigDAO::RESPONSE_KEY => 'im',
-            MetaDataConfigDAO::SOURCE_FACTORY_KEY => 'nonexistMetadata'
+            DriverConfig::RESPONSE => 'im',
+            MetaDataSource::METADATA_DAO_FACTORY => 'nonexistMetadata'
         );
 
         $fileManager->expects($this->once())
@@ -90,9 +92,9 @@ class RetrieveAllTest extends \PHPUnit_Framework_TestCase
             MetaDataConfigDAO::RESPONSE_KEY => array(
                 'configUrl' => 'here'
             ),
-            MetaDataConfigDAO::SOURCE_FACTORY_KEY => 'CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory',
-            MetaDataConfigDAO::UNIQUE_NAME_KEY => 'test',
-            MetaDataConfigDAO::DRIVER_FACTORY_KEY => 'CrudGenerator\MetaData\Driver\File\Web\WebDriverFactory'
+            MetaDataSource::METADATA_DAO_FACTORY=> 'CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory',
+            MetaDataSource::UNIQUE_NAME => 'test',
+            MetaDataSource::METADATA_DAO_FACTORY => 'CrudGenerator\MetaData\Driver\File\Web\WebDriverFactory'
         );
 
         $fileManager->expects($this->once())
@@ -117,4 +119,4 @@ class RetrieveAllTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
     }
-}
+}q

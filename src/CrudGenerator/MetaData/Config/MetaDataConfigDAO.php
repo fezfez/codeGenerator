@@ -21,6 +21,10 @@ use CrudGenerator\Context\PredefinedResponse;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Driver\DriverConfig;
 use CrudGenerator\Context\SimpleQuestion;
+use CrudGenerator\MetaData\Driver\DriverValidator;
+use CrudGenerator\MetaData\MetaDataSourceValidator;
+use CrudGenerator\Utils\Transtyper;
+use CrudGenerator\MetaData\Driver\DriverHydrator;
 
 class MetaDataConfigDAO
 {
@@ -32,98 +36,80 @@ class MetaDataConfigDAO
      * @var string config file extension
      */
     const EXTENSION = '.source';
-    /**
-     * @var string
-     */
-    const SOURCE_FACTORY_KEY = 'metadataDaoFactory';
-    /**
-     * @var string
-     */
-    const DRIVER_FACTORY_KEY = 'driver';
-    /**
-     * @var string
-     */
-    const RESPONSE_KEY = 'response';
-    /**
-     * @var string
-     */
-    const UNIQUE_NAME_KEY = 'uniqueName';
 
     /**
      * @var FileManager File manager
      */
     private $fileManager = null;
     /**
-     * @var ContextInterface context
+     * @var Transtyper
      */
-    private $context = null;
+    private $transtyper = null;
+    /**
+     * @var MetaDataSourceValidator source validator
+     */
+    private $metadataSourceValidator = null;
     /**
      * @var MetaDataSourceHydrator MetaData Source Hydrator
      */
     private $metaDataSourceHydrator = null;
     /**
-     * @var ClassAwake Class awake
+     * @var DriverHydrator
      */
-    private $classAwake = null;
+    private $driverHydrator = null;
+    /**
+     * @var ContextInterface context
+     */
+    private $context = null;
 
     /**
-     * @param ClassAwake $classAwake
      * @param FileManager $fileManager
+     * @param Transtyper $transtyper
+     * @param MetaDataSourceValidator $metadataSourceValidator
      * @param MetaDataSourceHydrator $metaDataSourceHydrator
+     * @param DriverHydrator $driverHydrator
      * @param ContextInterface $context
      */
     public function __construct(
-        ClassAwake $classAwake,
         FileManager $fileManager,
+        Transtyper $transtyper,
+        MetaDataSourceValidator $metadataSourceValidator,
         MetaDataSourceHydrator $metaDataSourceHydrator,
+        DriverHydrator $driverHydrator,
         ContextInterface $context
     ) {
-        $this->classAwake             = $classAwake;
-        $this->fileManager            = $fileManager;
-        $this->metaDataSourceHydrator = $metaDataSourceHydrator;
-        $this->context                = $context;
+        $this->fileManager             = $fileManager;
+        $this->transtyper              = $transtyper;
+        $this->metadataSourceValidator = $metadataSourceValidator;
+        $this->metaDataSourceHydrator  = $metaDataSourceHydrator;
+        $this->driverHydrator          = $driverHydrator;
+        $this->context                 = $context;
     }
 
     /**
      * Retrieve all config
+     *
+     * @return \CrudGenerator\MetaData\MetaDataSourceCollection
      */
     public function retrieveAll()
     {
-        $allowedMetadataDAO = $this->classAwake->wakeByInterfaces(
-            array(
-                __DIR__ . '/../Sources/'
-            ),
-            'CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface'
-        );
-
         $adapterCollection = new MetaDataSourceCollection();
 
         foreach ($this->fileManager->glob(self::PATH . '*' . self::EXTENSION) as $file) {
-            $configFile = (array) json_decode($this->fileManager->fileGetContent($file));
-
-            if (false === isset($configFile[self::SOURCE_FACTORY_KEY])) {
-                continue;
-            }
-
-            if (false === isset($configFile[self::RESPONSE_KEY])) {
-                continue;
-            }
-
-            if (false === in_array($configFile[self::SOURCE_FACTORY_KEY], $allowedMetadataDAO)) {
-                continue;
-            }
-
-            $adapter = $this->metaDataSourceHydrator->adapterNameToMetaDataSource(
-                $configFile[self::SOURCE_FACTORY_KEY]
+            // Decode
+            $config     = $this->transtyper->decode($this->fileManager->fileGetContent($file));
+            // Validate
+            $this->metadataSourceValidator->isValidArrayExpression($config);
+            // Hydrate
+            $adapter    = $this->metaDataSourceHydrator->adapterNameToMetaDataSource(
+                $config[MetaDataSource::METADATA_DAO_FACTORY]
             );
 
-            $driverConfig = new DriverConfig($configFile[self::UNIQUE_NAME_KEY]);
-            foreach ($configFile[self::RESPONSE_KEY] as $responseKey => $response) {
-                $driverConfig->response($responseKey, $response);
+            // Test if have a config
+            if (isset($config[DriverConfig::FACTORY]) === false) {
+                $adapter->setConfig($this->driverHydrator->arrayToDto($config));
             }
-            $driverConfig->setDriver($configFile[self::DRIVER_FACTORY_KEY]);
 
-            $adapter->setConfig($driverConfig);
             $adapterCollection->append($adapter);
         }
 
@@ -131,23 +117,26 @@ class MetaDataConfigDAO
     }
 
     /**
-     * @param MetaDataSource $adapterConfig
+     * @param MetaDataSource $source
      * @return boolean
      */
-    public function save(MetaDataSource $adapterConfig)
+    public function save(MetaDataSource $source)
     {
-        $adapterConfig = $this->ask($adapterConfig);
-        $this->isValid($adapterConfig);
+        $source = $this->ask($source);
 
-        $configPath = self::PATH . md5($adapterConfig->getUniqueName()) . self::EXTENSION;
+        $this->isWellConfigured($source);
 
-        $this->fileManager->filePutsContent($configPath, json_encode($adapterConfig->jsonSerialize()));
-        return true;
+        $this->fileManager->filePutsContent(
+            self::PATH . md5($source->getUniqueName()) . self::EXTENSION,
+            json_encode($source->jsonSerialize())
+        );
+
+        return $source;
     }
 
     /**
      * @param MetaDataSource $source
-     * @return DriverConfig
+     * @return MetaDataSource
      */
     public function ask(MetaDataSource $source)
     {
@@ -180,28 +169,45 @@ class MetaDataConfigDAO
             $driverDescription = $this->context->askCollection($question);
         }
 
+        /* @var $driverDescription \CrudGenerator\MetaData\Driver\Driver */
+
         $driverConfiguration = $driverDescription->getConfig();
         $driverConfiguration->setMetadataDaoFactory($source->getMetadataDaoFactory());
 
         foreach ($driverConfiguration->getQuestion() as $question) {
             $driverConfiguration->response(
-                $question['attr'],
-                $this->context->ask(new SimpleQuestion($question['desc'], $question['attr']))
+                $question[DriverConfig::QUESTION_ATTRIBUTE],
+                $this->context->ask(
+                    new SimpleQuestion(
+                        $question[DriverConfig::QUESTION_DESCRIPTION],
+                        $question[DriverConfig::QUESTION_ATTRIBUTE]
+                    )
+                )
             );
         }
 
-        return $driverConfiguration;
+        return $source->setConfig($driverConfiguration);
     }
 
     /**
-     * @param MetadataConfig $driverConfig
-     * @return boolean|null
+     * @param DriverConfig $driverConfig
      */
-    private function isValid(DriverConfig $driverConfig)
+    private function isWellConfigured(MetaDataSource $source)
     {
-        $driverFactory = $driverConfig->getDriver();
-        $driver        = $driverFactory::getInstance();
+        $this->metadataSourceValidator->isValidConfig($source);
+        $config = $source->getConfig();
 
-        $driver->isValid($driverConfig);
+        if ($config === null) {
+            $metadataDAOFactory = $source->getMetadataDaoFactory();
+            $metadataDAOFactory::getInstance();
+        } else {
+            $driverConfig  = $source->getConfig();
+            $driverFactory = $driverConfig->getDriver();
+            $driver        = $driverFactory::getInstance();
+
+            /* @var $driver \CrudGenerator\MetaData\Driver\DriverInterface */
+
+            $driver->isValid($driverConfig);
+        }
     }
 }

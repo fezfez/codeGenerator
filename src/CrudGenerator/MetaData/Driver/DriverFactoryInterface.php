@@ -18,6 +18,7 @@ interface DriverFactoryInterface
 {
     /**
      * @throws ConfigException
+     * @return \CrudGenerator\MetaData\Driver\DriverInterface
      */
     public static function getInstance();
 
