@@ -16,7 +16,7 @@ use CrudGenerator\Generators\ResponseExpectedException;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\DataObject\MetaDataInterface;
-use CrudGenerator\Utils\Comparator;
+use KeepUpdate\ArrayValidator;
 
 /**
  * History hydrator
@@ -34,25 +34,25 @@ class HistoryHydrator
      */
     private $metadataQuestion = null;
     /**
-     * @var Comparator
+     * @var ArrayValidator
      */
-    private $comparator = null;
+    private $arrayValidator = null;
 
     /**
      * Constructor.
      *
      * @param MetadataSourceConfiguredQuestion $metadataSourceConfiguredQuestion
      * @param MetadataQuestion $metadataQuestion
-     * @param Comparator $comparator
+     * @param ArrayValidator $arrayValidator
      */
     public function __construct(
         MetadataSourceConfiguredQuestion $metadataSourceConfiguredQuestion,
         MetadataQuestion $metadataQuestion,
-        Comparator $comparator
+        ArrayValidator $arrayValidator
     ) {
         $this->metadataSourceConfiguredQuestion = $metadataSourceConfiguredQuestion;
         $this->metadataQuestion                 = $metadataQuestion;
-        $this->comparator                       = $comparator;
+        $this->arrayValidator                   = $arrayValidator;
     }
 
     /**
@@ -74,7 +74,7 @@ class HistoryHydrator
      */
     private function checkIntegrity(array $data)
     {
-        return $this->comparator->compareClassAndArray('CrudGenerator\Generators\GeneratorDataObject', $data);
+        return $this->arrayValidator->isValid('CrudGenerator\Generators\GeneratorDataObject', $data);
     }
 
     /**

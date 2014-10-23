@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "147ae6bfaf4ff12b8f58648601489398",
+    "hash": "9db74c86643e7da43d271e4db53fede7",
     "packages": [
         {
             "name": "composer/composer",
@@ -311,6 +311,53 @@
                 "parser"
             ],
             "time": "2013-01-12 18:59:04"
+        },
+        {
+            "name": "fezfez/keep-update",
+            "version": "V0.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fezfez/keep-update.git",
+                "reference": "43a6080e8649fbad9e7edf8a18186e81f2cd145d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fezfez/keep-update/zipball/43a6080e8649fbad9e7edf8a18186e81f2cd145d",
+                "reference": "43a6080e8649fbad9e7edf8a18186e81f2cd145d",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/annotations": "1.2.*",
+                "doctrine/instantiator": "~1.0.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.3.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "KeepUpdate": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stéphane Demonchaux",
+                    "email": "demonchaux.stephane@gmail.com"
+                }
+            ],
+            "description": "keep-update",
+            "homepage": "https://github.com/fezfez/keep-update",
+            "keywords": [
+                "array",
+                "binding",
+                "dto",
+                "validator"
+            ],
+            "time": "2014-10-23 15:21:47"
         },
         {
             "name": "fezfez/php-json-schema-generator",

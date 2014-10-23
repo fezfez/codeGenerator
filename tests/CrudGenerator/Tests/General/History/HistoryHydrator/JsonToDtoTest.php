@@ -5,6 +5,7 @@ use CrudGenerator\History\HistoryHydrator;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
+use KeepUpdate\ArrayValidatorFactory;
 
 class JsonToDtoTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,7 +22,7 @@ class JsonToDtoTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource);
+        $sUT = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource, ArrayValidatorFactory::getInstance());
 
         $metaDataSourceName = 'Doctrine2';
         $metaDataSource     = 'CrudGenerator\MetaData\MetaDataSource';

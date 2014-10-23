@@ -25,6 +25,7 @@ use CrudGenerator\MetaData\Driver\DriverValidator;
 use CrudGenerator\MetaData\MetaDataSourceValidator;
 use CrudGenerator\Utils\Transtyper;
 use CrudGenerator\MetaData\Driver\DriverHydrator;
+use KeepUpdate\ArrayValidator;
 
 class MetaDataConfigDAO
 {
@@ -46,9 +47,9 @@ class MetaDataConfigDAO
      */
     private $transtyper = null;
     /**
-     * @var MetaDataSourceValidator source validator
+     * @var ArrayValidator source validator
      */
-    private $metadataSourceValidator = null;
+    private $arrayValidator = null;
     /**
      * @var MetaDataSourceHydrator MetaData Source Hydrator
      */
@@ -65,7 +66,7 @@ class MetaDataConfigDAO
     /**
      * @param FileManager $fileManager
      * @param Transtyper $transtyper
-     * @param MetaDataSourceValidator $metadataSourceValidator
+     * @param ArrayValidator $arrayValidator
      * @param MetaDataSourceHydrator $metaDataSourceHydrator
      * @param DriverHydrator $driverHydrator
      * @param ContextInterface $context
@@ -73,14 +74,14 @@ class MetaDataConfigDAO
     public function __construct(
         FileManager $fileManager,
         Transtyper $transtyper,
-        MetaDataSourceValidator $metadataSourceValidator,
+        ArrayValidator $arrayValidator,
         MetaDataSourceHydrator $metaDataSourceHydrator,
         DriverHydrator $driverHydrator,
         ContextInterface $context
     ) {
         $this->fileManager             = $fileManager;
         $this->transtyper              = $transtyper;
-        $this->metadataSourceValidator = $metadataSourceValidator;
+        $this->arrayValidator          = $arrayValidator;
         $this->metaDataSourceHydrator  = $metaDataSourceHydrator;
         $this->driverHydrator          = $driverHydrator;
         $this->context                 = $context;
@@ -99,7 +100,7 @@ class MetaDataConfigDAO
             // Decode
             $config     = $this->transtyper->decode($this->fileManager->fileGetContent($file));
             // Validate
-            $this->metadataSourceValidator->isValidArrayExpression($config);
+            $this->arrayValidator->isValid('CrudGenerator\MetaData\MetaDataSource', $config);
             // Hydrate
             $adapter    = $this->metaDataSourceHydrator->adapterNameToMetaDataSource(
                 $config[MetaDataSource::METADATA_DAO_FACTORY]

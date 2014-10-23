@@ -12,13 +12,13 @@ namespace CrudGenerator\MetaData;
 use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\Driver\DriverConfig;
 use CrudGenerator\MetaData\Driver\Driver;
-use CrudGenerator\Utils\Test\Comparator;
+use KeepUpdate\Annotations;
 
 /**
  * Adapter representation
  * @author Stéphane Demonchaux
  *
- * @Comparator\Main(strictMode=false);
+ * @Annotations\Synchronizer(strict=true);
  */
 class MetaDataSource implements \JsonSerializable
 {
@@ -52,7 +52,7 @@ class MetaDataSource implements \JsonSerializable
      */
     private $metaDataDAO = null;
     /**
-     * @Comparator\ClassImplements(class="CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface", optional=false)
+     * @Annotations\PlainTextClassImplements(class="CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface", nullable=false)
      * @var string name of adapater
      */
     private $metaDataDAOFactory = null;
@@ -65,14 +65,13 @@ class MetaDataSource implements \JsonSerializable
      */
     private $definition = null;
     /**
-     * @Comparator\Chain(class="CrudGenerator\MetaData\Driver\DriverConfig", optional=false)
+     * @Annotations\Chain(class="CrudGenerator\MetaData\Driver\DriverConfig", nullable=true)
      * @var DriverConfig Driver configuration
      */
     private $config = null;
     /**
      * Collection of connector
      *
-     * @Comparator\ArrayConcretClass(class="CrudGenerator\MetaData\Driver\Driver", optional=true)
      * @var array
      */
     private $driversDescription = array();

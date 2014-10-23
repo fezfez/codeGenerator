@@ -9,6 +9,7 @@ use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Driver\DriverConfig;
+use KeepUpdate\ArrayValidatorFactory;
 
 class DtoToJsonTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,7 +25,7 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource);
+        $sUT = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource, ArrayValidatorFactory::getInstance());
 
         $dataObject = new DataObject();
         $generator  = new GeneratorDataObject();
@@ -47,7 +48,7 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT          = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource);
+        $sUT          = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource, ArrayValidatorFactory::getInstance());
         $driverConfig = new DriverConfig("test");
         $source       = new MetaDataSource();
 
@@ -83,7 +84,7 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource);
+        $sUT = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource, ArrayValidatorFactory::getInstance());
 
         $metaData = new MetadataDataObjectDoctrine2(
             new MetaDataColumnCollection(),

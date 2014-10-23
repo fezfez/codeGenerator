@@ -15,6 +15,8 @@ use CrudGenerator\MetaData\MetaDataSourceHydratorFactory;
 use CrudGenerator\Utils\ClassAwake;
 use CrudGenerator\MetaData\Driver\DriverValidator;
 use CrudGenerator\Utils\TranstyperFactory;
+use KeepUpdate\ArrayValidatorFactory;
+use CrudGenerator\MetaData\Driver\DriverHydrator;
 
 class MetaDataConfigDAOFactory
 {
@@ -27,8 +29,9 @@ class MetaDataConfigDAOFactory
         return new MetaDataConfigDAO(
             new FileManager(),
             TranstyperFactory::getInstance(),
-            new DriverValidator(),
+            ArrayValidatorFactory::getInstance(),
             MetaDataSourceHydratorFactory::getInstance(),
+            new DriverHydrator(),
             $context
         );
     }

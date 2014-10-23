@@ -12,6 +12,7 @@ namespace CrudGenerator\History;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\Questions\MetadataSourceConfigured\MetadataSourceConfiguredQuestionFactory;
 use CrudGenerator\Generators\Questions\Metadata\MetadataQuestionFactory;
+use KeepUpdate\ArrayValidatorFactory;
 
 /**
  * HistoryManager instance
@@ -26,9 +27,10 @@ class HistoryHydratorFactory
      */
     public static function getInstance(ContextInterface $context)
     {
-        $metaDataSourceQuestion = MetadataSourceConfiguredQuestionFactory::getInstance($context);
-        $metaDataQuestion       = MetadataQuestionFactory::getInstance($context);
-
-        return new HistoryHydrator($metaDataSourceQuestion, $metaDataQuestion);
+        return new HistoryHydrator(
+            MetadataSourceConfiguredQuestionFactory::getInstance($context),
+            MetadataQuestionFactory::getInstance($context),
+            ArrayValidatorFactory::getInstance()
+        );
     }
 }

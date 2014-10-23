@@ -89,7 +89,7 @@ class RetrieveAllTest extends \PHPUnit_Framework_TestCase
         ->will($this->returnValue(array('myFile')));
 
         $data = array(
-            MetaDataConfigDAO::RESPONSE_KEY => array(
+            DriverConfig::RESPONSE => array(
                 'configUrl' => 'here'
             ),
             MetaDataSource::METADATA_DAO_FACTORY=> 'CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory',
@@ -119,4 +119,4 @@ class RetrieveAllTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
     }
-}q
+}

@@ -10,12 +10,12 @@
 namespace CrudGenerator\MetaData\Driver;
 
 use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
-use CrudGenerator\Utils\Test\Comparator;
+use KeepUpdate\Annotations;
 
 /**
  * @author Stéphane Demonchaux
  *
- * @Comparator\Main(strictMode=false);
+ * @Annotations\Synchronizer(strict=true);
  */
 class DriverConfig implements \JsonSerializable
 {
@@ -34,6 +34,8 @@ class DriverConfig implements \JsonSerializable
      */
     private $response = array();
     /**
+     *
+     * @Annotations\PlainTextClassImplements(class="CrudGenerator\MetaData\Driver\DriverFactoryInterface", nullable=false)
      * @var string
      */
     private $driver = null;
@@ -42,7 +44,7 @@ class DriverConfig implements \JsonSerializable
      */
     private $uniqueName = null;
     /**
-     * @Comparator\ClassImplements(class="CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface", optional=false)
+     * @Annotations\PlainTextClassImplements(class="CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface", nullable=false)
      * @var string
      */
     private $metadataDaoFactory = null;

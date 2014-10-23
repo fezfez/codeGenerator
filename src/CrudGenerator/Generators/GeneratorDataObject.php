@@ -11,6 +11,7 @@ namespace CrudGenerator\Generators;
 
 use CrudGenerator\DataObject;
 use CrudGenerator\MetaData\MetaDataSource;
+use KeepUpdate\Annotations;
 
 /**
  * Find all generator allow in project
@@ -31,12 +32,10 @@ class GeneratorDataObject implements \JsonSerializable
     const ENVIRONNEMENT = 'environnement';
     const DEPENDENCIES = 'dependencies';
     const DTO = 'dto';
-    /**
-     * @comparator\IsInstance
-     */
     const DTO_CLASS = 'dtoclass';
 
     /**
+     * @Annotations\Chain(class="CrudGenerator\DataObject", nullable=false)
      * @var DataObject
      */
     private $dto = null;
@@ -45,6 +44,7 @@ class GeneratorDataObject implements \JsonSerializable
      */
     private $name = null;
     /**
+     * @Annotations\Chain(class="CrudGenerator\MetaData\MetaDataSource", nullable=false)
      * @var MetaDataSource
      */
     private $metaDataSource = null;
