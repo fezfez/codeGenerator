@@ -8,6 +8,9 @@ use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory;
 use CrudGenerator\MetaData\Driver\DriverConfig;
 use CrudGenerator\MetaData\Driver\Driver;
+use CrudGenerator\Utils\TranstyperFactory;
+use CrudGenerator\MetaData\Driver\DriverHydrator;
+use KeepUpdate\ArrayValidatorFactory;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {
@@ -37,7 +40,14 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->addDriverDescription($driver)
         ->setUniqueName('Json');
 
-        $sUT = new MetaDataConfigDAO(new ClassAwake(), $fileManager, new MetaDataSourceHydrator(), $context);
+        $sUT = new MetaDataConfigDAO(
+            $fileManager,
+            TranstyperFactory::getInstance(),
+            ArrayValidatorFactory::getInstance(),
+            new MetaDataSourceHydrator(),
+            new DriverHydrator(),
+            $context
+        );
 
         $result = $sUT->ask($dataObject);
 
@@ -85,7 +95,14 @@ class AskTest extends \PHPUnit_Framework_TestCase
         ->addDriverDescription($driverTwo)
         ->setUniqueName('Json');
 
-        $sUT = new MetaDataConfigDAO(new ClassAwake(), $fileManager, new MetaDataSourceHydrator(), $context);
+        $sUT = new MetaDataConfigDAO(
+            $fileManager,
+            TranstyperFactory::getInstance(),
+            ArrayValidatorFactory::getInstance(),
+            new MetaDataSourceHydrator(),
+            new DriverHydrator(),
+            $context
+        );
 
         $result = $sUT->ask($dataObject);
 

@@ -6,6 +6,9 @@ use CrudGenerator\Utils\ClassAwake;
 use CrudGenerator\MetaData\MetaDataSourceHydrator;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Driver\DriverConfig;
+use CrudGenerator\Utils\TranstyperFactory;
+use KeepUpdate\ArrayValidatorFactory;
+use CrudGenerator\MetaData\Driver\DriverHydrator;
 
 class RetrieveAllTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,7 +26,14 @@ class RetrieveAllTest extends \PHPUnit_Framework_TestCase
         ->method('fileGetContent')
         ->will($this->returnValue(json_encode($data)));
 
-        $sUT = new MetaDataConfigDAO(new ClassAwake(), $fileManager, new MetaDataSourceHydrator(), $context);
+        $sUT = new MetaDataConfigDAO(
+            $fileManager,
+            TranstyperFactory::getInstance(),
+            ArrayValidatorFactory::getInstance(),
+            new MetaDataSourceHydrator(),
+            new DriverHydrator(),
+            $context
+        );
 
         $results = $sUT->retrieveAll();
 
@@ -45,7 +55,14 @@ class RetrieveAllTest extends \PHPUnit_Framework_TestCase
         ->method('fileGetContent')
         ->will($this->returnValue(json_encode($data)));
 
-        $sUT = new MetaDataConfigDAO(new ClassAwake(), $fileManager, new MetaDataSourceHydrator(), $context);
+        $sUT = new MetaDataConfigDAO(
+            $fileManager,
+            TranstyperFactory::getInstance(),
+            ArrayValidatorFactory::getInstance(),
+            new MetaDataSourceHydrator(),
+            new DriverHydrator(),
+            $context
+        );
 
         $results = $sUT->retrieveAll();
 
@@ -71,7 +88,14 @@ class RetrieveAllTest extends \PHPUnit_Framework_TestCase
         ->method('fileGetContent')
         ->will($this->returnValue(json_encode($data)));
 
-        $sUT = new MetaDataConfigDAO(new ClassAwake(), $fileManager, new MetaDataSourceHydrator(), $context);
+        $sUT = new MetaDataConfigDAO(
+            $fileManager,
+            TranstyperFactory::getInstance(),
+            ArrayValidatorFactory::getInstance(),
+            new MetaDataSourceHydrator(),
+            new DriverHydrator(),
+            $context
+        );
 
         $results = $sUT->retrieveAll();
 
@@ -101,7 +125,14 @@ class RetrieveAllTest extends \PHPUnit_Framework_TestCase
         ->method('fileGetContent')
         ->will($this->returnValue(json_encode($data)));
 
-        $sUT = new MetaDataConfigDAO(new ClassAwake(), $fileManager, new MetaDataSourceHydrator(), $context);
+        $sUT = new MetaDataConfigDAO(
+            $fileManager,
+            TranstyperFactory::getInstance(),
+            ArrayValidatorFactory::getInstance(),
+            new MetaDataSourceHydrator(),
+            new DriverHydrator(),
+            $context
+        );
 
         $results = $sUT->retrieveAll();
 

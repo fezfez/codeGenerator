@@ -90,8 +90,8 @@ class SaveTest extends \PHPUnit_Framework_TestCase
 
         $sUT = new MetaDataConfigDAO(
             $fileManager,
-            new Transtyper(),
-            new MetaDataSourceValidator($driverValidator, $classAwake),
+            TranstyperFactory::getInstance(),
+            \KeepUpdate\ArrayValidatorFactory::getInstance(),
             new MetaDataSourceHydrator(),
             new DriverHydrator(),
             $context

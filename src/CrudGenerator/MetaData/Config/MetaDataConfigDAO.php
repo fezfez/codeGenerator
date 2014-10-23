@@ -195,7 +195,6 @@ class MetaDataConfigDAO
      */
     private function isWellConfigured(MetaDataSource $source)
     {
-        $this->metadataSourceValidator->isValidConfig($source);
         $config = $source->getConfig();
 
         if ($config === null) {
