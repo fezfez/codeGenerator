@@ -27,6 +27,7 @@ use CrudGenerator\Utils\Transtyper;
 use CrudGenerator\MetaData\Driver\DriverHydrator;
 use KeepUpdate\ArrayValidator;
 use KeepUpdate\ValidationException;
+use CrudGenerator\Generators\ResponseExpectedException;
 
 class MetaDataConfigDAO
 {
@@ -113,7 +114,7 @@ class MetaDataConfigDAO
             );
 
             // Test if have a config
-            if (isset($config[MetaDataSource::CONFIG]) === false) {
+            if (isset($config[MetaDataSource::CONFIG]) === true) {
                 $adapter->setConfig($this->driverHydrator->arrayToDto($config[MetaDataSource::CONFIG]));
             }
 
@@ -131,8 +132,6 @@ class MetaDataConfigDAO
     {
         $source = $this->ask($source);
 
-        $this->isWellConfigured($source);
-
         $this->fileManager->filePutsContent(
             self::PATH . md5($source->getUniqueName()) . self::EXTENSION,
             json_encode($source->jsonSerialize())
@@ -146,6 +145,43 @@ class MetaDataConfigDAO
      * @return MetaDataSource
      */
     public function ask(MetaDataSource $source)
+    {
+        $notWellConfigured = true;
+        do {
+            $driverDescription   = $this->askDriver($source);
+            $driverConfiguration = $driverDescription->getConfig();
+            $driverConfiguration->setMetadataDaoFactory($source->getMetadataDaoFactory());
+
+            foreach ($driverConfiguration->getQuestion() as $question) {
+                $driverConfiguration->response(
+                    $question[DriverConfig::QUESTION_ATTRIBUTE],
+                    $this->context->ask(
+                        new SimpleQuestion(
+                            $question[DriverConfig::QUESTION_DESCRIPTION],
+                            $question[DriverConfig::QUESTION_ATTRIBUTE]
+                        )
+                    )
+                );
+            }
+
+            $source->setConfig($driverConfiguration);
+
+            try {
+                $this->isWellConfigured($source);
+                $notWellConfigured = false;
+            } catch (ConfigException $e) {
+                $this->context->log($e->getMessage(), 'error');
+            }
+        } while($notWellConfigured);
+
+        return $source;
+    }
+
+    /**
+     * @param MetaDataSource $source
+     * @return \CrudGenerator\MetaData\Driver\Driver
+     */
+    private function askDriver(MetaDataSource $source)
     {
         $isUniqueDriver = $source->isUniqueDriver();
 
@@ -171,29 +207,13 @@ class MetaDataConfigDAO
                 'metadataconfig_connector',
                 $predefinedResponseCollection
             );
+            $question->setConsumeResponse(true);
             $question->setShutdownWithoutResponse(true);
 
             $driverDescription = $this->context->askCollection($question);
         }
 
-        /* @var $driverDescription \CrudGenerator\MetaData\Driver\Driver */
-
-        $driverConfiguration = $driverDescription->getConfig();
-        $driverConfiguration->setMetadataDaoFactory($source->getMetadataDaoFactory());
-
-        foreach ($driverConfiguration->getQuestion() as $question) {
-            $driverConfiguration->response(
-                $question[DriverConfig::QUESTION_ATTRIBUTE],
-                $this->context->ask(
-                    new SimpleQuestion(
-                        $question[DriverConfig::QUESTION_DESCRIPTION],
-                        $question[DriverConfig::QUESTION_ATTRIBUTE]
-                    )
-                )
-            );
-        }
-
-        return $source->setConfig($driverConfiguration);
+        return $driverDescription;
     }
 
     /**

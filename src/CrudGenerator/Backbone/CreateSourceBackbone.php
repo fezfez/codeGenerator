@@ -53,13 +53,7 @@ class CreateSourceBackbone
     public function run()
     {
         $source = $this->metadataSourceQuestion->ask();
-
-        try {
-            $this->metadataConfigDAO->save($source);
-            $this->context->log('New source created', 'valid');
-        } catch (ConfigException $e) {
-            $this->context->log($e->getMessage(), 'error');
-            throw new ResponseExpectedException("Response expected");
-        }
+        $this->metadataConfigDAO->save($source);
+        $this->context->log('New source created', 'valid');
     }
 }
