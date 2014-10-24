@@ -11,6 +11,7 @@ use CrudGenerator\MetaData\Driver\Driver;
 use CrudGenerator\Utils\TranstyperFactory;
 use CrudGenerator\MetaData\Driver\DriverHydrator;
 use KeepUpdate\ArrayValidatorFactory;
+use CrudGenerator\Generators\ResponseExpectedException;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,13 +21,13 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $context     = $this->createMock('CrudGenerator\Context\CliContext');
 
         $url = 'http://myurl.org';
-        $context->expects($this->once())
+        $context->expects($this->exactly(2))
         ->method("ask")
-        ->willReturn($url);
+        ->willReturnOnConsecutiveCalls($url, $this->throwException(new ResponseExpectedException()));
 
         $config = new DriverConfig("im am unique !");
         $config->addQuestion('Url', 'configUrl');
-        $config->setDriver(__CLASS__);
+        $config->setDriver('CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory');
 
         $driver = new Driver();
         $driver->setConfig($config)
@@ -49,14 +50,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
             $context
         );
 
-        $result = $sUT->ask($dataObject);
+        $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
 
-        $this->assertInstanceOf(
-            'CrudGenerator\MetaData\MetaDataSource',
-            $result
-        );
-
-        $this->assertEquals($url, $result->getConfig()->getResponse('configUrl'));
+        $sUT->ask($dataObject);
     }
 
     public function testWithMultipleDriver()
@@ -71,7 +67,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $config = new DriverConfig("im am unique !");
         $config->addQuestion('Url', 'configUrl');
-        $config->setDriver(__CLASS__);
+        $config->setDriver('CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory');
 
         $driver = new Driver();
         $driver->setConfig($config)
@@ -104,14 +100,9 @@ class AskTest extends \PHPUnit_Framework_TestCase
             $context
         );
 
-        $result = $sUT->ask($dataObject);
+        $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
 
-        $this->assertInstanceOf(
-            'CrudGenerator\MetaData\MetaDataSource',
-            $result
-        );
-
-        $this->assertEquals($url, $result->getConfig()->getResponse('configUrl'));
+        $sUT->ask($dataObject);
     }
 
     /**

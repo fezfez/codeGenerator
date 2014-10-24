@@ -27,22 +27,6 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         ->method("ask")
         ->willReturn($url);
 
-        $config = new DriverConfig("im am unique !");
-        $config->addQuestion('Url', 'configUrl');
-        $config->setDriver(__CLASS__);
-
-        $driver = new Driver();
-        $driver->setConfig($config)
-        ->setDefinition('Web connector')
-        ->setUniqueName('Web');
-
-        $dataObject = new MetaDataSource();
-        $dataObject->setDefinition("Json adapter")
-        ->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory')
-        ->setMetadataDao("CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAO")
-        ->addDriverDescription($driver)
-        ->setUniqueName('Json');
-
         $sUT = new MetaDataConfigDAO(
             $fileManager,
             TranstyperFactory::getInstance(),
@@ -74,7 +58,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
 
         $config = new DriverConfig("im am unique !");
         $config->addQuestion('Url', 'configUrl');
-        $config->setDriver(__CLASS__);
+        $config->setDriver('CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory');
 
         $driver = new Driver();
         $driver->setConfig($config)
@@ -96,6 +80,8 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             new DriverHydrator(),
             $context
         );
+
+        $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
 
         $result = $sUT->ask($dataObject);
 

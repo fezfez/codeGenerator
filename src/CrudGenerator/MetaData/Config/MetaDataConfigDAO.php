@@ -221,13 +221,12 @@ class MetaDataConfigDAO
      */
     private function isWellConfigured(MetaDataSource $source)
     {
-        $config = $source->getConfig();
+        $driverConfig = $source->getConfig();
 
-        if ($config === null) {
+        if ($driverConfig === null) {
             $metadataDAOFactory = $source->getMetadataDaoFactory();
             $metadataDAOFactory::getInstance();
         } else {
-            $driverConfig  = $source->getConfig();
             $driverFactory = $driverConfig->getDriver();
             $driver        = $driverFactory::getInstance();
 

@@ -4,26 +4,19 @@ namespace CrudGenerator\Tests\General\Generators\Questions\MetadataSourceConfigu
 use CrudGenerator\Generators\Questions\MetadataSourceConfigured\MetadataSourceConfiguredQuestion;
 use CrudGenerator\MetaData\MetaDataSourceCollection;
 use CrudGenerator\MetaData\MetaDataSource;
+use CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAOFactory;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {
     public function testFail()
     {
         $metadataSourceCollection = new MetaDataSourceCollection();
-        $source                   = new MetaDataSource();
 
-        $source->setDefinition('My definition')
-               ->setMetadataDao('My name')
-               ->setMetadataDaoFactory('My nameFactory');
+        $metadataSourceCollection->append(Doctrine2MetaDataDAOFactory::getDescription());
 
-        $metadataSourceCollection->append($source);
+        $sourceWithFailedDependencie = Doctrine2MetaDataDAOFactory::getDescription();
 
-        $sourceWithFailedDependencie = new MetaDataSource();
-
-        $sourceWithFailedDependencie->setDefinition('My definition')
-        ->setMetadataDao('My name')
-        ->setFalseDependencie('My false dependencies')
-        ->setMetadataDaoFactory('My nameFactory');
+        $sourceWithFailedDependencie->setFalseDependencie('My false dependencies');
 
         $metadataSourceCollection->append($sourceWithFailedDependencie);
 
@@ -59,19 +52,13 @@ class AskTest extends \PHPUnit_Framework_TestCase
     public function testWithPreselectedOk()
     {
         $metadataSourceCollection = new MetaDataSourceCollection();
-        $source                   = new MetaDataSource();
-
-        $source->setDefinition('My definition')
-        ->setMetadataDao('My name')
-        ->setMetadataDaoFactory('my name factory');
+        $source                   = Doctrine2MetaDataDAOFactory::getDescription();
 
         $metadataSourceCollection->append($source);
 
-        $sourceWithFailedDependencie = new MetaDataSource();
+        $sourceWithFailedDependencie = Doctrine2MetaDataDAOFactory::getDescription();
 
-        $sourceWithFailedDependencie->setDefinition('My definition')
-        ->setMetadataDao('My named')
-        ->setFalseDependencie('My false dependencies');
+        $sourceWithFailedDependencie->setFalseDependencie('My false dependencies');
 
         $metadataSourceCollection->append($sourceWithFailedDependencie);
 
@@ -96,17 +83,12 @@ class AskTest extends \PHPUnit_Framework_TestCase
     public function testWithPreselectedFail()
     {
         $metadataSourceCollection = new MetaDataSourceCollection();
-        $source                   = new MetaDataSource();
-
-        $source->setDefinition('My definition')
-        ->setMetadataDao('My name');
+        $source                   = Doctrine2MetaDataDAOFactory::getDescription();
 
         $metadataSourceCollection->append($source);
 
-        $sourceWithFailedDependencie = new MetaDataSource();
-        $sourceWithFailedDependencie->setDefinition('My definition')
-        ->setMetadataDao('My name')
-        ->setFalseDependencie('My false dependencies');
+        $sourceWithFailedDependencie = Doctrine2MetaDataDAOFactory::getDescription();
+        $sourceWithFailedDependencie->setFalseDependencie('My false dependencies');
 
         $metadataSourceCollection->append($sourceWithFailedDependencie);
 

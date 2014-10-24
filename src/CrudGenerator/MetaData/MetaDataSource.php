@@ -91,6 +91,13 @@ class MetaDataSource implements \JsonSerializable
      */
     public function setMetadataDao($value)
     {
+        if (is_string($value) === false) {
+            throw new \Exception('you do it wrong');
+        } elseif (false === class_exists($value, true)) {
+            throw new \Exception('you do it wrong');
+        } elseif (in_array('CrudGenerator\MetaData\Sources\MetaDataDAOInterface', class_implements($value)) === false) {
+            throw new \Exception('you do it wrong');
+        }
         $this->metaDataDAO = $value;
         return $this;
     }
@@ -100,6 +107,14 @@ class MetaDataSource implements \JsonSerializable
      */
     public function setMetadataDaoFactory($value)
     {
+        if (is_string($value) === false) {
+            throw new \Exception('you do it wrong');
+        } elseif (false === class_exists($value, true)) {
+            throw new \Exception('you do it wrong');
+        } elseif (in_array('CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface', class_implements($value)) === false) {
+            throw new \Exception('you do it wrong');
+        }
+
         $this->metaDataDAOFactory = $value;
         return $this;
     }
@@ -130,6 +145,14 @@ class MetaDataSource implements \JsonSerializable
      */
     public function setConfig(DriverConfig $value)
     {
+        if (is_string($value) === false) {
+            throw new \Exception('you do it wrong');
+        } elseif (false === class_exists($value, true)) {
+            throw new \Exception('you do it wrong');
+        } elseif (in_array('CrudGenerator\MetaData\Driver\DriverConfig', class_implements($value)) === false) {
+            throw new \Exception('you do it wrong');
+        }
+
         $this->config = $value;
         return $this;
     }
