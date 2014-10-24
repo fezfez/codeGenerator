@@ -16,26 +16,27 @@ use KeepUpdate\Annotations;
 /**
  * Find all generator allow in project
  *
+ * @Annotations\Synchronizer(strict=true)
+ *
  * @author Stéphane Demonchaux
  */
-
 class GeneratorDataObject implements \JsonSerializable
 {
     const FILES = 'files';
     /**
      * @var unknown
      */
-    const METADATA_SOURCE = 'metadatasource';
-    const TEMPLATE_VARIABLE = 'templatevariable';
+    const METADATA_SOURCE = 'metadataSource';
+    const TEMPLATE_VARIABLE = 'templateVariable';
     const DIRECTORIES = 'directories';
     const NAME = 'name';
     const ENVIRONNEMENT = 'environnement';
     const DEPENDENCIES = 'dependencies';
     const DTO = 'dto';
-    const DTO_CLASS = 'dtoclass';
 
     /**
      * @Annotations\Chain(class="CrudGenerator\DataObject", nullable=false)
+     *
      * @var DataObject
      */
     private $dto = null;
@@ -45,9 +46,10 @@ class GeneratorDataObject implements \JsonSerializable
     private $name = null;
     /**
      * @Annotations\Chain(class="CrudGenerator\MetaData\MetaDataSource", nullable=false)
+     *
      * @var MetaDataSource
      */
-    private $metaDataSource = null;
+    private $metadataSource = null;
     /**
      * @var string
      */
@@ -71,7 +73,7 @@ class GeneratorDataObject implements \JsonSerializable
     /**
      * @var array
      */
-    private $dependecies = array();
+    private $dependencies = array();
 
     /**
      * @return \CrudGenerator\Generators\GeneratorDataObject
@@ -91,12 +93,12 @@ class GeneratorDataObject implements \JsonSerializable
         return $this;
     }
     /**
-     * @param MetaDataSource $metaDataSource
+     * @param MetaDataSource $metadataSource
      * @return \CrudGenerator\Generators\GeneratorDataObject
      */
-    public function setMetadataSource(MetaDataSource $metaDataSource)
+    public function setMetadataSource(MetaDataSource $metadataSource)
     {
-        $this->metaDataSource = $metaDataSource;
+        $this->metadataSource = $metadataSource;
         return $this;
     }
     /**
@@ -121,7 +123,7 @@ class GeneratorDataObject implements \JsonSerializable
         }
 
         $this->dto->addEnvironnementValue($environnement, $value);
-        foreach ($this->dependecies as $dependency) {
+        foreach ($this->dependencies as $dependency) {
             $dependency->addEnvironnementValue($environnement, $value);
         }
         $this->environnement[$environnement] = $value;
@@ -133,7 +135,7 @@ class GeneratorDataObject implements \JsonSerializable
      */
     public function addDependency(GeneratorDataObject $generator)
     {
-        $this->dependecies[] = $generator;
+        $this->dependencies[] = $generator;
         return $this;
     }
     /**
@@ -196,7 +198,7 @@ class GeneratorDataObject implements \JsonSerializable
      */
     public function getMetadataSource()
     {
-        return $this->metaDataSource;
+        return $this->metadataSource;
     }
     /**
      * @return string
@@ -245,7 +247,7 @@ class GeneratorDataObject implements \JsonSerializable
      */
     public function getDependencies()
     {
-        return $this->dependecies;
+        return $this->dependencies;
     }
 
     /**
@@ -263,15 +265,14 @@ class GeneratorDataObject implements \JsonSerializable
     public function jsonSerialize()
     {
         return array(
-            self::METADATA_SOURCE   => $this->metaDataSource,
+            self::METADATA_SOURCE   => $this->metadataSource,
             self::TEMPLATE_VARIABLE => $this->templateVariable,
             self::FILES             => $this->getFiles(),
             self::DIRECTORIES       => $this->directories,
             self::NAME              => $this->name,
             self::ENVIRONNEMENT     => $this->environnement,
-            self::DEPENDENCIES      => $this->dependecies,
-            self::DTO               => $this->dto,
-            self::DTO_CLASS         => get_class($this->dto)
+            self::DEPENDENCIES      => $this->dependencies,
+            self::DTO               => $this->dto
         );
     }
 }

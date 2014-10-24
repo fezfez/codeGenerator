@@ -17,7 +17,7 @@ use CrudGenerator\Utils\TranstyperFactory;
 
 class SaveTest extends \PHPUnit_Framework_TestCase
 {
-    public function testSaveOkdd()
+    public function testSaveOk()
     {
         $fileManager = $this->createMock('CrudGenerator\Utils\FileManager');
         $context     = $this->createMock('CrudGenerator\Context\CliContext');
@@ -100,11 +100,11 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         $result = $sUT->ask($dataObject);
 
         $this->assertInstanceOf(
-            'CrudGenerator\MetaData\Driver\DriverConfig',
+            'CrudGenerator\MetaData\MetaDataSource',
             $result
         );
 
-        $this->assertEquals($url, $result->getResponse('configUrl'));
+        $this->assertEquals($url, $result->getConfig()->getResponse('configUrl'));
     }
 
     /**

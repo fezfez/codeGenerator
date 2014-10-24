@@ -52,7 +52,8 @@ class MetaDataSource implements \JsonSerializable
      */
     private $metaDataDAO = null;
     /**
-     * @Annotations\PlainTextClassImplements(class="CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface", nullable=false)
+     * @Annotations\PlainTextClassImplements(interface="CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface", nullable=false)
+     *
      * @var string name of adapater
      */
     private $metaDataDAOFactory = null;
@@ -66,6 +67,7 @@ class MetaDataSource implements \JsonSerializable
     private $definition = null;
     /**
      * @Annotations\Chain(class="CrudGenerator\MetaData\Driver\DriverConfig", nullable=true)
+     *
      * @var DriverConfig Driver configuration
      */
     private $config = null;

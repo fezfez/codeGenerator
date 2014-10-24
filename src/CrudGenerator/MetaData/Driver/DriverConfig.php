@@ -35,7 +35,7 @@ class DriverConfig implements \JsonSerializable
     private $response = array();
     /**
      *
-     * @Annotations\PlainTextClassImplements(class="CrudGenerator\MetaData\Driver\DriverFactoryInterface", nullable=false)
+     * @Annotations\PlainTextClassImplements(interface="CrudGenerator\MetaData\Driver\DriverFactoryInterface", nullable=false)
      * @var string
      */
     private $driver = null;
@@ -44,7 +44,7 @@ class DriverConfig implements \JsonSerializable
      */
     private $uniqueName = null;
     /**
-     * @Annotations\PlainTextClassImplements(class="CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface", nullable=false)
+     * @Annotations\PlainTextClassImplements(interface="CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface", nullable=false)
      * @var string
      */
     private $metadataDaoFactory = null;

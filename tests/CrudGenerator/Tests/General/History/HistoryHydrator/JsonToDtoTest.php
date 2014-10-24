@@ -6,6 +6,10 @@ use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use KeepUpdate\ArrayValidatorFactory;
+use CrudGenerator\History\History;
+use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\DataObject;
+use CrudGenerator\MetaData\MetaDataSource;
 
 class JsonToDtoTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,7 +26,11 @@ class JsonToDtoTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource, ArrayValidatorFactory::getInstance());
+        $sUT = new HistoryHydrator(
+            $stubMetadataSourceQuestion,
+            $stubMetadataSource,
+            ArrayValidatorFactory::getInstance()
+        );
 
         $metaDataSourceName = 'Doctrine2';
         $metaDataSource     = 'CrudGenerator\MetaData\MetaDataSource';
@@ -49,13 +57,16 @@ class JsonToDtoTest extends \PHPUnit_Framework_TestCase
         ->will($this->returnValue($metaData));
 
         $json = '{
-                "name" : "toto",
-                "dto": {
-                    "metadata": {
+                "' . GeneratorDataObject::NAME . '" : "toto",
+                "' . GeneratorDataObject::DTO . '": {
+                    "' . DataObject::METADATA . '": {
                         "id": "CategorieEntity",
                         "dtCreat": "CategorieEntity",
                         "nomLog": "CategorieEntity",
                         "name" : "Corp\\\NewsEntity"
+                    },
+                    "' . DataObject::STORE . '" : {
+
                     },
                     "formDirectory": null,
                     "namespace": null,
@@ -66,31 +77,28 @@ class JsonToDtoTest extends \PHPUnit_Framework_TestCase
                         "nomLog": "Nom log"
                     }
                 },
-                "metaDataSource": {
+                "' . GeneratorDataObject::METADATA_SOURCE . '": {
                     "definition": "Doctrine2",
                     "metaDataDAO": "CrudGenerator\\\\MetaData\\\\Sources\\\\Doctrine2\\\\Doctrine2MetaDataDAO",
                     "metaDataDAOFactory": "CrudGenerator\\\\MetaData\\\\Sources\\\\Doctrine2\\\\Doctrine2MetaDataDAOFactory",
                     "falseDependencies": null,
-                    "uniqueName" : "Doctrine2"
+                    "uniqueName" : "Doctrine2",
+                    "' . MetaDataSource::CONFIG . '" : null
                 },
-                "dtoClass": "CrudGenerator\\\\GeneratorsEmbed\\\\CrudGenerator\\\\Crud",
-                "Generators":{
-                    "CrudGenerator\\\\GeneratorsEmbed\\\\CrudGenerator\\\\Crud":{
-                        "options":{
-                            "AttributeName":{
-                                "id":"Id",
-                                "dtCreat":"Date de cr\\u00e9ation",
-                                "nomLog":"Nom log"
-                            },
-                            "WriteAction":"NewsEntity",
-                            "PrefixRouteName":"news",
-                            "DisplayName":"news",
-                            "DisplayNames":"news",
-                            "ModelNamespace":"Corp",
-                            "ControllerName":"News",
-                            "ControllerNamespace":"Application"
-                        }
-                    }
+                "' . GeneratorDataObject::TEMPLATE_VARIABLE . '" : {
+
+                },
+                "' . GeneratorDataObject::FILES . '" : {
+
+                },
+                "' . GeneratorDataObject::DIRECTORIES . '" : {
+
+                },
+                "' . GeneratorDataObject::ENVIRONNEMENT . '" : {
+
+                },
+                "' . GeneratorDataObject::DEPENDENCIES . '" : {
+
                 }
             }';
 

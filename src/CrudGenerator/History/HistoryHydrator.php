@@ -17,6 +17,7 @@ use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\DataObject\MetaDataInterface;
 use KeepUpdate\ArrayValidator;
+use KeepUpdate\ValidationException;
 
 /**
  * History hydrator
@@ -74,7 +75,11 @@ class HistoryHydrator
      */
     private function checkIntegrity(array $data)
     {
-        return $this->arrayValidator->isValid('CrudGenerator\Generators\GeneratorDataObject', $data);
+        try {
+            return $this->arrayValidator->isValid('CrudGenerator\Generators\GeneratorDataObject', $data);
+        } catch (ValidationException $exception) {
+            throw new InvalidHistoryException($exception->getMessage());
+        }
     }
 
     /**

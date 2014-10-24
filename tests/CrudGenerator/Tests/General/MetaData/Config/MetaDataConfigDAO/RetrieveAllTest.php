@@ -113,12 +113,20 @@ class RetrieveAllTest extends \PHPUnit_Framework_TestCase
         ->will($this->returnValue(array('myFile')));
 
         $data = array(
-            DriverConfig::RESPONSE => array(
-                'configUrl' => 'here'
+            MetaDataSource::CONFIG => array(
+                DriverConfig::RESPONSE => array(
+                    'configUrl' => 'here'
+                ),
+                DriverConfig::SOURCE_FACTORY => 'CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAOFactory',
+                DriverConfig::FACTORY => 'CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory',
+                DriverConfig::UNIQUE_NAME => 'bbb'
             ),
-            MetaDataSource::METADATA_DAO_FACTORY=> 'CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory',
+            MetaDataSource::METADATA_DAO_FACTORY => 'CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory',
+            MetaDataSource::METADATA_DAO => '',
+            MetaDataSource::FALSE_DEPENDENCIES => '',
             MetaDataSource::UNIQUE_NAME => 'test',
-            MetaDataSource::METADATA_DAO_FACTORY => 'CrudGenerator\MetaData\Driver\File\Web\WebDriverFactory'
+            MetaDataSource::METADATA_DAO_FACTORY => 'CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAOFactory',
+            MetaDataSource::DEFINITION => ''
         );
 
         $fileManager->expects($this->once())

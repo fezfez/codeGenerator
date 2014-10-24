@@ -10,6 +10,7 @@ use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Driver\DriverConfig;
 use KeepUpdate\ArrayValidatorFactory;
+use CrudGenerator\MetaData\Driver\File\Web\WebDriverFactory;
 
 class DtoToJsonTest extends \PHPUnit_Framework_TestCase
 {
@@ -48,13 +49,21 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
 
-        $sUT          = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource, ArrayValidatorFactory::getInstance());
+        $sUT = new HistoryHydrator(
+            $stubMetadataSourceQuestion,
+            $stubMetadataSource,
+            ArrayValidatorFactory::getInstance()
+        );
+
         $driverConfig = new DriverConfig("test");
-        $source       = new MetaDataSource();
+        $driverConfig->setMetadataDaoFactory("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory")
+                     ->setDriver('CrudGenerator\MetaData\Driver\File\Web\WebDriverFactory');
+
+        $source = new MetaDataSource();
 
         $source->setConfig($driverConfig)
-        ->setMetadataDao("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAO")
-        ->setMetadataDaoFactory("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory");
+               ->setMetadataDao("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAO")
+               ->setMetadataDaoFactory("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory");
 
         $metaData = new MetadataDataObjectDoctrine2(
             new MetaDataColumnCollection(),
@@ -93,6 +102,8 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
         $metaData->setName('MyName');
 
         $driverConfig = new DriverConfig("test");
+        $driverConfig->setMetadataDaoFactory("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory")
+                     ->setDriver('CrudGenerator\MetaData\Driver\File\Web\WebDriverFactory');
 
         $source = new MetaDataSource();
         $source->setConfig($driverConfig)

@@ -26,6 +26,7 @@ use CrudGenerator\MetaData\MetaDataSourceValidator;
 use CrudGenerator\Utils\Transtyper;
 use CrudGenerator\MetaData\Driver\DriverHydrator;
 use KeepUpdate\ArrayValidator;
+use KeepUpdate\ValidationException;
 
 class MetaDataConfigDAO
 {
@@ -100,15 +101,20 @@ class MetaDataConfigDAO
             // Decode
             $config     = $this->transtyper->decode($this->fileManager->fileGetContent($file));
             // Validate
-            $this->arrayValidator->isValid('CrudGenerator\MetaData\MetaDataSource', $config);
+            try {
+                $this->arrayValidator->isValid('CrudGenerator\MetaData\MetaDataSource', $config);
+            } catch (ValidationException $e) {
+                continue; // Do nothing
+            }
+
             // Hydrate
             $adapter    = $this->metaDataSourceHydrator->adapterNameToMetaDataSource(
                 $config[MetaDataSource::METADATA_DAO_FACTORY]
             );
 
             // Test if have a config
-            if (isset($config[DriverConfig::FACTORY]) === false) {
-                $adapter->setConfig($this->driverHydrator->arrayToDto($config));
+            if (isset($config[MetaDataSource::CONFIG]) === false) {
+                $adapter->setConfig($this->driverHydrator->arrayToDto($config[MetaDataSource::CONFIG]));
             }
 
             $adapterCollection->append($adapter);
@@ -119,7 +125,7 @@ class MetaDataConfigDAO
 
     /**
      * @param MetaDataSource $source
-     * @return boolean
+     * @return MetaDataSource
      */
     public function save(MetaDataSource $source)
     {
