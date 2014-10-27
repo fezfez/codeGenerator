@@ -6,8 +6,9 @@ use CrudGenerator\Context\SimpleQuestion;
 use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
+use CrudGenerator\Tests\TestCase;
 
-class AskCollectionTest extends \PHPUnit_Framework_TestCase
+class AskCollectionTest extends TestCase
 {
     public function testWithPreselectedResponse()
     {
@@ -16,8 +17,8 @@ class AskCollectionTest extends \PHPUnit_Framework_TestCase
         $questionHelper    = $this->createMock('Symfony\Component\Console\Helper\QuestionHelper');
         $createCommandMock = $this->createMock('CrudGenerator\Command\CreateCommand');
 
-        $questionHelper->expects($this->never())
-                       ->method('ask');
+        $questionHelperExpects = $questionHelper->expects($this->never());
+        $questionHelperExpects->method('ask');
 
         $sUT = new CliContext($questionHelper, $outputStub, $inputStub, $createCommandMock);
 
@@ -47,9 +48,9 @@ class AskCollectionTest extends \PHPUnit_Framework_TestCase
         $questionHelper    = $this->createMock('Symfony\Component\Console\Helper\QuestionHelper');
         $createCommandMock = $this->createMock('CrudGenerator\Command\CreateCommand');
 
-        $questionHelper->expects($this->once())
-                        ->method('ask')
-                        ->willReturn('10 banana');
+        $questionHelperExpects = $questionHelper->expects($this->once());
+        $questionHelperExpects->method('ask');
+        $questionHelperExpects->willReturn('10 banana');
 
         $sUT = new CliContext($questionHelper, $outputStub, $inputStub, $createCommandMock);
 
@@ -68,16 +69,5 @@ class AskCollectionTest extends \PHPUnit_Framework_TestCase
             10,
             $sUT->askCollection($question)
         );
-    }
-
-    /**
-     * @param string $class
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    private function createMock($class)
-    {
-        return $this->getMockBuilder($class)
-        ->disableOriginalConstructor()
-        ->getMock();
     }
 }

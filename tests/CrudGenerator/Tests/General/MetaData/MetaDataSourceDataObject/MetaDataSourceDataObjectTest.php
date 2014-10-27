@@ -1,46 +1,29 @@
 <?php
-namespace CrudGenerator\Tests\General\Adapater\MetaDataSource;
+namespace CrudGenerator\Tests\General\MetaData\MetaDataSource;
 
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Driver\DriverConfig;
 
 class MetaDataSourceDataObjectTest extends \PHPUnit_Framework_TestCase
 {
-    public function testType()
+    public function testSetterAndGetter()
     {
         $driverConfig = new DriverConfig("test");
+        $source       = new MetaDataSource();
 
-        $adapater = new MetaDataSource();
+        $source->setConfig($driverConfig);
+        $source->setDefinition('definition');
+        $source->setFalseDependencie('false');
+        $source->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory');
+        $source->setMetadataDao("CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAO");
 
-        $adapater->setConfig($driverConfig)
-                 ->setDefinition('definition')
-                 ->setFalseDependencie('false')
-                 ->setMetadataDao('name')
-                 ->setMetadataDaoFactory('test');
-
-        $this->assertInstanceOf(
-            'CrudGenerator\MetaData\Driver\DriverConfig',
-            $adapater->getConfig()
-        );
-
+        $this->assertInstanceOf('CrudGenerator\MetaData\Driver\DriverConfig', $source->getConfig());
+        $this->assertEquals('definition', $source->getDefinition());
+        $this->assertEquals('false', $source->getFalseDependencies());
+        $this->assertEquals('CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAO', $source->getMetaDataDao());
         $this->assertEquals(
-            'definition',
-            $adapater->getDefinition()
-        );
-
-        $this->assertEquals(
-            'false',
-            $adapater->getFalseDependencies()
-        );
-
-        $this->assertEquals(
-            'name',
-            $adapater->getMetaDataDao()
-        );
-
-        $this->assertEquals(
-            'test',
-            $adapater->getMetadataDaoFactory()
+            'CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory',
+            $source->getMetadataDaoFactory()
         );
     }
 }

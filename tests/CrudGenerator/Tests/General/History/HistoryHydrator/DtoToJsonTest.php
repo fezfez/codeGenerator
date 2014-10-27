@@ -11,20 +11,17 @@ use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Driver\DriverConfig;
 use KeepUpdate\ArrayValidatorFactory;
 use CrudGenerator\MetaData\Driver\File\Web\WebDriverFactory;
+use CrudGenerator\Tests\TestCase;
 
-class DtoToJsonTest extends \PHPUnit_Framework_TestCase
+class DtoToJsonTest extends TestCase
 {
     public function testWithInvalidHistory()
     {
-        $stubMetadataSourceQuestion = $this->getMockBuilder(
+        $stubMetadataSourceQuestion = $this->createMock(
             'CrudGenerator\Generators\Questions\MetadataSourceConfigured\MetadataSourceConfiguredQuestion'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
+        );
 
-        $stubMetadataSource = $this->getMockBuilder('CrudGenerator\Generators\Questions\Metadata\MetadataQuestion')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $stubMetadataSource = $this->createMock('CrudGenerator\Generators\Questions\Metadata\MetadataQuestion');
 
         $sUT = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource, ArrayValidatorFactory::getInstance());
 
@@ -39,15 +36,11 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
 
     public function testOk()
     {
-        $stubMetadataSourceQuestion = $this->getMockBuilder(
+        $stubMetadataSourceQuestion = $this->createMock(
             'CrudGenerator\Generators\Questions\MetadataSourceConfigured\MetadataSourceConfiguredQuestion'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
+        );
 
-        $stubMetadataSource = $this->getMockBuilder('CrudGenerator\Generators\Questions\Metadata\MetadataQuestion')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $stubMetadataSource = $this->createMock('CrudGenerator\Generators\Questions\Metadata\MetadataQuestion');
 
         $sUT = new HistoryHydrator(
             $stubMetadataSourceQuestion,
@@ -83,15 +76,11 @@ class DtoToJsonTest extends \PHPUnit_Framework_TestCase
 
     public function testBoth()
     {
-        $stubMetadataSourceQuestion = $this->getMockBuilder(
+        $stubMetadataSourceQuestion = $this->createMock(
             'CrudGenerator\Generators\Questions\MetadataSourceConfigured\MetadataSourceConfiguredQuestion'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
+        );
 
-        $stubMetadataSource = $this->getMockBuilder('CrudGenerator\Generators\Questions\Metadata\MetadataQuestion')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $stubMetadataSource = $this->createMock('CrudGenerator\Generators\Questions\Metadata\MetadataQuestion');
 
         $sUT = new HistoryHydrator($stubMetadataSourceQuestion, $stubMetadataSource, ArrayValidatorFactory::getInstance());
 

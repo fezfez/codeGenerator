@@ -4,8 +4,9 @@ namespace CrudGenerator\Tests\General\Command\CreateCommand;
 use CrudGenerator\Command\CreateCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
+use CrudGenerator\Tests\TestCase;
 
-class CreateTest extends \PHPUnit_Framework_TestCase
+class CreateTest extends TestCase
 {
     public function testCreateCommand()
     {
@@ -13,13 +14,11 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $createCommand = new CreateCommand($application);
 
         // Create a fake mock to make sure thats the callback is call
-        $fakeMock = $this->getMockBuilder('CrudGenerator\Context\CliContext')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $fakeMock = $this->createMock('CrudGenerator\Context\CliContext');
 
-        $fakeMock->expects($this->once())
-        ->method('log')
-        ->with('hello !');
+        $fakeMockExpects = $fakeMock->expects($this->once());
+        $fakeMockExpects->method('log');
+        $fakeMockExpects->with('hello !');
 
         $createCommand->create(
             'my_action',

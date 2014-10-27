@@ -4,8 +4,9 @@ namespace CrudGenerator\Tests\General\History\HistoryManager;
 use CrudGenerator\History\HistoryManager;
 use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
 use CrudGenerator\History\History;
+use CrudGenerator\Tests\TestCase;
 
-class FindAllTest extends \PHPUnit_Framework_TestCase
+class FindAllTest extends TestCase
 {
     public function testFail()
     {
@@ -13,10 +14,9 @@ class FindAllTest extends \PHPUnit_Framework_TestCase
         $generatorFinder = GeneratorFinderFactory::getInstance();
         $generatorFinder->getAllClasses();
 
-        $stubHistoryHydrator = $this->getMockBuilder('\CrudGenerator\History\HistoryHydrator')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $stubFileManager     = $this->getMock('\CrudGenerator\Utils\FileManager');
+        $stubHistoryHydrator = $this->createMock('CrudGenerator\History\HistoryHydrator');
+        $stubFileManager     = $this->createMock('CrudGenerator\Utils\FileManager');
+
         $stubFileManager->expects($this->any())
                         ->method('isDir')
                         ->will($this->returnValue(false));
@@ -34,10 +34,9 @@ class FindAllTest extends \PHPUnit_Framework_TestCase
         $generatorFinder = GeneratorFinderFactory::getInstance();
         $generatorFinder->getAllClasses();
 
-        $stubHistoryHydrator = $this->getMockBuilder('\CrudGenerator\History\HistoryHydrator')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $stubFileManager     = $this->getMock('\CrudGenerator\Utils\FileManager');
+        $stubHistoryHydrator = $this->createMock('CrudGenerator\History\HistoryHydrator');
+        $stubFileManager     = $this->createMock('CrudGenerator\Utils\FileManager');
+
         $stubFileManager->expects($this->any())
         ->method('isDir')
         ->will($this->returnValue(true));

@@ -2,32 +2,22 @@
 namespace CrudGenerator\Tests\General\Context\CliContext;
 
 use CrudGenerator\Context\CliContext;
+use CrudGenerator\Tests\TestCase;
 
-class LogTest extends \PHPUnit_Framework_TestCase
+class LogTest extends TestCase
 {
     public function testLogIsCorrectlyCall()
     {
-        $outputStub = $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $inputStub = $this->getMockBuilder('Symfony\Component\Console\Input\ArrayInput')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $questionHelper = $this->getMockBuilder('Symfony\Component\Console\Helper\QuestionHelper')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $createCommandMock = $this->getMockBuilder('CrudGenerator\Command\CreateCommand')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $outputStub        = $this->createMock('Symfony\Component\Console\Output\ConsoleOutput');
+        $inputStub         = $this->createMock('Symfony\Component\Console\Input\ArrayInput');
+        $questionHelper    = $this->createMock('Symfony\Component\Console\Helper\QuestionHelper');
+        $createCommandMock = $this->createMock('CrudGenerator\Command\CreateCommand');
 
         $logged = 'test';
 
-        $outputStub->expects($this->once())
-                   ->method('writeln')
-                   ->with($logged);
+        $outputStubExpects = $outputStub->expects($this->once());
+        $outputStubExpects->method('writeln');
+        $outputStubExpects->with($logged);
 
         $sUT = new CliContext($questionHelper, $outputStub, $inputStub, $createCommandMock);
 

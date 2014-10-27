@@ -64,12 +64,13 @@ class DriverConfig implements \JsonSerializable
     public function setDriver($value)
     {
         if (is_string($value) === false) {
-            throw new \Exception('you do it wrong');
+            throw new \Exception('Must be a string');
         } elseif (false === class_exists($value, true)) {
-            throw new \Exception('you do it wrong');
+            throw new \Exception('Class does not exist');
         } elseif (in_array('CrudGenerator\MetaData\Driver\DriverFactoryInterface', class_implements($value)) === false) {
-            throw new \Exception('you do it wrong');
+            throw new \Exception('Wrong implementation');
         }
+
         $this->driver = $value;
 
         return $this;
@@ -82,12 +83,13 @@ class DriverConfig implements \JsonSerializable
     public function setMetadataDaoFactory($value)
     {
         if (is_string($value) === false) {
-            throw new \Exception('you do it wrong');
+            throw new \Exception('Must be a string');
         } elseif (false === class_exists($value, true)) {
-            throw new \Exception('you do it wrong');
+            throw new \Exception('Class does not exist');
         } elseif (in_array('CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface', class_implements($value)) === false) {
-            throw new \Exception('you do it wrong');
+            throw new \Exception('Wrong implementation');
         }
+
         $this->metadataDaoFactory = $value;
 
         return $this;

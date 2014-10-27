@@ -2,8 +2,10 @@
 namespace CrudGenerator\Tests\General\Backbone\PreapreForGenerationBackbone;
 
 use CrudGenerator\Backbone\PreapreForGenerationBackbone;
+use CrudGenerator\MetaData\MetaDataSource;
+use CrudGenerator\Tests\TestCase;
 
-class RunTest extends \PHPUnit_Framework_TestCase
+class RunTest extends TestCase
 {
     public function testGenerator()
     {
@@ -20,7 +22,7 @@ class RunTest extends \PHPUnit_Framework_TestCase
             'CrudGenerator\Generators\Parser\GeneratorParser'
         );
 
-        $source   = new \CrudGenerator\MetaData\MetaDataSource();
+        $source   = new MetaDataSource();
         $metadata = $this->createMock('CrudGenerator\MetaData\DataObject\MetaData');
 
         $metadataSourceConfigured->expects($this->once())
@@ -52,16 +54,5 @@ class RunTest extends \PHPUnit_Framework_TestCase
             'CrudGenerator\Generators\GeneratorDataObject',
             $sUT->run()
         );
-    }
-
-    /**
-     * @param string $class
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    private function createMock($class)
-    {
-        return $this->getMockBuilder($class)
-        ->disableOriginalConstructor()
-        ->getMock();
     }
 }

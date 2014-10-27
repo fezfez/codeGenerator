@@ -9,8 +9,9 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\MetaData\MetaDataSource;
+use CrudGenerator\Tests\TestCase;
 
-class CreateTest extends \PHPUnit_Framework_TestCase
+class CreateTest extends TestCase
 {
     public function testInstance()
     {
@@ -18,10 +19,8 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $generatorFinder = GeneratorFinderFactory::getInstance();
         $generatorFinder->getAllClasses();
 
-        $stubFileManager     = $this->getMock('\CrudGenerator\Utils\FileManager');
-        $stubHistoryHydrator = $this->getMockBuilder('\CrudGenerator\History\HistoryHydrator')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $stubFileManager     = $this->createMock('\CrudGenerator\Utils\FileManager');
+        $stubHistoryHydrator = $this->createMock('\CrudGenerator\History\HistoryHydrator');
 
         $stubFileManager->expects($this->once())
                         ->method('isDir')
@@ -63,10 +62,8 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $generatorFinder = GeneratorFinderFactory::getInstance();
         $generatorFinder->getAllClasses();
 
-        $stubFileManager     = $this->getMock('\CrudGenerator\Utils\FileManager');
-        $stubHistoryHydrator = $this->getMockBuilder('\CrudGenerator\History\HistoryHydrator')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $stubFileManager     = $this->createMock('\CrudGenerator\Utils\FileManager');
+        $stubHistoryHydrator = $this->createMock('\CrudGenerator\History\HistoryHydrator');
 
         $sUT = new HistoryManager($stubFileManager, $stubHistoryHydrator);
 

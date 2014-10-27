@@ -4,50 +4,41 @@ namespace CrudGenerator\Tests\General\Backbone\HistoryBackbone;
 use CrudGenerator\Backbone\HistoryBackbone;
 use CrudGenerator\History\EmptyHistoryException;
 use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Tests\TestCase;
 
-class RunTest extends \PHPUnit_Framework_TestCase
+class RunTest extends TestCase
 {
-    public function testFail()
+    public function testWithEmptyHistory()
     {
-        $historyQuestion = $this->getMockBuilder('CrudGenerator\Generators\Questions\History\HistoryQuestion')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $historyQuestion = $this->createMock('CrudGenerator\Generators\Questions\History\HistoryQuestion');
+        $context         = $this->createMock('CrudGenerator\Context\CliContext');
 
-        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $historyExpects = $historyQuestion->expects($this->once());
+        $historyExpects->method('ask');
+        $historyExpects->willThrowException(new EmptyHistoryException());
 
-        $historyQuestion->expects($this->once())
-        ->method('ask')
-        ->willThrowException(new EmptyHistoryException());
-
-        $context->expects($this->once())
-        ->method('log');
+        $contextExpects = $context->expects($this->once());
+        $contextExpects->method('log');
 
         $sUT = new HistoryBackbone($historyQuestion, $context);
 
         $sUT->run();
     }
 
-    public function testOk()
+    public function testRetrieveHistory()
     {
-        $historyQuestion = $this->getMockBuilder('CrudGenerator\Generators\Questions\History\HistoryQuestion')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $historyQuestion = $this->createMock('CrudGenerator\Generators\Questions\History\HistoryQuestion');
+        $context         = $this->createMock('CrudGenerator\Context\CliContext');
 
         $dto = new GeneratorDataObject();
 
-        $historyQuestion->expects($this->once())
-        ->method('ask')
-        ->willReturn($dto);
+        $historyExpects = $historyQuestion->expects($this->once());
+        $historyExpects->method('ask');
+        $historyExpects->willReturn($dto);
 
-        $context->expects($this->once())
-        ->method('publishGenerator')
-        ->with($dto);
+        $contextExpects = $context->expects($this->once());
+        $contextExpects->method('publishGenerator');
+        $contextExpects->with($dto);
 
         $sUT = new HistoryBackbone($historyQuestion, $context);
 

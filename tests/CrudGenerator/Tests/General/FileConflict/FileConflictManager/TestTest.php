@@ -2,30 +2,23 @@
 namespace CrudGenerator\Tests\General\FileConflict\FileConflictManager;
 
 use CrudGenerator\FileConflict\FileConflictManager;
+use CrudGenerator\Tests\TestCase;
 
-class TestTest extends \PHPUnit_Framework_TestCase
+class TestTest extends TestCase
 {
-    public function testInstance()
+    public function testConflict()
     {
-        $contextStub =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $contextStub = $this->createMock('CrudGenerator\Context\CliContext');
+        $fileManager = $this->createMock('CrudGenerator\Utils\FileManager');
+        $diffPHP     = $this->createMock('SebastianBergmann\Diff\Differ');
 
-        $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $fileManagerExpectsIsFile = $fileManager->expects($this->exactly(2));
+        $fileManagerExpectsIsFile->method('isFile');
+        $fileManagerExpectsIsFile->will($this->returnValue(true));
 
-        $fileManager->expects($this->exactly(2))
-        ->method('isFile')
-        ->will($this->returnValue(true));
-
-        $fileManager->expects($this->exactly(2))
-        ->method('fileGetContent')
-        ->will($this->returnValue('test'));
-
-        $diffPHP = $this->getMockBuilder('SebastianBergmann\Diff\Differ')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $fileManagerExpectsFileGetContent = $fileManager->expects($this->exactly(2));
+        $fileManagerExpectsFileGetContent->method('fileGetContent');
+        $fileManagerExpectsFileGetContent->will($this->returnValue('test'));
 
         $sUT = new FileConflictManager($contextStub, $fileManager, $diffPHP);
 

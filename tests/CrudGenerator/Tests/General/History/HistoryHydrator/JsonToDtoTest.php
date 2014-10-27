@@ -10,21 +10,18 @@ use CrudGenerator\History\History;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\DataObject;
 use CrudGenerator\MetaData\MetaDataSource;
+use CrudGenerator\Tests\TestCase;
 
-class JsonToDtoTest extends \PHPUnit_Framework_TestCase
+class JsonToDtoTest extends TestCase
 {
     public function testOk()
     {
         // @TODO improve unit test
-        $stubMetadataSourceQuestion = $this->getMockBuilder(
+        $stubMetadataSourceQuestion = $this->createMock(
             'CrudGenerator\Generators\Questions\MetadataSourceConfigured\MetadataSourceConfiguredQuestion'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
+        );
 
-        $stubMetadataSource = $this->getMockBuilder('CrudGenerator\Generators\Questions\Metadata\MetadataQuestion')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $stubMetadataSource = $this->createMock('CrudGenerator\Generators\Questions\Metadata\MetadataQuestion');
 
         $sUT = new HistoryHydrator(
             $stubMetadataSourceQuestion,

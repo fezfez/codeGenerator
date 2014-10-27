@@ -2,14 +2,13 @@
 namespace CrudGenerator\Tests\General\Backbone\GenerateFileBackboneFactory;
 
 use CrudGenerator\Backbone\GenerateFileBackboneFactory;
+use CrudGenerator\Tests\TestCase;
 
-class GetInstanceTest extends \PHPUnit_Framework_TestCase
+class GetInstanceTest extends TestCase
 {
     public function testInstance()
     {
-        $contextStub =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $contextStub = $this->createMock('CrudGenerator\Context\CliContext');
 
         $this->assertInstanceOf(
             'CrudGenerator\Backbone\GenerateFileBackbone',

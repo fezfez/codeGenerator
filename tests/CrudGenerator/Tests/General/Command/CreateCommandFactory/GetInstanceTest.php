@@ -2,14 +2,13 @@
 namespace CrudGenerator\Tests\General\Command\CreateCommandFactory;
 
 use CrudGenerator\Command\CreateCommandFactory;
+use CrudGenerator\Tests\TestCase;
 
-class GetInstanceTest extends \PHPUnit_Framework_TestCase
+class GetInstanceTest extends TestCase
 {
     public function testInstance()
     {
-        $application =  $this->getMockBuilder('Symfony\Component\Console\Application')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $application = $this->createMock('Symfony\Component\Console\Application');
 
         $this->assertInstanceOf(
             'CrudGenerator\Command\CreateCommand',

@@ -9,153 +9,123 @@ use CrudGenerator\MetaData\Driver\DriverConfig;
 use CrudGenerator\Utils\TranstyperFactory;
 use KeepUpdate\ArrayValidatorFactory;
 use CrudGenerator\MetaData\Driver\DriverHydrator;
+use CrudGenerator\Tests\TestCase;
 
-class RetrieveAllTest extends \PHPUnit_Framework_TestCase
+class RetrieveAllTest extends TestCase
 {
-    public function testWithoutResponseKey()
+    public function testWithOneWrongConfigured()
     {
-        $fileManager = $this->createMock('CrudGenerator\Utils\FileManager');
-        $context     = $this->createMock('CrudGenerator\Context\CliContext');
+        $rawMocks = $this->createSut('CrudGenerator\MetaData\Config\MetaDataConfigDAO');
 
-        $fileManager->expects($this->once())
-        ->method('glob')
-        ->will($this->returnValue(array('myFile')));
+        $fileManagerExpectsGlob = $rawMocks['mocks']['fileManager']->expects($this->once());
+        $fileManagerExpectsGlob->method('glob');
+        $fileManagerExpectsGlob->will($this->returnValue(array('myFile')));
 
-        $data = array(MetaDataSource::METADATA_DAO_FACTORY => 'nonexistMetadata');
-        $fileManager->expects($this->once())
-        ->method('fileGetContent')
-        ->will($this->returnValue(json_encode($data)));
+        $rawData = array('my data');
 
-        $sUT = new MetaDataConfigDAO(
-            $fileManager,
-            TranstyperFactory::getInstance(),
-            ArrayValidatorFactory::getInstance(),
-            new MetaDataSourceHydrator(),
-            new DriverHydrator(),
-            $context
-        );
+        $fileManagerExpectsFileGetContents = $rawMocks['mocks']['fileManager']->expects($this->once());
+        $fileManagerExpectsFileGetContents->method('fileGetContent');
+        $fileManagerExpectsFileGetContents->will($this->returnValue($rawData));
 
+        $transtyperExpectsDecode = $rawMocks['mocks']['transtyper']->expects($this->once());
+        $transtyperExpectsDecode->method('decode');
+        $transtyperExpectsDecode->with($rawData);
+        $transtyperExpectsDecode->will($this->returnValue($rawData));
+
+        $arrayValidatorExpectsIsValid = $rawMocks['mocks']['arrayValidator']->expects($this->once());
+        $arrayValidatorExpectsIsValid->method('isValid');
+        $arrayValidatorExpectsIsValid->with($this->anything(), $rawData);
+        $arrayValidatorExpectsIsValid->will($this->throwException(new \KeepUpdate\ValidationException()));
+
+        /* @var $sUT \CrudGenerator\MetaData\Config\MetaDataConfigDAO */
+        $sUT     = $rawMocks['instance']($rawMocks['mocks']);
         $results = $sUT->retrieveAll();
 
         $this->assertCount(0, $results);
         $this->assertInstanceOf('CrudGenerator\MetaData\MetaDataSourceCollection', $results);
     }
 
-    public function testWithoutSourceFactoryKey()
+    public function testWithoutConfig()
     {
-        $fileManager = $this->createMock('CrudGenerator\Utils\FileManager');
-        $context     = $this->createMock('CrudGenerator\Context\CliContext');
-
-        $fileManager->expects($this->once())
-        ->method('glob')
-        ->will($this->returnValue(array('myFile')));
-
-        $data = array(DriverConfig::RESPONSE => 'im');
-        $fileManager->expects($this->once())
-        ->method('fileGetContent')
-        ->will($this->returnValue(json_encode($data)));
-
-        $sUT = new MetaDataConfigDAO(
-            $fileManager,
-            TranstyperFactory::getInstance(),
-            ArrayValidatorFactory::getInstance(),
-            new MetaDataSourceHydrator(),
-            new DriverHydrator(),
-            $context
+        $rawData = array(
+            MetaDataSource::METADATA_DAO_FACTORY => 'CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory'
         );
 
-        $results = $sUT->retrieveAll();
+        $rawMocks = $this->createSut('CrudGenerator\MetaData\Config\MetaDataConfigDAO');
 
-        $this->assertCount(0, $results);
-        $this->assertInstanceOf('CrudGenerator\MetaData\MetaDataSourceCollection', $results);
-    }
+        $fileManagerExpectsGlob = $rawMocks['mocks']['fileManager']->expects($this->once());
+        $fileManagerExpectsGlob->method('glob');
+        $fileManagerExpectsGlob->will($this->returnValue(array('myFile')));
 
-    public function testWithSourceFactoryKeyThatDoesNotExist()
-    {
-        $fileManager = $this->createMock('CrudGenerator\Utils\FileManager');
-        $context     = $this->createMock('CrudGenerator\Context\CliContext');
+        $fileManagerExpectsFileGetContents = $rawMocks['mocks']['fileManager']->expects($this->once());
+        $fileManagerExpectsFileGetContents->method('fileGetContent');
+        $fileManagerExpectsFileGetContents->will($this->returnValue($rawData));
 
-        $fileManager->expects($this->once())
-        ->method('glob')
-        ->will($this->returnValue(array('myFile')));
+        $transtyperExpectsDecode = $rawMocks['mocks']['transtyper']->expects($this->once());
+        $transtyperExpectsDecode->method('decode');
+        $transtyperExpectsDecode->with($rawData);
+        $transtyperExpectsDecode->will($this->returnValue($rawData));
 
-        $data = array(
-            DriverConfig::RESPONSE => 'im',
-            MetaDataSource::METADATA_DAO_FACTORY => 'nonexistMetadata'
-        );
+        $arrayValidatorExpectsIsValid = $rawMocks['mocks']['arrayValidator']->expects($this->once());
+        $arrayValidatorExpectsIsValid->method('isValid');
+        $arrayValidatorExpectsIsValid->with($this->anything(), $rawData);
 
-        $fileManager->expects($this->once())
-        ->method('fileGetContent')
-        ->will($this->returnValue(json_encode($data)));
+        $metadataSourceHydratorAdapterTo = $rawMocks['mocks']['metaDataSourceHydrator']->expects($this->once());
+        $metadataSourceHydratorAdapterTo->method('adapterNameToMetaDataSource');
+        $metadataSourceHydratorAdapterTo->with($rawData[MetaDataSource::METADATA_DAO_FACTORY]);
 
-        $sUT = new MetaDataConfigDAO(
-            $fileManager,
-            TranstyperFactory::getInstance(),
-            ArrayValidatorFactory::getInstance(),
-            new MetaDataSourceHydrator(),
-            new DriverHydrator(),
-            $context
-        );
-
-        $results = $sUT->retrieveAll();
-
-        $this->assertCount(0, $results);
-        $this->assertInstanceOf('CrudGenerator\MetaData\MetaDataSourceCollection', $results);
-    }
-
-    public function testOk()
-    {
-        $fileManager = $this->createMock('CrudGenerator\Utils\FileManager');
-        $context     = $this->createMock('CrudGenerator\Context\CliContext');
-
-        $fileManager->expects($this->once())
-        ->method('glob')
-        ->will($this->returnValue(array('myFile')));
-
-        $data = array(
-            MetaDataSource::CONFIG => array(
-                DriverConfig::RESPONSE => array(
-                    'configUrl' => 'here'
-                ),
-                DriverConfig::SOURCE_FACTORY => 'CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAOFactory',
-                DriverConfig::FACTORY => 'CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory',
-                DriverConfig::UNIQUE_NAME => 'bbb'
-            ),
-            MetaDataSource::METADATA_DAO_FACTORY => 'CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory',
-            MetaDataSource::METADATA_DAO => '',
-            MetaDataSource::FALSE_DEPENDENCIES => '',
-            MetaDataSource::UNIQUE_NAME => 'test',
-            MetaDataSource::METADATA_DAO_FACTORY => 'CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAOFactory',
-            MetaDataSource::DEFINITION => ''
-        );
-
-        $fileManager->expects($this->once())
-        ->method('fileGetContent')
-        ->will($this->returnValue(json_encode($data)));
-
-        $sUT = new MetaDataConfigDAO(
-            $fileManager,
-            TranstyperFactory::getInstance(),
-            ArrayValidatorFactory::getInstance(),
-            new MetaDataSourceHydrator(),
-            new DriverHydrator(),
-            $context
-        );
-
+        /* @var $sUT \CrudGenerator\MetaData\Config\MetaDataConfigDAO */
+        $sUT     = $rawMocks['instance']($rawMocks['mocks']);
         $results = $sUT->retrieveAll();
 
         $this->assertCount(1, $results);
         $this->assertInstanceOf('CrudGenerator\MetaData\MetaDataSourceCollection', $results);
     }
 
-    /**
-     * @param string $class
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    private function createMock($class)
+    public function testWithConfig()
     {
-        return $this->getMockBuilder($class)
-        ->disableOriginalConstructor()
-        ->getMock();
+        $rawData = array(
+            MetaDataSource::CONFIG => array(
+
+            ),
+            MetaDataSource::METADATA_DAO_FACTORY => 'CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory'
+        );
+
+        $rawMocks = $this->createSut('CrudGenerator\MetaData\Config\MetaDataConfigDAO');
+
+        $fileManagerExpectsGlob = $rawMocks['mocks']['fileManager']->expects($this->once());
+        $fileManagerExpectsGlob->method('glob');
+        $fileManagerExpectsGlob->will($this->returnValue(array('myFile')));
+
+        $fileManagerExpectsFileGetContents = $rawMocks['mocks']['fileManager']->expects($this->once());
+        $fileManagerExpectsFileGetContents->method('fileGetContent');
+        $fileManagerExpectsFileGetContents->will($this->returnValue($rawData));
+
+        $transtyperExpectsDecode = $rawMocks['mocks']['transtyper']->expects($this->once());
+        $transtyperExpectsDecode->method('decode');
+        $transtyperExpectsDecode->with($rawData);
+        $transtyperExpectsDecode->will($this->returnValue($rawData));
+
+        $arrayValidatorExpectsIsValid = $rawMocks['mocks']['arrayValidator']->expects($this->once());
+        $arrayValidatorExpectsIsValid->method('isValid');
+        $arrayValidatorExpectsIsValid->with($this->anything(), $rawData);
+
+        $metadataSourceHydratorAdapterTo = $rawMocks['mocks']['metaDataSourceHydrator']->expects($this->once());
+        $metadataSourceHydratorAdapterTo->method('adapterNameToMetaDataSource');
+        $metadataSourceHydratorAdapterTo->with($rawData[MetaDataSource::METADATA_DAO_FACTORY]);
+        $metadataSourceHydratorAdapterTo->will($this->returnValue(new MetaDataSource()));
+
+        $driverHydratorArrayToDto = $rawMocks['mocks']['driverHydrator']->expects($this->once());
+        $driverHydratorArrayToDto->method('arrayToDto');
+        $driverHydratorArrayToDto->with($rawData[MetaDataSource::CONFIG]);
+        $driverHydratorArrayToDto->will($this->returnValue(new DriverConfig('unique')));
+
+        /* @var $sUT \CrudGenerator\MetaData\Config\MetaDataConfigDAO */
+        $sUT     = $rawMocks['instance']($rawMocks['mocks']);
+        $results = $sUT->retrieveAll();
+
+        $this->assertCount(1, $results);
+        $this->assertInstanceOf('CrudGenerator\MetaData\MetaDataSourceCollection', $results);
     }
+
 }

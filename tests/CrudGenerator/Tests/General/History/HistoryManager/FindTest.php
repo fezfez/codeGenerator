@@ -3,8 +3,9 @@ namespace CrudGenerator\Tests\General\History\HistoryManager;
 
 use CrudGenerator\History\HistoryManager;
 use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
+use CrudGenerator\Tests\TestCase;
 
-class FindTest extends \PHPUnit_Framework_TestCase
+class FindTest extends TestCase
 {
     public function testOk()
     {
@@ -12,10 +13,8 @@ class FindTest extends \PHPUnit_Framework_TestCase
         $generatorFinder = GeneratorFinderFactory::getInstance();
         $generatorFinder->getAllClasses();
 
-        $stubFileManager     = $this->getMock('\CrudGenerator\Utils\FileManager');
-        $stubHistoryHydrator = $this->getMockBuilder('\CrudGenerator\History\HistoryHydrator')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $stubFileManager     = $this->createMock('\CrudGenerator\Utils\FileManager');
+        $stubHistoryHydrator = $this->createMock('\CrudGenerator\History\HistoryHydrator');
 
         $stubHistoryHydrator->expects($this->once())
                             ->method('jsonToDTO');
@@ -37,10 +36,8 @@ class FindTest extends \PHPUnit_Framework_TestCase
         $generatorFinder = GeneratorFinderFactory::getInstance();
         $generatorFinder->getAllClasses();
 
-        $stubFileManager     = $this->getMock('\CrudGenerator\Utils\FileManager');
-        $stubHistoryHydrator = $this->getMockBuilder('\CrudGenerator\History\HistoryHydrator')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $stubFileManager     = $this->createMock('\CrudGenerator\Utils\FileManager');
+        $stubHistoryHydrator = $this->createMock('\CrudGenerator\History\HistoryHydrator');
 
         $historyName = 'toto';
         $stubFileManager->expects($this->once())

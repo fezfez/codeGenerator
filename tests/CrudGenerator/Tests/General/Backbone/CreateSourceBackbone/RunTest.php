@@ -3,60 +3,30 @@ namespace CrudGenerator\Tests\General\Backbone\CreateSourceBackbone;
 
 use CrudGenerator\Backbone\CreateSourceBackbone;
 use CrudGenerator\MetaData\MetaDataSource;
+use CrudGenerator\Tests\TestCase;
 
-class RunTest extends \PHPUnit_Framework_TestCase
+class RunTest extends TestCase
 {
-    public function testSaveError()
+    public function testCreateSource()
     {
-        $context        = $this->createMock('CrudGenerator\Context\CliContext');
-        $configDao      = $this->createMock('CrudGenerator\MetaData\Config\MetaDataConfigDAO');
-        $metadataSource = $this->createMock('CrudGenerator\Generators\Questions\MetadataSource\MetadataSourceQuestion');
+        $rawMock = $this->createSut('CrudGenerator\Backbone\CreateSourceBackbone');
 
-        $metadataSourceDto = new MetaDataSource();
+        $source = new MetaDataSource();
 
-        $metadataSource->expects($this->once())
-        ->method('ask')
-        ->willReturn($metadataSourceDto);
+        $metadataSourceQuestion = $rawMock['mocks']['metadataSourceQuestion']->expects($this->once());
+        $metadataSourceQuestion->method('ask');
+        $metadataSourceQuestion->willReturn($source);
 
-        $configDao->expects($this->once())
-        ->method('save')
-        ->willThrowException(new \CrudGenerator\MetaData\Config\ConfigException());
+        $metadataConfigDAO = $rawMock['mocks']['metadataConfigDAO']->expects($this->once());
+        $metadataConfigDAO->method('save');
+        $metadataConfigDAO->with($source);
 
-        $sUT = new CreateSourceBackbone($metadataSource, $configDao, $context);
+        $context = $rawMock['mocks']['context']->expects($this->once());
+        $context->method('log');
 
-        $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
+        /* @var $sUT \CrudGenerator\Backbone\CreateSourceBackbone */
+        $sUT = $rawMock['instance']($rawMock['mocks']);
 
         $sUT->run();
-    }
-
-    public function testSaveOk()
-    {
-        $contextStub    = $this->createMock('CrudGenerator\Context\CliContext');
-        $configDaoStub  = $this->createMock('CrudGenerator\MetaData\Config\MetaDataConfigDAO');
-        $metadataSource = $this->createMock('CrudGenerator\Generators\Questions\MetadataSource\MetadataSourceQuestion');
-
-        $metadataSourceDto = new MetaDataSource();
-
-        $metadataSource->expects($this->once())
-        ->method('ask')
-        ->willReturn($metadataSourceDto);
-
-        $configDaoStub->expects($this->once())
-        ->method('save');
-
-        $sUT = new CreateSourceBackbone($metadataSource, $configDaoStub, $contextStub);
-
-        $sUT->run();
-    }
-
-    /**
-     * @param string $class
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    private function createMock($class)
-    {
-        return $this->getMockBuilder($class)
-        ->disableOriginalConstructor()
-        ->getMock();
     }
 }

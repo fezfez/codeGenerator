@@ -47,9 +47,6 @@ class CreateSourceBackbone
         $this->context                = $context;
     }
 
-    /**
-     * @throws ResponseExpectedException
-     */
     public function run()
     {
         $source = $this->metadataSourceQuestion->ask();

@@ -14,28 +14,25 @@ use CrudGenerator\MetaData\MetaDataSourceValidator;
 use CrudGenerator\MetaData\Driver\DriverHydrator;
 use CrudGenerator\Utils\ComparatorFactory;
 use CrudGenerator\Utils\TranstyperFactory;
+use CrudGenerator\Tests\TestCase;
 
-class SaveTest extends \PHPUnit_Framework_TestCase
+class SaveTest extends TestCase
 {
     public function testSaveOk()
     {
-        $fileManager = $this->createMock('CrudGenerator\Utils\FileManager');
-        $context     = $this->createMock('CrudGenerator\Context\CliContext');
+        $rawMocks = $this->createSut('CrudGenerator\MetaData\Config\MetaDataConfigDAO');
 
         $url = 'http://myjson.com/2tkfh';
-        $context->expects($this->once())
-        ->method("ask")
-        ->willReturn($url);
 
-        $sUT = new MetaDataConfigDAO(
-            $fileManager,
-            TranstyperFactory::getInstance(),
-            \KeepUpdate\ArrayValidatorFactory::getInstance(),
-            new MetaDataSourceHydrator(),
-            new DriverHydrator(),
-            $context
-        );
+        $contextExcepectAsk = $rawMocks['mocks']['context']->expects($this->once());
+        $contextExcepectAsk->method("ask");
+        $contextExcepectAsk->willReturn($url);
 
+        $fileManagerFilePutContent = $rawMocks['mocks']['fileManager']->expects($this->once());
+        $fileManagerFilePutContent->method("filePutsContent");
+
+        /* @var $sUT \CrudGenerator\MetaData\Config\MetaDataConfigDAO */
+        $sUT    = $rawMocks['instance']($rawMocks['mocks']);
         $result = $sUT->save(JsonMetaDataDAOFactory::getDescription());
 
         $this->assertInstanceOf(
@@ -44,63 +41,5 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals($url, $result->getConfig()->getResponse('configUrl'));
-    }
-
-    public function testSaveFail()
-    {
-        $fileManager = $this->createMock('CrudGenerator\Utils\FileManager');
-        $context     = $this->createMock('CrudGenerator\Context\CliContext');
-
-        $url = 'http://myurl.org';
-        $context->expects($this->once())
-        ->method("ask")
-        ->willReturn($url);
-
-        $config = new DriverConfig("im am unique !");
-        $config->addQuestion('Url', 'configUrl');
-        $config->setDriver('CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory');
-
-        $driver = new Driver();
-        $driver->setConfig($config)
-        ->setDefinition('Web connector')
-        ->setUniqueName('Web');
-
-        $dataObject = new MetaDataSource();
-        $dataObject->setDefinition("Json adapter")
-        ->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory')
-        ->setMetadataDao("CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAO")
-        ->addDriverDescription($driver)
-        ->setUniqueName('Json');
-
-        $sUT = new MetaDataConfigDAO(
-            $fileManager,
-            TranstyperFactory::getInstance(),
-            \KeepUpdate\ArrayValidatorFactory::getInstance(),
-            new MetaDataSourceHydrator(),
-            new DriverHydrator(),
-            $context
-        );
-
-        $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
-
-        $result = $sUT->ask($dataObject);
-
-        $this->assertInstanceOf(
-            'CrudGenerator\MetaData\MetaDataSource',
-            $result
-        );
-
-        $this->assertEquals($url, $result->getConfig()->getResponse('configUrl'));
-    }
-
-    /**
-     * @param string $class
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    private function createMock($class)
-    {
-        return $this->getMockBuilder($class)
-        ->disableOriginalConstructor()
-        ->getMock();
     }
 }

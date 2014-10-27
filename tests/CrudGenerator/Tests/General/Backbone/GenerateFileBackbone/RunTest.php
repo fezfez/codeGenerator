@@ -3,28 +3,25 @@ namespace CrudGenerator\Tests\General\Backbone\GenerateFileBackbone;
 
 use CrudGenerator\Backbone\GenerateFileBackbone;
 use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Tests\TestCase;
 
-class RunTest extends \PHPUnit_Framework_TestCase
+class RunTest extends TestCase
 {
     public function testCorrectlyCall()
     {
-        $contextStub = $this->getMockBuilder('CrudGenerator\Context\CliContext')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $generator   = $this->getMockBuilder('CrudGenerator\Generators\Generator')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $contextStub = $this->createMock('CrudGenerator\Context\CliContext');
+        $generator   = $this->createMock('CrudGenerator\Generators\Generator');
 
         $dto = new GeneratorDataObject();
         $dto->addFile('skeletonPath', 'myName', 'myValue');
 
-        $contextStub->expects($this->once())
-        ->method('askCollection')
-        ->willReturn('myName');
+        $contextExpects = $contextStub->expects($this->once());
+        $contextExpects->method('askCollection');
+        $contextExpects->willReturn('myName');
 
-        $generator->expects($this->once())
-        ->method('generateFile')
-        ->with($dto, 'myName');
+        $generatorExpects = $generator->expects($this->once());
+        $generatorExpects->method('generateFile');
+        $generatorExpects->with($dto, 'myName');
 
         $sUT = new GenerateFileBackbone($generator, $contextStub);
 

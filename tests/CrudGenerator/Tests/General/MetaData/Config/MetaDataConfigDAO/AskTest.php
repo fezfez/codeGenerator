@@ -12,107 +12,91 @@ use CrudGenerator\Utils\TranstyperFactory;
 use CrudGenerator\MetaData\Driver\DriverHydrator;
 use KeepUpdate\ArrayValidatorFactory;
 use CrudGenerator\Generators\ResponseExpectedException;
+use CrudGenerator\Tests\TestCase;
 
-class AskTest extends \PHPUnit_Framework_TestCase
+class AskTest extends TestCase
 {
-    public function testWithOneDriver()
+    /**
+     * @return \CrudGenerator\MetaData\MetaDataSource
+     */
+    private function getMetadataSource()
     {
-        $fileManager = $this->createMock('CrudGenerator\Utils\FileManager');
-        $context     = $this->createMock('CrudGenerator\Context\CliContext');
-
-        $url = 'http://myurl.org';
-        $context->expects($this->exactly(2))
-        ->method("ask")
-        ->willReturnOnConsecutiveCalls($url, $this->throwException(new ResponseExpectedException()));
-
         $config = new DriverConfig("im am unique !");
         $config->addQuestion('Url', 'configUrl');
         $config->setDriver('CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory');
 
         $driver = new Driver();
-        $driver->setConfig($config)
-        ->setDefinition('Web connector')
-        ->setUniqueName('Web');
+        $driver->setConfig($config);
+        $driver->setDefinition('Web connector');
+        $driver->setUniqueName('Web');
 
         $dataObject = new MetaDataSource();
-        $dataObject->setDefinition("Json adapter")
-        ->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory')
-        ->setMetadataDao("CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAO")
-        ->addDriverDescription($driver)
-        ->setUniqueName('Json');
+        $dataObject->setDefinition("Json adapter");
+        $dataObject->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory');
+        $dataObject->setMetadataDao("CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAO");
+        $dataObject->addDriverDescription($driver);
+        $dataObject->setUniqueName('Json');
 
-        $sUT = new MetaDataConfigDAO(
-            $fileManager,
-            TranstyperFactory::getInstance(),
-            ArrayValidatorFactory::getInstance(),
-            new MetaDataSourceHydrator(),
-            new DriverHydrator(),
-            $context
-        );
+        return $dataObject;
+    }
+
+    public function testWithOneDriver()
+    {
+        $rawMocks       = $this->createSut('CrudGenerator\MetaData\Config\MetaDataConfigDAO');
+        $url            = 'http://myurl.org';
+        $contextExpects = $rawMocks['mocks']['context']->expects($this->exactly(2));
+
+        $contextExpects->method("ask");
+        $contextExpects->willReturnOnConsecutiveCalls($url,$this->throwException(new ResponseExpectedException()));
+
+        $sUT = $rawMocks['instance']($rawMocks['mocks']);
 
         $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
 
-        $sUT->ask($dataObject);
+        $sUT->ask($this->getMetadataSource());
     }
 
     public function testWithMultipleDriver()
     {
-        $fileManager = $this->createMock('CrudGenerator\Utils\FileManager');
-        $context     = $this->createMock('CrudGenerator\Context\CliContext');
-
-        $url = 'http://myurl.org';
-        $context->expects($this->once())
-        ->method("ask")
-        ->willReturn($url);
-
         $config = new DriverConfig("im am unique !");
         $config->addQuestion('Url', 'configUrl');
         $config->setDriver('CrudGenerator\MetaData\Driver\Pdo\PdoDriverFactory');
 
         $driver = new Driver();
-        $driver->setConfig($config)
-        ->setDefinition('Web connector')
-        ->setUniqueName('Web');
+        $driver->setConfig($config);
+        $driver->setDefinition('Web connector');
+        $driver->setUniqueName('Web');
 
         $driverTwo = new Driver();
-        $driverTwo->setConfig($config)
-        ->setDefinition('Web connector two')
-        ->setUniqueName('Web two');
-
-        $context->expects($this->once())
-        ->method("askCollection")
-        ->willReturn($driver);
+        $driverTwo->setConfig($config);
+        $driverTwo->setDefinition('Web connector two');
+        $driverTwo->setUniqueName('Web two');
 
         $dataObject = new MetaDataSource();
-        $dataObject->setDefinition("Json adapter")
-        ->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory')
-        ->setMetadataDao("CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAO")
-        ->addDriverDescription($driver)
-        ->addDriverDescription($driverTwo)
-        ->setUniqueName('Json');
+        $dataObject->setDefinition("Json adapter");
+        $dataObject->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory');
+        $dataObject->setMetadataDao("CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAO");
+        $dataObject->addDriverDescription($driver);
+        $dataObject->addDriverDescription($driverTwo);
+        $dataObject->setUniqueName('Json');
 
-        $sUT = new MetaDataConfigDAO(
-            $fileManager,
-            TranstyperFactory::getInstance(),
-            ArrayValidatorFactory::getInstance(),
-            new MetaDataSourceHydrator(),
-            new DriverHydrator(),
-            $context
-        );
+
+        $rawMocks                    = $this->createSut('CrudGenerator\MetaData\Config\MetaDataConfigDAO');
+        $url                         = 'http://myurl.org';
+
+        $contextExpectsAsk = $rawMocks['mocks']['context']->expects($this->exactly(2));
+        $contextExpectsAsk->method("ask");
+        $contextExpectsAsk->will($this->onConsecutiveCalls($url, $this->throwException(new ResponseExpectedException())));
+
+        $contextExpectsAskCollection = $rawMocks['mocks']['context']->expects($this->exactly(2));
+        $contextExpectsAskCollection->method("askCollection");
+        $contextExpectsAskCollection->willReturn($driver);
+
+        /* @var $sUT \CrudGenerator\MetaData\Config\MetaDataConfigDAO */
+        $sUT = $rawMocks['instance']($rawMocks['mocks']);
 
         $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
 
         $sUT->ask($dataObject);
-    }
-
-    /**
-     * @param string $class
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    private function createMock($class)
-    {
-        return $this->getMockBuilder($class)
-        ->disableOriginalConstructor()
-        ->getMock();
     }
 }

@@ -8,210 +8,42 @@ use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\MetaData\Driver\DriverConfig;
+use CrudGenerator\Tests\TestCase;
 
-class AskTest extends \PHPUnit_Framework_TestCase
+class AskTest extends TestCase
 {
-    public function testFail()
+    public function testOk()
     {
         $source = new MetaDataSource();
-        $source->setDefinition('My definition')
-               ->setMetadataDao('Name')
-               ->setMetadataDaoFactory('test');
+        $source->setDefinition('My definition');
+        $source->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory');
+        $source->setMetadataDao("CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAO");
 
-        $metaData = new MetadataDataObjectDoctrine2(
-            new MetaDataColumnCollection(),
-            new MetaDataRelationCollection()
-        );
+        $metaData = new MetadataDataObjectDoctrine2(new MetaDataColumnCollection(), new MetaDataRelationCollection());
         $metaData->setName('MyName');
 
         $metaDataCollection = new MetaDataCollection();
         $metaDataCollection->append($metaData);
 
-        $doctrine2MetaDataDAOStub = $this->getMockBuilder(
-            'CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO'
-            )
-            ->disableOriginalConstructor()
-            ->getMock();
-        $doctrine2MetaDataDAOStub
-            ->expects($this->once())
-            ->method('getAllMetadata')
-            ->will($this->returnValue($metaDataCollection));
+        $metaDataSourceFactoryStub = $this->createMock('CrudGenerator\MetaData\MetaDataSourceFactory');
+        $doctrine2MetaDataDAOStub  = $this->createMock('CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO');
+        $context                   = $this->createMock('CrudGenerator\Context\CliContext');
 
-        $metaDataSourceFactoryStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFactory')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $metaDataSourceFactoryStub
-             ->expects($this->once())
-             ->method('create')
-             ->with($this->equalTo($source->getMetadataDaoFactory()),$this->equalTo(null))
-             ->will($this->returnValue($doctrine2MetaDataDAOStub));
+        $doctrine2MetaDataDAOExpects = $doctrine2MetaDataDAOStub->expects($this->once());
+        $doctrine2MetaDataDAOExpects->method('getAllMetadata');
+        $doctrine2MetaDataDAOExpects->will($this->returnValue($metaDataCollection));
 
-        $context = new \CrudGenerator\Context\CliContext(
-            $this->createMock('Symfony\Component\Console\Helper\QuestionHelper'),
-            $this->createMock('Symfony\Component\Console\Output\OutputInterface'),
-            $this->createMock('Symfony\Component\Console\Input\InputInterface'),
-            $this->createMock('CrudGenerator\Command\CreateCommand')
-        );
+        $metaDataSourceFactoryExpects = $metaDataSourceFactoryStub->expects($this->once());
+        $metaDataSourceFactoryExpects->method('create');
+        $metaDataSourceFactoryExpects->with($this->equalTo($source->getMetadataDaoFactory()),$this->equalTo(null));
+        $metaDataSourceFactoryExpects->will($this->returnValue($doctrine2MetaDataDAOStub));
+
+        $contextExpects = $context->expects($this->once());
+        $contextExpects->method('askCollection');
+        $contextExpects->will($this->returnValue($metaData));
 
         $sUT = new MetaDataQuestion($metaDataSourceFactoryStub, $context);
 
-        $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
-
-        $sUT->ask($source);
-    }
-
-    /**
-     * @param string $class
-     */
-    private function createMock($class)
-    {
-        return $this->getMockBuilder($class)
-        ->disableOriginalConstructor()
-        ->getMock();
-    }
-
-    public function testWithConfig()
-    {
-        $config = new DriverConfig("test");
-        $source = new MetaDataSource();
-        $source->setDefinition('My definition')
-        ->setMetadataDao('Name')
-        ->setConfig($config);
-
-        $metaData = new MetadataDataObjectDoctrine2(
-            new MetaDataColumnCollection(),
-            new MetaDataRelationCollection()
-        );
-        $metaData->setName('MyName');
-
-        $metaDataCollection = new MetaDataCollection();
-        $metaDataCollection->append($metaData);
-
-        $doctrine2MetaDataDAOStub = $this->getMockBuilder(
-            'CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
-        $doctrine2MetaDataDAOStub
-        ->expects($this->once())
-        ->method('getAllMetadata')
-        ->will($this->returnValue($metaDataCollection));
-
-        $metaDataSourceFactoryStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFactory')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $metaDataSourceFactoryStub
-        ->expects($this->once())
-        ->method('create')
-        ->with($this->equalTo($source->getMetadataDaoFactory()),$this->equalTo($config))
-        ->will($this->returnValue($doctrine2MetaDataDAOStub));
-
-        $context = new \CrudGenerator\Context\CliContext(
-            $this->createMock('Symfony\Component\Console\Helper\QuestionHelper'),
-            $this->createMock('Symfony\Component\Console\Output\OutputInterface'),
-            $this->createMock('Symfony\Component\Console\Input\InputInterface'),
-            $this->createMock('CrudGenerator\Command\CreateCommand')
-        );
-
-        $sUT = new MetaDataQuestion($metaDataSourceFactoryStub, $context);
-
-        $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
-
-        $sUT->ask($source);
-    }
-
-    public function testOkWithPreselected()
-    {
-        $source = new MetaDataSource();
-        $source->setDefinition('My definition')
-        ->setMetadataDao('Name');
-
-        $metaData = new MetadataDataObjectDoctrine2(
-            new MetaDataColumnCollection(),
-            new MetaDataRelationCollection()
-        );
-        $metaData->setName('MyName');
-
-        $metaDataCollection = new MetaDataCollection();
-        $metaDataCollection->append($metaData);
-
-        $doctrine2MetaDataDAOStub = $this->getMockBuilder(
-            'CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
-        $doctrine2MetaDataDAOStub
-        ->expects($this->once())
-        ->method('getAllMetadata')
-        ->will($this->returnValue($metaDataCollection));
-
-        $metaDataSourceFactoryStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFactory')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $metaDataSourceFactoryStub
-        ->expects($this->once())
-        ->method('create')
-        ->with($this->equalTo($source->getMetadataDaoFactory()),$this->equalTo(null))
-        ->will($this->returnValue($doctrine2MetaDataDAOStub));
-
-        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $context
-        ->expects($this->once())
-        ->method('askCollection')
-        ->will($this->returnValue($metaData));
-
-        $sUT = new MetaDataQuestion($metaDataSourceFactoryStub, $context);
         $this->assertEquals($metaData, $sUT->ask($source));
-    }
-
-    public function testFailWithPreselected()
-    {
-        $source = new MetaDataSource();
-        $source->setDefinition('My definition')
-        ->setMetadataDao('Name');
-
-        $metaData = new MetadataDataObjectDoctrine2(
-            new MetaDataColumnCollection(),
-            new MetaDataRelationCollection()
-        );
-        $metaData->setName('MyName');
-
-        $metaDataCollection = new MetaDataCollection();
-        $metaDataCollection->append($metaData);
-
-        $doctrine2MetaDataDAOStub = $this->getMockBuilder(
-            'CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
-        $doctrine2MetaDataDAOStub
-        ->expects($this->once())
-        ->method('getAllMetadata')
-        ->will($this->returnValue($metaDataCollection));
-
-        $metaDataSourceFactoryStub = $this->getMockBuilder('CrudGenerator\MetaData\MetaDataSourceFactory')
-        ->disableOriginalConstructor()
-        ->getMock();
-        $metaDataSourceFactoryStub
-        ->expects($this->once())
-        ->method('create')
-        ->with($this->equalTo($source->getMetadataDaoFactory()),$this->equalTo(null))
-        ->will($this->returnValue($doctrine2MetaDataDAOStub));
-
-        $context = new \CrudGenerator\Context\CliContext(
-            $this->createMock('Symfony\Component\Console\Helper\QuestionHelper'),
-            $this->createMock('Symfony\Component\Console\Output\OutputInterface'),
-            $this->createMock('Symfony\Component\Console\Input\InputInterface'),
-            $this->createMock('CrudGenerator\Command\CreateCommand')
-        );
-
-        $sUT = new MetaDataQuestion($metaDataSourceFactoryStub, $context);
-
-        $this->setExpectedException('CrudGenerator\Generators\ResponseExpectedException');
-
-        $sUT->ask($source);
     }
 }

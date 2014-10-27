@@ -3,30 +3,20 @@ namespace CrudGenerator\Tests\General\Context\CliContext;
 
 use CrudGenerator\Context\CliContext;
 use CrudGenerator\Context\SimpleQuestion;
+use CrudGenerator\Tests\TestCase;
 
-class AskTest extends \PHPUnit_Framework_TestCase
+class AskTest extends TestCase
 {
     public function testAskIsCorrectlyCall()
     {
-        $outputStub = $this->getMockBuilder('Symfony\Component\Console\Output\ConsoleOutput')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $outputStub        = $this->createMock('Symfony\Component\Console\Output\ConsoleOutput');
+        $inputStub         = $this->createMock('Symfony\Component\Console\Input\ArrayInput');
+        $questionHelper    = $this->createMock('Symfony\Component\Console\Helper\QuestionHelper');
+        $createCommandMock = $this->createMock('CrudGenerator\Command\CreateCommand');
 
-        $inputStub = $this->getMockBuilder('Symfony\Component\Console\Input\ArrayInput')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $questionHelper = $this->getMockBuilder('Symfony\Component\Console\Helper\QuestionHelper')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $createCommandMock = $this->getMockBuilder('CrudGenerator\Command\CreateCommand')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $questionHelper->expects($this->once())
-                   ->method('ask')
-                   ->willReturn('12');
+        $questionHelperExpects = $questionHelper->expects($this->once());
+        $questionHelperExpects->method('ask');
+        $questionHelperExpects->willReturn('12');
 
         $sUT = new CliContext($questionHelper, $outputStub, $inputStub, $createCommandMock);
 
