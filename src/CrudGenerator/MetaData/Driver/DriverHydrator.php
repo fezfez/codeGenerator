@@ -9,11 +9,13 @@
 */
 namespace CrudGenerator\MetaData\Driver;
 
+use CrudGenerator\MetaData\Driver\DriverConfig;
+
 class DriverHydrator
 {
     /**
      * @param array $config
-     * @return DriverConfig;
+     * @return DriverConfig
      */
     public function arrayToDto(array $config)
     {

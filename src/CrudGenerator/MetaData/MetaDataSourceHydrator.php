@@ -24,11 +24,11 @@ class MetaDataSourceHydrator
      * @param string $adapterClassName
      * @return MetaDataSource
      */
-    public function adapterNameToMetaDataSource($adapterClassName)
+    public function adapterNameToMetaDataSource($metadataSourceClassName)
     {
-        /* @var $metaDataSource CrudGenerator\MetaData\MetaDataSource */
-        $metaDataSource = $adapterClassName::getDescription();
-        $adapterClassName::checkDependencies($metaDataSource);
+        /* @var $metadataSourceClassName \CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface */
+        $metaDataSource = $metadataSourceClassName::getDescription();
+        $metadataSourceClassName::checkDependencies($metaDataSource);
 
         return $metaDataSource;
     }
