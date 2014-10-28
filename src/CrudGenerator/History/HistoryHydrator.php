@@ -88,22 +88,19 @@ class HistoryHydrator
      */
     public function jsonToDto($content)
     {
-        $jsonRepresentation = json_decode($content, true);
-        if (null === $jsonRepresentation) {
+        $arrayRepresentation = json_decode($content, true);
+        if (null === $arrayRepresentation) {
             throw new InvalidHistoryException(
                 "Is not a json string"
             );
         }
-        $arrayRepresentation = $this->checkIntegrity($jsonRepresentation);
 
-        $dto = $arrayRepresentation[GeneratorDataObject::DTO];
+        $this->checkIntegrity($arrayRepresentation);
 
-        $history = new History();
+        $dto                 = $arrayRepresentation[GeneratorDataObject::DTO];
+        $history             = new History();
+
         $history->setName($dto[DataObject::METADATA][MetaDataInterface::NAME]);
-
-        if (false === isset($arrayRepresentation[GeneratorDataObject::METADATA_SOURCE][MetaDataSource::UNIQUE_NAME])) {
-             throw new InvalidHistoryException('Unique name not set');
-        }
 
         try {
             $metadataSource = $this->metadataSourceConfiguredQuestion->ask(
@@ -119,7 +116,10 @@ class HistoryHydrator
         }
 
         try {
-            $metaData = $this->metadataQuestion->ask($metadataSource, $dto[DataObject::METADATA][MetaDataInterface::NAME]);
+            $metadata = $this->metadataQuestion->ask(
+                $metadataSource,
+                $dto[DataObject::METADATA][MetaDataInterface::NAME]
+            );
         } catch (ResponseExpectedException $e) {
             throw new InvalidHistoryException(
                 sprintf(
@@ -130,7 +130,7 @@ class HistoryHydrator
         }
 
         $dto = new DataObject();
-        $dto->setMetadata($metaData);
+        $dto->setMetadata($metadata);
 
         $generator = new GeneratorDataObject();
         $generator->setMetadataSource($metadataSource)

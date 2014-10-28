@@ -11,17 +11,68 @@ use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\DataObject;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\Tests\TestCase;
+use CrudGenerator\Generators\ResponseExpectedException;
 
 class JsonToDtoTest extends TestCase
 {
+    public function testIsNotJson()
+    {
+        $rawMock = $this->createSut('CrudGenerator\History\HistoryHydrator');
+
+        $this->setExpectedException('CrudGenerator\History\InvalidHistoryException');
+
+        $sUT = $rawMock['instance']($rawMock['mocks']);
+
+        $sUT->jsonToDto(null);
+    }
+
+    public function testTestWithInvalidSource()
+    {
+        $rawMock = $this->createSut('CrudGenerator\History\HistoryHydrator');
+
+        $sourceExpects = $rawMock['mocks']['metadataSourceConfiguredQuestion']->expects($this->once());
+        $sourceExpects->method('ask');
+        $sourceExpects->will($this->throwException(new ResponseExpectedException()));
+
+        $sUT = $rawMock['instance']($rawMock['mocks']);
+
+        $this->setExpectedException('CrudGenerator\History\InvalidHistoryException');
+
+        $sUT->jsonToDto($this->getValidJson('Doctrine2', 'Corp\NewsEntity'));
+    }
+
+    public function testTestWithInvalidMetadata()
+    {
+        $rawMock = $this->createSut('CrudGenerator\History\HistoryHydrator');
+
+        $metaDataSourceName      = 'Doctrine2';
+        $metaDataSource          = 'CrudGenerator\MetaData\MetaDataSource';
+        $metaDataName            = 'Corp\NewsEntity';
+        $stubMetadataSourceClass = $this->createMock($metaDataSource);
+
+        $sourceExpects = $rawMock['mocks']['metadataSourceConfiguredQuestion']->expects($this->once());
+        $sourceExpects->method('ask');
+        $sourceExpects->with($this->equalTo($metaDataSourceName));
+        $sourceExpects->will($this->returnValue($stubMetadataSourceClass));
+
+        $metadataQuestionExpects = $rawMock['mocks']['metadataQuestion']->expects($this->once());
+        $metadataQuestionExpects->method('ask');
+        $metadataQuestionExpects->with($this->equalTo($stubMetadataSourceClass), $this->equalTo($metaDataName));
+        $metadataQuestionExpects->will($this->throwException(new ResponseExpectedException()));
+
+        $sUT = $rawMock['instance']($rawMock['mocks']);
+
+        $this->setExpectedException('CrudGenerator\History\InvalidHistoryException');
+
+        $sUT->jsonToDto($this->getValidJson($metaDataSourceName, $metaDataName));
+    }
+
     public function testOk()
     {
-        // @TODO improve unit test
-        $stubMetadataSourceQuestion = $this->createMock(
+        $stubMetadataSource         = $this->createMock('CrudGenerator\Generators\Questions\Metadata\MetadataQuestion');
+        $stubMetadataSourceQuestion = $this->_(
             'CrudGenerator\Generators\Questions\MetadataSourceConfigured\MetadataSourceConfiguredQuestion'
         );
-
-        $stubMetadataSource = $this->createMock('CrudGenerator\Generators\Questions\Metadata\MetadataQuestion');
 
         $sUT = new HistoryHydrator(
             $stubMetadataSourceQuestion,
@@ -29,18 +80,16 @@ class JsonToDtoTest extends TestCase
             ArrayValidatorFactory::getInstance()
         );
 
-        $metaDataSourceName = 'Doctrine2';
-        $metaDataSource     = 'CrudGenerator\MetaData\MetaDataSource';
-        $metaDataName       = 'Corp\NewsEntity';
-
-        $stubMetadataSourceClass = $this->getMockBuilder($metaDataSource)
-        ->disableOriginalConstructor()
-        ->getMock();
+        $metaDataSourceName      = 'Doctrine2';
+        $metaDataSource          = 'CrudGenerator\MetaData\MetaDataSource';
+        $metaDataName            = 'Corp\NewsEntity';
+        $stubMetadataSourceClass = $this->createMock($metaDataSource);
 
         $metaData = new MetadataDataObjectDoctrine2(
             new MetaDataColumnCollection(),
             new MetaDataRelationCollection()
         );
+
         $metaData->setName('MyName');
 
         $stubMetadataSourceQuestion->expects($this->once())
@@ -53,52 +102,49 @@ class JsonToDtoTest extends TestCase
         ->with($this->equalTo($stubMetadataSourceClass), $this->equalTo($metaDataName))
         ->will($this->returnValue($metaData));
 
-        $json = '{
-                "' . GeneratorDataObject::NAME . '" : "toto",
-                "' . GeneratorDataObject::DTO . '": {
-                    "' . DataObject::METADATA . '": {
-                        "id": "CategorieEntity",
-                        "dtCreat": "CategorieEntity",
-                        "nomLog": "CategorieEntity",
-                        "name" : "Corp\\\NewsEntity"
-                    },
-                    "' . DataObject::STORE . '" : {
+        $this->assertInstanceOf(
+            'CrudGenerator\History\History',
+            $sUT->jsonToDto($this->getValidJson($metaDataSourceName, $metaDataName))
+        );
+    }
 
-                    },
-                    "formDirectory": null,
-                    "namespace": null,
-                    "modelName": null,
-                    "attributesDisplayName": {
-                        "id": "id",
-                        "dtCreat": "Date de ",
-                        "nomLog": "Nom log"
-                    }
-                },
-                "' . GeneratorDataObject::METADATA_SOURCE . '": {
-                    "definition": "Doctrine2",
-                    "metaDataDAO": "CrudGenerator\\\\MetaData\\\\Sources\\\\Doctrine2\\\\Doctrine2MetaDataDAO",
-                    "metaDataDAOFactory": "CrudGenerator\\\\MetaData\\\\Sources\\\\Doctrine2\\\\Doctrine2MetaDataDAOFactory",
-                    "falseDependencies": null,
-                    "uniqueName" : "Doctrine2",
-                    "' . MetaDataSource::CONFIG . '" : null
-                },
-                "' . GeneratorDataObject::TEMPLATE_VARIABLE . '" : {
-
-                },
-                "' . GeneratorDataObject::FILES . '" : {
-
-                },
-                "' . GeneratorDataObject::DIRECTORIES . '" : {
-
-                },
-                "' . GeneratorDataObject::ENVIRONNEMENT . '" : {
-
-                },
-                "' . GeneratorDataObject::DEPENDENCIES . '" : {
-
-                }
-            }';
-
-        $this->assertInstanceOf('CrudGenerator\History\History', $sUT->jsonToDto($json));
+    /**
+     * @return string
+     */
+    private function getValidJson($metaDataSourceName, $metaDataName)
+    {
+        return json_encode(array(
+            GeneratorDataObject::TEMPLATE_VARIABLE => array(),
+            GeneratorDataObject::FILES             => array(),
+            GeneratorDataObject::DIRECTORIES       => array(),
+            GeneratorDataObject::ENVIRONNEMENT     => array(),
+            GeneratorDataObject::DEPENDENCIES      => array(),
+            GeneratorDataObject::NAME              => "toto",
+            GeneratorDataObject::DTO => array(
+                DataObject::METADATA => array(
+                    "id"      => "CategorieEntity",
+                    "dtCreat" => "CategorieEntity",
+                    "nomLog"  => "CategorieEntity",
+                    "name"    => $metaDataName
+                ),
+                DataObject::STORE => array(),
+                "formDirectory"         => null,
+                "namespace"             => null,
+                "modelName"             => null,
+                "attributesDisplayName" => array(
+                    "id"      => "id",
+                    "dtCreat" => "Date de ",
+                    "nomLog"  => "Nom log"
+                )
+            ),
+            GeneratorDataObject::METADATA_SOURCE => array(
+                MetaDataSource::DEFINITION           => "Doctrine2",
+                MetaDataSource::METADATA_DAO         => "CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO",
+                MetaDataSource::METADATA_DAO_FACTORY => "CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAOFactory",
+                MetaDataSource::FALSE_DEPENDENCIES   => null,
+                MetaDataSource::UNIQUE_NAME          => $metaDataSourceName,
+                MetaDataSource::CONFIG               => null
+            )
+        ));
     }
 }
