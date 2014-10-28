@@ -32,4 +32,13 @@ class TestCase extends \PHPUnit_Framework_TestCase
         ->disableOriginalConstructor()
         ->getMock();
     }
+
+    /**
+     * @param string $class
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    public function _($class)
+    {
+        return $this->createMock($class);
+    }
 }

@@ -15,19 +15,19 @@ use CrudGenerator\Generators\GeneratorDataObject;
 interface QuestionTypeInterface
 {
     /**
+     * Build the question and ask them
+     *
      * @param array $question
      * @param PhpStringParser $parser
      * @param GeneratorDataObject $generator
      *
      * @return GeneratorDataObject
      */
-    public function evaluateQuestion(
-        array $question,
-        PhpStringParser $parser,
-        GeneratorDataObject $generator
-    );
+    public function evaluateQuestion(array $question, PhpStringParser $parser, GeneratorDataObject $generator);
 
     /**
+     * Return the type of parse in string
+     *
      * @return string
      */
     public function getType();

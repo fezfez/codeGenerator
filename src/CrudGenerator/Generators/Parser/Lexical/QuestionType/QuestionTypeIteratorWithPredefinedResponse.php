@@ -43,11 +43,8 @@ class QuestionTypeIteratorWithPredefinedResponse implements QuestionTypeInterfac
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeInterface::evaluateQuestion()
      */
-    public function evaluateQuestion(
-        array $question,
-        PhpStringParser $parser,
-        GeneratorDataObject $generator
-    ) {
+    public function evaluateQuestion(array $question, PhpStringParser $parser, GeneratorDataObject $generator)
+    {
         $iterator       = $this->iteratorValidator->retrieveValidIteration($question, $generator, $parser);
         $iteratorParser = clone $parser;
 

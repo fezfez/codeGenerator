@@ -49,7 +49,7 @@ class StaticPhpTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('InvalidArgumentException');
 
-        $sUT->staticPhp('$myVar->getDto()->getMeta()');
+        $sUT->staticPhp('$myVar->getDt()');
     }
 
     public function testOk()

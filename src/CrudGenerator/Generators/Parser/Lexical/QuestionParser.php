@@ -79,27 +79,20 @@ class QuestionParser implements ParserInterface
      * @param array $question
      * @param PhpStringParser $parser
      * @param GeneratorDataObject $generator
-     * @param boolean $firstIteration
      * @return GeneratorDataObject
      */
-    public function evaluateQuestions(
-        array $question,
-        PhpStringParser $parser,
-        GeneratorDataObject $generator
-    ) {
+    public function evaluateQuestions(array $question, PhpStringParser $parser, GeneratorDataObject $generator)
+    {
         $question = $this->questionAnalyser->checkIntegrity($question);
         $isParsed = false;
 
         foreach ($this->questionTypeCollection as $questionTypeParser) {
             /* @var $questionTypeParser \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeInterface */
-            if ($question['type']->is($questionTypeParser->getType()) === true) {
-                $generator = $questionTypeParser->evaluateQuestion(
-                    $question,
-                    $parser,
-                    $generator
-                );
-
-                $isParsed = true;
+            /* @var $type \CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum */
+            $type = $question['type'];
+            if ($type->is($questionTypeParser->getType()) === true) {
+                $generator = $questionTypeParser->evaluateQuestion($question, $parser, $generator);
+                $isParsed  = true;
                 break;
             }
         }

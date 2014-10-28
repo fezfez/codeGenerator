@@ -23,9 +23,6 @@ use KeepUpdate\Annotations;
 class GeneratorDataObject implements \JsonSerializable
 {
     const FILES = 'files';
-    /**
-     * @var unknown
-     */
     const METADATA_SOURCE = 'metadataSource';
     const TEMPLATE_VARIABLE = 'templateVariable';
     const DIRECTORIES = 'directories';

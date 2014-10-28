@@ -49,9 +49,14 @@ class MetadataSourceConfiguredQuestion
      */
     public function ask($choice = null)
     {
-        $responseCollection = new PredefinedResponseCollection();
+        $responseCollection         = new PredefinedResponseCollection();
+        $sourceConfiguredCollection = $this->metadataSourceConfigDAO->retrieveAll();
 
-        foreach ($this->metadataSourceConfigDAO->retrieveAll() as $backend) {
+        if ($sourceConfiguredCollection->count() === 0) {
+            throw new \Exception('You must config a metadataSource');
+        }
+
+        foreach ($sourceConfiguredCollection as $backend) {
             /* @var $backend \CrudGenerator\MetaData\MetaDataSource */
             if(null === $backend->getFalseDependencies()) {
                 $responseCollection->append(

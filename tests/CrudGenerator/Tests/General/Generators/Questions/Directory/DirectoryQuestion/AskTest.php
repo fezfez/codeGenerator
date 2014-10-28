@@ -4,23 +4,13 @@ namespace CrudGenerator\Tests\General\Generators\Questions\Directory\DirectoryQu
 use CrudGenerator\Generators\Questions\Directory\DirectoryQuestion;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\DataObject;
+use CrudGenerator\Tests\TestCase;
 
-class AskTest extends \PHPUnit_Framework_TestCase
+class AskTest extends TestCase
 {
-    /**
-     * @param string $class
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    private function getMockWithoutConstructor($class)
-    {
-        return $this->getMockBuilder($class)
-        ->disableOriginalConstructor()
-        ->getMock();
-    }
-
     public function testOk()
     {
-        $context = $this->getMockWithoutConstructor('CrudGenerator\Context\CliContext');
+        $context = $this->createMock('CrudGenerator\Context\CliContext');
 
         $context->expects($this->once())
         ->method('askCollection');
@@ -36,7 +26,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
             'dirTwo'
         );
 
-        $fileManagerStub = $this->getMockWithoutConstructor('CrudGenerator\Utils\FileManager');
+        $fileManagerStub = $this->createMock('CrudGenerator\Utils\FileManager');
 
         $fileManagerStub->expects($this->once())
         ->method('glob')
@@ -53,7 +43,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
     public function testOkWithCliInstance()
     {
-        $context = $this->getMockWithoutConstructor('CrudGenerator\Context\CliContext');
+        $context = $this->createMock('CrudGenerator\Context\CliContext');
 
         // First choice bin
         $context->expects($this->exactly(4))
@@ -67,7 +57,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $fileManagerStub = $this->getMockWithoutConstructor('\CrudGenerator\Utils\FileManager');
+        $fileManagerStub = $this->createMock('\CrudGenerator\Utils\FileManager');
 
         $fileManagerStub->expects($this->any())
         ->method('glob')
@@ -98,8 +88,8 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateFileWithCliInstance()
     {
-        $context         = $this->getMockWithoutConstructor('CrudGenerator\Context\CliContext');
-        $fileManagerStub = $this->getMockWithoutConstructor('\CrudGenerator\Utils\FileManager');
+        $context         = $this->createMock('CrudGenerator\Context\CliContext');
+        $fileManagerStub = $this->createMock('\CrudGenerator\Utils\FileManager');
 
         $context->expects($this->any())
         ->method('log')

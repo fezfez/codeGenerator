@@ -33,11 +33,8 @@ class QuestionTypeDirectory implements QuestionTypeInterface
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeInterface::evaluateQuestion()
      */
-    public function evaluateQuestion(
-        array $question,
-        PhpStringParser $parser,
-        GeneratorDataObject $generator
-    ) {
+    public function evaluateQuestion(array $question, PhpStringParser $parser, GeneratorDataObject $generator)
+    {
         $complex = DirectoryQuestionFactory::getInstance($this->context);
 
         return $complex->ask($generator, $question);
