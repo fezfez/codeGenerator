@@ -127,4 +127,26 @@ class FileManager
             return false;
         }
     }
+
+    /**
+     * @param string $regex
+     * @param string|null $directory
+     * @return \RegexIterator
+     */
+    public function searchFileByRegex($regex, $directory = null)
+    {
+        if ($directory === null) {
+            $directory = getcwd();
+        }
+
+        return new \RegexIterator(
+            new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS),
+                \RecursiveIteratorIterator::LEAVES_ONLY,
+                \RecursiveIteratorIterator::CATCH_GET_CHILD
+            ),
+            $regex,
+            \RecursiveRegexIterator::GET_MATCH
+        );
+    }
 }

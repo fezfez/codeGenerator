@@ -9,6 +9,9 @@
  */
 namespace CrudGenerator\Utils;
 
+use CrudGenerator\History\HistoryManager;
+use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
+
 /**
  * Installer
  *
@@ -16,10 +19,11 @@ namespace CrudGenerator\Utils;
  */
 class Installer
 {
+    const BASE_PATH = 'data/crudGenerator/';
     /**
      * @var string
      */
-    const CACHE_PATH = 'data/crudGenerator/cache/';
+    const CACHE_PATH = 'cache/';
 
     /**
      * @return array
@@ -27,9 +31,9 @@ class Installer
     public static function getDirectories()
     {
         $directoriestoCreate = array(
-            'Cache'   => self::CACHE_PATH,
-            'History' => \CrudGenerator\History\HistoryManager::HISTORY_PATH,
-            'Config'  => \CrudGenerator\MetaData\Config\MetaDataConfigDAO::PATH
+            'Cache'   => self::BASE_PATH . self::CACHE_PATH,
+            'History' => self::BASE_PATH . HistoryManager::HISTORY_PATH,
+            'Config'  => self::BASE_PATH . MetaDataConfigDAO::SOURCE_PATH
         );
 
         return $directoriestoCreate;

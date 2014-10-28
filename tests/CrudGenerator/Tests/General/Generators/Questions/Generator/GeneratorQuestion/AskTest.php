@@ -5,14 +5,13 @@ use CrudGenerator\Generators\Questions\Generator\GeneratorQuestion;
 use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
+use CrudGenerator\Tests\TestCase;
 
-class AskTest extends \PHPUnit_Framework_TestCase
+class AskTest extends TestCase
 {
     public function testExceptionIfNoResponseProvided()
     {
-        $sourceFinderStub = $this->getMockBuilder('CrudGenerator\Generators\Finder\GeneratorFinder')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $sourceFinderStub = $this->createMock('CrudGenerator\Generators\Finder\GeneratorFinder');
 
         $sourceFinderStub->expects($this->exactly(1))
                          ->method('getAllClasses')
@@ -38,15 +37,5 @@ class AskTest extends \PHPUnit_Framework_TestCase
         $metadata = new MetadataDataObjectDoctrine2(new MetaDataColumnCollection(), new MetaDataRelationCollection());
 
         $sUT->ask($metadata);
-    }
-
-    /**
-     * @param string $class
-     */
-    private function createMock($class)
-    {
-        return $this->getMockBuilder($class)
-        ->disableOriginalConstructor()
-        ->getMock();
     }
 }

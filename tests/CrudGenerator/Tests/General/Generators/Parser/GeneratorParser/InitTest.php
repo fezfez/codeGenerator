@@ -6,47 +6,32 @@ use CrudGenerator\Generators\Parser\GeneratorParser;
 use CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
+use CrudGenerator\Generators\Parser\ParserCollection;
+use CrudGenerator\Tests\TestCase;
 
-class InitTest extends \PHPUnit_Framework_TestCase
+class InitTest extends TestCase
 {
-    public function testEmptydddd()
+    public function testEmpty()
     {
-        $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $yaml = $this->getMockBuilder('CrudGenerator\Utils\Transtyper')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $generatorFinder = $this->getMockBuilder('CrudGenerator\Generators\Finder\GeneratorFinder')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $generatorValidator = $this->getMockBuilder(
-            'CrudGenerator\Generators\Validator\GeneratorValidator'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $parserCollection = new \CrudGenerator\Generators\Parser\ParserCollection();
+        $fileManager        = $this->createMock('CrudGenerator\Utils\FileManager');
+        $transtyper         = $this->createMock('CrudGenerator\Utils\Transtyper');
+        $phpParser          = $this->createMock('CrudGenerator\Utils\PhpStringParser');
+        $generatorFinder    = $this->createMock('CrudGenerator\Generators\Finder\GeneratorFinder');
+        $generatorValidator = $this->createMock('CrudGenerator\Generators\Validator\GeneratorValidator');
+        $parserCollection   = new ParserCollection();
 
         $process = array(
             'dto' => 'CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect',
             'name' => 'test'
         );
 
-        $yaml->expects($this->once())
-        ->method('decode')
-        ->will($this->returnValue($process));
+        $transtyperExpects = $transtyper->expects($this->once());
+        $transtyperExpects->method('decode');
+        $transtyperExpects->will($this->returnValue($process));
 
         $sUT       = new GeneratorParser(
             $fileManager,
-            $yaml,
+            $transtyper,
             $phpParser,
             $generatorFinder,
             $parserCollection,
@@ -60,38 +45,18 @@ class InitTest extends \PHPUnit_Framework_TestCase
 
     public function testWithPreParseAndPostParse()
     {
-        $fileManager = $this->getMockBuilder('CrudGenerator\Utils\FileManager')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $fileManager        = $this->createMock('CrudGenerator\Utils\FileManager');
+        $transtyper         = $this->createMock('CrudGenerator\Utils\Transtyper');
+        $phpParser          = $this->createMock('CrudGenerator\Utils\PhpStringParser');
+        $generatorFinder    = $this->createMock('CrudGenerator\Generators\Finder\GeneratorFinder');
+        $generatorValidator = $this->createMock('CrudGenerator\Generators\Validator\GeneratorValidator');
+        $questionResponse   = $this->createMock('CrudGenerator\Generators\Parser\Lexical\QuestionParser');
+        $generator          = new GeneratorDataObject();
+        $parserCollection   = new ParserCollection();
 
-        $yaml = $this->getMockBuilder('CrudGenerator\Utils\Transtyper')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $generatorFinder = $this->getMockBuilder('CrudGenerator\Generators\Finder\GeneratorFinder')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $generatorValidator = $this->getMockBuilder(
-            'CrudGenerator\Generators\Validator\GeneratorValidator'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $generator        = new GeneratorDataObject();
-        $parserCollection = new \CrudGenerator\Generators\Parser\ParserCollection();
-
-        $questionResponse = $this->getMockBuilder('CrudGenerator\Generators\Parser\Lexical\QuestionParser')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $questionResponse->expects($this->once())
-        ->method('evaluate')
-        ->will($this->returnValue($generator));
+        $questionResponseExcpects = $questionResponse->expects($this->once());
+        $questionResponseExcpects->method('evaluate');
+        $questionResponseExcpects->will($this->returnValue($generator));
 
         $parserCollection->addPreParse($questionResponse);
 
@@ -100,13 +65,13 @@ class InitTest extends \PHPUnit_Framework_TestCase
             'name' => 'test'
         );
 
-        $yaml->expects($this->once())
-        ->method('decode')
-        ->will($this->returnValue($process));
+        $transtyperExpects = $transtyper->expects($this->once());
+        $transtyperExpects->method('decode');
+        $transtyperExpects->will($this->returnValue($process));
 
         $sUT      = new GeneratorParser(
             $fileManager,
-            $yaml,
+            $transtyper,
             $phpParser,
             $generatorFinder,
             $parserCollection,

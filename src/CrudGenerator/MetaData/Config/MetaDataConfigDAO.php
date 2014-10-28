@@ -28,13 +28,14 @@ use CrudGenerator\MetaData\Driver\DriverHydrator;
 use KeepUpdate\ArrayValidator;
 use KeepUpdate\ValidationException;
 use CrudGenerator\Generators\ResponseExpectedException;
+use CrudGenerator\Utils\Installer;
 
 class MetaDataConfigDAO
 {
     /**
      * @var string Config path
      */
-    const PATH = 'data/crudGenerator/Config/';
+    const SOURCE_PATH = 'Config/';
     /**
      * @var string config file extension
      */
@@ -98,7 +99,7 @@ class MetaDataConfigDAO
     {
         $adapterCollection = new MetaDataSourceCollection();
 
-        foreach ($this->fileManager->glob(self::PATH . '*' . self::EXTENSION) as $file) {
+        foreach ($this->fileManager->glob(Installer::BASE_PATH . self::SOURCE_PATH . '*' . self::EXTENSION) as $file) {
             // Decode
             $config     = $this->transtyper->decode($this->fileManager->fileGetContent($file));
             // Validate
@@ -133,7 +134,7 @@ class MetaDataConfigDAO
         $source = $this->ask($source);
 
         $this->fileManager->filePutsContent(
-            self::PATH . md5($source->getUniqueName()) . self::EXTENSION,
+            Installer::BASE_PATH . self::SOURCE_PATH . md5($source->getUniqueName()) . self::EXTENSION,
             json_encode($source->jsonSerialize())
         );
 

@@ -4,25 +4,78 @@ namespace CrudGenerator\Tests\General\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Utils\TranstyperFactory;
 use CrudGenerator\Generators\Validator\GeneratorValidatorFactory;
+use CrudGenerator\Tests\TestCase;
 
-class FindByNameTest extends \PHPUnit_Framework_TestCase
+class FindByNameTest extends TestCase
 {
     public function testFail()
     {
-        $suT = new GeneratorFinder(TranstyperFactory::getInstance(), GeneratorValidatorFactory::getInstance());
+        $rawMock = $this->createSut('CrudGenerator\Generators\Finder\GeneratorFinder');
+
+        $fileFound = array(
+            array(0 => 'fileName2')
+        );
+
+        $fileManagerExpectsSearch = $rawMock['mocks']['fileManager']->expects($this->once());
+        $fileManagerExpectsSearch->method('searchFileByRegex');
+        $fileManagerExpectsSearch->will($this->returnValue($fileFound));
+
+        $fileManagerExpectsGetContent = $rawMock['mocks']['fileManager']->expects($this->once());
+        $fileManagerExpectsGetContent->method('fileGetContent');
+        $fileManagerExpectsGetContent->with($fileFound[0][0]);
+        $fileManagerExpectsGetContent->will($this->returnValue('notvalid'));
+
+        $transtyperExpectsDecode = $rawMock['mocks']['transtyper']->expects($this->once());
+        $transtyperExpectsDecode->method('decode');
+        $transtyperExpectsDecode->with('notvalid');
+        $transtyperExpectsDecode->will($this->returnValue(array('name' => 'notvalid')));
+
+
+        $transtyperExpectsDecode = $rawMock['mocks']['generatorValidator']->expects($this->once());
+        $transtyperExpectsDecode->method('isValid');
+        $transtyperExpectsDecode->with(array('name' => 'notvalid'), null);
+        $transtyperExpectsDecode->will($this->throwException(new \InvalidArgumentException()));
+
+        /* @var $sUT \CrudGenerator\Generators\Finder\GeneratorFinder */
+        $sUT = $rawMock['instance']($rawMock['mocks']);
 
         $this->setExpectedException('InvalidArgumentException');
 
-        $suT->findByName('fail');
+        $sUT->findByName('fail');
     }
 
     public function testOk()
     {
-        $suT = new GeneratorFinder(TranstyperFactory::getInstance(), GeneratorValidatorFactory::getInstance());
+        $rawMock = $this->createSut('CrudGenerator\Generators\Finder\GeneratorFinder');
 
-        $this->assertInternalType(
-            'string',
-            $suT->findByName('ArchitectGenerator')
+        $fileFound = array(
+            array(0 => 'fileName'),
+        );
+
+        $fileManagerExpectsSearch = $rawMock['mocks']['fileManager']->expects($this->once());
+        $fileManagerExpectsSearch->method('searchFileByRegex');
+        $fileManagerExpectsSearch->will($this->returnValue($fileFound));
+
+        $fileManagerExpectsGetContent = $rawMock['mocks']['fileManager']->expects($this->once());
+        $fileManagerExpectsGetContent->method('fileGetContent');
+        $fileManagerExpectsGetContent->with($fileFound[0][0]);
+        $fileManagerExpectsGetContent->will($this->returnValue('valid'));
+
+        $transtyperExpectsDecode = $rawMock['mocks']['transtyper']->expects($this->once());
+        $transtyperExpectsDecode->method('decode');
+        $transtyperExpectsDecode->with('valid');
+        $transtyperExpectsDecode->will($this->returnValue(array('name' => 'ArchitectGenerator')));
+
+        $transtyperExpectsDecode = $rawMock['mocks']['generatorValidator']->expects($this->once());
+        $transtyperExpectsDecode->method('isValid');
+        $transtyperExpectsDecode->with(array('name' => 'ArchitectGenerator'), null);
+
+        /* @var $sUT \CrudGenerator\Generators\Finder\GeneratorFinder */
+        $sUT = $rawMock['instance']($rawMock['mocks']);
+
+        $this->assertEquals(
+            'fileName',
+            $sUT->findByName('ArchitectGenerator')
         );
     }
 }

@@ -13,6 +13,7 @@ use CrudGenerator\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Utils\TranstyperFactory;
 use CrudGenerator\Utils\Installer;
 use CrudGenerator\Generators\Validator\GeneratorValidatorFactory;
+use CrudGenerator\Utils\FileManager;
 
 /**
  * Create GeneratorFinder instance
@@ -31,7 +32,8 @@ class GeneratorFinderFactory
         return new GeneratorFinderCache(
             new GeneratorFinder(
                 TranstyperFactory::getInstance(),
-                GeneratorValidatorFactory::getInstance()
+                GeneratorValidatorFactory::getInstance(),
+                new FileManager()
             ),
             Installer::getDirectories()
         );

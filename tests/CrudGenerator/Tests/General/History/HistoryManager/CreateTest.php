@@ -23,12 +23,6 @@ class CreateTest extends TestCase
         $stubHistoryHydrator = $this->createMock('\CrudGenerator\History\HistoryHydrator');
 
         $stubFileManager->expects($this->once())
-                        ->method('isDir')
-                        ->will($this->returnValue(false));
-        $stubFileManager->expects($this->once())
-                        ->method('mkdir')
-                        ->will($this->returnValue(true));
-        $stubFileManager->expects($this->once())
                         ->method('isFile')
                         ->will($this->returnValue(true));
         $stubFileManager->expects($this->once())

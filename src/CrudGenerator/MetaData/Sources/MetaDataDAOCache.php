@@ -62,7 +62,7 @@ class MetaDataDAOCache implements MetaDataDAOInterface
     public function getAllMetadata()
     {
         $configName     = ($this->config !== null) ? $this->config->getUniqueName() : '';
-        $cacheFilename  = Installer::CACHE_PATH . DIRECTORY_SEPARATOR;
+        $cacheFilename  = Installer::BASE_PATH . Installer::CACHE_PATH . DIRECTORY_SEPARATOR;
         $cacheFilename .= md5('all_metadata' . get_class($this->metadataDAO) . $configName);
 
         if ($this->fileManager->isFile($cacheFilename) === true && $this->noCache === false) {
@@ -84,7 +84,7 @@ class MetaDataDAOCache implements MetaDataDAOInterface
     public function getMetadataFor($entityName, array $parentName = array())
     {
         $configName     = ($this->config !== null) ? $this->config->getUniqueName() : '';
-        $cacheFilename  = Installer::CACHE_PATH . DIRECTORY_SEPARATOR;
+        $cacheFilename  = Installer::BASE_PATH . Installer::CACHE_PATH . DIRECTORY_SEPARATOR;
         $cacheFilename .= md5('metadata' . $entityName . get_class($this->metadataDAO) . $configName);
 
         if ($this->fileManager->isFile($cacheFilename) === true && $this->noCache === false) {

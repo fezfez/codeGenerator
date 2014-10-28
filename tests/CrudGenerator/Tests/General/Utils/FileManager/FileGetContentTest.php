@@ -5,7 +5,7 @@ use CrudGenerator\Utils\FileManager;
 
 class FileGetContentTest extends \PHPUnit_Framework_TestCase
 {
-    public function testRender()
+    public function testOk()
     {
         $filePath    = __DIR__ . '/test.phtml';
         $fileContent = 'toto';
@@ -20,5 +20,14 @@ class FileGetContentTest extends \PHPUnit_Framework_TestCase
         );
 
         unlink($filePath);
+    }
+
+    public function testFail()
+    {
+        $sUT = new FileManager();
+
+        $this->setExpectedException('RuntimeException');
+
+        $sUT->fileGetContent('I do not exist');
     }
 }

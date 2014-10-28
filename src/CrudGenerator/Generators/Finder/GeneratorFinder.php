@@ -12,6 +12,7 @@ namespace CrudGenerator\Generators\Finder;
 use CrudGenerator\MetaData\DataObject\MetaDataInterface;
 use CrudGenerator\Utils\Transtyper;
 use CrudGenerator\Generators\Validator\GeneratorValidator;
+use CrudGenerator\Utils\FileManager;
 
 /**
  * Find generator
@@ -29,20 +30,29 @@ class GeneratorFinder implements GeneratorFinderInterface
      */
     private $generatorValidator = null;
     /**
+     * @var FileManager
+     */
+    private $fileManager = null;
+    /**
      * @var array
      */
-    private static $allClasses = null;
+    private $allClasses = null;
 
     /**
      * Constructor.
      *
      * @param Transtyper $transtyper
      * @param GeneratorValidator $generatorValidator
+     * @param FileManager $fileManager
      */
-    public function __construct(Transtyper $transtyper, GeneratorValidator $generatorValidator)
-    {
+    public function __construct(
+        Transtyper $transtyper,
+        GeneratorValidator $generatorValidator,
+        FileManager $fileManager
+    ) {
         $this->transtyper         = $transtyper;
         $this->generatorValidator = $generatorValidator;
+        $this->fileManager        = $fileManager;
     }
 
     /* (non-PHPdoc)
@@ -50,21 +60,12 @@ class GeneratorFinder implements GeneratorFinderInterface
      */
     public function getAllClasses(MetaDataInterface $metadata = null)
     {
-        if (self::$allClasses === null) {
+        if ($this->allClasses === null) {
             $generators = array();
-            $iterator   = new \RegexIterator(
-                new \RecursiveIteratorIterator(
-                    new \RecursiveDirectoryIterator(getcwd(), \FilesystemIterator::SKIP_DOTS),
-                    \RecursiveIteratorIterator::LEAVES_ONLY,
-                    \RecursiveIteratorIterator::CATCH_GET_CHILD
-                ),
-                '/^.+\.generator\.json$/i',
-                \RecursiveRegexIterator::GET_MATCH
-            );
 
-            foreach ($iterator as $file) {
+            foreach ($this->fileManager->searchFileByRegex('/^.+\.generator\.json$/i') as $file) {
                 $fileName = $file[0];
-                $process  = $this->transtyper->decode(file_get_contents($fileName));
+                $process  = $this->transtyper->decode($this->fileManager->fileGetContent($fileName));
 
                 try {
                     $this->generatorValidator->isValid($process, $metadata);
@@ -74,10 +75,10 @@ class GeneratorFinder implements GeneratorFinderInterface
                 }
             }
 
-            self::$allClasses = $generators;
+            $this->allClasses = $generators;
         }
 
-        return self::$allClasses;
+        return $this->allClasses;
     }
 
     /* (non-PHPdoc)
