@@ -45,9 +45,7 @@ class ParserCollectionFactory
                        )
                    )
                    ->addPreParse(new EnvironnementParser($context))
-                   ->addPostParse(new TemplateVariableParser($conditionValidation))
                    ->addPostParse(new DirectoriesParser())
-                   ->addPostParse(new FileParser($fileManager, $conditionValidation, $iteratorValidator))
                    ->addPostParse(
                        new QuestionParser(
                            $context,
@@ -55,7 +53,9 @@ class ParserCollectionFactory
                            QuestionTypeCollectionFactory::getInstance($context),
                            new QuestionAnalyser()
                        )
-                   );
+                   )
+                   ->addPostParse(new TemplateVariableParser($conditionValidation))
+                   ->addPostParse(new FileParser($fileManager, $conditionValidation, $iteratorValidator));
 
         return $collection;
     }
