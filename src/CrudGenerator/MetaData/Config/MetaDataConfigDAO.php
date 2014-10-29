@@ -114,6 +114,9 @@ class MetaDataConfigDAO
                 $config[MetaDataSource::METADATA_DAO_FACTORY]
             );
 
+            $adapter->setMetadataDaoFactory($config[MetaDataSource::METADATA_DAO_FACTORY]);
+            $adapter->setMetadataDao($config[MetaDataSource::METADATA_DAO]);
+
             // Test if have a config
             if (isset($config[MetaDataSource::CONFIG]) === true) {
                 $adapter->setConfig($this->driverHydrator->arrayToDto($config[MetaDataSource::CONFIG]));

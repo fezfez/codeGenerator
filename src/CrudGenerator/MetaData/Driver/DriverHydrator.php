@@ -20,6 +20,7 @@ class DriverHydrator
     public function arrayToDto(array $config)
     {
         $driverConfig = new DriverConfig($config[DriverConfig::UNIQUE_NAME]);
+        $driverConfig->setMetadataDaoFactory($config[DriverConfig::SOURCE_FACTORY]);
 
         foreach ($config[DriverConfig::RESPONSE] as $responseKey => $response) {
             $driverConfig->response($responseKey, $response);
