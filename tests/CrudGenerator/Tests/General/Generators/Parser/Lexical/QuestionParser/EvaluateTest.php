@@ -8,24 +8,15 @@ use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
 use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeCollectionFactory;
 use CrudGenerator\Generators\Parser\Lexical\QuestionAnalyser;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
+use CrudGenerator\Tests\TestCase;
 
-class EvaluateTest extends \PHPUnit_Framework_TestCase
+class EvaluateTest extends TestCase
 {
     public function testMalformedVar()
     {
-        $conditionValidator = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $conditionValidator = $this->createMock('CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator');
+        $context            = $this->createMock('CrudGenerator\Context\CliContext');
+        $phpParser          = $this->createMock('CrudGenerator\Utils\PhpStringParser');
 
         $sUT = new QuestionParser(
             $context,
@@ -49,19 +40,9 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testWithFiles()
     {
-        $conditionValidator = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $conditionValidator = $this->createMock('CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator');
+        $context            = $this->createMock('CrudGenerator\Context\CliContext');
+        $phpParser          = $this->createMock('CrudGenerator\Utils\PhpStringParser');
 
         $sUT = new QuestionParser(
             $context,
@@ -91,19 +72,9 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
     public function testWithDependencyCondiction()
     {
-        $conditionValidator = $this->getMockBuilder(
-            'CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator'
-        )
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $context = $this->getMockBuilder('CrudGenerator\Context\CliContext')
-        ->disableOriginalConstructor()
-        ->getMock();
-
-        $phpParser = $this->getMockBuilder('CrudGenerator\Utils\PhpStringParser')
-        ->disableOriginalConstructor()
-        ->getMock();
+        $conditionValidator = $this->createMock('CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator');
+        $context            = $this->createMock('CrudGenerator\Context\CliContext');
+        $phpParser          = $this->createMock('CrudGenerator\Utils\PhpStringParser');
 
         $phpParser->expects($this->once())
         ->method('parse')
