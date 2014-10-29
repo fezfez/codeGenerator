@@ -72,7 +72,7 @@ class DirectoryQuestion
 
             $questionDTO = new QuestionWithPredefinedResponse(
                 $question['text'],
-                $setter,
+                $question['dtoAttribute'],
                 $responseCollection
             );
 

@@ -73,6 +73,7 @@ class RetrieveAllTest extends TestCase
         $metadataSourceHydratorAdapterTo = $rawMocks['mocks']['metaDataSourceHydrator']->expects($this->once());
         $metadataSourceHydratorAdapterTo->method('adapterNameToMetaDataSource');
         $metadataSourceHydratorAdapterTo->with($rawData[MetaDataSource::METADATA_DAO_FACTORY]);
+        $metadataSourceHydratorAdapterTo->will($this->returnValue(new MetaDataSource()));
 
         /* @var $sUT \CrudGenerator\MetaData\Config\MetaDataConfigDAO */
         $sUT     = $rawMocks['instance']($rawMocks['mocks']);

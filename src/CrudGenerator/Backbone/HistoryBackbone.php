@@ -34,10 +34,15 @@ class HistoryBackbone
         $this->context         = $context;
     }
 
+    /**
+     * @return \CrudGenerator\Generators\GeneratorDataObject
+     */
     public function run()
     {
         try {
-            $this->context->publishGenerator($this->historyQuestion->ask());
+            $generator = $this->historyQuestion->ask();
+            $this->context->publishGenerator($generator);
+            return $generator;
         } catch (EmptyHistoryException $e) {
             $this->context->log("Generation history empty", "history_empty");
         }

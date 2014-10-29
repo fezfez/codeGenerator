@@ -129,12 +129,18 @@ class HistoryHydrator
             );
         }
 
-        $dto = new DataObject();
-        $dto->setMetadata($metadata);
+        $dataObject = new DataObject();
+        $dataObject->setMetadata($metadata);
+
+        foreach ($dto[DataObject::STORE] as $storeKey => $storeValue) {
+            $setter = 'set' . ucfirst($storeKey);
+            $dataObject->register(array('dtoAttribute' => $storeKey), is_array($storeValue));
+            $dataObject->$setter($storeValue);
+        }
 
         $generator = new GeneratorDataObject();
         $generator->setMetadataSource($metadataSource)
-                  ->setDto($dto)
+                  ->setDto($dataObject)
                   ->setName($arrayRepresentation[GeneratorDataObject::NAME]);
 
         $history->addDataObject($generator);

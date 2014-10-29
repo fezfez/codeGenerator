@@ -35,7 +35,7 @@ class QuestionTypeSimple implements QuestionTypeInterface
      */
     public function evaluateQuestion(array $questionRaw, PhpStringParser $parser, GeneratorDataObject $generator)
     {
-        $question = new SimpleQuestion($questionRaw['text'], $questionRaw['setter']);
+        $question = new SimpleQuestion($questionRaw['text'], $questionRaw['dtoAttribute']);
         $question->setDefaultResponse(
             (isset($questionRaw['defaultResponse']) === true) ? $parser->parse($questionRaw['defaultResponse']) : null
         );

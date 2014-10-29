@@ -10,6 +10,7 @@
 namespace CrudGenerator\Backbone;
 
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Generators\Parser\GeneratorParserFactory;
 
 class MainBackbone
 {
@@ -71,6 +72,15 @@ class MainBackbone
 
     public function run()
     {
+        $generate = function($generator) {
+            if (true === $this->context->confirm('Preview a file ?', 'view_file')) {
+                $this->generateFileBackbone->run($generator);
+            }
+            if (true === $this->context->confirm('Generate file(s) ?', 'generate_files')) {
+                $this->generateBackbone->run($generator);
+            }
+        };
+
         $this->context->menu(
             'Create new metadataSource',
             'create_metadatasource',
@@ -82,8 +92,11 @@ class MainBackbone
         $this->context->menu(
             'Wake history',
             'select_history',
-            function() {
-                $this->historyBackbone->run();
+            function() use ($generate) {
+                $generator = $this->historyBackbone->run();
+                $parser = GeneratorParserFactory::getInstance($this->context);
+                $generator = $parser->init($generator, $generator->getDto()->getMetadata());
+                $generate($generator);
             }
         );
 
@@ -98,16 +111,11 @@ class MainBackbone
         $this->context->menu(
             'Generate',
             'generate',
-            function() {
+            function() use ($generate) {
                 $generator = $this->preapreForGenerationBackbone->run();
                 $this->context->publishGenerator($generator);
 
-                if (true === $this->context->confirm('Preview a file ?', 'view_file')) {
-                    $this->generateFileBackbone->run($generator);
-                }
-                if (true === $this->context->confirm('Generate file(s) ?', 'generate_files')) {
-                    $this->generateBackbone->run($generator);
-                }
+                $generate($generator);
             }
         );
     }

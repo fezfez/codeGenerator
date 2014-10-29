@@ -45,6 +45,11 @@ class CliContext implements ContextInterface
     private $createCommand = null;
 
     /**
+     * @var array
+     */
+    private $preResponse = array();
+
+    /**
      * @param QuestionHelper $question
      * @param OutputInterface $output
      * @param InputInterface $input
@@ -71,9 +76,24 @@ class CliContext implements ContextInterface
             $this->input,
             $this->output,
             new Question(
-                sprintf('<question>Choose a "%s"</question> : ', $question->getText())
+                sprintf(
+                    '<question>Choose a "%s"</question> : default : %s',
+                    $question->getText(),
+                    $this->getPreResponse($question->getUniqueKey())
+                ),
+                $this->getPreResponse($question->getUniqueKey())
             )
         );
+    }
+
+    /**
+     * @param string $uniqueKey
+     * @return string
+     */
+    private function getPreResponse($uniqueKey)
+    {
+        $uniqueKey = strtolower($uniqueKey);
+        return isset($this->preResponse[$uniqueKey]) ? $this->preResponse[$uniqueKey]->get(array()) : null;
     }
 
     /* (non-PHPdoc)
@@ -100,8 +120,9 @@ class CliContext implements ContextInterface
                 $this->input,
                 $this->output,
                 new ChoiceQuestion(
-                    sprintf('Choose a "%s"', $questionResponseCollection->getText()) ,
-                    $choises
+                    sprintf('Choose a "%s" default : %s ', $questionResponseCollection->getText(), $this->getPreResponse($questionResponseCollection->getUniqueKey())) ,
+                    $choises,
+                    $this->getPreResponse($questionResponseCollection->getUniqueKey())
                 )
             );
 
@@ -162,6 +183,10 @@ class CliContext implements ContextInterface
      */
     public function publishGenerator(GeneratorDataObject $generator)
     {
+        if ($generator->getDto() === null) {
+            throw new \Exception('Cannot access to the store');
+        }
 
+        $this->preResponse = $generator->getDto()->getStore();
     }
 }
