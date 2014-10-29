@@ -40,24 +40,18 @@ class Installer
     }
 
     /**
+     * @param FileManager $fileManager
      * @throws \RuntimeException
      */
-    public static function install()
+    public static function install(FileManager $fileManager)
     {
         $directoriestoCreate = self::getDirectories();
 
-        foreach ($directoriestoCreate as $directoryName => $directoryPath) {
-            if (is_dir($directoryPath) !== true) {
-                mkdir($directoryPath, 0777, true);
-            }
-            if (is_writable($directoryPath) !== true) {
-                throw new \RuntimeException(
-                    sprintf(
-                        '%s directory "%s" is not writable',
-                        $directoryName,
-                        $directoryPath
-                    )
-                );
+        foreach ($directoriestoCreate as $name => $path) {
+            $fileManager->ifDirDoesNotExistCreate($path);
+
+            if ($fileManager->isWritable($path) === false) {
+                throw new \RuntimeException(sprintf('%s directory "%s" is not writable', $name, $path));
             }
         }
     }

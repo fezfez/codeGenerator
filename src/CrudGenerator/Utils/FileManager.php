@@ -67,6 +67,14 @@ class FileManager
     }
 
     /**
+     * @param string $path
+     */
+    public function isWritable($path)
+    {
+        return (bool) is_writable($path);
+    }
+
+    /**
      * Test if is directory
      * @param string $path Directory path
      */

@@ -5,6 +5,7 @@
 namespace CrudGenerator\Tests;
 
 use CrudGenerator\Utils\Installer;
+use CrudGenerator\Utils\FileManager;
 
 error_reporting(-1);
 ini_set('memory_limit', '512M');
@@ -40,4 +41,4 @@ spl_autoload_register(function($class) {
     }
 });
 
-Installer::install();
+Installer::install(new FileManager());
