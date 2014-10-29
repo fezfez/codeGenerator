@@ -94,6 +94,7 @@ class DataObject implements \JsonSerializable
      */
     public function __call($method, $args)
     {
+        $method     = strtolower($method);
         $firstChar  = substr($method, 0, 3);
         $methodName = substr($method, 3);
 
@@ -102,7 +103,7 @@ class DataObject implements \JsonSerializable
         } elseif ($firstChar === 'set') {
             return $this->setter($args, $methodName);
         } else {
-            throw new \Exception("unknown method [$methodName]");
+            throw new \Exception(sprintf('unknown method "%s"', $methodName));
         }
     }
 
@@ -160,7 +161,7 @@ class DataObject implements \JsonSerializable
      */
     public function register(array $question, $isIterable)
     {
-        $this->store[$question['dtoAttribute']] = $isIterable === true ? new StorageArray() : new StorageString();
+        $this->store[strtolower($question['dtoAttribute'])] = $isIterable === true ? new StorageArray() : new StorageString();
 
         return $this;
     }

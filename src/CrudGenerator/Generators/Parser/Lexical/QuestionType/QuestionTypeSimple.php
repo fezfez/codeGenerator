@@ -35,7 +35,7 @@ class QuestionTypeSimple implements QuestionTypeInterface
      */
     public function evaluateQuestion(array $questionRaw, PhpStringParser $parser, GeneratorDataObject $generator)
     {
-        $question = new SimpleQuestion($questionRaw['text'], 'set' . ucfirst($questionRaw['dtoAttribute']));
+        $question = new SimpleQuestion($questionRaw['text'], $questionRaw['setter']);
         $question->setDefaultResponse(
             (isset($questionRaw['defaultResponse']) === true) ? $parser->parse($questionRaw['defaultResponse']) : null
         );
@@ -46,9 +46,7 @@ class QuestionTypeSimple implements QuestionTypeInterface
         $response = $this->context->ask($question);
 
         if ($response !== null) {
-            $questionName = $questionRaw['setter'];
-
-            $generator->getDto()->$questionName($response);
+            $generator->getDto()->$questionRaw['setter']($response);
         }
 
         return $generator;

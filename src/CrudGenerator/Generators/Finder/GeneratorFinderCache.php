@@ -10,6 +10,7 @@
 namespace CrudGenerator\Generators\Finder;
 
 use CrudGenerator\MetaData\DataObject\MetaDataInterface;
+use CrudGenerator\Utils\FileManager;
 
 /**
  * Find all generator allow in project
@@ -27,19 +28,30 @@ class GeneratorFinderCache implements GeneratorFinderInterface
      */
     private $directories = null;
     /**
+     * @var FileManager
+     */
+    private $fileManager = null;
+    /**
      * @var boolean
      */
     private $noCache = null;
 
     /**
+     * Constructor.
      * @param GeneratorFinder $generatorFinder
      * @param array $directories
+     * @param FileManager $fileManager
      * @param boolean $noCache
      */
-    public function __construct(GeneratorFinder $generatorFinder, array $directories, $noCache = false)
-    {
+    public function __construct(
+        GeneratorFinder $generatorFinder,
+        array $directories,
+        FileManager $fileManager,
+        $noCache = false
+    ) {
         $this->generatorFinder = $generatorFinder;
         $this->directories     = $directories;
+        $this->fileManager     = $fileManager;
         $this->noCache         = $noCache;
     }
 
@@ -53,11 +65,11 @@ class GeneratorFinderCache implements GeneratorFinderInterface
         $cacheFilename  = $this->directories['Cache'] . DIRECTORY_SEPARATOR;
         $cacheFilename .= md5('genrator_getAllClasses' . ($metadata !== null) ? get_class($metadata) : '');
 
-        if (is_file($cacheFilename) === true && $this->noCache === false) {
-            $data = unserialize(file_get_contents($cacheFilename));
+        if ($this->fileManager->isFile($cacheFilename) === true && $this->noCache === false) {
+            $data = unserialize($this->fileManager->fileGetContent($cacheFilename));
         } else {
             $data = $this->generatorFinder->getAllClasses($metadata);
-            file_put_contents($cacheFilename, serialize($data));
+            $this->fileManager->filePutsContent($cacheFilename, serialize($data));
         }
 
         return $data;

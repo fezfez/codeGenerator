@@ -35,7 +35,8 @@ class GeneratorFinderFactory
                 GeneratorValidatorFactory::getInstance(),
                 new FileManager()
             ),
-            Installer::getDirectories()
+            Installer::getDirectories(),
+            new FileManager()
         );
     }
 }

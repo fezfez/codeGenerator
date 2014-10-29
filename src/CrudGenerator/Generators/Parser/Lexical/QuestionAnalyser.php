@@ -23,12 +23,22 @@ class QuestionAnalyser
         $questionDefinition = $this->getDefinition();
         $question           = $this->parseMandatory($questionDefinition, $question);
         $question           = $this->parseOptional($questionDefinition, $question);
-        $question           = $this->parseIsType($questionDefinition, $question);
-
         $question['setter'] = 'set' . ucfirst($question['dtoAttribute']);
 
         if ($question['type']->is(QuestionTypeEnum::ITERATOR_WITH_PREDEFINED_RESPONSE) === true) {
-            if (is_array($question['iteration']['response']['predefined']) === false) {
+            if (isset($question['iteration']) === false) {
+                throw new MalformedGeneratorException(
+                    sprintf('"Iteration" must be set in %s', json_encode($question))
+                );
+            } elseif (isset($question['iteration']['response']) === false) {
+                throw new MalformedGeneratorException(
+                    sprintf('"Iteration.response" must be set in %s', json_encode($question))
+                );
+            } elseif (isset($question['iteration']['response']['predefined']) === false) {
+                throw new MalformedGeneratorException(
+                    sprintf('"Iteration.response.predefined" must be set in %s', json_encode($question))
+                );
+            } elseif (is_array($question['iteration']['response']['predefined']) === false) {
                 throw new MalformedGeneratorException(
                     sprintf('"predefinedResponse" must be an array in %s', json_encode($question))
                 );
@@ -101,32 +111,14 @@ class QuestionAnalyser
     }
 
     /**
-     * @param array $questionDefinition
-     * @param array $question
-     * @return array
-     */
-    private function parseIsType(array $questionDefinition, array $question)
-    {
-        foreach ($questionDefinition['isTypeIs'] as $type => $definition) {
-            if ($question['type']->is($type) === true) {
-                foreach ($definition as $mandatory) {
-                    if (isset($question[$mandatory]) === false) {
-                        $this->throwException($question, $mandatory);
-                    }
-                }
-            }
-        }
-
-        return $question;
-    }
-
-    /**
      * @return array
      */
     private function getDefinition()
     {
         return array(
-            'mandatory' => array(),
+            'mandatory' => array(
+                'dtoAttribute'
+            ),
             'optional' => array(
                 'required' => array(
                     'default' => false
@@ -140,8 +132,7 @@ class QuestionAnalyser
                 'type' => array(
                     'enum' => 'CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum'
                 )
-            ),
-            'isTypeIs' => array()
+            )
         );
     }
 

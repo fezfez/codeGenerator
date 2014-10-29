@@ -58,7 +58,7 @@ class EvaluateQuestionTest extends TestCase
         $this->setExpectedException('Exception');
 
         $sUT->evaluateQuestion(
-            array('factory' => null),
+            array('factory' => array()),
             $this->createMock('CrudGenerator\Utils\PhpStringParser'),
             new GeneratorDataObject()
         );
@@ -98,6 +98,19 @@ class EvaluateQuestionTest extends TestCase
 
         $sUT->evaluateQuestion(
             array('factory' => 'CrudGenerator\Tests\General\Generators\Parser\Lexical\MyFakeQuestionNotWellConfiguredFactory'),
+            $this->createMock('CrudGenerator\Utils\PhpStringParser'),
+            new GeneratorDataObject()
+        );
+    }
+
+    public function testFactoryReturnNotObject()
+    {
+        $sUT = new QuestionTypeComplex($this->createMock('CrudGenerator\Context\CliContext'));
+
+        $this->setExpectedException('Exception');
+
+        $sUT->evaluateQuestion(
+            array('factory' => 'CrudGenerator\Tests\General\Generators\Parser\Lexical\MyFakeQuestionReturnBoolFactory'),
             $this->createMock('CrudGenerator\Utils\PhpStringParser'),
             new GeneratorDataObject()
         );
