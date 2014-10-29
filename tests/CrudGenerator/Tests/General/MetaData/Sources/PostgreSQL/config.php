@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\PostgreSQL\MetaData\PostgreSQL\PostgreSQL;
+namespace CrudGenerator\Tests\General\MetaData\Sources\PostgreSQL;
 
 use CrudGenerator\MetaData\Driver\DriverConfig;
 

@@ -1,12 +1,12 @@
 <?php
-namespace CrudGenerator\Tests\PostgreSQL\MetaData\Sources\PostgreSQL\SqlManager;
+namespace CrudGenerator\Tests\General\MetaData\Sources\PostgreSQL\SqlManager;
 
 use CrudGenerator\MetaData\Sources\PostgreSQL\SqlManager;
 
 /**
  * @requires extension pdo_pgsql
  */
-class ListFieldsQueryTest extends \PHPUnit_Framework_TestCase
+class GetAllPrimaryKeysTest extends \PHPUnit_Framework_TestCase
 {
     public function testTrue()
     {
@@ -14,7 +14,7 @@ class ListFieldsQueryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInternalType(
             'string',
-            $sUT->listFieldsQuery()
+            $sUT->getAllPrimaryKeys()
         );
     }
 }

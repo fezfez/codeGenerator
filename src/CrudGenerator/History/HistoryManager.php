@@ -29,6 +29,10 @@ class HistoryManager
      */
     const HISTORY_PATH = 'History/';
     /**
+     * @var string history file extension
+     */
+    const FILE_EXTENSION = '.history.yaml';
+    /**
      * @var FileManager File manager
      */
     private $fileManager = null;
@@ -65,7 +69,7 @@ class HistoryManager
             throw new \InvalidArgumentException('Metadata cant be empty');
         }
 
-        $fileName = $metadata->getName(). '.history.yaml';
+        $fileName = $metadata->getName(). self::FILE_EXTENSION;
 
         if ($this->fileManager->isFile(Installer::BASE_PATH . self::HISTORY_PATH . $fileName) === true) {
             $this->fileManager->unlink(Installer::BASE_PATH . self::HISTORY_PATH . $fileName);
@@ -94,8 +98,9 @@ class HistoryManager
         }
 
         $historyCollection = new HistoryCollection();
+        $searchPath        = Installer::BASE_PATH . self::HISTORY_PATH . '*' . self::FILE_EXTENSION;
 
-        foreach ($this->fileManager->glob(Installer::BASE_PATH . self::HISTORY_PATH . '*.history.yaml') as $file) {
+        foreach ($this->fileManager->glob($searchPath) as $file) {
             $content = $this->fileManager->fileGetContent($file);
 
             try {

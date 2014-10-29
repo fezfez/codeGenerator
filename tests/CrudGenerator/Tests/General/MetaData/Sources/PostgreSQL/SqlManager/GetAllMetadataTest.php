@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\PostgreSQL\MetaData\Sources\PostgreSQL\SqlManager;
+namespace CrudGenerator\Tests\General\MetaData\Sources\PostgreSQL\SqlManager;
 
 use CrudGenerator\MetaData\Sources\PostgreSQL\SqlManager;
 

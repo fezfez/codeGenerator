@@ -1,20 +1,29 @@
 <?php
-namespace CrudGenerator\Tests\PostgreSQL\Sources\MetaData\PostgreSQL\PgSql\PostgreSQLMetaDataDAO;
+namespace CrudGenerator\Tests\ZF2\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO;
 
-use CrudGenerator\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory;
+use CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO;
+use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
 
-/**
- * @requires extension pdo_pgsql
- */
 class GetAllMetadataTest extends \PHPUnit_Framework_TestCase
 {
-    public function testTypedzadzdaz()
+    public function testType()
     {
-        $PostgreSQLConfig = include __DIR__ . '/../config.php';
+        $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
+        $stubFileManager->expects($this->any())
+                        ->method('fileExists')
+                        ->will($this->returnValue(true));
 
-        $suT = PostgreSQLMetaDataDAOFactory::getInstance($PostgreSQLConfig);
+        $stubFileManager->expects($this->any())
+                        ->method('includeFile')
+                        ->will($this->returnValue(include __DIR__ . '/../../../../../config/application.config.php'));
 
-        $allMetaData = $suT->getAllMetadata();
+        $sm = ZendFramework2Environnement::getDependence($stubFileManager);
+        $em = $sm->get('doctrine.entitymanager.orm_default');
+
+        $sUT = new Doctrine2MetaDataDAO($em);
+
+        $allMetaData = $sUT->getAllMetadata();
+
         $this->assertInstanceOf(
             'CrudGenerator\MetaData\DataObject\MetaDataCollection',
             $allMetaData
@@ -22,7 +31,7 @@ class GetAllMetadataTest extends \PHPUnit_Framework_TestCase
 
         foreach ($allMetaData as $metaData) {
             $this->assertInstanceOf(
-                'CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL',
+                'CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2',
                 $metaData
             );
 
