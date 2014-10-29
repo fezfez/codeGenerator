@@ -29,14 +29,49 @@ class QuestionTypeComplex implements QuestionTypeInterface
         $this->context = $context;
     }
 
+    /**
+     * @param array $question
+     * @throws \Exception
+     * @return \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionComplexFactoryInterface
+     */
+    private function isCorrectFactory(array $question)
+    {
+        if (isset($question['factory']) === false) {
+            throw new \Exception('Factory does no exist');
+        } elseif (is_string($question['factory']) === false) {
+            throw new \Exception('Must be a string');
+        } elseif (false === class_exists($question['factory'], true)) {
+            throw new \Exception('Class does not exist');
+        } elseif (in_array('CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionComplexFactoryInterface', class_implements($question['factory'])) === false) {
+            throw new \Exception('Wrong implementation');
+        }
+
+        return $question['factory'];
+    }
+    /**
+     * @param array $question
+     * @return \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionComplexInterface
+     */
+    private function getInstance(array $question)
+    {
+        $factory  = $this->isCorrectFactory($question);
+        $instance = $factory::getInstance($this->context);
+
+        if (is_object($instance) === false) {
+            throw new \Exception('Factory must return object');
+        } elseif (in_array('CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionComplexInterface', class_implements($instance)) === false) {
+            throw new \Exception('Wrong implementation');
+        }
+
+        return $instance;
+    }
+
     /* (non-PHPdoc)
      * @see \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeInterface::evaluateQuestion()
      */
     public function evaluateQuestion(array $question, PhpStringParser $parser, GeneratorDataObject $generator)
     {
-        $complex = $question['factory']::getInstance($this->context);
-
-        return $complex->ask($generator, $question);
+        return $this->getInstance($question)->ask($question, $parser, $generator);
     }
 
     /* (non-PHPdoc)
@@ -52,8 +87,6 @@ class QuestionTypeComplex implements QuestionTypeInterface
      */
     public function isIterable(array $question)
     {
-        $complex = $question['factory']::getInstance($this->context);
-
-        return $complex->isIterable($question);
+        return $this->getInstance($question)->isIterable($question);
     }
 }

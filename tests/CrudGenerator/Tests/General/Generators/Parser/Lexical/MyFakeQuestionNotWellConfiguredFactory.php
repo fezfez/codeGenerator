@@ -4,7 +4,7 @@ namespace CrudGenerator\Tests\General\Generators\Parser\Lexical;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionComplexFactoryInterface;
 
-class MyFakeQuestionFactory implements QuestionComplexFactoryInterface
+class MyFakeQuestionNotWellConfiguredFactory implements QuestionComplexFactoryInterface
 {
     /**
      * @param ContextInterface $context
@@ -12,6 +12,6 @@ class MyFakeQuestionFactory implements QuestionComplexFactoryInterface
      */
     public static function getInstance(ContextInterface $context)
     {
-        return new MyFakeQuestion();
+        return new MyFakeQuestionFactory();
     }
 }

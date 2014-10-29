@@ -73,6 +73,7 @@ class GeneratorDataObject implements \JsonSerializable
     private $dependencies = array();
 
     /**
+     * @param DataObject $value
      * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     public function setDto(DataObject $value)
