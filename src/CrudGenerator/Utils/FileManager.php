@@ -21,11 +21,12 @@ class FileManager
     /**
      * Create a directory
      * @param string $pathname Dir to create
+     * @param boolean $recursive
      * @throws RuntimeException
      */
-    public function mkdir($pathname)
+    public function mkdir($pathname, $recursive = false)
     {
-        if (@mkdir($pathname, 0777) === false) {
+        if (@mkdir($pathname, 0777, $recursive) === false) {
             throw new RuntimeException(sprintf("Could't create %s", realpath(getcwd()) . $pathname));
         }
     }
@@ -124,12 +125,13 @@ class FileManager
     /**
      * Create dir if not exist
      * @param string $directory
+     * @param boolean $recursive
      * @return boolean
      */
-    public function ifDirDoesNotExistCreate($directory)
+    public function ifDirDoesNotExistCreate($directory, $recursive = false)
     {
         if ($this->isDir($directory) === false) {
-            $this->mkdir($directory);
+            $this->mkdir($directory, $recursive);
             return true;
         } else {
             return false;

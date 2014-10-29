@@ -48,7 +48,7 @@ class Installer
         $directoriestoCreate = self::getDirectories();
 
         foreach ($directoriestoCreate as $name => $path) {
-            $fileManager->ifDirDoesNotExistCreate($path);
+            $fileManager->ifDirDoesNotExistCreate($path, true);
 
             if ($fileManager->isWritable($path) === false) {
                 throw new \RuntimeException(sprintf('%s directory "%s" is not writable', $name, $path));

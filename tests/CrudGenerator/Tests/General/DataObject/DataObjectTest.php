@@ -66,6 +66,15 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
         $dataObject->getImATest('test', 'fake');
     }
 
+    public function testWrongUseOfStorageOnGetWithWrongAcess()
+    {
+        $dataObject = new DataObject();
+
+        $this->setExpectedException('Exception');
+
+        $dataObject->getImATest('test', 'fake', 'do', 'not');
+    }
+
     public function testWrongUseOfStorageOnSet()
     {
         $dataObject = new DataObject();
@@ -73,5 +82,14 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Exception');
 
         $dataObject->setTest('test', 'fake', 'fezfze');
+    }
+
+    public function testWrongUseOfCall()
+    {
+        $dataObject = new DataObject();
+
+        $this->setExpectedException('Exception');
+
+        $dataObject->seetTest('test', 'fake');
     }
 }
