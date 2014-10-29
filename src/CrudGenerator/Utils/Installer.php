@@ -31,9 +31,9 @@ class Installer
     public static function getDirectories()
     {
         $directoriestoCreate = array(
-            'Cache'   => self::BASE_PATH . self::CACHE_PATH,
-            'History' => self::BASE_PATH . HistoryManager::HISTORY_PATH,
-            'Config'  => self::BASE_PATH . MetaDataConfigDAO::SOURCE_PATH
+            'Cache'   => getcwd() . DIRECTORY_SEPARATOR . self::BASE_PATH . self::CACHE_PATH,
+            'History' => getcwd() . DIRECTORY_SEPARATOR . self::BASE_PATH . HistoryManager::HISTORY_PATH,
+            'Config'  => getcwd() . DIRECTORY_SEPARATOR . self::BASE_PATH . MetaDataConfigDAO::SOURCE_PATH
         );
 
         return $directoriestoCreate;
