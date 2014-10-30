@@ -14,6 +14,7 @@ use CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory;
 use CrudGenerator\MetaData\Driver\DriverConfig;
 use CrudGenerator\MetaData\Driver\File\FileDriverFactory;
 use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryConfigInterface;
+use CrudGenerator\Utils\Installer;
 
 /**
  * Create Xml Metadata DAO instance
@@ -21,6 +22,9 @@ use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryConfigInterface;
  */
 class XmlMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
 {
+    const TMP_PATH = 'tmp/';
+    const FILE_EXTENSION = '-from-xml.json';
+
     /**
      * @param DriverConfig $config
      * @throws \InvalidArgumentException
@@ -36,11 +40,13 @@ class XmlMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
             )
         );
 
-        $tmpFile = 'tmp';
-        file_put_contents($tmpFile, $json);
+        $fileName = md5($config->getResponse('configUrl')) . self::FILE_EXTENSION;
+        $filePath = Installer::getDirectory(Installer::TMP) . $fileName;
+
+        file_put_contents($filePath, $json);
 
         $jsonConfig = clone $config;
-        $jsonConfig->response('configUrl', $tmpFile);
+        $jsonConfig->response('configUrl', $filePath);
         $jsonConfig->setDriver('CrudGenerator\MetaData\Driver\File\Web\WebDriverFactory');
 
         return new XmlMetaDataDAO(JsonMetaDataDAOFactory::getInstance($jsonConfig));

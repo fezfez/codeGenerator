@@ -26,10 +26,10 @@ class InstallTest extends TestCase
     {
         $fileManager = $this->createMock('CrudGenerator\Utils\FileManager');
 
-        $fileManagerExpectsCreateDir = $fileManager->expects($this->exactly(3));
+        $fileManagerExpectsCreateDir = $fileManager->expects($this->exactly(4));
         $fileManagerExpectsCreateDir->method('ifDirDoesNotExistCreate');
 
-        $fileManagerExpectsIsWritable = $fileManager->expects($this->exactly(3));
+        $fileManagerExpectsIsWritable = $fileManager->expects($this->exactly(4));
         $fileManagerExpectsIsWritable->method('isWritable');
 
         Installer::install($fileManager);

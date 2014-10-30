@@ -11,6 +11,7 @@ namespace CrudGenerator\Utils;
 
 use CrudGenerator\History\HistoryManager;
 use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
+use CrudGenerator\MetaData\Sources\Xml\XmlMetaDataDAOFactory;
 
 /**
  * Installer
@@ -25,18 +26,34 @@ class Installer
      */
     const CACHE_PATH = 'cache/';
 
+    const CACHE = 'Cache';
+    const HISTORY = 'History';
+    const CONFIG = 'Config';
+    const TMP = 'tmp';
+
     /**
      * @return array
      */
     public static function getDirectories()
     {
         $directoriestoCreate = array(
-            'Cache'   => getcwd() . DIRECTORY_SEPARATOR . self::BASE_PATH . self::CACHE_PATH,
-            'History' => getcwd() . DIRECTORY_SEPARATOR . self::BASE_PATH . HistoryManager::HISTORY_PATH,
-            'Config'  => getcwd() . DIRECTORY_SEPARATOR . self::BASE_PATH . MetaDataConfigDAO::SOURCE_PATH
+            self::CACHE   => getcwd() . DIRECTORY_SEPARATOR . self::BASE_PATH . self::CACHE_PATH,
+            self::HISTORY => getcwd() . DIRECTORY_SEPARATOR . self::BASE_PATH . HistoryManager::HISTORY_PATH,
+            self::CACHE   => getcwd() . DIRECTORY_SEPARATOR . self::BASE_PATH . MetaDataConfigDAO::SOURCE_PATH,
+            self::TMP     => getcwd() . DIRECTORY_SEPARATOR . self::BASE_PATH . XmlMetaDataDAOFactory::TMP_PATH
         );
 
         return $directoriestoCreate;
+    }
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    public static function getDirectory($name)
+    {
+        $directories = self::getDirectories();
+        return $directories[$name];
     }
 
     /**

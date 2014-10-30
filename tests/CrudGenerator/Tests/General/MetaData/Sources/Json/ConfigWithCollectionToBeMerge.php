@@ -5,6 +5,6 @@ use CrudGenerator\MetaData\Driver\DriverConfig;
 
 $config = new DriverConfig("test");
 $config->setDriver("CrudGenerator\MetaData\Driver\File\Web\WebDriverFactory");
-$config->response('configUrl', __DIR__ . '/data.json');
+$config->response('configUrl', __DIR__ . '/dataWithCollectionToBeMerge.json');
 
 return $config;

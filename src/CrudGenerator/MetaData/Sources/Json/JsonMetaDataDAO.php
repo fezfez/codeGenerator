@@ -18,6 +18,7 @@ use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
 use JSONSchema\SchemaGenerator;
 use CrudGenerator\MetaData\Driver\File\FileDriverInterface;
+use CrudGenerator\Utils\Installer;
 
 /**
  * Json adapter
@@ -54,20 +55,32 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
     public function getAllMetadata()
     {
         $schema = $this->schemaGenerator->parse($this->jsonConfig->getFile($this->config));
+        $filePath = Installer::getDirectory(Installer::TMP) . 'schema.json';
+
+        file_put_contents($filePath, $schema->toString());
 
         $collection = new MetaDataCollection();
 
         if ($this->isFirstLevelIsDto($schema) === true) {
             $metadata = $this->createMetadata('master');
-            $metadata = $this->hydrateProperties($schema->getProperties(), $metadata);
+            $metadata = $this->hydrateProperties($schema->getProperties(), $metadata, $collection);
             $collection->append($metadata);
         } else {
             // each proporties is considered as metadata
             foreach ($schema->getProperties() as $propName => $prop) {
-                $metadata = $this->createMetadata($propName);
-                $metadata = $this->hydrateProperties($prop->getProperties(), $metadata);
-                $metadata = $this->hydrateItems($propName, $prop->getItems(), $metadata);
-                $collection->append($metadata);
+                if (count($prop->getProperties()) === 0) { // No column, the relation replace column
+                    foreach ($prop->getItems() as $itemValue) {
+                        /* @var $itemValue \JSONSchema\Structure\Item */
+                        $metadata = $this->createMetadata($propName);
+                        $metadata = $this->hydrateProperties($itemValue->getProperties(), $metadata, $collection);
+                        $collection->append($metadata);
+                    }
+                } else { // have column, hydrate them
+                    $metadata = $this->createMetadata($propName);
+                    $metadata = $this->hydrateProperties($prop->getProperties(), $metadata, $collection);
+                    $metadata = $this->hydrateItems($propName, $prop->getItems(), $metadata, $collection);
+                    $collection->append($metadata);
+                }
             }
         }
 
@@ -102,7 +115,7 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
     private function createMetadata($name)
     {
         if (is_string($name) === false) {
-            throw new \Exception('Name must be a str "' . gettype($name) . '"');
+            throw new \Exception(sprintf('Metadata name must be a string "%s" given', gettype($name)));
         }
 
         $dto = new MetadataDataObjectJson(
@@ -121,15 +134,21 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
      * @param MetadataDataObjectJson $metadata
      * @return \CrudGenerator\MetaData\DataObject\MetaDataRelationColumn
      */
-    private function hydrateMetaDataRelationColumn($name, array $props, MetadataDataObjectJson $metadata)
-    {
+    private function hydrateMetaDataRelationColumn(
+        $name,
+        array $props,
+        MetadataDataObjectJson $metadata,
+        MetaDataCollection $mainCollection
+    ) {
         $relation = new MetaDataRelationColumn();
         $relation->setFieldName($name);
         $relation->setFullName($name);
 
         $metadataRelation = $this->createMetadata($name);
-        $metadataRelation = $this->hydrateProperties($props, $metadataRelation);
+        $metadataRelation = $this->hydrateProperties($props, $metadataRelation, $mainCollection);
         $relation->setMetadata($metadataRelation);
+
+        $mainCollection->append($metadataRelation); // As this metatdata to the main metadataCollection
 
         return $relation;
     }
@@ -154,13 +173,19 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
     }
 
     /**
+     * Items is considered as relation
+     *
      * @param string $daddyName
      * @param array $items
      * @param MetadataDataObjectJson $metadata
      * @return MetadataDataObjectJson
      */
-    private function hydrateItems($daddyName, array $items, MetadataDataObjectJson $metadata)
-    {
+    private function hydrateItems(
+        $daddyName,
+        array $items,
+        MetadataDataObjectJson $metadata,
+        MetaDataCollection $mainCollection
+    ) {
         $mergeArray = true;
 
         if ($mergeArray === true && $this->itemsAreAllOfType($items, array('object')) === true) {
@@ -173,7 +198,7 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
             }
 
             $metadata->appendRelation(
-                $this->hydrateMetaDataRelationColumn($daddyName, $mergedArray, $metadata)
+                $this->hydrateMetaDataRelationColumn($daddyName, $mergedArray, $metadata, $mainCollection)
             );
 
         } else {
@@ -186,7 +211,7 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
                 }
 
                 $metadata->appendRelation(
-                    $this->hydrateMetaDataRelationColumn($daddyName, $item->getProperties(), $metadata)
+                    $this->hydrateMetaDataRelationColumn($daddyName, $item->getProperties(), $metadata, $mainCollection)
                 );
             }
         }
@@ -195,13 +220,19 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
     }
 
     /**
+     * Properties is considered as column
+     *
      * @param array $properties
      * @param MetadataDataObjectJson $metadata
+     * @param MetaDataCollection $mainCollection
      * @throws \Exception
      * @return MetadataDataObjectJson
      */
-    private function hydrateProperties(array $properties, MetadataDataObjectJson $metadata)
-    {
+    private function hydrateProperties(
+        array $properties,
+        MetadataDataObjectJson $metadata,
+        MetaDataCollection $mainCollection
+    ) {
         $specialProperties = array();
 
         foreach ($properties as $propName => $propertie) {
@@ -224,7 +255,12 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
         if ($specialProperties !== array()) {
             foreach ($specialProperties as $prop) {
                 $metadata->appendRelation(
-                    $this->hydrateMetaDataRelationColumn($prop->getName(), $prop->getProperties(), $metadata)
+                    $this->hydrateMetaDataRelationColumn(
+                        $prop->getName(),
+                        $prop->getProperties(),
+                        $metadata,
+                        $mainCollection
+                    )
                 );
             }
         }
@@ -233,19 +269,21 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
     }
 
     /**
-     * Get particularie metadata from MySQL
+     * Get particularie metadata from jsin
      *
      * @param string $tableName
-     * @return \CrudGenerator\MetaData\Sources\MySQL\MetadataDataObjectMySQL
+     * @return \CrudGenerator\MetaData\Sources\Json\MetadataDataObjectJson
      */
     public function getMetadataFor($tableName, array $parentName = array())
     {
+        $avaibleData = array();
         foreach ($this->getAllMetadata() as $metadata) {
+            $avaibleData[] = $metadata->getName();
             if ($metadata->getName() === $tableName) {
                 return $metadata;
             }
         }
 
-        throw new \Exception(sprintf('"%s" not found', $tableName));
+        throw new \Exception(sprintf('"%s" not found in "%s"', $tableName, implode(', ', $avaibleData)));
     }
 }

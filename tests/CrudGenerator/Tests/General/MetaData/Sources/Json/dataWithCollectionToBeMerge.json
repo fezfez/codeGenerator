@@ -1,0 +1,13 @@
+{
+    "data": [
+        {
+            "name": "Tutu",
+            "foo": "Bar"
+        },
+        {
+            "name": "Titi",
+            "foo": "fuuuuu !",
+            "additional" : "data"
+        }
+    ]
+}
