@@ -15,7 +15,7 @@ use CrudGenerator\Generators\Questions\History\HistoryQuestionFactory;
 class HistoryBackboneFactory
 {
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface $context
      * @return HistoryBackbone
      */
     public static function getInstance(ContextInterface $context)

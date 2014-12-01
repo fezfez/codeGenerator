@@ -18,7 +18,7 @@ use CrudGenerator\MetaData\Driver\DriverConfig;
 interface FileDriverInterface
 {
     /**
-     * @param DriverConfig $driverConfig
+     * @param  DriverConfig    $driverConfig
      * @throws ConfigException
      * @return string
      */

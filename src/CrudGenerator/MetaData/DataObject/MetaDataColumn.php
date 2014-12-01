@@ -41,56 +41,61 @@ class MetaDataColumn
     /**
      * Set Column name
      *
-     * @param string $value
+     * @param  string                                            $value
      * @return \CrudGenerator\MetaData\DataObject\MetaDataColumn
      */
     public function setName($value)
     {
         $this->name = $value;
+
         return $this;
     }
     /**
      * Set Column type
      *
-     * @param string $value
+     * @param  string                                            $value
      * @return \CrudGenerator\MetaData\DataObject\MetaDataColumn
      */
     public function setType($value)
     {
         $this->type = $value;
+
         return $this;
     }
     /**
      * Set Column length
      *
-     * @param integer $value
+     * @param  integer                                           $value
      * @return \CrudGenerator\MetaData\DataObject\MetaDataColumn
      */
     public function setLength($value)
     {
         $this->length = $value;
+
         return $this;
     }
     /**
      * Set Column is nullable
      *
-     * @param boolean $value
+     * @param  boolean                                           $value
      * @return \CrudGenerator\MetaData\DataObject\MetaDataColumn
      */
     public function setNullable($value)
     {
         $this->nullable = $value;
+
         return $this;
     }
     /**
      * Set Column is a primary key
      *
-     * @param boolean $value
+     * @param  boolean                                           $value
      * @return \CrudGenerator\MetaData\DataObject\MetaDataColumn
      */
     public function setPrimaryKey($value)
     {
         $this->primaryKey = $value;
+
         return $this;
     }
 

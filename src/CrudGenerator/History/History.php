@@ -30,23 +30,25 @@ class History
     /**
      * Set Column name
      *
-     * @param string $value
+     * @param  string                         $value
      * @return \CrudGenerator\History\History
      */
     public function setName($value)
     {
         $this->name = $value;
+
         return $this;
     }
     /**
      * Set DataObject
      *
-     * @param GeneratorDataObject $value
+     * @param  GeneratorDataObject            $value
      * @return \CrudGenerator\History\History
      */
     public function addDataObject(GeneratorDataObject $value)
     {
         $this->dataObjects[] = $value;
+
         return $this;
     }
 

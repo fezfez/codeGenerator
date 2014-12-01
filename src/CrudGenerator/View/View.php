@@ -9,7 +9,6 @@
  */
 namespace CrudGenerator\View;
 
-use CrudGenerator\View\ViewRenderer;
 
 /**
  * Manage template renderer
@@ -38,7 +37,7 @@ class View
      *
      * @param string $path
      * @param string $templateName
-     * @param array $datas
+     * @param array  $datas
      */
     public function render($path, $templateName, array $datas)
     {

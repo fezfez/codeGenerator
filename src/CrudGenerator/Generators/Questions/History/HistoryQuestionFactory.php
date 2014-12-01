@@ -15,7 +15,7 @@ use CrudGenerator\Context\ContextInterface;
 class HistoryQuestionFactory
 {
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface                                            $context
      * @return \CrudGenerator\Generators\Questions\History\HistoryQuestion
      */
     public static function getInstance(ContextInterface $context)

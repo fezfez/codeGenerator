@@ -73,45 +73,49 @@ class GeneratorDataObject implements \JsonSerializable
     private $dependencies = array();
 
     /**
-     * @param DataObject $value
+     * @param  DataObject                                    $value
      * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     public function setDto(DataObject $value)
     {
         $this->dto = $value;
+
         return $this;
     }
     /**
-     * @param string $name
+     * @param  string                                        $name
      * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
     /**
-     * @param MetaDataSource $metadataSource
+     * @param  MetaDataSource                                $metadataSource
      * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     public function setMetadataSource(MetaDataSource $metadataSource)
     {
         $this->metadataSource = $metadataSource;
+
         return $this;
     }
     /**
-     * @param string $name
+     * @param  string                                        $name
      * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     public function setPath($name)
     {
         $this->path = realpath(dirname($name));
+
         return $this;
     }
 
     /**
-     * @param string $environnement
-     * @param string $value
+     * @param  string                                        $environnement
+     * @param  string                                        $value
      * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     public function addEnvironnementValue($environnement, $value)
@@ -125,22 +129,24 @@ class GeneratorDataObject implements \JsonSerializable
             $dependency->addEnvironnementValue($environnement, $value);
         }
         $this->environnement[$environnement] = $value;
+
         return $this;
     }
     /**
-     * @param GeneratorDataObject $generator
+     * @param  GeneratorDataObject                           $generator
      * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     public function addDependency(GeneratorDataObject $generator)
     {
         $this->dependencies[] = $generator;
+
         return $this;
     }
     /**
-     * @param string $skeletonPath
-     * @param string $name
-     * @param string $value
-     * @param string $result
+     * @param  string                                        $skeletonPath
+     * @param  string                                        $name
+     * @param  string                                        $value
+     * @param  string                                        $result
      * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     public function addFile($skeletonPath, $name, $value, $result = null)
@@ -149,7 +155,7 @@ class GeneratorDataObject implements \JsonSerializable
             'skeletonPath' => $skeletonPath,
             'fileName'     => $value,
             'name'         => $name,
-            'isWritable'   => is_writable(dirname($value))
+            'isWritable'   => is_writable(dirname($value)),
         );
 
         if (null !== $result) {
@@ -159,22 +165,24 @@ class GeneratorDataObject implements \JsonSerializable
         return $this;
     }
     /**
-     * @param string $name
-     * @param string $value
+     * @param  string                                        $name
+     * @param  string                                        $value
      * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     public function addDirectories($name, $value)
     {
         $this->directories[$name] = $value;
+
         return $this;
     }
     /**
-     * @param string $name
+     * @param  string                                        $name
      * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     public function addTemplateVariable($name, $value)
     {
         $this->templateVariable[$name] = $value;
+
         return $this;
     }
     /**
@@ -254,6 +262,7 @@ class GeneratorDataObject implements \JsonSerializable
     public function deleteFile($value)
     {
         unset($this->files[$value]);
+
         return $this;
     }
 
@@ -270,7 +279,7 @@ class GeneratorDataObject implements \JsonSerializable
             self::NAME              => $this->name,
             self::ENVIRONNEMENT     => $this->environnement,
             self::DEPENDENCIES      => $this->dependencies,
-            self::DTO               => $this->dto
+            self::DTO               => $this->dto,
         );
     }
 }

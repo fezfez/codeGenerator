@@ -9,7 +9,6 @@
  */
 namespace CrudGenerator\MetaData;
 
-use CrudGenerator\MetaData\MetaDataSourceFinder;
 use CrudGenerator\Utils\ClassAwake;
 
 /**

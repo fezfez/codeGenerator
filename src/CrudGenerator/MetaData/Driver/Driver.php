@@ -30,30 +30,33 @@ class Driver
     private $uniqueName = null;
 
     /**
-     * @param string $value
+     * @param  string $value
      * @return Driver
      */
     public function setDefinition($value)
     {
         $this->definition = $value;
+
         return $this;
     }
     /**
-     * @param DriverConfig $value
+     * @param  DriverConfig $value
      * @return Driver
      */
     public function setConfig(DriverConfig $value)
     {
         $this->config = $value;
+
         return $this;
     }
     /**
-     * @param string $value
+     * @param  string $value
      * @return Driver
      */
     public function setUniqueName($value)
     {
         $this->uniqueName = $value;
+
         return $this;
     }
     /**

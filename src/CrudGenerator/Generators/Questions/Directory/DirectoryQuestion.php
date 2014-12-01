@@ -16,7 +16,6 @@ use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
 use CrudGenerator\Context\CliContext;
-use CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum;
 use CrudGenerator\Context\SimpleQuestion;
 
 class DirectoryQuestion
@@ -44,7 +43,7 @@ class DirectoryQuestion
     private $context = null;
 
     /**
-     * @param FileManager $fileManager
+     * @param FileManager      $fileManager
      * @param ContextInterface $context
      */
     public function __construct(FileManager $fileManager, ContextInterface $context)
@@ -54,14 +53,14 @@ class DirectoryQuestion
     }
 
     /**
-     * @param GeneratorDataObject $generator
-     * @param array $question
+     * @param  GeneratorDataObject $generator
+     * @param  array               $question
      * @return GeneratorDataObject
      */
     public function ask(GeneratorDataObject $generator, array $question)
     {
-        $getter   = 'get' . $question['dtoAttribute'];
-        $setter   = 'set' . $question['dtoAttribute'];
+        $getter   = 'get'.$question['dtoAttribute'];
+        $setter   = 'set'.$question['dtoAttribute'];
         $required = (isset($question['required']) === true) ? $question['required'] : false;
 
         do {
@@ -85,8 +84,7 @@ class DirectoryQuestion
             $response = $this->context->askCollection($questionDTO);
             $response = $this->checkSpecialResponse($actualDirectory, $response);
 
-
-            if ($response !== null ) {
+            if ($response !== null) {
                 if ($response === self::CURRENT_DIRECTORY) {
                     $generator->getDto()->$setter($actualDirectory);
                     break;
@@ -94,15 +92,14 @@ class DirectoryQuestion
                     $generator->getDto()->$setter($response);
                 }
             }
-
-        } while($response !== null);
+        } while ($response !== null);
 
         return $generator;
     }
 
     /**
-     * @param string $actualDirectory
-     * @param string $response
+     * @param  string $actualDirectory
+     * @param  string $response
      * @return string
      */
     private function checkSpecialResponse($actualDirectory, $response)
@@ -121,7 +118,7 @@ class DirectoryQuestion
         return $response;
     }
     /**
-     * @param string $baseDirectory
+     * @param  string     $baseDirectory
      * @throws \Exception
      * @return string
      */
@@ -137,22 +134,22 @@ class DirectoryQuestion
             try {
                 $directory = $this->context->ask(new SimpleQuestion('Directory name', 'directory_name'));
 
-                if (false === $this->fileManager->ifDirDoesNotExistCreate($baseDirectory . $directory)) {
+                if (false === $this->fileManager->ifDirDoesNotExistCreate($baseDirectory.$directory)) {
                     throw new \Exception('Directory already exist');
                 } else {
                     break;
                 }
             } catch (\Exception $e) {
-                $this->context->log('<error>' . $e->getMessage() . '</error>');
+                $this->context->log('<error>'.$e->getMessage().'</error>');
             }
         }
 
-        return $directory . '/';
+        return $directory.'/';
     }
 
     /**
-     * @param string|null $actualDirectory
-     * @param PredefinedResponseCollection $responseCollection
+     * @param  string|null                  $actualDirectory
+     * @param  PredefinedResponseCollection $responseCollection
      * @return PredefinedResponseCollection
      */
     private function checkAdditionalChoices($actualDirectory, PredefinedResponseCollection $responseCollection)
@@ -177,14 +174,14 @@ class DirectoryQuestion
     }
 
     /**
-     * @param string|null $actualDirectory
-     * @param PredefinedResponseCollection $responseCollection
+     * @param  string|null                  $actualDirectory
+     * @param  PredefinedResponseCollection $responseCollection
      * @return PredefinedResponseCollection
      */
     private function buildDirectoryList($actualDirectory, PredefinedResponseCollection $responseCollection)
     {
         $directoriesRaw = $this->fileManager->glob(
-            $actualDirectory . '*',
+            $actualDirectory.'*',
             GLOB_ONLYDIR | GLOB_MARK
         );
 

@@ -11,7 +11,6 @@
 namespace CrudGenerator\Context;
 
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum;
 
 /**
  * Context interface used for the interaction with the user.
@@ -21,7 +20,7 @@ interface ContextInterface
 {
     /**
      * Ask question
-     * @param SimpleQuestion $question
+     * @param  SimpleQuestion $question
      * @return string
      */
     public function ask(SimpleQuestion $question);
@@ -38,8 +37,8 @@ interface ContextInterface
     /**
      * Ask question in confirm mode ex : "Do you want to eat the banana ?" yes/no
      *
-     * @param string $text
-     * @param string $uniqueKey
+     * @param  string  $text
+     * @param  string  $uniqueKey
      * @return boolean
      */
     public function confirm($text, $uniqueKey);
@@ -47,9 +46,9 @@ interface ContextInterface
     /**
      * Create a menu. The idea is to create an "tree decision"
      *
-     * @param string $text
-     * @param string $uniqueKey
-     * @param callable $runner
+     * @param  string   $text
+     * @param  string   $uniqueKey
+     * @param  callable $runner
      * @return void
      */
     public function menu($text, $uniqueKey, callable $runner);
@@ -57,8 +56,8 @@ interface ContextInterface
     /**
      * Log a text
      *
-     * @param string|array $text
-     * @param string $name
+     * @param  string|array $text
+     * @param  string       $name
      * @return void
      */
     public function log($text, $name = null);
@@ -66,7 +65,7 @@ interface ContextInterface
     /**
      * Publish the generatorDto
      *
-     * @param GeneratorDataObject $generator
+     * @param  GeneratorDataObject $generator
      * @return void
      */
     public function publishGenerator(GeneratorDataObject $generator);

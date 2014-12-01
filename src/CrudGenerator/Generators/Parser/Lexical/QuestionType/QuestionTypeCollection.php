@@ -22,7 +22,7 @@ class QuestionTypeCollection implements \IteratorAggregate
     }
 
     /**
-     * @param QuestionTypeInterface $value
+     * @param  QuestionTypeInterface                                                        $value
      * @return \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeCollection
      */
     public function append(QuestionTypeInterface $value)

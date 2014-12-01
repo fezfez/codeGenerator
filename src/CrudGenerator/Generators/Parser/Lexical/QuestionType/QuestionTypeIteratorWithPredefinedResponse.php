@@ -31,7 +31,7 @@ class QuestionTypeIteratorWithPredefinedResponse implements QuestionTypeInterfac
     private $iteratorValidator = null;
 
     /**
-     * @param ContextInterface $context
+     * @param ContextInterface  $context
      * @param IteratorValidator $iteratorValidator
      */
     public function __construct(ContextInterface $context, IteratorValidator $iteratorValidator)
@@ -49,7 +49,6 @@ class QuestionTypeIteratorWithPredefinedResponse implements QuestionTypeInterfac
         $iteratorParser = clone $parser;
 
         foreach ($iterator as $iteration) {
-
             $iteratorParser->addVariable('iteration', $iteration);
 
             $origine            = $iteratorParser->parse($question['iteration']['retrieveBy']);
@@ -67,7 +66,7 @@ class QuestionTypeIteratorWithPredefinedResponse implements QuestionTypeInterfac
 
             $questionWithPredefinedResponse = new QuestionWithPredefinedResponse(
                 $iteratorParser->parse($question['iteration']['text']),
-                'set_predefined_' . ucfirst($question['dtoAttribute']) . $origine,
+                'set_predefined_'.ucfirst($question['dtoAttribute']).$origine,
                 $responseCollection
             );
 

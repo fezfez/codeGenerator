@@ -41,9 +41,9 @@ class GeneratorFinder implements GeneratorFinderInterface
     /**
      * Constructor.
      *
-     * @param Transtyper $transtyper
+     * @param Transtyper         $transtyper
      * @param GeneratorValidator $generatorValidator
-     * @param FileManager $fileManager
+     * @param FileManager        $fileManager
      */
     public function __construct(
         Transtyper $transtyper,

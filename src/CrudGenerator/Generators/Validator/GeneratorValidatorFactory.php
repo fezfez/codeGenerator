@@ -25,7 +25,7 @@ class GeneratorValidatorFactory
     public static function getInstance()
     {
         $retriever = new UriRetriever();
-        $schema    = $retriever->retrieve('file://' . realpath(__DIR__ . '/ressources/generator-schema.json'));
+        $schema    = $retriever->retrieve('file://'.realpath(__DIR__.'/ressources/generator-schema.json'));
 
         return new GeneratorValidator($schema, new Validator(Constraint::CHECK_MODE_TYPE_CAST));
     }

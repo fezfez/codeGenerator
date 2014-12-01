@@ -9,17 +9,17 @@
  */
 namespace CrudGenerator\Storage;
 
-interface StorageInteface
+interface StorageInterface
 {
     /**
-     * @param array $args
-     * @param string $methodName
+     * @param  array   $args
+     * @param  string  $methodName
      * @return boolean
      */
     public function isValidStore(array $args, $methodName);
     /**
-     * @param array $args
-     * @param string $methodName
+     * @param  array   $args
+     * @param  string  $methodName
      * @return boolean
      */
     public function isValidAccess(array $args, $methodName);
@@ -28,7 +28,7 @@ interface StorageInteface
      */
     public function set(array $args);
     /**
-     * @param array $args
+     * @param  array $args
      * @return mixed
      */
     public function get(array $args);

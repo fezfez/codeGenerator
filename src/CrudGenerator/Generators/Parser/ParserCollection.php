@@ -29,22 +29,24 @@ class ParserCollection
     }
 
     /**
-     * @param ParserInterface $value
+     * @param  ParserInterface                                   $value
      * @return \CrudGenerator\Generators\Parser\ParserCollection
      */
     public function addPreParse(ParserInterface $value)
     {
         $this->preParser->append($value);
+
         return $this;
     }
 
     /**
-     * @param ParserInterface $value
+     * @param  ParserInterface                                   $value
      * @return \CrudGenerator\Generators\Parser\ParserCollection
      */
     public function addPostParse(ParserInterface $value)
     {
         $this->postParser->append($value);
+
         return $this;
     }
 

@@ -21,7 +21,7 @@ use CrudGenerator\Context\ContextInterface;
 class SandBoxStrategyFactory
 {
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface                                     $context
      * @throws \InvalidArgumentException
      * @return \CrudGenerator\Generators\Strategies\SandBoxStrategy
      */

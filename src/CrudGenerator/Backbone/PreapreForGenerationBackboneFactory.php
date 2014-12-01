@@ -18,7 +18,7 @@ use CrudGenerator\Generators\Parser\GeneratorParserProxyFactory;
 class PreapreForGenerationBackboneFactory
 {
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface                                     $context
      * @return \CrudGenerator\Backbone\PreapreForGenerationBackbone
      */
     public static function getInstance(ContextInterface $context)

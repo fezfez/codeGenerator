@@ -17,7 +17,7 @@ namespace CrudGenerator\MetaData\Driver;
 interface DriverInterface
 {
     /**
-     * @param DriverConfig $driverConfig
+     * @param  DriverConfig    $driverConfig
      * @throws ConfigException
      * @return boolean
      */

@@ -42,11 +42,11 @@ class Generator
     private $context = null;
 
     /**
-     * @param StrategyInterface $strategy
+     * @param StrategyInterface   $strategy
      * @param FileConflictManager $fileConflict
-     * @param FileManager $fileManager
-     * @param HistoryManager $historyManager
-     * @param ContextInterface $context
+     * @param FileManager         $fileManager
+     * @param HistoryManager      $historyManager
+     * @param ContextInterface    $context
      */
     public function __construct(
         StrategyInterface $strategy,
@@ -63,7 +63,7 @@ class Generator
     }
 
     /**
-     * @param GeneratorDataObject $generator
+     * @param  GeneratorDataObject $generator
      * @throws \Exception
      * @return GeneratorDataObject
      */
@@ -91,7 +91,7 @@ class Generator
             );
 
             $this->fileManager->filePutsContent($file['fileName'], $result);
-            $this->context->log('--> Create file ' . $file['fileName'], 'generationLog');
+            $this->context->log('--> Create file '.$file['fileName'], 'generationLog');
         }
 
         $this->historyManager->create($generator);
@@ -100,8 +100,8 @@ class Generator
     }
 
     /**
-     * @param GeneratorDataObject $generator
-     * @param string $fileName
+     * @param  GeneratorDataObject       $generator
+     * @param  string                    $fileName
      * @throws \InvalidArgumentException
      */
     public function generateFile(GeneratorDataObject $generator, $fileName)

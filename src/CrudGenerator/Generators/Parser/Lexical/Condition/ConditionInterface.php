@@ -22,9 +22,9 @@ interface ConditionInterface
     const DIFFERENT_EQUAL = '!=';
 
     /**
-     * @param array $plainTextCondition
-     * @param GeneratorDataObject $generator
-     * @param PhpStringParser $phpStringParser
+     * @param  array               $plainTextCondition
+     * @param  GeneratorDataObject $generator
+     * @param  PhpStringParser     $phpStringParser
      * @return boolean
      */
     public function isValid(

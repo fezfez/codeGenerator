@@ -25,7 +25,7 @@ use CrudGenerator\Generators\Parser\Lexical\QuestionRegister;
 class ParserCollectionFactory
 {
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface          $context
      * @throws \InvalidArgumentException
      * @return ParserCollection
      */

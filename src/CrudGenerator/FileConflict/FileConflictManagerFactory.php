@@ -16,7 +16,7 @@ use SebastianBergmann\Diff\Differ;
 class FileConflictManagerFactory
 {
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface          $context
      * @throws \InvalidArgumentException
      * @return FileConflictManager
      */

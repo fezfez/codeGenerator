@@ -14,7 +14,7 @@ use CrudGenerator\Context\ContextInterface;
 interface QuestionComplexFactoryInterface
 {
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface         $context
      * @return QuestionComplexInterface
      */
     public static function getInstance(ContextInterface $context);

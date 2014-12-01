@@ -23,7 +23,7 @@ use CrudGenerator\MetaData\Sources\MetaDataDAOFactoryConfigInterface;
 class JsonMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
 {
     /**
-     * @param DriverConfig $config
+     * @param  DriverConfig                                         $config
      * @throws \InvalidArgumentException
      * @return \CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAO
      */
@@ -40,7 +40,7 @@ class JsonMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
     }
 
     /**
-     * @param MetaDataSource $metadataSource
+     * @param  MetaDataSource $metadataSource
      * @return boolean
      */
     public static function checkDependencies(MetaDataSource $metadataSource)

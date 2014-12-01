@@ -11,5 +11,4 @@ namespace CrudGenerator;
 
 class EnvironnementNotDefinedException extends \Exception
 {
-
 }

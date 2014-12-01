@@ -16,5 +16,4 @@ namespace CrudGenerator\MetaData\Sources;
  */
 class MetaDataConfigException extends \Exception
 {
-
 }

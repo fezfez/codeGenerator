@@ -24,7 +24,7 @@ class PredefinedResponseCollection implements \IteratorAggregate
         $this->collection = new \ArrayIterator(array());
     }
     /**
-     * @param PredefinedResponse $value
+     * @param  PredefinedResponse                                  $value
      * @return \CrudGenerator\Context\PredefinedResponseCollection
      */
     public function append(PredefinedResponse $value)
@@ -43,7 +43,7 @@ class PredefinedResponseCollection implements \IteratorAggregate
     }
 
     /**
-     * @param string $idInSearch
+     * @param  string                      $idInSearch
      * @throws PredefinedResponseException
      * @return PredefinedResponse
      */
@@ -62,7 +62,7 @@ class PredefinedResponseCollection implements \IteratorAggregate
     }
 
     /**
-     * @param string $labelInSearch
+     * @param  string                      $labelInSearch
      * @throws PredefinedResponseException
      * @return PredefinedResponse
      */

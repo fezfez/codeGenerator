@@ -18,7 +18,7 @@ use CrudGenerator\Context\ContextInterface;
 class GeneratorInstallerProxyFactory
 {
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface                                            $context
      * @return \CrudGenerator\Generators\Installer\GeneratorInstallerProxy
      */
     public static function getInstance(ContextInterface $context)

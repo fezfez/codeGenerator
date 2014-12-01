@@ -29,7 +29,7 @@ class QuestionTypeIterator implements QuestionTypeInterface
     private $iteratorValidator = null;
 
     /**
-     * @param ContextInterface $context
+     * @param ContextInterface  $context
      * @param IteratorValidator $iteratorValidator
      */
     public function __construct(ContextInterface $context, IteratorValidator $iteratorValidator)
@@ -47,14 +47,13 @@ class QuestionTypeIterator implements QuestionTypeInterface
         $iteratorParser = clone $parser;
 
         foreach ($iterator as $iteration) {
-
             $iteratorParser->addVariable('iteration', $iteration);
 
             $origine = $iteratorParser->parse($questionRaw['iteration']['retrieveBy']);
 
             $question = new SimpleQuestion(
                 $iteratorParser->parse($questionRaw['iteration']['text']),
-                $questionRaw['setter'] . $origine
+                $questionRaw['setter'].$origine
             );
             $question->setDefaultResponse((isset($questionRaw['iteration']['response']['default']) === true)
                     ? $iteratorParser->parse($questionRaw['iteration']['response']['default']) : null);

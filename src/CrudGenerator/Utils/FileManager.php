@@ -20,20 +20,20 @@ class FileManager
 {
     /**
      * Create a directory
-     * @param string $pathname Dir to create
-     * @param boolean $recursive
+     * @param  string           $pathname  Dir to create
+     * @param  boolean          $recursive
      * @throws RuntimeException
      */
     public function mkdir($pathname, $recursive = false)
     {
         if (@mkdir($pathname, 0777, $recursive) === false) {
-            throw new RuntimeException(sprintf("Could't create %s", realpath(getcwd()) . $pathname));
+            throw new RuntimeException(sprintf("Could't create %s", realpath(getcwd()).$pathname));
         }
     }
 
     /**
      * Puts content into file
-     * @param string $path File path
+     * @param string $path    File path
      * @param string $content File Content
      */
     public function filePutsContent($path, $content)
@@ -55,6 +55,7 @@ class FileManager
         if ($return === false) {
             throw new \RuntimeException(sprintf("Could't load content %s", $path));
         }
+
         return $return;
     }
 
@@ -124,14 +125,15 @@ class FileManager
 
     /**
      * Create dir if not exist
-     * @param string $directory
-     * @param boolean $recursive
+     * @param  string  $directory
+     * @param  boolean $recursive
      * @return boolean
      */
     public function ifDirDoesNotExistCreate($directory, $recursive = false)
     {
         if ($this->isDir($directory) === false) {
             $this->mkdir($directory, $recursive);
+
             return true;
         } else {
             return false;
@@ -139,8 +141,8 @@ class FileManager
     }
 
     /**
-     * @param string $regex
-     * @param string|null $directory
+     * @param  string         $regex
+     * @param  string|null    $directory
      * @return \RegexIterator
      */
     public function searchFileByRegex($regex, $directory = null)

@@ -36,9 +36,9 @@ class PreapreForGenerationBackbone
 
     /**
      * @param MetadataSourceConfiguredQuestion $metadataSourceConfiguredQuestion
-     * @param MetadataQuestion $metadataQuestion
-     * @param GeneratorQuestion $generatorQuestion
-     * @param GeneratorParserInterface $generatorParser
+     * @param MetadataQuestion                 $metadataQuestion
+     * @param GeneratorQuestion                $generatorQuestion
+     * @param GeneratorParserInterface         $generatorParser
      */
     public function __construct(
         MetadataSourceConfiguredQuestion $metadataSourceConfiguredQuestion,

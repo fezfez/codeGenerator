@@ -37,7 +37,7 @@ class GeneratorSearch
     private $context = null;
 
     /**
-     * @param Client $packagistApiClient
+     * @param Client           $packagistApiClient
      * @param ContextInterface $context
      */
     public function __construct(Client $packagistApiClient, ContextInterface $context)

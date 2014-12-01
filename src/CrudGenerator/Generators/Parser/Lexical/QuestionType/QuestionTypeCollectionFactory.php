@@ -16,7 +16,7 @@ use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidatorFactory;
 class QuestionTypeCollectionFactory
 {
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface       $context
      * @return QuestionTypeCollection
      */
     public static function getInstance(ContextInterface $context)

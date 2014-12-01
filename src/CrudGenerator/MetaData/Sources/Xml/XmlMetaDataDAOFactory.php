@@ -26,7 +26,7 @@ class XmlMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
     const FILE_EXTENSION = '-from-xml.json';
 
     /**
-     * @param DriverConfig $config
+     * @param  DriverConfig              $config
      * @throws \InvalidArgumentException
      * @return XmlMetaDataDAO
      */
@@ -40,8 +40,8 @@ class XmlMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
             )
         );
 
-        $fileName = md5($config->getResponse('configUrl')) . self::FILE_EXTENSION;
-        $filePath = Installer::getDirectory(Installer::TMP) . $fileName;
+        $fileName = md5($config->getResponse('configUrl')).self::FILE_EXTENSION;
+        $filePath = Installer::getDirectory(Installer::TMP).$fileName;
 
         file_put_contents($filePath, $json);
 
@@ -53,7 +53,7 @@ class XmlMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
     }
 
     /**
-     * @param MetaDataSource $metadataSource
+     * @param  MetaDataSource $metadataSource
      * @return boolean
      */
     public static function checkDependencies(MetaDataSource $metadataSource)

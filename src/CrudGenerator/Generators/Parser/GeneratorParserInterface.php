@@ -20,8 +20,8 @@ use CrudGenerator\MetaData\DataObject\MetaDataInterface;
 interface GeneratorParserInterface
 {
     /**
-     * @param GeneratorDataObject $generator
-     * @param MetaDataInterface $metadata
+     * @param  GeneratorDataObject       $generator
+     * @param  MetaDataInterface         $metadata
      * @throws \InvalidArgumentException
      * @return GeneratorDataObject
      */

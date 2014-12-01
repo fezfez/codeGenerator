@@ -32,7 +32,7 @@ class HistoryQuestion
     private $context = null;
 
     /**
-     * @param HistoryManager $historyManager
+     * @param HistoryManager   $historyManager
      * @param ContextInterface $context
      */
     public function __construct(HistoryManager $historyManager, ContextInterface $context)

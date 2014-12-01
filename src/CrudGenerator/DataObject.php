@@ -37,22 +37,24 @@ class DataObject implements \JsonSerializable
 
     /**
      * Set MetaData
-     * @param MetaDataInterface $value
+     * @param  MetaDataInterface         $value
      * @return \CrudGenerator\DataObject
      */
     public function setMetadata(MetaDataInterface $value)
     {
         $this->metadata = $value;
+
         return $this;
     }
     /**
-     * @param string $environnement
-     * @param string $value
+     * @param  string                    $environnement
+     * @param  string                    $value
      * @return \CrudGenerator\DataObject
      */
     public function addEnvironnementValue($environnement, $value)
     {
         $this->environnement[$environnement] = $value;
+
         return $this;
     }
 
@@ -68,7 +70,7 @@ class DataObject implements \JsonSerializable
     /**
      * Get environnement
      *
-     * @param string $environnement
+     * @param  string                    $environnement
      * @throws \InvalidArgumentException
      * @return string
      */
@@ -87,8 +89,8 @@ class DataObject implements \JsonSerializable
     }
 
     /**
-     * @param string $method
-     * @param array $args
+     * @param  string     $method
+     * @param  array      $args
      * @throws \Exception
      * @return mixed
      */
@@ -108,8 +110,8 @@ class DataObject implements \JsonSerializable
     }
 
     /**
-     * @param array $args
-     * @param string $methodName
+     * @param  array      $args
+     * @param  string     $methodName
      * @throws \Exception
      * @return mixed
      */
@@ -125,8 +127,8 @@ class DataObject implements \JsonSerializable
     }
 
     /**
-     * @param array $args
-     * @param string $methodName
+     * @param  array                     $args
+     * @param  string                    $methodName
      * @throws \Exception
      * @return \CrudGenerator\DataObject
      */
@@ -155,8 +157,8 @@ class DataObject implements \JsonSerializable
     }
 
     /**
-     * @param array $question
-     * @param boolean $isIterable
+     * @param  array                     $question
+     * @param  boolean                   $isIterable
      * @return \CrudGenerator\DataObject
      */
     public function register(array $question, $isIterable)
@@ -181,7 +183,7 @@ class DataObject implements \JsonSerializable
     {
         return array(
             self::METADATA => $this->metadata,
-            self::STORE    => $this->store
+            self::STORE    => $this->store,
         );
     }
 }

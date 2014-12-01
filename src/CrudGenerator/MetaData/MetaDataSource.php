@@ -9,7 +9,6 @@
  */
 namespace CrudGenerator\MetaData;
 
-use CrudGenerator\MetaData\Sources\MetaDataConfigInterface;
 use CrudGenerator\MetaData\Driver\DriverConfig;
 use CrudGenerator\MetaData\Driver\Driver;
 use KeepUpdate\Annotations;
@@ -86,7 +85,7 @@ class MetaDataSource implements \JsonSerializable
 
     /**
      * Set name
-     * @param string $value
+     * @param  string                                 $value
      * @return \CrudGenerator\MetaData\MetaDataSource
      */
     public function setMetadataDao($value)
@@ -99,10 +98,11 @@ class MetaDataSource implements \JsonSerializable
             throw new \Exception('Wrong implementation');
         }
         $this->metaDataDAO = $value;
+
         return $this;
     }
     /**
-     * @param string $value
+     * @param  string                                 $value
      * @return \CrudGenerator\MetaData\MetaDataSource
      */
     public function setMetadataDaoFactory($value)
@@ -116,55 +116,61 @@ class MetaDataSource implements \JsonSerializable
         }
 
         $this->metaDataDAOFactory = $value;
+
         return $this;
     }
     /**
      * Set definition
-     * @param string $value
+     * @param  string                                 $value
      * @return \CrudGenerator\MetaData\MetaDataSource
      */
     public function setDefinition($value)
     {
         $this->definition = $value;
+
         return $this;
     }
     /**
      * Set false dependencie
-     * @param string $value
+     * @param  string                                 $value
      * @return \CrudGenerator\MetaData\MetaDataSource
      */
     public function setFalseDependencie($value)
     {
         $this->falseDependencies = $value;
+
         return $this;
     }
     /**
      * Set config
-     * @param DriverConfig $value
+     * @param  DriverConfig                           $value
      * @return \CrudGenerator\MetaData\MetaDataSource
      */
     public function setConfig(DriverConfig $value)
     {
         $this->config = $value;
+
         return $this;
     }
     /**
-     * @param Driver $value
+     * @param  Driver                                 $value
      * @return \CrudGenerator\MetaData\MetaDataSource
      */
     public function addDriverDescription(Driver $value)
     {
         $this->driversDescription[] = $value;
+
         return $this;
     }
     /**
      * Set unique name
-     * @param string $value
+     * @param  string                                 $value
      * @return \CrudGenerator\MetaData\MetaDataSource
      */
     public function setUniqueName($value)
     {
         $this->uniqueName = $value;
+
         return $this;
     }
 
@@ -246,7 +252,7 @@ class MetaDataSource implements \JsonSerializable
             self::METADATA_DAO         => $this->metaDataDAO,
             self::METADATA_DAO_FACTORY => $this->metaDataDAOFactory,
             self::FALSE_DEPENDENCIES   => $this->falseDependencies,
-            self::UNIQUE_NAME          => $this->getUniqueName()
+            self::UNIQUE_NAME          => $this->getUniqueName(),
         );
     }
 }

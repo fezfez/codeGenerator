@@ -12,8 +12,6 @@ namespace CrudGenerator\Generators\Parser\Lexical;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
-use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeCollection;
 use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator;
 
@@ -37,9 +35,9 @@ class QuestionParser implements ParserInterface
     private $questionAnalyser = null;
 
     /**
-     * @param ContextInterface $context
+     * @param ContextInterface       $context
      * @param QuestionTypeCollection $conditionValidator
-     * @param QuestionAnalyser $questionAnalyser
+     * @param QuestionAnalyser       $questionAnalyser
      */
     public function __construct(
         ContextInterface $context,
@@ -76,9 +74,9 @@ class QuestionParser implements ParserInterface
     }
 
     /**
-     * @param array $question
-     * @param PhpStringParser $parser
-     * @param GeneratorDataObject $generator
+     * @param  array               $question
+     * @param  PhpStringParser     $parser
+     * @param  GeneratorDataObject $generator
      * @return GeneratorDataObject
      */
     public function evaluateQuestions(array $question, PhpStringParser $parser, GeneratorDataObject $generator)

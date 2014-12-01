@@ -28,7 +28,7 @@ class GeneratorValidator
     private $validator = null;
 
     /**
-     * @param mixed $schema
+     * @param mixed     $schema
      * @param Validator $validator
      */
     public function __construct($schema, Validator $validator)
@@ -38,8 +38,8 @@ class GeneratorValidator
     }
 
     /**
-     * @param array $data
-     * @param MetaDataInterface $metadata
+     * @param  array                     $data
+     * @param  MetaDataInterface         $metadata
      * @throws \InvalidArgumentException
      */
     public function isValid(array $data, MetaDataInterface $metadata = null)

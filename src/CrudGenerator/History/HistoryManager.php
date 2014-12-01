@@ -10,9 +10,6 @@
 namespace CrudGenerator\History;
 
 use CrudGenerator\Utils\FileManager;
-use CrudGenerator\History\HistoryCollection;
-use CrudGenerator\History\History;
-use CrudGenerator\History\HistoryHydrator;
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Utils\Installer;
@@ -42,7 +39,7 @@ class HistoryManager
     private $historyHydrator = null;
 
     /**
-     * @param FileManager $fileManager
+     * @param FileManager     $fileManager
      * @param HistoryHydrator $historyHydrator
      */
     public function __construct(FileManager $fileManager, HistoryHydrator $historyHydrator)
@@ -69,14 +66,14 @@ class HistoryManager
             throw new \InvalidArgumentException('Metadata cant be empty');
         }
 
-        $fileName = $metadata->getName(). self::FILE_EXTENSION;
+        $fileName = $metadata->getName().self::FILE_EXTENSION;
 
-        if ($this->fileManager->isFile(Installer::BASE_PATH . self::HISTORY_PATH . $fileName) === true) {
-            $this->fileManager->unlink(Installer::BASE_PATH . self::HISTORY_PATH . $fileName);
+        if ($this->fileManager->isFile(Installer::BASE_PATH.self::HISTORY_PATH.$fileName) === true) {
+            $this->fileManager->unlink(Installer::BASE_PATH.self::HISTORY_PATH.$fileName);
         }
 
         $this->fileManager->filePutsContent(
-            Installer::BASE_PATH . self::HISTORY_PATH . $fileName,
+            Installer::BASE_PATH.self::HISTORY_PATH.$fileName,
             $this->historyHydrator->dtoToJson($dataObject)
         );
     }
@@ -88,17 +85,17 @@ class HistoryManager
      */
     public function findAll()
     {
-        if ($this->fileManager->isDir(Installer::BASE_PATH . self::HISTORY_PATH) === false) {
+        if ($this->fileManager->isDir(Installer::BASE_PATH.self::HISTORY_PATH) === false) {
             throw new EnvironnementResolverException(
                 sprintf(
                     'Unable to locate "%d"',
-                    Installer::BASE_PATH . self::HISTORY_PATH
+                    Installer::BASE_PATH.self::HISTORY_PATH
                 )
             );
         }
 
         $historyCollection = new HistoryCollection();
-        $searchPath        = Installer::BASE_PATH . self::HISTORY_PATH . '*' . self::FILE_EXTENSION;
+        $searchPath        = Installer::BASE_PATH.self::HISTORY_PATH.'*'.self::FILE_EXTENSION;
 
         foreach ($this->fileManager->glob($searchPath) as $file) {
             $content = $this->fileManager->fileGetContent($file);
@@ -114,13 +111,13 @@ class HistoryManager
     }
 
     /**
-     * @param string $historyName
+     * @param  string                         $historyName
      * @throws HistoryNotFound
      * @return \CrudGenerator\History\History
      */
     public function find($historyName)
     {
-        $filePath = Installer::BASE_PATH . self::HISTORY_PATH . $historyName . '.history.yaml';
+        $filePath = Installer::BASE_PATH.self::HISTORY_PATH.$historyName.'.history.yaml';
 
         if ($this->fileManager->isFile($filePath) === false) {
             throw new HistoryNotFoundException(

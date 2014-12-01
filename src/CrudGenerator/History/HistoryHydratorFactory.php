@@ -22,7 +22,7 @@ use KeepUpdate\ArrayValidatorFactory;
 class HistoryHydratorFactory
 {
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface                       $context
      * @return \CrudGenerator\History\HistoryHydrator
      */
     public static function getInstance(ContextInterface $context)

@@ -11,7 +11,6 @@ namespace CrudGenerator\Generators\Parser\Lexical;
 
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator;
 
 class TemplateVariableParser implements ParserInterface
@@ -51,10 +50,10 @@ class TemplateVariableParser implements ParserInterface
     }
 
     /**
-     * @param array $variable
-     * @param PhpStringParser $parser
-     * @param GeneratorDataObject $generator
-     * @param boolean $firstIteration
+     * @param  array               $variable
+     * @param  PhpStringParser     $parser
+     * @param  GeneratorDataObject $generator
+     * @param  boolean             $firstIteration
      * @return GeneratorDataObject
      */
     private function evaluateVariable(

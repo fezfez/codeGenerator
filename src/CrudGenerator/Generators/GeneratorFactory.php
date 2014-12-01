@@ -21,8 +21,8 @@ use CrudGenerator\History\HistoryFactory;
 class GeneratorFactory
 {
     /**
-     * @param ContextInterface $context
-     * @param StrategyInterface $strategy
+     * @param  ContextInterface          $context
+     * @param  StrategyInterface         $strategy
      * @throws \InvalidArgumentException
      * @return Generator
      */

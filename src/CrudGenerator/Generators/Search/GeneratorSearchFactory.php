@@ -19,7 +19,7 @@ use Packagist\Api\Client;
 class GeneratorSearchFactory
 {
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface $context
      * @return GeneratorSearch
      */
     public static function getInstance(ContextInterface $context)

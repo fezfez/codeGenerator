@@ -27,7 +27,7 @@ use Symfony\Component\Console\Input\InputOption;
 class GeneratorInstallerFactory
 {
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface                                       $context
      * @return \CrudGenerator\Generators\Installer\GeneratorInstaller
      */
     public static function getInstance(ContextInterface $context)

@@ -10,7 +10,6 @@
 namespace CrudGenerator\MetaData;
 
 use CrudGenerator\MetaData\Sources\MetaDataDAOCache;
-use CrudGenerator\Utils\Installer;
 use CrudGenerator\MetaData\Driver\DriverConfig;
 use CrudGenerator\Utils\FileManager;
 
@@ -21,9 +20,9 @@ use CrudGenerator\Utils\FileManager;
 class MetaDataSourceFactory
 {
     /**
-     * @param string $metadataSourceFactoryName
-     * @param DriverConfig $config
-     * @param boolean $noCache
+     * @param  string                                           $metadataSourceFactoryName
+     * @param  DriverConfig                                     $config
+     * @param  boolean                                          $noCache
      * @return \CrudGenerator\MetaData\Sources\MetaDataDAOCache
      */
     public function create($metadataSourceFactoryName, DriverConfig $config = null, $noCache = false)

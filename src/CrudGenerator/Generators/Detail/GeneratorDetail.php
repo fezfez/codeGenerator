@@ -31,7 +31,7 @@ class GeneratorDetail
     private $markdown = null;
 
     /**
-     * @param Repo $repository
+     * @param Repo     $repository
      * @param Markdown $markdown
      */
     public function __construct(Repo $repository, Markdown $markdown)
@@ -41,7 +41,7 @@ class GeneratorDetail
     }
 
     /**
-     * @param Result $package
+     * @param  Result $package
      * @return string
      */
     public function find(Result $package)
@@ -53,7 +53,7 @@ class GeneratorDetail
 
         return array(
             'readme' => $this->markdown->render(base64_decode($data['content'])),
-            'github' => $package->getRepository()
+            'github' => $package->getRepository(),
         );
     }
 }

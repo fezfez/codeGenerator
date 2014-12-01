@@ -15,7 +15,7 @@ use CrudGenerator\Context\ContextInterface;
 class MetaDataQuestionFactory
 {
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface                                              $context
      * @return \CrudGenerator\Generators\Questions\Metadata\MetaDataQuestion
      */
     public static function getInstance(ContextInterface $context)

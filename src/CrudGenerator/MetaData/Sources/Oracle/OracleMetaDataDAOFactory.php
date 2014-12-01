@@ -24,7 +24,7 @@ class OracleMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
     /**
      * Create PDO Metadata DAO instance
      *
-     * @param DriverConfig $config
+     * @param  DriverConfig      $config
      * @return OracleMetaDataDAO
      */
     public static function getInstance(DriverConfig $config)
@@ -37,7 +37,7 @@ class OracleMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
     }
 
     /**
-     * @param MetaDataSource $metadataSource
+     * @param  MetaDataSource $metadataSource
      * @return boolean
      */
     public static function checkDependencies(MetaDataSource $metadataSource)

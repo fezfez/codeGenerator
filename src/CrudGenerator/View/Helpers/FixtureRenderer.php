@@ -28,7 +28,7 @@ class FixtureRenderer
     }
 
     /**
-     * @param MetaDataColumn $metadata
+     * @param  MetaDataColumn $metadata
      * @return string
      */
     public function render(MetaDataColumn $metadata)
@@ -38,9 +38,9 @@ class FixtureRenderer
             $data = $this->faker->randomNumber();
         } elseif (in_array($metadata->getType(), array('string', 'text')) === true) {
             $data = ($metadata->getLength() === null) ?
-                        '"' . $this->faker->text(50) . '"' :
-                        '"' . ($metadata->getLength() <=  5) ?
-                            '"test"' : $this->faker->text($metadata->getLength()) . '"';
+                        '"'.$this->faker->text(50).'"' :
+                        '"'.($metadata->getLength() <=  5) ?
+                            '"test"' : $this->faker->text($metadata->getLength()).'"';
         } elseif ($metadata->getType() === 'date') {
             $data = 'new DateTime()';
         } elseif (in_array($metadata->getType(), array('bool', 'boolean')) === true) {

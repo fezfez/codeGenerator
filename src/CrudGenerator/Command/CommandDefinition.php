@@ -34,42 +34,46 @@ class CommandDefinition
     private $runner = null;
 
     /**
-     * @param string $value
+     * @param  string                                   $value
      * @return \CrudGenerator\Command\CommandDefinition
      */
     public function setAction($value)
     {
         $this->action = $value;
+
         return $this;
     }
 
     /**
-     * @param string $value
+     * @param  string                                   $value
      * @return \CrudGenerator\Command\CommandDefinition
      */
     public function setNamespace($value)
     {
         $this->namespace = $value;
+
         return $this;
     }
 
     /**
-     * @param string $value
+     * @param  string                                   $value
      * @return \CrudGenerator\Command\CommandDefinition
      */
     public function setDefinition($value)
     {
         $this->definition = $value;
+
         return $this;
     }
 
     /**
-     * @param callable $value
+     * @param  callable                                 $value
      * @return \CrudGenerator\Command\CommandDefinition
      */
     public function setRunner(callable $value)
     {
         $this->runner = $value;
+
         return $this;
     }
 

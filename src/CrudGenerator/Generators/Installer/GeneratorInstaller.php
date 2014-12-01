@@ -35,7 +35,7 @@ class GeneratorInstaller implements GeneratorInstallerInterface
 
     /**
      * @param ArrayInput $input
-     * @param OutputWeb $output
+     * @param OutputWeb  $output
      */
     public function __construct(
         ArrayInput $input,
@@ -48,13 +48,13 @@ class GeneratorInstaller implements GeneratorInstallerInterface
     }
 
     /**
-     * @param string $package
-     * @param string $version
+     * @param  string  $package
+     * @param  string  $version
      * @return integer
      */
     public function install($package, $version = 'dev-master')
     {
-        $this->input->setArgument('packages', array($package . ':' . $version));
+        $this->input->setArgument('packages', array($package.':'.$version));
         $this->output->write(sprintf('%s$ composer require %s:%s --no-update', getcwd(), $package, $version));
 
         return $this->requireCommand->run($this->input, $this->output);

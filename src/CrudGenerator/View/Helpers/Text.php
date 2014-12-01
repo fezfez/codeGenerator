@@ -12,8 +12,8 @@ namespace CrudGenerator\View\Helpers;
 class Text
 {
     /**
-     * @param string $value
-     * @param boolean $ucFirst
+     * @param  string  $value
+     * @param  boolean $ucFirst
      * @return string
      */
     public function toCamelCase($value, $ucFirst = false)

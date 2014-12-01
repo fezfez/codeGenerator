@@ -11,23 +11,18 @@ namespace CrudGenerator\MetaData\Config;
 
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Utils\ClassAwake;
 use CrudGenerator\MetaData\MetaDataSourceHydrator;
 use CrudGenerator\MetaData\MetaDataSourceCollection;
-use CrudGenerator\MetaData\Sources\MetadataConfig;
 use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Driver\DriverConfig;
 use CrudGenerator\Context\SimpleQuestion;
-use CrudGenerator\MetaData\Driver\DriverValidator;
-use CrudGenerator\MetaData\MetaDataSourceValidator;
 use CrudGenerator\Utils\Transtyper;
 use CrudGenerator\MetaData\Driver\DriverHydrator;
 use KeepUpdate\ArrayValidator;
 use KeepUpdate\ValidationException;
-use CrudGenerator\Generators\ResponseExpectedException;
 use CrudGenerator\Utils\Installer;
 
 class MetaDataConfigDAO
@@ -67,12 +62,12 @@ class MetaDataConfigDAO
     private $context = null;
 
     /**
-     * @param FileManager $fileManager
-     * @param Transtyper $transtyper
-     * @param ArrayValidator $arrayValidator
+     * @param FileManager            $fileManager
+     * @param Transtyper             $transtyper
+     * @param ArrayValidator         $arrayValidator
      * @param MetaDataSourceHydrator $metaDataSourceHydrator
-     * @param DriverHydrator $driverHydrator
-     * @param ContextInterface $context
+     * @param DriverHydrator         $driverHydrator
+     * @param ContextInterface       $context
      */
     public function __construct(
         FileManager $fileManager,
@@ -99,7 +94,7 @@ class MetaDataConfigDAO
     {
         $adapterCollection = new MetaDataSourceCollection();
 
-        foreach ($this->fileManager->glob(Installer::BASE_PATH . self::SOURCE_PATH . '*' . self::EXTENSION) as $file) {
+        foreach ($this->fileManager->glob(Installer::BASE_PATH.self::SOURCE_PATH.'*'.self::EXTENSION) as $file) {
             // Decode
             $config     = $this->transtyper->decode($this->fileManager->fileGetContent($file));
             // Validate
@@ -129,7 +124,7 @@ class MetaDataConfigDAO
     }
 
     /**
-     * @param MetaDataSource $source
+     * @param  MetaDataSource $source
      * @return MetaDataSource
      */
     public function save(MetaDataSource $source)
@@ -137,7 +132,7 @@ class MetaDataConfigDAO
         $source = $this->ask($source);
 
         $this->fileManager->filePutsContent(
-            Installer::BASE_PATH . self::SOURCE_PATH . md5($source->getUniqueName()) . self::EXTENSION,
+            Installer::BASE_PATH.self::SOURCE_PATH.md5($source->getUniqueName()).self::EXTENSION,
             json_encode($source->jsonSerialize())
         );
 
@@ -145,7 +140,7 @@ class MetaDataConfigDAO
     }
 
     /**
-     * @param MetaDataSource $source
+     * @param  MetaDataSource $source
      * @return MetaDataSource
      */
     public function ask(MetaDataSource $source)
@@ -176,13 +171,13 @@ class MetaDataConfigDAO
             } catch (ConfigException $e) {
                 $this->context->log($e->getMessage(), 'error');
             }
-        } while($notWellConfigured);
+        } while ($notWellConfigured);
 
         return $source;
     }
 
     /**
-     * @param MetaDataSource $source
+     * @param  MetaDataSource                        $source
      * @return \CrudGenerator\MetaData\Driver\Driver
      */
     private function askDriver(MetaDataSource $source)
@@ -190,7 +185,7 @@ class MetaDataConfigDAO
         $isUniqueDriver = $source->isUniqueDriver();
 
         // Dont ask witch driver
-        if($isUniqueDriver === true) {
+        if ($isUniqueDriver === true) {
             $driversFactory    = $source->getDriversDescription();
             $driverDescription = $driversFactory[0];
         } else {

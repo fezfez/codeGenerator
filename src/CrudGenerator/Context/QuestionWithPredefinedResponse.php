@@ -21,8 +21,8 @@ class QuestionWithPredefinedResponse extends SimpleQuestion
     private $preselectedResponse = null;
 
     /**
-     * @param string $text
-     * @param string $uniqueKey
+     * @param string                       $text
+     * @param string                       $uniqueKey
      * @param PredefinedResponseCollection $predefinedResponseCollection
      */
     public function __construct($text, $uniqueKey, PredefinedResponseCollection $predefinedResponseCollection)
@@ -36,7 +36,7 @@ class QuestionWithPredefinedResponse extends SimpleQuestion
      * a response id this reponse will be automatically
      * selected
      *
-     * @param string $value
+     * @param  string                         $value
      * @return QuestionWithPredefinedResponse
      */
     public function setPreselectedResponse($value)

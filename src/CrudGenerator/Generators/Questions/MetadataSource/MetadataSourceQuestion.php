@@ -29,7 +29,7 @@ class MetadataSourceQuestion
 
     /**
      * @param MetaDataSourceFinder $metadataSourceFinder
-     * @param ContextInterface $context
+     * @param ContextInterface     $context
      */
     public function __construct(MetaDataSourceFinder $metadataSourceFinder, ContextInterface $context)
     {
@@ -40,7 +40,7 @@ class MetadataSourceQuestion
     /**
      * Ask witch MetaData Source you want to use
      *
-     * @param string $choice
+     * @param  string                                 $choice
      * @return \CrudGenerator\MetaData\MetaDataSource
      */
     public function ask($choice = null)
@@ -49,7 +49,7 @@ class MetadataSourceQuestion
 
         foreach ($this->metadataSourceFinder->getAllAdapters() as $backend) {
             /* @var $backend \CrudGenerator\MetaData\MetaDataSource */
-            if(null === $backend->getFalseDependencies()) {
+            if (null === $backend->getFalseDependencies()) {
                 $responseCollection->append(
                     new PredefinedResponse($backend->getMetadataDaoFactory(), $backend->getDefinition(), $backend)
                 );

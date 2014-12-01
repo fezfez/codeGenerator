@@ -18,8 +18,8 @@ class ClassAwake
 {
     /**
      * Awake classes by interface
-     * @param string[] $directories Target directory
-     * @param string $interfaceNames Interface name
+     * @param  string[] $directories    Target directory
+     * @param  string   $interfaceNames Interface name
      * @return array
      */
     public function wakeByInterfaces(array $directories, $interfaceNames)
@@ -42,7 +42,7 @@ class ClassAwake
 
     /**
      * Find classes on directory
-     * @param string[] $directories Target directory
+     * @param  string[] $directories Target directory
      * @return array
      */
     private function awake(array $directories)
@@ -54,7 +54,7 @@ class ClassAwake
                     new \RecursiveDirectoryIterator($directorie, \FilesystemIterator::SKIP_DOTS),
                     \RecursiveIteratorIterator::LEAVES_ONLY
                 ),
-                '/^.+' . preg_quote('.php') . '$/i',
+                '/^.+'.preg_quote('.php').'$/i',
                 \RecursiveRegexIterator::GET_MATCH
             );
 

@@ -12,7 +12,6 @@ namespace CrudGenerator\Generators\Parser\Lexical;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator;
 use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
 
@@ -32,9 +31,9 @@ class FileParser implements ParserInterface
     private $iterationValidator = null;
 
     /**
-     * @param FileManager $fileManager
+     * @param FileManager        $fileManager
      * @param ConditionValidator $conditionValidator
-     * @param IteratorValidator $iterationValidator
+     * @param IteratorValidator  $iterationValidator
      */
     public function __construct(
         FileManager $fileManager,
@@ -51,7 +50,7 @@ class FileParser implements ParserInterface
      */
     public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
     {
-        $skeletonPath = $generator->getPath() . '/Skeleton/';
+        $skeletonPath = $generator->getPath().'/Skeleton/';
 
         if (false === $this->fileManager->isDir($skeletonPath)) {
             throw new MalformedGeneratorException(
@@ -64,7 +63,6 @@ class FileParser implements ParserInterface
         }
 
         foreach ($process['filesList'] as $file) {
-
             $file = $this->checkIsFileIsWellFormed($file, $skeletonPath);
 
             if ($this->conditionValidator->isValid($file, $generator, $parser) === true) {
@@ -76,8 +74,8 @@ class FileParser implements ParserInterface
     }
 
     /**
-     * @param mixed $file
-     * @param string $skeletonPath
+     * @param  mixed                       $file
+     * @param  string                      $skeletonPath
      * @throws MalformedGeneratorException
      * @return array
      */
@@ -98,7 +96,7 @@ class FileParser implements ParserInterface
                 sprintf('No destinationPath provided in file "%s"', json_encode($file))
             );
         }
-        if ($this->fileManager->isFile($skeletonPath . $file['templatePath']) === false) {
+        if ($this->fileManager->isFile($skeletonPath.$file['templatePath']) === false) {
             throw new MalformedGeneratorException(
                 sprintf('TemplatePath does not exist in file "%s"', json_encode($file))
             );
@@ -108,11 +106,11 @@ class FileParser implements ParserInterface
     }
 
     /**
-     * @param array $file
-     * @param PhpStringParser $parser
-     * @param GeneratorDataObject $generator
-     * @param boolean $firstIteration
-     * @param string $skeletonPath
+     * @param  array               $file
+     * @param  PhpStringParser     $parser
+     * @param  GeneratorDataObject $generator
+     * @param  boolean             $firstIteration
+     * @param  string              $skeletonPath
      * @return GeneratorDataObject
      */
     private function evaluateFile(
@@ -123,7 +121,6 @@ class FileParser implements ParserInterface
     ) {
         $generator = clone $generator;
         if (isset($file['iteration']) === true) {
-
             $iterator           = $this->iterationValidator->retrieveValidIteration($file, $generator, $parser);
             $overIteratorParser = clone $parser;
 
@@ -136,7 +133,6 @@ class FileParser implements ParserInterface
                     $overIteratorParser->parse($file['destinationPath'])
                 );
             }
-
         } else {
             $generator->addFile(
                 $skeletonPath,

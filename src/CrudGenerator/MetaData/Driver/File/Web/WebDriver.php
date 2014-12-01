@@ -52,6 +52,7 @@ class WebDriver implements FileDriverInterface, DriverInterface
     public function isValid(DriverConfig $driverConfig)
     {
         $this->getFile($driverConfig);
+
         return true;
     }
 

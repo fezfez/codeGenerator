@@ -44,13 +44,13 @@ class MainBackbone
     private $context = null;
 
     /**
-     * @param HistoryBackbone $historyBackbone
-     * @param SearchGeneratorBackbone $searchGeneratorBackbone
+     * @param HistoryBackbone              $historyBackbone
+     * @param SearchGeneratorBackbone      $searchGeneratorBackbone
      * @param PreapreForGenerationBackbone $preapreForGenerationBackbone
-     * @param GenerateFileBackbone $generateFileBackbone
-     * @param GenerateBackbone $generateBackbone
-     * @param CreateSourceBackbone $createSourceBackbone
-     * @param ContextInterface $context
+     * @param GenerateFileBackbone         $generateFileBackbone
+     * @param GenerateBackbone             $generateBackbone
+     * @param CreateSourceBackbone         $createSourceBackbone
+     * @param ContextInterface             $context
      */
     public function __construct(
         HistoryBackbone $historyBackbone,
@@ -72,7 +72,7 @@ class MainBackbone
 
     public function run()
     {
-        $generate = function($generator) {
+        $generate = function ($generator) {
             if (true === $this->context->confirm('Preview a file ?', 'view_file')) {
                 $this->generateFileBackbone->run($generator);
             }
@@ -84,7 +84,7 @@ class MainBackbone
         $this->context->menu(
             'Create new metadataSource',
             'create_metadatasource',
-            function() {
+            function () {
                 $this->createSourceBackbone->run();
             }
         );
@@ -92,7 +92,7 @@ class MainBackbone
         $this->context->menu(
             'Wake history',
             'select_history',
-            function() use ($generate) {
+            function () use ($generate) {
                 $generator = $this->historyBackbone->run();
                 $parser = GeneratorParserFactory::getInstance($this->context);
                 $generator = $parser->init($generator, $generator->getDto()->getMetadata());
@@ -103,7 +103,7 @@ class MainBackbone
         $this->context->menu(
             'Search generator',
             'search_generator',
-            function() {
+            function () {
                 $this->searchGeneratorBackbone->run();
             }
         );
@@ -111,7 +111,7 @@ class MainBackbone
         $this->context->menu(
             'Generate',
             'generate',
-            function() use ($generate) {
+            function () use ($generate) {
                 $generator = $this->preapreForGenerationBackbone->run();
                 $this->context->publishGenerator($generator);
 

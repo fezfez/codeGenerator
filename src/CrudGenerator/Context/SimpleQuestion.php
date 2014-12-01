@@ -65,7 +65,7 @@ class SimpleQuestion
     }
 
     /**
-     * @param mixed $value
+     * @param  mixed                                 $value
      * @return \CrudGenerator\Context\SimpleQuestion
      */
     public function setText($value)
@@ -76,7 +76,7 @@ class SimpleQuestion
     }
 
     /**
-     * @param mixed $value
+     * @param  mixed                                 $value
      * @return \CrudGenerator\Context\SimpleQuestion
      */
     public function setUniqueKey($value)
@@ -87,7 +87,7 @@ class SimpleQuestion
     }
 
     /**
-     * @param string|null $value
+     * @param  string|null                           $value
      * @return \CrudGenerator\Context\SimpleQuestion
      */
     public function setDefaultResponse($value)
@@ -98,7 +98,7 @@ class SimpleQuestion
     }
 
     /**
-     * @param mixed $value
+     * @param  mixed                                 $value
      * @return \CrudGenerator\Context\SimpleQuestion
      */
     public function setRequired($value)
@@ -109,7 +109,7 @@ class SimpleQuestion
     }
 
     /**
-     * @param string $value
+     * @param  string                                $value
      * @return \CrudGenerator\Context\SimpleQuestion
      */
     public function setHelpMessage($value)
@@ -120,7 +120,7 @@ class SimpleQuestion
     }
 
     /**
-     * @param string $value
+     * @param  string                                $value
      * @return \CrudGenerator\Context\SimpleQuestion
      */
     public function setType($value)
@@ -131,7 +131,7 @@ class SimpleQuestion
     }
 
     /**
-     * @param QuestionResponseTypeEnum $value
+     * @param  QuestionResponseTypeEnum              $value
      * @return \CrudGenerator\Context\SimpleQuestion
      */
     public function setResponseType(QuestionResponseTypeEnum $value)
@@ -147,7 +147,7 @@ class SimpleQuestion
      * will be throw
      *
      * @param boolean $value
-     * @param string $customeExceptionMessage
+     * @param string  $customeExceptionMessage
      *
      * @return \CrudGenerator\Context\SimpleQuestion
      */

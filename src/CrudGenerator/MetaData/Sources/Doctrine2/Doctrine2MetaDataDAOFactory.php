@@ -47,16 +47,18 @@ class Doctrine2MetaDataDAOFactory implements MetaDataDAOSimpleFactoryInterface
     }
 
     /**
-     * @param MetaDataSource $metadataSource
+     * @param  MetaDataSource $metadataSource
      * @return boolean
      */
     public static function checkDependencies(MetaDataSource $metadataSource)
     {
         try {
             ZendFramework2Environnement::getDependence(new FileManager());
+
             return true;
         } catch (EnvironnementResolverException $e) {
             $metadataSource->setFalseDependencie($e->getMessage());
+
             return false;
         }
     }

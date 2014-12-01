@@ -21,7 +21,7 @@ use Github\Api\Markdown;
 class GeneratorDetailFactory
 {
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface $context
      * @return GeneratorDetail
      */
     public static function getInstance(ContextInterface $context)

@@ -10,8 +10,6 @@
 namespace CrudGenerator\View;
 
 use CrudGenerator\Utils\ClassAwake;
-use CrudGenerator\View\View;
-use CrudGenerator\View\ViewRenderer;
 
 /**
  * View manager factory
@@ -30,7 +28,7 @@ class ViewFactory
         $classAwake  = new ClassAwake();
         $viewHelpers = $classAwake->wakeByInterfaces(
             array(
-                __DIR__ . '/../'
+                __DIR__.'/../',
             ),
             'CrudGenerator\View\ViewHelperFactoryInterface'
         );

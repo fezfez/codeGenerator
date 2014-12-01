@@ -26,7 +26,7 @@ interface MetaDataDAOInterface
     /**
      * Get particularie metadata from the concrete metadata DAO
      *
-     * @param string $entityName
+     * @param  string                                      $entityName
      * @return \CrudGenerator\MetaData\DataObject\MetaData
      */
     public function getMetadataFor($entityName, array $parentName = array());

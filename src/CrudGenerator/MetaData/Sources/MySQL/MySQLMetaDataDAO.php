@@ -11,7 +11,6 @@ namespace CrudGenerator\MetaData\Sources\MySQL;
 
 use PDO;
 use CrudGenerator\MetaData\Sources\MetaDataDAOInterface;
-use CrudGenerator\MetaData\Sources\MySQL\MetadataDataObjectMySQL;
 use CrudGenerator\MetaData\DataObject\MetaDataCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumn;
@@ -28,7 +27,7 @@ class MySQLMetaDataDAO implements MetaDataDAOInterface
      * @var array
      */
     private $typeConversion = array(
-        'character varying' => 'text'
+        'character varying' => 'text',
     );
     /**
      * Pdo stmt
@@ -45,7 +44,7 @@ class MySQLMetaDataDAO implements MetaDataDAOInterface
 
     /**
      * MySQL adapter
-     * @param PDO $pdo
+     * @param PDO          $pdo
      * @param DriverConfig $pdoConfig
      */
     public function __construct(PDO $pdo, DriverConfig $pdoConfig)
@@ -76,7 +75,7 @@ class MySQLMetaDataDAO implements MetaDataDAOInterface
     /**
      * Get particularie metadata from MySQL
      *
-     * @param string $tableName
+     * @param  string                                                        $tableName
      * @return \CrudGenerator\MetaData\Sources\MySQL\MetadataDataObjectMySQL
      */
     public function getMetadataFor($tableName, array $parentName = array())
@@ -86,7 +85,7 @@ class MySQLMetaDataDAO implements MetaDataDAOInterface
 
     /**
      * Convert MySQL mapping to CrudGenerator mapping
-     * @param array $metadataCollection
+     * @param  array                                                 $metadataCollection
      * @return \CrudGenerator\MetaData\DataObject\MetaDataCollection
      */
     private function pdoMetadataToGeneratorMetadata(array $metadataCollection)
@@ -104,7 +103,7 @@ class MySQLMetaDataDAO implements MetaDataDAOInterface
 
     /**
      * Convert MySQL mapping to CodeGenerator mapping
-     * @param string $tableName
+     * @param  string                  $tableName
      * @return MetadataDataObjectMySQL
      */
     private function hydrateDataObject($tableName, array $parentName = array())
@@ -133,7 +132,7 @@ class MySQLMetaDataDAO implements MetaDataDAOInterface
         $statement->execute(
             array(
                 ':tableName'    => $tableName,
-                ':databaseName' => $this->pdoConfig->getResponse('configDatabaseName')
+                ':databaseName' => $this->pdoConfig->getResponse('configDatabaseName'),
             )
         );
 
@@ -157,8 +156,8 @@ class MySQLMetaDataDAO implements MetaDataDAOInterface
     }
 
     /**
-     * @param MetadataDataObjectMySQL $dataObject
-     * @param array $allFields
+     * @param  MetadataDataObjectMySQL $dataObject
+     * @param  array                   $allFields
      * @return MetadataDataObjectMySQL
      */
     private function hydrateFields(MetadataDataObjectMySQL $dataObject, array $allFields)
@@ -186,9 +185,9 @@ class MySQLMetaDataDAO implements MetaDataDAOInterface
     }
 
     /**
-     * @param MetadataDataObjectMySQL $dataObject
-     * @param array $columnsAssociation
-     * @param array $parentName
+     * @param  MetadataDataObjectMySQL $dataObject
+     * @param  array                   $columnsAssociation
+     * @param  array                   $parentName
      * @return MetadataDataObjectMySQL
      */
     private function hydrateRelation(MetadataDataObjectMySQL $dataObject, array $columnsAssociation, array $parentName)

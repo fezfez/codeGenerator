@@ -30,7 +30,7 @@ class MetaDataQuestion
 
     /**
      * @param MetaDataSourceFactory $metaDataSourceFactory
-     * @param ContextInterface $context
+     * @param ContextInterface      $context
      */
     public function __construct(
         MetaDataSourceFactory $metaDataSourceFactory,
@@ -41,7 +41,7 @@ class MetaDataQuestion
     }
 
     /**
-     * @param MetaDataSource $metadataSource
+     * @param  MetaDataSource                                   $metadataSource
      * @return \CrudGenerator\MetaData\Sources\MetaDataDAOCache
      */
     private function getMetadataDao(MetaDataSource $metadataSource)
@@ -58,8 +58,8 @@ class MetaDataQuestion
 
     /**
      * Ask wich metadata you want to use
-     * @param MetaDataSource $metadataSource
-     * @param string|null $choice
+     * @param  MetaDataSource                              $metadataSource
+     * @param  string|null                                 $choice
      * @throws ResponseExpectedException
      * @return \CrudGenerator\MetaData\DataObject\MetaData
      */

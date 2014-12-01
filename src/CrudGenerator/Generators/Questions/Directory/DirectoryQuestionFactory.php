@@ -15,7 +15,7 @@ use CrudGenerator\Context\ContextInterface;
 class DirectoryQuestionFactory
 {
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface                                                $context
      * @return \CrudGenerator\Generators\Questions\Directory\DirectoryQuestion
      */
     public static function getInstance(ContextInterface $context)

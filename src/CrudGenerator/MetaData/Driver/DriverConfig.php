@@ -9,7 +9,6 @@
  */
 namespace CrudGenerator\MetaData\Driver;
 
-use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
 use KeepUpdate\Annotations;
 
 /**
@@ -58,7 +57,7 @@ class DriverConfig implements \JsonSerializable
     }
 
     /**
-     * @param string $value
+     * @param  string                                      $value
      * @return \CrudGenerator\MetaData\Driver\DriverConfig
      */
     public function setDriver($value)
@@ -77,7 +76,7 @@ class DriverConfig implements \JsonSerializable
     }
 
     /**
-     * @param string $value
+     * @param  string                                      $value
      * @return \CrudGenerator\MetaData\Driver\DriverConfig
      */
     public function setMetadataDaoFactory($value)
@@ -96,8 +95,8 @@ class DriverConfig implements \JsonSerializable
     }
 
     /**
-     * @param string $attribute
-     * @param string $response
+     * @param  string                                      $attribute
+     * @param  string                                      $response
      * @return \CrudGenerator\MetaData\Driver\DriverConfig
      */
     public function response($attribute, $response)
@@ -108,13 +107,14 @@ class DriverConfig implements \JsonSerializable
     }
 
     /**
-     * @param string $description
-     * @param string $attribute
+     * @param  string                                      $description
+     * @param  string                                      $attribute
      * @return \CrudGenerator\MetaData\Driver\DriverConfig
      */
     public function addQuestion($description, $attribute)
     {
         $this->question[] = array(self::QUESTION_DESCRIPTION => $description, self::QUESTION_ATTRIBUTE => $attribute);
+
         return $this;
     }
 
@@ -127,7 +127,7 @@ class DriverConfig implements \JsonSerializable
     }
 
     /**
-     * @param string $attribute
+     * @param  string      $attribute
      * @return string|null
      */
     public function getResponse($attribute)
@@ -168,7 +168,7 @@ class DriverConfig implements \JsonSerializable
             self::SOURCE_FACTORY => $this->metadataDaoFactory,
             self::FACTORY        => $this->driver,
             self::RESPONSE       => $this->response,
-            self::UNIQUE_NAME    => $this->uniqueName
+            self::UNIQUE_NAME    => $this->uniqueName,
         );
     }
 }

@@ -14,7 +14,7 @@ use CrudGenerator\MetaData\Driver\DriverConfig;
 class FileDriverFactory
 {
     /**
-     * @param DriverConfig $driverConfig
+     * @param  DriverConfig                                            $driverConfig
      * @throws \Exception
      * @return \CrudGenerator\MetaData\Driver\File\FileDriverInterface
      */
@@ -31,7 +31,7 @@ class FileDriverFactory
         if (in_array('CrudGenerator\MetaData\Driver\File\FileDriverInterface', class_implements($driver)) === true) {
             return $driver;
         } else {
-            throw new \Exception('Driver must be a file driver ' . json_encode(class_implements($driver)));
+            throw new \Exception('Driver must be a file driver '.json_encode(class_implements($driver)));
         }
     }
 }

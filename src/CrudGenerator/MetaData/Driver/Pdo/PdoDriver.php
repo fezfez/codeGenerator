@@ -34,7 +34,7 @@ class PdoDriver implements DriverInterface
     const ORACLE = 'Oracle';
 
     /**
-     * @param DriverConfig $config
+     * @param  DriverConfig    $config
      * @throws ConfigException
      * @return \PDO
      */
@@ -59,23 +59,23 @@ class PdoDriver implements DriverInterface
     }
 
     /**
-     * @param DriverConfig $config
+     * @param  DriverConfig $config
      * @throws \Exception
      * @return string
      */
     private function retrieveDsn(DriverConfig $config)
     {
         if ($config->getResponse('dsn') === self::MYSQL) {
-            $dsn = 'mysql:host=' . $config->getResponse('configHost') . ';dbname=';
+            $dsn = 'mysql:host='.$config->getResponse('configHost').';dbname=';
         } elseif ($config->getResponse('dsn') === self::POSTGRESQL) {
-            $dsn = 'pgsql:host=' . $config->getResponse('configHost') . ';dbname=';
+            $dsn = 'pgsql:host='.$config->getResponse('configHost').';dbname=';
         } elseif ($config->getResponse('dsn') === self::ORACLE) {
-            $dsn = '//' . $config->getResponse('configHost') . '/';
+            $dsn = '//'.$config->getResponse('configHost').'/';
         } else {
             throw new \Exception('Dsn not found');
         }
 
-        return $dsn . $config->getResponse('configDatabaseName');
+        return $dsn.$config->getResponse('configDatabaseName');
     }
 
     /* (non-PHPdoc)
@@ -84,6 +84,7 @@ class PdoDriver implements DriverInterface
     public function isValid(DriverConfig $driverConfig)
     {
         $this->getConnection($driverConfig);
+
         return true;
     }
 }

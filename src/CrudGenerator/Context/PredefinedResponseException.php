@@ -9,8 +9,6 @@
  */
 namespace CrudGenerator\Context;
 
-
 class PredefinedResponseException extends \Exception
 {
-
 }

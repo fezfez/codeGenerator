@@ -33,7 +33,7 @@ class GeneratorQuestion
 
     /**
      * @param GeneratorFinderInterface $generatorFinder
-     * @param ContextInterface $context
+     * @param ContextInterface         $context
      */
     public function __construct(GeneratorFinderInterface $generatorFinder, ContextInterface $context)
     {
@@ -42,7 +42,7 @@ class GeneratorQuestion
     }
 
     /**
-     * @param MetaDataInterface $metadata
+     * @param  MetaDataInterface                      $metadata
      * @return \CrudGenerator\Context\ResponseContext
      */
     public function ask(MetaDataInterface $metadata)

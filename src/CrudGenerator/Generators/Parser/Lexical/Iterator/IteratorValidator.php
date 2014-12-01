@@ -29,9 +29,9 @@ class IteratorValidator
     }
 
     /**
-     * @param array $node
-     * @param GeneratorDataObject $generator
-     * @param PhpStringParser $phpStringParser
+     * @param  array                     $node
+     * @param  GeneratorDataObject       $generator
+     * @param  PhpStringParser           $phpStringParser
      * @throws \InvalidArgumentException
      * @return array
      */

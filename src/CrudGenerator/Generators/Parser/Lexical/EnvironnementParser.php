@@ -11,12 +11,10 @@ namespace CrudGenerator\Generators\Parser\Lexical;
 
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Parser\Lexical\ParserInterface;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
-use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 
 class EnvironnementParser implements ParserInterface
 {
@@ -60,11 +58,11 @@ class EnvironnementParser implements ParserInterface
     }
 
     /**
-     * @param string $environnementName
-     * @param array $environnements
-     * @param PhpStringParser $parser
-     * @param GeneratorDataObject $generator
-     * @param boolean $firstIteration
+     * @param  string              $environnementName
+     * @param  array               $environnements
+     * @param  PhpStringParser     $parser
+     * @param  GeneratorDataObject $generator
+     * @param  boolean             $firstIteration
      * @return GeneratorDataObject
      */
     private function evaluateQuestions(
@@ -86,8 +84,8 @@ class EnvironnementParser implements ParserInterface
         }
 
         $question = new QuestionWithPredefinedResponse(
-            $environnementName . ' environnement',
-            'environnement_' . $environnementName,
+            $environnementName.' environnement',
+            'environnement_'.$environnementName,
             $responseCollection
         );
 

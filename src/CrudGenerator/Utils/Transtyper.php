@@ -17,7 +17,7 @@ class Transtyper
     /**
      * @param string $string
      *
-     * @return string  A PHP value
+     * @return string A PHP value
      */
     public function encode($string)
     {
@@ -27,7 +27,7 @@ class Transtyper
     /**
      * @param string $string
      *
-     * @return mixed  A PHP value
+     * @return mixed A PHP value
      */
     public function decode($string, $assoc = true)
     {

@@ -14,7 +14,6 @@ use CrudGenerator\Utils\Transtyper;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Parser\ParserCollection;
 use CrudGenerator\Generators\Finder\GeneratorFinderInterface;
 use CrudGenerator\Generators\Validator\GeneratorValidator;
 use CrudGenerator\MetaData\DataObject\MetaDataInterface;
@@ -52,11 +51,11 @@ class GeneratorParser implements GeneratorParserInterface
     private $generatorValidator = null;
 
     /**
-     * @param FileManager $fileManager
-     * @param Transtyper $transtyper
-     * @param PhpStringParser $phpStringParser
+     * @param FileManager              $fileManager
+     * @param Transtyper               $transtyper
+     * @param PhpStringParser          $phpStringParser
      * @param GeneratorFinderInterface $generatorFinder
-     * @param ParserCollection $parserCollection
+     * @param ParserCollection         $parserCollection
      */
     public function __construct(
         FileManager $fileManager,
@@ -86,11 +85,11 @@ class GeneratorParser implements GeneratorParserInterface
     }
 
     /**
-     * @param string $name
-     * @param PhpStringParser $phpParser
-     * @param GeneratorDataObject $generator
-     * @param MetaDataInterface $metadata
-     * @param boolean $firstIteration
+     * @param  string                                        $name
+     * @param  PhpStringParser                               $phpParser
+     * @param  GeneratorDataObject                           $generator
+     * @param  MetaDataInterface                             $metadata
+     * @param  boolean                                       $firstIteration
      * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     private function analyze(
@@ -123,9 +122,9 @@ class GeneratorParser implements GeneratorParserInterface
     /**
      * Analyze the dependencies generator
      *
-     * @param array $process
-     * @param PhpStringParser $phpParser
-     * @param GeneratorDataObject $generator
+     * @param  array                                         $process
+     * @param  PhpStringParser                               $phpParser
+     * @param  GeneratorDataObject                           $generator
      * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     private function analyzeDependencies(array $process, PhpStringParser $phpParser, GeneratorDataObject $generator)
@@ -145,7 +144,7 @@ class GeneratorParser implements GeneratorParserInterface
     }
 
     /**
-     * @param GeneratorDataObject $generator
+     * @param  GeneratorDataObject $generator
      * @return GeneratorDataObject
      */
     private function addDependenciesVariablesToMainGenerator(GeneratorDataObject $generator)
@@ -168,10 +167,10 @@ class GeneratorParser implements GeneratorParserInterface
     /**
      * Analyze pre parser
      *
-     * @param array $process
-     * @param PhpStringParser $phpParser
-     * @param GeneratorDataObject $generator
-     * @param boolean $firstIteration
+     * @param  array                                         $process
+     * @param  PhpStringParser                               $phpParser
+     * @param  GeneratorDataObject                           $generator
+     * @param  boolean                                       $firstIteration
      * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     private function analyzePreParser(
@@ -194,10 +193,10 @@ class GeneratorParser implements GeneratorParserInterface
     /**
      * Analyze post parser
      *
-     * @param array $process
-     * @param PhpStringParser $phpParser
-     * @param GeneratorDataObject $generator
-     * @param boolean $firstIteration
+     * @param  array                                         $process
+     * @param  PhpStringParser                               $phpParser
+     * @param  GeneratorDataObject                           $generator
+     * @param  boolean                                       $firstIteration
      * @return \CrudGenerator\Generators\GeneratorDataObject
      */
     private function analyzePostParser(

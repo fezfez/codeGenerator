@@ -23,7 +23,7 @@ class PhpStringParser
 
     /**
      * @param \Twig_Environment $twig
-     * @param array $variables
+     * @param array             $variables
      */
     public function __construct(\Twig_Environment $twig, array $variables = array())
     {
@@ -32,18 +32,19 @@ class PhpStringParser
     }
 
     /**
-     * @param string $name
-     * @param mixed $value
+     * @param  string          $name
+     * @param  mixed           $value
      * @return PhpStringParser
      */
     public function addVariable($name, $value)
     {
         $this->variables[$name] = $value;
+
         return $this;
     }
 
     /**
-     * @param string $name
+     * @param  string  $name
      * @return boolean
      */
     public function issetVariable($name)
@@ -52,7 +53,7 @@ class PhpStringParser
     }
 
     /**
-     * @param string $string
+     * @param  string $string
      * @return string
      */
     public function parse($string)
@@ -66,7 +67,7 @@ class PhpStringParser
     /**
      * Interpret a php plain text
      *
-     * @param string $text A php call as plain text example : $foo->bar()->baz()
+     * @param  string                    $text A php call as plain text example : $foo->bar()->baz()
      * @throws \InvalidArgumentException
      * @return mixed
      */
@@ -83,7 +84,7 @@ class PhpStringParser
         }
 
         $textExplode = array_map(
-            function($value) {
+            function ($value) {
                 return str_replace('()', '', $value);
             },
             $textExplode

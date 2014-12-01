@@ -50,8 +50,8 @@ class FileConflictManager
 
     /**
      * @param ContextInterface $context
-     * @param FileManager $fileManager
-     * @param Differ $diffPHP
+     * @param FileManager      $fileManager
+     * @param Differ           $diffPHP
      */
     public function __construct(
         ContextInterface $context,
@@ -65,8 +65,8 @@ class FileConflictManager
 
     /**
      * Test if there is a file conflict
-     * @param string $filePath File location
-     * @param string $newResult
+     * @param  string  $filePath  File location
+     * @param  string  $newResult
      * @return boolean
      */
     public function test($filePath, $newResult)
@@ -78,8 +78,8 @@ class FileConflictManager
     /**
      * Handle the file conflict
      *
-     * @param string $filePath
-     * @param string $results
+     * @param  string                    $filePath
+     * @param  string                    $results
      * @throws ResponseExpectedException
      */
     public function handle($filePath, $results)
@@ -100,20 +100,19 @@ class FileConflictManager
 
         $question = new QuestionWithPredefinedResponse(
             sprintf('File "%s" already exist, erase it with the new', $filePath),
-            'conflict' . $filePath,
+            'conflict'.$filePath,
             $responseCollection
         );
 
         $question->setShutdownWithoutResponse(true, sprintf('Conflict with file "%s" not resolved', $filePath));
 
         while (($response = $this->context->askCollection($question)) !== null) {
-
             $response = intval($response);
 
             if ($response === self::SHOW_DIFF) {
                 // write to output the diff
                 $this->context->log(
-                    '<info>' . $this->diffPHP->diff($results, $this->fileManager->fileGetContent($filePath)) . '</info>'
+                    '<info>'.$this->diffPHP->diff($results, $this->fileManager->fileGetContent($filePath)).'</info>'
                 );
             } else {
                 break;
@@ -123,16 +122,16 @@ class FileConflictManager
         if ($response === self::POSTPONE) {
             //Generate the diff file
             $this->fileManager->filePutsContent(
-                $filePath . '.diff',
+                $filePath.'.diff',
                 $this->diffPHP->diff(
                     $results,
                     $this->fileManager->fileGetContent($filePath)
                 )
             );
-            $this->context->log('--> Generate diff and new file ' . $filePath . '.diff', 'generationLog');
+            $this->context->log('--> Generate diff and new file '.$filePath.'.diff', 'generationLog');
         } elseif ($response === self::ERASE) {
             $this->fileManager->filePutsContent($filePath, $results);
-            $this->context->log('--> Replace file ' . $filePath, 'generationLog');
+            $this->context->log('--> Replace file '.$filePath, 'generationLog');
         }
     }
 }

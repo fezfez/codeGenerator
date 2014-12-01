@@ -41,8 +41,8 @@ class DependencyCondition implements ConditionInterface
     }
 
     /**
-     * @param array $generatorDependencies
-     * @param string $dependencyName
+     * @param  array   $generatorDependencies
+     * @param  string  $dependencyName
      * @return boolean
      */
     private function differentCondition(array $generatorDependencies, $dependencyName)
@@ -62,8 +62,8 @@ class DependencyCondition implements ConditionInterface
     }
 
     /**
-     * @param array $generatorDependencies
-     * @param string $dependencyName
+     * @param  array   $generatorDependencies
+     * @param  string  $dependencyName
      * @return boolean
      */
     private function equalCondition(array $generatorDependencies, $dependencyName)

@@ -25,7 +25,7 @@ class HistoryBackbone
     private $context = null;
 
     /**
-     * @param HistoryQuestion $historyQuestion
+     * @param HistoryQuestion  $historyQuestion
      * @param ContextInterface $context
      */
     public function __construct(HistoryQuestion $historyQuestion, ContextInterface $context)
@@ -42,6 +42,7 @@ class HistoryBackbone
         try {
             $generator = $this->historyQuestion->ask();
             $this->context->publishGenerator($generator);
+
             return $generator;
         } catch (EmptyHistoryException $e) {
             $this->context->log("Generation history empty", "history_empty");

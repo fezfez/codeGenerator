@@ -35,7 +35,7 @@ class PredefinedResponse
     /**
      * @param string $id
      * @param string $label
-     * @param mixed $response
+     * @param mixed  $response
      */
     public function __construct($id, $label, $response)
     {
@@ -46,46 +46,50 @@ class PredefinedResponse
     /**
      * The response Identification
      *
-     * @param string $value
+     * @param  string                                    $value
      * @return \CrudGenerator\Context\PredefinedResponse
      */
     public function setId($value)
     {
         $this->id = $value;
+
         return $this;
     }
 
     /**
      * The response text
      *
-     * @param string $value
+     * @param  string                                    $value
      * @return \CrudGenerator\Context\PredefinedResponse
      */
     public function setLabel($value)
     {
         $this->label = $value;
+
         return $this;
     }
     /**
      * If the user choice this response, this value would be returned
      *
-     * @param mixed $value
+     * @param  mixed                                     $value
      * @return \CrudGenerator\Context\PredefinedResponse
      */
     public function setResponse($value)
     {
         $this->response = $value;
+
         return $this;
     }
     /**
      * Additional data will be added only in WebContext
      *
-     * @param array $value
+     * @param  array                                     $value
      * @return \CrudGenerator\Context\PredefinedResponse
      */
     public function setAdditionalData(array $value)
     {
         $this->additionalData = $value;
+
         return $this;
     }
 

@@ -9,7 +9,6 @@
  */
 namespace CrudGenerator\View;
 
-use CrudGenerator\View\ViewRendererException;
 use CrudGenerator\EnvironnementNotDefinedException;
 
 /**
@@ -35,8 +34,8 @@ class ViewRenderer
     /**
      * Interprete the file
      *
-     * @param string $path
-     * @param string $templateName
+     * @param  string    $path
+     * @param  string    $templateName
      * @throws Exception
      * @return string
      */
@@ -44,15 +43,15 @@ class ViewRenderer
     {
         try {
             ob_start();
-            include $path . $templateName;
+            include $path.$templateName;
             $content = ob_get_clean();
-        } catch(EnvironnementNotDefinedException $e) {
+        } catch (EnvironnementNotDefinedException $e) {
             ob_end_clean();
             throw new ViewRendererException($e->getMessage());
         } catch (\Exception $ex) {
             ob_end_clean();
             throw new ViewRendererException(
-                'In : "' . realpath($path . $templateName) . '" ' . $ex->getMessage() . ' Line ' . $ex->getLine()
+                'In : "'.realpath($path.$templateName).'" '.$ex->getMessage().' Line '.$ex->getLine()
             );
         }
 
@@ -62,7 +61,7 @@ class ViewRenderer
     /**
      * Interprete the file
      *
-     * @param string $path
+     * @param  string    $path
      * @throws Exception
      * @return string
      */
@@ -75,7 +74,7 @@ class ViewRenderer
         } catch (\Exception $ex) {
             ob_end_clean();
             throw new ViewRendererException(
-                'In : "' . realpath($path) . '" ' . $ex->getMessage() . ' Line ' . $ex->getLine()
+                'In : "'.realpath($path).'" '.$ex->getMessage().' Line '.$ex->getLine()
             );
         }
 
@@ -83,18 +82,19 @@ class ViewRenderer
     }
 
     /**
-     * @param string $name
+     * @param  string                $name
      * @throws ViewRendererException
      */
     public function getHelper($name)
     {
-        $name = $name . 'Factory';
+        $name = $name.'Factory';
         if (isset($this->helpers[$name]) === true) {
             $className = $this->helpers[$name];
+
             return $className::getInstance();
         } else {
             throw new ViewRendererException(
-                'Helper ' . $name . ' does not exist'
+                'Helper '.$name.' does not exist'
             );
         }
     }

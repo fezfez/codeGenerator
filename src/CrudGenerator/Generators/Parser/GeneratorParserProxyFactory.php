@@ -19,7 +19,7 @@ use CrudGenerator\Context\ContextInterface;
 class GeneratorParserProxyFactory
 {
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface     $context
      * @return GeneratorParserProxy
      */
     public static function getInstance(ContextInterface $context)

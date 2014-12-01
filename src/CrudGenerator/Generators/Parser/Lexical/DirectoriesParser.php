@@ -11,7 +11,6 @@ namespace CrudGenerator\Generators\Parser\Lexical;
 
 use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 
 class DirectoriesParser implements ParserInterface
 {
@@ -33,5 +32,5 @@ class DirectoriesParser implements ParserInterface
         }
 
         return $generator;
-   }
+    }
 }

@@ -21,13 +21,13 @@ interface GeneratorFinderInterface
     /**
      * Find all adapters allow in project
      *
-     * @param MetaDataInterface $metadata
+     * @param  MetaDataInterface $metadata
      * @return array
      */
     public function getAllClasses(MetaDataInterface $metadata = null);
 
     /**
-     * @param string $name
+     * @param  string                    $name
      * @throws \InvalidArgumentException
      * @return string
      */

@@ -12,8 +12,6 @@ namespace CrudGenerator\MetaData\Config;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\MetaData\MetaDataSourceHydratorFactory;
-use CrudGenerator\Utils\ClassAwake;
-use CrudGenerator\MetaData\Driver\DriverValidator;
 use CrudGenerator\Utils\TranstyperFactory;
 use KeepUpdate\ArrayValidatorFactory;
 use CrudGenerator\MetaData\Driver\DriverHydrator;
@@ -21,7 +19,7 @@ use CrudGenerator\MetaData\Driver\DriverHydrator;
 class MetaDataConfigDAOFactory
 {
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface                                 $context
      * @return \CrudGenerator\MetaData\Config\MetaDataConfigDAO
      */
     public static function getInstance(ContextInterface $context)

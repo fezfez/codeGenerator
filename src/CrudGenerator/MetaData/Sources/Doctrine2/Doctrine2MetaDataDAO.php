@@ -10,7 +10,6 @@
 namespace CrudGenerator\MetaData\Sources\Doctrine2;
 
 use CrudGenerator\MetaData\Sources\MetaDataDAOInterface;
-use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
 use CrudGenerator\MetaData\DataObject\MetaDataCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
@@ -65,7 +64,7 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
     /**
      * Getting metadata for a particulary entity
      *
-     * @param string $entityName name of entity
+     * @param  string                      $entityName name of entity
      * @return MetadataDataObjectDoctrine2
      */
     public function getMetadataFor($entityName, array $parentName = array())
@@ -79,7 +78,7 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
     /**
      * Transform a doctrine2 metadata into generator metadata
      *
-     * @param array $metadataCollection array of metadata
+     * @param  array              $metadataCollection array of metadata
      * @return MetaDataCollection
      */
     private function doctrine2MetadataToGeneratorMetadata(array $metadataCollection)
@@ -98,7 +97,7 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
     /**
      * Transform a doctrine2 metadata into generator metadata
      *
-     * @param ClassMetadataInfo $metadata Concret metadata
+     * @param  ClassMetadataInfo           $metadata Concret metadata
      * @return MetadataDataObjectDoctrine2
      */
     private function hydrateDataObject(ClassMetadata $metadata, array $parentName = array())
@@ -129,9 +128,9 @@ class Doctrine2MetaDataDAO implements MetaDataDAOInterface
     }
 
     /**
-     * @param ClassMetadataInfo $metadata
-     * @param MetadataDataObjectDoctrine2 $dataObject
-     * @param array $parentName
+     * @param  ClassMetadataInfo           $metadata
+     * @param  MetadataDataObjectDoctrine2 $dataObject
+     * @param  array                       $parentName
      * @return MetadataDataObjectDoctrine2
      */
     private function hydrateAssociation(

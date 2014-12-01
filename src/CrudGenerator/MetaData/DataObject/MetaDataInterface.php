@@ -31,12 +31,12 @@ interface MetaDataInterface
      */
     public function setName($value);
     /**
-     * @param string $name
+     * @param  string $name
      * @return mixed
      */
     public function getColumn($name);
     /**
-     * @param string $name
+     * @param  string $name
      * @return mixed
      */
     public function getRelation($name);

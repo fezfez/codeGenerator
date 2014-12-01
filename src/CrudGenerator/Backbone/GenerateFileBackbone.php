@@ -32,7 +32,7 @@ class GenerateFileBackbone
     private $context = null;
 
     /**
-     * @param Generator $generator
+     * @param Generator        $generator
      * @param ContextInterface $context
      */
     public function __construct(Generator $generator, ContextInterface $context)

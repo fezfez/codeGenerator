@@ -12,8 +12,6 @@ namespace CrudGenerator\Backbone;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\Questions\MetadataSource\MetadataSourceQuestion;
 use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
-use CrudGenerator\MetaData\Config\ConfigException;
-use CrudGenerator\Generators\ResponseExpectedException;
 
 class CreateSourceBackbone
 {
@@ -34,8 +32,8 @@ class CreateSourceBackbone
      * Constructor.
      *
      * @param MetadataSourceQuestion $metadataSourceQuestion
-     * @param MetaDataConfigDAO $metaDataConfigDAO
-     * @param ContextInterface $context
+     * @param MetaDataConfigDAO      $metaDataConfigDAO
+     * @param ContextInterface       $context
      */
     public function __construct(
         MetadataSourceQuestion $metadataSourceQuestion,

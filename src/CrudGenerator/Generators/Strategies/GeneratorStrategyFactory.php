@@ -26,7 +26,7 @@ class GeneratorStrategyFactory
     private static $instance = null;
 
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface                                       $context
      * @throws \InvalidArgumentException
      * @return \CrudGenerator\Generators\Strategies\GeneratorStrategy
      */

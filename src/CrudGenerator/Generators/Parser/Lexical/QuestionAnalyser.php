@@ -9,12 +9,11 @@
  */
 namespace CrudGenerator\Generators\Parser\Lexical;
 
-use CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException;
 
 class QuestionAnalyser
 {
     /**
-     * @param array $question
+     * @param  array                       $question
      * @throws MalformedGeneratorException
      * @return array
      */
@@ -23,7 +22,7 @@ class QuestionAnalyser
         $questionDefinition = $this->getDefinition();
         $question           = $this->parseMandatory($questionDefinition, $question);
         $question           = $this->parseOptional($questionDefinition, $question);
-        $question['setter'] = 'set' . ucfirst($question['dtoAttribute']);
+        $question['setter'] = 'set'.ucfirst($question['dtoAttribute']);
 
         if ($question['type']->is(QuestionTypeEnum::ITERATOR_WITH_PREDEFINED_RESPONSE) === true) {
             if (isset($question['iteration']) === false) {
@@ -49,8 +48,8 @@ class QuestionAnalyser
     }
 
     /**
-     * @param array $questionDefinition
-     * @param array $question
+     * @param  array                       $questionDefinition
+     * @param  array                       $question
      * @throws \InvalidArgumentException
      * @throws MalformedGeneratorException
      * @return array
@@ -73,9 +72,9 @@ class QuestionAnalyser
     }
 
     /**
-     * @param array $question
-     * @param string $tag
-     * @param array $definition
+     * @param  array                     $question
+     * @param  string                    $tag
+     * @param  array                     $definition
      * @throws \InvalidArgumentException
      * @return array
      */
@@ -95,8 +94,8 @@ class QuestionAnalyser
     }
 
     /**
-     * @param array $questionDefinition
-     * @param array $question
+     * @param  array $questionDefinition
+     * @param  array $question
      * @return array
      */
     private function parseMandatory(array $questionDefinition, array $question)
@@ -117,28 +116,28 @@ class QuestionAnalyser
     {
         return array(
             'mandatory' => array(
-                'dtoAttribute'
+                'dtoAttribute',
             ),
             'optional' => array(
                 'required' => array(
-                    'default' => false
+                    'default' => false,
                 ),
                 'helpMessage' => array(
-                    'default' => null
+                    'default' => null,
                 ),
                 'responseType' => array(
-                    'enum' => 'CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum'
+                    'enum' => 'CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum',
                 ),
                 'type' => array(
-                    'enum' => 'CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum'
-                )
-            )
+                    'enum' => 'CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum',
+                ),
+            ),
         );
     }
 
     /**
-     * @param array $question
-     * @param string $missingAttr
+     * @param  array                       $question
+     * @param  string                      $missingAttr
      * @throws MalformedGeneratorException
      */
     private function throwException(array $question, $missingAttr)

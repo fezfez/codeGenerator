@@ -9,7 +9,6 @@
  */
 namespace CrudGenerator\MetaData;
 
-use CrudGenerator\MetaData\MetaDataSourceCollection;
 use CrudGenerator\Utils\ClassAwake;
 
 /**
@@ -30,7 +29,7 @@ class MetaDataSourceFinder
 
     /**
      * Find all adapters allow in project
-     * @param ClassAwake $classAwake
+     * @param ClassAwake             $classAwake
      * @param MetaDataSourceHydrator $metaDataSourceHydrator
      */
     public function __construct(ClassAwake $classAwake, MetaDataSourceHydrator $metaDataSourceHydrator)
@@ -48,7 +47,7 @@ class MetaDataSourceFinder
     {
         $classCollection = $this->classAwake->wakeByInterfaces(
             array(
-                __DIR__ . '/Sources/'
+                __DIR__.'/Sources/',
             ),
             'CrudGenerator\MetaData\Sources\MetaDataDAOFactoryInterface'
         );

@@ -32,7 +32,7 @@ class MetadataSourceConfiguredQuestion
 
     /**
      * @param MetaDataConfigDAO $metadataSourceConfigDAO
-     * @param ContextInterface $context
+     * @param ContextInterface  $context
      */
     public function __construct(MetaDataConfigDAO $metadataSourceConfigDAO, ContextInterface $context)
     {
@@ -43,7 +43,7 @@ class MetadataSourceConfiguredQuestion
     /**
      * Ask witch MetaData Source you want to use
      *
-     * @param string $choice
+     * @param  string                                 $choice
      * @throws ResponseExpectedException
      * @return \CrudGenerator\MetaData\MetaDataSource
      */
@@ -58,7 +58,7 @@ class MetadataSourceConfiguredQuestion
 
         foreach ($sourceConfiguredCollection as $backend) {
             /* @var $backend \CrudGenerator\MetaData\MetaDataSource */
-            if(null === $backend->getFalseDependencies()) {
+            if (null === $backend->getFalseDependencies()) {
                 $responseCollection->append(
                     new PredefinedResponse($backend->getUniqueName(), $backend->getUniqueName(), $backend)
                 );

@@ -61,7 +61,7 @@ class OracleMetaDataDAO implements MetaDataDAOInterface
     /**
      * Get particularie metadata from PDO
      *
-     * @param string $tableName
+     * @param  string                   $tableName
      * @return MetadataDataObjectOracle
      */
     public function getMetadataFor($tableName, array $parentName = array())
@@ -71,7 +71,7 @@ class OracleMetaDataDAO implements MetaDataDAOInterface
 
     /**
      * Convert PDOmapping to CrudGenerator mapping
-     * @param array $metadataCollection
+     * @param  array                                                 $metadataCollection
      * @return \CrudGenerator\MetaData\DataObject\MetaDataCollection
      */
     private function pdoMetadataToGeneratorMetadata(array $metadataCollection)
@@ -101,7 +101,7 @@ class OracleMetaDataDAO implements MetaDataDAOInterface
         $tableName = $data['TABLE_NAME'];
         $owner     = $data['OWNER'];
 
-        $dataObject->setName($owner . '/' . $tableName);
+        $dataObject->setName($owner.'/'.$tableName);
         $columnDataObject = new MetaDataColumn();
 
         $statement = $this->pdo->prepare(
@@ -145,7 +145,7 @@ class OracleMetaDataDAO implements MetaDataDAOInterface
     }
 
     /**
-     * @param string $tableName
+     * @param  string $tableName
      * @return array
      */
     private function getIdentifiers($owner, $tableName)

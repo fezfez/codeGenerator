@@ -13,7 +13,6 @@ use CrudGenerator\Utils\TranstyperFactory;
 use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\PhpStringParserFactory;
 use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
-use CrudGenerator\Generators\Parser\ParserCollectionFactory;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\Validator\GeneratorValidatorFactory;
 
@@ -25,7 +24,7 @@ use CrudGenerator\Generators\Validator\GeneratorValidatorFactory;
 class GeneratorParserFactory
 {
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface $context
      * @return GeneratorParser
      */
     public static function getInstance(ContextInterface $context)

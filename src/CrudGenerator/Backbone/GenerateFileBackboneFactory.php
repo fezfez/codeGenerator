@@ -16,7 +16,7 @@ use CrudGenerator\Generators\Strategies\GeneratorStrategyFactory;
 class GenerateFileBackboneFactory
 {
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface     $context
      * @return GenerateFileBackbone
      */
     public static function getInstance(ContextInterface $context)

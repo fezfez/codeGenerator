@@ -17,8 +17,8 @@ interface QuestionTypeInterface
     /**
      * Build the question and ask them
      *
-     * @param array $question
-     * @param PhpStringParser $parser
+     * @param array               $question
+     * @param PhpStringParser     $parser
      * @param GeneratorDataObject $generator
      *
      * @return GeneratorDataObject

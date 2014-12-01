@@ -9,7 +9,6 @@
  */
 namespace CrudGenerator\MetaData\DataObject;
 
-use CrudGenerator\MetaData\DataObject\MetaData;
 
 /**
  * Represent relation between Metadata
@@ -43,42 +42,46 @@ class MetaDataRelationColumn
 
     /**
      * Set full name
-     * @param string $value
+     * @param  string                                                    $value
      * @return \CrudGenerator\MetaData\DataObject\MetaDataRelationColumn
      */
     public function setFullName($value)
     {
         $this->fullName = $value;
+
         return $this;
     }
     /**
      * Set name
-     * @param string $value
+     * @param  string                                                    $value
      * @return \CrudGenerator\MetaData\DataObject\MetaDataRelationColumn
      */
     public function setFieldName($value)
     {
         $this->fieldName = $value;
+
         return $this;
     }
     /**
      * Set association type
-     * @param string $value
+     * @param  string                                                    $value
      * @return \CrudGenerator\MetaData\DataObject\MetaDataRelationColumn
      */
     public function setAssociationType($value)
     {
         $this->associationType = $value;
+
         return $this;
     }
     /**
      * Set metadata
-     * @param MetaData $value
+     * @param  MetaData                                                  $value
      * @return \CrudGenerator\MetaData\DataObject\MetaDataRelationColumn
      */
     public function setMetadata(MetaData $value)
     {
         $this->metadata = $value;
+
         return $this;
     }
 

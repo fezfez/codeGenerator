@@ -15,7 +15,7 @@ use CrudGenerator\Context\ContextInterface;
 class GeneratorQuestionFactory
 {
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface                                                $context
      * @return \CrudGenerator\Generators\Questions\Generator\GeneratorQuestion
      */
     public static function getInstance(ContextInterface $context)

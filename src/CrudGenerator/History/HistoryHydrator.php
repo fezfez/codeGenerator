@@ -43,8 +43,8 @@ class HistoryHydrator
      * Constructor.
      *
      * @param MetadataSourceConfiguredQuestion $metadataSourceConfiguredQuestion
-     * @param MetadataQuestion $metadataQuestion
-     * @param ArrayValidator $arrayValidator
+     * @param MetadataQuestion                 $metadataQuestion
+     * @param ArrayValidator                   $arrayValidator
      */
     public function __construct(
         MetadataSourceConfiguredQuestion $metadataSourceConfiguredQuestion,
@@ -57,7 +57,7 @@ class HistoryHydrator
     }
 
     /**
-     * @param GeneratorDataObject $dataObject
+     * @param  GeneratorDataObject $dataObject
      * @return string
      */
     public function dtoToJson(GeneratorDataObject $dataObject)
@@ -69,7 +69,7 @@ class HistoryHydrator
     }
 
     /**
-     * @param array $data
+     * @param  array                   $data
      * @throws InvalidHistoryException
      * @return array
      */
@@ -83,7 +83,7 @@ class HistoryHydrator
     }
 
     /**
-     * @param string $content
+     * @param  string  $content
      * @return History
      */
     public function jsonToDto($content)
@@ -133,7 +133,7 @@ class HistoryHydrator
         $dataObject->setMetadata($metadata);
 
         foreach ($dto[DataObject::STORE] as $storeKey => $storeValue) {
-            $setter = 'set' . ucfirst($storeKey);
+            $setter = 'set'.ucfirst($storeKey);
             $dataObject->register(array('dtoAttribute' => $storeKey), is_array($storeValue));
             $dataObject->$setter($storeValue);
         }

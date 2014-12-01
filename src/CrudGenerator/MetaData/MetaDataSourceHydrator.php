@@ -9,7 +9,6 @@
  */
 namespace CrudGenerator\MetaData;
 
-use CrudGenerator\MetaData\MetaDataSource;
 
 /**
  * Find all MetaDataSource allow in project
@@ -21,7 +20,7 @@ class MetaDataSourceHydrator
     /**
      * Build a MetaDataSourceDataobject with all his dependencies
      *
-     * @param string $adapterClassName
+     * @param  string         $adapterClassName
      * @return MetaDataSource
      */
     public function adapterNameToMetaDataSource($metadataSourceClassName)

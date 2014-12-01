@@ -21,7 +21,7 @@ interface MetaDataDAOFactoryInterface
     /**
      * Check if dependencies are complete
      *
-     * @param MetaDataSource $metadataSource
+     * @param  MetaDataSource $metadataSource
      * @return boolean
      */
     public static function checkDependencies(MetaDataSource $metadataSource);

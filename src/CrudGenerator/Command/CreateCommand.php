@@ -32,8 +32,8 @@ class CreateCommand
     }
 
     /**
-     * @param string $action
-     * @param string $definition
+     * @param string   $action
+     * @param string   $definition
      * @param callable $runner
      */
     public function create($action, $definition, callable $runner)

@@ -15,10 +15,10 @@ use CrudGenerator\Generators\GeneratorDataObject;
 interface ParserInterface
 {
     /**
-     * @param array $process
-     * @param PhpStringParser $parser
-     * @param GeneratorDataObject $generator
-     * @param boolean $firstIteration
+     * @param  array               $process
+     * @param  PhpStringParser     $parser
+     * @param  GeneratorDataObject $generator
+     * @param  boolean             $firstIteration
      * @return GeneratorDataObject
      */
     public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration);

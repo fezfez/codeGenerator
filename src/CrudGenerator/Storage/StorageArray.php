@@ -14,7 +14,7 @@ class StorageArray implements \JsonSerializable
     private $store = array();
 
     /**
-     * @param array $args
+     * @param  array   $args
      * @return boolean
      */
     public function isValidStore(array $args)
@@ -27,7 +27,7 @@ class StorageArray implements \JsonSerializable
     }
 
     /**
-     * @param array $args
+     * @param  array   $args
      * @return boolean
      */
     public function isValidAcces(array $args)
@@ -48,7 +48,7 @@ class StorageArray implements \JsonSerializable
     }
 
     /**
-     * @param array $args
+     * @param  array $args
      * @return mixed
      */
     public function get(array $args)

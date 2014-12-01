@@ -11,8 +11,6 @@ namespace CrudGenerator\MetaData\Sources\PostgreSQL;
 
 use PDO;
 use CrudGenerator\MetaData\Sources\MetaDataDAOInterface;
-use CrudGenerator\MetaData\Sources\PostgreSQL\SqlManager;
-use CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
 use CrudGenerator\MetaData\DataObject\MetaDataCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumn;
@@ -28,7 +26,7 @@ class PostgreSQLMetaDataDAO implements MetaDataDAOInterface
      * @var array
      */
     private $typeConversion = array(
-        'character varying' => 'text'
+        'character varying' => 'text',
     );
     /**
      * Pdo stmt
@@ -49,9 +47,9 @@ class PostgreSQLMetaDataDAO implements MetaDataDAOInterface
 
     /**
      * PostgreSQL adapter
-     * @param PDO $pdo
+     * @param PDO          $pdo
      * @param DriverConfig $pdoConfig
-     * @param SqlManager $sqlManager
+     * @param SqlManager   $sqlManager
      */
     public function __construct(PDO $pdo, DriverConfig $pdoConfig, SqlManager $sqlManager)
     {
@@ -82,7 +80,7 @@ class PostgreSQLMetaDataDAO implements MetaDataDAOInterface
     /**
      * Get particularie metadata from PDO
      *
-     * @param string $tableName
+     * @param  string                                                                  $tableName
      * @return \CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL
      */
     public function getMetadataFor($tableName, array $parentName = array())
@@ -92,7 +90,7 @@ class PostgreSQLMetaDataDAO implements MetaDataDAOInterface
 
     /**
      * Convert PostgreSQL mapping to CrudGenerator mapping
-     * @param array $metadataCollection
+     * @param  array                                                 $metadataCollection
      * @return \CrudGenerator\MetaData\DataObject\MetaDataCollection
      */
     private function pdoMetadataToGeneratorMetadata(array $metadataCollection)
@@ -110,7 +108,7 @@ class PostgreSQLMetaDataDAO implements MetaDataDAOInterface
 
     /**
      * Convert PostgreSQL mapping to CrudGenerator mapping
-     * @param string $tableName
+     * @param  string                       $tableName
      * @return MetadataDataObjectPostgreSQL
      */
     private function hydrateDataObject($tableName)

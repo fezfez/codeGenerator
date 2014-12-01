@@ -9,7 +9,6 @@
  */
 namespace CrudGenerator\MetaData\Sources\Json;
 
-use CrudGenerator\MetaData\Sources\Json\MetadataDataObjectJson;
 use CrudGenerator\MetaData\Sources\MetaDataDAOInterface;
 use CrudGenerator\MetaData\DataObject\MetaDataCollection;
 use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
@@ -36,8 +35,8 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
 
     /**
      * Constructor.
-     * @param FileDriverInterface $jsonConfig
-     * @param SchemaGenerator $schemaGenerator
+     * @param FileDriverInterface                         $jsonConfig
+     * @param SchemaGenerator                             $schemaGenerator
      * @param \CrudGenerator\MetaData\Driver\DriverConfig $config
      */
     public function __construct(FileDriverInterface $jsonConfig, $config, SchemaGenerator $schemaGenerator)
@@ -55,7 +54,7 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
     public function getAllMetadata()
     {
         $schema = $this->schemaGenerator->parse($this->jsonConfig->getFile($this->config));
-        $filePath = Installer::getDirectory(Installer::TMP) . 'schema.json';
+        $filePath = Installer::getDirectory(Installer::TMP).'schema.json';
 
         file_put_contents($filePath, $schema->toString());
 
@@ -91,7 +90,7 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
      * Is there is only array or object at the first level,
      * its not considered as a metadata but as a collection of it
      *
-     * @param \JSONSchema\Structure\Schema $schema
+     * @param  \JSONSchema\Structure\Schema $schema
      * @return boolean
      */
     private function isFirstLevelIsDto(\JSONSchema\Structure\Schema $schema)
@@ -108,7 +107,7 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
     }
 
     /**
-     * @param string $name
+     * @param  string                 $name
      * @throws \Exception
      * @return MetadataDataObjectJson
      */
@@ -129,9 +128,9 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
     }
 
     /**
-     * @param string $name
-     * @param array $props
-     * @param MetadataDataObjectJson $metadata
+     * @param  string                                                    $name
+     * @param  array                                                     $props
+     * @param  MetadataDataObjectJson                                    $metadata
      * @return \CrudGenerator\MetaData\DataObject\MetaDataRelationColumn
      */
     private function hydrateMetaDataRelationColumn(
@@ -154,8 +153,8 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
     }
 
     /**
-     * @param array $items
-     * @param array $types
+     * @param  array   $items
+     * @param  array   $types
      * @return boolean
      */
     private function itemsAreAllOfType(array $items, array $types)
@@ -175,9 +174,9 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
     /**
      * Items is considered as relation
      *
-     * @param string $daddyName
-     * @param array $items
-     * @param MetadataDataObjectJson $metadata
+     * @param  string                 $daddyName
+     * @param  array                  $items
+     * @param  MetadataDataObjectJson $metadata
      * @return MetadataDataObjectJson
      */
     private function hydrateItems(
@@ -200,7 +199,6 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
             $metadata->appendRelation(
                 $this->hydrateMetaDataRelationColumn($daddyName, $mergedArray, $metadata, $mainCollection)
             );
-
         } else {
             $specialProperties = array();
 
@@ -222,9 +220,9 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
     /**
      * Properties is considered as column
      *
-     * @param array $properties
-     * @param MetadataDataObjectJson $metadata
-     * @param MetaDataCollection $mainCollection
+     * @param  array                  $properties
+     * @param  MetadataDataObjectJson $metadata
+     * @param  MetaDataCollection     $mainCollection
      * @throws \Exception
      * @return MetadataDataObjectJson
      */
@@ -271,7 +269,7 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
     /**
      * Get particularie metadata from jsin
      *
-     * @param string $tableName
+     * @param  string                                                      $tableName
      * @return \CrudGenerator\MetaData\Sources\Json\MetadataDataObjectJson
      */
     public function getMetadataFor($tableName, array $parentName = array())

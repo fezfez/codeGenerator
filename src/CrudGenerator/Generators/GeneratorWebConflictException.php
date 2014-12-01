@@ -11,5 +11,4 @@ namespace CrudGenerator\Generators;
 
 class GeneratorWebConflictException extends \Exception
 {
-
 }

@@ -12,7 +12,6 @@ namespace CrudGenerator\Context;
 
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Command\CreateCommand;
-use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Generators\ResponseExpectedException;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -20,7 +19,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum;
 
 class CliContext implements ContextInterface
 {
@@ -50,10 +48,10 @@ class CliContext implements ContextInterface
     private $preResponse = array();
 
     /**
-     * @param QuestionHelper $question
+     * @param QuestionHelper  $question
      * @param OutputInterface $output
-     * @param InputInterface $input
-     * @param CreateCommand $createCommand
+     * @param InputInterface  $input
+     * @param CreateCommand   $createCommand
      */
     public function __construct(
         QuestionHelper $question,
@@ -87,12 +85,13 @@ class CliContext implements ContextInterface
     }
 
     /**
-     * @param string $uniqueKey
+     * @param  string $uniqueKey
      * @return string
      */
     private function getPreResponse($uniqueKey)
     {
         $uniqueKey = strtolower($uniqueKey);
+
         return isset($this->preResponse[$uniqueKey]) ? $this->preResponse[$uniqueKey]->get(array()) : null;
     }
 
@@ -120,7 +119,7 @@ class CliContext implements ContextInterface
                 $this->input,
                 $this->output,
                 new ChoiceQuestion(
-                    sprintf('Choose a "%s" default : %s ', $questionResponseCollection->getText(), $this->getPreResponse($questionResponseCollection->getUniqueKey())) ,
+                    sprintf('Choose a "%s" default : %s ', $questionResponseCollection->getText(), $this->getPreResponse($questionResponseCollection->getUniqueKey())),
                     $choises,
                     $this->getPreResponse($questionResponseCollection->getUniqueKey())
                 )
@@ -158,7 +157,7 @@ class CliContext implements ContextInterface
             $this->input,
             $this->output,
             new ConfirmationQuestion(
-                $text . ' y/n'
+                $text.' y/n'
             )
         );
     }

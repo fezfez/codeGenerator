@@ -19,7 +19,7 @@ use CrudGenerator\MetaData\Driver\DriverConfig;
 interface MetaDataDAOFactoryConfigInterface extends MetaDataDAOFactoryInterface
 {
     /**
-     * @param DriverConfig $driverConfig
+     * @param  DriverConfig                                         $driverConfig
      * @return \CrudGenerator\MetaData\Sources\MetaDataDAOInterface
      */
     public static function getInstance(DriverConfig $driverConfig);

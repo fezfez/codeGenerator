@@ -30,7 +30,7 @@ class QuestionTypeComplex implements QuestionTypeInterface
     }
 
     /**
-     * @param array $question
+     * @param  array                                                                                 $question
      * @throws \Exception
      * @return \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionComplexFactoryInterface
      */
@@ -49,7 +49,7 @@ class QuestionTypeComplex implements QuestionTypeInterface
         return $question['factory'];
     }
     /**
-     * @param array $question
+     * @param  array                                                                          $question
      * @return \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionComplexInterface
      */
     private function getInstance(array $question)

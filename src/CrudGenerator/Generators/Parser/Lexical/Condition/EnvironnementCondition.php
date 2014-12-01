@@ -51,8 +51,8 @@ class EnvironnementCondition implements ConditionInterface
     }
 
     /**
-     * @param string $expression
-     * @param string $type
+     * @param  string                    $expression
+     * @param  string                    $type
      * @throws \InvalidArgumentException
      * @return array
      */
@@ -63,7 +63,7 @@ class EnvironnementCondition implements ConditionInterface
         if (count($expressionExplode) === 2) {
             return array(
                 'environnementName'  => $expressionExplode[0],
-                'environnementValue' => $expressionExplode[1]
+                'environnementValue' => $expressionExplode[1],
             );
         }
 

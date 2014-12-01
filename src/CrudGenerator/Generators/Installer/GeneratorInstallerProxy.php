@@ -32,8 +32,8 @@ class GeneratorInstallerProxy implements GeneratorInstallerInterface
     }
 
     /**
-     * @param string $package
-     * @param string $version
+     * @param  string  $package
+     * @param  string  $version
      * @return integer
      */
     public function install($package, $version = 'dev-master')

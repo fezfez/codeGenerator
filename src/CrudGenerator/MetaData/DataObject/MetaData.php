@@ -9,10 +9,6 @@
  */
 namespace CrudGenerator\MetaData\DataObject;
 
-use CrudGenerator\MetaData\DataObject\MetaDataColumn;
-use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
 
 /**
  * Base representation metadata for template generation
@@ -36,7 +32,7 @@ abstract class MetaData implements \JsonSerializable, MetaDataInterface
 
     /**
      * Base representation metadata for template generation
-     * @param MetaDataColumnCollection $columnCollection
+     * @param MetaDataColumnCollection   $columnCollection
      * @param MetaDataRelationCollection $relationCollection
      */
     public function __construct(
@@ -69,6 +65,7 @@ abstract class MetaData implements \JsonSerializable, MetaDataInterface
     public function setName($value)
     {
         $this->name = $value;
+
         return $this;
     }
 
@@ -182,7 +179,7 @@ abstract class MetaData implements \JsonSerializable, MetaDataInterface
         return array(
             self::ID    => $this->getOriginalName(),
             self::LABEL => $this->getOriginalName(),
-            self::NAME  => $this->getOriginalName()
+            self::NAME  => $this->getOriginalName(),
         );
     }
 }

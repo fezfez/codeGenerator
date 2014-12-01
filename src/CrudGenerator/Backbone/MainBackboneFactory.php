@@ -14,7 +14,7 @@ use CrudGenerator\Context\ContextInterface;
 class MainBackboneFactory
 {
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface                     $context
      * @return \CrudGenerator\Backbone\MainBackbone
      */
     public static function getInstance(ContextInterface $context)

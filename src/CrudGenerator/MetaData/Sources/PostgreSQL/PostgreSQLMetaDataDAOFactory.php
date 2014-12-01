@@ -9,7 +9,6 @@
  */
 namespace CrudGenerator\MetaData\Sources\PostgreSQL;
 
-use CrudGenerator\MetaData\Sources\PostgreSQL\SqlManager;
 use CrudGenerator\MetaData\MetaDataSource;
 use CrudGenerator\MetaData\Driver\Pdo\PdoDriver;
 use CrudGenerator\MetaData\Driver\DriverConfig;
@@ -39,7 +38,7 @@ class PostgreSQLMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
     }
 
     /**
-     * @param MetaDataSource $metadataSource
+     * @param  MetaDataSource $metadataSource
      * @return boolean
      */
     public static function checkDependencies(MetaDataSource $metadataSource)

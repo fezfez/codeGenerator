@@ -31,7 +31,7 @@ class SandBoxStrategy implements StrategyInterface
 
     /**
      * Base code generator
-     * @param View $view
+     * @param View             $view
      * @param ContextInterface $context
      */
     public function __construct(

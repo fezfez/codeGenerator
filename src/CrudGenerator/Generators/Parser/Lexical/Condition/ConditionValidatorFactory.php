@@ -20,7 +20,7 @@ class ConditionValidatorFactory
             array(
                 new DependencyCondition(),
                 new EnvironnementCondition(),
-                new SimpleCondition()
+                new SimpleCondition(),
             )
         );
     }
