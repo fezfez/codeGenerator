@@ -28,13 +28,11 @@ class ViewFactory
         $classAwake  = new ClassAwake();
         $viewHelpers = $classAwake->wakeByInterfaces(
             array(
-                __DIR__.'/../',
+                __DIR__,
             ),
             'CrudGenerator\View\ViewHelperFactoryInterface'
         );
 
-        $viewRenderer = new ViewRenderer($viewHelpers);
-
-        return new View($viewRenderer);
+        return new View(new ViewRenderer($viewHelpers));
     }
 }
