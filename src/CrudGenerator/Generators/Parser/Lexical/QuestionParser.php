@@ -35,9 +35,9 @@ class QuestionParser implements ParserInterface
     private $questionAnalyser = null;
 
     /**
-     * @param ContextInterface       $context
-     * @param QuestionTypeCollection $conditionValidator
-     * @param QuestionAnalyser       $questionAnalyser
+     * @param ContextInterface   $context
+     * @param ConditionValidator $conditionValidator
+     * @param QuestionAnalyser   $questionAnalyser
      */
     public function __construct(
         ContextInterface $context,

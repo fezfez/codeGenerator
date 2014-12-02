@@ -13,9 +13,9 @@ class ArrayToDtoTest extends \PHPUnit_Framework_TestCase
         $data = array(
             DriverConfig::UNIQUE_NAME => 'myName',
             DriverConfig::RESPONSE => array(
-                'myKey' => 'myVal'
+                'myKey' => 'myVal',
             ),
-            DriverConfig::FACTORY => 'CrudGenerator\Metadata\Driver\Pdo\PdoDriverFactory'
+            DriverConfig::FACTORY => 'CrudGenerator\Metadata\Driver\Pdo\PdoDriverFactory',
         );
 
         $results = $sUT->arrayToDto($data);

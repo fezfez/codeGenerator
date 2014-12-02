@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\General\MetaData\MetaDataSourceFinder;
+namespace CrudGenerator\Tests\General\Metadata\MetaDataSourceFinder;
 
 use CrudGenerator\Metadata\MetaDataSourceFinder;
 use CrudGenerator\Metadata\MetaDataSourceHydrator;

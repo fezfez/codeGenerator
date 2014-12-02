@@ -7,7 +7,7 @@ class FileGetContentTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {
-        $filePath    = __DIR__ . '/test.phtml';
+        $filePath    = __DIR__.'/test.phtml';
         $fileContent = 'toto';
 
         $sUT = new FileManager();

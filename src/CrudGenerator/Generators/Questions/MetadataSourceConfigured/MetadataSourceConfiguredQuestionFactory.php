@@ -15,9 +15,9 @@ use CrudGenerator\Metadata\Config\MetaDataConfigDAOFactory;
 class MetadataSourceConfiguredQuestionFactory
 {
     /**
-     * @param  ContextInterface                      $context
+     * @param  ContextInterface                 $context
      * @throws \InvalidArgumentException
-     * @return Web\MetaDataSourcesConfiguredQuestion
+     * @return MetadataSourceConfiguredQuestion
      */
     public static function getInstance(ContextInterface $context)
     {

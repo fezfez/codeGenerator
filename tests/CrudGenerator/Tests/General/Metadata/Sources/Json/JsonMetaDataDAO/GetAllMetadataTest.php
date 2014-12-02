@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\General\MetaData\Sources\Json\JsonMetaDataDAO;
+namespace CrudGenerator\Tests\General\Metadata\Sources\Json\JsonMetaDataDAO;
 
 use CrudGenerator\Metadata\Sources\Json\JsonMetaDataDAOFactory;
 
@@ -7,7 +7,7 @@ class GetAllMetadataTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
-        $config = include __DIR__ . '/../ConfigWithNoColumnInFirstLevel.php';
+        $config = include __DIR__.'/../ConfigWithNoColumnInFirstLevel.php';
 
         $suT = JsonMetaDataDAOFactory::getInstance($config);
 

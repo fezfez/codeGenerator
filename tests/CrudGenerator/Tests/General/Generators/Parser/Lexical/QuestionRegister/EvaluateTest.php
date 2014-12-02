@@ -1,13 +1,10 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\QuestionRegister;
 
-use CrudGenerator\Generators\Parser\Lexical\QuestionParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\DataObject;
-use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
 use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeCollectionFactory;
 use CrudGenerator\Generators\Parser\Lexical\QuestionAnalyser;
-use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Tests\TestCase;
 use CrudGenerator\Generators\Parser\Lexical\QuestionRegister;
 
@@ -28,8 +25,8 @@ class EvaluateTest extends TestCase
 
         $process = array(
             'questions' => array(
-                'toto'
-            )
+                'toto',
+            ),
         );
 
         $this->setExpectedException('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
@@ -52,8 +49,8 @@ class EvaluateTest extends TestCase
 
         $process = array(
             'questions' => array(
-                'MyQuestion' => 'myQuestionValue'
-            )
+                'MyQuestion' => 'myQuestionValue',
+            ),
         );
 
         $this->setExpectedException('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
@@ -76,8 +73,8 @@ class EvaluateTest extends TestCase
 
         $process = array(
             'questions' => array(
-                'MyQuestion' => array('myQuestionValue')
-            )
+                'MyQuestion' => array('myQuestionValue'),
+            ),
         );
 
         $conditionValidatorExpects = $conditionValidator->expects($this->once());

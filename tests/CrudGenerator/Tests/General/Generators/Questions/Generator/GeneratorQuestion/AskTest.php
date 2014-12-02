@@ -18,7 +18,7 @@ class AskTest extends TestCase
                          ->will(
                             $this->returnValue(
                                 array(
-                                    'path/ArchitectGenerator.generator.yaml' => 'ArchitectGenerator'
+                                    'path/ArchitectGenerator.generator.yaml' => 'ArchitectGenerator',
                                 )
                             )
                         );

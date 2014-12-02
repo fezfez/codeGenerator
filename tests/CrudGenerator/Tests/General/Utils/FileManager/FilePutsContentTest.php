@@ -7,7 +7,7 @@ class FilePutsContentTest extends \PHPUnit_Framework_TestCase
 {
     public function testRender()
     {
-        $filePath = __DIR__ . '/test.phtml';
+        $filePath = __DIR__.'/test.phtml';
         $content  = 'toto';
 
         $sUT = new FileManager();
@@ -24,7 +24,7 @@ class FilePutsContentTest extends \PHPUnit_Framework_TestCase
 
     public function testFail()
     {
-        $filePath = __DIR__ . '/toto/test.phtml';
+        $filePath = __DIR__.'/toto/test.phtml';
         $content  = 'toto';
 
         $sUT = new FileManager();

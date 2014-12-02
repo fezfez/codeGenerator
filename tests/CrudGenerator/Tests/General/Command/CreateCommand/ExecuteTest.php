@@ -6,7 +6,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use CrudGenerator\Tests\TestCase;
 
-class CreateTest extends TestCase
+class ExecuteTest extends TestCase
 {
     public function testCreateCommand()
     {
@@ -23,7 +23,7 @@ class CreateTest extends TestCase
         $createCommand->create(
             'my_action',
             'this is the definition of my_action',
-            function() use ($fakeMock) {
+            function () use ($fakeMock) {
                 $fakeMock->log('hello !');
             }
         );

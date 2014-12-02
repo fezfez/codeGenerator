@@ -71,7 +71,7 @@ class PredefinedResponse
     /**
      * If the user choice this response, this value would be returned
      *
-     * @param  mixed                                     $value
+     * @param  string                                    $value
      * @return \CrudGenerator\Context\PredefinedResponse
      */
     public function setResponse($value)

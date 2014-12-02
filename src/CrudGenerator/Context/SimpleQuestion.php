@@ -65,7 +65,7 @@ class SimpleQuestion
     }
 
     /**
-     * @param  mixed                                 $value
+     * @param  string                                $value
      * @return \CrudGenerator\Context\SimpleQuestion
      */
     public function setText($value)
@@ -76,7 +76,7 @@ class SimpleQuestion
     }
 
     /**
-     * @param  mixed                                 $value
+     * @param  string                                $value
      * @return \CrudGenerator\Context\SimpleQuestion
      */
     public function setUniqueKey($value)

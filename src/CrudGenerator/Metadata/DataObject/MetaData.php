@@ -9,7 +9,6 @@
  */
 namespace CrudGenerator\Metadata\DataObject;
 
-
 /**
  * Base representation metadata for template generation
  *

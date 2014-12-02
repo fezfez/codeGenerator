@@ -3,7 +3,6 @@ namespace CrudGenerator\Tests\General\Generators\Questions\MetadataSourceConfigu
 
 use CrudGenerator\Generators\Questions\MetadataSourceConfigured\MetadataSourceConfiguredQuestion;
 use CrudGenerator\Metadata\MetaDataSourceCollection;
-use CrudGenerator\Metadata\MetaDataSource;
 use CrudGenerator\Metadata\Sources\Doctrine2\Doctrine2MetaDataDAOFactory;
 
 class AskTest extends \PHPUnit_Framework_TestCase

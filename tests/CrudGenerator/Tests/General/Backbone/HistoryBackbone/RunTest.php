@@ -17,7 +17,6 @@ class RunTest extends TestCase
         $historyExpects->method('ask');
         $historyExpects->willThrowException(new EmptyHistoryException());
 
-
         $sUT = new HistoryBackbone($historyQuestion, $context);
 
         $this->setExpectedException('CrudGenerator\History\EmptyHistoryException');

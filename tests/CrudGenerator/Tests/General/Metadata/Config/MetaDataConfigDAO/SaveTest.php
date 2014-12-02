@@ -1,19 +1,9 @@
 <?php
-namespace CrudGenerator\Tests\General\MetaData\Config\MetaDataConfigDAO;
+namespace CrudGenerator\Tests\General\Metadata\Config\MetaDataConfigDAO;
 
 use CrudGenerator\Metadata\Config\MetaDataConfigDAO;
-use CrudGenerator\Utils\ClassAwake;
-use CrudGenerator\Metadata\MetaDataSourceHydrator;
 use CrudGenerator\Metadata\MetaDataSource;
 use CrudGenerator\Metadata\Sources\Json\JsonMetaDataDAOFactory;
-use CrudGenerator\Metadata\Driver\DriverConfig;
-use CrudGenerator\Metadata\Driver\Driver;
-use CrudGenerator\Metadata\Driver\DriverValidator;
-use CrudGenerator\Utils\Transtyper;
-use CrudGenerator\Metadata\MetaDataSourceValidator;
-use CrudGenerator\Metadata\Driver\DriverHydrator;
-use CrudGenerator\Utils\ComparatorFactory;
-use CrudGenerator\Utils\TranstyperFactory;
 use CrudGenerator\Tests\TestCase;
 
 class SaveTest extends TestCase

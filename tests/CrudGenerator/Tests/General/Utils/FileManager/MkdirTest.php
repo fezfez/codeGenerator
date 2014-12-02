@@ -7,7 +7,7 @@ class MkdirTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $filePath = __DIR__ . '/foo';
+        $filePath = __DIR__.'/foo';
 
         $sUT = new FileManager();
         $sUT->mkdir($filePath);
@@ -22,7 +22,7 @@ class MkdirTest extends \PHPUnit_Framework_TestCase
 
     public function testFail()
     {
-        $filePath = __DIR__ . '/foo/bar';
+        $filePath = __DIR__.'/foo/bar';
 
         $sUT = new FileManager();
 

@@ -84,9 +84,9 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
             'templateVariables' => array(
                 array(
                     'variableName' => 'MyVar',
-                    'value' => 'MyValue'
-                )
-            )
+                    'value' => 'MyValue',
+                ),
+            ),
         );
 
         $generatorToTest = clone $generator;
@@ -127,9 +127,9 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
                 array(
                     'variableName' => 'MyVar',
                     'value' => 'MyValue',
-                    DependencyCondition::NAME => '!ArchitedGenerator'
-                )
-            )
+                    DependencyCondition::NAME => '!ArchitedGenerator',
+                ),
+            ),
         );
 
         $generatorToTest = clone $generator;
@@ -170,9 +170,9 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
                 array(
                     'variableName' => 'MyVar',
                     'value' => 'MyValue',
-                    EnvironnementCondition::NAME => 'backend == pdo'
-                )
-            )
+                    EnvironnementCondition::NAME => 'backend == pdo',
+                ),
+            ),
         );
 
         $generatorToTest = clone $generator;

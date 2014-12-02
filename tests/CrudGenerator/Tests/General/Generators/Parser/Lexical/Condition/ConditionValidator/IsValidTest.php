@@ -100,8 +100,8 @@ class IsValidTest extends \PHPUnit_Framework_TestCase
             $sUT->isValid(
                 array(
                     ConditionInterface::CONDITION => array(
-                        DependencyCondition::NAME => array()
-                    )
+                        DependencyCondition::NAME => array(),
+                    ),
                 ),
                 new GeneratorDataObject(),
                 $phpStringParser
@@ -151,8 +151,8 @@ class IsValidTest extends \PHPUnit_Framework_TestCase
             $sUT->isValid(
                 array(
                     ConditionInterface::CONDITION => array(
-                        EnvironnementCondition::NAME => array()
-                    )
+                        EnvironnementCondition::NAME => array(),
+                    ),
                 ),
                 new GeneratorDataObject(),
                 $phpStringParser
@@ -202,8 +202,8 @@ class IsValidTest extends \PHPUnit_Framework_TestCase
             $sUT->isValid(
                 array(
                     ConditionInterface::CONDITION => array(
-                        SimpleCondition::NAME => array()
-                    )
+                        SimpleCondition::NAME => array(),
+                    ),
                 ),
                 new GeneratorDataObject(),
                 $phpStringParser

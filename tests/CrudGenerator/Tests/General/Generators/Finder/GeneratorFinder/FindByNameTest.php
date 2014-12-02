@@ -2,8 +2,6 @@
 namespace CrudGenerator\Tests\General\Generators\Finder\GeneratorFinder;
 
 use CrudGenerator\Generators\Finder\GeneratorFinder;
-use CrudGenerator\Utils\TranstyperFactory;
-use CrudGenerator\Generators\Validator\GeneratorValidatorFactory;
 use CrudGenerator\Tests\TestCase;
 
 class FindByNameTest extends TestCase
@@ -13,7 +11,7 @@ class FindByNameTest extends TestCase
         $rawMock = $this->createSut('CrudGenerator\Generators\Finder\GeneratorFinder');
 
         $fileFound = array(
-            array(0 => 'fileName2')
+            array(0 => 'fileName2'),
         );
 
         $fileManagerExpectsSearch = $rawMock['mocks']['fileManager']->expects($this->once());
@@ -29,7 +27,6 @@ class FindByNameTest extends TestCase
         $transtyperExpectsDecode->method('decode');
         $transtyperExpectsDecode->with('notvalid');
         $transtyperExpectsDecode->will($this->returnValue(array('name' => 'notvalid')));
-
 
         $transtyperExpectsDecode = $rawMock['mocks']['generatorValidator']->expects($this->once());
         $transtyperExpectsDecode->method('isValid');

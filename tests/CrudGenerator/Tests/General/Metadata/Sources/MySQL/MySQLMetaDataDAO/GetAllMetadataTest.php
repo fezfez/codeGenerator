@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\General\MetaData\Sources\MySQL\MySQLMetaDataDAO;
+namespace CrudGenerator\Tests\General\Metadata\Sources\MySQL\MySQLMetaDataDAO;
 
 use CrudGenerator\Metadata\Sources\MySQL\MySQLMetaDataDAOFactory;
 
@@ -10,7 +10,7 @@ class GetAllMetadataTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
-        $config = include __DIR__ . '/../Config.php';
+        $config = include __DIR__.'/../Config.php';
 
         $suT = MySQLMetaDataDAOFactory::getInstance($config);
 

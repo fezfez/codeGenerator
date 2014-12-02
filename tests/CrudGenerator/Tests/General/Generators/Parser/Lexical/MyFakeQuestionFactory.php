@@ -7,7 +7,7 @@ use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionComplexFactoryI
 class MyFakeQuestionFactory implements QuestionComplexFactoryInterface
 {
     /**
-     * @param ContextInterface $context
+     * @param  ContextInterface                                                      $context
      * @return \CrudGenerator\Tests\General\Generators\Parser\Lexical\MyFakeQuestion
      */
     public static function getInstance(ContextInterface $context)

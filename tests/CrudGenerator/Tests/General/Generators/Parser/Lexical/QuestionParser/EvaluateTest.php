@@ -30,8 +30,8 @@ class EvaluateTest extends TestCase
 
         $process = array(
             'questions' => array(
-                'MyQuestion' => 'myQuestionValue'
-            )
+                'MyQuestion' => 'myQuestionValue',
+            ),
         );
 
         $this->setexpectedexception('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
@@ -59,9 +59,9 @@ class EvaluateTest extends TestCase
                         array(
                                 'dtoAttribute'    => 'test',
                                 'text'            => 'test',
-                                'defaultResponse' => 'myDefaultResponse'
-                        )
-                )
+                                'defaultResponse' => 'myDefaultResponse',
+                        ),
+                ),
         );
 
         $this->assertEquals(
@@ -101,15 +101,15 @@ class EvaluateTest extends TestCase
                     'dtoAttribute'    => 'test',
                     'text'            => 'test',
                     'defaultResponse' => 'myDefaultResponse',
-                    DependencyCondition::NAME => '!ArchitedGenerator'
+                    DependencyCondition::NAME => '!ArchitedGenerator',
                 ),
                 array(
                     'dtoAttribute' => 'test',
                     'text'         => 'test',
                     'type'         => QuestionTypeEnum::COMPLEX,
-                    'factory'      => 'CrudGenerator\Tests\General\Generators\Parser\Lexical\MyFakeQuestionFactory'
-                )
-            )
+                    'factory'      => 'CrudGenerator\Tests\General\Generators\Parser\Lexical\MyFakeQuestionFactory',
+                ),
+            ),
         );
 
         $this->assertEquals(

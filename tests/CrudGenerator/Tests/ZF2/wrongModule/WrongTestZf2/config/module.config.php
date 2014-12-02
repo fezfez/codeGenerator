@@ -14,20 +14,20 @@
 return array(
     'crudGenerator' => array(
         'path' => array(
-            __DIR__ . '/FAIL'
-        )
+            __DIR__.'/FAIL',
+        ),
     ),
     'doctrine' => array(
         'configuration' => array(
-            'proxy_dir'         => __DIR__ . '/../../../data/Doctrine/Proxy',
+            'proxy_dir'         => __DIR__.'/../../../data/Doctrine/Proxy',
         ),
         'driver' => array(
             'orm_default' => array(
                 'class'   => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                  'paths' => array(
-                     realpath(__DIR__ . '/../Entities/')
-                 )
-            )
+                     realpath(__DIR__.'/../Entities/'),
+                 ),
+            ),
         ),
         'connection' => array(
             // default connection name
@@ -41,9 +41,9 @@ return array(
                     'dbname'   => 'code_generator',
                 ),
                 'doctrine_type_mappings' => array(
-                    'enum' => 'string'
-                )
-            )
+                    'enum' => 'string',
+                ),
+            ),
         ),
     ),
 );

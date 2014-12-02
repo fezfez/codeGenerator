@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\General\Generators\Questions\Metadata\MetadataQuestionFactory;
+namespace CrudGenerator\Tests\General\Generators\Questions\Metadata\MetaDataQuestionFactory;
 
 use CrudGenerator\Generators\Questions\Metadata\MetadataQuestionFactory;
 

@@ -9,7 +9,6 @@
  */
 namespace CrudGenerator\Metadata\DataObject;
 
-
 /**
  * Represent relation between Metadata
  *

@@ -22,7 +22,7 @@ class InitTest extends TestCase
 
         $process = array(
             'dto' => 'CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect',
-            'name' => 'test'
+            'name' => 'test',
         );
 
         $transtyperExpects = $transtyper->expects($this->once());
@@ -62,7 +62,7 @@ class InitTest extends TestCase
 
         $process = array(
             'dto' => 'CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect',
-            'name' => 'test'
+            'name' => 'test',
         );
 
         $transtyperExpects = $transtyper->expects($this->once());

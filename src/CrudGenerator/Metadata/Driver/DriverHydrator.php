@@ -9,7 +9,6 @@
 */
 namespace CrudGenerator\Metadata\Driver;
 
-
 class DriverHydrator
 {
     /**

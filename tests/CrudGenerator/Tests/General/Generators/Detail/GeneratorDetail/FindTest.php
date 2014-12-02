@@ -27,7 +27,7 @@ class FindTest extends \PHPUnit_Framework_TestCase
         $dto = new Result();
         $dto->fromArray(array(
             'name' => 'test',
-            'repository' => 'https://github.com/test/test'
+            'repository' => 'https://github.com/test/test',
         ));
 
         $results = $suT->find($dto);

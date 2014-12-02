@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\General\MetaData\Sources\Json\JsonMetaDataDAOFactory;
+namespace CrudGenerator\Tests\General\Metadata\Sources\Json\JsonMetaDataDAOFactory;
 
 use CrudGenerator\Metadata\Sources\Json\JsonMetaDataDAOFactory;
 

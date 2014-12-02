@@ -9,7 +9,6 @@
  */
 namespace CrudGenerator\View;
 
-
 /**
  * Manage template renderer
  *

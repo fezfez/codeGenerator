@@ -30,14 +30,14 @@ class EvaluateQuestionTest extends \PHPUnit_Framework_TestCase
                 'text' => 'Attribute name for \"{{ iteration.getName() }}\"',
                 'response' => array(
                     'type' => 'text',
-                    'default' => '{{ iteration.getName() }}'
+                    'default' => '{{ iteration.getName() }}',
                 ),
                 'condition' => array(
                     'simple' => array(
-                        '{{ iteration.isPrimaryKey() == false }}'
-                    )
-                )
-            )
+                        '{{ iteration.isPrimaryKey() == false }}',
+                    ),
+                ),
+            ),
         );
 
         $generator = new GeneratorDataObject();

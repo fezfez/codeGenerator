@@ -1,10 +1,9 @@
 <?php
-namespace CrudGenerator\Tests\General\MetaData\MetaDataSourceFactory;
+namespace CrudGenerator\Tests\General\Metadata\MetaDataSourceFactory;
 
 class MockPDO extends \PDO
 {
-    public function __construct ()
+    public function __construct()
     {
-
     }
 }

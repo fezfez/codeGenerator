@@ -42,7 +42,7 @@ class FindAllTest extends TestCase
         ->will($this->returnValue(true));
 
         $glob = array(
-            serialize(new History())
+            serialize(new History()),
         );
 
         $stubFileManager->expects($this->any())

@@ -2,7 +2,6 @@
 
 namespace TestZf2\Entities;
 
-use TestZf2\Entities\CommentEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -56,12 +55,13 @@ class NewsEntity
     /**
      * Set comment
      *
-     * @param CommentEntity $value
+     * @param  CommentEntity $value
      * @return NewsEntity
      */
     public function setComment(CommentEntity $value)
     {
         $this->comment = $value;
+
         return $this;
     }
     /**
@@ -72,6 +72,7 @@ class NewsEntity
     public function setCommentInOneToOne(CommentEntity $value)
     {
         $this->comment = $value;
+
         return $this;
     }
 

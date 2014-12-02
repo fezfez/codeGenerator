@@ -17,17 +17,20 @@ interface MetaDataInterface
 
     /**
      * Append column dataobject
-     * @param MetaDataColumn $value
+     * @param  MetaDataColumn $value
+     * @return void
      */
     public function appendColumn(MetaDataColumn $value);
     /**
      * Append relation dataobject
-     * @param MetaDataRelationColumn $value
+     * @param  MetaDataRelationColumn $value
+     * @return void
      */
     public function appendRelation(MetaDataRelationColumn $value);
     /**
      * Set name
-     * @param string $value
+     * @param  string   $value
+     * @return MetaData
      */
     public function setName($value);
     /**

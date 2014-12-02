@@ -13,7 +13,7 @@ class RenderFileTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             'test',
             $SUT->renderFile(
-                __DIR__ . '/../viewTemplateStatic.phtml'
+                __DIR__.'/../viewTemplateStatic.phtml'
             )
         );
     }
@@ -25,7 +25,7 @@ class RenderFileTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('CrudGenerator\View\ViewRendererException');
 
         $SUT->renderFile(
-            __DIR__ . '/../viewTemplate.phtml'
+            __DIR__.'/../viewTemplate.phtml'
         );
     }
 }

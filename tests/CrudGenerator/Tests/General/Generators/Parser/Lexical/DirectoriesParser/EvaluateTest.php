@@ -36,8 +36,8 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
         $process = array(
             'directories' => array(
-                array('MyVar' => 'MyValue')
-            )
+                array('MyVar' => 'MyValue'),
+            ),
         );
 
         $this->setExpectedException('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
@@ -60,8 +60,8 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
 
         $process = array(
             'directories' => array(
-                'MyDir'
-            )
+                'MyDir',
+            ),
         );
 
         $this->assertEquals(

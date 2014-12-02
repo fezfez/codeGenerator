@@ -1,6 +1,6 @@
 <?php
 
-namespace CrudGenerator\Tests\General\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory;
+namespace CrudGenerator\Tests\General\Metadata\Sources\MySQL\MySQLMetaDataDAOFactory;
 
 use CrudGenerator\Metadata\Sources\MySQL\MySQLMetaDataDAOFactory;
 
@@ -11,7 +11,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstance()
     {
-        $config = include __DIR__ . '/../Config.php';
+        $config = include __DIR__.'/../Config.php';
 
         $this->assertInstanceOf(
             'CrudGenerator\Metadata\Sources\MySQL\MySQLMetaDataDAO',

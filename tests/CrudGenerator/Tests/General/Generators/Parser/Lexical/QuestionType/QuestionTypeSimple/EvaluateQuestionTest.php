@@ -23,7 +23,7 @@ class EvaluateQuestionTest extends TestCase
             'required'     => false,
             'helpMessage'  => '',
             'responseType' => new QuestionResponseTypeEnum(),
-            'text'         => 'im a question !'
+            'text'         => 'im a question !',
         );
 
         $dto->register($questionArray, false);
@@ -60,7 +60,7 @@ class EvaluateQuestionTest extends TestCase
             'required'     => false,
             'helpMessage'  => '',
             'responseType' => new QuestionResponseTypeEnum(),
-            'text'         => 'im a question !'
+            'text'         => 'im a question !',
         );
 
         $generator->getDto()->register($questionArray, false);

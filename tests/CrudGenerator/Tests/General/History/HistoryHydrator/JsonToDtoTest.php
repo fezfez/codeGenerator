@@ -109,6 +109,8 @@ class JsonToDtoTest extends TestCase
     }
 
     /**
+     * @param  string $metaDataSourceName
+     * @param  string $metaDataName
      * @return string
      */
     private function getValidJson($metaDataSourceName, $metaDataName)
@@ -125,7 +127,7 @@ class JsonToDtoTest extends TestCase
                     "id"      => "CategorieEntity",
                     "dtCreat" => "CategorieEntity",
                     "nomLog"  => "CategorieEntity",
-                    "name"    => $metaDataName
+                    "name"    => $metaDataName,
                 ),
                 DataObject::STORE => array(),
                 "formDirectory"         => null,
@@ -134,8 +136,8 @@ class JsonToDtoTest extends TestCase
                 "attributesDisplayName" => array(
                     "id"      => "id",
                     "dtCreat" => "Date de ",
-                    "nomLog"  => "Nom log"
-                )
+                    "nomLog"  => "Nom log",
+                ),
             ),
             GeneratorDataObject::METADATA_SOURCE => array(
                 MetaDataSource::DEFINITION           => "Doctrine2",
@@ -143,8 +145,8 @@ class JsonToDtoTest extends TestCase
                 MetaDataSource::METADATA_DAO_FACTORY => "CrudGenerator\Metadata\Sources\Doctrine2\Doctrine2MetaDataDAOFactory",
                 MetaDataSource::FALSE_DEPENDENCIES   => null,
                 MetaDataSource::UNIQUE_NAME          => $metaDataSourceName,
-                MetaDataSource::CONFIG               => null
-            )
+                MetaDataSource::CONFIG               => null,
+            ),
         ));
     }
 }

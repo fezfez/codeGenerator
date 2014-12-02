@@ -6,7 +6,6 @@ use CrudGenerator\Generators\Parser\GeneratorParserProxy;
 use CrudGenerator\Metadata\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
 use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
-use CrudGenerator\Generators\Parser\ParserCollection;
 use CrudGenerator\Tests\TestCase;
 
 class InitTest extends TestCase

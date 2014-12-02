@@ -1,14 +1,9 @@
 <?php
-namespace CrudGenerator\Tests\General\MetaData\Config\MetaDataConfigDAO;
+namespace CrudGenerator\Tests\General\Metadata\Config\MetaDataConfigDAO;
 
 use CrudGenerator\Metadata\Config\MetaDataConfigDAO;
-use CrudGenerator\Utils\ClassAwake;
-use CrudGenerator\Metadata\MetaDataSourceHydrator;
 use CrudGenerator\Metadata\MetaDataSource;
 use CrudGenerator\Metadata\Driver\DriverConfig;
-use CrudGenerator\Utils\TranstyperFactory;
-use KeepUpdate\ArrayValidatorFactory;
-use CrudGenerator\Metadata\Driver\DriverHydrator;
 use CrudGenerator\Tests\TestCase;
 
 class RetrieveAllTest extends TestCase
@@ -48,7 +43,7 @@ class RetrieveAllTest extends TestCase
     public function testWithoutConfig()
     {
         $rawData = array(
-            MetaDataSource::METADATA_DAO_FACTORY => 'CrudGenerator\Metadata\Sources\Json\JsonMetaDataDAOFactory'
+            MetaDataSource::METADATA_DAO_FACTORY => 'CrudGenerator\Metadata\Sources\Json\JsonMetaDataDAOFactory',
         );
 
         $rawMocks = $this->createSut('CrudGenerator\Metadata\Config\MetaDataConfigDAO');
@@ -89,7 +84,7 @@ class RetrieveAllTest extends TestCase
             MetaDataSource::CONFIG => array(
 
             ),
-            MetaDataSource::METADATA_DAO_FACTORY => 'CrudGenerator\Metadata\Sources\Json\JsonMetaDataDAOFactory'
+            MetaDataSource::METADATA_DAO_FACTORY => 'CrudGenerator\Metadata\Sources\Json\JsonMetaDataDAOFactory',
         );
 
         $rawMocks = $this->createSut('CrudGenerator\Metadata\Config\MetaDataConfigDAO');
@@ -128,5 +123,4 @@ class RetrieveAllTest extends TestCase
         $this->assertCount(1, $results);
         $this->assertInstanceOf('CrudGenerator\Metadata\MetaDataSourceCollection', $results);
     }
-
 }

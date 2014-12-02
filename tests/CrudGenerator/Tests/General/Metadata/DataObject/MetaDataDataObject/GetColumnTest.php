@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\General\MetaData\DataObject\MetaDataDataObject;
+namespace CrudGenerator\Tests\General\Metadata\DataObject\MetaDataDataObject;
 
 use CrudGenerator\Metadata\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
 use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;

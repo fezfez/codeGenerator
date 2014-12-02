@@ -27,7 +27,7 @@ class InstallTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $class
+     * @param  string                                   $class
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
     private function getMockWithoutConstructor($class)

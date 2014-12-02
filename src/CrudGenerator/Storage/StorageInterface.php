@@ -22,7 +22,8 @@ interface StorageInterface extends \JsonSerializable
      */
     public function isValidAcces(array $args);
     /**
-     * @param array $args
+     * @param  array $args
+     * @return void
      */
     public function set(array $args);
     /**

@@ -15,7 +15,7 @@ class RenderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             'myValue',
             $SUT->render(
-                __DIR__ . '/../',
+                __DIR__.'/../',
                 'viewTemplate.phtml',
                 array('myVar' => 'myValue')
             )
@@ -31,7 +31,7 @@ class RenderTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('CrudGenerator\View\ViewRendererException');
 
         $SUT->render(
-            __DIR__ . '/../',
+            __DIR__.'/../',
             'viewTemplate.phtml',
             array('undefined' => 'myValue')
         );

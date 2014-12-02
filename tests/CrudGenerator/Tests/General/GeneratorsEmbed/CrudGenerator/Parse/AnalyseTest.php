@@ -9,7 +9,7 @@ class AnalyseTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {
-         $context =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
+        $context =  $this->getMockBuilder('CrudGenerator\Context\CliContext')
         ->disableOriginalConstructor()
         ->getMock();
 
@@ -49,6 +49,6 @@ class AnalyseTest extends \PHPUnit_Framework_TestCase
      */
     private function getMetadata()
     {
-        return include __DIR__ . '/../../FakeMetaData.php';
+        return include __DIR__.'/../../FakeMetaData.php';
     }
 }

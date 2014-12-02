@@ -2,15 +2,11 @@
 namespace CrudGenerator\Tests\General\Generators\Search\GeneratorSearch;
 
 use CrudGenerator\Generators\Search\GeneratorSearch;
-use Symfony\Component\Console\Input\ArrayInput;
-use Composer\Command\RequireCommand;
-use CrudGenerator\Utils\OutputWeb;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {
     public function testSearch()
     {
-
         $packagistApi = $this->getMockWithoutConstructor('Packagist\Api\Client');
         $context      = $this->getMockWithoutConstructor('CrudGenerator\Context\CliContext');
 
@@ -32,7 +28,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $class
+     * @param  string                                   $class
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
     private function getMockWithoutConstructor($class)

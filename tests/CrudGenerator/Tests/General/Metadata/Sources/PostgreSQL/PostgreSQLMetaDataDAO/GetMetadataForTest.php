@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\General\MetaData\Sources\PostgreSQL\PostgreSQLMetaDataDAO;
+namespace CrudGenerator\Tests\General\Metadata\Sources\PostgreSQL\PostgreSQLMetaDataDAO;
 
 use CrudGenerator\Metadata\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory;
 
@@ -10,7 +10,7 @@ class GetMetadataForTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
-        $PostgreSQLConfig = include __DIR__ . '/../config.php';
+        $PostgreSQLConfig = include __DIR__.'/../config.php';
 
         $suT = PostgreSQLMetaDataDAOFactory::getInstance($PostgreSQLConfig);
 

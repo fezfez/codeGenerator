@@ -33,7 +33,7 @@ class CheckIntegrityTest extends \PHPUnit_Framework_TestCase
         $sUT->checkIntegrity(
             array(
                 'dtoAttribute' => 'test',
-                'type'         => QuestionTypeEnum::ITERATOR_WITH_PREDEFINED_RESPONSE
+                'type'         => QuestionTypeEnum::ITERATOR_WITH_PREDEFINED_RESPONSE,
             )
         );
     }
@@ -50,7 +50,7 @@ class CheckIntegrityTest extends \PHPUnit_Framework_TestCase
                 'type'         => QuestionTypeEnum::ITERATOR_WITH_PREDEFINED_RESPONSE,
                 'iteration' => array(
 
-                )
+                ),
             )
         );
     }
@@ -67,8 +67,8 @@ class CheckIntegrityTest extends \PHPUnit_Framework_TestCase
                 'type'         => QuestionTypeEnum::ITERATOR_WITH_PREDEFINED_RESPONSE,
                 'iteration' => array(
                     'response' => array(
-                    )
-                )
+                    ),
+                ),
             )
         );
     }
@@ -85,9 +85,9 @@ class CheckIntegrityTest extends \PHPUnit_Framework_TestCase
                 'type'         => QuestionTypeEnum::ITERATOR_WITH_PREDEFINED_RESPONSE,
                 'iteration' => array(
                     'response' => array(
-                        'predefined' => 'im not an array'
-                    )
-                )
+                        'predefined' => 'im not an array',
+                    ),
+                ),
             )
         );
     }

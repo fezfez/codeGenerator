@@ -4,7 +4,6 @@ namespace TestZf2\Entities;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use TestZf2\Entities\NewsEntity;
 
 /**
  * SuiviNews
@@ -49,34 +48,37 @@ class CommentEntity
     /**
      * Set DateCreate
      *
-     * @param \DateTime $value
+     * @param  \DateTime     $value
      * @return CommentEntity
      */
     public function setDateCreate(\DateTime $value)
     {
         $this->dateCreate = $value;
+
         return $this;
     }
     /**
      * Set title
      *
-     * @param string $value
+     * @param  string        $value
      * @return CommentEntity
      */
     public function setTitle($value)
     {
         $this->title = $value;
+
         return $this;
     }
     /**
      * Set CommentInOneToMany
      *
-     * @param NewsEntity $value
+     * @param  NewsEntity    $value
      * @return CommentEntity
      */
     public function setCommentInOneToMany(NewsEntity $value)
     {
         $this->commentInOneToMany->add($value);
+
         return $this;
     }
 

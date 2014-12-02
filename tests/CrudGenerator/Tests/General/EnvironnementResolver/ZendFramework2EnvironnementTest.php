@@ -18,7 +18,7 @@ class ZendFramework2EnvironnementTest extends \PHPUnit_Framework_TestCase
 
         $stubFileManager->expects($this->any())
                         ->method('includeFile')
-                        ->will($this->returnValue(include __DIR__ . '/../../ZF2/config/application.config.php'));
+                        ->will($this->returnValue(include __DIR__.'/../../ZF2/config/application.config.php'));
 
         $this->assertInstanceOf(
             'Zend\ServiceManager\ServiceManager',
@@ -44,7 +44,7 @@ class ZendFramework2EnvironnementTest extends \PHPUnit_Framework_TestCase
         ->method('includeFile')
         ->will($this->returnValue(array(
             'modules' => array(
-                'MyWrongModule'
+                'MyWrongModule',
             ),
             'module_listener_options' => array(
                 'module_paths' => array(
@@ -54,7 +54,7 @@ class ZendFramework2EnvironnementTest extends \PHPUnit_Framework_TestCase
                 'config_glob_paths' => array(
                     'config/autoload/{,*.}{global,local}.php',
                 ),
-            )
+            ),
         )));
 
         $this->setExpectedException('CrudGenerator\EnvironnementResolver\EnvironnementResolverException');

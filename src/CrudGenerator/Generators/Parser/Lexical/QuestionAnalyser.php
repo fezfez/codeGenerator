@@ -9,7 +9,6 @@
  */
 namespace CrudGenerator\Generators\Parser\Lexical;
 
-
 class QuestionAnalyser
 {
     /**

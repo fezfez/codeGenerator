@@ -10,7 +10,6 @@
 namespace CrudGenerator\Backbone;
 
 use CrudGenerator\Generators\Questions\History\HistoryQuestion;
-use CrudGenerator\History\EmptyHistoryException;
 use CrudGenerator\Context\ContextInterface;
 
 class HistoryBackbone

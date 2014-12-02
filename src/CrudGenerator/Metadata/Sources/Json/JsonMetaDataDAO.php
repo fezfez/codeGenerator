@@ -15,9 +15,10 @@ use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataColumn;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationColumn;
-use JSONSchema\SchemaGenerator;
 use CrudGenerator\Metadata\Driver\File\FileDriverInterface;
 use CrudGenerator\Utils\Installer;
+use CrudGenerator\Metadata\Driver\DriverConfig;
+use JSONSchema\SchemaGenerator;
 
 /**
  * Json adapter
@@ -29,17 +30,21 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
      */
     private $jsonConfig = null;
     /**
+     * @var DriverConfig
+     */
+    private $config = null;
+    /**
      * @var SchemaGenerator
      */
     private $schemaGenerator = null;
 
     /**
      * Constructor.
-     * @param FileDriverInterface                         $jsonConfig
-     * @param SchemaGenerator                             $schemaGenerator
-     * @param \CrudGenerator\Metadata\Driver\DriverConfig $config
+     * @param FileDriverInterface $jsonConfig
+     * @param DriverConfig        $config
+     * @param SchemaGenerator     $schemaGenerator
      */
-    public function __construct(FileDriverInterface $jsonConfig, $config, SchemaGenerator $schemaGenerator)
+    public function __construct(FileDriverInterface $jsonConfig, DriverConfig $config, SchemaGenerator $schemaGenerator)
     {
         $this->jsonConfig      = $jsonConfig;
         $this->config          = $config;
@@ -153,8 +158,8 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
     }
 
     /**
-     * @param  array   $items
-     * @param  array   $types
+     * @param  array    $items
+     * @param  string[] $types
      * @return boolean
      */
     private function itemsAreAllOfType(array $items, array $types)

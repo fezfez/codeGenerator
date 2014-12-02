@@ -2,7 +2,6 @@
 namespace CrudGenerator\Tests\General\Context\CliContext;
 
 use CrudGenerator\Context\CliContext;
-use CrudGenerator\Context\SimpleQuestion;
 use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;

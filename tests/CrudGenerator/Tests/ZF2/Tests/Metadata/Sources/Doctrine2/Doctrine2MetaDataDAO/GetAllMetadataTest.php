@@ -15,7 +15,7 @@ class GetAllMetadataTest extends \PHPUnit_Framework_TestCase
 
         $stubFileManager->expects($this->any())
                         ->method('includeFile')
-                        ->will($this->returnValue(include __DIR__ . '/../../../../../config/application.config.php'));
+                        ->will($this->returnValue(include __DIR__.'/../../../../../config/application.config.php'));
 
         $sm = ZendFramework2Environnement::getDependence($stubFileManager);
         $em = $sm->get('doctrine.entitymanager.orm_default');

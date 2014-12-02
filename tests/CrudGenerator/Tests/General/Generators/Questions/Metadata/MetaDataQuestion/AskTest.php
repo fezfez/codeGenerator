@@ -7,7 +7,6 @@ use CrudGenerator\Metadata\DataObject\MetaDataCollection;
 use CrudGenerator\Metadata\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
-use CrudGenerator\Metadata\Driver\DriverConfig;
 use CrudGenerator\Tests\TestCase;
 
 class AskTest extends TestCase
@@ -35,7 +34,7 @@ class AskTest extends TestCase
 
         $metaDataSourceFactoryExpects = $metaDataSourceFactoryStub->expects($this->once());
         $metaDataSourceFactoryExpects->method('create');
-        $metaDataSourceFactoryExpects->with($this->equalTo($source->getMetadataDaoFactory()),$this->equalTo(null));
+        $metaDataSourceFactoryExpects->with($this->equalTo($source->getMetadataDaoFactory()), $this->equalTo(null));
         $metaDataSourceFactoryExpects->will($this->returnValue($doctrine2MetaDataDAOStub));
 
         $contextExpects = $context->expects($this->once());

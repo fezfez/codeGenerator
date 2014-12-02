@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\General\MetaData\Sources\MetadataDAOCache;
+namespace CrudGenerator\Tests\General\Metadata\Sources\MetadataDAOCache;
 
 use CrudGenerator\Metadata\Sources\MetadataDAOCache;
 

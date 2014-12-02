@@ -27,8 +27,8 @@ class RetrieveValidIterationTest extends \PHPUnit_Framework_TestCase
 
         $node = array(
             'iteration' => array(
-                'iterator' => $fakeIterator
-            )
+                'iterator' => $fakeIterator,
+            ),
         );
 
         $this->setExpectedException('InvalidArgumentException');
@@ -57,8 +57,8 @@ class RetrieveValidIterationTest extends \PHPUnit_Framework_TestCase
 
         $node = array(
             'iteration' => array(
-                'iterator' => $fakeIterator
-            )
+                'iterator' => $fakeIterator,
+            ),
         );
 
         $this->assertEquals($returnedValue, $sUT->retrieveValidIteration($node, $generator, $phpParser));

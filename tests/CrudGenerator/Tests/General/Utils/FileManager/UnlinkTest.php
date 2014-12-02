@@ -7,7 +7,7 @@ class UnlinkTest extends \PHPUnit_Framework_TestCase
 {
     public function testUnlink()
     {
-        $filePath = __DIR__ . '/foo';
+        $filePath = __DIR__.'/foo';
 
         touch($filePath);
 
@@ -27,7 +27,7 @@ class UnlinkTest extends \PHPUnit_Framework_TestCase
 
     public function testFail()
     {
-        $filePath = __DIR__ . '/foo';
+        $filePath = __DIR__.'/foo';
 
         $this->assertEquals(
             false,

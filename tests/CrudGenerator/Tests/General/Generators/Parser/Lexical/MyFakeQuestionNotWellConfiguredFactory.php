@@ -7,8 +7,8 @@ use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionComplexFactoryI
 class MyFakeQuestionNotWellConfiguredFactory implements QuestionComplexFactoryInterface
 {
     /**
-     * @param ContextInterface $context
-     * @return \CrudGenerator\Tests\General\Generators\Parser\Lexical\MyFakeQuestion
+     * @param  ContextInterface      $context
+     * @return MyFakeQuestionFactory
      */
     public static function getInstance(ContextInterface $context)
     {

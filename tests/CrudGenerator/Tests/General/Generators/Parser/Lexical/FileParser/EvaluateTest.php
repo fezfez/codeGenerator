@@ -3,9 +3,6 @@ namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\FileParser;
 
 use CrudGenerator\Generators\Parser\Lexical\FileParser;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\DataObject;
-use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
-use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
 use CrudGenerator\Tests\TestCase;
 use CrudGenerator\Utils\PhpStringParser;
@@ -91,8 +88,8 @@ class EvaluateTest extends TestCase
 
         $process = array(
             'filesList' => array(
-                array('destinationPath' => '{{ test }}')
-            )
+                array('destinationPath' => '{{ test }}'),
+            ),
         );
 
         $this->setExpectedException('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
@@ -111,8 +108,8 @@ class EvaluateTest extends TestCase
 
         $process = array(
             'filesList' => array(
-                array('templatePath' => '{{ test }}')
-            )
+                array('templatePath' => '{{ test }}'),
+            ),
         );
 
         $this->setExpectedException('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
@@ -137,8 +134,8 @@ class EvaluateTest extends TestCase
 
         $process = array(
             'filesList' => array(
-                array('templatePath' => 'MyFileTemplate', 'destinationPath' => '{{ test }}')
-            )
+                array('templatePath' => 'MyFileTemplate', 'destinationPath' => '{{ test }}'),
+            ),
         );
 
         $this->setExpectedException('CrudGenerator\Generators\Parser\Lexical\MalformedGeneratorException');
@@ -163,8 +160,8 @@ class EvaluateTest extends TestCase
 
         $process = array(
             'filesList' => array(
-                array('templatePath' => 'MyFileTemplate', 'destinationPath' => '{{ test }}')
-            )
+                array('templatePath' => 'MyFileTemplate', 'destinationPath' => '{{ test }}'),
+            ),
         );
 
         $generator = $sUT->evaluate($process, $phpParser, $generator, true);
@@ -197,15 +194,15 @@ class EvaluateTest extends TestCase
             'filesList' => array(
                 array(
                     'templatePath' => 'MyFileTemplate',
-                    'destinationPath' => 'MyFile'
-                )
-            )
+                    'destinationPath' => 'MyFile',
+                ),
+            ),
         );
 
         $generatorToTest = clone $generator;
 
         $this->assertEquals(
-            $generatorToTest->addFile($generator->getPath() . '/Skeleton/', 'MyFileTemplate', 'MyFileParser'),
+            $generatorToTest->addFile($generator->getPath().'/Skeleton/', 'MyFileTemplate', 'MyFileParser'),
             $sUT->evaluate($process, $phpParser, $generator, true)
         );
     }

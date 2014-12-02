@@ -32,7 +32,7 @@ class CreateSourceBackbone
      * Constructor.
      *
      * @param MetadataSourceQuestion $metadataSourceQuestion
-     * @param MetaDataConfigDAO      $metaDataConfigDAO
+     * @param MetaDataConfigDAO      $metadataConfigDAO
      * @param ContextInterface       $context
      */
     public function __construct(

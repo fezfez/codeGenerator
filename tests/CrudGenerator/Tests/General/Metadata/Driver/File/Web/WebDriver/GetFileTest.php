@@ -17,7 +17,6 @@ class GetFileTest extends TestCase
         $fileManagerExpectsOnce->with($url);
         $fileManagerExpectsOnce->will($this->throwException(new \RuntimeException()));
 
-
         $sUT = new WebDriver($fileManager);
         $driverConfig = new DriverConfig('my name');
         $driverConfig->response('configUrl', $url);

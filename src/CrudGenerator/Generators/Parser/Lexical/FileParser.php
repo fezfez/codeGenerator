@@ -109,7 +109,6 @@ class FileParser implements ParserInterface
      * @param  array               $file
      * @param  PhpStringParser     $parser
      * @param  GeneratorDataObject $generator
-     * @param  boolean             $firstIteration
      * @param  string              $skeletonPath
      * @return GeneratorDataObject
      */

@@ -9,7 +9,6 @@
  */
 namespace CrudGenerator\Metadata;
 
-
 /**
  * Find all MetaDataSource allow in project
  *

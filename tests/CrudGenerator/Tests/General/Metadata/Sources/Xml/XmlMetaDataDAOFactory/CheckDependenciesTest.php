@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\General\MetaData\Sources\Xml\XmlMetaDataDAOFactory;
+namespace CrudGenerator\Tests\General\Metadata\Sources\Xml\XmlMetaDataDAOFactory;
 
 use CrudGenerator\Metadata\Sources\Xml\XmlMetaDataDAOFactory;
 use CrudGenerator\Metadata\MetaDataSource;

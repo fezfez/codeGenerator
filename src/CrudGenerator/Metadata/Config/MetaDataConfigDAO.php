@@ -216,7 +216,6 @@ class MetaDataConfigDAO
     }
 
     /**
-     * @param DriverConfig $driverConfig
      */
     private function isWellConfigured(MetaDataSource $source)
     {

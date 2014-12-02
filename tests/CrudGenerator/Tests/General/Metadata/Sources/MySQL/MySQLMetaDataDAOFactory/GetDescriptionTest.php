@@ -1,6 +1,6 @@
 <?php
 
-namespace CrudGenerator\Tests\General\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory;
+namespace CrudGenerator\Tests\General\Metadata\Sources\MySQL\MySQLMetaDataDAOFactory;
 
 use CrudGenerator\Metadata\Sources\MySQL\MySQLMetaDataDAOFactory;
 

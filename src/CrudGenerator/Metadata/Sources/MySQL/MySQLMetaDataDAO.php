@@ -199,7 +199,7 @@ class MySQLMetaDataDAO implements MetaDataDAOInterface
                 continue;
             }
 
-            $parentName[] = $tableName;
+            $parentName[] = $dataObject->getName();
 
             $relation = clone $relationDataObject;
             $relation->setFullName($association['referenced_table_name'])

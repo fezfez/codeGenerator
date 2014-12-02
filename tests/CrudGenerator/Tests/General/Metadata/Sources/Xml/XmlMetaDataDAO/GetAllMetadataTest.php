@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\General\MetaData\Sources\Xml\XmlMetaDataDAO;
+namespace CrudGenerator\Tests\General\Metadata\Sources\Xml\XmlMetaDataDAO;
 
 use CrudGenerator\Metadata\Sources\Xml\XmlMetaDataDAOFactory;
 
@@ -7,7 +7,7 @@ class GetAllMetadataTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
-        $config = include __DIR__ . '/../Config.php';
+        $config = include __DIR__.'/../Config.php';
 
         $suT = XmlMetaDataDAOFactory::getInstance($config);
 

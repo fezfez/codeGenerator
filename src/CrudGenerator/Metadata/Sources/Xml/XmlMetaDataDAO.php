@@ -45,8 +45,8 @@ class XmlMetaDataDAO implements MetaDataDAOInterface
     /**
      * Get particularie metadata from MySQL
      *
-     * @param  string                                                        $tableName
-     * @return \CrudGenerator\Metadata\Sources\MySQL\MetadataDataObjectMySQL
+     * @param  string                                                      $tableName
+     * @return \CrudGenerator\Metadata\Sources\Json\MetadataDataObjectJson
      */
     public function getMetadataFor($tableName, array $parentName = array())
     {

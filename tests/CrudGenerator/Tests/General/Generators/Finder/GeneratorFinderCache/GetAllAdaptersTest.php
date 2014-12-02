@@ -3,8 +3,6 @@ namespace CrudGenerator\Tests\General\Generators\Finder\GeneratorFinderCache;
 
 use CrudGenerator\Generators\Finder\GeneratorFinder;
 use CrudGenerator\Generators\Finder\GeneratorFinderCache;
-use CrudGenerator\Utils\TranstyperFactory;
-use CrudGenerator\Generators\Validator\GeneratorValidatorFactory;
 use CrudGenerator\Tests\TestCase;
 use CrudGenerator\Utils\Installer;
 
@@ -38,7 +36,6 @@ class GetAllAdaptersTest extends TestCase
         $noCache      = true;
         $returnedData = 'returned';
 
-
         $fileManagerExpectsIsFile = $fileManager->expects($this->once());
         $fileManagerExpectsIsFile->method('isFile');
         $fileManagerExpectsIsFile->will($this->returnValue(true));
@@ -66,7 +63,6 @@ class GetAllAdaptersTest extends TestCase
         $noCache      = false;
         $returnedData = 'returned';
 
-
         $fileManagerExpectsIsFile = $fileManager->expects($this->once());
         $fileManagerExpectsIsFile->method('isFile');
         $fileManagerExpectsIsFile->will($this->returnValue(false));
@@ -93,7 +89,6 @@ class GetAllAdaptersTest extends TestCase
         $fileManager  = $this->createMock('CrudGenerator\Utils\FileManager');
         $noCache      = true;
         $returnedData = 'returned';
-
 
         $fileManagerExpectsIsFile = $fileManager->expects($this->once());
         $fileManagerExpectsIsFile->method('isFile');

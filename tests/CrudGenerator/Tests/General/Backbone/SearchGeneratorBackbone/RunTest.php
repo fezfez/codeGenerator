@@ -2,7 +2,6 @@
 namespace CrudGenerator\Tests\General\Backbone\SearchGeneratorBackbone;
 
 use CrudGenerator\Backbone\SearchGeneratorBackbone;
-use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Tests\TestCase;
 
 class RunTest extends TestCase
@@ -23,8 +22,7 @@ class RunTest extends TestCase
         $generatorSearchExpects->willReturn(new \Packagist\Api\Result\Result());
 
         $generatorDetailExpects = $generatorDetail->expects($this->once());
-        $generatorDetailExpects->method('find');;
-
+        $generatorDetailExpects->method('find');
         $generatorInstallerExpects = $generatorInstaller->expects($this->once());
         $generatorInstallerExpects->method('install');
 

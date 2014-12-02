@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\General\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAOFactory;
+namespace CrudGenerator\Tests\General\Metadata\Sources\Doctrine2\Doctrine2MetaDataDAOFactory;
 
 use CrudGenerator\Metadata\Sources\Doctrine2\Doctrine2MetaDataDAOFactory;
 use CrudGenerator\Metadata\MetaDataSource;

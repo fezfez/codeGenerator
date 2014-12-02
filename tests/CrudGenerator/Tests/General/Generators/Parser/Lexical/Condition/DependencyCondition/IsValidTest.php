@@ -16,7 +16,7 @@ class IsValidTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             true,
-            $sUT->isValid(array('ArchitectGenerator ' . ConditionInterface::UNDEFINED), $generator, $stringParser)
+            $sUT->isValid(array('ArchitectGenerator '.ConditionInterface::UNDEFINED), $generator, $stringParser)
         );
     }
 

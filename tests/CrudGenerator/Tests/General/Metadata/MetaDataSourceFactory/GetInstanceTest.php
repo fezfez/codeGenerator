@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator\Tests\General\MetaData\MetaDataSourceFactory;
+namespace CrudGenerator\Tests\General\Metadata\MetaDataSourceFactory;
 
 use CrudGenerator\Metadata\MetaDataSourceFactory;
 use CrudGenerator\Metadata\Driver\DriverConfig;

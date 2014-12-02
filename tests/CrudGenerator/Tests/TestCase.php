@@ -4,7 +4,7 @@ namespace CrudGenerator\Tests;
 class TestCase extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @param string $className
+     * @param  string $className
      * @return array
      */
     public function createSut($className)
@@ -17,13 +17,13 @@ class TestCase extends \PHPUnit_Framework_TestCase
         }
 
         return array(
-            'instance' => function($mocks) use ($class) { return $class->newInstanceArgs($mocks); },
-            'mocks'    => $mocks
+            'instance' => function ($mocks) use ($class) { return $class->newInstanceArgs($mocks); },
+            'mocks'    => $mocks,
         );
     }
 
     /**
-     * @param string $class
+     * @param  string                                   $class
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
     public function createMock($class)
@@ -34,7 +34,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $class
+     * @param  string                                   $class
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
     public function _($class)

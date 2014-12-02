@@ -3,9 +3,6 @@ namespace CrudGenerator\Tests\General\Generators\Parser\GeneratorParserFactory;
 
 use CrudGenerator\Generators\Parser\GeneratorParserFactory;
 use CrudGenerator\Generators\Parser\GeneratorParser;
-use CrudGenerator\Metadata\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
-use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
-use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {

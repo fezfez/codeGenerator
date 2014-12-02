@@ -37,7 +37,7 @@ class Doctrine2MetaDataDAOFactory implements MetaDataDAOSimpleFactoryInterface
             throw new \Exception(
                 sprintf(
                     'Service manager return instanceof "%s" instead of "%s"',
-                    get_class($entityManager),
+                    is_object($entityManager) ? get_class($entityManager) : gettype($entityManager),
                     'Doctrine\ORM\EntityManager'
                 )
             );

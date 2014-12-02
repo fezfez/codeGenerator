@@ -30,9 +30,9 @@ class QuestionTypeComplex implements QuestionTypeInterface
     }
 
     /**
-     * @param  array                                                                                 $question
+     * @param  array      $question
      * @throws \Exception
-     * @return \CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionComplexFactoryInterface
+     * @return string
      */
     private function isCorrectFactory(array $question)
     {

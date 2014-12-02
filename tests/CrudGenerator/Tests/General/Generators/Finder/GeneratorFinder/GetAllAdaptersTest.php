@@ -2,8 +2,6 @@
 namespace CrudGenerator\Tests\General\Generators\Finder\GeneratorFinder;
 
 use CrudGenerator\Generators\Finder\GeneratorFinder;
-use CrudGenerator\Utils\TranstyperFactory;
-use CrudGenerator\Generators\Validator\GeneratorValidatorFactory;
 use CrudGenerator\Tests\TestCase;
 
 class GetAllAdaptersTest extends TestCase
@@ -14,7 +12,7 @@ class GetAllAdaptersTest extends TestCase
 
         $fileFound = array(
             array(0 => 'fileName'),
-            array(0 => 'fileName2')
+            array(0 => 'fileName2'),
         );
 
         $fileManagerExpectsSearch = $rawMock['mocks']['fileManager']->expects($this->once());

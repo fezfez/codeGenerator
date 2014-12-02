@@ -23,14 +23,14 @@ class AskTest extends TestCase
 
         $directories = array(
             'dirOne',
-            'dirTwo'
+            'dirTwo',
         );
 
         $fileManagerStub = $this->createMock('CrudGenerator\Utils\FileManager');
 
         $fileManagerStub->expects($this->once())
         ->method('glob')
-        ->with($dto->getModelDirectory() . '*', GLOB_ONLYDIR | GLOB_MARK)
+        ->with($dto->getModelDirectory().'*', GLOB_ONLYDIR | GLOB_MARK)
         ->will($this->returnValue($directories));
 
         $sUT = new DirectoryQuestion($fileManagerStub, $context);
@@ -66,7 +66,7 @@ class AskTest extends TestCase
                 array(
                     'mmydir/',
                     'myFile/',
-                    'myFile2/'
+                    'myFile2/',
                 )
             )
         );
@@ -130,7 +130,7 @@ class AskTest extends TestCase
                     array(
                         'mmydir',
                         'myFile',
-                        'myFile2'
+                        'myFile2',
                     )
                 ),
                 $this->returnValue(array())

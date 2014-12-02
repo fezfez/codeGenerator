@@ -1,16 +1,11 @@
 <?php
-namespace CrudGenerator\Tests\General\MetaData\Config\MetaDataConfigDAO;
+namespace CrudGenerator\Tests\General\Metadata\Config\MetaDataConfigDAO;
 
 use CrudGenerator\Metadata\Config\MetaDataConfigDAO;
-use CrudGenerator\Utils\ClassAwake;
-use CrudGenerator\Metadata\MetaDataSourceHydrator;
 use CrudGenerator\Metadata\MetaDataSource;
 use CrudGenerator\Metadata\Sources\Json\JsonMetaDataDAOFactory;
 use CrudGenerator\Metadata\Driver\DriverConfig;
 use CrudGenerator\Metadata\Driver\Driver;
-use CrudGenerator\Utils\TranstyperFactory;
-use CrudGenerator\Metadata\Driver\DriverHydrator;
-use KeepUpdate\ArrayValidatorFactory;
 use CrudGenerator\Generators\ResponseExpectedException;
 use CrudGenerator\Tests\TestCase;
 
@@ -47,7 +42,7 @@ class AskTest extends TestCase
         $contextExpects = $rawMocks['mocks']['context']->expects($this->exactly(2));
 
         $contextExpects->method("ask");
-        $contextExpects->willReturnOnConsecutiveCalls($url,$this->throwException(new ResponseExpectedException()));
+        $contextExpects->willReturnOnConsecutiveCalls($url, $this->throwException(new ResponseExpectedException()));
 
         $sUT = $rawMocks['instance']($rawMocks['mocks']);
 
@@ -79,7 +74,6 @@ class AskTest extends TestCase
         $dataObject->addDriverDescription($driver);
         $dataObject->addDriverDescription($driverTwo);
         $dataObject->setUniqueName('Json');
-
 
         $rawMocks                    = $this->createSut('CrudGenerator\Metadata\Config\MetaDataConfigDAO');
         $url                         = 'http://myurl.org';

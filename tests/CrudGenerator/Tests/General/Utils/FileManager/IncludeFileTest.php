@@ -7,7 +7,7 @@ class IncludeFileTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {
-        $file = __DIR__ . '/tmpFile.php';
+        $file = __DIR__.'/tmpFile.php';
         $sUT  = new FileManager();
 
         $sUT->includeFile($file);
