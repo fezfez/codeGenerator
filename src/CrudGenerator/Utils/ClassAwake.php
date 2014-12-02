@@ -17,6 +17,11 @@ use ReflectionClass;
 class ClassAwake
 {
     /**
+     * @var array
+     */
+    private static $included = array();
+
+    /**
      * Awake classes by interface
      * @param  string[] $directories    Target directory
      * @param  string   $interfaceNames Interface name
@@ -48,6 +53,9 @@ class ClassAwake
     private function awake(array $directories)
     {
         $includedFiles = array();
+
+        self::$included = array_merge(self::$included, get_included_files());
+
         foreach ($directories as $directorie) {
             $iterator = new \RegexIterator(
                 new \RecursiveIteratorIterator(
@@ -61,9 +69,12 @@ class ClassAwake
             foreach ($iterator as $file) {
                 $sourceFile = realpath($file[0]);
 
-                require_once $sourceFile;
+                if (in_array($sourceFile, self::$included) === false) {
+                    require_once $sourceFile;
+                }
 
-                $includedFiles[] = $sourceFile;
+                self::$included[] = $sourceFile;
+                $includedFiles[]  = $sourceFile;
             }
         }
 

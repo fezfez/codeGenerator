@@ -11,6 +11,7 @@ namespace CrudGenerator\Backbone;
 
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\Parser\GeneratorParserFactory;
+use CrudGenerator\History\EmptyHistoryException;
 
 class MainBackbone
 {
@@ -93,10 +94,14 @@ class MainBackbone
             'Wake history',
             'select_history',
             function () use ($generate) {
-                $generator = $this->historyBackbone->run();
-                $parser = GeneratorParserFactory::getInstance($this->context);
-                $generator = $parser->init($generator, $generator->getDto()->getMetadata());
-                $generate($generator);
+                try {
+                    $generator = $this->historyBackbone->run();
+                    $parser = GeneratorParserFactory::getInstance($this->context);
+                    $generator = $parser->init($generator, $generator->getDto()->getMetadata());
+                    $generate($generator);
+                } catch (EmptyHistoryException $e) {
+                    $this->context->log("Generation history empty", "history_empty");
+                }
             }
         );
 
