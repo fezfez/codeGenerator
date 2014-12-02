@@ -10,9 +10,9 @@
 namespace CrudGenerator\Generators\Parser\Lexical\QuestionType;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
+use CrudGenerator\Utils\PhpStringParser;
 
 class QuestionTypeComplex implements QuestionTypeInterface
 {

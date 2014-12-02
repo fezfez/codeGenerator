@@ -1,10 +1,10 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\TemplateVariableParser;
 
-use CrudGenerator\Generators\Parser\Lexical\TemplateVariableParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
+use CrudGenerator\Generators\Parser\Lexical\TemplateVariableParser;
 
 class EvaluateTest extends \PHPUnit_Framework_TestCase
 {
@@ -84,7 +84,7 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
             'templateVariables' => array(
                 array(
                     'variableName' => 'MyVar',
-                    'value' => 'MyValue',
+                    'value'        => 'MyValue',
                 ),
             ),
         );
@@ -125,8 +125,8 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $process = array(
             'templateVariables' => array(
                 array(
-                    'variableName' => 'MyVar',
-                    'value' => 'MyValue',
+                    'variableName'            => 'MyVar',
+                    'value'                   => 'MyValue',
                     DependencyCondition::NAME => '!ArchitedGenerator',
                 ),
             ),
@@ -168,8 +168,8 @@ class EvaluateTest extends \PHPUnit_Framework_TestCase
         $process = array(
             'templateVariables' => array(
                 array(
-                    'variableName' => 'MyVar',
-                    'value' => 'MyValue',
+                    'variableName'               => 'MyVar',
+                    'value'                      => 'MyValue',
                     EnvironnementCondition::NAME => 'backend == pdo',
                 ),
             ),

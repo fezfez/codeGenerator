@@ -10,8 +10,8 @@
 namespace CrudGenerator\Generators\Parser\Lexical\QuestionType;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
 use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidatorFactory;
+use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
 
 class QuestionTypeCollectionFactory
 {

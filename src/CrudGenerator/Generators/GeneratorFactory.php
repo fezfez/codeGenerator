@@ -9,11 +9,11 @@
  */
 namespace CrudGenerator\Generators;
 
-use CrudGenerator\Generators\Strategies\StrategyInterface;
-use CrudGenerator\FileConflict\FileConflictManagerFactory;
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Utils\FileManager;
+use CrudGenerator\FileConflict\FileConflictManagerFactory;
+use CrudGenerator\Generators\Strategies\StrategyInterface;
 use CrudGenerator\History\HistoryFactory;
+use CrudGenerator\Utils\FileManager;
 
 /**
  * @author Stéphane Demonchaux

@@ -19,13 +19,13 @@ return array(
     ),
     'doctrine' => array(
         'configuration' => array(
-            'proxy_dir'         => __DIR__.'/../../../data/Doctrine/Proxy',
+            'proxy_dir'         => __DIR__ . '/../../../data/Doctrine/Proxy',
         ),
         'driver' => array(
             'orm_default' => array(
                 'class'   => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                 'paths' => array(
-                     realpath(__DIR__.'/../Entities/'),
+                 'paths'  => array(
+                     realpath(__DIR__ . '/../Entities/'),
                  ),
             ),
         ),
@@ -33,7 +33,7 @@ return array(
             // default connection name
             'orm_default' => array(
                 'driverClass' => 'Doctrine\DBAL\Driver\PDOPgSql\Driver',
-                'params' => array(
+                'params'      => array(
                     'host'     => 'localhost',
                     'port'     => '5432',
                     'user'     => 'postgres',

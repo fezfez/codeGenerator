@@ -9,8 +9,8 @@
  */
 namespace CrudGenerator\Generators\Questions\Metadata;
 
-use CrudGenerator\Metadata\MetaDataSourceFactory;
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Metadata\MetaDataSourceFactory;
 
 class MetadataQuestionFactory
 {

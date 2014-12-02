@@ -2,9 +2,9 @@
 namespace CrudGenerator\Tests\General\Command\CreateCommand;
 
 use CrudGenerator\Command\CreateCommand;
+use CrudGenerator\Tests\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use CrudGenerator\Tests\TestCase;
 
 class ExecuteTest extends TestCase
 {

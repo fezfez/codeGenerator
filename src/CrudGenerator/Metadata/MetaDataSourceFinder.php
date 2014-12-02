@@ -47,7 +47,7 @@ class MetaDataSourceFinder
     {
         $classCollection = $this->classAwake->wakeByInterfaces(
             array(
-                __DIR__.'/Sources/',
+                __DIR__ . '/Sources/',
             ),
             'CrudGenerator\Metadata\Sources\MetaDataDAOFactoryInterface'
         );

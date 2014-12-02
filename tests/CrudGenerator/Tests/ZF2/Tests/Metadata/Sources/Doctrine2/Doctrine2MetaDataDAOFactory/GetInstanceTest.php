@@ -7,7 +7,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {
-        chdir(__DIR__.'/../../../');
+        chdir(__DIR__ . '/../../../');
 
         $this->assertInstanceOf(
             'CrudGenerator\Metadata\Sources\Doctrine2\Doctrine2MetaDataDAO',

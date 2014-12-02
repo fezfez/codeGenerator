@@ -10,7 +10,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstance()
     {
-        $pdoConfig = include __DIR__.'/../config.php';
+        $pdoConfig = include __DIR__ . '/../config.php';
 
         $this->assertInstanceOf(
             'CrudGenerator\Metadata\Sources\PostgreSQL\PostgreSQLMetaDataDAO',

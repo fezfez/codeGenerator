@@ -11,9 +11,9 @@ namespace CrudGenerator\Metadata\DataObject;
 
 interface MetaDataInterface
 {
-    const ID = 'id';
+    const ID    = 'id';
     const LABEL = 'label';
-    const NAME = 'name';
+    const NAME  = 'name';
 
     /**
      * Append column dataobject

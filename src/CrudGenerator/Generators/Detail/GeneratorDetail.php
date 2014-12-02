@@ -9,8 +9,8 @@
  */
 namespace CrudGenerator\Generators\Detail;
 
-use Github\Api\Repo;
 use Github\Api\Markdown;
+use Github\Api\Repo;
 use Packagist\Api\Result\Result;
 
 /**

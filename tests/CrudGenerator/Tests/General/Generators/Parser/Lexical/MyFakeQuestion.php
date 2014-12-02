@@ -1,9 +1,9 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical;
 
+use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionComplexInterface;
 use CrudGenerator\Utils\PhpStringParser;
-use CrudGenerator\Generators\GeneratorDataObject;
 
 class MyFakeQuestion implements QuestionComplexInterface
 {

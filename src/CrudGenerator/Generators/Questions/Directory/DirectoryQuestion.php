@@ -9,14 +9,14 @@
  */
 namespace CrudGenerator\Generators\Questions\Directory;
 
-use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\QuestionWithPredefinedResponse;
-use CrudGenerator\Context\PredefinedResponseCollection;
-use CrudGenerator\Context\PredefinedResponse;
 use CrudGenerator\Context\CliContext;
+use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\PredefinedResponse;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Context\SimpleQuestion;
+use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Utils\FileManager;
 
 class DirectoryQuestion
 {
@@ -59,8 +59,8 @@ class DirectoryQuestion
      */
     public function ask(GeneratorDataObject $generator, array $question)
     {
-        $getter   = 'get'.$question['dtoAttribute'];
-        $setter   = 'set'.$question['dtoAttribute'];
+        $getter   = 'get' . $question['dtoAttribute'];
+        $setter   = 'set' . $question['dtoAttribute'];
         $required = (isset($question['required']) === true) ? $question['required'] : false;
 
         do {
@@ -134,17 +134,17 @@ class DirectoryQuestion
             try {
                 $directory = $this->context->ask(new SimpleQuestion('Directory name', 'directory_name'));
 
-                if (false === $this->fileManager->ifDirDoesNotExistCreate($baseDirectory.$directory)) {
+                if (false === $this->fileManager->ifDirDoesNotExistCreate($baseDirectory . $directory)) {
                     throw new \Exception('Directory already exist');
                 } else {
                     break;
                 }
             } catch (\Exception $e) {
-                $this->context->log('<error>'.$e->getMessage().'</error>');
+                $this->context->log('<error>' . $e->getMessage() . '</error>');
             }
         }
 
-        return $directory.'/';
+        return $directory . '/';
     }
 
     /**
@@ -181,7 +181,7 @@ class DirectoryQuestion
     private function buildDirectoryList($actualDirectory, PredefinedResponseCollection $responseCollection)
     {
         $directoriesRaw = $this->fileManager->glob(
-            $actualDirectory.'*',
+            $actualDirectory . '*',
             GLOB_ONLYDIR | GLOB_MARK
         );
 

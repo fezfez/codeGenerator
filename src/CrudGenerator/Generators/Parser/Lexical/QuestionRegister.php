@@ -10,10 +10,10 @@
 namespace CrudGenerator\Generators\Parser\Lexical;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeCollection;
 use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator;
+use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeCollection;
+use CrudGenerator\Utils\PhpStringParser;
 
 class QuestionRegister implements ParserInterface
 {

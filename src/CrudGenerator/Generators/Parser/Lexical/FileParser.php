@@ -9,11 +9,11 @@
  */
 namespace CrudGenerator\Generators\Parser\Lexical;
 
-use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator;
 use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
+use CrudGenerator\Utils\FileManager;
+use CrudGenerator\Utils\PhpStringParser;
 
 class FileParser implements ParserInterface
 {
@@ -50,7 +50,7 @@ class FileParser implements ParserInterface
      */
     public function evaluate(array $process, PhpStringParser $parser, GeneratorDataObject $generator, $firstIteration)
     {
-        $skeletonPath = $generator->getPath().'/Skeleton/';
+        $skeletonPath = $generator->getPath() . '/Skeleton/';
 
         if (false === $this->fileManager->isDir($skeletonPath)) {
             throw new MalformedGeneratorException(
@@ -96,7 +96,7 @@ class FileParser implements ParserInterface
                 sprintf('No destinationPath provided in file "%s"', json_encode($file))
             );
         }
-        if ($this->fileManager->isFile($skeletonPath.$file['templatePath']) === false) {
+        if ($this->fileManager->isFile($skeletonPath . $file['templatePath']) === false) {
             throw new MalformedGeneratorException(
                 sprintf('TemplatePath does not exist in file "%s"', json_encode($file))
             );

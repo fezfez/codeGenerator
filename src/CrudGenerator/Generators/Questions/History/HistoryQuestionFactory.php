@@ -9,8 +9,8 @@
  */
 namespace CrudGenerator\Generators\Questions\History;
 
-use CrudGenerator\History\HistoryFactory;
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\History\HistoryFactory;
 
 class HistoryQuestionFactory
 {

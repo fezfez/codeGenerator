@@ -9,8 +9,8 @@
  */
 namespace CrudGenerator\Backbone;
 
-use CrudGenerator\Generators\Questions\History\HistoryQuestion;
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Generators\Questions\History\HistoryQuestion;
 
 class HistoryBackbone
 {

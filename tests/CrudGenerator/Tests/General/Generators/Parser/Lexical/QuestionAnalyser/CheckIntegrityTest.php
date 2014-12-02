@@ -48,7 +48,7 @@ class CheckIntegrityTest extends \PHPUnit_Framework_TestCase
             array(
                 'dtoAttribute' => 'test',
                 'type'         => QuestionTypeEnum::ITERATOR_WITH_PREDEFINED_RESPONSE,
-                'iteration' => array(
+                'iteration'    => array(
 
                 ),
             )
@@ -65,7 +65,7 @@ class CheckIntegrityTest extends \PHPUnit_Framework_TestCase
             array(
                 'dtoAttribute' => 'test',
                 'type'         => QuestionTypeEnum::ITERATOR_WITH_PREDEFINED_RESPONSE,
-                'iteration' => array(
+                'iteration'    => array(
                     'response' => array(
                     ),
                 ),
@@ -83,7 +83,7 @@ class CheckIntegrityTest extends \PHPUnit_Framework_TestCase
             array(
                 'dtoAttribute' => 'test',
                 'type'         => QuestionTypeEnum::ITERATOR_WITH_PREDEFINED_RESPONSE,
-                'iteration' => array(
+                'iteration'    => array(
                     'response' => array(
                         'predefined' => 'im not an array',
                     ),

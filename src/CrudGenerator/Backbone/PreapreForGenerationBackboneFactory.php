@@ -10,10 +10,10 @@
 namespace CrudGenerator\Backbone;
 
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Generators\Parser\GeneratorParserProxyFactory;
+use CrudGenerator\Generators\Questions\Generator\GeneratorQuestionFactory;
 use CrudGenerator\Generators\Questions\MetadataSourceConfigured\MetadataSourceConfiguredQuestionFactory;
 use CrudGenerator\Generators\Questions\Metadata\MetadataQuestionFactory;
-use CrudGenerator\Generators\Questions\Generator\GeneratorQuestionFactory;
-use CrudGenerator\Generators\Parser\GeneratorParserProxyFactory;
 
 class PreapreForGenerationBackboneFactory
 {

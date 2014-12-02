@@ -9,13 +9,13 @@
  */
 namespace CrudGenerator\Metadata\Sources\PostgreSQL;
 
-use PDO;
-use CrudGenerator\Metadata\Sources\MetaDataDAOInterface;
 use CrudGenerator\Metadata\DataObject\MetaDataCollection;
-use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataColumn;
+use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
 use CrudGenerator\Metadata\Driver\DriverConfig;
+use CrudGenerator\Metadata\Sources\MetaDataDAOInterface;
+use PDO;
 
 /**
  * PostgreSQL adapter

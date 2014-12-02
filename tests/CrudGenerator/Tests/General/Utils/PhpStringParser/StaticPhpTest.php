@@ -1,9 +1,9 @@
 <?php
 namespace CrudGenerator\Tests\General\Utils\PhpStringParser;
 
-use CrudGenerator\Utils\PhpStringParser;
-use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\DataObject;
+use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Utils\PhpStringParser;
 
 class StaticPhpTest extends \PHPUnit_Framework_TestCase
 {

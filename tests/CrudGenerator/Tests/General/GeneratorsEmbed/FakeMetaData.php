@@ -1,9 +1,9 @@
 <?php
 
 use CrudGenerator\Metadata\DataObject\MetaDataColumn;
-use CrudGenerator\Metadata\DataObject\MetaDataRelationColumn;
-use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
+use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
+use CrudGenerator\Metadata\DataObject\MetaDataRelationColumn;
 use CrudGenerator\Metadata\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 
 $metadata = new MetadataDataObjectDoctrine2(

@@ -1,10 +1,10 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Installer\GeneratorInstallerFactory;
 
-use CrudGenerator\Generators\Installer\GeneratorInstaller;
-use Symfony\Component\Console\Input\ArrayInput;
 use Composer\Command\RequireCommand;
+use CrudGenerator\Generators\Installer\GeneratorInstaller;
 use CrudGenerator\Utils\OutputWeb;
+use Symfony\Component\Console\Input\ArrayInput;
 
 class InstallTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,9 +1,9 @@
 <?php
 namespace CrudGenerator\Tests\General\Metadata\Driver\File\Web\WebDriver;
 
+use CrudGenerator\Metadata\Driver\DriverConfig;
 use CrudGenerator\Metadata\Driver\File\Web\WebDriver;
 use CrudGenerator\Tests\TestCase;
-use CrudGenerator\Metadata\Driver\DriverConfig;
 
 class GetUniqueNameTest extends TestCase
 {

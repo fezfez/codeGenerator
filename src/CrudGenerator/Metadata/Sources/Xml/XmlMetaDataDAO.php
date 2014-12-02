@@ -9,9 +9,9 @@
  */
 namespace CrudGenerator\Metadata\Sources\Xml;
 
-use CrudGenerator\Metadata\Sources\MetaDataDAOInterface;
 use CrudGenerator\Metadata\DataObject\MetaDataCollection;
 use CrudGenerator\Metadata\Sources\Json\JsonMetaDataDAO;
+use CrudGenerator\Metadata\Sources\MetaDataDAOInterface;
 
 /**
  * Xml adapter

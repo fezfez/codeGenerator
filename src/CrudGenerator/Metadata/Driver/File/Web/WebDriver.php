@@ -10,10 +10,10 @@
 namespace CrudGenerator\Metadata\Driver\File\Web;
 
 use CrudGenerator\Metadata\Config\ConfigException;
-use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Metadata\Driver\DriverConfig;
-use CrudGenerator\Metadata\Driver\File\FileDriverInterface;
 use CrudGenerator\Metadata\Driver\DriverInterface;
+use CrudGenerator\Metadata\Driver\File\FileDriverInterface;
+use CrudGenerator\Utils\FileManager;
 
 /**
  * Json configuration for Json Metadata adapter

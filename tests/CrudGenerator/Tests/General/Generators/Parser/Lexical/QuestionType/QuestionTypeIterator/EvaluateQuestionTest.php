@@ -1,15 +1,15 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\QuestionType\QuestionTypeIterator;
 
-use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeIterator;
-use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
-use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidatorFactory;
-use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Utils\PhpStringParserFactory;
 use CrudGenerator\DataObject;
-use CrudGenerator\Metadata\Sources\MySQL\MetadataDataObjectMySQL;
+use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidatorFactory;
+use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
+use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeIterator;
 use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
+use CrudGenerator\Metadata\Sources\MySQL\MetadataDataObjectMySQL;
+use CrudGenerator\Utils\PhpStringParserFactory;
 
 class EvaluateQuestionTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,11 +25,11 @@ class EvaluateQuestionTest extends \PHPUnit_Framework_TestCase
 
         $questionArray = array(
             'iteration' => array(
-                'iterator' => '$architectGenerator->getMetadata()->getColumnCollection()',
+                'iterator'   => '$architectGenerator->getMetadata()->getColumnCollection()',
                 'retrieveBy' => '{{ iteration.getName() }}',
-                'text' => 'Attribute name for \"{{ iteration.getName() }}\"',
-                'response' => array(
-                    'type' => 'text',
+                'text'       => 'Attribute name for \"{{ iteration.getName() }}\"',
+                'response'   => array(
+                    'type'    => 'text',
                     'default' => '{{ iteration.getName() }}',
                 ),
                 'condition' => array(

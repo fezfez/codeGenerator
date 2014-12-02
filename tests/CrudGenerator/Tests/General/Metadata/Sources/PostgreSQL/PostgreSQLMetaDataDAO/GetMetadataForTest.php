@@ -10,7 +10,7 @@ class GetMetadataForTest extends \PHPUnit_Framework_TestCase
 {
     public function testType()
     {
-        $PostgreSQLConfig = include __DIR__.'/../config.php';
+        $PostgreSQLConfig = include __DIR__ . '/../config.php';
 
         $suT = PostgreSQLMetaDataDAOFactory::getInstance($PostgreSQLConfig);
 

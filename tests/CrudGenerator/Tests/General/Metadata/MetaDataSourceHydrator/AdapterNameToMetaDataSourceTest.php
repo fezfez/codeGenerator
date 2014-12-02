@@ -1,8 +1,8 @@
 <?php
 namespace CrudGenerator\Tests\General\Metadata\MetaDataSourceHydrator;
 
-use CrudGenerator\Tests\TestCase;
 use CrudGenerator\Metadata\MetaDataSourceHydrator;
+use CrudGenerator\Tests\TestCase;
 
 class AdapterNameToMetaDataSourceTest extends TestCase
 {

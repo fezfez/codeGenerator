@@ -1,17 +1,17 @@
 <?php
 namespace CrudGenerator\Tests\General\History\HistoryHydrator;
 
+use CrudGenerator\DataObject;
+use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Generators\ResponseExpectedException;
+use CrudGenerator\History\History;
 use CrudGenerator\History\HistoryHydrator;
 use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
-use CrudGenerator\Metadata\Sources\Doctrine2\MetadataDataObjectDoctrine2;
-use KeepUpdate\ArrayValidatorFactory;
-use CrudGenerator\History\History;
-use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\DataObject;
 use CrudGenerator\Metadata\MetaDataSource;
+use CrudGenerator\Metadata\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\Tests\TestCase;
-use CrudGenerator\Generators\ResponseExpectedException;
+use KeepUpdate\ArrayValidatorFactory;
 
 class JsonToDtoTest extends TestCase
 {
@@ -122,7 +122,7 @@ class JsonToDtoTest extends TestCase
             GeneratorDataObject::ENVIRONNEMENT     => array(),
             GeneratorDataObject::DEPENDENCIES      => array(),
             GeneratorDataObject::NAME              => "toto",
-            GeneratorDataObject::DTO => array(
+            GeneratorDataObject::DTO               => array(
                 DataObject::METADATA => array(
                     "id"      => "CategorieEntity",
                     "dtCreat" => "CategorieEntity",

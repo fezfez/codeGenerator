@@ -1,12 +1,12 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\QuestionRegister;
 
-use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\DataObject;
-use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeCollectionFactory;
+use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\QuestionAnalyser;
-use CrudGenerator\Tests\TestCase;
 use CrudGenerator\Generators\Parser\Lexical\QuestionRegister;
+use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeCollectionFactory;
+use CrudGenerator\Tests\TestCase;
 
 class EvaluateTest extends TestCase
 {

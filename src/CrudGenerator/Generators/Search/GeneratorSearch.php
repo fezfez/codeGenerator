@@ -10,11 +10,11 @@
 namespace CrudGenerator\Generators\Search;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\QuestionWithPredefinedResponse;
-use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
-use Packagist\Api\Client;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Context\SimpleQuestion;
+use Packagist\Api\Client;
 
 /**
  * Find all generator allow in project

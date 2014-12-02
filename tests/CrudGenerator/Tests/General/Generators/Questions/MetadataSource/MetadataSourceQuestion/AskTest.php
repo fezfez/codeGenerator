@@ -2,8 +2,8 @@
 namespace CrudGenerator\Tests\General\Generators\Questions\MetadataSource\MetadataSourceQuestion;
 
 use CrudGenerator\Generators\Questions\MetadataSource\MetadataSourceQuestion;
-use CrudGenerator\Metadata\MetaDataSourceCollection;
 use CrudGenerator\Metadata\MetaDataSource;
+use CrudGenerator\Metadata\MetaDataSourceCollection;
 use CrudGenerator\Tests\TestCase;
 
 class AskTest extends TestCase

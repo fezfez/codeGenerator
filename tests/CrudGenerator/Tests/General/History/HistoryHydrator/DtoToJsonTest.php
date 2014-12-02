@@ -1,17 +1,17 @@
 <?php
 namespace CrudGenerator\Tests\General\History\HistoryHydrator;
 
-use CrudGenerator\History\HistoryHydrator;
 use CrudGenerator\DataObject;
+use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\History\HistoryHydrator;
 use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
-use CrudGenerator\Metadata\Sources\Doctrine2\MetadataDataObjectDoctrine2;
-use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Metadata\MetaDataSource;
 use CrudGenerator\Metadata\Driver\DriverConfig;
-use KeepUpdate\ArrayValidatorFactory;
 use CrudGenerator\Metadata\Driver\File\Web\WebDriverFactory;
+use CrudGenerator\Metadata\MetaDataSource;
+use CrudGenerator\Metadata\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\Tests\TestCase;
+use KeepUpdate\ArrayValidatorFactory;
 
 class DtoToJsonTest extends TestCase
 {

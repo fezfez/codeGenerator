@@ -2,8 +2,8 @@
 namespace CrudGenerator\Tests\General\Backbone\HistoryBackbone;
 
 use CrudGenerator\Backbone\HistoryBackbone;
-use CrudGenerator\History\EmptyHistoryException;
 use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\History\EmptyHistoryException;
 use CrudGenerator\Tests\TestCase;
 
 class RunTest extends TestCase

@@ -9,11 +9,11 @@
  */
 namespace CrudGenerator\Metadata\Sources\Doctrine2;
 
-use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
 use CrudGenerator\EnvironnementResolver\EnvironnementResolverException;
-use CrudGenerator\Utils\FileManager;
+use CrudGenerator\EnvironnementResolver\ZendFramework2Environnement;
 use CrudGenerator\Metadata\MetaDataSource;
 use CrudGenerator\Metadata\Sources\MetaDataDAOSimpleFactoryInterface;
+use CrudGenerator\Utils\FileManager;
 use Doctrine\ORM\EntityManager;
 
 /**

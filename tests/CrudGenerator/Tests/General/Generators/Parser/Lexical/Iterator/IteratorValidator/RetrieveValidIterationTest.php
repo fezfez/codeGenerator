@@ -2,8 +2,8 @@
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\Iterator\IteratorValidator;
 
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
 use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidatorFactory;
+use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
 
 class RetrieveValidIterationTest extends \PHPUnit_Framework_TestCase
 {

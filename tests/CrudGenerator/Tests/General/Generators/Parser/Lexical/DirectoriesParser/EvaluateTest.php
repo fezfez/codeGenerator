@@ -1,8 +1,8 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\DirectoriesParser;
 
-use CrudGenerator\Generators\Parser\Lexical\DirectoriesParser;
 use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Generators\Parser\Lexical\DirectoriesParser;
 
 class EvaluateTest extends \PHPUnit_Framework_TestCase
 {

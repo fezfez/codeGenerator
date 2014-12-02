@@ -10,11 +10,11 @@
 namespace CrudGenerator\Backbone;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Generator;
-use CrudGenerator\Context\QuestionWithPredefinedResponse;
-use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
+use CrudGenerator\Generators\Generator;
+use CrudGenerator\Generators\GeneratorDataObject;
 
 class GenerateFileBackbone
 {

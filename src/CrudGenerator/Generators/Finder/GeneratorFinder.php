@@ -9,10 +9,10 @@
  */
 namespace CrudGenerator\Generators\Finder;
 
-use CrudGenerator\Metadata\DataObject\MetaDataInterface;
-use CrudGenerator\Utils\Transtyper;
 use CrudGenerator\Generators\Validator\GeneratorValidator;
+use CrudGenerator\Metadata\DataObject\MetaDataInterface;
 use CrudGenerator\Utils\FileManager;
+use CrudGenerator\Utils\Transtyper;
 
 /**
  * Find generator

@@ -10,9 +10,9 @@
 namespace CrudGenerator\Generators\Questions\Generator;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\QuestionWithPredefinedResponse;
-use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Generators\Finder\GeneratorFinderInterface;
 use CrudGenerator\Metadata\DataObject\MetaDataInterface;
 

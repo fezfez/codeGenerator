@@ -9,8 +9,8 @@
  */
 namespace CrudGenerator\Generators\Questions\Directory;
 
-use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Utils\FileManager;
 
 class DirectoryQuestionFactory
 {

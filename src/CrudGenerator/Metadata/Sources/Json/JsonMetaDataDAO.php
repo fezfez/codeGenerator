@@ -9,15 +9,15 @@
  */
 namespace CrudGenerator\Metadata\Sources\Json;
 
-use CrudGenerator\Metadata\Sources\MetaDataDAOInterface;
 use CrudGenerator\Metadata\DataObject\MetaDataCollection;
-use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataColumn;
+use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationColumn;
-use CrudGenerator\Metadata\Driver\File\FileDriverInterface;
-use CrudGenerator\Utils\Installer;
 use CrudGenerator\Metadata\Driver\DriverConfig;
+use CrudGenerator\Metadata\Driver\File\FileDriverInterface;
+use CrudGenerator\Metadata\Sources\MetaDataDAOInterface;
+use CrudGenerator\Utils\Installer;
 use JSONSchema\SchemaGenerator;
 
 /**
@@ -58,8 +58,8 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
      */
     public function getAllMetadata()
     {
-        $schema = $this->schemaGenerator->parse($this->jsonConfig->getFile($this->config));
-        $filePath = Installer::getDirectory(Installer::TMP).'schema.json';
+        $schema   = $this->schemaGenerator->parse($this->jsonConfig->getFile($this->config));
+        $filePath = Installer::getDirectory(Installer::TMP) . 'schema.json';
 
         file_put_contents($filePath, $schema->toString());
 

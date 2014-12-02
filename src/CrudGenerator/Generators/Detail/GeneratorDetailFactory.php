@@ -10,9 +10,9 @@
 namespace CrudGenerator\Generators\Detail;
 
 use CrudGenerator\Context\ContextInterface;
-use Github\Client;
-use Github\Api\Repo;
 use Github\Api\Markdown;
+use Github\Api\Repo;
+use Github\Client;
 
 /**
  *

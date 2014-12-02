@@ -9,8 +9,8 @@
  */
 namespace CrudGenerator\Metadata;
 
-use CrudGenerator\Metadata\Driver\DriverConfig;
 use CrudGenerator\Metadata\Driver\Driver;
+use CrudGenerator\Metadata\Driver\DriverConfig;
 use KeepUpdate\Annotations;
 
 /**

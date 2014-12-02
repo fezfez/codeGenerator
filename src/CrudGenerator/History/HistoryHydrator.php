@@ -10,12 +10,12 @@
 namespace CrudGenerator\History;
 
 use CrudGenerator\DataObject;
+use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Questions\MetadataSourceConfigured\MetadataSourceConfiguredQuestion;
 use CrudGenerator\Generators\Questions\Metadata\MetadataQuestion;
 use CrudGenerator\Generators\ResponseExpectedException;
-use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Metadata\MetaDataSource;
 use CrudGenerator\Metadata\DataObject\MetaDataInterface;
+use CrudGenerator\Metadata\MetaDataSource;
 use KeepUpdate\ArrayValidator;
 use KeepUpdate\ValidationException;
 
@@ -133,7 +133,7 @@ class HistoryHydrator
         $dataObject->setMetadata($metadata);
 
         foreach ($dto[DataObject::STORE] as $storeKey => $storeValue) {
-            $setter = 'set'.ucfirst($storeKey);
+            $setter = 'set' . ucfirst($storeKey);
             $dataObject->register(array('dtoAttribute' => $storeKey), is_array($storeValue));
             $dataObject->$setter($storeValue);
         }

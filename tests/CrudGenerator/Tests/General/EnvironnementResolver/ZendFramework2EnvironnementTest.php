@@ -18,7 +18,7 @@ class ZendFramework2EnvironnementTest extends \PHPUnit_Framework_TestCase
 
         $stubFileManager->expects($this->any())
                         ->method('includeFile')
-                        ->will($this->returnValue(include __DIR__.'/../../ZF2/config/application.config.php'));
+                        ->will($this->returnValue(include __DIR__ . '/../../ZF2/config/application.config.php'));
 
         $this->assertInstanceOf(
             'Zend\ServiceManager\ServiceManager',

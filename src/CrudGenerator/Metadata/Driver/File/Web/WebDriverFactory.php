@@ -9,10 +9,10 @@
  */
 namespace CrudGenerator\Metadata\Driver\File\Web;
 
-use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Metadata\Driver\DriverConfig;
 use CrudGenerator\Metadata\Driver\Driver;
+use CrudGenerator\Metadata\Driver\DriverConfig;
 use CrudGenerator\Metadata\Driver\DriverFactoryInterface;
+use CrudGenerator\Utils\FileManager;
 
 class WebDriverFactory implements DriverFactoryInterface
 {

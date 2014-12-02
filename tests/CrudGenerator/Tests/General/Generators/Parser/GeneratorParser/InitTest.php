@@ -3,10 +3,10 @@ namespace CrudGenerator\Tests\General\Generators\Parser\GeneratorParser;
 
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
-use CrudGenerator\Metadata\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
+use CrudGenerator\Generators\Parser\ParserCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
-use CrudGenerator\Generators\Parser\ParserCollection;
+use CrudGenerator\Metadata\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
 use CrudGenerator\Tests\TestCase;
 
 class InitTest extends TestCase
@@ -21,7 +21,7 @@ class InitTest extends TestCase
         $parserCollection   = new ParserCollection();
 
         $process = array(
-            'dto' => 'CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect',
+            'dto'  => 'CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect',
             'name' => 'test',
         );
 
@@ -61,7 +61,7 @@ class InitTest extends TestCase
         $parserCollection->addPreParse($questionResponse);
 
         $process = array(
-            'dto' => 'CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect',
+            'dto'  => 'CrudGenerator\GeneratorsEmbed\ArchitectGenerator\Architect',
             'name' => 'test',
         );
 

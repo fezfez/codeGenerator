@@ -1,8 +1,8 @@
 <?php
 namespace CrudGenerator\Tests\General\History\History;
 
-use CrudGenerator\History\History;
 use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\History\History;
 
 class HistoryTest extends \PHPUnit_Framework_TestCase
 {

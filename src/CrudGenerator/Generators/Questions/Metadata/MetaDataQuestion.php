@@ -10,11 +10,11 @@
 namespace CrudGenerator\Generators\Questions\Metadata;
 
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\PredefinedResponse;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Metadata\MetaDataSource;
 use CrudGenerator\Metadata\MetaDataSourceFactory;
-use CrudGenerator\Context\QuestionWithPredefinedResponse;
-use CrudGenerator\Context\PredefinedResponseCollection;
-use CrudGenerator\Context\PredefinedResponse;
 
 class MetaDataQuestion
 {

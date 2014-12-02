@@ -10,10 +10,10 @@
 namespace CrudGenerator\Generators\Parser\Lexical\QuestionType;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Questions\Directory\DirectoryQuestionFactory;
 use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
+use CrudGenerator\Generators\Questions\Directory\DirectoryQuestionFactory;
+use CrudGenerator\Utils\PhpStringParser;
 
 class QuestionTypeDirectory implements QuestionTypeInterface
 {

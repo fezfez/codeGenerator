@@ -9,12 +9,12 @@
  */
 namespace CrudGenerator\Metadata\Config;
 
-use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Metadata\Driver\DriverHydrator;
 use CrudGenerator\Metadata\MetaDataSourceHydratorFactory;
+use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Utils\TranstyperFactory;
 use KeepUpdate\ArrayValidatorFactory;
-use CrudGenerator\Metadata\Driver\DriverHydrator;
 
 class MetaDataConfigDAOFactory
 {

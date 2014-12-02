@@ -9,10 +9,10 @@
  */
 namespace CrudGenerator\Metadata\Sources\Xml;
 
-use CrudGenerator\Metadata\MetaDataSource;
-use CrudGenerator\Metadata\Sources\Json\JsonMetaDataDAOFactory;
 use CrudGenerator\Metadata\Driver\DriverConfig;
 use CrudGenerator\Metadata\Driver\File\FileDriverFactory;
+use CrudGenerator\Metadata\MetaDataSource;
+use CrudGenerator\Metadata\Sources\Json\JsonMetaDataDAOFactory;
 use CrudGenerator\Metadata\Sources\MetaDataDAOFactoryConfigInterface;
 use CrudGenerator\Utils\Installer;
 
@@ -22,7 +22,7 @@ use CrudGenerator\Utils\Installer;
  */
 class XmlMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
 {
-    const TMP_PATH = 'tmp/';
+    const TMP_PATH       = 'tmp/';
     const FILE_EXTENSION = '-from-xml.json';
 
     /**
@@ -40,8 +40,8 @@ class XmlMetaDataDAOFactory implements MetaDataDAOFactoryConfigInterface
             )
         );
 
-        $fileName = md5($config->getResponse('configUrl')).self::FILE_EXTENSION;
-        $filePath = Installer::getDirectory(Installer::TMP).$fileName;
+        $fileName = md5($config->getResponse('configUrl')) . self::FILE_EXTENSION;
+        $filePath = Installer::getDirectory(Installer::TMP) . $fileName;
 
         file_put_contents($filePath, $json);
 

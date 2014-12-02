@@ -22,14 +22,14 @@ use KeepUpdate\Annotations;
  */
 class GeneratorDataObject implements \JsonSerializable
 {
-    const FILES = 'files';
-    const METADATA_SOURCE = 'metadataSource';
+    const FILES             = 'files';
+    const METADATA_SOURCE   = 'metadataSource';
     const TEMPLATE_VARIABLE = 'templateVariable';
-    const DIRECTORIES = 'directories';
-    const NAME = 'name';
-    const ENVIRONNEMENT = 'environnement';
-    const DEPENDENCIES = 'dependencies';
-    const DTO = 'dto';
+    const DIRECTORIES       = 'directories';
+    const NAME              = 'name';
+    const ENVIRONNEMENT     = 'environnement';
+    const DEPENDENCIES      = 'dependencies';
+    const DTO               = 'dto';
 
     /**
      * @Annotations\Chain(class="CrudGenerator\DataObject", nullable=false)

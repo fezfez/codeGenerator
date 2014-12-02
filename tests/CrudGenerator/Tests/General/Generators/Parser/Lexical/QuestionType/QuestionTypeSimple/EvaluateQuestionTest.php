@@ -1,10 +1,10 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\QuestionType\QuestionTypeSimple;
 
-use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeSimple;
-use CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum;
-use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\DataObject;
+use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum;
+use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeSimple;
 use CrudGenerator\Tests\TestCase;
 
 class EvaluateQuestionTest extends TestCase

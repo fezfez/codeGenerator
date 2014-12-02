@@ -9,14 +9,14 @@
  */
 namespace CrudGenerator\Service;
 
+use CrudGenerator\Backbone\MainBackboneFactory;
 use CrudGenerator\Command\CreateCommandFactory;
 use CrudGenerator\Context\CliContext;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Helper\FormatterHelper;
-use CrudGenerator\Backbone\MainBackboneFactory;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Create CLI instance

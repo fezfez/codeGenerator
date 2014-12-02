@@ -9,8 +9,8 @@
  */
 namespace CrudGenerator\Metadata\Driver\Pdo;
 
-use CrudGenerator\Metadata\Driver\DriverConfig;
 use CrudGenerator\Metadata\Driver\Driver;
+use CrudGenerator\Metadata\Driver\DriverConfig;
 use CrudGenerator\Metadata\Driver\DriverFactoryInterface;
 
 class PdoDriverFactory implements DriverFactoryInterface

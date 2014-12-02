@@ -1,8 +1,8 @@
 <?php
 namespace CrudGenerator\Tests\General\View\Helpers\FixtureRenderer;
 
-use CrudGenerator\View\Helpers\FixtureRenderer;
 use CrudGenerator\Metadata\DataObject\MetaDataColumn;
+use CrudGenerator\View\Helpers\FixtureRenderer;
 use Faker\Factory;
 
 class RenderTest extends \PHPUnit_Framework_TestCase

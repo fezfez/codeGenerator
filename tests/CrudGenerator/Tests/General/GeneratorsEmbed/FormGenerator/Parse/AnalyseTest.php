@@ -44,6 +44,6 @@ class AnalyseTest extends \PHPUnit_Framework_TestCase
      */
     private function getMetadata()
     {
-        return include __DIR__.'/../../FakeMetaData.php';
+        return include __DIR__ . '/../../FakeMetaData.php';
     }
 }

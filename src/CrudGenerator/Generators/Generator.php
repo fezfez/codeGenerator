@@ -9,11 +9,11 @@
  */
 namespace CrudGenerator\Generators;
 
-use CrudGenerator\Generators\Strategies\StrategyInterface;
-use CrudGenerator\FileConflict\FileConflictManager;
-use CrudGenerator\Utils\FileManager;
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\FileConflict\FileConflictManager;
+use CrudGenerator\Generators\Strategies\StrategyInterface;
 use CrudGenerator\History\HistoryManager;
+use CrudGenerator\Utils\FileManager;
 
 /**
  * @author Stéphane Demonchaux
@@ -91,7 +91,7 @@ class Generator
             );
 
             $this->fileManager->filePutsContent($file['fileName'], $result);
-            $this->context->log('--> Create file '.$file['fileName'], 'generationLog');
+            $this->context->log('--> Create file ' . $file['fileName'], 'generationLog');
         }
 
         $this->historyManager->create($generator);

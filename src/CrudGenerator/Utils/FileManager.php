@@ -27,7 +27,7 @@ class FileManager
     public function mkdir($pathname, $recursive = false)
     {
         if (@mkdir($pathname, 0777, $recursive) === false) {
-            throw new RuntimeException(sprintf("Could't create %s", realpath(getcwd()).$pathname));
+            throw new RuntimeException(sprintf("Could't create %s", realpath(getcwd()) . $pathname));
         }
     }
 

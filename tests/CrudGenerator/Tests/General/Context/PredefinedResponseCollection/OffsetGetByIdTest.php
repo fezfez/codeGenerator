@@ -1,9 +1,9 @@
 <?php
 namespace CrudGenerator\Tests\General\Context\PredefinedResponseCollection;
 
+use CrudGenerator\Context\PredefinedResponse;
 use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Tests\TestCase;
-use CrudGenerator\Context\PredefinedResponse;
 
 class OffsetGetByIdTest extends TestCase
 {

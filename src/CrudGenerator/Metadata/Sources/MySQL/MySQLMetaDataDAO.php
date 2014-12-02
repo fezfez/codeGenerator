@@ -9,14 +9,14 @@
  */
 namespace CrudGenerator\Metadata\Sources\MySQL;
 
-use PDO;
-use CrudGenerator\Metadata\Sources\MetaDataDAOInterface;
 use CrudGenerator\Metadata\DataObject\MetaDataCollection;
-use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataColumn;
+use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationColumn;
 use CrudGenerator\Metadata\Driver\DriverConfig;
+use CrudGenerator\Metadata\Sources\MetaDataDAOInterface;
+use PDO;
 
 /**
  * MySQL adapter

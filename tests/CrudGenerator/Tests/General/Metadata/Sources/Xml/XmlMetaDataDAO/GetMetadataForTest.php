@@ -10,7 +10,7 @@ class GetMetadataForTest extends \PHPUnit_Framework_TestCase
 {
     public function testRetireveData()
     {
-        $config = include __DIR__.'/../Config.php';
+        $config = include __DIR__ . '/../Config.php';
 
         $suT = XmlMetaDataDAOFactory::getInstance($config);
 

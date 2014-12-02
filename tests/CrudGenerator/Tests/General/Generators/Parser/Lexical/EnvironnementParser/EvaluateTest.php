@@ -1,10 +1,10 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\EnvironnementParser;
 
-use CrudGenerator\Generators\Parser\Lexical\EnvironnementParser;
-use CrudGenerator\Generators\GeneratorDataObject;
-use Symfony\Component\Yaml\Yaml;
 use CrudGenerator\DataObject;
+use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Generators\Parser\Lexical\EnvironnementParser;
+use Symfony\Component\Yaml\Yaml;
 
 class EvaluateTest extends \PHPUnit_Framework_TestCase
 {

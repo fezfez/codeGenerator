@@ -10,8 +10,8 @@
 namespace CrudGenerator;
 
 use CrudGenerator\Metadata\DataObject\MetaDataInterface;
-use CrudGenerator\Storage\StorageString;
 use CrudGenerator\Storage\StorageArray;
+use CrudGenerator\Storage\StorageString;
 
 /**
  * Base representation for template generation
@@ -21,7 +21,7 @@ use CrudGenerator\Storage\StorageArray;
 class DataObject implements \JsonSerializable
 {
     const METADATA = 'metadata';
-    const STORE = 'store';
+    const STORE    = 'store';
     /**
      * @var MetaDataInterface Metadata object
      */

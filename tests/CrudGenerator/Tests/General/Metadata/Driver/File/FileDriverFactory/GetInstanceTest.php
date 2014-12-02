@@ -1,8 +1,8 @@
 <?php
 namespace CrudGenerator\Tests\General\Metadata\Driver\File\FileDriverFactory;
 
-use CrudGenerator\Metadata\Driver\File\FileDriverFactory;
 use CrudGenerator\Metadata\Driver\DriverConfig;
+use CrudGenerator\Metadata\Driver\File\FileDriverFactory;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {

@@ -9,12 +9,12 @@
  */
 namespace CrudGenerator\Metadata\Sources\Json;
 
-use CrudGenerator\Metadata\MetaDataSource;
-use JSONSchema\SchemaGeneratorFactory;
 use CrudGenerator\Metadata\Driver\DriverConfig;
-use CrudGenerator\Metadata\Driver\File\Web\WebDriverFactory;
 use CrudGenerator\Metadata\Driver\File\FileDriverFactory;
+use CrudGenerator\Metadata\Driver\File\Web\WebDriverFactory;
+use CrudGenerator\Metadata\MetaDataSource;
 use CrudGenerator\Metadata\Sources\MetaDataDAOFactoryConfigInterface;
+use JSONSchema\SchemaGeneratorFactory;
 
 /**
  * Create Json Metadata DAO instance

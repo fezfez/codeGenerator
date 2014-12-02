@@ -1,12 +1,12 @@
 <?php
 namespace CrudGenerator\Tests\General\Metadata\Config\MetaDataConfigDAO;
 
+use CrudGenerator\Generators\ResponseExpectedException;
 use CrudGenerator\Metadata\Config\MetaDataConfigDAO;
+use CrudGenerator\Metadata\Driver\Driver;
+use CrudGenerator\Metadata\Driver\DriverConfig;
 use CrudGenerator\Metadata\MetaDataSource;
 use CrudGenerator\Metadata\Sources\Json\JsonMetaDataDAOFactory;
-use CrudGenerator\Metadata\Driver\DriverConfig;
-use CrudGenerator\Metadata\Driver\Driver;
-use CrudGenerator\Generators\ResponseExpectedException;
 use CrudGenerator\Tests\TestCase;
 
 class AskTest extends TestCase

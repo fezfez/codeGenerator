@@ -3,8 +3,8 @@ namespace CrudGenerator\Tests\General\Metadata\MetaDataSourceFinder;
 
 use CrudGenerator\Metadata\MetaDataSourceFinder;
 use CrudGenerator\Metadata\MetaDataSourceHydrator;
-use CrudGenerator\Utils\ClassAwake;
 use CrudGenerator\Tests\TestCase;
+use CrudGenerator\Utils\ClassAwake;
 
 class GetAllAdaptersTest extends TestCase
 {

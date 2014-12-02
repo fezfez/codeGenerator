@@ -1,8 +1,8 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\GeneratorDataObject;
 
-use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\DataObject;
+use CrudGenerator\Generators\GeneratorDataObject;
 
 class MethodTest extends \PHPUnit_Framework_TestCase
 {

@@ -2,8 +2,8 @@
 namespace CrudGenerator\Tests\General\Context\SimpleQuestion;
 
 use CrudGenerator\Context\SimpleQuestion;
-use CrudGenerator\Tests\TestCase;
 use CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum;
+use CrudGenerator\Tests\TestCase;
 
 class GetterSetterTest extends TestCase
 {

@@ -3,9 +3,9 @@ namespace CrudGenerator\Tests\General\Generators\Parser\GeneratorParserProxy;
 
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParserProxy;
-use CrudGenerator\Metadata\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
 use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
+use CrudGenerator\Metadata\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
 use CrudGenerator\Tests\TestCase;
 
 class InitTest extends TestCase

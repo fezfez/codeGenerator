@@ -9,9 +9,9 @@
  */
 namespace CrudGenerator\Generators\Installer;
 
-use Symfony\Component\Console\Input\ArrayInput;
 use Composer\Command\RequireCommand;
 use CrudGenerator\Utils\OutputWeb;
+use Symfony\Component\Console\Input\ArrayInput;
 
 /**
  * Find all generator allow in project
@@ -54,7 +54,7 @@ class GeneratorInstaller implements GeneratorInstallerInterface
      */
     public function install($package, $version = 'dev-master')
     {
-        $this->input->setArgument('packages', array($package.':'.$version));
+        $this->input->setArgument('packages', array($package . ':' . $version));
         $this->output->write(sprintf('%s$ composer require %s:%s --no-update', getcwd(), $package, $version));
 
         return $this->requireCommand->run($this->input, $this->output);

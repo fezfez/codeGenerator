@@ -9,10 +9,10 @@
  */
 namespace CrudGenerator\Metadata\Sources\PostgreSQL;
 
-use CrudGenerator\Metadata\MetaDataSource;
-use CrudGenerator\Metadata\Driver\Pdo\PdoDriver;
 use CrudGenerator\Metadata\Driver\DriverConfig;
+use CrudGenerator\Metadata\Driver\Pdo\PdoDriver;
 use CrudGenerator\Metadata\Driver\Pdo\PdoDriverFactory;
+use CrudGenerator\Metadata\MetaDataSource;
 use CrudGenerator\Metadata\Sources\MetaDataDAOFactoryConfigInterface;
 
 /**

@@ -9,7 +9,7 @@ class JsonSerializableTest extends \PHPUnit_Framework_TestCase
         $classes = new \CrudGenerator\Utils\ClassAwake();
 
         $implementations = $classes->wakeByInterfaces(
-            array(getcwd().'/src'),
+            array(getcwd() . '/src'),
             'CrudGenerator\Metadata\Sources\MetaDataConfig'
         );
 
@@ -30,7 +30,7 @@ class JsonSerializableTest extends \PHPUnit_Framework_TestCase
         $classes = new \CrudGenerator\Utils\ClassAwake();
 
         $implementations = $classes->wakeByInterfaces(
-            array(getcwd().'/src'),
+            array(getcwd() . '/src'),
             'CrudGenerator\Metadata\Sources\MetaDataConfig'
         );
 
@@ -49,7 +49,7 @@ class JsonSerializableTest extends \PHPUnit_Framework_TestCase
                     continue;
                 }
 
-                $method = 'set'.ucfirst($configAttr);
+                $method = 'set' . ucfirst($configAttr);
                 $this->assertTrue(
                     in_array($method, $methodsObject),
                     sprintf('"%s" does not have the method "%s" to re hydrate "%s"', $class, $method, $configAttr)

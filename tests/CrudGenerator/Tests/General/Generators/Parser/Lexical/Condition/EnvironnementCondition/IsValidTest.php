@@ -1,9 +1,9 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\Condition\EnvironnementCondition;
 
+use CrudGenerator\DataObject;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
-use CrudGenerator\DataObject;
 use CrudGenerator\Utils\PhpStringParserFactory;
 
 class IsValidTest extends \PHPUnit_Framework_TestCase

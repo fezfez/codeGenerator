@@ -9,12 +9,12 @@
  */
 namespace CrudGenerator\Generators\Parser\Lexical;
 
-use CrudGenerator\Utils\PhpStringParser;
-use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\QuestionWithPredefinedResponse;
-use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
+use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Utils\PhpStringParser;
 
 class EnvironnementParser implements ParserInterface
 {
@@ -86,8 +86,8 @@ class EnvironnementParser implements ParserInterface
         }
 
         $question = new QuestionWithPredefinedResponse(
-            $environnementName.' environnement',
-            'environnement_'.$environnementName,
+            $environnementName . ' environnement',
+            'environnement_' . $environnementName,
             $responseCollection
         );
 

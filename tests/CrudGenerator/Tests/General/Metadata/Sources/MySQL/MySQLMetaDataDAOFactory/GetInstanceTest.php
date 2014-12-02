@@ -11,7 +11,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstance()
     {
-        $config = include __DIR__.'/../Config.php';
+        $config = include __DIR__ . '/../Config.php';
 
         $this->assertInstanceOf(
             'CrudGenerator\Metadata\Sources\MySQL\MySQLMetaDataDAO',

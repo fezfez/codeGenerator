@@ -26,7 +26,7 @@ class FindTest extends \PHPUnit_Framework_TestCase
 
         $dto = new Result();
         $dto->fromArray(array(
-            'name' => 'test',
+            'name'       => 'test',
             'repository' => 'https://github.com/test/test',
         ));
 

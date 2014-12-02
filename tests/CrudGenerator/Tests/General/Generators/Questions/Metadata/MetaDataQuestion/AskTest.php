@@ -2,11 +2,11 @@
 namespace CrudGenerator\Tests\General\Generators\Questions\Metadata\MetaDataQuestion;
 
 use CrudGenerator\Generators\Questions\Metadata\MetaDataQuestion;
-use CrudGenerator\Metadata\MetaDataSource;
 use CrudGenerator\Metadata\DataObject\MetaDataCollection;
-use CrudGenerator\Metadata\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
+use CrudGenerator\Metadata\MetaDataSource;
+use CrudGenerator\Metadata\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\Tests\TestCase;
 
 class AskTest extends TestCase

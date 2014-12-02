@@ -1,9 +1,9 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\Condition\ConditionValidator;
 
-use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionInterface;
+use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator;
 use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Generators\Parser\Lexical\Condition\EnvironnementCondition;
 use CrudGenerator\Generators\Parser\Lexical\Condition\SimpleCondition;

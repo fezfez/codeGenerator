@@ -1,12 +1,12 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\QuestionType\QuestionTypeComplex;
 
-use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeComplex;
-use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\DataObject;
-use CrudGenerator\Metadata\Sources\MySQL\MetadataDataObjectMySQL;
+use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeComplex;
 use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
+use CrudGenerator\Metadata\Sources\MySQL\MetadataDataObjectMySQL;
 use CrudGenerator\Tests\TestCase;
 
 class EvaluateQuestionTest extends TestCase

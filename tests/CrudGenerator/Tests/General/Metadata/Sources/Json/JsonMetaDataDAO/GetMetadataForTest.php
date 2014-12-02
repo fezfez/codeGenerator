@@ -7,7 +7,7 @@ class GetMetadataForTest extends \PHPUnit_Framework_TestCase
 {
     public function testRetireveMainData()
     {
-        $config = include __DIR__.'/../ConfigWithNoColumnInFirstLevel.php';
+        $config = include __DIR__ . '/../ConfigWithNoColumnInFirstLevel.php';
 
         $suT = JsonMetaDataDAOFactory::getInstance($config);
 
@@ -24,7 +24,7 @@ class GetMetadataForTest extends \PHPUnit_Framework_TestCase
 
     public function testFail()
     {
-        $config = include __DIR__.'/../ConfigWithNoColumnInFirstLevel.php';
+        $config = include __DIR__ . '/../ConfigWithNoColumnInFirstLevel.php';
 
         $suT = JsonMetaDataDAOFactory::getInstance($config);
 
@@ -35,7 +35,7 @@ class GetMetadataForTest extends \PHPUnit_Framework_TestCase
 
     public function testWithFirstLevelDto()
     {
-        $config = include __DIR__.'/../ConfigFirstLevelDto.php';
+        $config = include __DIR__ . '/../ConfigFirstLevelDto.php';
 
         $suT = JsonMetaDataDAOFactory::getInstance($config);
 
@@ -47,7 +47,7 @@ class GetMetadataForTest extends \PHPUnit_Framework_TestCase
 
     public function testWithColumnFirstLevelDto()
     {
-        $config = include __DIR__.'/../ConfigWithColumnInFirstLevel.php';
+        $config = include __DIR__ . '/../ConfigWithColumnInFirstLevel.php';
 
         $suT = JsonMetaDataDAOFactory::getInstance($config);
 
@@ -64,7 +64,7 @@ class GetMetadataForTest extends \PHPUnit_Framework_TestCase
 
     public function testWithCollectionToBeMerge()
     {
-        $config = include __DIR__.'/../ConfigWithCollectionToBeMerge.php';
+        $config = include __DIR__ . '/../ConfigWithCollectionToBeMerge.php';
 
         $suT = JsonMetaDataDAOFactory::getInstance($config);
 
@@ -78,7 +78,7 @@ class GetMetadataForTest extends \PHPUnit_Framework_TestCase
 
     public function testWithOnlyRelationOnFirstLevel()
     {
-        $config = include __DIR__.'/../ConfigWithOnlyRelationOnFirstLevel.php';
+        $config = include __DIR__ . '/../ConfigWithOnlyRelationOnFirstLevel.php';
 
         $suT = JsonMetaDataDAOFactory::getInstance($config);
 

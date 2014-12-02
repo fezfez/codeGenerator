@@ -1,9 +1,9 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\QuestionType\QuestionTypeComplex;
 
+use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
 use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeComplex;
 use CrudGenerator\Tests\TestCase;
-use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
 
 class GetTypeTest extends TestCase
 {

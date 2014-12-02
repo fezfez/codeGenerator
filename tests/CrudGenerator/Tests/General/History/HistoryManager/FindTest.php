@@ -1,8 +1,8 @@
 <?php
 namespace CrudGenerator\Tests\General\History\HistoryManager;
 
-use CrudGenerator\History\HistoryManager;
 use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
+use CrudGenerator\History\HistoryManager;
 use CrudGenerator\Tests\TestCase;
 use CrudGenerator\Utils\Installer;
 
@@ -23,7 +23,7 @@ class FindTest extends TestCase
         $historyName = 'toto';
         $stubFileManager->expects($this->once())
                         ->method('isFile')
-                        ->with(Installer::BASE_PATH.HistoryManager::HISTORY_PATH.$historyName.'.history.yaml')
+                        ->with(Installer::BASE_PATH . HistoryManager::HISTORY_PATH . $historyName . '.history.yaml')
                         ->will($this->returnValue(true));
 
         $sUT = new HistoryManager($stubFileManager, $stubHistoryHydrator);
@@ -43,7 +43,7 @@ class FindTest extends TestCase
         $historyName = 'toto';
         $stubFileManager->expects($this->once())
         ->method('isFile')
-        ->with(Installer::BASE_PATH.HistoryManager::HISTORY_PATH.$historyName.'.history.yaml')
+        ->with(Installer::BASE_PATH . HistoryManager::HISTORY_PATH . $historyName . '.history.yaml')
         ->will($this->returnValue(false));
 
         $sUT = new HistoryManager($stubFileManager, $stubHistoryHydrator);

@@ -9,8 +9,8 @@
  */
 namespace CrudGenerator\Generators\Strategies;
 
-use CrudGenerator\View\ViewFactory;
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\View\ViewFactory;
 
 /**
  * Base code generator, extends it and implement doGenerate method

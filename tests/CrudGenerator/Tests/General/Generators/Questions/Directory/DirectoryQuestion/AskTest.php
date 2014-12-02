@@ -1,9 +1,9 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Questions\Directory\DirectoryQuestion;
 
-use CrudGenerator\Generators\Questions\Directory\DirectoryQuestion;
-use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\DataObject;
+use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Generators\Questions\Directory\DirectoryQuestion;
 use CrudGenerator\Tests\TestCase;
 
 class AskTest extends TestCase
@@ -30,7 +30,7 @@ class AskTest extends TestCase
 
         $fileManagerStub->expects($this->once())
         ->method('glob')
-        ->with($dto->getModelDirectory().'*', GLOB_ONLYDIR | GLOB_MARK)
+        ->with($dto->getModelDirectory() . '*', GLOB_ONLYDIR | GLOB_MARK)
         ->will($this->returnValue($directories));
 
         $sUT = new DirectoryQuestion($fileManagerStub, $context);

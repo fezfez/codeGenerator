@@ -1,8 +1,8 @@
 <?php
 namespace CrudGenerator\Tests\General\Metadata\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory;
 
-use CrudGenerator\Metadata\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory;
 use CrudGenerator\Metadata\MetaDataSource;
+use CrudGenerator\Metadata\Sources\PostgreSQL\PostgreSQLMetaDataDAOFactory;
 
 /**
  * @requires extension pdo_pgsql

@@ -9,12 +9,12 @@
  */
 namespace CrudGenerator\Metadata\Sources\Oracle;
 
-use PDO;
-use CrudGenerator\Metadata\Sources\MetaDataDAOInterface;
 use CrudGenerator\Metadata\DataObject\MetaDataCollection;
-use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataColumn;
+use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
+use CrudGenerator\Metadata\Sources\MetaDataDAOInterface;
+use PDO;
 
 /**
  * Oracle adapter
@@ -101,7 +101,7 @@ class OracleMetaDataDAO implements MetaDataDAOInterface
         $tableName = $data['TABLE_NAME'];
         $owner     = $data['OWNER'];
 
-        $dataObject->setName($owner.'/'.$tableName);
+        $dataObject->setName($owner . '/' . $tableName);
         $columnDataObject = new MetaDataColumn();
 
         $statement = $this->pdo->prepare(

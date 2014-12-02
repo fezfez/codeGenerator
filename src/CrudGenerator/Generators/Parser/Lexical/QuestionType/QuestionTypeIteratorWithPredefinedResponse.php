@@ -10,14 +10,14 @@
 namespace CrudGenerator\Generators\Parser\Lexical\QuestionType;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Utils\PhpStringParser;
-use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
+use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\QuestionWithPredefinedResponse;
-use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
+use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
 use CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum;
+use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
+use CrudGenerator\Utils\PhpStringParser;
 
 class QuestionTypeIteratorWithPredefinedResponse implements QuestionTypeInterface
 {
@@ -66,7 +66,7 @@ class QuestionTypeIteratorWithPredefinedResponse implements QuestionTypeInterfac
 
             $questionWithPredefinedResponse = new QuestionWithPredefinedResponse(
                 $iteratorParser->parse($question['iteration']['text']),
-                'set_predefined_'.ucfirst($question['dtoAttribute']).$origine,
+                'set_predefined_' . ucfirst($question['dtoAttribute']) . $origine,
                 $responseCollection
             );
 

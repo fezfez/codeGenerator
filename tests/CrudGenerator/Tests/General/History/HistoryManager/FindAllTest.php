@@ -1,9 +1,9 @@
 <?php
 namespace CrudGenerator\Tests\General\History\HistoryManager;
 
-use CrudGenerator\History\HistoryManager;
 use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
 use CrudGenerator\History\History;
+use CrudGenerator\History\HistoryManager;
 use CrudGenerator\Tests\TestCase;
 
 class FindAllTest extends TestCase

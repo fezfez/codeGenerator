@@ -10,15 +10,15 @@
 
 namespace CrudGenerator\Context;
 
-use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Command\CreateCommand;
+use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\ResponseExpectedException;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Question\Question;
 
 class CliContext implements ContextInterface
 {
@@ -157,7 +157,7 @@ class CliContext implements ContextInterface
             $this->input,
             $this->output,
             new ConfirmationQuestion(
-                $text.' y/n'
+                $text . ' y/n'
             )
         );
     }

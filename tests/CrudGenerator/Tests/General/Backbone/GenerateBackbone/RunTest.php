@@ -2,8 +2,8 @@
 namespace CrudGenerator\Tests\General\Backbone\GenerateBackbone;
 
 use CrudGenerator\Backbone\GenerateBackbone;
-use CrudGenerator\Tests\TestCase;
 use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Tests\TestCase;
 
 class RunTest extends TestCase
 {

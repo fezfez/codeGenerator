@@ -1,9 +1,9 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Generator;
 
+use CrudGenerator\DataObject;
 use CrudGenerator\Generators\Generator;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\DataObject;
 
 class GenerateTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,8 +1,8 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\FileParser;
 
-use CrudGenerator\Generators\Parser\Lexical\FileParser;
 use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Generators\Parser\Lexical\FileParser;
 use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
 use CrudGenerator\Tests\TestCase;
 use CrudGenerator\Utils\PhpStringParser;
@@ -193,7 +193,7 @@ class EvaluateTest extends TestCase
         $process = array(
             'filesList' => array(
                 array(
-                    'templatePath' => 'MyFileTemplate',
+                    'templatePath'    => 'MyFileTemplate',
                     'destinationPath' => 'MyFile',
                 ),
             ),
@@ -202,7 +202,7 @@ class EvaluateTest extends TestCase
         $generatorToTest = clone $generator;
 
         $this->assertEquals(
-            $generatorToTest->addFile($generator->getPath().'/Skeleton/', 'MyFileTemplate', 'MyFileParser'),
+            $generatorToTest->addFile($generator->getPath() . '/Skeleton/', 'MyFileTemplate', 'MyFileParser'),
             $sUT->evaluate($process, $phpParser, $generator, true)
         );
     }

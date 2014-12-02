@@ -21,7 +21,7 @@ class QuestionAnalyser
         $questionDefinition = $this->getDefinition();
         $question           = $this->parseMandatory($questionDefinition, $question);
         $question           = $this->parseOptional($questionDefinition, $question);
-        $question['setter'] = 'set'.ucfirst($question['dtoAttribute']);
+        $question['setter'] = 'set' . ucfirst($question['dtoAttribute']);
 
         if ($question['type']->is(QuestionTypeEnum::ITERATOR_WITH_PREDEFINED_RESPONSE) === true) {
             if (isset($question['iteration']) === false) {

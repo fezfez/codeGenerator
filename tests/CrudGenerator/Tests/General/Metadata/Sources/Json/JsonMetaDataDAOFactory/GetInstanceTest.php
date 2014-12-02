@@ -8,7 +8,7 @@ class GetInstanceTest extends \PHPUnit_Framework_TestCase
     public function testReturnCorrectType()
     {
         $config = JsonMetaDataDAOFactory::getDescription()->getDriversDescription()[0]->getConfig();
-        $config->response('configUrl', __DIR__.'/../data.json');
+        $config->response('configUrl', __DIR__ . '/../data.json');
 
         $this->assertInstanceOf(
             'CrudGenerator\Metadata\Sources\Json\JsonMetaDataDAO',

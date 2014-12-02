@@ -10,9 +10,9 @@
 namespace CrudGenerator\Backbone;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Generators\Search\GeneratorSearchFactory;
-use CrudGenerator\Generators\Installer\GeneratorInstallerProxyFactory;
 use CrudGenerator\Generators\Detail\GeneratorDetailFactory;
+use CrudGenerator\Generators\Installer\GeneratorInstallerProxyFactory;
+use CrudGenerator\Generators\Search\GeneratorSearchFactory;
 
 class SearchGeneratorBackboneFactory
 {

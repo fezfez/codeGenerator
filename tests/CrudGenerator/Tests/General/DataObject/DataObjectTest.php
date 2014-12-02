@@ -1,10 +1,10 @@
 <?php
 namespace CrudGenerator\Tests\General\DataObject\DataObject;
 
-use CrudGenerator\Metadata\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
+use CrudGenerator\DataObject;
 use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
-use CrudGenerator\DataObject;
+use CrudGenerator\Metadata\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
 
 class DataObjectTest extends \PHPUnit_Framework_TestCase
 {

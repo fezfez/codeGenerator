@@ -9,8 +9,8 @@
  */
 namespace CrudGenerator\Generators\Validator;
 
-use JsonSchema\Validator;
 use CrudGenerator\Metadata\DataObject\MetaDataInterface;
+use JsonSchema\Validator;
 
 /**
  *

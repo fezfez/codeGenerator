@@ -2,8 +2,8 @@
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\Condition\DependencyCondition;
 
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionInterface;
+use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Utils\PhpStringParserFactory;
 
 class IsValidTest extends \PHPUnit_Framework_TestCase
@@ -16,7 +16,7 @@ class IsValidTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             true,
-            $sUT->isValid(array('ArchitectGenerator '.ConditionInterface::UNDEFINED), $generator, $stringParser)
+            $sUT->isValid(array('ArchitectGenerator ' . ConditionInterface::UNDEFINED), $generator, $stringParser)
         );
     }
 

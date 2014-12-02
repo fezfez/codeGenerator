@@ -1,11 +1,11 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Validator\GeneratorValidator;
 
-use CrudGenerator\Generators\Validator\GeneratorValidator;
 use CrudGenerator\DataObject;
-use CrudGenerator\Metadata\Sources\Doctrine2\MetadataDataObjectDoctrine2;
+use CrudGenerator\Generators\Validator\GeneratorValidator;
 use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
+use CrudGenerator\Metadata\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 
 class IsValidTest extends \PHPUnit_Framework_TestCase
 {

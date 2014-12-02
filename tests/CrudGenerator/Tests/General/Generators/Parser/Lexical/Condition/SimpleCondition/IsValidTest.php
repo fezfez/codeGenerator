@@ -2,8 +2,8 @@
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\Condition\SimpleCondition;
 
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Utils\PhpStringParserFactory;
 use CrudGenerator\Generators\Parser\Lexical\Condition\SimpleCondition;
+use CrudGenerator\Utils\PhpStringParserFactory;
 
 class IsValidTest extends \PHPUnit_Framework_TestCase
 {

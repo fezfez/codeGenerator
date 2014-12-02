@@ -10,13 +10,13 @@
 namespace CrudGenerator\Generators\Parser;
 
 use CrudGenerator\DataObject;
-use CrudGenerator\Utils\Transtyper;
-use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Utils\PhpStringParser;
-use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Finder\GeneratorFinderInterface;
+use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Validator\GeneratorValidator;
 use CrudGenerator\Metadata\DataObject\MetaDataInterface;
+use CrudGenerator\Utils\FileManager;
+use CrudGenerator\Utils\PhpStringParser;
+use CrudGenerator\Utils\Transtyper;
 
 /**
  * Find all generator allow in project

@@ -9,11 +9,11 @@
  */
 namespace CrudGenerator\Generators\Questions\MetadataSource;
 
-use CrudGenerator\Metadata\MetaDataSourceFinder;
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\QuestionWithPredefinedResponse;
-use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
+use CrudGenerator\Metadata\MetaDataSourceFinder;
 
 class MetadataSourceQuestion
 {

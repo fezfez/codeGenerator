@@ -7,7 +7,7 @@ class IfDirDoesNotExistCreateTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
-        $dirPath = __DIR__.'/foo';
+        $dirPath = __DIR__ . '/foo';
 
         $sUT = new FileManager();
 
@@ -19,7 +19,7 @@ class IfDirDoesNotExistCreateTest extends \PHPUnit_Framework_TestCase
 
     public function testFail()
     {
-        $dirPath = __DIR__.'/foo';
+        $dirPath = __DIR__ . '/foo';
 
         $sUT = new FileManager();
 

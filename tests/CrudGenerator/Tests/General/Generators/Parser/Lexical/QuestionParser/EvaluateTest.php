@@ -1,13 +1,13 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Parser\Lexical\QuestionParser;
 
-use CrudGenerator\Generators\Parser\Lexical\QuestionParser;
-use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\DataObject;
+use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
+use CrudGenerator\Generators\Parser\Lexical\QuestionAnalyser;
+use CrudGenerator\Generators\Parser\Lexical\QuestionParser;
 use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
 use CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionTypeCollectionFactory;
-use CrudGenerator\Generators\Parser\Lexical\QuestionAnalyser;
-use CrudGenerator\Generators\Parser\Lexical\Condition\DependencyCondition;
 use CrudGenerator\Tests\TestCase;
 
 class EvaluateTest extends TestCase
@@ -98,9 +98,9 @@ class EvaluateTest extends TestCase
         $process = array(
             'questions' => array(
                 array(
-                    'dtoAttribute'    => 'test',
-                    'text'            => 'test',
-                    'defaultResponse' => 'myDefaultResponse',
+                    'dtoAttribute'            => 'test',
+                    'text'                    => 'test',
+                    'defaultResponse'         => 'myDefaultResponse',
                     DependencyCondition::NAME => '!ArchitedGenerator',
                 ),
                 array(

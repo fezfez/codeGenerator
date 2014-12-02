@@ -9,11 +9,11 @@
  */
 namespace CrudGenerator\Generators\Questions\MetadataSourceConfigured;
 
-use CrudGenerator\Metadata\Config\MetaDataConfigDAO;
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\QuestionWithPredefinedResponse;
-use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
+use CrudGenerator\Metadata\Config\MetaDataConfigDAO;
 
 class MetadataSourceConfiguredQuestion
 {

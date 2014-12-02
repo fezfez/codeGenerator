@@ -1,8 +1,8 @@
 <?php
 namespace CrudGenerator\Tests\General\MetaData\MetaDataSource;
 
-use CrudGenerator\Metadata\MetaDataSource;
 use CrudGenerator\Metadata\Driver\DriverConfig;
+use CrudGenerator\Metadata\MetaDataSource;
 
 class MetaDataSourceDataObjectTest extends \PHPUnit_Framework_TestCase
 {

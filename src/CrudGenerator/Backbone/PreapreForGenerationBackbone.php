@@ -9,11 +9,11 @@
  */
 namespace CrudGenerator\Backbone;
 
+use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Generators\Parser\GeneratorParserInterface;
+use CrudGenerator\Generators\Questions\Generator\GeneratorQuestion;
 use CrudGenerator\Generators\Questions\MetadataSourceConfigured\MetadataSourceConfiguredQuestion;
 use CrudGenerator\Generators\Questions\Metadata\MetadataQuestion;
-use CrudGenerator\Generators\Questions\Generator\GeneratorQuestion;
-use CrudGenerator\Generators\Parser\GeneratorParserInterface;
-use CrudGenerator\Generators\GeneratorDataObject;
 
 class PreapreForGenerationBackbone
 {

@@ -1,8 +1,8 @@
 <?php
 namespace CrudGenerator\Tests\General\Utils\Installer;
 
-use CrudGenerator\Utils\Installer;
 use CrudGenerator\Tests\TestCase;
+use CrudGenerator\Utils\Installer;
 
 class InstallTest extends TestCase
 {

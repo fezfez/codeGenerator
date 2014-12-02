@@ -9,15 +9,15 @@
  */
 namespace CrudGenerator\Metadata\Sources\Doctrine2;
 
-use CrudGenerator\Metadata\Sources\MetaDataDAOInterface;
-use CrudGenerator\Metadata\DataObject\MetaDataRelationColumn;
 use CrudGenerator\Metadata\DataObject\MetaDataCollection;
-use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataColumn;
+use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
+use CrudGenerator\Metadata\DataObject\MetaDataRelationColumn;
+use CrudGenerator\Metadata\Sources\MetaDataDAOInterface;
+use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
-use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 
 /**
  *

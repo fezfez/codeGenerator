@@ -1,9 +1,9 @@
 <?php
 namespace CrudGenerator\Tests\General\Metadata\MetaDataSourceFactory;
 
-use CrudGenerator\Metadata\MetaDataSourceFactory;
 use CrudGenerator\Metadata\Driver\DriverConfig;
 use CrudGenerator\Metadata\Driver\Pdo\PdoDriver;
+use CrudGenerator\Metadata\MetaDataSourceFactory;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {

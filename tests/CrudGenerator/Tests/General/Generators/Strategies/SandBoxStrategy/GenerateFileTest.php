@@ -1,8 +1,8 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Strategies\SandBoxStrategy;
 
-use CrudGenerator\Generators\Strategies\SandBoxStrategy;
 use CrudGenerator\DataObject;
+use CrudGenerator\Generators\Strategies\SandBoxStrategy;
 
 class GenerateFileTest extends \PHPUnit_Framework_TestCase
 {

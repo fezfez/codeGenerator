@@ -1,8 +1,8 @@
 <?php
 namespace CrudGenerator\Tests\General\Metadata\Driver\Pdo\PdoDriver;
 
-use CrudGenerator\Metadata\Driver\Pdo\PdoDriver;
 use CrudGenerator\Metadata\Driver\DriverConfig;
+use CrudGenerator\Metadata\Driver\Pdo\PdoDriver;
 
 class IsValidTest extends \PHPUnit_Framework_TestCase
 {

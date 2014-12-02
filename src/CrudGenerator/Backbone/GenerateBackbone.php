@@ -9,8 +9,8 @@
  */
 namespace CrudGenerator\Backbone;
 
-use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Generator;
+use CrudGenerator\Generators\GeneratorDataObject;
 
 class GenerateBackbone
 {

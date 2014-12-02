@@ -9,8 +9,8 @@
  */
 namespace CrudGenerator\Generators\Questions\Generator;
 
-use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
 use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
 
 class GeneratorQuestionFactory
 {

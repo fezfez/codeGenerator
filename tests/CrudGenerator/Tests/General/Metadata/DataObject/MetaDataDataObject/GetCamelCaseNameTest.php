@@ -1,9 +1,9 @@
 <?php
 namespace CrudGenerator\Tests\General\Metadata\DataObject\MetaDataDataObject;
 
-use CrudGenerator\Metadata\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
 use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
+use CrudGenerator\Metadata\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
 
 class GetCamelCaseNameTest extends \PHPUnit_Framework_TestCase
 {

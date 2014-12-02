@@ -19,11 +19,11 @@ use KeepUpdate\Annotations;
 class DriverConfig implements \JsonSerializable
 {
     const QUESTION_DESCRIPTION = 'desc';
-    const QUESTION_ATTRIBUTE = 'attr';
-    const SOURCE_FACTORY = 'metadataDaoFactory';
-    const FACTORY = 'driver';
-    const RESPONSE = 'response';
-    const UNIQUE_NAME = 'uniqueName';
+    const QUESTION_ATTRIBUTE   = 'attr';
+    const SOURCE_FACTORY       = 'metadataDaoFactory';
+    const FACTORY              = 'driver';
+    const RESPONSE             = 'response';
+    const UNIQUE_NAME          = 'uniqueName';
     /**
      * @var array
      */

@@ -10,12 +10,12 @@
 namespace CrudGenerator\Generators\Parser\Lexical\QuestionType;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Utils\PhpStringParser;
+use CrudGenerator\Context\SimpleQuestion;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
 use CrudGenerator\Generators\Parser\Lexical\Iterator\IteratorValidator;
 use CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum;
-use CrudGenerator\Context\SimpleQuestion;
+use CrudGenerator\Generators\Parser\Lexical\QuestionTypeEnum;
+use CrudGenerator\Utils\PhpStringParser;
 
 class QuestionTypeIterator implements QuestionTypeInterface
 {
@@ -53,7 +53,7 @@ class QuestionTypeIterator implements QuestionTypeInterface
 
             $question = new SimpleQuestion(
                 $iteratorParser->parse($questionRaw['iteration']['text']),
-                $questionRaw['setter'].$origine
+                $questionRaw['setter'] . $origine
             );
             $question->setDefaultResponse((isset($questionRaw['iteration']['response']['default']) === true)
                     ? $iteratorParser->parse($questionRaw['iteration']['response']['default']) : null);

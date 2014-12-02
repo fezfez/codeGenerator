@@ -9,8 +9,8 @@
  */
 namespace CrudGenerator\Generators\Parser\Lexical\QuestionType;
 
-use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Utils\PhpStringParser;
 
 interface QuestionComplexInterface
 {

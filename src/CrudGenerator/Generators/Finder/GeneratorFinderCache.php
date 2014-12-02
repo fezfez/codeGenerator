@@ -62,8 +62,8 @@ class GeneratorFinderCache implements GeneratorFinderInterface
      */
     public function getAllClasses(MetaDataInterface $metadata = null)
     {
-        $cacheFilename  = $this->directories['Cache'].DIRECTORY_SEPARATOR;
-        $cacheFilename .= md5('genrator_getAllClasses'.($metadata !== null) ? get_class($metadata) : '');
+        $cacheFilename  = $this->directories['Cache'] . DIRECTORY_SEPARATOR;
+        $cacheFilename .= md5('genrator_getAllClasses' . ($metadata !== null) ? get_class($metadata) : '');
 
         if ($this->fileManager->isFile($cacheFilename) === true && $this->noCache === false) {
             $data = unserialize($this->fileManager->fileGetContent($cacheFilename));

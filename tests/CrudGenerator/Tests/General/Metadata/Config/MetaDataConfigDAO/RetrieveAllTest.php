@@ -2,8 +2,8 @@
 namespace CrudGenerator\Tests\General\Metadata\Config\MetaDataConfigDAO;
 
 use CrudGenerator\Metadata\Config\MetaDataConfigDAO;
-use CrudGenerator\Metadata\MetaDataSource;
 use CrudGenerator\Metadata\Driver\DriverConfig;
+use CrudGenerator\Metadata\MetaDataSource;
 use CrudGenerator\Tests\TestCase;
 
 class RetrieveAllTest extends TestCase

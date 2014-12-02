@@ -10,8 +10,8 @@
 namespace CrudGenerator\Generators\Parser\Lexical\Iterator;
 
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator;
+use CrudGenerator\Utils\PhpStringParser;
 
 class IteratorValidator
 {

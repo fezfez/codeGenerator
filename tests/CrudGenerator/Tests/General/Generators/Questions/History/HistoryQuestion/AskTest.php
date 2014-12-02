@@ -1,14 +1,14 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Questions\History\HistoryQuestion;
 
-use CrudGenerator\Generators\Questions\History\HistoryQuestion;
-use CrudGenerator\History\HistoryCollection;
-use CrudGenerator\History\History;
 use CrudGenerator\DataObject;
-use CrudGenerator\Metadata\Sources\Doctrine2\MetadataDataObjectDoctrine2;
+use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Generators\Questions\History\HistoryQuestion;
+use CrudGenerator\History\History;
+use CrudGenerator\History\HistoryCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
-use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\Metadata\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {

@@ -10,20 +10,20 @@
 namespace CrudGenerator\Metadata\Config;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Utils\FileManager;
-use CrudGenerator\Metadata\MetaDataSourceHydrator;
-use CrudGenerator\Metadata\MetaDataSourceCollection;
-use CrudGenerator\Context\QuestionWithPredefinedResponse;
-use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
-use CrudGenerator\Metadata\MetaDataSource;
-use CrudGenerator\Metadata\Driver\DriverConfig;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Context\SimpleQuestion;
-use CrudGenerator\Utils\Transtyper;
+use CrudGenerator\Metadata\Driver\DriverConfig;
 use CrudGenerator\Metadata\Driver\DriverHydrator;
+use CrudGenerator\Metadata\MetaDataSource;
+use CrudGenerator\Metadata\MetaDataSourceCollection;
+use CrudGenerator\Metadata\MetaDataSourceHydrator;
+use CrudGenerator\Utils\FileManager;
+use CrudGenerator\Utils\Installer;
+use CrudGenerator\Utils\Transtyper;
 use KeepUpdate\ArrayValidator;
 use KeepUpdate\ValidationException;
-use CrudGenerator\Utils\Installer;
 
 class MetaDataConfigDAO
 {
@@ -94,7 +94,7 @@ class MetaDataConfigDAO
     {
         $adapterCollection = new MetaDataSourceCollection();
 
-        foreach ($this->fileManager->glob(Installer::BASE_PATH.self::SOURCE_PATH.'*'.self::EXTENSION) as $file) {
+        foreach ($this->fileManager->glob(Installer::BASE_PATH . self::SOURCE_PATH . '*' . self::EXTENSION) as $file) {
             // Decode
             $config     = $this->transtyper->decode($this->fileManager->fileGetContent($file));
             // Validate
@@ -132,7 +132,7 @@ class MetaDataConfigDAO
         $source = $this->ask($source);
 
         $this->fileManager->filePutsContent(
-            Installer::BASE_PATH.self::SOURCE_PATH.md5($source->getUniqueName()).self::EXTENSION,
+            Installer::BASE_PATH . self::SOURCE_PATH . md5($source->getUniqueName()) . self::EXTENSION,
             json_encode($source->jsonSerialize())
         );
 

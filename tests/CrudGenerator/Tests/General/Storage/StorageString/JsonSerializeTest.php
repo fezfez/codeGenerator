@@ -13,6 +13,6 @@ class JsonSerializeTest extends \PHPUnit_Framework_TestCase
 
         $sUT->set(array($value));
 
-        $this->assertEquals('"'.$value.'"', json_encode($sUT));
+        $this->assertEquals('"' . $value . '"', json_encode($sUT));
     }
 }

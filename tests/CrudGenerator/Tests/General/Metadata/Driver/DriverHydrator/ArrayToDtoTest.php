@@ -1,8 +1,8 @@
 <?php
 namespace CrudGenerator\Tests\General\Metadata\Driver\DriverHydrator;
 
-use CrudGenerator\Metadata\Driver\DriverHydrator;
 use CrudGenerator\Metadata\Driver\DriverConfig;
+use CrudGenerator\Metadata\Driver\DriverHydrator;
 
 class ArrayToDtoTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,7 +12,7 @@ class ArrayToDtoTest extends \PHPUnit_Framework_TestCase
 
         $data = array(
             DriverConfig::UNIQUE_NAME => 'myName',
-            DriverConfig::RESPONSE => array(
+            DriverConfig::RESPONSE    => array(
                 'myKey' => 'myVal',
             ),
             DriverConfig::FACTORY => 'CrudGenerator\Metadata\Driver\Pdo\PdoDriverFactory',

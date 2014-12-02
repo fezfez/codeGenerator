@@ -9,12 +9,12 @@
  */
 namespace CrudGenerator\FileConflict;
 
+use CrudGenerator\Context\ContextInterface;
+use CrudGenerator\Context\PredefinedResponse;
+use CrudGenerator\Context\PredefinedResponseCollection;
+use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Utils\FileManager;
 use SebastianBergmann\Diff\Differ;
-use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\Context\QuestionWithPredefinedResponse;
-use CrudGenerator\Context\PredefinedResponseCollection;
-use CrudGenerator\Context\PredefinedResponse;
 
 class FileConflictManager
 {
@@ -100,7 +100,7 @@ class FileConflictManager
 
         $question = new QuestionWithPredefinedResponse(
             sprintf('File "%s" already exist, erase it with the new', $filePath),
-            'conflict'.$filePath,
+            'conflict' . $filePath,
             $responseCollection
         );
 
@@ -112,7 +112,7 @@ class FileConflictManager
             if ($response === self::SHOW_DIFF) {
                 // write to output the diff
                 $this->context->log(
-                    '<info>'.$this->diffPHP->diff($results, $this->fileManager->fileGetContent($filePath)).'</info>'
+                    '<info>' . $this->diffPHP->diff($results, $this->fileManager->fileGetContent($filePath)) . '</info>'
                 );
             } else {
                 break;
@@ -122,16 +122,16 @@ class FileConflictManager
         if ($response === self::POSTPONE) {
             //Generate the diff file
             $this->fileManager->filePutsContent(
-                $filePath.'.diff',
+                $filePath . '.diff',
                 $this->diffPHP->diff(
                     $results,
                     $this->fileManager->fileGetContent($filePath)
                 )
             );
-            $this->context->log('--> Generate diff and new file '.$filePath.'.diff', 'generationLog');
+            $this->context->log('--> Generate diff and new file ' . $filePath . '.diff', 'generationLog');
         } elseif ($response === self::ERASE) {
             $this->fileManager->filePutsContent($filePath, $results);
-            $this->context->log('--> Replace file '.$filePath, 'generationLog');
+            $this->context->log('--> Replace file ' . $filePath, 'generationLog');
         }
     }
 }

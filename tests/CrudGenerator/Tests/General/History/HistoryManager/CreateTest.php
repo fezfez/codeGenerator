@@ -1,14 +1,14 @@
 <?php
 namespace CrudGenerator\Tests\General\History\HistoryManager;
 
-use CrudGenerator\History\HistoryManager;
-use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
 use CrudGenerator\DataObject;
+use CrudGenerator\Generators\Finder\GeneratorFinderFactory;
+use CrudGenerator\Generators\GeneratorDataObject;
+use CrudGenerator\History\HistoryManager;
 use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
 use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
-use CrudGenerator\Metadata\Sources\Doctrine2\MetadataDataObjectDoctrine2;
-use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Metadata\MetaDataSource;
+use CrudGenerator\Metadata\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\Tests\TestCase;
 
 class CreateTest extends TestCase

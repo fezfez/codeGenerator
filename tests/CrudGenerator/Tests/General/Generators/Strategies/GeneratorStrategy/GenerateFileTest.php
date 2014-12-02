@@ -1,8 +1,8 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Strategies\GeneratorStrategy;
 
-use CrudGenerator\Generators\Strategies\GeneratorStrategy;
 use CrudGenerator\DataObject;
+use CrudGenerator\Generators\Strategies\GeneratorStrategy;
 
 class GenerateFileTest extends \PHPUnit_Framework_TestCase
 {

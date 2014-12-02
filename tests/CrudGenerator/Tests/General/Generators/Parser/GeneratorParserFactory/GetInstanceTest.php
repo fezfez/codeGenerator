@@ -1,8 +1,8 @@
 <?php
 namespace CrudGenerator\Tests\General\Generators\Parser\GeneratorParserFactory;
 
-use CrudGenerator\Generators\Parser\GeneratorParserFactory;
 use CrudGenerator\Generators\Parser\GeneratorParser;
+use CrudGenerator\Generators\Parser\GeneratorParserFactory;
 
 class GetInstanceTest extends \PHPUnit_Framework_TestCase
 {

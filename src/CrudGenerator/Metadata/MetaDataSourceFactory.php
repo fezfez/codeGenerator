@@ -9,8 +9,8 @@
  */
 namespace CrudGenerator\Metadata;
 
-use CrudGenerator\Metadata\Sources\MetaDataDAOCache;
 use CrudGenerator\Metadata\Driver\DriverConfig;
+use CrudGenerator\Metadata\Sources\MetaDataDAOCache;
 use CrudGenerator\Utils\FileManager;
 
 /**
