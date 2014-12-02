@@ -11,7 +11,7 @@ namespace CrudGenerator\Backbone;
 
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\Questions\MetadataSourceConfigured\MetadataSourceConfiguredQuestionFactory;
-use CrudGenerator\Generators\Questions\Metadata\MetaDataQuestionFactory;
+use CrudGenerator\Generators\Questions\Metadata\MetadataQuestionFactory;
 use CrudGenerator\Generators\Questions\Generator\GeneratorQuestionFactory;
 use CrudGenerator\Generators\Parser\GeneratorParserProxyFactory;
 
@@ -25,7 +25,7 @@ class PreapreForGenerationBackboneFactory
     {
         return new PreapreForGenerationBackbone(
             MetadataSourceConfiguredQuestionFactory::getInstance($context),
-            MetaDataQuestionFactory::getInstance($context),
+            MetadataQuestionFactory::getInstance($context),
             GeneratorQuestionFactory::getInstance($context),
             GeneratorParserProxyFactory::getInstance($context)
         );

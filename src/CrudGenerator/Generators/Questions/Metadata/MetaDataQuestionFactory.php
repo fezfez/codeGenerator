@@ -12,7 +12,7 @@ namespace CrudGenerator\Generators\Questions\Metadata;
 use CrudGenerator\MetaData\MetaDataSourceFactory;
 use CrudGenerator\Context\ContextInterface;
 
-class MetaDataQuestionFactory
+class MetadataQuestionFactory
 {
     /**
      * @param  ContextInterface                                              $context
