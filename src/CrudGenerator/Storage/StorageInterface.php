@@ -9,20 +9,18 @@
  */
 namespace CrudGenerator\Storage;
 
-interface StorageInterface
+interface StorageInterface extends \JsonSerializable
 {
     /**
      * @param  array   $args
-     * @param  string  $methodName
      * @return boolean
      */
-    public function isValidStore(array $args, $methodName);
+    public function isValidStore(array $args);
     /**
      * @param  array   $args
-     * @param  string  $methodName
      * @return boolean
      */
-    public function isValidAccess(array $args, $methodName);
+    public function isValidAcces(array $args);
     /**
      * @param array $args
      */
@@ -32,6 +30,4 @@ interface StorageInterface
      * @return mixed
      */
     public function get(array $args);
-
-    public function jsonSerialize();
 };

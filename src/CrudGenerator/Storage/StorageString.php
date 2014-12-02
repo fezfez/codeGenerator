@@ -9,13 +9,12 @@
  */
 namespace CrudGenerator\Storage;
 
-class StorageString implements \JsonSerializable
+class StorageString implements StorageInterface
 {
     private $store = null;
 
-    /**
-     * @param  array   $args
-     * @return boolean
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Storage\StorageInterface::isValidStore()
      */
     public function isValidStore(array $args)
     {
@@ -26,9 +25,8 @@ class StorageString implements \JsonSerializable
         return false;
     }
 
-    /**
-     * @param  array   $args
-     * @return boolean
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Storage\StorageInterface::isValidAcces()
      */
     public function isValidAcces(array $args)
     {
@@ -39,24 +37,24 @@ class StorageString implements \JsonSerializable
         return false;
     }
 
-    /**
-     * @param array $args
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Storage\StorageInterface::set()
      */
     public function set(array $args)
     {
         $this->store = $args[0];
     }
-    /**
-     * @param  array $args
-     * @return mixed
+
+    /* (non-PHPdoc)
+     * @see \CrudGenerator\Storage\StorageInterface::get()
      */
     public function get(array $args)
     {
         return $this->store;
     }
 
-    /**
-     * @return array
+    /* (non-PHPdoc)
+     * @see JsonSerializable::jsonSerialize()
      */
     public function jsonSerialize()
     {

@@ -26,6 +26,7 @@ class SkeletonCommand extends Command
     private $commandDefinition = null;
 
     /**
+     * Constructor.
      * @param CommandDefinition $commandDefinition
      */
     public function __construct(CommandDefinition $commandDefinition)

@@ -24,6 +24,8 @@ class EnvironnementParser implements ParserInterface
     private $context = null;
 
     /**
+     * Constructor.
+     *
      * @param ContextInterface $context
      */
     public function __construct(ContextInterface $context)

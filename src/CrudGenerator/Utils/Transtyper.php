@@ -15,6 +15,8 @@ namespace CrudGenerator\Utils;
 class Transtyper
 {
     /**
+     * Encode php value to text
+     *
      * @param string $string
      *
      * @return string A PHP value
@@ -25,7 +27,10 @@ class Transtyper
     }
 
     /**
-     * @param string $string
+     * Decode data and return php representation
+     *
+     * @param string  $string
+     * @param boolean $assoc
      *
      * @return mixed A PHP value
      */

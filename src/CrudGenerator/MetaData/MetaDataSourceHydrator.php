@@ -20,7 +20,7 @@ class MetaDataSourceHydrator
     /**
      * Build a MetaDataSourceDataobject with all his dependencies
      *
-     * @param  string         $adapterClassName
+     * @param  string         $metadataSourceClassName MetadataSource class name
      * @return MetaDataSource
      */
     public function adapterNameToMetaDataSource($metadataSourceClassName)
