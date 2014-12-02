@@ -1,9 +1,9 @@
 <?php
 namespace CrudGenerator\Tests\General\DataObject\DataObject;
 
-use CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
-use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
+use CrudGenerator\Metadata\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
+use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
+use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
 use CrudGenerator\DataObject;
 
 class DataObjectTest extends \PHPUnit_Framework_TestCase
@@ -21,7 +21,7 @@ class DataObjectTest extends \PHPUnit_Framework_TestCase
                    ->addEnvironnementValue('framework', 'zend2');
 
         $this->assertInstanceOf(
-            'CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL',
+            'CrudGenerator\Metadata\Sources\PostgreSQL\MetadataDataObjectPostgreSQL',
             $dataObject->getMetadata()
         );
 

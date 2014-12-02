@@ -10,8 +10,8 @@
 namespace CrudGenerator\Generators\Questions\Metadata;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\MetaData\MetaDataSource;
-use CrudGenerator\MetaData\MetaDataSourceFactory;
+use CrudGenerator\Metadata\MetaDataSource;
+use CrudGenerator\Metadata\MetaDataSourceFactory;
 use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
@@ -42,7 +42,7 @@ class MetaDataQuestion
 
     /**
      * @param  MetaDataSource                                   $metadataSource
-     * @return \CrudGenerator\MetaData\Sources\MetaDataDAOCache
+     * @return \CrudGenerator\Metadata\Sources\MetaDataDAOCache
      */
     private function getMetadataDao(MetaDataSource $metadataSource)
     {
@@ -61,7 +61,7 @@ class MetaDataQuestion
      * @param  MetaDataSource                              $metadataSource
      * @param  string|null                                 $choice
      * @throws ResponseExpectedException
-     * @return \CrudGenerator\MetaData\DataObject\MetaData
+     * @return \CrudGenerator\Metadata\DataObject\MetaData
      */
     public function ask(MetaDataSource $metadataSource, $choice = null)
     {

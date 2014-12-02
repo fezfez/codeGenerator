@@ -10,7 +10,7 @@
 namespace CrudGenerator\Generators\Validator;
 
 use JsonSchema\Validator;
-use CrudGenerator\MetaData\DataObject\MetaDataInterface;
+use CrudGenerator\Metadata\DataObject\MetaDataInterface;
 
 /**
  *

@@ -9,7 +9,7 @@
  */
 namespace CrudGenerator;
 
-use CrudGenerator\MetaData\DataObject\MetaDataInterface;
+use CrudGenerator\Metadata\DataObject\MetaDataInterface;
 use CrudGenerator\Storage\StorageString;
 use CrudGenerator\Storage\StorageArray;
 
@@ -61,7 +61,7 @@ class DataObject implements \JsonSerializable
     /**
      * Get MetaData
      *
-     * @return \CrudGenerator\MetaData\DataObject\MetaDataInterface
+     * @return \CrudGenerator\Metadata\DataObject\MetaDataInterface
      */
     public function getMetadata()
     {

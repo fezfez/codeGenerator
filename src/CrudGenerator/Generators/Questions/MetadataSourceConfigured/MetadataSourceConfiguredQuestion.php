@@ -9,7 +9,7 @@
  */
 namespace CrudGenerator\Generators\Questions\MetadataSourceConfigured;
 
-use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
+use CrudGenerator\Metadata\Config\MetaDataConfigDAO;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Context\PredefinedResponseCollection;
@@ -45,7 +45,7 @@ class MetadataSourceConfiguredQuestion
      *
      * @param  string                                 $choice
      * @throws ResponseExpectedException
-     * @return \CrudGenerator\MetaData\MetaDataSource
+     * @return \CrudGenerator\Metadata\MetaDataSource
      */
     public function ask($choice = null)
     {
@@ -57,7 +57,7 @@ class MetadataSourceConfiguredQuestion
         }
 
         foreach ($sourceConfiguredCollection as $backend) {
-            /* @var $backend \CrudGenerator\MetaData\MetaDataSource */
+            /* @var $backend \CrudGenerator\Metadata\MetaDataSource */
             if (null === $backend->getFalseDependencies()) {
                 $responseCollection->append(
                     new PredefinedResponse($backend->getUniqueName(), $backend->getUniqueName(), $backend)

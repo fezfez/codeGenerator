@@ -3,9 +3,9 @@ namespace CrudGenerator\Tests\General\Generators\Parser\GeneratorParser;
 
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Parser\GeneratorParser;
-use CrudGenerator\MetaData\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
-use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
+use CrudGenerator\Metadata\Sources\PostgreSQL\MetadataDataObjectPostgreSQL;
+use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
+use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
 use CrudGenerator\Generators\Parser\ParserCollection;
 use CrudGenerator\Tests\TestCase;
 

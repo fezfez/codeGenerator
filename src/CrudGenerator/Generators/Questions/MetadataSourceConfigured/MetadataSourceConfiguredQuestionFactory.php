@@ -10,7 +10,7 @@
 namespace CrudGenerator\Generators\Questions\MetadataSourceConfigured;
 
 use CrudGenerator\Context\ContextInterface;
-use CrudGenerator\MetaData\Config\MetaDataConfigDAOFactory;
+use CrudGenerator\Metadata\Config\MetaDataConfigDAOFactory;
 
 class MetadataSourceConfiguredQuestionFactory
 {

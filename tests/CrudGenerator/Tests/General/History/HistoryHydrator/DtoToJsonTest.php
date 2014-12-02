@@ -3,14 +3,14 @@ namespace CrudGenerator\Tests\General\History\HistoryHydrator;
 
 use CrudGenerator\History\HistoryHydrator;
 use CrudGenerator\DataObject;
-use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
-use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
+use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
+use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
+use CrudGenerator\Metadata\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\MetaData\MetaDataSource;
-use CrudGenerator\MetaData\Driver\DriverConfig;
+use CrudGenerator\Metadata\MetaDataSource;
+use CrudGenerator\Metadata\Driver\DriverConfig;
 use KeepUpdate\ArrayValidatorFactory;
-use CrudGenerator\MetaData\Driver\File\Web\WebDriverFactory;
+use CrudGenerator\Metadata\Driver\File\Web\WebDriverFactory;
 use CrudGenerator\Tests\TestCase;
 
 class DtoToJsonTest extends TestCase
@@ -49,14 +49,14 @@ class DtoToJsonTest extends TestCase
         );
 
         $driverConfig = new DriverConfig("test");
-        $driverConfig->setMetadataDaoFactory("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory")
-                     ->setDriver('CrudGenerator\MetaData\Driver\File\Web\WebDriverFactory');
+        $driverConfig->setMetadataDaoFactory("CrudGenerator\Metadata\Sources\MySQL\MySQLMetaDataDAOFactory")
+                     ->setDriver('CrudGenerator\Metadata\Driver\File\Web\WebDriverFactory');
 
         $source = new MetaDataSource();
 
         $source->setConfig($driverConfig)
-               ->setMetadataDao("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAO")
-               ->setMetadataDaoFactory("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory");
+               ->setMetadataDao("CrudGenerator\Metadata\Sources\MySQL\MySQLMetaDataDAO")
+               ->setMetadataDaoFactory("CrudGenerator\Metadata\Sources\MySQL\MySQLMetaDataDAOFactory");
 
         $metaData = new MetadataDataObjectDoctrine2(
             new MetaDataColumnCollection(),
@@ -91,13 +91,13 @@ class DtoToJsonTest extends TestCase
         $metaData->setName('MyName');
 
         $driverConfig = new DriverConfig("test");
-        $driverConfig->setMetadataDaoFactory("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory")
-                     ->setDriver('CrudGenerator\MetaData\Driver\File\Web\WebDriverFactory');
+        $driverConfig->setMetadataDaoFactory("CrudGenerator\Metadata\Sources\MySQL\MySQLMetaDataDAOFactory")
+                     ->setDriver('CrudGenerator\Metadata\Driver\File\Web\WebDriverFactory');
 
         $source = new MetaDataSource();
         $source->setConfig($driverConfig)
-               ->setMetadataDao("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAO")
-               ->setMetadataDaoFactory("CrudGenerator\MetaData\Sources\MySQL\MySQLMetaDataDAOFactory");
+               ->setMetadataDao("CrudGenerator\Metadata\Sources\MySQL\MySQLMetaDataDAO")
+               ->setMetadataDaoFactory("CrudGenerator\Metadata\Sources\MySQL\MySQLMetaDataDAOFactory");
 
         $stubMetadataSourceQuestion->expects($this->once())
         ->method('ask')

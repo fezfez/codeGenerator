@@ -10,8 +10,8 @@
 namespace CrudGenerator\Utils;
 
 use CrudGenerator\History\HistoryManager;
-use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
-use CrudGenerator\MetaData\Sources\Xml\XmlMetaDataDAOFactory;
+use CrudGenerator\Metadata\Config\MetaDataConfigDAO;
+use CrudGenerator\Metadata\Sources\Xml\XmlMetaDataDAOFactory;
 
 /**
  * Installer

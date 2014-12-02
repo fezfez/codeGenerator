@@ -82,7 +82,7 @@ class AnalyseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \CrudGenerator\MetaData\DataObject\MetaData
+     * @return \CrudGenerator\Metadata\DataObject\MetaData
      */
     private function getMetadata()
     {

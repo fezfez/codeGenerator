@@ -2,12 +2,12 @@
 namespace CrudGenerator\Tests\General\Generators\Questions\Metadata\MetaDataQuestion;
 
 use CrudGenerator\Generators\Questions\Metadata\MetaDataQuestion;
-use CrudGenerator\MetaData\MetaDataSource;
-use CrudGenerator\MetaData\DataObject\MetaDataCollection;
-use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
-use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
-use CrudGenerator\MetaData\Driver\DriverConfig;
+use CrudGenerator\Metadata\MetaDataSource;
+use CrudGenerator\Metadata\DataObject\MetaDataCollection;
+use CrudGenerator\Metadata\Sources\Doctrine2\MetadataDataObjectDoctrine2;
+use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
+use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
+use CrudGenerator\Metadata\Driver\DriverConfig;
 use CrudGenerator\Tests\TestCase;
 
 class AskTest extends TestCase
@@ -16,8 +16,8 @@ class AskTest extends TestCase
     {
         $source = new MetaDataSource();
         $source->setDefinition('My definition');
-        $source->setMetadataDaoFactory('CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAOFactory');
-        $source->setMetadataDao("CrudGenerator\MetaData\Sources\Json\JsonMetaDataDAO");
+        $source->setMetadataDaoFactory('CrudGenerator\Metadata\Sources\Json\JsonMetaDataDAOFactory');
+        $source->setMetadataDao("CrudGenerator\Metadata\Sources\Json\JsonMetaDataDAO");
 
         $metaData = new MetadataDataObjectDoctrine2(new MetaDataColumnCollection(), new MetaDataRelationCollection());
         $metaData->setName('MyName');
@@ -25,8 +25,8 @@ class AskTest extends TestCase
         $metaDataCollection = new MetaDataCollection();
         $metaDataCollection->append($metaData);
 
-        $metaDataSourceFactoryStub = $this->createMock('CrudGenerator\MetaData\MetaDataSourceFactory');
-        $doctrine2MetaDataDAOStub  = $this->createMock('CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO');
+        $metaDataSourceFactoryStub = $this->createMock('CrudGenerator\Metadata\MetaDataSourceFactory');
+        $doctrine2MetaDataDAOStub  = $this->createMock('CrudGenerator\Metadata\Sources\Doctrine2\Doctrine2MetaDataDAO');
         $context                   = $this->createMock('CrudGenerator\Context\CliContext');
 
         $doctrine2MetaDataDAOExpects = $doctrine2MetaDataDAOStub->expects($this->once());

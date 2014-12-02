@@ -3,9 +3,9 @@ namespace CrudGenerator\Tests\General\Generators\Validator\GeneratorValidator;
 
 use CrudGenerator\Generators\Validator\GeneratorValidator;
 use CrudGenerator\DataObject;
-use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
-use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
+use CrudGenerator\Metadata\Sources\Doctrine2\MetadataDataObjectDoctrine2;
+use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
+use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
 
 class IsValidTest extends \PHPUnit_Framework_TestCase
 {
@@ -63,7 +63,7 @@ class IsValidTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException('InvalidArgumentException');
 
-        $sUT->isValid(array('metadataTypeAccepted' => array('CrudGenerator\MetaData\DataObject\Fake')), $metadata);
+        $sUT->isValid(array('metadataTypeAccepted' => array('CrudGenerator\Metadata\DataObject\Fake')), $metadata);
     }
 
     public function testWithValidMetadata()
@@ -85,7 +85,7 @@ class IsValidTest extends \PHPUnit_Framework_TestCase
         );
 
         $sUT->isValid(
-            array('metadataTypeAccepted' => array('CrudGenerator\MetaData\DataObject\MetaData')),
+            array('metadataTypeAccepted' => array('CrudGenerator\Metadata\DataObject\MetaData')),
             $metadata
         );
     }

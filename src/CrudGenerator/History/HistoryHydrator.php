@@ -14,8 +14,8 @@ use CrudGenerator\Generators\Questions\MetadataSourceConfigured\MetadataSourceCo
 use CrudGenerator\Generators\Questions\Metadata\MetadataQuestion;
 use CrudGenerator\Generators\ResponseExpectedException;
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\MetaData\MetaDataSource;
-use CrudGenerator\MetaData\DataObject\MetaDataInterface;
+use CrudGenerator\Metadata\MetaDataSource;
+use CrudGenerator\Metadata\DataObject\MetaDataInterface;
 use KeepUpdate\ArrayValidator;
 use KeepUpdate\ValidationException;
 

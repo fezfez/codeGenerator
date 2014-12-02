@@ -1,10 +1,10 @@
 <?php
 
-use CrudGenerator\MetaData\DataObject\MetaDataColumn;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationColumn;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
-use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
+use CrudGenerator\Metadata\DataObject\MetaDataColumn;
+use CrudGenerator\Metadata\DataObject\MetaDataRelationColumn;
+use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
+use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
+use CrudGenerator\Metadata\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 
 $metadata = new MetadataDataObjectDoctrine2(
     new MetaDataColumnCollection(),

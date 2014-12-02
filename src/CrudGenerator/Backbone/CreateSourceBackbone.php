@@ -11,7 +11,7 @@ namespace CrudGenerator\Backbone;
 
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Generators\Questions\MetadataSource\MetadataSourceQuestion;
-use CrudGenerator\MetaData\Config\MetaDataConfigDAO;
+use CrudGenerator\Metadata\Config\MetaDataConfigDAO;
 
 class CreateSourceBackbone
 {

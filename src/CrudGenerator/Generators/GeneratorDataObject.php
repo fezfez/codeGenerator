@@ -10,7 +10,7 @@
 namespace CrudGenerator\Generators;
 
 use CrudGenerator\DataObject;
-use CrudGenerator\MetaData\MetaDataSource;
+use CrudGenerator\Metadata\MetaDataSource;
 use KeepUpdate\Annotations;
 
 /**
@@ -42,7 +42,7 @@ class GeneratorDataObject implements \JsonSerializable
      */
     private $name = null;
     /**
-     * @Annotations\Chain(class="CrudGenerator\MetaData\MetaDataSource", nullable=false)
+     * @Annotations\Chain(class="CrudGenerator\Metadata\MetaDataSource", nullable=false)
      *
      * @var MetaDataSource
      */
@@ -200,7 +200,7 @@ class GeneratorDataObject implements \JsonSerializable
         return $this->name;
     }
     /**
-     * @return \CrudGenerator\MetaData\MetaDataSource
+     * @return \CrudGenerator\Metadata\MetaDataSource
      */
     public function getMetadataSource()
     {

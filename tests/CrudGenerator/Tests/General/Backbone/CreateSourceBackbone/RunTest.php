@@ -2,7 +2,7 @@
 namespace CrudGenerator\Tests\General\Backbone\CreateSourceBackbone;
 
 use CrudGenerator\Backbone\CreateSourceBackbone;
-use CrudGenerator\MetaData\MetaDataSource;
+use CrudGenerator\Metadata\MetaDataSource;
 use CrudGenerator\Tests\TestCase;
 
 class RunTest extends TestCase

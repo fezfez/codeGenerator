@@ -2,14 +2,14 @@
 namespace CrudGenerator\Tests\General\History\HistoryHydrator;
 
 use CrudGenerator\History\HistoryHydrator;
-use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
-use CrudGenerator\MetaData\Sources\Doctrine2\MetadataDataObjectDoctrine2;
+use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
+use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
+use CrudGenerator\Metadata\Sources\Doctrine2\MetadataDataObjectDoctrine2;
 use KeepUpdate\ArrayValidatorFactory;
 use CrudGenerator\History\History;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\DataObject;
-use CrudGenerator\MetaData\MetaDataSource;
+use CrudGenerator\Metadata\MetaDataSource;
 use CrudGenerator\Tests\TestCase;
 use CrudGenerator\Generators\ResponseExpectedException;
 
@@ -46,7 +46,7 @@ class JsonToDtoTest extends TestCase
         $rawMock = $this->createSut('CrudGenerator\History\HistoryHydrator');
 
         $metaDataSourceName      = 'Doctrine2';
-        $metaDataSource          = 'CrudGenerator\MetaData\MetaDataSource';
+        $metaDataSource          = 'CrudGenerator\Metadata\MetaDataSource';
         $metaDataName            = 'Corp\NewsEntity';
         $stubMetadataSourceClass = $this->createMock($metaDataSource);
 
@@ -81,7 +81,7 @@ class JsonToDtoTest extends TestCase
         );
 
         $metaDataSourceName      = 'Doctrine2';
-        $metaDataSource          = 'CrudGenerator\MetaData\MetaDataSource';
+        $metaDataSource          = 'CrudGenerator\Metadata\MetaDataSource';
         $metaDataName            = 'Corp\NewsEntity';
         $stubMetadataSourceClass = $this->createMock($metaDataSource);
 
@@ -139,8 +139,8 @@ class JsonToDtoTest extends TestCase
             ),
             GeneratorDataObject::METADATA_SOURCE => array(
                 MetaDataSource::DEFINITION           => "Doctrine2",
-                MetaDataSource::METADATA_DAO         => "CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAO",
-                MetaDataSource::METADATA_DAO_FACTORY => "CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAOFactory",
+                MetaDataSource::METADATA_DAO         => "CrudGenerator\Metadata\Sources\Doctrine2\Doctrine2MetaDataDAO",
+                MetaDataSource::METADATA_DAO_FACTORY => "CrudGenerator\Metadata\Sources\Doctrine2\Doctrine2MetaDataDAOFactory",
                 MetaDataSource::FALSE_DEPENDENCIES   => null,
                 MetaDataSource::UNIQUE_NAME          => $metaDataSourceName,
                 MetaDataSource::CONFIG               => null

@@ -9,7 +9,7 @@
  */
 namespace CrudGenerator\Generators\Questions\MetadataSource;
 
-use CrudGenerator\MetaData\MetaDataSourceFinder;
+use CrudGenerator\Metadata\MetaDataSourceFinder;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Context\PredefinedResponseCollection;
@@ -41,14 +41,14 @@ class MetadataSourceQuestion
      * Ask witch MetaData Source you want to use
      *
      * @param  string                                 $choice
-     * @return \CrudGenerator\MetaData\MetaDataSource
+     * @return \CrudGenerator\Metadata\MetaDataSource
      */
     public function ask($choice = null)
     {
         $responseCollection = new PredefinedResponseCollection();
 
         foreach ($this->metadataSourceFinder->getAllAdapters() as $backend) {
-            /* @var $backend \CrudGenerator\MetaData\MetaDataSource */
+            /* @var $backend \CrudGenerator\Metadata\MetaDataSource */
             if (null === $backend->getFalseDependencies()) {
                 $responseCollection->append(
                     new PredefinedResponse($backend->getMetadataDaoFactory(), $backend->getDefinition(), $backend)

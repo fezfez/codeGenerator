@@ -7,9 +7,9 @@ use CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidatorFactory;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Utils\PhpStringParserFactory;
 use CrudGenerator\DataObject;
-use CrudGenerator\MetaData\Sources\MySQL\MetadataDataObjectMySQL;
-use CrudGenerator\MetaData\DataObject\MetaDataColumnCollection;
-use CrudGenerator\MetaData\DataObject\MetaDataRelationCollection;
+use CrudGenerator\Metadata\Sources\MySQL\MetadataDataObjectMySQL;
+use CrudGenerator\Metadata\DataObject\MetaDataColumnCollection;
+use CrudGenerator\Metadata\DataObject\MetaDataRelationCollection;
 
 class EvaluateQuestionTest extends \PHPUnit_Framework_TestCase
 {

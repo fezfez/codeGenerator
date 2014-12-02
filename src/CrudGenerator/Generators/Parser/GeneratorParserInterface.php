@@ -10,7 +10,7 @@
 namespace CrudGenerator\Generators\Parser;
 
 use CrudGenerator\Generators\GeneratorDataObject;
-use CrudGenerator\MetaData\DataObject\MetaDataInterface;
+use CrudGenerator\Metadata\DataObject\MetaDataInterface;
 
 /**
  * Find all generator allow in project

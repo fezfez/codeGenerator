@@ -2,7 +2,7 @@
 namespace CrudGenerator\Tests\General\Backbone\PreapreForGenerationBackbone;
 
 use CrudGenerator\Backbone\PreapreForGenerationBackbone;
-use CrudGenerator\MetaData\MetaDataSource;
+use CrudGenerator\Metadata\MetaDataSource;
 use CrudGenerator\Tests\TestCase;
 
 class RunTest extends TestCase
@@ -23,7 +23,7 @@ class RunTest extends TestCase
         );
 
         $source   = new MetaDataSource();
-        $metadata = $this->createMock('CrudGenerator\MetaData\DataObject\MetaData');
+        $metadata = $this->createMock('CrudGenerator\Metadata\DataObject\MetaData');
 
         $metadataSourceConfigured->expects($this->once())
         ->method('ask')

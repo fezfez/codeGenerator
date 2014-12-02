@@ -14,7 +14,7 @@ use CrudGenerator\Context\QuestionWithPredefinedResponse;
 use CrudGenerator\Context\PredefinedResponseCollection;
 use CrudGenerator\Context\PredefinedResponse;
 use CrudGenerator\Generators\Finder\GeneratorFinderInterface;
-use CrudGenerator\MetaData\DataObject\MetaDataInterface;
+use CrudGenerator\Metadata\DataObject\MetaDataInterface;
 
 class GeneratorQuestion
 {

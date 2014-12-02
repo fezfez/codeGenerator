@@ -2,7 +2,7 @@
 namespace CrudGenerator\Tests\General\View\Helpers\FixtureRenderer;
 
 use CrudGenerator\View\Helpers\FixtureRenderer;
-use CrudGenerator\MetaData\DataObject\MetaDataColumn;
+use CrudGenerator\Metadata\DataObject\MetaDataColumn;
 use Faker\Factory;
 
 class RenderTest extends \PHPUnit_Framework_TestCase

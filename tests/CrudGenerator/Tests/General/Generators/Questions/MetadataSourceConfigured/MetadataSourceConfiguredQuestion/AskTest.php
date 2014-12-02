@@ -2,9 +2,9 @@
 namespace CrudGenerator\Tests\General\Generators\Questions\MetadataSourceConfigured\MetadataSourceConfiguredQuestion;
 
 use CrudGenerator\Generators\Questions\MetadataSourceConfigured\MetadataSourceConfiguredQuestion;
-use CrudGenerator\MetaData\MetaDataSourceCollection;
-use CrudGenerator\MetaData\MetaDataSource;
-use CrudGenerator\MetaData\Sources\Doctrine2\Doctrine2MetaDataDAOFactory;
+use CrudGenerator\Metadata\MetaDataSourceCollection;
+use CrudGenerator\Metadata\MetaDataSource;
+use CrudGenerator\Metadata\Sources\Doctrine2\Doctrine2MetaDataDAOFactory;
 
 class AskTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,7 +20,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $metadataSourceCollection->append($sourceWithFailedDependencie);
 
-        $metadataConfigDAO = $this->createMock('CrudGenerator\MetaData\Config\MetaDataConfigDAO');
+        $metadataConfigDAO = $this->createMock('CrudGenerator\Metadata\Config\MetaDataConfigDAO');
 
         $metadataConfigDAO->expects($this->once())
         ->method('retrieveAll')
@@ -62,7 +62,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $metadataSourceCollection->append($sourceWithFailedDependencie);
 
-        $metadataConfigDAO = $this->createMock('CrudGenerator\MetaData\Config\MetaDataConfigDAO');
+        $metadataConfigDAO = $this->createMock('CrudGenerator\Metadata\Config\MetaDataConfigDAO');
 
         $metadataConfigDAO->expects($this->once())
         ->method('retrieveAll')
@@ -92,7 +92,7 @@ class AskTest extends \PHPUnit_Framework_TestCase
 
         $metadataSourceCollection->append($sourceWithFailedDependencie);
 
-        $metadataConfigDAO = $this->createMock('CrudGenerator\MetaData\Config\MetaDataConfigDAO');
+        $metadataConfigDAO = $this->createMock('CrudGenerator\Metadata\Config\MetaDataConfigDAO');
 
         $metadataConfigDAO->expects($this->once())
         ->method('retrieveAll')

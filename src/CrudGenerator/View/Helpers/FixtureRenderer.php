@@ -9,7 +9,7 @@
  */
 namespace CrudGenerator\View\Helpers;
 
-use CrudGenerator\MetaData\DataObject\MetaDataColumn;
+use CrudGenerator\Metadata\DataObject\MetaDataColumn;
 use Faker\Generator;
 
 class FixtureRenderer

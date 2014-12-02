@@ -16,7 +16,7 @@ use CrudGenerator\Utils\PhpStringParser;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Finder\GeneratorFinderInterface;
 use CrudGenerator\Generators\Validator\GeneratorValidator;
-use CrudGenerator\MetaData\DataObject\MetaDataInterface;
+use CrudGenerator\Metadata\DataObject\MetaDataInterface;
 
 /**
  * Find all generator allow in project
