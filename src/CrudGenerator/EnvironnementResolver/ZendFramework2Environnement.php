@@ -10,6 +10,8 @@
 namespace CrudGenerator\EnvironnementResolver;
 
 use CrudGenerator\Utils\FileManager;
+use Zend\Mvc\Application;
+use Zend\ModuleManager\Exception\RuntimeException;
 
 /**
  * ZendFramework2Environnement check if we are in zf2 env
@@ -34,35 +36,47 @@ class ZendFramework2Environnement
     public static function getDependence(FileManager $fileManager)
     {
         if (null === self::$serviceManager) {
-            $previousDir = '.';
-
-            $actualDir = getcwd();
-            while ($fileManager->fileExists('config/application.config.php') === false) {
-                $dir = dirname(getcwd());
-
-                if ($previousDir === $dir) {
-                    chdir($actualDir);
-                    throw new EnvironnementResolverException(
-                        'Unable to locate "config/application.config.php":
-                        is CodeGenerator in a subdir of your application skeleton?'
-                    );
-                }
-
-                $previousDir = $dir;
-                chdir($dir);
-            }
+            $initialDirectory = getcwd();
 
             try {
-                self::$serviceManager = \Zend\Mvc\Application::init(
-                    $fileManager->includeFile('config/application.config.php')
+                self::$serviceManager = Application::init(
+                    $fileManager->includeFile(self::findConfigFile($initialDirectory))
                 )->getServiceManager();
-            } catch (\Zend\ModuleManager\Exception\RuntimeException $e) {
+            } catch (RuntimeException $e) {
                 throw new EnvironnementResolverException($e->getMessage());
             }
 
-            chdir($actualDir);
+            chdir($initialDirectory);
         }
 
         return self::$serviceManager;
+    }
+
+    /**
+     * @param string $initialDirectory
+     * @throws EnvironnementResolverException
+     * @return string
+     */
+    private static function findConfigFile($initialDirectory)
+    {
+        $previousDir = '.';
+        $fileToFind  = 'config/application.config.php';
+
+        while ($fileManager->fileExists($fileToFind) === false) {
+            $dir = dirname(getcwd());
+
+            if ($previousDir === $dir) {
+                chdir($initialDirectory);
+                throw new EnvironnementResolverException(
+                    'Unable to locate "config/application.config.php":
+                        is CodeGenerator in a subdir of your application skeleton?'
+                );
+            }
+
+            $previousDir = $dir;
+            chdir($dir);
+        }
+
+        return $fileToFind;
     }
 }

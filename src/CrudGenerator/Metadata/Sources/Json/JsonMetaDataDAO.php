@@ -152,7 +152,7 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
         $metadataRelation = $this->hydrateProperties($props, $metadataRelation, $mainCollection);
         $relation->setMetadata($metadataRelation);
 
-        $mainCollection->append($metadataRelation); // As this metatdata to the main metadataCollection
+        $mainCollection->append($metadataRelation); // Add this metatdata to the main metadataCollection
 
         return $relation;
     }
@@ -193,21 +193,19 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
         $mergeArray = true;
 
         if ($mergeArray === true && $this->itemsAreAllOfType($items, array('object')) === true) {
-            $mergedArray = array();
-
-            foreach ($items as $item) {
-                foreach ($item->getProperties() as $itemName => $itemValue) {
-                    $mergedArray[$itemName] = $itemValue;
-                }
-            }
-
             $metadata->appendRelation(
-                $this->hydrateMetaDataRelationColumn($daddyName, $mergedArray, $metadata, $mainCollection)
+                $this->hydrateMetaDataRelationColumn(
+                    $daddyName,
+                    $this->mergeItems($items),
+                    $metadata,
+                    $mainCollection
+                )
             );
         } else {
             $specialProperties = array();
 
             foreach ($items as $propName => $item) {
+                // Relation of relation
                 if (in_array($item->getType(), array('object', 'array')) === false) {
                     $specialProperties[$propName] = $item;
                     continue;
@@ -220,6 +218,23 @@ class JsonMetaDataDAO implements MetaDataDAOInterface
         }
 
         return $metadata;
+    }
+
+    /**
+     * @param array $items
+     * @return array
+     */
+    private function mergeItems(array $items)
+    {
+        $mergedItems = array();
+
+        foreach ($items as $item) {
+            foreach ($item->getProperties() as $itemName => $itemValue) {
+                $mergedItems[$itemName] = $itemValue;
+            }
+        }
+
+        return $mergedItems;
     }
 
     /**
