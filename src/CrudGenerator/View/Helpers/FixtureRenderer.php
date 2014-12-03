@@ -54,7 +54,7 @@ class FixtureRenderer
      */
     private function generateString(MetaDataColumn $metadata)
     {
-        if ($metadata->getLength() === null) { ?
+        if ($metadata->getLength() === null) {
             return '"' . $this->faker->text(50) . '"';
         } elseif($metadata->getLength() <=  5) {
             return 'test';
