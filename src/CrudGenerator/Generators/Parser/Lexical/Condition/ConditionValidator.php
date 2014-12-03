@@ -37,22 +37,32 @@ class ConditionValidator
     ) {
         $isValid = true;
 
+        // Have condition ?
         if (isset($node[ConditionInterface::CONDITION]) === true) {
             $condition = $node[ConditionInterface::CONDITION];
+            $validator = $this->findValidator($condition);
 
-            foreach ($this->conditionCollection as $conditionChecker) {
-                if (isset($condition[$conditionChecker::NAME]) === true) {
-                    if ($conditionChecker->isValid(
-                        $condition[$conditionChecker::NAME],
-                        $generator,
-                        $phpStringParser
-                    ) === false) {
-                        $isValid = false;
-                    }
-                }
+            if ($validator->isValid($condition[$validator::NAME], $generator, $phpStringParser) === false) {
+                $isValid = false;
             }
         }
 
         return $isValid;
+    }
+
+    /**
+     * @param array $condition
+     * @throws \Exception
+     * @return ConditionInterface
+     */
+    private function findValidator(array $condition)
+    {
+        foreach ($this->conditionCollection as $conditionChecker) {
+            if (isset($condition[$conditionChecker::NAME]) === true) {
+                return $conditionChecker;
+            }
+        }
+
+        throw new \Exception(sprintf('Condition "%s" does not exist', json_encode($condition)));
     }
 }
