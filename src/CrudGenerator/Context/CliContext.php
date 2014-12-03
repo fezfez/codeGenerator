@@ -74,25 +74,45 @@ class CliContext implements ContextInterface
             $this->input,
             $this->output,
             new Question(
-                sprintf(
-                    '<question>Choose a "%s"</question> : default : %s',
-                    $question->getText(),
-                    $this->getPreResponse($question->getUniqueKey())
-                ),
-                $this->getPreResponse($question->getUniqueKey())
+                $this->buildQuestionText($question),
+                $this->getPreResponse($question)
             )
         );
     }
 
     /**
-     * @param  string $uniqueKey
+     * @param  SimpleQuestion $uniqueKey
      * @return string
      */
-    private function getPreResponse($uniqueKey)
+    private function getPreResponse(SimpleQuestion $question)
     {
-        $uniqueKey = strtolower($uniqueKey);
+        $uniqueKey       = $question->getUniqueKey();
+        $defaultResponse = $question->getDefaultResponse();
+        $uniqueKey       = strtolower($uniqueKey);
 
-        return isset($this->preResponse[$uniqueKey]) === true ? $this->preResponse[$uniqueKey]->get(array()) : null;
+        if (isset($this->preResponse[$uniqueKey]) === true) {
+            return $this->preResponse[$uniqueKey]->get(array());
+        } elseif ($defaultResponse !== null) {
+            return $defaultResponse;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @param SimpleQuestion $question
+     * @return string
+     */
+    private function buildQuestionText(SimpleQuestion $question)
+    {
+        $preResponse  = $this->getPreResponse($question);
+        $questionText = sprintf('<question>"%s"</question>', $question->getText());
+
+        if ($preResponse !== null) {
+            $questionText .= sprintf(' default : %s',  $preResponse);
+        }
+
+        return $questionText . ' ';
     }
 
     /* (non-PHPdoc)
@@ -119,13 +139,9 @@ class CliContext implements ContextInterface
                 $this->input,
                 $this->output,
                 new ChoiceQuestion(
-                    sprintf(
-                        '<question>"%s"</question> default : %s ',
-                        $questionResponseCollection->getText(),
-                        $this->getPreResponse($questionResponseCollection->getUniqueKey())
-                    ),
+                    $this->buildQuestionText($questionResponseCollection),
                     $choises,
-                    $this->getPreResponse($questionResponseCollection->getUniqueKey())
+                    $this->getPreResponse($questionResponseCollection)
                 )
             );
 

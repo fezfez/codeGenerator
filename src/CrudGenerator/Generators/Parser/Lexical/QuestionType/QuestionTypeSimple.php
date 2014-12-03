@@ -37,7 +37,7 @@ class QuestionTypeSimple implements QuestionTypeInterface
     {
         $question = new SimpleQuestion($questionRaw['text'], $questionRaw['dtoAttribute']);
         $question->setDefaultResponse(
-            (isset($questionRaw['defaultResponse']) === true) ? $parser->parse($questionRaw['defaultResponse']) : null
+            (isset($questionRaw['response']['default']) === true) ? $parser->parse($questionRaw['response']['default']) : null
         );
         $question->setRequired($questionRaw['required']);
         $question->setHelpMessage($questionRaw['helpMessage']);
