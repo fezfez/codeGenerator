@@ -120,7 +120,7 @@ class CliContext implements ContextInterface
                 $this->output,
                 new ChoiceQuestion(
                     sprintf(
-                        'Choose a "%s" default : %s ',
+                        '<question>"%s"</question> default : %s ',
                         $questionResponseCollection->getText(),
                         $this->getPreResponse($questionResponseCollection->getUniqueKey())
                     ),

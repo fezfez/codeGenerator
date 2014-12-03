@@ -40,7 +40,7 @@ class ZendFramework2Environnement
 
             try {
                 self::$serviceManager = Application::init(
-                    $fileManager->includeFile(self::findConfigFile($initialDirectory))
+                    $fileManager->includeFile(self::findConfigFile($initialDirectory, $fileManager))
                 )->getServiceManager();
             } catch (RuntimeException $e) {
                 throw new EnvironnementResolverException($e->getMessage());
@@ -53,11 +53,12 @@ class ZendFramework2Environnement
     }
 
     /**
-     * @param string $initialDirectory
+     * @param string                          $initialDirectory
+     * @param  FileManager                    $fileManager
      * @throws EnvironnementResolverException
      * @return string
      */
-    private static function findConfigFile($initialDirectory)
+    private static function findConfigFile($initialDirectory, FileManager $fileManager)
     {
         $previousDir = '.';
         $fileToFind  = 'config/application.config.php';

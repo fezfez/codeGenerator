@@ -29,7 +29,7 @@ class WebDriverFactory implements DriverFactoryInterface
      */
     public static function getDescription()
     {
-        $config = new DriverConfig('Web');
+        $config = new DriverConfig('configUrl');
         $config->addQuestion('Url', 'configUrl');
         $config->setDriver(__CLASS__);
 

@@ -156,7 +156,7 @@ class DriverConfig implements \JsonSerializable
      */
     public function getUniqueName()
     {
-        return $this->uniqueName;
+        return $this->response[$this->uniqueName];
     }
 
     /**

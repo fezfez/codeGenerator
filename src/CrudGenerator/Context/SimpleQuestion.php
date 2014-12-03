@@ -132,10 +132,10 @@ class SimpleQuestion extends EngineDataForQuestion
     }
 
     /**
-     * @return mixed
+     * @return \CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum
      */
-    public function getType()
+    public function getResponseType()
     {
-        return $this->type;
+        return $this->responseType;
     }
 }
