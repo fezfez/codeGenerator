@@ -97,8 +97,8 @@ class HistoryHydrator
 
         $this->checkIntegrity($arrayRepresentation);
 
-        $dto                 = $arrayRepresentation[GeneratorDataObject::DTO];
-        $history             = new History();
+        $dto     = $arrayRepresentation[GeneratorDataObject::DTO];
+        $history = new History();
 
         $history->setName($dto[DataObject::METADATA][MetaDataInterface::NAME]);
 

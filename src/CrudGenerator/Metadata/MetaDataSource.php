@@ -51,7 +51,9 @@ class MetaDataSource implements \JsonSerializable
      */
     private $metaDataDAO = null;
     /**
-     * @Annotations\PlainTextClassImplements(interface="CrudGenerator\Metadata\Sources\MetaDataDAOFactoryInterface", nullable=false)
+     * @Annotations\PlainTextClassImplements(
+     *     interface="CrudGenerator\Metadata\Sources\MetaDataDAOFactoryInterface", nullable=false
+     * )
      *
      * @var string name of adapater
      */
@@ -94,7 +96,9 @@ class MetaDataSource implements \JsonSerializable
             throw new \Exception('Must be a string');
         } elseif (false === class_exists($value, true)) {
             throw new \Exception('Class does not exist');
-        } elseif (in_array('CrudGenerator\Metadata\Sources\MetaDataDAOInterface', class_implements($value)) === false) {
+        } elseif (
+            in_array('CrudGenerator\Metadata\Sources\MetaDataDAOInterface', class_implements($value)) === false
+        ) {
             throw new \Exception('Wrong implementation');
         }
         $this->metaDataDAO = $value;
@@ -111,7 +115,9 @@ class MetaDataSource implements \JsonSerializable
             throw new \Exception('Must be a string');
         } elseif (false === class_exists($value, true)) {
             throw new \Exception('Class does not exist');
-        } elseif (in_array('CrudGenerator\Metadata\Sources\MetaDataDAOFactoryInterface', class_implements($value)) === false) {
+        } elseif (
+            in_array('CrudGenerator\Metadata\Sources\MetaDataDAOFactoryInterface', class_implements($value)) === false
+        ) {
             throw new \Exception('Wrong implementation');
         }
 
@@ -244,6 +250,9 @@ class MetaDataSource implements \JsonSerializable
         return (count($this->driversDescription) === 1) ? true : false;
     }
 
+    /* (non-PHPdoc)
+     * @see JsonSerializable::jsonSerialize()
+     */
     public function jsonSerialize()
     {
         return array(

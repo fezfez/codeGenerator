@@ -20,7 +20,13 @@ use CrudGenerator\Storage\StorageString;
  */
 class DataObject implements \JsonSerializable
 {
+    /**
+     * @var string
+     */
     const METADATA = 'metadata';
+    /**
+     * @var string
+     */
     const STORE    = 'store';
     /**
      * @var MetaDataInterface Metadata object
@@ -163,7 +169,8 @@ class DataObject implements \JsonSerializable
      */
     public function register(array $question, $isIterable)
     {
-        $this->store[strtolower($question['dtoAttribute'])] = $isIterable === true ? new StorageArray() : new StorageString();
+        $this->store[strtolower($question['dtoAttribute'])] = $isIterable === true ?
+                                                              new StorageArray() : new StorageString();
 
         return $this;
     }
@@ -176,8 +183,8 @@ class DataObject implements \JsonSerializable
         return $this->store;
     }
 
-    /**
-     * @return array
+    /* (non-PHPdoc)
+     * @see JsonSerializable::jsonSerialize()
      */
     public function jsonSerialize()
     {

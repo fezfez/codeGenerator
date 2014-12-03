@@ -11,16 +11,12 @@ namespace CrudGenerator\Context;
 
 use CrudGenerator\Generators\Parser\Lexical\QuestionResponseTypeEnum;
 
-class SimpleQuestion
+class SimpleQuestion extends EngineDataForQuestion
 {
     /**
      * @var mixed
      */
     private $text = null;
-    /**
-     * @var mixed
-     */
-    private $uniqueKey = null;
     /**
      * @var mixed
      */
@@ -34,25 +30,9 @@ class SimpleQuestion
      */
     private $helpMessage = null;
     /**
-     * @var mixed
-     */
-    private $type = null;
-    /**
      * @var QuestionResponseTypeEnum
      */
     private $responseType = null;
-    /**
-     * @var boolean
-     */
-    private $shutdownWithoutResponse = false;
-    /**
-     * @var string
-     */
-    private $customeExceptionMessage = null;
-    /**
-     * @var boolean
-     */
-    private $consumeResponse = false;
 
     /**
      * @param string $text
@@ -60,8 +40,9 @@ class SimpleQuestion
      */
     public function __construct($text, $uniqueKey)
     {
-        $this->text      = $text;
-        $this->uniqueKey = $uniqueKey;
+        $this->text = $text;
+
+        parent::__construct($uniqueKey);
     }
 
     /**
@@ -71,17 +52,6 @@ class SimpleQuestion
     public function setText($value)
     {
         $this->text = $value;
-
-        return $this;
-    }
-
-    /**
-     * @param  string                                $value
-     * @return \CrudGenerator\Context\SimpleQuestion
-     */
-    public function setUniqueKey($value)
-    {
-        $this->uniqueKey = $value;
 
         return $this;
     }
@@ -120,17 +90,6 @@ class SimpleQuestion
     }
 
     /**
-     * @param  string                                $value
-     * @return \CrudGenerator\Context\SimpleQuestion
-     */
-    public function setType($value)
-    {
-        $this->type = $value;
-
-        return $this;
-    }
-
-    /**
      * @param  QuestionResponseTypeEnum              $value
      * @return \CrudGenerator\Context\SimpleQuestion
      */
@@ -142,53 +101,12 @@ class SimpleQuestion
     }
 
     /**
-     * If no response provided, Exception of type
-     * CrudGenerator\Generators\ResponseExpectedException
-     * will be throw
-     *
-     * @param boolean $value
-     * @param string  $customeExceptionMessage
-     *
-     * @return \CrudGenerator\Context\SimpleQuestion
-     */
-    public function setShutdownWithoutResponse($value, $customeExceptionMessage = null)
-    {
-        $this->shutdownWithoutResponse = $value;
-        $this->customeExceptionMessage = $customeExceptionMessage;
-
-        return $this;
-    }
-
-    /**
-     * If true, response will be delete after retrieve
-     *
-     * @param boolean $value
-     *
-     * @return \CrudGenerator\Context\SimpleQuestion
-     */
-    public function setConsumeResponse($value)
-    {
-        $this->consumeResponse = $value;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getText()
     {
         return $this->text;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getUniqueKey()
-    {
-        return $this->uniqueKey;
-    }
-
     /**
      * @return mixed
      */
@@ -219,21 +137,5 @@ class SimpleQuestion
     public function getType()
     {
         return $this->type;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isShutdownWithoutResponse()
-    {
-        return $this->shutdownWithoutResponse;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isConsumeResponse()
-    {
-        return $this->consumeResponse;
     }
 }

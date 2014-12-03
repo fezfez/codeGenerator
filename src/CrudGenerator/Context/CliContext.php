@@ -92,7 +92,7 @@ class CliContext implements ContextInterface
     {
         $uniqueKey = strtolower($uniqueKey);
 
-        return isset($this->preResponse[$uniqueKey]) ? $this->preResponse[$uniqueKey]->get(array()) : null;
+        return isset($this->preResponse[$uniqueKey]) === true ? $this->preResponse[$uniqueKey]->get(array()) : null;
     }
 
     /* (non-PHPdoc)
@@ -119,7 +119,11 @@ class CliContext implements ContextInterface
                 $this->input,
                 $this->output,
                 new ChoiceQuestion(
-                    sprintf('Choose a "%s" default : %s ', $questionResponseCollection->getText(), $this->getPreResponse($questionResponseCollection->getUniqueKey())),
+                    sprintf(
+                        'Choose a "%s" default : %s ',
+                        $questionResponseCollection->getText(),
+                        $this->getPreResponse($questionResponseCollection->getUniqueKey())
+                    ),
                     $choises,
                     $this->getPreResponse($questionResponseCollection->getUniqueKey())
                 )

@@ -77,12 +77,12 @@ class MetaDataConfigDAO
         DriverHydrator $driverHydrator,
         ContextInterface $context
     ) {
-        $this->fileManager             = $fileManager;
-        $this->transtyper              = $transtyper;
-        $this->arrayValidator          = $arrayValidator;
-        $this->metaDataSourceHydrator  = $metaDataSourceHydrator;
-        $this->driverHydrator          = $driverHydrator;
-        $this->context                 = $context;
+        $this->fileManager            = $fileManager;
+        $this->transtyper             = $transtyper;
+        $this->arrayValidator         = $arrayValidator;
+        $this->metaDataSourceHydrator = $metaDataSourceHydrator;
+        $this->driverHydrator         = $driverHydrator;
+        $this->context                = $context;
     }
 
     /**
@@ -96,7 +96,7 @@ class MetaDataConfigDAO
 
         foreach ($this->fileManager->glob(Installer::BASE_PATH . self::SOURCE_PATH . '*' . self::EXTENSION) as $file) {
             // Decode
-            $config     = $this->transtyper->decode($this->fileManager->fileGetContent($file));
+            $config = $this->transtyper->decode($this->fileManager->fileGetContent($file));
             // Validate
             try {
                 $this->arrayValidator->isValid('CrudGenerator\Metadata\MetaDataSource', $config);
@@ -105,7 +105,7 @@ class MetaDataConfigDAO
             }
 
             // Hydrate
-            $adapter    = $this->metaDataSourceHydrator->adapterNameToMetaDataSource(
+            $adapter = $this->metaDataSourceHydrator->adapterNameToMetaDataSource(
                 $config[MetaDataSource::METADATA_DAO_FACTORY]
             );
 

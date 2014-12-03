@@ -42,7 +42,12 @@ class QuestionTypeComplex implements QuestionTypeInterface
             throw new \Exception('Must be a string');
         } elseif (false === class_exists($question['factory'], true)) {
             throw new \Exception('Class does not exist');
-        } elseif (in_array('CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionComplexFactoryInterface', class_implements($question['factory'])) === false) {
+        } elseif (
+            in_array(
+                'CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionComplexFactoryInterface',
+                class_implements($question['factory'])
+            ) === false
+        ) {
             throw new \Exception('Wrong implementation');
         }
 
@@ -59,7 +64,12 @@ class QuestionTypeComplex implements QuestionTypeInterface
 
         if (is_object($instance) === false) {
             throw new \Exception('Factory must return object');
-        } elseif (in_array('CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionComplexInterface', class_implements($instance)) === false) {
+        } elseif (
+            in_array(
+                'CrudGenerator\Generators\Parser\Lexical\QuestionType\QuestionComplexInterface',
+                class_implements($instance)
+            ) === false
+        ) {
             throw new \Exception('Wrong implementation');
         }
 

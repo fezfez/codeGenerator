@@ -34,7 +34,9 @@ class DriverConfig implements \JsonSerializable
     private $response = array();
     /**
      *
-     * @Annotations\PlainTextClassImplements(interface="CrudGenerator\Metadata\Driver\DriverFactoryInterface", nullable=false)
+     * @Annotations\PlainTextClassImplements(
+     *     interface="CrudGenerator\Metadata\Driver\DriverFactoryInterface", nullable=false
+     * )
      * @var string
      */
     private $driver = null;
@@ -43,7 +45,9 @@ class DriverConfig implements \JsonSerializable
      */
     private $uniqueName = null;
     /**
-     * @Annotations\PlainTextClassImplements(interface="CrudGenerator\Metadata\Sources\MetaDataDAOFactoryInterface", nullable=false)
+     * @Annotations\PlainTextClassImplements(
+     *     interface="CrudGenerator\Metadata\Sources\MetaDataDAOFactoryInterface", nullable=false
+     * )
      * @var string
      */
     private $metadataDaoFactory = null;
@@ -66,7 +70,9 @@ class DriverConfig implements \JsonSerializable
             throw new \Exception('Must be a string');
         } elseif (false === class_exists($value, true)) {
             throw new \Exception('Class does not exist');
-        } elseif (in_array('CrudGenerator\Metadata\Driver\DriverFactoryInterface', class_implements($value)) === false) {
+        } elseif (
+            in_array('CrudGenerator\Metadata\Driver\DriverFactoryInterface', class_implements($value)) === false
+        ) {
             throw new \Exception('Wrong implementation');
         }
 
@@ -85,7 +91,9 @@ class DriverConfig implements \JsonSerializable
             throw new \Exception('Must be a string');
         } elseif (false === class_exists($value, true)) {
             throw new \Exception('Class does not exist');
-        } elseif (in_array('CrudGenerator\Metadata\Sources\MetaDataDAOFactoryInterface', class_implements($value)) === false) {
+        } elseif (
+            in_array('CrudGenerator\Metadata\Sources\MetaDataDAOFactoryInterface', class_implements($value)) === false
+        ) {
             throw new \Exception('Wrong implementation');
         }
 
@@ -159,8 +167,8 @@ class DriverConfig implements \JsonSerializable
         return $this->metadataDaoFactory;
     }
 
-    /**
-     * @return array
+    /* (non-PHPdoc)
+     * @see JsonSerializable::jsonSerialize()
      */
     public function jsonSerialize()
     {
