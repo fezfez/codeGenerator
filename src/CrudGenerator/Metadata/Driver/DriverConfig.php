@@ -10,6 +10,7 @@
 namespace CrudGenerator\Metadata\Driver;
 
 use KeepUpdate\Annotations;
+use CrudGenerator\Metadata\Config\ConfigException;
 
 /**
  * @author Stéphane Demonchaux
@@ -41,7 +42,7 @@ class DriverConfig implements \JsonSerializable
      */
     private $driver = null;
     /**
-     * @var string
+     * @var mixed
      */
     private $uniqueName = null;
     /**
@@ -53,7 +54,7 @@ class DriverConfig implements \JsonSerializable
     private $metadataDaoFactory = null;
 
     /**
-     * @param string $uniqueName
+     * @param mixed $uniqueName
      */
     public function __construct($uniqueName)
     {
@@ -156,7 +157,15 @@ class DriverConfig implements \JsonSerializable
      */
     public function getUniqueName()
     {
-        return $this->response[$this->uniqueName];
+        $uniqueName = '';
+        foreach (explode(',', $this->uniqueName) as $key) {
+            if (array_key_exists($key, $this->response) === false) {
+                throw new ConfigException(sprintf('Wrong configuration "%s" does not exist', $key));
+            }
+            $uniqueName .= ' ' . $this->response[$key];
+        }
+
+        return $uniqueName;
     }
 
     /**

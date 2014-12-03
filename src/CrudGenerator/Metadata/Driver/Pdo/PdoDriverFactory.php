@@ -28,7 +28,8 @@ class PdoDriverFactory implements DriverFactoryInterface
      */
     public static function getDescription()
     {
-        $config = new DriverConfig('Web');
+        $config = new DriverConfig('configDatabaseName,configHost,configUser,configPort');
+
         $config->addQuestion('Database Name', 'configDatabaseName');
         $config->addQuestion('Host', 'configHost');
         $config->addQuestion('User', 'configUser');
