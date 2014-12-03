@@ -74,27 +74,18 @@ class EnvironnementParser implements ParserInterface
         GeneratorDataObject $generator,
         $firstIteration
     ) {
-        $responseCollection = new PredefinedResponseCollection();
-        $toRecurse          = array();
-        foreach ($environnements as $framework => $environnement) {
-            if (is_array($environnement) === true) {
-                $responseCollection->append(new PredefinedResponse($framework, $framework, $framework));
-                $toRecurse[$framework] = $environnement;
-            } else {
-                $responseCollection->append(new PredefinedResponse($environnement, $environnement, $environnement));
-            }
-        }
-
         $question = new QuestionWithPredefinedResponse(
             $environnementName . ' environnement',
             'environnement_' . $environnementName,
-            $responseCollection
+            $this->buildResponseCollection($environnements)
         );
 
         $response = $this->context->askCollection($question);
 
         if ($response !== null) {
             $generator->addEnvironnementValue($environnementName, $response);
+
+            $toRecurse = $this->buildToRecurse($environnements);
 
             if (isset($toRecurse[$response]) === true) {
                 foreach ($toRecurse[$response] as $recurseEnvironnementName => $questionToRecurse) {
@@ -110,5 +101,41 @@ class EnvironnementParser implements ParserInterface
         }
 
         return $generator;
+    }
+
+    /**
+     * @param array $environnements
+     * @return array
+     */
+    private function buildToRecurse(array $environnements)
+    {
+        $toRecurse = array();
+
+        foreach ($environnements as $framework => $environnement) {
+            if (is_array($environnement) === true) {
+                $toRecurse[$framework] = $environnement;
+            }
+        }
+
+        return $toRecurse;
+    }
+
+    /**
+     * @param array $environnements
+     * @return \CrudGenerator\Context\PredefinedResponseCollection
+     */
+    private function buildResponseCollection(array $environnements)
+    {
+        $responseCollection = new PredefinedResponseCollection();
+
+        foreach ($environnements as $framework => $environnement) {
+            if (is_array($environnement) === true) {
+                $responseCollection->append(new PredefinedResponse($framework, $framework, $framework));
+            } else {
+                $responseCollection->append(new PredefinedResponse($environnement, $environnement, $environnement));
+            }
+        }
+
+        return $responseCollection;
     }
 }
