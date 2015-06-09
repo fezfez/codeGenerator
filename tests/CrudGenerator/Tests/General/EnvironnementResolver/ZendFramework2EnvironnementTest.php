@@ -17,6 +17,10 @@ class ZendFramework2EnvironnementTest extends \PHPUnit_Framework_TestCase
                         ->will($this->returnValue(true));
 
         $stubFileManager->expects($this->any())
+        ->method('realpath')
+        ->will($this->returnValue(realpath(__DIR__ . '/../../ZF2/config/application.config.php')));
+
+        $stubFileManager->expects($this->any())
                         ->method('includeFile')
                         ->will($this->returnValue(include __DIR__ . '/../../ZF2/config/application.config.php'));
 

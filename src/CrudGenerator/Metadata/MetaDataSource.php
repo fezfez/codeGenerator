@@ -93,13 +93,18 @@ class MetaDataSource implements \JsonSerializable
     public function setMetadataDao($value)
     {
         if (is_string($value) === false) {
-            throw new \Exception('Must be a string');
+            throw new \Exception('"MetadataDao" Must be a string');
         } elseif (false === class_exists($value, true)) {
-            throw new \Exception('Class does not exist');
+            throw new \Exception(sprintf('Class "%s" does not exist', $value));
         } elseif (
             in_array('CrudGenerator\Metadata\Sources\MetaDataDAOInterface', class_implements($value)) === false
         ) {
-            throw new \Exception('Wrong implementation');
+            throw new \Exception(
+                sprintf(
+                    'Class "%s" does not implement CrudGenerator\Metadata\Sources\MetaDataDAOInterface',
+                    $value
+                )
+            );
         }
         $this->metaDataDAO = $value;
 
@@ -112,13 +117,18 @@ class MetaDataSource implements \JsonSerializable
     public function setMetadataDaoFactory($value)
     {
         if (is_string($value) === false) {
-            throw new \Exception('Must be a string');
+            throw new \Exception('"MetadataDaoFactory" Must be a string');
         } elseif (false === class_exists($value, true)) {
-            throw new \Exception('Class does not exist');
+            throw new \Exception(sprintf('Class "%s" does not exist', $value));
         } elseif (
             in_array('CrudGenerator\Metadata\Sources\MetaDataDAOFactoryInterface', class_implements($value)) === false
         ) {
-            throw new \Exception('Wrong implementation');
+            throw new \Exception(
+                sprintf(
+                    'Class "%s" does not implement CrudGenerator\Metadata\Sources\MetaDataDAOFactoryInterface',
+                    $value
+                )
+            );
         }
 
         $this->metaDataDAOFactory = $value;
@@ -260,8 +270,7 @@ class MetaDataSource implements \JsonSerializable
             self::DEFINITION           => $this->definition,
             self::METADATA_DAO         => $this->metaDataDAO,
             self::METADATA_DAO_FACTORY => $this->metaDataDAOFactory,
-            self::FALSE_DEPENDENCIES   => $this->falseDependencies,
-            self::UNIQUE_NAME          => $this->getUniqueName(),
+            self::FALSE_DEPENDENCIES   => $this->falseDependencies
         );
     }
 }

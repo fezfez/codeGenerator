@@ -9,14 +9,14 @@
  */
 namespace CrudGenerator\Generators\Installer;
 
-use Composer\Command\Helper\DialogHelper;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Composer\Command\RequireCommand;
 use Composer\Factory;
 use Composer\IO\ConsoleIO;
 use CrudGenerator\Context\ContextInterface;
 use CrudGenerator\Utils\OutputWeb;
 use Symfony\Component\Console\Helper\HelperSet;
-use Symfony\Component\Console\Helper\ProgressHelper;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -40,12 +40,9 @@ class GeneratorInstallerFactory
         $input = new ArrayInput(array(), $definition);
         $input->setInteractive(false);
 
-        $dialog = new DialogHelper();
-        $dialog->setInput($input);
-
         $output = new OutputWeb($context);
         $output->setVerbosity(4);
-        $helper = new HelperSet(array($dialog, new ProgressHelper()));
+        $helper = new HelperSet(array('dialog' => new QuestionHelper()));
         $io     = new ConsoleIO($input, $output, $helper);
         $io->enableDebugging(time());
 

@@ -69,6 +69,15 @@ class FileManager
     }
 
     /**
+     * Returns canonicalized absolute pathname
+     * @param string $path File path
+     */
+    public function realpath($path)
+    {
+        return realpath($path);
+    }
+
+    /**
      * @param string $path
      */
     public function isWritable($path)

@@ -12,7 +12,7 @@ namespace CrudGenerator\History;
 use CrudGenerator\DataObject;
 use CrudGenerator\Generators\GeneratorDataObject;
 use CrudGenerator\Generators\Questions\MetadataSourceConfigured\MetadataSourceConfiguredQuestion;
-use CrudGenerator\Generators\Questions\Metadata\MetadataQuestion;
+use CrudGenerator\Generators\Questions\Metadata\MetaDataQuestion;
 use CrudGenerator\Generators\ResponseExpectedException;
 use CrudGenerator\Metadata\DataObject\MetaDataInterface;
 use CrudGenerator\Metadata\MetaDataSource;
@@ -43,12 +43,12 @@ class HistoryHydrator
      * Constructor.
      *
      * @param MetadataSourceConfiguredQuestion $metadataSourceConfiguredQuestion
-     * @param MetadataQuestion                 $metadataQuestion
+     * @param MetaDataQuestion                 $metadataQuestion
      * @param ArrayValidator                   $arrayValidator
      */
     public function __construct(
         MetadataSourceConfiguredQuestion $metadataSourceConfiguredQuestion,
-        MetadataQuestion $metadataQuestion,
+        MetaDataQuestion $metadataQuestion,
         ArrayValidator $arrayValidator
     ) {
         $this->metadataSourceConfiguredQuestion = $metadataSourceConfiguredQuestion;
@@ -62,7 +62,12 @@ class HistoryHydrator
      */
     public function dtoToJson(GeneratorDataObject $dataObject)
     {
-        $jsonRepresentation = json_encode($dataObject, JSON_PRETTY_PRINT);
+    	try {
+    		$jsonRepresentation = json_encode($dataObject, JSON_PRETTY_PRINT);
+    	} catch (\Exception $e) {
+    		throw ($e->getPrevious()->getPrevious());
+    	}
+
         $this->checkIntegrity(json_decode($jsonRepresentation, true));
 
         return $jsonRepresentation;

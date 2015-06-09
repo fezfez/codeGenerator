@@ -12,6 +12,7 @@ namespace CrudGenerator\EnvironnementResolver;
 use CrudGenerator\Utils\FileManager;
 use Zend\Mvc\Application;
 use Zend\ModuleManager\Exception\RuntimeException;
+use Zend\ServiceManager\Exception\ExceptionInterface;
 
 /**
  * ZendFramework2Environnement check if we are in zf2 env
@@ -36,32 +37,38 @@ class ZendFramework2Environnement
     public static function getDependence(FileManager $fileManager)
     {
         if (null === self::$serviceManager) {
-            $initialDirectory = getcwd();
+            $config = self::findConfigFile($fileManager);
 
             try {
                 self::$serviceManager = Application::init(
-                    $fileManager->includeFile(self::findConfigFile($initialDirectory, $fileManager))
+                    $fileManager->includeFile($config)
                 )->getServiceManager();
-            } catch (RuntimeException $e) {
+            } catch(RuntimeException $e) {
                 throw new EnvironnementResolverException($e->getMessage());
+            } catch (ExceptionInterface $e) {
+                throw new EnvironnementResolverException(
+                    sprintf(
+                        '%s. Config loaded %s',
+                        $e->getMessage(),
+                        $config
+                    )
+                );
             }
-
-            chdir($initialDirectory);
         }
 
         return self::$serviceManager;
     }
 
     /**
-     * @param string                          $initialDirectory
      * @param  FileManager                    $fileManager
      * @throws EnvironnementResolverException
      * @return string
      */
-    private static function findConfigFile($initialDirectory, FileManager $fileManager)
+    private static function findConfigFile(FileManager $fileManager)
     {
-        $previousDir = '.';
-        $fileToFind  = 'config/application.config.php';
+        $initialDirectory = getcwd();
+        $previousDir      = '.';
+        $fileToFind       = 'config/application.config.php';
 
         while ($fileManager->fileExists($fileToFind) === false) {
             $dir = dirname(getcwd());
@@ -78,6 +85,10 @@ class ZendFramework2Environnement
             chdir($dir);
         }
 
-        return $fileToFind;
+        $findFile = $fileManager->realpath($fileToFind);
+
+        chdir($initialDirectory);
+
+        return $findFile;
     }
 }
