@@ -56,7 +56,7 @@ class FixtureRenderer
     {
         if ($metadata->getLength() === null) {
             return '"' . $this->faker->text(50) . '"';
-        } elseif($metadata->getLength() <=  5) {
+        } elseif ($metadata->getLength() <=  5) {
             return 'test';
         } else {
             return $this->faker->text($metadata->getLength()) . '"';
