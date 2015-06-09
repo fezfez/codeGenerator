@@ -59,7 +59,7 @@ class PhpStringParser
     public function parse($string)
     {
         return $this->twig->render(
-            $string,
+            $this->twig->createTemplate($string),
             $this->variables
         );
     }
