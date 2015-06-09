@@ -4,10 +4,9 @@
          backupGlobals="false"
          processIsolation="false"
          colors="false"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         strict="true">
+         convertErrorsToExceptions="false"
+         convertNoticesToExceptions="false"
+         convertWarningsToExceptions="false">
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".phtml">./src/CrudGenerator/</directory>
