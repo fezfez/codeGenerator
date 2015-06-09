@@ -7,7 +7,7 @@ use CrudGenerator\Metadata\Sources\Doctrine2\Doctrine2MetaDataDAO;
 
 class GetMetadataForTest extends \PHPUnit_Framework_TestCase
 {
-    public function testtotototototot()
+    public function testRetieveData()
     {
         $stubFileManager = $this->getMock('\CrudGenerator\Utils\FileManager');
         $stubFileManager->expects($this->any())
@@ -61,24 +61,36 @@ class GetMetadataForTest extends \PHPUnit_Framework_TestCase
         $relationCollection = $metadata->getRelationCollection();
 
         $manyToOneRelation = $relationCollection->offsetGet(0);
+
+        $this->assertInstanceOf('CrudGenerator\Metadata\DataObject\MetaDataRelationColumn', $manyToOneRelation);
+
         $this->assertEquals(
             MetaDataRelationColumn::MANY_TO_ONE,
             $manyToOneRelation->getAssociationType()
         );
 
         $oneToOneRelation = $relationCollection->offsetGet(1);
+
+        $this->assertInstanceOf('CrudGenerator\Metadata\DataObject\MetaDataRelationColumn', $oneToOneRelation);
+
         $this->assertEquals(
             MetaDataRelationColumn::ONE_TO_ONE,
             $oneToOneRelation->getAssociationType()
         );
 
         $oneToManyRelation = $relationCollection->offsetGet(2);
+
+        $this->assertInstanceOf('CrudGenerator\Metadata\DataObject\MetaDataRelationColumn', $oneToManyRelation);
+
         $this->assertEquals(
             MetaDataRelationColumn::ONE_TO_MANY,
             $oneToManyRelation->getAssociationType()
         );
 
         $manyToManyRelation = $relationCollection->offsetGet(3);
+
+        $this->assertInstanceOf('CrudGenerator\Metadata\DataObject\MetaDataRelationColumn', $manyToManyRelation);
+
         $this->assertEquals(
             MetaDataRelationColumn::MANY_TO_MANY,
             $manyToManyRelation->getAssociationType()
