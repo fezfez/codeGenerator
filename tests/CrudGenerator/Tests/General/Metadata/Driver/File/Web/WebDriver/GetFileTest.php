@@ -11,13 +11,13 @@ class GetFileTest extends TestCase
     {
         $fileManager = $this->createMock('CrudGenerator\Utils\FileManager');
 
-        $url = 'toto';
+        $url                    = 'toto';
         $fileManagerExpectsOnce = $fileManager->expects($this->once());
         $fileManagerExpectsOnce->method('fileGetContent');
         $fileManagerExpectsOnce->with($url);
         $fileManagerExpectsOnce->will($this->throwException(new \RuntimeException()));
 
-        $sUT = new WebDriver($fileManager);
+        $sUT          = new WebDriver($fileManager);
         $driverConfig = new DriverConfig('my name');
         $driverConfig->response('configUrl', $url);
 
@@ -30,14 +30,14 @@ class GetFileTest extends TestCase
     {
         $fileManager = $this->createMock('CrudGenerator\Utils\FileManager');
 
-        $url = 'toto';
-        $result = 'tutut';
+        $url                    = 'toto';
+        $result                 = 'tutut';
         $fileManagerExpectsOnce = $fileManager->expects($this->once());
         $fileManagerExpectsOnce->method('fileGetContent');
         $fileManagerExpectsOnce->with($url);
         $fileManagerExpectsOnce->will($this->returnValue($result));
 
-        $sUT = new WebDriver($fileManager);
+        $sUT          = new WebDriver($fileManager);
         $driverConfig = new DriverConfig('my name');
         $driverConfig->response('configUrl', $url);
 

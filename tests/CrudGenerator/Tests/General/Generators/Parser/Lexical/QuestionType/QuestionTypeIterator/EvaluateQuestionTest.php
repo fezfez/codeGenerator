@@ -40,9 +40,9 @@ class EvaluateQuestionTest extends \PHPUnit_Framework_TestCase
             ),
         );
 
-        $generator = new GeneratorDataObject();
-        $dto       = new DataObject();
-        $parser    = PhpStringParserFactory::getInstance();
+        $generator  = new GeneratorDataObject();
+        $dto        = new DataObject();
+        $parser     = PhpStringParserFactory::getInstance();
         $metadata   = new MetadataDataObjectMySQL(new MetaDataColumnCollection(), new MetaDataRelationCollection());
 
         $dto->setMetadata($metadata);

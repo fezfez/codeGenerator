@@ -61,7 +61,7 @@ class StaticPhpTest extends \PHPUnit_Framework_TestCase
             array('test' => 'myValue')
         );
 
-        $dto = new DataObject();
+        $dto       = new DataObject();
         $generator = new GeneratorDataObject();
         $generator->setDto($dto);
 

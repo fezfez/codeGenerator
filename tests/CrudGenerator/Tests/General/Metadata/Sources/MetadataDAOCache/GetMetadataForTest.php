@@ -38,7 +38,7 @@ class GetMetadataForTest extends \PHPUnit_Framework_TestCase
         ->willReturn(true);
 
         $metadata = 'test';
-        $data = 'my data !';
+        $data     = 'my data !';
 
         $metadataDAO->expects($this->once())
         ->method('getMetadataFor')
