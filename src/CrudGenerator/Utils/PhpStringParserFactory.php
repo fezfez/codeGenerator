@@ -19,7 +19,7 @@ class PhpStringParserFactory
     {
         return new PhpStringParser(
             new \Twig_Environment(
-                new \Twig_Loader_Array()
+                new \Twig_Loader_Array(array())
             )
         );
     }

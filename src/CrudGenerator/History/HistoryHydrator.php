@@ -31,7 +31,7 @@ class HistoryHydrator
      */
     private $metadataSourceConfiguredQuestion = null;
     /**
-     * @var MetadataQuestion
+     * @var MetaDataQuestion
      */
     private $metadataQuestion = null;
     /**
@@ -62,11 +62,11 @@ class HistoryHydrator
      */
     public function dtoToJson(GeneratorDataObject $dataObject)
     {
-    	try {
-    		$jsonRepresentation = json_encode($dataObject, JSON_PRETTY_PRINT);
-    	} catch (\Exception $e) {
-    		throw ($e->getPrevious()->getPrevious());
-    	}
+        try {
+            $jsonRepresentation = json_encode($dataObject, JSON_PRETTY_PRINT);
+        } catch (\Exception $e) {
+            throw ($e->getPrevious()->getPrevious());
+        }
 
         $this->checkIntegrity(json_decode($jsonRepresentation, true));
 
