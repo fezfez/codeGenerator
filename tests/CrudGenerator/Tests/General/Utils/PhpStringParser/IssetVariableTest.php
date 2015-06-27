@@ -24,7 +24,7 @@ class IssetVariableTest extends \PHPUnit_Framework_TestCase
 
     public function testWithPredefine()
     {
-        $sUT = PhpStringParserFactory::getInstance();
+        $sUT = PhpStringParserFactory::getInstance(array('test' => 'myVal'));
 
         $this->assertEquals(
             true,

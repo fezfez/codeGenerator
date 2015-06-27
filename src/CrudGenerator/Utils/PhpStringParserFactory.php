@@ -13,14 +13,16 @@ namespace CrudGenerator\Utils;
 class PhpStringParserFactory
 {
     /**
+     * @param array variables
      * @return \CrudGenerator\Utils\PhpStringParser
      */
-    public static function getInstance()
+    public static function getInstance(array $variables = array())
     {
         return new PhpStringParser(
             new \Twig_Environment(
                 new \Twig_Loader_Array(array())
-            )
+            ),
+            $variables
         );
     }
 }

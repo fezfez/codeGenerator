@@ -13,19 +13,20 @@ class ArrayToDtoTest extends \PHPUnit_Framework_TestCase
         $data = array(
             DriverConfig::UNIQUE_NAME => 'myName',
             DriverConfig::RESPONSE    => array(
-                'myKey' => 'myVal',
+                'myName' => 'myVal',
             ),
             DriverConfig::FACTORY => 'CrudGenerator\Metadata\Driver\Pdo\PdoDriverFactory',
-           DriverConfig::SOURCE_FACTORY => 'CrudGenerator\Metadata\Driver\Pdo\PdoDriver',
+            DriverConfig::SOURCE_FACTORY => '\CrudGenerator\Metadata\Sources\MySQL\MySQLMetaDataDAOFactory',
         );
 
         $results = $sUT->arrayToDto($data);
 
         $this->assertInstanceOf('CrudGenerator\Metadata\Driver\DriverConfig', $results);
 
-        $this->assertEquals($data[DriverConfig::RESPONSE]['myKey'], $results->getResponse('myKey'));
+        $this->assertEquals($data[DriverConfig::RESPONSE]['myName'], $results->getResponse('myName'));
 
-        $this->assertEquals($data[DriverConfig::UNIQUE_NAME], $results->getUniqueName());
+        // $this->assertEquals($data[DriverConfig::UNIQUE_NAME], $results->getUniqueName()); ???
+        $this->assertEquals(' myVal', $results->getUniqueName());
         $this->assertEquals($data[DriverConfig::FACTORY], $results->getDriver());
     }
 }

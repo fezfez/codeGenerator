@@ -70,11 +70,17 @@ class DriverConfig implements \JsonSerializable
         if (is_string($value) === false) {
             throw new \Exception('Must be a string');
         } elseif (false === class_exists($value, true)) {
-            throw new \Exception('Class does not exist');
+            throw new \Exception(sprintf('Class "%s" does not exist', $value));
         } elseif (
             in_array('CrudGenerator\Metadata\Driver\DriverFactoryInterface', class_implements($value)) === false
         ) {
-            throw new \Exception('Wrong implementation');
+            throw new \Exception(
+                sprintf(
+                    'Driver must implement "%s" given "%s"',
+                    'CrudGenerator\Metadata\Driver\DriverFactoryInterface',
+                    $value
+                )
+            );
         }
 
         $this->driver = $value;
@@ -91,11 +97,17 @@ class DriverConfig implements \JsonSerializable
         if (is_string($value) === false) {
             throw new \Exception('Must be a string');
         } elseif (false === class_exists($value, true)) {
-            throw new \Exception('Class does not exist');
+            throw new \Exception(sprintf('Class "%s" does not exist', $value));
         } elseif (
-            in_array('CrudGenerator\Metadata\Sources\MetaDataDAOFactoryInterface', class_implements($value)) === false
+            in_array('CrudGenerator\Metadata\Sources\MetaDataDAOFactoryInterface', class_implements($value, true)) === false
         ) {
-            throw new \Exception('Wrong implementation');
+            throw new \Exception(
+                sprintf(
+                    'MetadataDaoFactory must implement "%s" given "%s"',
+                    'CrudGenerator\Metadata\Sources\MetaDataDAOFactoryInterface',
+                    $value
+                )
+            );
         }
 
         $this->metadataDaoFactory = $value;
@@ -160,7 +172,7 @@ class DriverConfig implements \JsonSerializable
         $uniqueName = '';
         foreach (explode(',', $this->uniqueName) as $key) {
             if (array_key_exists($key, $this->response) === false) {
-                throw new ConfigException(sprintf('Wrong configuration "%s" does not exist', $key));
+                throw new ConfigException(sprintf('Wrong configuration. Response "%s" does not exist', $key));
             }
             $uniqueName .= ' ' . $this->response[$key];
         }

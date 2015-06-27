@@ -41,19 +41,25 @@ class ViewRenderer
      */
     public function render($path, $templateName)
     {
+        set_error_handler(array($this, 'error'));
+
         try {
             ob_start();
             include $path . $templateName;
             $content = ob_get_clean();
         } catch (EnvironnementNotDefinedException $e) {
+            restore_error_handler();
             ob_end_clean();
             throw new ViewRendererException($e->getMessage());
         } catch (\Exception $ex) {
+            restore_error_handler();
             ob_end_clean();
             throw new ViewRendererException(
                 'In : "' . realpath($path . $templateName) . '" ' . $ex->getMessage() . ' Line ' . $ex->getLine()
             );
         }
+
+        restore_error_handler();
 
         return $content;
     }
@@ -74,6 +80,7 @@ class ViewRenderer
             include $path;
             $content = ob_get_clean();
         } catch (\Exception $ex) {
+            restore_error_handler();
             ob_end_clean();
             throw new ViewRendererException(
                 'In : "' . realpath($path) . '" ' . $ex->getMessage() . ' Line ' . $ex->getLine()
@@ -94,6 +101,7 @@ class ViewRenderer
      */
     public function error($errno, $errstr, $errfile, $errline)
     {
+        restore_error_handler();
         throw new ViewRendererException(
             'In : "' . realpath($errfile) . '" ' . $errstr . ' Line ' . $errline
         );
