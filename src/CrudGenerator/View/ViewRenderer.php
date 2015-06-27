@@ -92,7 +92,7 @@ class ViewRenderer
      * @param string $errline
      * @throws ViewRendererException
      */
-    private function error($errno, $errstr, $errfile, $errline)
+    public function error($errno, $errstr, $errfile, $errline)
     {
         throw new ViewRendererException(
             'In : "' . realpath($errfile) . '" ' . $errstr . ' Line ' . $errline
