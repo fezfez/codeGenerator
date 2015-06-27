@@ -148,7 +148,7 @@ class EvaluateTest extends TestCase
         $fileManager        = $this->createMock('CrudGenerator\Utils\FileManager');
         $conditionValidator = $this->createMock('CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator');
         $phpParser          = new PhpStringParser(
-            new \Twig_Environment(new \Twig_Loader_Array(array()), array('test' => 'well')
+            new \Twig_Environment(new \Twig_Loader_Array(array())), array('test' => 'well')
         );
 
         $conditionValidator->expects($this->once())
