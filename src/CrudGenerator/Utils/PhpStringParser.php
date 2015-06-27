@@ -58,10 +58,7 @@ class PhpStringParser
      */
     public function parse($string)
     {
-        return $this->twig->render(
-            $this->twig->createTemplate($string)->getTemplateName(),
-            $this->variables
-        );
+        return $this->twig->createTemplate($string)->render($this->variables);
     }
 
     /**
