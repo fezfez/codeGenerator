@@ -70,7 +70,7 @@ class EvaluateTest extends TestCase
         );
     }
 
-    public function testWithDependencyCondiction()
+    public function testWithDependencyCondition()
     {
         $conditionValidator = $this->createMock('CrudGenerator\Generators\Parser\Lexical\Condition\ConditionValidator');
         $context            = $this->createMock('CrudGenerator\Context\CliContext');
@@ -100,7 +100,9 @@ class EvaluateTest extends TestCase
                 array(
                     'dtoAttribute'            => 'test',
                     'text'                    => 'test',
-                    'defaultResponse'         => 'myDefaultResponse',
+                    'response'                => array(
+                    	'default' => 'myDefaultResponse'
+                    ),
                     DependencyCondition::NAME => '!ArchitedGenerator',
                 ),
                 array(

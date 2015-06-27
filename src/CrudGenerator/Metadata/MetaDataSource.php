@@ -30,7 +30,7 @@ class MetaDataSource implements \JsonSerializable
      */
     const DEFINITION = 'definition';
     /**
-     * @var unknown
+     * @var string
      */
     const METADATA_DAO = 'metaDataDAO';
     /**

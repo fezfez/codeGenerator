@@ -67,6 +67,8 @@ class ViewRenderer
      */
     public function renderFile($path)
     {
+        set_error_handler(array($this, 'error'));
+
         try {
             ob_start();
             include $path;
@@ -78,7 +80,23 @@ class ViewRenderer
             );
         }
 
+        restore_error_handler();
+
         return $content;
+    }
+
+    /**
+     * @param string $errno
+     * @param string $errstr
+     * @param string $errfile
+     * @param string $errline
+     * @throws ViewRendererException
+     */
+    private function error($errno, $errstr, $errfile, $errline)
+    {
+        throw new ViewRendererException(
+            'In : "' . realpath($errfile) . '" ' . $errstr . ' Line ' . $errline
+        );
     }
 
     /**

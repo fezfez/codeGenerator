@@ -44,6 +44,7 @@ class RetrieveAllTest extends TestCase
     {
         $rawData = array(
             MetaDataSource::METADATA_DAO_FACTORY => 'CrudGenerator\Metadata\Sources\Json\JsonMetaDataDAOFactory',
+            MetaDataSource::METADATA_DAO => 'CrudGenerator\Metadata\Sources\Json\JsonMetaDataDAO'
         );
 
         $rawMocks = $this->createSut('CrudGenerator\Metadata\Config\MetaDataConfigDAO');
@@ -85,6 +86,7 @@ class RetrieveAllTest extends TestCase
 
             ),
             MetaDataSource::METADATA_DAO_FACTORY => 'CrudGenerator\Metadata\Sources\Json\JsonMetaDataDAOFactory',
+            MetaDataSource::METADATA_DAO => 'CrudGenerator\Metadata\Sources\Json\JsonMetaDataDAO'
         );
 
         $rawMocks = $this->createSut('CrudGenerator\Metadata\Config\MetaDataConfigDAO');

@@ -81,7 +81,7 @@ class HistoryHydrator
     private function checkIntegrity(array $data)
     {
         try {
-            return $this->arrayValidator->isValid('CrudGenerator\Generators\GeneratorDataObject', $data);
+            return $this->arrayValidator->isValid('\CrudGenerator\Generators\GeneratorDataObject', $data);
         } catch (ValidationException $exception) {
             throw new InvalidHistoryException($exception->getMessage());
         }
