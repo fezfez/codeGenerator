@@ -11,7 +11,7 @@ class StaticPhpTest extends \PHPUnit_Framework_TestCase
     {
         $sUT = new PhpStringParser(
             new \Twig_Environment(
-                new \Twig_Loader_String()
+                new \Twig_Loader_Array(array())
             ),
             array('test' => 'myValue')
         );
@@ -25,7 +25,7 @@ class StaticPhpTest extends \PHPUnit_Framework_TestCase
     {
         $sUT = new PhpStringParser(
             new \Twig_Environment(
-                new \Twig_Loader_String()
+                new \Twig_Loader_Array(array())
             ),
             array('test' => 'myValue')
         );
@@ -40,7 +40,7 @@ class StaticPhpTest extends \PHPUnit_Framework_TestCase
     {
         $sUT = new PhpStringParser(
             new \Twig_Environment(
-                new \Twig_Loader_String()
+                new \Twig_Loader_Array(array())
             ),
             array('test' => 'myValue')
         );
@@ -56,7 +56,7 @@ class StaticPhpTest extends \PHPUnit_Framework_TestCase
     {
         $sUT = new PhpStringParser(
             new \Twig_Environment(
-                new \Twig_Loader_String()
+                new \Twig_Loader_Array(array())
             ),
             array('test' => 'myValue')
         );

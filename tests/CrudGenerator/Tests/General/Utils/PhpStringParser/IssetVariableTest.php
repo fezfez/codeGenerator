@@ -1,17 +1,13 @@
 <?php
 namespace CrudGenerator\Tests\General\Utils\PhpStringParser;
 
-use CrudGenerator\Utils\PhpStringParser;
+use CrudGenerator\Utils\PhpStringParserFactory;
 
 class IssetVariableTest extends \PHPUnit_Framework_TestCase
 {
     public function testOk()
     {
-        $sUT = new PhpStringParser(
-            new \Twig_Environment(
-                new \Twig_Loader_String()
-            )
-        );
+        $sUT = PhpStringParserFactory::getInstance();
 
         $this->assertEquals(
             false,
@@ -28,12 +24,7 @@ class IssetVariableTest extends \PHPUnit_Framework_TestCase
 
     public function testWithPredefine()
     {
-        $sUT = new PhpStringParser(
-            new \Twig_Environment(
-                new \Twig_Loader_String()
-            ),
-            array('test' => 'myValue')
-        );
+        $sUT = PhpStringParserFactory::getInstance();
 
         $this->assertEquals(
             true,
